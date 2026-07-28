@@ -1,134 +1,338 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>浪子老師數學遊戲室</title>
+  <meta charset="UTF-8">
 
-    <style>
-        body{
-            margin:0;
-            font-family:"Microsoft JhengHei",sans-serif;
-            background:#eef5ff;
-        }
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-        header{
-            background:#1565c0;
-            color:white;
-            text-align:center;
-            padding:40px;
-        }
+  <title>數學遊戲樂園</title>
 
-        h1{
-            margin:0;
-            font-size:40px;
-        }
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-        .container{
-            width:90%;
-            max-width:1100px;
-            margin:auto;
-            padding:40px 0;
-        }
+    :root {
+      --primary: #1976d2;
+      --primary-dark: #125ca6;
+      --background: #edf4ff;
+      --card-background: #ffffff;
+      --text: #1f2937;
+      --muted: #5f6b7a;
+    }
 
-        .games{
-            display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-            gap:25px;
-        }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family:
+        "Microsoft JhengHei",
+        "Noto Sans TC",
+        sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(
+          135deg,
+          #edf4ff,
+          #f7faff
+        );
+    }
 
-        .card{
-            background:white;
-            border-radius:18px;
-            padding:30px;
-            text-align:center;
-            box-shadow:0 8px 18px rgba(0,0,0,.12);
-            transition:.3s;
-        }
+    a,
+    button {
+      font-family: inherit;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-        .card:hover{
-            transform:translateY(-8px);
-        }
+    .page-container {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 42px 28px 60px;
+    }
 
-        .btn{
-            display:inline-block;
-            margin-top:20px;
-            padding:12px 24px;
-            background:#1565c0;
-            color:white;
-            text-decoration:none;
-            border-radius:10px;
-        }
+    .page-header {
+      margin-bottom: 34px;
+      text-align: center;
+    }
 
-        .btn:hover{
-            background:#0d47a1;
-        }
-    </style>
+    .page-header h1 {
+      margin: 0 0 12px;
+      color: #174f8f;
+      font-size: 40px;
+    }
 
+    .page-header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .games-section-title {
+      margin: 0 0 22px;
+      font-size: 27px;
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .game-card {
+      min-height: 280px;
+      padding: 32px 26px;
+      border-radius: 22px;
+      background: var(--card-background);
+      box-shadow:
+        0 10px 28px rgba(31, 41, 55, 0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease;
+    }
+
+    .game-card:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        0 14px 34px rgba(31, 41, 55, 0.16);
+    }
+
+    .game-icon {
+      margin-bottom: 12px;
+      font-size: 42px;
+      line-height: 1;
+    }
+
+    .game-card h2 {
+      margin: 0 0 13px;
+      color: var(--text);
+      font-size: 24px;
+    }
+
+    .game-card p {
+      min-height: 56px;
+      margin: 0 0 25px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    .game-button {
+      min-width: 132px;
+      padding: 13px 24px;
+      border: none;
+      border-radius: 11px;
+      background: var(--primary);
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow:
+        0 5px 0 var(--primary-dark);
+      transition:
+        transform 0.1s ease,
+        box-shadow 0.1s ease,
+        background 0.15s ease;
+    }
+
+    .game-button:hover {
+      background: var(--primary-dark);
+    }
+
+    .game-button:active {
+      transform: translateY(4px);
+      box-shadow:
+        0 1px 0 var(--primary-dark);
+    }
+
+    .waiting-button {
+      background: #7b8794;
+      box-shadow:
+        0 5px 0 #56616d;
+      opacity: 0.72;
+      cursor: not-allowed;
+    }
+
+    .waiting-button:hover {
+      background: #7b8794;
+    }
+
+    .page-footer {
+      margin-top: 38px;
+      color: #748094;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    @media (max-width: 760px) {
+      .page-container {
+        padding: 28px 15px 45px;
+      }
+
+      .page-header {
+        margin-bottom: 28px;
+      }
+
+      .page-header h1 {
+        font-size: 31px;
+      }
+
+      .page-header p {
+        font-size: 16px;
+      }
+
+      .games-section-title {
+        font-size: 23px;
+      }
+
+      .games-grid {
+        grid-template-columns: 1fr;
+        gap: 17px;
+      }
+
+      .game-card {
+        min-height: 235px;
+        padding: 27px 18px;
+      }
+
+      .game-card h2 {
+        font-size: 22px;
+      }
+
+      .game-card p {
+        min-height: auto;
+        font-size: 16px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
+  <main class="page-container">
 
-<h1>📚 浪子老師數學遊戲室</h1>
+    <header class="page-header">
+      <h1>🎮 數學遊戲樂園</h1>
 
-<p>數學有解，生活也有解，歡迎來挑戰。</p>
+      <p>
+        透過遊戲練習數學觀念，<br>
+        一起挑戰更高分！
+      </p>
+    </header>
 
-</header>
+    <section>
 
-<div class="container">
+      <h2 class="games-section-title">
+        選擇一個遊戲
+      </h2>
 
-<h2>選擇一個遊戲</h2>
+      <div class="games-grid">
 
-<div class="games">
+        <!-- 第一款遊戲 -->
+        <article class="game-card">
 
-<div class="card">
+          <div class="game-icon">🎮</div>
 
-<h3>🎮 正負數大挑戰</h3>
+          <h2>正負數大挑戰</h2>
 
-<p>七年級 正負數加減法</p>
+          <p>
+            七年級正負數加減法，
+            挑戰計算速度與正確率。
+          </p>
 
-<a class="btn" href="games/integer.html">開始挑戰</a>
+          <a
+            class="game-button"
+            href="games/integer.html"
+          >
+            開始挑戰
+          </a>
 
-</div>
-<div class="game-card">
-  <h2>⚖️ 數的大小比較王</h2>
+        </article>
 
-  <p>
-    挑戰整數、分數與小數的大小比較，
-    選出正確的 ＞、＝或＜。
-  </p>
+        <!-- 第二款遊戲 -->
+        <article class="game-card">
 
-  <a href="games/compare.html">
-    開始挑戰
-  </a>
-</div>
-</div>
+          <div class="game-icon">⚖️</div>
 
-<div class="card">
+          <h2>數的大小比較王</h2>
 
-<h3>🧮 一元一次方程式</h3>
+          <p>
+            挑戰整數、分數與小數的大小比較，
+            選出正確的 ＞、＝或＜。
+          </p>
 
-<p>解方程式闖關</p>
+          <a
+            class="game-button"
+            href="games/compare.html"
+          >
+            開始挑戰
+          </a>
 
-<a class="btn" href="#">敬請期待</a>
+        </article>
 
-</div>
+        <!-- 第三款遊戲 -->
+        <article class="game-card">
 
-<div class="card">
+          <div class="game-icon">🧮</div>
 
-<h3>📐 比例式</h3>
+          <h2>一元一次方程式</h2>
 
-<p>比例式配對挑戰</p>
+          <p>
+            解方程式闖關，
+            練習移項與等量公理。
+          </p>
 
-<a class="btn" href="#">敬請期待</a>
+          <button
+            class="game-button waiting-button"
+            type="button"
+            disabled
+          >
+            敬請期待
+          </button>
 
-</div>
+        </article>
 
-</div>
+        <!-- 第四款遊戲 -->
+        <article class="game-card">
 
-</div>
+          <div class="game-icon">📐</div>
+
+          <h2>比例式</h2>
+
+          <p>
+            練習比例式判斷與計算，
+            建立正確的比例概念。
+          </p>
+
+          <button
+            class="game-button waiting-button"
+            type="button"
+            disabled
+          >
+            敬請期待
+          </button>
+
+        </article>
+
+      </div>
+
+    </section>
+
+    <footer class="page-footer">
+      數學有解，生活也有解。
+    </footer>
+
+  </main>
 
 </body>
 </html>
