@@ -998,14 +998,42 @@
           simplifyFraction(numerator, denominator);
       }
 
-      return {
+      return normalizeNumber({
         type: "fraction",
         numerator: simplified.numerator,
         denominator: simplified.denominator,
         value:
           simplified.numerator /
           simplified.denominator
-      };
+      });
+    }
+
+    function normalizeNumber(number) {
+      if (
+        number.type === "fraction" &&
+        number.denominator === 1
+      ) {
+        return {
+          type: "integer",
+          value: number.numerator,
+          numerator: number.numerator,
+          denominator: 1
+        };
+      }
+
+      if (
+        number.type === "decimal" &&
+        Number.isInteger(number.value)
+      ) {
+        return {
+          type: "integer",
+          value: number.value,
+          numerator: number.value,
+          denominator: 1
+        };
+      }
+
+      return number;
     }
 
     function createDecimal() {
@@ -1017,7 +1045,7 @@
       const scaledValue =
         randomNonZeroInteger(-150, 150);
 
-      return {
+      return normalizeNumber({
         type: "decimal",
         scaledValue,
         scale,
@@ -1025,7 +1053,7 @@
         value: scaledValue / scale,
         numerator: scaledValue,
         denominator: scale
-      };
+      });
     }
 
     function cloneNumber(number) {
@@ -1038,21 +1066,6 @@
       */
 
       if (number.type === "integer") {
-        if (
-          currentMode === "hard" &&
-          Math.random() < 0.5
-        ) {
-          return {
-            type: "decimal",
-            scaledValue: number.value * 10,
-            scale: 10,
-            decimalPlaces: 1,
-            value: number.value,
-            numerator: number.value * 10,
-            denominator: 10
-          };
-        }
-
         return cloneNumber(number);
       }
 
@@ -1069,7 +1082,7 @@
               decimalValue - rounded / 100
             ) < 0.000001
           ) {
-            return {
+            return normalizeNumber({
               type: "decimal",
               scaledValue: rounded,
               scale: 100,
@@ -1077,7 +1090,7 @@
               value: rounded / 100,
               numerator: rounded,
               denominator: 100
-            };
+            });
           }
         }
 
@@ -1092,14 +1105,14 @@
               number.scale
             );
 
-          return {
+          return normalizeNumber({
             type: "fraction",
             numerator: fraction.numerator,
             denominator: fraction.denominator,
             value:
               fraction.numerator /
               fraction.denominator
-          };
+          });
         }
 
         return cloneNumber(number);
@@ -1144,7 +1157,34 @@
       return createInteger();
     }
 
+    function makeNegative(number) {
+      const copy = { ...number };
+
+      if (copy.value > 0) {
+        copy.value *= -1;
+        copy.numerator *= -1;
+
+        if (
+          copy.type === "decimal" &&
+          typeof copy.scaledValue === "number"
+        ) {
+          copy.scaledValue *= -1;
+        }
+      }
+
+      return copy;
+    }
+
+    function createNegativeNumberByType(type) {
+      return makeNegative(
+        createNumberByType(type)
+      );
+    }
+
     function createComparisonQuestion() {
+      const negativePairQuestion =
+        Math.random() < 0.65;
+
       const leftType = selectNumberType();
 
       let rightType = selectNumberType();
@@ -1176,7 +1216,9 @@
           ];
       }
 
-      const left = createNumberByType(leftType);
+      let left = negativePairQuestion
+        ? createNegativeNumberByType(leftType)
+        : createNumberByType(leftType);
 
       let right;
 
@@ -1186,7 +1228,9 @@
       if (Math.random() < 0.15) {
         right = createEqualVersion(left);
       } else {
-        right = createNumberByType(rightType);
+        right = negativePairQuestion
+          ? createNegativeNumberByType(rightType)
+          : createNumberByType(rightType);
 
         let attempts = 0;
 
@@ -1194,10 +1238,16 @@
           compareExactly(left, right) === 0 &&
           attempts < 20
         ) {
-          right = createNumberByType(rightType);
+          right = negativePairQuestion
+            ? createNegativeNumberByType(rightType)
+            : createNumberByType(rightType);
+
           attempts += 1;
         }
       }
+
+      left = normalizeNumber(left);
+      right = normalizeNumber(right);
 
       const comparison = compareExactly(left, right);
 
@@ -1271,6 +1321,10 @@
       }
 
       if (number.type === "decimal") {
+        if (Number.isInteger(number.value)) {
+          return String(number.value);
+        }
+
         return number.value.toFixed(
           number.decimalPlaces
         );
@@ -1288,6 +1342,10 @@
       }
 
       if (number.type === "decimal") {
+        if (Number.isInteger(number.value)) {
+          return String(number.value);
+        }
+
         return number.value.toFixed(
           number.decimalPlaces
         );
