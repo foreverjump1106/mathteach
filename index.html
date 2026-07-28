@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>浪子老師的數學遊戲室</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Microsoft JhengHei", sans-serif;
+      background: #f3f7ff;
+      text-align: center;
+    }
+
+    header {
+      background: #2563eb;
+      color: white;
+      padding: 35px 20px;
+    }
+
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 30px 20px;
+    }
+
+    .game-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .game-card {
+      background: white;
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .game-card h2 {
+      color: #1e3a8a;
+    }
+
+    .game-button {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 12px 24px;
+      background: #2563eb;
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+    }
+
+    .game-button:hover {
+      background: #1d4ed8;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>浪子老師的數學遊戲室</h1>
+    <p>數學有解，生活也有解。</p>
+  </header>
+
+  <main>
+    <h2>選擇一個數學遊戲</h2>
+
+    <div class="game-list">
+
+      <div class="game-card">
+        <h2>正負數大挑戰</h2>
+        <p>練習正負數的加減運算。</p>
+        <a class="game-button" href="integer-game.html">
+          開始遊戲
+        </a>
+      </div>
+
+      <div class="game-card">
+        <h2>一元一次方程式</h2>
+        <p>透過闖關練習解方程式。</p>
+        <a class="game-button" href="#">
+          即將推出
+        </a>
+      </div>
+
+      <div class="game-card">
+        <h2>比例配對</h2>
+        <p>判斷兩個比是否相等。</p>
+        <a class="game-button" href="#">
+          即將推出
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+</body>
+</html>
