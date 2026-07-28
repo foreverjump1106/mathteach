@@ -71,6 +71,10 @@
       line-height: 1.7;
     }
 
+    .login-section {
+      margin-top: 25px;
+    }
+
     .games-section-title {
       margin: 0 0 22px;
       font-size: 27px;
@@ -228,6 +232,16 @@
         透過遊戲練習數學觀念，<br>
         一起挑戰更高分！
       </p>
+
+      <div class="login-section">
+        <button
+          id="loginBtn"
+          class="game-button"
+          type="button"
+        >
+          🔐 使用 Google 登入
+        </button>
+      </div>
     </header>
 
     <section>
@@ -333,6 +347,20 @@
     </footer>
 
   </main>
+
+  <script type="module">
+    import { login } from "./js/auth.js";
+
+    const loginButton =
+      document.getElementById("loginBtn");
+
+    loginButton.addEventListener(
+      "click",
+      async () => {
+        await login();
+      }
+    );
+  </script>
 
 </body>
 </html>
