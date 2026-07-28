@@ -328,6 +328,36 @@
       box-shadow: 0 6px 0 #8e0000;
     }
 
+    /* 遊戲控制按鈕 */
+
+    .game-control-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .control-button {
+      min-height: 50px;
+      padding: 11px 16px;
+      border-radius: 13px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .restart-control {
+      border: none;
+      background: var(--orange);
+      color: white;
+    }
+
+    .mode-control {
+      border: 2px solid var(--primary);
+      background: white;
+      color: var(--primary-dark);
+    }
+
     /* 回饋 */
 
     .feedback {
@@ -538,7 +568,8 @@
         font-size: 35px;
       }
 
-      .result-buttons {
+      .result-buttons,
+      .game-control-buttons {
         grid-template-columns: 1fr;
       }
     }
@@ -694,6 +725,26 @@
         aria-live="polite"
       ></div>
 
+      <div class="game-control-buttons">
+
+        <button
+          id="restartCurrentButton"
+          class="control-button restart-control"
+          type="button"
+        >
+          🔄 重新遊戲
+        </button>
+
+        <button
+          id="backToModeButton"
+          class="control-button mode-control"
+          type="button"
+        >
+          ↩️ 回模式選擇
+        </button>
+
+      </div>
+
     </section>
 
     <!-- 結果畫面 -->
@@ -823,6 +874,12 @@
     const changeModeButton =
       document.getElementById("changeModeButton");
 
+    const restartCurrentButton =
+      document.getElementById("restartCurrentButton");
+
+    const backToModeButton =
+      document.getElementById("backToModeButton");
+
     const modeButtons =
       document.querySelectorAll(".mode-button");
 
@@ -865,6 +922,16 @@
       ) + min;
     }
 
+    function randomNonZeroInteger(min, max) {
+      let value;
+
+      do {
+        value = randomInteger(min, max);
+      } while (value === 0);
+
+      return value;
+    }
+
     function greatestCommonDivisor(a, b) {
       a = Math.abs(a);
       b = Math.abs(b);
@@ -896,7 +963,7 @@
     }
 
     function createInteger() {
-      const value = randomInteger(-20, 20);
+      const value = randomNonZeroInteger(-20, 20);
 
       return {
         type: "integer",
@@ -947,11 +1014,8 @@
 
       const scale = 10 ** decimalPlaces;
 
-      let scaledValue = randomInteger(-150, 150);
-
-      if (scaledValue === 0) {
-        scaledValue = randomInteger(1, 9);
-      }
+      const scaledValue =
+        randomNonZeroInteger(-150, 150);
 
       return {
         type: "decimal",
@@ -1248,17 +1312,17 @@
       }
 
       if (
-        left.value >= 0 &&
+        left.value > 0 &&
         right.value < 0
       ) {
-        return "正數與0都大於負數。";
+        return "正數大於負數。";
       }
 
       if (
         left.value < 0 &&
-        right.value >= 0
+        right.value > 0
       ) {
-        return "負數小於正數與0。";
+        return "負數小於正數。";
       }
 
       if (
@@ -1487,6 +1551,23 @@
           endGame();
         }
       }, 1000);
+    }
+
+    function returnToModeSelection() {
+      clearInterval(timer);
+      timer = null;
+
+      gameOver = true;
+      acceptingAnswer = false;
+
+      timeBox.classList.remove(
+        "danger-time"
+      );
+
+      feedback.textContent = "";
+      feedback.className = "feedback";
+
+      showScreen(startScreen);
     }
 
     function startGame(mode) {
@@ -1757,14 +1838,24 @@
       }
     );
 
+    restartCurrentButton.addEventListener(
+      "click",
+      () => {
+        startGame(currentMode);
+      }
+    );
+
+    backToModeButton.addEventListener(
+      "click",
+      () => {
+        returnToModeSelection();
+      }
+    );
+
     changeModeButton.addEventListener(
       "click",
       () => {
-        clearInterval(timer);
-        timer = null;
-        gameOver = true;
-
-        showScreen(startScreen);
+        returnToModeSelection();
       }
     );
 
