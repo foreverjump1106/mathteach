@@ -2,7 +2,11 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>正負數大挑戰</title>
 
@@ -14,20 +18,20 @@
     body {
       margin: 0;
       min-height: 100vh;
+      padding: 20px;
       font-family: "Microsoft JhengHei", sans-serif;
       background: linear-gradient(135deg, #e3f2fd, #fff8e1);
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 20px;
     }
 
     .game-container {
       width: 100%;
       max-width: 560px;
+      padding: 30px;
       background: white;
       border-radius: 24px;
-      padding: 30px;
       text-align: center;
       box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
     }
@@ -38,28 +42,45 @@
     }
 
     .description {
+      margin-bottom: 22px;
       color: #555;
-      margin-bottom: 25px;
+      line-height: 1.7;
     }
 
     .status-bar {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-      margin-bottom: 25px;
+      margin-bottom: 22px;
     }
 
     .status-item {
-      background: #eef5ff;
       padding: 12px 5px;
+      background: #eef5ff;
       border-radius: 12px;
-      font-weight: bold;
       color: #174a7e;
+      font-weight: bold;
+    }
+
+    .danger-time {
+      color: #c62828;
+      background: #ffebee;
+      animation: pulse 0.6s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from {
+        transform: scale(1);
+      }
+
+      to {
+        transform: scale(1.06);
+      }
     }
 
     .question {
       min-height: 80px;
-      margin: 20px 0;
+      margin: 18px 0;
       font-size: 38px;
       font-weight: bold;
       color: #222;
@@ -68,45 +89,92 @@
       align-items: center;
     }
 
-    input {
+    .answer-display {
       width: 100%;
-      max-width: 230px;
-      padding: 14px;
-      font-size: 24px;
-      text-align: center;
+      max-width: 260px;
+      min-height: 62px;
+      margin: 0 auto;
+      padding: 12px 16px;
       border: 3px solid #90caf9;
       border-radius: 12px;
+      background: white;
+      color: #222;
+      font-size: 28px;
+      text-align: center;
+      line-height: 32px;
+      overflow-wrap: anywhere;
+    }
+
+    .answer-display:focus {
+      border-color: #1565c0;
       outline: none;
     }
 
-    input:focus {
-      border-color: #1565c0;
+    .keypad {
+      width: 100%;
+      max-width: 330px;
+      margin: 20px auto 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
     }
 
-    button {
-      margin-top: 18px;
-      padding: 13px 30px;
+    .keypad button {
+      min-height: 52px;
+      margin: 0;
+      padding: 10px;
+      border: none;
+      border-radius: 12px;
+      background: #eef5ff;
+      color: #174a7e;
+      font-size: 22px;
+      font-weight: bold;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .keypad button:hover,
+    .keypad button:active {
+      background: #dbeafe;
+    }
+
+    .keypad .sign-button {
+      background: #fff3e0;
+      color: #b45309;
+    }
+
+    .keypad .clear-button {
+      background: #ffebee;
+      color: #b91c1c;
+    }
+
+    .submit-button {
+      width: 100%;
+      max-width: 330px;
+      margin-top: 16px;
+      padding: 14px 30px;
       border: none;
       border-radius: 12px;
       background: #1565c0;
       color: white;
-      font-size: 18px;
+      font-size: 19px;
       font-weight: bold;
       cursor: pointer;
+      touch-action: manipulation;
     }
 
-    button:hover {
+    .submit-button:hover {
       background: #0d47a1;
     }
 
     button:disabled {
-      background: #999;
+      opacity: 0.55;
       cursor: not-allowed;
     }
 
     .feedback {
       min-height: 35px;
-      margin-top: 20px;
+      margin-top: 18px;
       font-size: 21px;
       font-weight: bold;
     }
@@ -136,19 +204,40 @@
     }
 
     .final-score {
+      margin: 20px 0;
+      color: #f57c00;
       font-size: 44px;
       font-weight: bold;
-      color: #f57c00;
-      margin: 20px 0;
+    }
+
+    .restart-button {
+      padding: 13px 30px;
+      border: none;
+      border-radius: 12px;
+      background: #1565c0;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
     }
 
     @media (max-width: 500px) {
+      body {
+        align-items: flex-start;
+        padding: 12px;
+      }
+
       .game-container {
-        padding: 22px 18px;
+        padding: 22px 16px;
+      }
+
+      h1 {
+        font-size: 28px;
       }
 
       .question {
-        font-size: 32px;
+        min-height: 65px;
+        font-size: 30px;
       }
 
       .status-item {
@@ -167,11 +256,13 @@
       <h1>🎮 正負數大挑戰</h1>
 
       <p class="description">
-        在60秒內回答正負數加減法，看看你能得到幾分！
+        在60秒內回答正負數加減法。<br>
+        負數以括號表示，請使用下方按鍵輸入答案。
       </p>
 
       <div class="status-bar">
-        <div class="status-item">
+
+        <div id="timeBox" class="status-item">
           ⏱️ 時間<br>
           <span id="time">60</span>
         </div>
@@ -185,24 +276,86 @@
           🔥 連續答對<br>
           <span id="combo">0</span>
         </div>
+
       </div>
 
       <div id="question" class="question"></div>
 
-      <input
-        id="answer"
-        type="number"
-        placeholder="輸入答案"
-        autocomplete="off"
+      <div
+        id="answerDisplay"
+        class="answer-display"
+        role="textbox"
+        aria-label="目前輸入的答案"
+        aria-live="polite"
       >
+        請輸入答案
+      </div>
 
-      <br>
+      <div class="keypad" aria-label="答案輸入鍵盤">
 
-      <button id="submitButton" type="button">
-        送出答案
-      </button>
+        <button type="button" data-value="1">1</button>
+        <button type="button" data-value="2">2</button>
+        <button type="button" data-value="3">3</button>
 
-      <div id="feedback" class="feedback"></div>
+        <button type="button" data-value="4">4</button>
+        <button type="button" data-value="5">5</button>
+        <button type="button" data-value="6">6</button>
+
+        <button type="button" data-value="7">7</button>
+        <button type="button" data-value="8">8</button>
+        <button type="button" data-value="9">9</button>
+
+        <button
+          id="plusButton"
+          class="sign-button"
+          type="button"
+          aria-label="正號"
+        >
+          ＋
+        </button>
+
+        <button type="button" data-value="0">0</button>
+
+        <button
+          id="minusButton"
+          class="sign-button"
+          type="button"
+          aria-label="負號"
+        >
+          －
+        </button>
+
+        <button
+          id="clearButton"
+          class="clear-button"
+          type="button"
+        >
+          清除
+        </button>
+
+        <button
+          id="backspaceButton"
+          class="clear-button"
+          type="button"
+        >
+          ⌫ 刪除
+        </button>
+
+        <button
+          id="submitButton"
+          class="submit-button"
+          type="button"
+        >
+          送出
+        </button>
+
+      </div>
+
+      <div
+        id="feedback"
+        class="feedback"
+        aria-live="polite"
+      ></div>
 
     </section>
 
@@ -216,7 +369,11 @@
 
       <p id="resultMessage"></p>
 
-      <button id="restartButton" type="button">
+      <button
+        id="restartButton"
+        class="restart-button"
+        type="button"
+      >
         再玩一次
       </button>
 
@@ -230,33 +387,65 @@
 
   <script>
     const questionElement = document.getElementById("question");
-    const answerInput = document.getElementById("answer");
+    const answerDisplay = document.getElementById("answerDisplay");
     const submitButton = document.getElementById("submitButton");
     const feedbackElement = document.getElementById("feedback");
 
     const timeElement = document.getElementById("time");
+    const timeBox = document.getElementById("timeBox");
     const scoreElement = document.getElementById("score");
     const comboElement = document.getElementById("combo");
 
     const gameArea = document.getElementById("gameArea");
     const resultArea = document.getElementById("resultArea");
     const finalScoreElement = document.getElementById("finalScore");
-    const resultMessageElement = document.getElementById("resultMessage");
-    const restartButton = document.getElementById("restartButton");
+    const resultMessageElement =
+      document.getElementById("resultMessage");
+
+    const restartButton =
+      document.getElementById("restartButton");
+
+    const plusButton = document.getElementById("plusButton");
+    const minusButton = document.getElementById("minusButton");
+    const clearButton = document.getElementById("clearButton");
+    const backspaceButton =
+      document.getElementById("backspaceButton");
+
+    const numberButtons =
+      document.querySelectorAll("[data-value]");
 
     let number1 = 0;
     let number2 = 0;
     let correctAnswer = 0;
 
+    let answerText = "";
     let score = 0;
     let combo = 0;
     let timeLeft = 60;
     let timer = null;
     let gameStarted = false;
     let gameOver = false;
+    let acceptingAnswer = true;
+
+    let audioContext = null;
 
     function randomInteger(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
+      return Math.floor(
+        Math.random() * (max - min + 1)
+      ) + min;
+    }
+
+    /*
+      負數統一加上括號：
+      -5 顯示為 (-5)
+      正數維持 5
+    */
+    function formatInteger(number) {
+      if (number < 0) {
+        return `(${number})`;
+      }
+
+      return String(number);
     }
 
     function createQuestion() {
@@ -271,26 +460,244 @@
         correctAnswer = number1 - number2;
       }
 
-      const displayedNumber2 =
-        number2 < 0 ? `(${number2})` : number2;
-
       questionElement.textContent =
-        `${number1} ${operation} ${displayedNumber2} = ?`;
+        `${formatInteger(number1)} ` +
+        `${operation} ` +
+        `${formatInteger(number2)} = ?`;
 
-      answerInput.value = "";
-      answerInput.focus();
+      answerText = "";
+      updateAnswerDisplay();
+      acceptingAnswer = true;
+      setKeypadDisabled(false);
     }
 
-    function startGame() {
-      if (gameStarted) {
+    function updateAnswerDisplay() {
+      answerDisplay.textContent =
+        answerText === "" ? "請輸入答案" : answerText;
+    }
+
+    function addDigit(digit) {
+      if (!acceptingAnswer || gameOver) {
         return;
       }
 
+      /*
+        避免輸入過長，也避免出現 0005。
+      */
+      if (answerText.length >= 5) {
+        return;
+      }
+
+      if (
+        answerText === "0" ||
+        answerText === "+0" ||
+        answerText === "-0"
+      ) {
+        if (digit === "0") {
+          return;
+        }
+
+        const sign =
+          answerText.startsWith("-")
+            ? "-"
+            : answerText.startsWith("+")
+              ? "+"
+              : "";
+
+        answerText = sign + digit;
+      } else {
+        answerText += digit;
+      }
+
+      updateAnswerDisplay();
+    }
+
+    function setSign(sign) {
+      if (!acceptingAnswer || gameOver) {
+        return;
+      }
+
+      if (answerText.startsWith("-")) {
+        answerText = answerText.slice(1);
+      } else if (answerText.startsWith("+")) {
+        answerText = answerText.slice(1);
+      }
+
+      answerText = sign + answerText;
+      updateAnswerDisplay();
+    }
+
+    function clearAnswer() {
+      if (!acceptingAnswer || gameOver) {
+        return;
+      }
+
+      answerText = "";
+      updateAnswerDisplay();
+    }
+
+    function removeLastCharacter() {
+      if (!acceptingAnswer || gameOver) {
+        return;
+      }
+
+      answerText = answerText.slice(0, -1);
+      updateAnswerDisplay();
+    }
+
+    function setKeypadDisabled(disabled) {
+      numberButtons.forEach(function (button) {
+        button.disabled = disabled;
+      });
+
+      plusButton.disabled = disabled;
+      minusButton.disabled = disabled;
+      clearButton.disabled = disabled;
+      backspaceButton.disabled = disabled;
+      submitButton.disabled = disabled;
+    }
+
+    /*
+      手機瀏覽器通常禁止網頁一開啟就自動播放聲音，
+      所以在學生第一次按按鈕時建立音訊系統。
+    */
+    function prepareAudio() {
+      const AudioContextClass =
+        window.AudioContext || window.webkitAudioContext;
+
+      if (!AudioContextClass) {
+        return;
+      }
+
+      if (!audioContext) {
+        audioContext = new AudioContextClass();
+      }
+
+      if (audioContext.state === "suspended") {
+        audioContext.resume();
+      }
+    }
+
+    function playTone({
+      frequency,
+      duration,
+      volume = 0.08,
+      type = "sine",
+      delay = 0
+    }) {
+      prepareAudio();
+
+      if (!audioContext) {
+        return;
+      }
+
+      const startTime = audioContext.currentTime + delay;
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+
+      oscillator.type = type;
+      oscillator.frequency.setValueAtTime(
+        frequency,
+        startTime
+      );
+
+      gainNode.gain.setValueAtTime(0.0001, startTime);
+
+      gainNode.gain.exponentialRampToValueAtTime(
+        volume,
+        startTime + 0.02
+      );
+
+      gainNode.gain.exponentialRampToValueAtTime(
+        0.0001,
+        startTime + duration
+      );
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+
+      oscillator.start(startTime);
+      oscillator.stop(startTime + duration + 0.05);
+    }
+
+    function playCorrectSound() {
+      /*
+        柔和的上行和弦。
+      */
+      playTone({
+        frequency: 523.25,
+        duration: 0.22,
+        volume: 0.07
+      });
+
+      playTone({
+        frequency: 659.25,
+        duration: 0.25,
+        volume: 0.06,
+        delay: 0.10
+      });
+
+      playTone({
+        frequency: 783.99,
+        duration: 0.28,
+        volume: 0.055,
+        delay: 0.20
+      });
+    }
+
+    function playWrongSound() {
+      /*
+        柔和的下降音，不使用刺耳警報聲。
+      */
+      playTone({
+        frequency: 392,
+        duration: 0.22,
+        volume: 0.055,
+        type: "triangle"
+      });
+
+      playTone({
+        frequency: 329.63,
+        duration: 0.28,
+        volume: 0.05,
+        type: "triangle",
+        delay: 0.14
+      });
+    }
+
+    function playCountdownSound() {
+      /*
+        最後10秒短促提示；
+        最後3秒音高更高、間隔感更明顯。
+      */
+      const frequency = timeLeft <= 3 ? 880 : 660;
+      const duration = timeLeft <= 3 ? 0.16 : 0.10;
+      const volume = timeLeft <= 3 ? 0.09 : 0.06;
+
+      playTone({
+        frequency,
+        duration,
+        volume,
+        type: "square"
+      });
+    }
+
+    function startGame() {
+      if (gameStarted || gameOver) {
+        return;
+      }
+
+      prepareAudio();
       gameStarted = true;
 
       timer = setInterval(function () {
         timeLeft -= 1;
         timeElement.textContent = timeLeft;
+
+        if (timeLeft <= 10 && timeLeft > 0) {
+          timeBox.classList.add("danger-time");
+          playCountdownSound();
+        }
 
         if (timeLeft <= 0) {
           endGame();
@@ -299,20 +706,31 @@
     }
 
     function checkAnswer() {
-      if (gameOver) {
+      if (
+        gameOver ||
+        !acceptingAnswer
+      ) {
         return;
       }
 
-      if (answerInput.value.trim() === "") {
-        feedbackElement.textContent = "請先輸入答案。";
+      prepareAudio();
+
+      if (
+        answerText === "" ||
+        answerText === "+" ||
+        answerText === "-"
+      ) {
+        feedbackElement.textContent = "請先輸入完整答案。";
         feedbackElement.className = "feedback wrong";
-        answerInput.focus();
         return;
       }
 
       startGame();
 
-      const studentAnswer = Number(answerInput.value);
+      acceptingAnswer = false;
+      setKeypadDisabled(true);
+
+      const studentAnswer = Number(answerText);
 
       if (studentAnswer === correctAnswer) {
         combo += 1;
@@ -329,33 +747,42 @@
 
         feedbackElement.textContent =
           `答對了！獲得 ${gainedScore} 分`;
+
         feedbackElement.className = "feedback correct";
+
+        playCorrectSound();
       } else {
         combo = 0;
 
         feedbackElement.textContent =
           `答錯了，正確答案是 ${correctAnswer}`;
+
         feedbackElement.className = "feedback wrong";
+
+        playWrongSound();
       }
 
       scoreElement.textContent = score;
       comboElement.textContent = combo;
 
-      submitButton.disabled = true;
-
       setTimeout(function () {
         if (!gameOver) {
           feedbackElement.textContent = "";
-          submitButton.disabled = false;
           createQuestion();
         }
-      }, 800);
+      }, 950);
     }
 
     function endGame() {
       gameOver = true;
+      acceptingAnswer = false;
 
       clearInterval(timer);
+      timer = null;
+
+      setKeypadDisabled(true);
+      timeElement.textContent = "0";
+      timeBox.classList.remove("danger-time");
 
       gameArea.style.display = "none";
       resultArea.style.display = "block";
@@ -375,18 +802,21 @@
     }
 
     function restartGame() {
+      clearInterval(timer);
+
       score = 0;
       combo = 0;
       timeLeft = 60;
       gameStarted = false;
       gameOver = false;
+      acceptingAnswer = true;
 
-      scoreElement.textContent = score;
-      comboElement.textContent = combo;
-      timeElement.textContent = timeLeft;
+      scoreElement.textContent = "0";
+      comboElement.textContent = "0";
+      timeElement.textContent = "60";
 
       feedbackElement.textContent = "";
-      submitButton.disabled = false;
+      timeBox.classList.remove("danger-time");
 
       gameArea.style.display = "block";
       resultArea.style.display = "none";
@@ -394,15 +824,73 @@
       createQuestion();
     }
 
-    submitButton.addEventListener("click", checkAnswer);
+    numberButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        prepareAudio();
+        addDigit(button.dataset.value);
+      });
+    });
 
-    answerInput.addEventListener("keydown", function (event) {
+    plusButton.addEventListener("click", function () {
+      prepareAudio();
+      setSign("+");
+    });
+
+    minusButton.addEventListener("click", function () {
+      prepareAudio();
+      setSign("-");
+    });
+
+    clearButton.addEventListener("click", function () {
+      prepareAudio();
+      clearAnswer();
+    });
+
+    backspaceButton.addEventListener("click", function () {
+      prepareAudio();
+      removeLastCharacter();
+    });
+
+    submitButton.addEventListener("click", checkAnswer);
+    restartButton.addEventListener("click", restartGame);
+
+    /*
+      電腦仍可直接使用實體鍵盤。
+    */
+    document.addEventListener("keydown", function (event) {
+      if (gameOver) {
+        return;
+      }
+
+      if (/^[0-9]$/.test(event.key)) {
+        addDigit(event.key);
+        return;
+      }
+
+      if (event.key === "-") {
+        setSign("-");
+        return;
+      }
+
+      if (event.key === "+") {
+        setSign("+");
+        return;
+      }
+
+      if (event.key === "Backspace") {
+        removeLastCharacter();
+        return;
+      }
+
+      if (event.key === "Escape") {
+        clearAnswer();
+        return;
+      }
+
       if (event.key === "Enter") {
         checkAnswer();
       }
     });
-
-    restartButton.addEventListener("click", restartGame);
 
     createQuestion();
   </script>
