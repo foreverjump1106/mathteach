@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>數的大小比較王</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #5b5bd6;
+      --primary-dark: #4141ad;
+      --primary-light: #eeeeff;
+      --correct: #2e7d32;
+      --correct-light: #e8f5e9;
+      --wrong: #c62828;
+      --wrong-light: #ffebee;
+      --orange: #ef6c00;
+      --text: #253047;
+      --muted: #657089;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 18px;
+      font-family:
+        "Microsoft JhengHei",
+        "Noto Sans TC",
+        sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(
+          135deg,
+          #e8e9ff,
+          #fff7e6
+        );
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      font-family: inherit;
+      touch-action: manipulation;
+    }
+
+    .game-card {
+      width: 100%;
+      max-width: 680px;
+      padding: 30px;
+      background: white;
+      border-radius: 26px;
+      box-shadow: 0 14px 40px rgba(30, 40, 80, 0.14);
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      color: var(--primary-dark);
+      font-size: 34px;
+    }
+
+    .subtitle {
+      margin: 0 0 24px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    /* 難度選擇 */
+
+    .mode-title {
+      margin: 8px 0 18px;
+      font-size: 22px;
+    }
+
+    .mode-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .mode-button {
+      min-height: 148px;
+      padding: 18px 12px;
+      border: 3px solid transparent;
+      border-radius: 18px;
+      background: #f6f7ff;
+      color: var(--text);
+      cursor: pointer;
+      transition:
+        transform 0.15s ease,
+        border-color 0.15s ease,
+        background 0.15s ease;
+    }
+
+    .mode-button:hover,
+    .mode-button:focus-visible {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      transform: translateY(-3px);
+    }
+
+    .mode-icon {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 36px;
+    }
+
+    .mode-name {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--primary-dark);
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .mode-detail {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .rule-box {
+      padding: 15px;
+      border-radius: 14px;
+      background: #fff8e7;
+      color: #6b4d15;
+      line-height: 1.65;
+    }
+
+    /* 遊戲狀態 */
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .status-item {
+      padding: 11px 6px;
+      border-radius: 13px;
+      background: #f1f2ff;
+      color: var(--primary-dark);
+      font-size: 14px;
+      font-weight: bold;
+      line-height: 1.5;
+    }
+
+    .status-value {
+      font-size: 22px;
+    }
+
+    .danger-time {
+      color: var(--wrong);
+      background: var(--wrong-light);
+      animation: pulse 0.55s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from {
+        transform: scale(1);
+      }
+
+      to {
+        transform: scale(1.06);
+      }
+    }
+
+    .mode-label {
+      display: inline-block;
+      margin-bottom: 16px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-weight: bold;
+    }
+
+    /* 題目 */
+
+    .question-area {
+      min-height: 175px;
+      padding: 24px 16px;
+      border: 3px solid #ececff;
+      border-radius: 22px;
+      background: #fcfcff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .comparison-row {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 74px 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .number-card {
+      min-height: 104px;
+      padding: 12px 8px;
+      border-radius: 17px;
+      background: white;
+      box-shadow: 0 5px 15px rgba(45, 50, 100, 0.09);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 36px;
+      font-weight: bold;
+    }
+
+    .question-mark {
+      color: var(--orange);
+      font-size: 44px;
+      font-weight: bold;
+    }
+
+    /* 分數 */
+
+    .signed-fraction {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+    }
+
+    .fraction-sign {
+      margin-right: 1px;
+      font-size: 38px;
+      font-weight: bold;
+      line-height: 1;
+    }
+
+    .fraction {
+      display: inline-flex;
+      min-width: 48px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+      line-height: 1.05;
+    }
+
+    .numerator {
+      width: 100%;
+      padding: 0 6px 4px;
+      border-bottom: 3px solid currentColor;
+      text-align: center;
+    }
+
+    .denominator {
+      width: 100%;
+      padding: 4px 6px 0;
+      text-align: center;
+    }
+
+    /* 比較按鈕 */
+
+    .answer-buttons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .answer-button {
+      min-height: 75px;
+      border: none;
+      border-radius: 17px;
+      background: var(--primary);
+      color: white;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 6px 0 var(--primary-dark);
+      transition:
+        transform 0.1s ease,
+        box-shadow 0.1s ease;
+    }
+
+    .answer-button:hover {
+      background: #6666df;
+    }
+
+    .answer-button:active {
+      transform: translateY(5px);
+      box-shadow: 0 1px 0 var(--primary-dark);
+    }
+
+    .answer-button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .answer-button.selected-correct {
+      background: var(--correct);
+      box-shadow: 0 6px 0 #1b5e20;
+    }
+
+    .answer-button.selected-wrong {
+      background: var(--wrong);
+      box-shadow: 0 6px 0 #8e0000;
+    }
+
+    /* 回饋 */
+
+    .feedback {
+      min-height: 80px;
+      margin-top: 18px;
+      padding: 13px;
+      border-radius: 15px;
+      line-height: 1.55;
+    }
+
+    .feedback:empty {
+      padding: 0;
+    }
+
+    .feedback.correct {
+      color: var(--correct);
+      background: var(--correct-light);
+    }
+
+    .feedback.wrong {
+      color: var(--wrong);
+      background: var(--wrong-light);
+    }
+
+    .feedback-main {
+      display: block;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .feedback-answer,
+    .feedback-hint {
+      display: block;
+      margin-top: 5px;
+      font-size: 15px;
+    }
+
+    /* 結果 */
+
+    .result-title {
+      color: var(--primary-dark);
+      font-size: 30px;
+    }
+
+    .grade-circle {
+      width: 110px;
+      height: 110px;
+      margin: 18px auto;
+      border: 7px solid var(--primary);
+      border-radius: 50%;
+      color: var(--primary-dark);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 50px;
+      font-weight: bold;
+    }
+
+    .stars {
+      min-height: 43px;
+      margin-bottom: 14px;
+      color: #f5a000;
+      font-size: 34px;
+      letter-spacing: 4px;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .result-item {
+      padding: 16px 10px;
+      border-radius: 15px;
+      background: #f5f5ff;
+    }
+
+    .result-label {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .result-value {
+      display: block;
+      margin-top: 4px;
+      color: var(--primary-dark);
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .result-message {
+      margin: 18px 0;
+      color: var(--text);
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .result-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .main-button,
+    .secondary-button {
+      min-height: 52px;
+      padding: 12px 18px;
+      border-radius: 13px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .main-button {
+      border: none;
+      background: var(--primary);
+      color: white;
+    }
+
+    .secondary-button {
+      border: 2px solid var(--primary);
+      background: white;
+      color: var(--primary-dark);
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 23px;
+      color: var(--primary-dark);
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        align-items: flex-start;
+        padding: 10px;
+      }
+
+      .game-card {
+        padding: 21px 14px;
+        border-radius: 20px;
+      }
+
+      h1 {
+        font-size: 27px;
+      }
+
+      .subtitle {
+        font-size: 15px;
+      }
+
+      .mode-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .mode-button {
+        min-height: auto;
+        padding: 16px;
+      }
+
+      .status-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .question-area {
+        min-height: 150px;
+        padding: 18px 8px;
+      }
+
+      .comparison-row {
+        grid-template-columns: 1fr 52px 1fr;
+        gap: 5px;
+      }
+
+      .number-card {
+        min-height: 92px;
+        padding: 8px 3px;
+        font-size: 27px;
+      }
+
+      .question-mark {
+        font-size: 35px;
+      }
+
+      .fraction-sign {
+        font-size: 29px;
+      }
+
+      .fraction {
+        min-width: 38px;
+      }
+
+      .numerator {
+        padding: 0 4px 3px;
+        border-bottom-width: 2px;
+      }
+
+      .denominator {
+        padding: 3px 4px 0;
+      }
+
+      .answer-button {
+        min-height: 67px;
+        font-size: 35px;
+      }
+
+      .result-buttons {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="game-card">
+
+    <!-- 開始畫面 -->
+    <section id="startScreen" class="screen active">
+
+      <h1>⚖️ 數的大小比較王</h1>
+
+      <p class="subtitle">
+        觀察左右兩個數，選出正確的
+        ＞、＝或＜。<br>
+        60秒內挑戰最高分！
+      </p>
+
+      <h2 class="mode-title">請選擇挑戰模式</h2>
+
+      <div class="mode-grid">
+
+        <button
+          class="mode-button"
+          type="button"
+          data-mode="easy"
+        >
+          <span class="mode-icon">🌱</span>
+          <span class="mode-name">初級</span>
+          <span class="mode-detail">
+            正整數與負整數<br>
+            適合基礎練習
+          </span>
+        </button>
+
+        <button
+          class="mode-button"
+          type="button"
+          data-mode="medium"
+        >
+          <span class="mode-icon">🌿</span>
+          <span class="mode-name">中級</span>
+          <span class="mode-detail">
+            整數與分數<br>
+            加入正負分數
+          </span>
+        </button>
+
+        <button
+          class="mode-button"
+          type="button"
+          data-mode="hard"
+        >
+          <span class="mode-icon">🌳</span>
+          <span class="mode-name">高級</span>
+          <span class="mode-detail">
+            整數、分數、小數<br>
+            加入混合比較
+          </span>
+        </button>
+
+      </div>
+
+      <div class="rule-box">
+        💡 仔細觀察正負號；兩個都是負數時，
+        越靠近0的數越大。
+      </div>
+
+    </section>
+
+    <!-- 遊戲畫面 -->
+    <section id="gameScreen" class="screen">
+
+      <h1>⚖️ 數的大小比較王</h1>
+
+      <div class="status-grid">
+
+        <div id="timeBox" class="status-item">
+          ⏱️ 時間
+          <div id="timeValue" class="status-value">60</div>
+        </div>
+
+        <div class="status-item">
+          ⭐ 分數
+          <div id="scoreValue" class="status-value">0</div>
+        </div>
+
+        <div class="status-item">
+          🔥 連擊
+          <div id="comboValue" class="status-value">0</div>
+        </div>
+
+        <div class="status-item">
+          ✅ 答對
+          <div id="correctValue" class="status-value">0</div>
+        </div>
+
+      </div>
+
+      <div id="modeLabel" class="mode-label"></div>
+
+      <div class="question-area">
+
+        <div class="comparison-row">
+
+          <div id="leftNumber" class="number-card"></div>
+
+          <div class="question-mark">？</div>
+
+          <div id="rightNumber" class="number-card"></div>
+
+        </div>
+
+      </div>
+
+      <div class="answer-buttons">
+
+        <button
+          class="answer-button"
+          type="button"
+          data-answer="<"
+          aria-label="小於"
+        >
+          ＜
+        </button>
+
+        <button
+          class="answer-button"
+          type="button"
+          data-answer="="
+          aria-label="等於"
+        >
+          ＝
+        </button>
+
+        <button
+          class="answer-button"
+          type="button"
+          data-answer=">"
+          aria-label="大於"
+        >
+          ＞
+        </button>
+
+      </div>
+
+      <div
+        id="feedback"
+        class="feedback"
+        aria-live="polite"
+      ></div>
+
+    </section>
+
+    <!-- 結果畫面 -->
+    <section id="resultScreen" class="screen">
+
+      <h2 class="result-title">🏆 挑戰完成</h2>
+
+      <div id="gradeCircle" class="grade-circle">A</div>
+
+      <div id="stars" class="stars">★★★★☆</div>
+
+      <div class="result-grid">
+
+        <div class="result-item">
+          <span class="result-label">總分</span>
+          <span id="finalScore" class="result-value">0</span>
+        </div>
+
+        <div class="result-item">
+          <span class="result-label">答對題數</span>
+          <span id="finalCorrect" class="result-value">0</span>
+        </div>
+
+        <div class="result-item">
+          <span class="result-label">正確率</span>
+          <span id="finalAccuracy" class="result-value">0%</span>
+        </div>
+
+        <div class="result-item">
+          <span class="result-label">最高連擊</span>
+          <span id="finalCombo" class="result-value">0</span>
+        </div>
+
+      </div>
+
+      <p id="resultMessage" class="result-message"></p>
+
+      <div class="result-buttons">
+
+        <button
+          id="restartButton"
+          class="main-button"
+          type="button"
+        >
+          再玩一次
+        </button>
+
+        <button
+          id="changeModeButton"
+          class="secondary-button"
+          type="button"
+        >
+          更換模式
+        </button>
+
+      </div>
+
+    </section>
+
+    <a class="back-link" href="../index.html">
+      ← 回到遊戲首頁
+    </a>
+
+  </main>
+
+  <script>
+    const startScreen =
+      document.getElementById("startScreen");
+
+    const gameScreen =
+      document.getElementById("gameScreen");
+
+    const resultScreen =
+      document.getElementById("resultScreen");
+
+    const timeBox =
+      document.getElementById("timeBox");
+
+    const timeValue =
+      document.getElementById("timeValue");
+
+    const scoreValue =
+      document.getElementById("scoreValue");
+
+    const comboValue =
+      document.getElementById("comboValue");
+
+    const correctValue =
+      document.getElementById("correctValue");
+
+    const modeLabel =
+      document.getElementById("modeLabel");
+
+    const leftNumber =
+      document.getElementById("leftNumber");
+
+    const rightNumber =
+      document.getElementById("rightNumber");
+
+    const feedback =
+      document.getElementById("feedback");
+
+    const gradeCircle =
+      document.getElementById("gradeCircle");
+
+    const stars =
+      document.getElementById("stars");
+
+    const finalScore =
+      document.getElementById("finalScore");
+
+    const finalCorrect =
+      document.getElementById("finalCorrect");
+
+    const finalAccuracy =
+      document.getElementById("finalAccuracy");
+
+    const finalCombo =
+      document.getElementById("finalCombo");
+
+    const resultMessage =
+      document.getElementById("resultMessage");
+
+    const restartButton =
+      document.getElementById("restartButton");
+
+    const changeModeButton =
+      document.getElementById("changeModeButton");
+
+    const modeButtons =
+      document.querySelectorAll(".mode-button");
+
+    const answerButtons =
+      document.querySelectorAll(".answer-button");
+
+    const modeNames = {
+      easy: "🌱 初級：整數比較",
+      medium: "🌿 中級：整數與分數",
+      hard: "🌳 高級：混合比較"
+    };
+
+    let currentMode = "easy";
+    let currentQuestion = null;
+
+    let score = 0;
+    let combo = 0;
+    let highestCombo = 0;
+    let correctCount = 0;
+    let totalCount = 0;
+
+    let timeLeft = 60;
+    let timer = null;
+    let acceptingAnswer = false;
+    let gameOver = false;
+
+    let audioContext = null;
+
+    function showScreen(screen) {
+      startScreen.classList.remove("active");
+      gameScreen.classList.remove("active");
+      resultScreen.classList.remove("active");
+
+      screen.classList.add("active");
+    }
+
+    function randomInteger(min, max) {
+      return Math.floor(
+        Math.random() * (max - min + 1)
+      ) + min;
+    }
+
+    function greatestCommonDivisor(a, b) {
+      a = Math.abs(a);
+      b = Math.abs(b);
+
+      while (b !== 0) {
+        const remainder = a % b;
+        a = b;
+        b = remainder;
+      }
+
+      return a;
+    }
+
+    function simplifyFraction(numerator, denominator) {
+      if (denominator < 0) {
+        numerator *= -1;
+        denominator *= -1;
+      }
+
+      const divisor = greatestCommonDivisor(
+        numerator,
+        denominator
+      );
+
+      return {
+        numerator: numerator / divisor,
+        denominator: denominator / divisor
+      };
+    }
+
+    function createInteger() {
+      const value = randomInteger(-20, 20);
+
+      return {
+        type: "integer",
+        value,
+        numerator: value,
+        denominator: 1
+      };
+    }
+
+    function createFraction() {
+      let denominator = randomInteger(2, 12);
+      let numerator = randomInteger(1, denominator * 2);
+
+      if (Math.random() < 0.5) {
+        numerator *= -1;
+      }
+
+      let simplified =
+        simplifyFraction(numerator, denominator);
+
+      /*
+        避免分數化簡後變成整數，
+        讓分數題維持分數形式。
+      */
+      if (
+        simplified.numerator %
+        simplified.denominator === 0
+      ) {
+        numerator += numerator > 0 ? 1 : -1;
+
+        simplified =
+          simplifyFraction(numerator, denominator);
+      }
+
+      return {
+        type: "fraction",
+        numerator: simplified.numerator,
+        denominator: simplified.denominator,
+        value:
+          simplified.numerator /
+          simplified.denominator
+      };
+    }
+
+    function createDecimal() {
+      const decimalPlaces =
+        Math.random() < 0.5 ? 1 : 2;
+
+      const scale = 10 ** decimalPlaces;
+
+      let scaledValue = randomInteger(-150, 150);
+
+      if (scaledValue === 0) {
+        scaledValue = randomInteger(1, 9);
+      }
+
+      return {
+        type: "decimal",
+        scaledValue,
+        scale,
+        decimalPlaces,
+        value: scaledValue / scale,
+        numerator: scaledValue,
+        denominator: scale
+      };
+    }
+
+    function cloneNumber(number) {
+      return { ...number };
+    }
+
+    function createEqualVersion(number) {
+      /*
+        產生數值相等，但呈現方式可能不同的數。
+      */
+
+      if (number.type === "integer") {
+        if (
+          currentMode === "hard" &&
+          Math.random() < 0.5
+        ) {
+          return {
+            type: "decimal",
+            scaledValue: number.value * 10,
+            scale: 10,
+            decimalPlaces: 1,
+            value: number.value,
+            numerator: number.value * 10,
+            denominator: 10
+          };
+        }
+
+        return cloneNumber(number);
+      }
+
+      if (number.type === "fraction") {
+        if (currentMode === "hard") {
+          const decimalValue =
+            number.numerator / number.denominator;
+
+          const rounded =
+            Math.round(decimalValue * 100);
+
+          if (
+            Math.abs(
+              decimalValue - rounded / 100
+            ) < 0.000001
+          ) {
+            return {
+              type: "decimal",
+              scaledValue: rounded,
+              scale: 100,
+              decimalPlaces: 2,
+              value: rounded / 100,
+              numerator: rounded,
+              denominator: 100
+            };
+          }
+        }
+
+        return cloneNumber(number);
+      }
+
+      if (number.type === "decimal") {
+        if (currentMode === "hard") {
+          const fraction =
+            simplifyFraction(
+              number.scaledValue,
+              number.scale
+            );
+
+          return {
+            type: "fraction",
+            numerator: fraction.numerator,
+            denominator: fraction.denominator,
+            value:
+              fraction.numerator /
+              fraction.denominator
+          };
+        }
+
+        return cloneNumber(number);
+      }
+
+      return cloneNumber(number);
+    }
+
+    function selectNumberType() {
+      const random = Math.random();
+
+      if (currentMode === "easy") {
+        return "integer";
+      }
+
+      if (currentMode === "medium") {
+        return random < 0.45
+          ? "integer"
+          : "fraction";
+      }
+
+      if (random < 0.28) {
+        return "integer";
+      }
+
+      if (random < 0.64) {
+        return "fraction";
+      }
+
+      return "decimal";
+    }
+
+    function createNumberByType(type) {
+      if (type === "fraction") {
+        return createFraction();
+      }
+
+      if (type === "decimal") {
+        return createDecimal();
+      }
+
+      return createInteger();
+    }
+
+    function createComparisonQuestion() {
+      const leftType = selectNumberType();
+
+      let rightType = selectNumberType();
+
+      /*
+        高級模式增加不同數字形式的比較。
+      */
+      if (
+        currentMode === "hard" &&
+        Math.random() < 0.55
+      ) {
+        const types = [
+          "integer",
+          "fraction",
+          "decimal"
+        ];
+
+        const otherTypes =
+          types.filter(
+            type => type !== leftType
+          );
+
+        rightType =
+          otherTypes[
+            randomInteger(
+              0,
+              otherTypes.length - 1
+            )
+          ];
+      }
+
+      const left = createNumberByType(leftType);
+
+      let right;
+
+      /*
+        約15%的題目答案為等於。
+      */
+      if (Math.random() < 0.15) {
+        right = createEqualVersion(left);
+      } else {
+        right = createNumberByType(rightType);
+
+        let attempts = 0;
+
+        while (
+          compareExactly(left, right) === 0 &&
+          attempts < 20
+        ) {
+          right = createNumberByType(rightType);
+          attempts += 1;
+        }
+      }
+
+      const comparison = compareExactly(left, right);
+
+      let answer = "=";
+
+      if (comparison < 0) {
+        answer = "<";
+      } else if (comparison > 0) {
+        answer = ">";
+      }
+
+      return {
+        left,
+        right,
+        answer
+      };
+    }
+
+    function compareExactly(first, second) {
+      /*
+        交叉相乘，避免使用小數比較造成誤差。
+      */
+      const leftProduct =
+        first.numerator * second.denominator;
+
+      const rightProduct =
+        second.numerator * first.denominator;
+
+      if (leftProduct < rightProduct) {
+        return -1;
+      }
+
+      if (leftProduct > rightProduct) {
+        return 1;
+      }
+
+      return 0;
+    }
+
+    function renderFraction(number) {
+      const isNegative =
+        number.numerator < 0;
+
+      const absoluteNumerator =
+        Math.abs(number.numerator);
+
+      return `
+        <span class="signed-fraction">
+          ${
+            isNegative
+              ? '<span class="fraction-sign">−</span>'
+              : ""
+          }
+
+          <span class="fraction">
+            <span class="numerator">
+              ${absoluteNumerator}
+            </span>
+
+            <span class="denominator">
+              ${number.denominator}
+            </span>
+          </span>
+        </span>
+      `;
+    }
+
+    function renderNumber(number) {
+      if (number.type === "fraction") {
+        return renderFraction(number);
+      }
+
+      if (number.type === "decimal") {
+        return number.value.toFixed(
+          number.decimalPlaces
+        );
+      }
+
+      return String(number.value);
+    }
+
+    function numberToText(number) {
+      if (number.type === "fraction") {
+        return (
+          `${number.numerator}` +
+          `/${number.denominator}`
+        );
+      }
+
+      if (number.type === "decimal") {
+        return number.value.toFixed(
+          number.decimalPlaces
+        );
+      }
+
+      return String(number.value);
+    }
+
+    function createHint(question) {
+      const left = question.left;
+      const right = question.right;
+
+      if (question.answer === "=") {
+        return "兩個數雖然寫法可能不同，但代表的數值相同。";
+      }
+
+      if (
+        left.value < 0 &&
+        right.value < 0
+      ) {
+        return "兩個都是負數時，越靠近0的數越大。";
+      }
+
+      if (
+        left.value >= 0 &&
+        right.value < 0
+      ) {
+        return "正數與0都大於負數。";
+      }
+
+      if (
+        left.value < 0 &&
+        right.value >= 0
+      ) {
+        return "負數小於正數與0。";
+      }
+
+      if (
+        left.type === "fraction" &&
+        right.type === "fraction"
+      ) {
+        if (
+          left.denominator ===
+          right.denominator
+        ) {
+          return "分母相同時，可以直接比較分子的大小。";
+        }
+
+        return "分母不同時，可以通分或交叉相乘後比較。";
+      }
+
+      if (
+        left.type === "decimal" &&
+        right.type === "decimal"
+      ) {
+        return "比較小數時，可以在末尾補0，使小數位數相同。";
+      }
+
+      return "可以把兩個數化成相同形式，再比較大小。";
+    }
+
+    function displayQuestion() {
+      currentQuestion =
+        createComparisonQuestion();
+
+      leftNumber.innerHTML =
+        renderNumber(currentQuestion.left);
+
+      rightNumber.innerHTML =
+        renderNumber(currentQuestion.right);
+
+      feedback.textContent = "";
+      feedback.className = "feedback";
+
+      answerButtons.forEach(button => {
+        button.disabled = false;
+
+        button.classList.remove(
+          "selected-correct",
+          "selected-wrong"
+        );
+      });
+
+      acceptingAnswer = true;
+    }
+
+    function prepareAudio() {
+      const AudioContextClass =
+        window.AudioContext ||
+        window.webkitAudioContext;
+
+      if (!AudioContextClass) {
+        return;
+      }
+
+      if (!audioContext) {
+        audioContext =
+          new AudioContextClass();
+      }
+
+      if (
+        audioContext.state === "suspended"
+      ) {
+        audioContext.resume();
+      }
+    }
+
+    function playTone({
+      frequency,
+      duration,
+      volume = 0.06,
+      delay = 0,
+      type = "sine"
+    }) {
+      prepareAudio();
+
+      if (!audioContext) {
+        return;
+      }
+
+      const start =
+        audioContext.currentTime + delay;
+
+      const oscillator =
+        audioContext.createOscillator();
+
+      const gain =
+        audioContext.createGain();
+
+      oscillator.type = type;
+
+      oscillator.frequency.setValueAtTime(
+        frequency,
+        start
+      );
+
+      gain.gain.setValueAtTime(
+        0.0001,
+        start
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        volume,
+        start + 0.02
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        start + duration
+      );
+
+      oscillator.connect(gain);
+      gain.connect(audioContext.destination);
+
+      oscillator.start(start);
+      oscillator.stop(
+        start + duration + 0.04
+      );
+    }
+
+    function playCorrectSound() {
+      playTone({
+        frequency: 523.25,
+        duration: 0.2,
+        volume: 0.065
+      });
+
+      playTone({
+        frequency: 659.25,
+        duration: 0.23,
+        volume: 0.055,
+        delay: 0.1
+      });
+
+      playTone({
+        frequency: 783.99,
+        duration: 0.27,
+        volume: 0.05,
+        delay: 0.2
+      });
+    }
+
+    function playWrongSound() {
+      playTone({
+        frequency: 392,
+        duration: 0.23,
+        volume: 0.05,
+        type: "triangle"
+      });
+
+      playTone({
+        frequency: 329.63,
+        duration: 0.28,
+        volume: 0.045,
+        delay: 0.14,
+        type: "triangle"
+      });
+    }
+
+    function playCountdownSound() {
+      playTone({
+        frequency:
+          timeLeft <= 3 ? 880 : 650,
+        duration:
+          timeLeft <= 3 ? 0.16 : 0.09,
+        volume:
+          timeLeft <= 3 ? 0.085 : 0.055,
+        type: "square"
+      });
+    }
+
+    function playEndSound() {
+      playTone({
+        frequency: 523.25,
+        duration: 0.2,
+        volume: 0.06
+      });
+
+      playTone({
+        frequency: 659.25,
+        duration: 0.2,
+        volume: 0.055,
+        delay: 0.14
+      });
+
+      playTone({
+        frequency: 783.99,
+        duration: 0.35,
+        volume: 0.05,
+        delay: 0.28
+      });
+    }
+
+    function updateStatus() {
+      timeValue.textContent = timeLeft;
+      scoreValue.textContent = score;
+      comboValue.textContent = combo;
+      correctValue.textContent =
+        correctCount;
+    }
+
+    function startTimer() {
+      clearInterval(timer);
+
+      timer = setInterval(() => {
+        timeLeft -= 1;
+        updateStatus();
+
+        if (
+          timeLeft <= 10 &&
+          timeLeft > 0
+        ) {
+          timeBox.classList.add(
+            "danger-time"
+          );
+
+          playCountdownSound();
+        }
+
+        if (timeLeft <= 0) {
+          endGame();
+        }
+      }, 1000);
+    }
+
+    function startGame(mode) {
+      prepareAudio();
+
+      currentMode = mode;
+
+      score = 0;
+      combo = 0;
+      highestCombo = 0;
+      correctCount = 0;
+      totalCount = 0;
+
+      timeLeft = 60;
+      gameOver = false;
+      acceptingAnswer = true;
+
+      timeBox.classList.remove(
+        "danger-time"
+      );
+
+      modeLabel.textContent =
+        modeNames[currentMode];
+
+      updateStatus();
+      showScreen(gameScreen);
+      displayQuestion();
+      startTimer();
+    }
+
+    function checkAnswer(
+      selectedAnswer,
+      selectedButton
+    ) {
+      if (
+        !acceptingAnswer ||
+        gameOver
+      ) {
+        return;
+      }
+
+      prepareAudio();
+
+      acceptingAnswer = false;
+      totalCount += 1;
+
+      answerButtons.forEach(button => {
+        button.disabled = true;
+      });
+
+      const isCorrect =
+        selectedAnswer ===
+        currentQuestion.answer;
+
+      const correctButton =
+        [...answerButtons].find(
+          button =>
+            button.dataset.answer ===
+            currentQuestion.answer
+        );
+
+      if (isCorrect) {
+        combo += 1;
+        correctCount += 1;
+
+        if (combo > highestCombo) {
+          highestCombo = combo;
+        }
+
+        let gainedScore = 10;
+
+        if (combo >= 10) {
+          gainedScore = 25;
+        } else if (combo >= 5) {
+          gainedScore = 20;
+        } else if (combo >= 3) {
+          gainedScore = 15;
+        }
+
+        score += gainedScore;
+
+        selectedButton.classList.add(
+          "selected-correct"
+        );
+
+        feedback.className =
+          "feedback correct";
+
+        feedback.innerHTML = `
+          <span class="feedback-main">
+            🎉 答對了！＋${gainedScore}分
+          </span>
+        `;
+
+        playCorrectSound();
+      } else {
+        combo = 0;
+
+        selectedButton.classList.add(
+          "selected-wrong"
+        );
+
+        if (correctButton) {
+          correctButton.classList.add(
+            "selected-correct"
+          );
+        }
+
+        const answerText =
+          `${numberToText(currentQuestion.left)} ` +
+          `${currentQuestion.answer} ` +
+          `${numberToText(currentQuestion.right)}`;
+
+        feedback.className =
+          "feedback wrong";
+
+        feedback.innerHTML = `
+          <span class="feedback-main">
+            再想一想！
+          </span>
+
+          <span class="feedback-answer">
+            正確答案：${answerText}
+          </span>
+
+          <span class="feedback-hint">
+            💡 ${createHint(currentQuestion)}
+          </span>
+        `;
+
+        playWrongSound();
+      }
+
+      updateStatus();
+
+      setTimeout(() => {
+        if (!gameOver) {
+          displayQuestion();
+        }
+      }, isCorrect ? 750 : 1500);
+    }
+
+    function calculateGrade(accuracy) {
+      if (
+        accuracy >= 95 &&
+        correctCount >= 8
+      ) {
+        return {
+          grade: "S",
+          stars: "★★★★★",
+          message:
+            "太厲害了！你已經是數的大小比較王！"
+        };
+      }
+
+      if (accuracy >= 85) {
+        return {
+          grade: "A",
+          stars: "★★★★☆",
+          message:
+            "表現非常棒，數的大小觀念很熟練！"
+        };
+      }
+
+      if (accuracy >= 70) {
+        return {
+          grade: "B",
+          stars: "★★★☆☆",
+          message:
+            "表現不錯，再多練習負數與分數比較！"
+        };
+      }
+
+      return {
+        grade: "C",
+        stars: "★★☆☆☆",
+        message:
+          "別灰心，仔細判斷正負號，再挑戰一次！"
+      };
+    }
+
+    function endGame() {
+      if (gameOver) {
+        return;
+      }
+
+      gameOver = true;
+      acceptingAnswer = false;
+
+      clearInterval(timer);
+      timer = null;
+
+      timeLeft = 0;
+      updateStatus();
+
+      timeBox.classList.remove(
+        "danger-time"
+      );
+
+      answerButtons.forEach(button => {
+        button.disabled = true;
+      });
+
+      const accuracy =
+        totalCount === 0
+          ? 0
+          : Math.round(
+              correctCount /
+              totalCount *
+              100
+            );
+
+      const gradeResult =
+        calculateGrade(accuracy);
+
+      gradeCircle.textContent =
+        gradeResult.grade;
+
+      stars.textContent =
+        gradeResult.stars;
+
+      finalScore.textContent =
+        score;
+
+      finalCorrect.textContent =
+        `${correctCount}/${totalCount}`;
+
+      finalAccuracy.textContent =
+        `${accuracy}%`;
+
+      finalCombo.textContent =
+        highestCombo;
+
+      resultMessage.textContent =
+        gradeResult.message;
+
+      showScreen(resultScreen);
+      playEndSound();
+    }
+
+    modeButtons.forEach(button => {
+      button.addEventListener(
+        "click",
+        () => {
+          startGame(
+            button.dataset.mode
+          );
+        }
+      );
+    });
+
+    answerButtons.forEach(button => {
+      button.addEventListener(
+        "click",
+        () => {
+          checkAnswer(
+            button.dataset.answer,
+            button
+          );
+        }
+      );
+    });
+
+    restartButton.addEventListener(
+      "click",
+      () => {
+        startGame(currentMode);
+      }
+    );
+
+    changeModeButton.addEventListener(
+      "click",
+      () => {
+        clearInterval(timer);
+        timer = null;
+        gameOver = true;
+
+        showScreen(startScreen);
+      }
+    );
+
+    /*
+      電腦鍵盤操作：
+      左方向鍵代表小於
+      下方向鍵或等號代表等於
+      右方向鍵代表大於
+    */
+    document.addEventListener(
+      "keydown",
+      event => {
+        if (
+          !gameScreen.classList.contains(
+            "active"
+          ) ||
+          !acceptingAnswer ||
+          gameOver
+        ) {
+          return;
+        }
+
+        let answer = null;
+
+        if (
+          event.key === "<" ||
+          event.key === "ArrowLeft"
+        ) {
+          answer = "<";
+        }
+
+        if (
+          event.key === "=" ||
+          event.key === "ArrowDown"
+        ) {
+          answer = "=";
+        }
+
+        if (
+          event.key === ">" ||
+          event.key === "ArrowRight"
+        ) {
+          answer = ">";
+        }
+
+        if (answer) {
+          const button =
+            [...answerButtons].find(
+              item =>
+                item.dataset.answer ===
+                answer
+            );
+
+          checkAnswer(answer, button);
+        }
+      }
+    );
+  </script>
+
+</body>
+</html>
