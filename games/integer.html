@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>正負數大挑戰</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Microsoft JhengHei", sans-serif;
+      background: linear-gradient(135deg, #e3f2fd, #fff8e1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .game-container {
+      width: 100%;
+      max-width: 560px;
+      background: white;
+      border-radius: 24px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+    }
+
+    h1 {
+      margin-top: 0;
+      color: #1565c0;
+    }
+
+    .description {
+      color: #555;
+      margin-bottom: 25px;
+    }
+
+    .status-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+
+    .status-item {
+      background: #eef5ff;
+      padding: 12px 5px;
+      border-radius: 12px;
+      font-weight: bold;
+      color: #174a7e;
+    }
+
+    .question {
+      min-height: 80px;
+      margin: 20px 0;
+      font-size: 38px;
+      font-weight: bold;
+      color: #222;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    input {
+      width: 100%;
+      max-width: 230px;
+      padding: 14px;
+      font-size: 24px;
+      text-align: center;
+      border: 3px solid #90caf9;
+      border-radius: 12px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #1565c0;
+    }
+
+    button {
+      margin-top: 18px;
+      padding: 13px 30px;
+      border: none;
+      border-radius: 12px;
+      background: #1565c0;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0d47a1;
+    }
+
+    button:disabled {
+      background: #999;
+      cursor: not-allowed;
+    }
+
+    .feedback {
+      min-height: 35px;
+      margin-top: 20px;
+      font-size: 21px;
+      font-weight: bold;
+    }
+
+    .correct {
+      color: #2e7d32;
+    }
+
+    .wrong {
+      color: #c62828;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 24px;
+      color: #1565c0;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .result {
+      display: none;
+    }
+
+    .result h2 {
+      color: #1565c0;
+    }
+
+    .final-score {
+      font-size: 44px;
+      font-weight: bold;
+      color: #f57c00;
+      margin: 20px 0;
+    }
+
+    @media (max-width: 500px) {
+      .game-container {
+        padding: 22px 18px;
+      }
+
+      .question {
+        font-size: 32px;
+      }
+
+      .status-item {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="game-container">
+
+    <section id="gameArea">
+
+      <h1>🎮 正負數大挑戰</h1>
+
+      <p class="description">
+        在60秒內回答正負數加減法，看看你能得到幾分！
+      </p>
+
+      <div class="status-bar">
+        <div class="status-item">
+          ⏱️ 時間<br>
+          <span id="time">60</span>
+        </div>
+
+        <div class="status-item">
+          ⭐ 分數<br>
+          <span id="score">0</span>
+        </div>
+
+        <div class="status-item">
+          🔥 連續答對<br>
+          <span id="combo">0</span>
+        </div>
+      </div>
+
+      <div id="question" class="question"></div>
+
+      <input
+        id="answer"
+        type="number"
+        placeholder="輸入答案"
+        autocomplete="off"
+      >
+
+      <br>
+
+      <button id="submitButton" type="button">
+        送出答案
+      </button>
+
+      <div id="feedback" class="feedback"></div>
+
+    </section>
+
+    <section id="resultArea" class="result">
+
+      <h2>🏆 挑戰結束</h2>
+
+      <p>你的本次得分是：</p>
+
+      <div id="finalScore" class="final-score">0</div>
+
+      <p id="resultMessage"></p>
+
+      <button id="restartButton" type="button">
+        再玩一次
+      </button>
+
+    </section>
+
+    <a class="back-link" href="../index.html">
+      ← 回到遊戲首頁
+    </a>
+
+  </main>
+
+  <script>
+    const questionElement = document.getElementById("question");
+    const answerInput = document.getElementById("answer");
+    const submitButton = document.getElementById("submitButton");
+    const feedbackElement = document.getElementById("feedback");
+
+    const timeElement = document.getElementById("time");
+    const scoreElement = document.getElementById("score");
+    const comboElement = document.getElementById("combo");
+
+    const gameArea = document.getElementById("gameArea");
+    const resultArea = document.getElementById("resultArea");
+    const finalScoreElement = document.getElementById("finalScore");
+    const resultMessageElement = document.getElementById("resultMessage");
+    const restartButton = document.getElementById("restartButton");
+
+    let number1 = 0;
+    let number2 = 0;
+    let correctAnswer = 0;
+
+    let score = 0;
+    let combo = 0;
+    let timeLeft = 60;
+    let timer = null;
+    let gameStarted = false;
+    let gameOver = false;
+
+    function randomInteger(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function createQuestion() {
+      number1 = randomInteger(-20, 20);
+      number2 = randomInteger(-20, 20);
+
+      const operation = Math.random() < 0.5 ? "+" : "-";
+
+      if (operation === "+") {
+        correctAnswer = number1 + number2;
+      } else {
+        correctAnswer = number1 - number2;
+      }
+
+      const displayedNumber2 =
+        number2 < 0 ? `(${number2})` : number2;
+
+      questionElement.textContent =
+        `${number1} ${operation} ${displayedNumber2} = ?`;
+
+      answerInput.value = "";
+      answerInput.focus();
+    }
+
+    function startGame() {
+      if (gameStarted) {
+        return;
+      }
+
+      gameStarted = true;
+
+      timer = setInterval(function () {
+        timeLeft -= 1;
+        timeElement.textContent = timeLeft;
+
+        if (timeLeft <= 0) {
+          endGame();
+        }
+      }, 1000);
+    }
+
+    function checkAnswer() {
+      if (gameOver) {
+        return;
+      }
+
+      if (answerInput.value.trim() === "") {
+        feedbackElement.textContent = "請先輸入答案。";
+        feedbackElement.className = "feedback wrong";
+        answerInput.focus();
+        return;
+      }
+
+      startGame();
+
+      const studentAnswer = Number(answerInput.value);
+
+      if (studentAnswer === correctAnswer) {
+        combo += 1;
+
+        let gainedScore = 10;
+
+        if (combo >= 5) {
+          gainedScore = 20;
+        } else if (combo >= 3) {
+          gainedScore = 15;
+        }
+
+        score += gainedScore;
+
+        feedbackElement.textContent =
+          `答對了！獲得 ${gainedScore} 分`;
+        feedbackElement.className = "feedback correct";
+      } else {
+        combo = 0;
+
+        feedbackElement.textContent =
+          `答錯了，正確答案是 ${correctAnswer}`;
+        feedbackElement.className = "feedback wrong";
+      }
+
+      scoreElement.textContent = score;
+      comboElement.textContent = combo;
+
+      submitButton.disabled = true;
+
+      setTimeout(function () {
+        if (!gameOver) {
+          feedbackElement.textContent = "";
+          submitButton.disabled = false;
+          createQuestion();
+        }
+      }, 800);
+    }
+
+    function endGame() {
+      gameOver = true;
+
+      clearInterval(timer);
+
+      gameArea.style.display = "none";
+      resultArea.style.display = "block";
+
+      finalScoreElement.textContent = score;
+
+      if (score >= 200) {
+        resultMessageElement.textContent =
+          "太厲害了！你是正負數高手！";
+      } else if (score >= 100) {
+        resultMessageElement.textContent =
+          "表現很棒，再挑戰一次一定會更高分！";
+      } else {
+        resultMessageElement.textContent =
+          "繼續練習，你會越來越熟練！";
+      }
+    }
+
+    function restartGame() {
+      score = 0;
+      combo = 0;
+      timeLeft = 60;
+      gameStarted = false;
+      gameOver = false;
+
+      scoreElement.textContent = score;
+      comboElement.textContent = combo;
+      timeElement.textContent = timeLeft;
+
+      feedbackElement.textContent = "";
+      submitButton.disabled = false;
+
+      gameArea.style.display = "block";
+      resultArea.style.display = "none";
+
+      createQuestion();
+    }
+
+    submitButton.addEventListener("click", checkAnswer);
+
+    answerInput.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        checkAnswer();
+      }
+    });
+
+    restartButton.addEventListener("click", restartGame);
+
+    createQuestion();
+  </script>
+
+</body>
+</html>
