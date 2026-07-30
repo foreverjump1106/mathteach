@@ -450,7 +450,10 @@
         try {
           await login();
         } catch (error) {
-          console.error("登入失敗：", error);
+          console.error(
+            "登入失敗：",
+            error
+          );
 
           loginMessage.textContent =
             "登入沒有完成，請稍後再試一次。";
@@ -472,7 +475,10 @@
         try {
           await logout();
         } catch (error) {
-          console.error("登出失敗：", error);
+          console.error(
+            "登出失敗：",
+            error
+          );
 
           loginMessage.textContent =
             "登出失敗，請稍後再試一次。";
@@ -500,14 +506,53 @@
           loginMessage.textContent = "";
 
           try {
+            console.log(
+              "準備建立或更新玩家資料：",
+              user.uid
+            );
+
             await createOrUpdatePlayer(user);
+
+            console.log(
+              "Firestore 玩家資料處理完成"
+            );
 
             welcomeText.textContent =
               `👋 歡迎回來，${userName}！`;
           } catch (error) {
             console.error(
-              "建立或更新玩家資料失敗：",
-              error
+              "========== Firestore Error =========="
+            );
+
+            console.error(error);
+
+            console.error(
+              "錯誤代碼：",
+              error?.code
+            );
+
+            console.error(
+              "錯誤訊息：",
+              error?.message
+            );
+
+            console.error(
+              "錯誤堆疊：",
+              error?.stack
+            );
+
+            console.error(
+              "Firebase 專案：",
+              "math-games-529b6"
+            );
+
+            console.error(
+              "登入使用者 UID：",
+              user.uid
+            );
+
+            console.error(
+              "====================================="
             );
 
             welcomeText.textContent =
@@ -517,10 +562,18 @@
               "登入成功，但玩家資料暫時無法儲存。";
           }
         } else {
+          console.log(
+            "目前沒有登入中的使用者"
+          );
+
           welcomeText.textContent = "";
 
-          loginButton.style.display = "inline-block";
-          userSection.style.display = "none";
+          loginButton.style.display =
+            "inline-block";
+
+          userSection.style.display =
+            "none";
+
           loginMessage.textContent = "";
         }
       }
