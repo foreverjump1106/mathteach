@@ -1,11 +1,17 @@
 // Firebase 核心
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 // Firebase 驗證
-import { getAuth } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+import {
+  getAuth
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 // Firestore 資料庫
-import { getFirestore } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+import {
+  getFirestore
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyACTi6me2ijI5lI689rkYmxyJM3Xstl5gY",
@@ -24,4 +30,8 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 // 提供給其他網頁程式使用
-export { app, auth, db };
+export {
+  app,
+  auth,
+  db
+};
