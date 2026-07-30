@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>遊戲排行榜｜數學遊戲樂園</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 20px;
+      font-family: "Microsoft JhengHei", sans-serif;
+      background: linear-gradient(135deg, #e3f2fd, #fff8e1);
+      color: #333;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 850px;
+      margin: 0 auto;
+    }
+
+    .header {
+      margin-bottom: 24px;
+      padding: 28px 20px;
+      border-radius: 24px;
+      background: white;
+      text-align: center;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      color: #1565c0;
+      font-size: 36px;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: #666;
+      line-height: 1.7;
+    }
+
+    .user-box {
+      margin-top: 18px;
+      padding: 12px;
+      border-radius: 12px;
+      background: #eef5ff;
+      color: #174a7e;
+      font-weight: bold;
+    }
+
+    .filter-box {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .filter-button {
+      padding: 11px 18px;
+      border: 2px solid #1565c0;
+      border-radius: 999px;
+      background: white;
+      color: #1565c0;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .filter-button.active,
+    .filter-button:hover {
+      background: #1565c0;
+      color: white;
+    }
+
+    .leaderboard-card {
+      overflow: hidden;
+      border-radius: 24px;
+      background: white;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .loading,
+    .empty-message,
+    .error-message {
+      padding: 45px 20px;
+      text-align: center;
+      font-size: 18px;
+      line-height: 1.8;
+    }
+
+    .loading {
+      color: #1565c0;
+    }
+
+    .empty-message {
+      color: #666;
+    }
+
+    .error-message {
+      color: #c62828;
+    }
+
+    .leaderboard-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .leaderboard-item {
+      display: grid;
+      grid-template-columns: 70px 1fr 120px;
+      gap: 12px;
+      align-items: center;
+      padding: 17px 20px;
+      border-bottom: 1px solid #eeeeee;
+    }
+
+    .leaderboard-item:last-child {
+      border-bottom: none;
+    }
+
+    .leaderboard-item.current-user {
+      background: #fff8e1;
+      border-left: 6px solid #ffb300;
+    }
+
+    .rank {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .player-info {
+      min-width: 0;
+    }
+
+    .player-name {
+      margin-bottom: 5px;
+      overflow: hidden;
+      color: #333;
+      font-size: 18px;
+      font-weight: bold;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .game-name,
+    .play-time {
+      color: #777;
+      font-size: 14px;
+    }
+
+    .score {
+      text-align: right;
+      color: #f57c00;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .score-label {
+      color: #888;
+      font-size: 13px;
+      font-weight: normal;
+    }
+
+    .footer-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .action-link {
+      display: inline-block;
+      padding: 12px 22px;
+      border-radius: 12px;
+      background: #1565c0;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .action-link.secondary {
+      background: #607d8b;
+    }
+
+    .action-link:hover {
+      opacity: 0.9;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 12px;
+      }
+
+      h1 {
+        font-size: 29px;
+      }
+
+      .leaderboard-item {
+        grid-template-columns: 52px 1fr 78px;
+        padding: 15px 12px;
+      }
+
+      .rank {
+        font-size: 21px;
+      }
+
+      .player-name {
+        font-size: 16px;
+      }
+
+      .score {
+        font-size: 21px;
+      }
+
+      .play-time {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="container">
+
+    <header class="header">
+
+      <h1>🏆 遊戲排行榜</h1>
+
+      <p class="subtitle">
+        顯示玩家每一局遊戲的最高成績。<br>
+        排行榜目前顯示前 20 筆紀錄。
+      </p>
+
+      <div id="userStatus" class="user-box">
+        正在確認登入狀態……
+      </div>
+
+    </header>
+
+    <nav class="filter-box" aria-label="排行榜遊戲篩選">
+
+      <button
+        class="filter-button active"
+        type="button"
+        data-game="all"
+      >
+        全部遊戲
+      </button>
+
+      <button
+        class="filter-button"
+        type="button"
+        data-game="integer"
+      >
+        正負數大挑戰
+      </button>
+
+    </nav>
+
+    <section class="leaderboard-card">
+
+      <div id="loadingMessage" class="loading">
+        排行榜載入中……
+      </div>
+
+      <div
+        id="errorMessage"
+        class="error-message"
+        hidden
+      ></div>
+
+      <div
+        id="emptyMessage"
+        class="empty-message"
+        hidden
+      >
+        目前還沒有成績紀錄。
+      </div>
+
+      <ol
+        id="leaderboardList"
+        class="leaderboard-list"
+      ></ol>
+
+    </section>
+
+    <div class="footer-actions">
+
+      <a
+        class="action-link"
+        href="games/integer.html"
+      >
+        🎮 開始遊戲
+      </a>
+
+      <a
+        class="action-link secondary"
+        href="index.html"
+      >
+        ← 回到首頁
+      </a>
+
+    </div>
+
+  </main>
+
+  <script
+    type="module"
+    src="js/leaderboard.js"
+  ></script>
+
+</body>
+</html>
