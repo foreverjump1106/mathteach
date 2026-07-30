@@ -270,7 +270,6 @@
 
       <div class="login-section">
 
-        <!-- 尚未登入時顯示 -->
         <button
           id="loginBtn"
           class="game-button"
@@ -279,7 +278,6 @@
           🔐 使用 Google 登入
         </button>
 
-        <!-- 登入成功後顯示 -->
         <div
           id="userSection"
           class="user-section"
@@ -317,7 +315,6 @@
 
       <div class="games-grid">
 
-        <!-- 第一款遊戲 -->
         <article class="game-card">
 
           <div class="game-icon">🎮</div>
@@ -338,7 +335,6 @@
 
         </article>
 
-        <!-- 第二款遊戲 -->
         <article class="game-card">
 
           <div class="game-icon">⚖️</div>
@@ -359,7 +355,6 @@
 
         </article>
 
-        <!-- 第三款遊戲 -->
         <article class="game-card">
 
           <div class="game-icon">🧮</div>
@@ -381,7 +376,6 @@
 
         </article>
 
-        <!-- 第四款遊戲 -->
         <article class="game-card">
 
           <div class="game-icon">📐</div>
@@ -422,6 +416,10 @@
     import {
       auth
     } from "./js/firebase-config.js";
+
+    import {
+      createOrUpdatePlayer
+    } from "./js/firestore.js";
 
     import {
       onAuthStateChanged
@@ -487,7 +485,7 @@
 
     onAuthStateChanged(
       auth,
-      (user) => {
+      async (user) => {
         if (user) {
           const userName =
             user.displayName ||
@@ -495,16 +493,35 @@
             "玩家";
 
           welcomeText.textContent =
-            `👋 歡迎回來，${userName}！`;
+            "正在建立玩家資料……";
 
           loginButton.style.display = "none";
           userSection.style.display = "block";
           loginMessage.textContent = "";
+
+          try {
+            await createOrUpdatePlayer(user);
+
+            welcomeText.textContent =
+              `👋 歡迎回來，${userName}！`;
+          } catch (error) {
+            console.error(
+              "建立或更新玩家資料失敗：",
+              error
+            );
+
+            welcomeText.textContent =
+              `👋 歡迎回來，${userName}！`;
+
+            loginMessage.textContent =
+              "登入成功，但玩家資料暫時無法儲存。";
+          }
         } else {
           welcomeText.textContent = "";
 
           loginButton.style.display = "inline-block";
           userSection.style.display = "none";
+          loginMessage.textContent = "";
         }
       }
     );
