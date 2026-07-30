@@ -64,7 +64,7 @@
       font-size: 40px;
     }
 
-    .page-header p {
+    .page-header > p {
       margin: 0;
       color: var(--muted);
       font-size: 18px;
@@ -73,6 +73,25 @@
 
     .login-section {
       margin-top: 25px;
+    }
+
+    .user-section {
+      display: none;
+      margin-top: 18px;
+    }
+
+    .welcome-text {
+      margin: 0 0 14px;
+      color: #174f8f;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .login-message {
+      min-height: 24px;
+      margin: 14px 0 0;
+      color: #c62828;
+      font-size: 15px;
     }
 
     .games-section-title {
@@ -159,6 +178,21 @@
         0 1px 0 var(--primary-dark);
     }
 
+    .game-button:disabled {
+      cursor: wait;
+      opacity: 0.7;
+    }
+
+    .logout-button {
+      background: #e53935;
+      box-shadow:
+        0 5px 0 #b71c1c;
+    }
+
+    .logout-button:hover {
+      background: #c62828;
+    }
+
     .waiting-button {
       background: #7b8794;
       box-shadow:
@@ -191,7 +225,7 @@
         font-size: 31px;
       }
 
-      .page-header p {
+      .page-header > p {
         font-size: 16px;
       }
 
@@ -226,6 +260,7 @@
   <main class="page-container">
 
     <header class="page-header">
+
       <h1>🎮 數學遊戲樂園</h1>
 
       <p>
@@ -234,6 +269,8 @@
       </p>
 
       <div class="login-section">
+
+        <!-- 尚未登入時顯示 -->
         <button
           id="loginBtn"
           class="game-button"
@@ -241,7 +278,35 @@
         >
           🔐 使用 Google 登入
         </button>
+
+        <!-- 登入成功後顯示 -->
+        <div
+          id="userSection"
+          class="user-section"
+        >
+          <p
+            id="welcomeText"
+            class="welcome-text"
+          >
+          </p>
+
+          <button
+            id="logoutBtn"
+            class="game-button logout-button"
+            type="button"
+          >
+            登出
+          </button>
+        </div>
+
+        <p
+          id="loginMessage"
+          class="login-message"
+        >
+        </p>
+
       </div>
+
     </header>
 
     <section>
@@ -349,15 +414,98 @@
   </main>
 
   <script type="module">
-    import { login } from "./js/auth.js";
+    import {
+      login,
+      logout
+    } from "./js/auth.js";
+
+    import {
+      auth
+    } from "./js/firebase-config.js";
+
+    import {
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
     const loginButton =
       document.getElementById("loginBtn");
 
+    const logoutButton =
+      document.getElementById("logoutBtn");
+
+    const userSection =
+      document.getElementById("userSection");
+
+    const welcomeText =
+      document.getElementById("welcomeText");
+
+    const loginMessage =
+      document.getElementById("loginMessage");
+
     loginButton.addEventListener(
       "click",
       async () => {
-        await login();
+        loginMessage.textContent = "";
+        loginButton.disabled = true;
+        loginButton.textContent = "登入中……";
+
+        try {
+          await login();
+        } catch (error) {
+          console.error("登入失敗：", error);
+
+          loginMessage.textContent =
+            "登入沒有完成，請稍後再試一次。";
+        } finally {
+          loginButton.disabled = false;
+          loginButton.textContent =
+            "🔐 使用 Google 登入";
+        }
+      }
+    );
+
+    logoutButton.addEventListener(
+      "click",
+      async () => {
+        loginMessage.textContent = "";
+        logoutButton.disabled = true;
+        logoutButton.textContent = "登出中……";
+
+        try {
+          await logout();
+        } catch (error) {
+          console.error("登出失敗：", error);
+
+          loginMessage.textContent =
+            "登出失敗，請稍後再試一次。";
+        } finally {
+          logoutButton.disabled = false;
+          logoutButton.textContent = "登出";
+        }
+      }
+    );
+
+    onAuthStateChanged(
+      auth,
+      (user) => {
+        if (user) {
+          const userName =
+            user.displayName ||
+            user.email ||
+            "玩家";
+
+          welcomeText.textContent =
+            `👋 歡迎回來，${userName}！`;
+
+          loginButton.style.display = "none";
+          userSection.style.display = "block";
+          loginMessage.textContent = "";
+        } else {
+          welcomeText.textContent = "";
+
+          loginButton.style.display = "inline-block";
+          userSection.style.display = "none";
+        }
       }
     );
   </script>
