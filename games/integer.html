@@ -105,11 +105,6 @@
       overflow-wrap: anywhere;
     }
 
-    .answer-display:focus {
-      border-color: #1565c0;
-      outline: none;
-    }
-
     .keypad {
       width: 100%;
       max-width: 330px;
@@ -148,22 +143,14 @@
       color: #b91c1c;
     }
 
-    .submit-button {
-      width: 100%;
-      max-width: 330px;
-      margin-top: 16px;
-      padding: 14px 30px;
-      border: none;
-      border-radius: 12px;
+    .keypad .submit-button {
       background: #1565c0;
       color: white;
       font-size: 19px;
-      font-weight: bold;
-      cursor: pointer;
-      touch-action: manipulation;
     }
 
-    .submit-button:hover {
+    .keypad .submit-button:hover,
+    .keypad .submit-button:active {
       background: #0d47a1;
     }
 
@@ -187,14 +174,6 @@
       color: #c62828;
     }
 
-    .back-link {
-      display: inline-block;
-      margin-top: 24px;
-      color: #1565c0;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
     .result {
       display: none;
     }
@@ -210,6 +189,19 @@
       font-weight: bold;
     }
 
+    #resultMessage {
+      color: #444;
+      line-height: 1.8;
+    }
+
+    #saveStatus {
+      min-height: 28px;
+      margin: 12px 0;
+      font-size: 15px;
+      font-weight: bold;
+      line-height: 1.6;
+    }
+
     .restart-button {
       padding: 13px 30px;
       border: none;
@@ -219,6 +211,24 @@
       font-size: 18px;
       font-weight: bold;
       cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .restart-button:hover,
+    .restart-button:active {
+      background: #0d47a1;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 24px;
+      color: #1565c0;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
     }
 
     @media (max-width: 500px) {
@@ -243,6 +253,15 @@
       .status-item {
         font-size: 14px;
       }
+
+      .answer-display {
+        font-size: 25px;
+      }
+
+      .keypad button {
+        min-height: 50px;
+        font-size: 20px;
+      }
     }
   </style>
 </head>
@@ -256,7 +275,7 @@
       <h1>🎮 正負數大挑戰</h1>
 
       <p class="description">
-        在60秒內回答正負數加減法。<br>
+        在 60 秒內回答正負數加減法。<br>
         負數以括號表示，請使用下方按鍵輸入答案。
       </p>
 
@@ -279,7 +298,11 @@
 
       </div>
 
-      <div id="question" class="question"></div>
+      <div
+        id="question"
+        class="question"
+        aria-live="polite"
+      ></div>
 
       <div
         id="answerDisplay"
@@ -291,7 +314,10 @@
         請輸入答案
       </div>
 
-      <div class="keypad" aria-label="答案輸入鍵盤">
+      <div
+        class="keypad"
+        aria-label="答案輸入鍵盤"
+      >
 
         <button type="button" data-value="1">1</button>
         <button type="button" data-value="2">2</button>
@@ -309,7 +335,7 @@
           id="plusButton"
           class="sign-button"
           type="button"
-          aria-label="正號"
+          aria-label="輸入正號"
         >
           ＋
         </button>
@@ -320,7 +346,7 @@
           id="minusButton"
           class="sign-button"
           type="button"
-          aria-label="負號"
+          aria-label="輸入負號"
         >
           －
         </button>
@@ -337,6 +363,7 @@
           id="backspaceButton"
           class="clear-button"
           type="button"
+          aria-label="刪除最後一個字元"
         >
           ⌫ 刪除
         </button>
@@ -359,13 +386,19 @@
 
     </section>
 
-    <section id="resultArea" class="result">
+    <section
+      id="resultArea"
+      class="result"
+      aria-live="polite"
+    >
 
       <h2>🏆 挑戰結束</h2>
 
       <p>你的本次得分是：</p>
 
-      <div id="finalScore" class="final-score">0</div>
+      <div id="finalScore" class="final-score">
+        0
+      </div>
 
       <p id="resultMessage"></p>
 
@@ -379,521 +412,19 @@
 
     </section>
 
-    <a class="back-link" href="../index.html">
+    <a
+      class="back-link"
+      href="../index.html"
+    >
       ← 回到遊戲首頁
     </a>
 
   </main>
 
-  <script>
-    const questionElement = document.getElementById("question");
-    const answerDisplay = document.getElementById("answerDisplay");
-    const submitButton = document.getElementById("submitButton");
-    const feedbackElement = document.getElementById("feedback");
-
-    const timeElement = document.getElementById("time");
-    const timeBox = document.getElementById("timeBox");
-    const scoreElement = document.getElementById("score");
-    const comboElement = document.getElementById("combo");
-
-    const gameArea = document.getElementById("gameArea");
-    const resultArea = document.getElementById("resultArea");
-    const finalScoreElement = document.getElementById("finalScore");
-    const resultMessageElement =
-      document.getElementById("resultMessage");
-
-    const restartButton =
-      document.getElementById("restartButton");
-
-    const plusButton = document.getElementById("plusButton");
-    const minusButton = document.getElementById("minusButton");
-    const clearButton = document.getElementById("clearButton");
-    const backspaceButton =
-      document.getElementById("backspaceButton");
-
-    const numberButtons =
-      document.querySelectorAll("[data-value]");
-
-    let number1 = 0;
-    let number2 = 0;
-    let correctAnswer = 0;
-
-    let answerText = "";
-    let score = 0;
-    let combo = 0;
-    let timeLeft = 60;
-    let timer = null;
-    let gameStarted = false;
-    let gameOver = false;
-    let acceptingAnswer = true;
-
-    let audioContext = null;
-
-    function randomInteger(min, max) {
-      return Math.floor(
-        Math.random() * (max - min + 1)
-      ) + min;
-    }
-
-    /*
-      負數統一加上括號：
-      -5 顯示為 (-5)
-      正數維持 5
-    */
-    function formatInteger(number) {
-      if (number < 0) {
-        return `(${number})`;
-      }
-
-      return String(number);
-    }
-
-    function createQuestion() {
-      number1 = randomInteger(-20, 20);
-      number2 = randomInteger(-20, 20);
-
-      const operation = Math.random() < 0.5 ? "+" : "-";
-
-      if (operation === "+") {
-        correctAnswer = number1 + number2;
-      } else {
-        correctAnswer = number1 - number2;
-      }
-
-      questionElement.textContent =
-        `${formatInteger(number1)} ` +
-        `${operation} ` +
-        `${formatInteger(number2)} = ?`;
-
-      answerText = "";
-      updateAnswerDisplay();
-      acceptingAnswer = true;
-      setKeypadDisabled(false);
-    }
-
-    function updateAnswerDisplay() {
-      answerDisplay.textContent =
-        answerText === "" ? "請輸入答案" : answerText;
-    }
-
-    function addDigit(digit) {
-      if (!acceptingAnswer || gameOver) {
-        return;
-      }
-
-      /*
-        避免輸入過長，也避免出現 0005。
-      */
-      if (answerText.length >= 5) {
-        return;
-      }
-
-      if (
-        answerText === "0" ||
-        answerText === "+0" ||
-        answerText === "-0"
-      ) {
-        if (digit === "0") {
-          return;
-        }
-
-        const sign =
-          answerText.startsWith("-")
-            ? "-"
-            : answerText.startsWith("+")
-              ? "+"
-              : "";
-
-        answerText = sign + digit;
-      } else {
-        answerText += digit;
-      }
-
-      updateAnswerDisplay();
-    }
-
-    function setSign(sign) {
-      if (!acceptingAnswer || gameOver) {
-        return;
-      }
-
-      if (answerText.startsWith("-")) {
-        answerText = answerText.slice(1);
-      } else if (answerText.startsWith("+")) {
-        answerText = answerText.slice(1);
-      }
-
-      answerText = sign + answerText;
-      updateAnswerDisplay();
-    }
-
-    function clearAnswer() {
-      if (!acceptingAnswer || gameOver) {
-        return;
-      }
-
-      answerText = "";
-      updateAnswerDisplay();
-    }
-
-    function removeLastCharacter() {
-      if (!acceptingAnswer || gameOver) {
-        return;
-      }
-
-      answerText = answerText.slice(0, -1);
-      updateAnswerDisplay();
-    }
-
-    function setKeypadDisabled(disabled) {
-      numberButtons.forEach(function (button) {
-        button.disabled = disabled;
-      });
-
-      plusButton.disabled = disabled;
-      minusButton.disabled = disabled;
-      clearButton.disabled = disabled;
-      backspaceButton.disabled = disabled;
-      submitButton.disabled = disabled;
-    }
-
-    /*
-      手機瀏覽器通常禁止網頁一開啟就自動播放聲音，
-      所以在學生第一次按按鈕時建立音訊系統。
-    */
-    function prepareAudio() {
-      const AudioContextClass =
-        window.AudioContext || window.webkitAudioContext;
-
-      if (!AudioContextClass) {
-        return;
-      }
-
-      if (!audioContext) {
-        audioContext = new AudioContextClass();
-      }
-
-      if (audioContext.state === "suspended") {
-        audioContext.resume();
-      }
-    }
-
-    function playTone({
-      frequency,
-      duration,
-      volume = 0.08,
-      type = "sine",
-      delay = 0
-    }) {
-      prepareAudio();
-
-      if (!audioContext) {
-        return;
-      }
-
-      const startTime = audioContext.currentTime + delay;
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
-
-      oscillator.type = type;
-      oscillator.frequency.setValueAtTime(
-        frequency,
-        startTime
-      );
-
-      gainNode.gain.setValueAtTime(0.0001, startTime);
-
-      gainNode.gain.exponentialRampToValueAtTime(
-        volume,
-        startTime + 0.02
-      );
-
-      gainNode.gain.exponentialRampToValueAtTime(
-        0.0001,
-        startTime + duration
-      );
-
-      oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
-
-      oscillator.start(startTime);
-      oscillator.stop(startTime + duration + 0.05);
-    }
-
-    function playCorrectSound() {
-      /*
-        柔和的上行和弦。
-      */
-      playTone({
-        frequency: 523.25,
-        duration: 0.22,
-        volume: 0.07
-      });
-
-      playTone({
-        frequency: 659.25,
-        duration: 0.25,
-        volume: 0.06,
-        delay: 0.10
-      });
-
-      playTone({
-        frequency: 783.99,
-        duration: 0.28,
-        volume: 0.055,
-        delay: 0.20
-      });
-    }
-
-    function playWrongSound() {
-      /*
-        柔和的下降音，不使用刺耳警報聲。
-      */
-      playTone({
-        frequency: 392,
-        duration: 0.22,
-        volume: 0.055,
-        type: "triangle"
-      });
-
-      playTone({
-        frequency: 329.63,
-        duration: 0.28,
-        volume: 0.05,
-        type: "triangle",
-        delay: 0.14
-      });
-    }
-
-    function playCountdownSound() {
-      /*
-        最後10秒短促提示；
-        最後3秒音高更高、間隔感更明顯。
-      */
-      const frequency = timeLeft <= 3 ? 880 : 660;
-      const duration = timeLeft <= 3 ? 0.16 : 0.10;
-      const volume = timeLeft <= 3 ? 0.09 : 0.06;
-
-      playTone({
-        frequency,
-        duration,
-        volume,
-        type: "square"
-      });
-    }
-
-    function startGame() {
-      if (gameStarted || gameOver) {
-        return;
-      }
-
-      prepareAudio();
-      gameStarted = true;
-
-      timer = setInterval(function () {
-        timeLeft -= 1;
-        timeElement.textContent = timeLeft;
-
-        if (timeLeft <= 10 && timeLeft > 0) {
-          timeBox.classList.add("danger-time");
-          playCountdownSound();
-        }
-
-        if (timeLeft <= 0) {
-          endGame();
-        }
-      }, 1000);
-    }
-
-    function checkAnswer() {
-      if (
-        gameOver ||
-        !acceptingAnswer
-      ) {
-        return;
-      }
-
-      prepareAudio();
-
-      if (
-        answerText === "" ||
-        answerText === "+" ||
-        answerText === "-"
-      ) {
-        feedbackElement.textContent = "請先輸入完整答案。";
-        feedbackElement.className = "feedback wrong";
-        return;
-      }
-
-      startGame();
-
-      acceptingAnswer = false;
-      setKeypadDisabled(true);
-
-      const studentAnswer = Number(answerText);
-
-      if (studentAnswer === correctAnswer) {
-        combo += 1;
-
-        let gainedScore = 10;
-
-        if (combo >= 5) {
-          gainedScore = 20;
-        } else if (combo >= 3) {
-          gainedScore = 15;
-        }
-
-        score += gainedScore;
-
-        feedbackElement.textContent =
-          `答對了！獲得 ${gainedScore} 分`;
-
-        feedbackElement.className = "feedback correct";
-
-        playCorrectSound();
-      } else {
-        combo = 0;
-
-        feedbackElement.textContent =
-          `答錯了，正確答案是 ${correctAnswer}`;
-
-        feedbackElement.className = "feedback wrong";
-
-        playWrongSound();
-      }
-
-      scoreElement.textContent = score;
-      comboElement.textContent = combo;
-
-      setTimeout(function () {
-        if (!gameOver) {
-          feedbackElement.textContent = "";
-          createQuestion();
-        }
-      }, 950);
-    }
-
-    function endGame() {
-      gameOver = true;
-      acceptingAnswer = false;
-
-      clearInterval(timer);
-      timer = null;
-
-      setKeypadDisabled(true);
-      timeElement.textContent = "0";
-      timeBox.classList.remove("danger-time");
-
-      gameArea.style.display = "none";
-      resultArea.style.display = "block";
-
-      finalScoreElement.textContent = score;
-
-      if (score >= 200) {
-        resultMessageElement.textContent =
-          "太厲害了！你是正負數高手！";
-      } else if (score >= 100) {
-        resultMessageElement.textContent =
-          "表現很棒，再挑戰一次一定會更高分！";
-      } else {
-        resultMessageElement.textContent =
-          "繼續練習，你會越來越熟練！";
-      }
-    }
-
-    function restartGame() {
-      clearInterval(timer);
-
-      score = 0;
-      combo = 0;
-      timeLeft = 60;
-      gameStarted = false;
-      gameOver = false;
-      acceptingAnswer = true;
-
-      scoreElement.textContent = "0";
-      comboElement.textContent = "0";
-      timeElement.textContent = "60";
-
-      feedbackElement.textContent = "";
-      timeBox.classList.remove("danger-time");
-
-      gameArea.style.display = "block";
-      resultArea.style.display = "none";
-
-      createQuestion();
-    }
-
-    numberButtons.forEach(function (button) {
-      button.addEventListener("click", function () {
-        prepareAudio();
-        addDigit(button.dataset.value);
-      });
-    });
-
-    plusButton.addEventListener("click", function () {
-      prepareAudio();
-      setSign("+");
-    });
-
-    minusButton.addEventListener("click", function () {
-      prepareAudio();
-      setSign("-");
-    });
-
-    clearButton.addEventListener("click", function () {
-      prepareAudio();
-      clearAnswer();
-    });
-
-    backspaceButton.addEventListener("click", function () {
-      prepareAudio();
-      removeLastCharacter();
-    });
-
-    submitButton.addEventListener("click", checkAnswer);
-    restartButton.addEventListener("click", restartGame);
-
-    /*
-      電腦仍可直接使用實體鍵盤。
-    */
-    document.addEventListener("keydown", function (event) {
-      if (gameOver) {
-        return;
-      }
-
-      if (/^[0-9]$/.test(event.key)) {
-        addDigit(event.key);
-        return;
-      }
-
-      if (event.key === "-") {
-        setSign("-");
-        return;
-      }
-
-      if (event.key === "+") {
-        setSign("+");
-        return;
-      }
-
-      if (event.key === "Backspace") {
-        removeLastCharacter();
-        return;
-      }
-
-      if (event.key === "Escape") {
-        clearAnswer();
-        return;
-      }
-
-      if (event.key === "Enter") {
-        checkAnswer();
-      }
-    });
-
-    createQuestion();
-  </script>
+  <script
+    type="module"
+    src="../js/integer-game.js"
+  ></script>
 
 </body>
 </html>
