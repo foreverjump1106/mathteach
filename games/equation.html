@@ -7,9 +7,9 @@
 <link rel="stylesheet" href="../css/scratchpad.css">
 <style>
 :root{--blue:#2563eb;--blue-dark:#1d4ed8;--green:#16a34a;--red:#dc2626;--amber:#d97706;--ink:#1f2937;--muted:#64748b;--line:#dbe3ef;--bg:#eef6ff}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;color:var(--ink)}body{background:linear-gradient(135deg,#eff6ff,#f8fafc);padding:10px}.app{max-width:1540px;margin:auto;background:#fff;border:3px solid #bfdbfe;border-radius:24px;box-shadow:0 18px 45px #1e3a8a22;overflow:hidden}.progress{height:10px;background:#e5e7eb}.progress>div{height:100%;width:0;background:linear-gradient(90deg,#60a5fa,#2563eb);transition:width .3s}.inner{padding:24px}.hidden{display:none!important}.title{text-align:center;color:var(--blue-dark);font-size:clamp(28px,4vw,42px);font-weight:900;margin:0 0 8px}.subtitle{text-align:center;color:var(--muted);margin:0 0 24px}.modes{display:grid;gap:14px;max-width:800px;margin:0 auto 24px}.mode-card input{position:absolute;opacity:0}.mode-card span{display:block;border:2px solid var(--line);border-radius:17px;padding:17px;cursor:pointer;transition:.2s;background:#fff}.mode-card input:checked+span{border-color:#3b82f6;background:#eff6ff;box-shadow:0 0 0 4px #3b82f622}.mode-title{font-weight:900;color:var(--blue-dark);font-size:18px}.example{font-family:"Times New Roman",serif;font-size:20px;margin-top:6px;color:#475569}.center{text-align:center}.btn{border:0;border-radius:14px;padding:13px 20px;font-weight:900;font-size:17px;cursor:pointer;transition:.15s;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}.btn:active{transform:scale(.98)}.btn-primary{background:var(--blue);color:#fff}.btn-green{background:var(--green);color:#fff}.btn-light{background:#eff6ff;color:var(--blue-dark);border:2px solid #bfdbfe}.btn-danger-light{background:#fff1f2;color:#be123c;border:2px solid #fecdd3}.btn-neutral{background:#f1f5f9;color:#334155;border:2px solid #cbd5e1}.quiz-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:20px;align-items:start}.topbar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:16px}.stats{display:flex;gap:10px;flex-wrap:wrap}.pill{padding:9px 14px;border-radius:14px;font-size:15px;font-weight:900;box-shadow:0 4px 12px #0f172a10}.pill-blue{background:#dbeafe;color:var(--blue-dark)}.pill-amber{background:#fef3c7;color:#92400e}.pill-gray{background:#f1f5f9;color:#475569}.problem{background:#f8fafc;border:2px solid #e2e8f0;border-radius:20px;padding:30px 14px;text-align:center;font-family:"Times New Roman",serif;font-size:clamp(28px,4.2vw,46px);font-weight:bold;margin-bottom:22px;white-space:nowrap;overflow-x:auto;overflow-y:hidden;overflow-wrap:normal}.answer-wrap{max-width:760px;margin:auto}.label{display:block;font-weight:900;color:#475569;margin-bottom:9px;font-size:18px}.answer{width:100%;border:3px solid var(--line);border-radius:16px;padding:17px;text-align:center;font-size:32px;font-weight:900;outline:none}.answer:focus{border-color:#60a5fa;box-shadow:0 0 0 5px #dbeafe}.mode4-answer{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;padding:14px;border:2px solid #dbeafe;border-radius:18px;background:#f8fbff}.frac-input{position:relative;display:inline-grid;grid-template-rows:48px 48px;width:82px;gap:8px;vertical-align:middle}.frac-input input{width:100%;height:48px;border:2px solid #cbd5e1;border-radius:10px;text-align:center;font-size:24px;font-weight:900;outline:none;background:#fff}.frac-input input:focus{border-color:#60a5fa;box-shadow:0 0 0 4px #dbeafe}.frac-input input::placeholder{font-size:12px;font-weight:700;color:#94a3b8}.frac-input .frac-line{position:absolute;left:5px;right:5px;top:50%;height:2px;background:#1f2937;transform:translateY(-1px);z-index:2;pointer-events:none}.frac-input.integer-input{display:flex;width:82px}.frac-input.integer-input input:first-child{display:block}.frac-input.integer-input input:last-child,.frac-input.integer-input .frac-line{display:none}.math-x{font-family:"Times New Roman",serif;font-size:42px;font-weight:900}.fraction-help{text-align:center;color:#64748b;font-size:13px;margin:8px 0 12px}.math-frac{display:inline-flex;flex-direction:column;align-items:stretch;justify-content:center;min-width:.78em;text-align:center;line-height:.92;margin:0 .035em;vertical-align:middle;transform:translateY(.01em)}.math-frac .top,.math-frac .bottom{display:block;font-size:.64em;line-height:.95;padding:0 .08em}.math-frac .top{border-bottom:2px solid currentColor;padding-bottom:.07em}.math-frac .bottom{padding-top:.07em}.math-frac .bar{display:none}.math-expression{white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;min-width:max-content;line-height:1.15}.mode4-answer.disabled{opacity:.65;pointer-events:none}.preview{min-height:26px;text-align:center;color:#64748b;margin:9px 0 14px;font-size:14px}.actions{display:grid;gap:10px}.feedback{min-height:60px;margin-top:15px;text-align:center;font-size:19px;font-weight:900;line-height:1.55}.solution{margin-top:12px;background:#f8fafc;border-radius:14px;padding:14px;color:#334155;font-family:"Times New Roman",serif;font-size:21px;line-height:1.75}.scratch{display:block;border:2px solid #c7d2fe;background:#eef2ff;border-radius:19px;padding:13px;position:sticky;top:10px}.scratch-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}.scratch-title{font-weight:900;color:#4338ca;font-size:19px}.scratch-tools{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.tool{border:1px solid #c7d2fe;background:#fff;color:#4338ca;border-radius:10px;padding:7px 9px;font-weight:900;cursor:pointer;min-width:38px}.tool.active{background:#4338ca;color:#fff}.color-dot{width:20px;height:20px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #94a3b8;display:inline-block;vertical-align:middle}.canvas-wrap{background-color:white;border:2px solid var(--line);border-radius:14px;overflow:hidden;background-image:linear-gradient(#dbeafe 1px,transparent 1px),linear-gradient(90deg,#dbeafe 1px,transparent 1px);background-size:28px 28px;touch-action:none;overscroll-behavior:contain;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}.scratch canvas{display:block;width:100%;height:570px;touch-action:none;overscroll-behavior:contain;cursor:crosshair;background:transparent;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}.scratch-note{font-size:12px;color:#6366f1;margin:8px 2px 0}.result-box{max-width:700px;margin:auto;text-align:center}.grade-card{background:linear-gradient(135deg,#eff6ff,#f8fafc);border:2px solid #bfdbfe;border-radius:22px;padding:24px;margin:18px 0}.grade-big{font-size:54px;font-weight:900;color:var(--blue-dark)}.stars{font-size:34px;letter-spacing:4px;margin:6px 0}.comment{font-size:20px;font-weight:900;color:#334155}.score-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}.score-card{background:#f8fafc;border:2px solid #e2e8f0;border-radius:16px;padding:15px}.score-card b{display:block;font-size:26px;margin-top:5px}.save-status{min-height:24px;margin:10px 0 16px;font-size:15px;font-weight:900;line-height:1.6}.result-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.review-list{display:grid;gap:14px;text-align:left;margin-top:18px}.review-card{border:2px solid #fecaca;background:#fff7f7;border-radius:17px;padding:16px}.review-title{font-weight:900;color:#b91c1c;margin-bottom:8px}.review-problem{font-family:"Times New Roman",serif;font-size:23px;font-weight:700;margin:8px 0}.review-answer{line-height:1.7;color:#475569}.fullscreen-scratch{position:fixed!important;inset:0!important;z-index:9999!important;border-radius:0!important;padding:14px!important;background:#eef2ff!important}.fullscreen-scratch .canvas-wrap{height:calc(100vh - 92px)}.fullscreen-scratch canvas{height:100%!important}.mobile-scratch-btn{display:none;align-items:center;justify-content:center;gap:6px;background:#4f46e5;color:#fff;border:0;border-radius:14px;padding:12px 16px;font-weight:900;font-size:16px;cursor:pointer}.mobile-scratch-btn:active{transform:scale(.98)}.scratch-close-btn{display:none}.fullscreen-scratch .scratch-close-btn{display:inline-block}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;color:var(--ink)}body{background:linear-gradient(135deg,#eff6ff,#f8fafc);padding:10px}.app{max-width:1540px;margin:auto;background:#fff;border:3px solid #bfdbfe;border-radius:24px;box-shadow:0 18px 45px #1e3a8a22;overflow:hidden}.progress{height:10px;background:#e5e7eb}.progress>div{height:100%;width:0;background:linear-gradient(90deg,#60a5fa,#2563eb);transition:width .3s}.inner{padding:24px}.hidden{display:none!important}.title{text-align:center;color:var(--blue-dark);font-size:clamp(28px,4vw,42px);font-weight:900;margin:0 0 8px}.subtitle{text-align:center;color:var(--muted);margin:0 0 24px}.modes{display:grid;gap:14px;max-width:800px;margin:0 auto 24px}.mode-card input{position:absolute;opacity:0}.mode-card span{display:block;border:2px solid var(--line);border-radius:17px;padding:17px;cursor:pointer;transition:.2s;background:#fff}.mode-card input:checked+span{border-color:#3b82f6;background:#eff6ff;box-shadow:0 0 0 4px #3b82f622}.mode-title{font-weight:900;color:var(--blue-dark);font-size:18px}.example{font-family:"Times New Roman",serif;font-size:20px;margin-top:6px;color:#475569}.center{text-align:center}.btn{border:0;border-radius:14px;padding:13px 20px;font-weight:900;font-size:17px;cursor:pointer;transition:.15s;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}.btn:active{transform:scale(.98)}.btn-primary{background:var(--blue);color:#fff}.btn-green{background:var(--green);color:#fff}.btn-light{background:#eff6ff;color:var(--blue-dark);border:2px solid #bfdbfe}.btn-danger-light{background:#fff1f2;color:#be123c;border:2px solid #fecdd3}.btn-neutral{background:#f1f5f9;color:#334155;border:2px solid #cbd5e1}.quiz-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:20px;align-items:start}.topbar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:16px}.stats{display:flex;gap:10px;flex-wrap:wrap}.pill{padding:9px 14px;border-radius:14px;font-size:15px;font-weight:900;box-shadow:0 4px 12px #0f172a10}.pill-blue{background:#dbeafe;color:var(--blue-dark)}.pill-amber{background:#fef3c7;color:#92400e}.pill-gray{background:#f1f5f9;color:#475569}.problem{background:#f8fafc;border:2px solid #e2e8f0;border-radius:20px;padding:30px 14px;text-align:center;font-family:"Times New Roman",serif;font-size:clamp(28px,4.2vw,46px);font-weight:bold;margin-bottom:22px;white-space:nowrap;overflow-x:auto;overflow-y:hidden;overflow-wrap:normal}.answer-wrap{max-width:760px;margin:auto}.label{display:block;font-weight:900;color:#475569;margin-bottom:9px;font-size:18px}.answer-entry-row{display:flex;align-items:center;width:100%}.answer-x{flex:0 0 auto;font-family:"Times New Roman",serif;font-size:38px;font-weight:900;color:#1f2937;white-space:nowrap}.answer-entry-row .answer{flex:1 1 auto;min-width:0}.answer{width:auto;border:3px solid var(--line);border-radius:16px;padding:17px;text-align:center;font-size:32px;font-weight:900;outline:none}.answer:focus{border-color:#60a5fa;box-shadow:0 0 0 5px #dbeafe}.mode4-answer{display:flex;flex:1 1 auto;align-items:center;justify-content:center;gap:12px;flex-wrap:nowrap;padding:14px;border:2px solid #dbeafe;border-radius:18px;background:#f8fbff;min-height:132px}.answer-sign-select{height:48px;min-width:76px;padding:0 10px;border:2px solid #cbd5e1;border-radius:10px;background:#fff;color:#1f2937;text-align:center;font-family:"Times New Roman",serif;font-size:22px;font-weight:900;outline:none;cursor:pointer}.answer-sign-select:focus{border-color:#60a5fa;box-shadow:0 0 0 4px #dbeafe}.frac-input{position:relative;display:inline-grid;grid-template-rows:48px 48px;width:82px;gap:8px;vertical-align:middle}.frac-input input{width:100%;height:48px;border:2px solid #cbd5e1;border-radius:10px;text-align:center;font-size:24px;font-weight:900;outline:none;background:#fff}.frac-input input:focus{border-color:#60a5fa;box-shadow:0 0 0 4px #dbeafe}.frac-input input::placeholder{font-size:12px;font-weight:700;color:#94a3b8}.frac-input .frac-line{position:absolute;left:5px;right:5px;top:50%;height:2px;background:#1f2937;transform:translateY(-1px);z-index:2;pointer-events:none}.frac-input.integer-input{display:flex;width:min(190px,55vw)}.frac-input.integer-input input:first-child{display:block}.frac-input.integer-input input:last-child,.frac-input.integer-input .frac-line{display:none}.math-x{font-family:"Times New Roman",serif;font-size:42px;font-weight:900}.fraction-help{text-align:center;color:#64748b;font-size:13px;margin:8px 0 12px}.answer-type-label{font-size:13px;font-weight:800;color:#64748b;text-align:center;margin-top:5px}.math-frac{display:inline-flex;flex-direction:column;align-items:stretch;justify-content:center;min-width:.78em;text-align:center;line-height:.92;margin:0 .035em;vertical-align:middle;transform:translateY(.01em)}.math-frac .top,.math-frac .bottom{display:block;font-size:.64em;line-height:.95;padding:0 .08em}.math-frac .top{border-bottom:2px solid currentColor;padding-bottom:.07em}.math-frac .bottom{padding-top:.07em}.math-frac .bar{display:none}.math-expression{white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;min-width:max-content;line-height:1.15}.mode4-answer.disabled{opacity:.65;pointer-events:none}.preview{min-height:26px;text-align:center;color:#64748b;margin:9px 0 14px;font-size:14px}.actions{display:grid;gap:10px}.feedback{min-height:60px;margin-top:15px;text-align:center;font-size:19px;font-weight:900;line-height:1.55}.solution{margin-top:12px;background:#f8fafc;border-radius:14px;padding:14px;color:#334155;font-family:"Times New Roman",serif;font-size:21px;line-height:1.75}.scratch{display:block;border:2px solid #c7d2fe;background:#eef2ff;border-radius:19px;padding:13px;position:sticky;top:10px}.scratch-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}.scratch-title{font-weight:900;color:#4338ca;font-size:19px}.scratch-tools{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.tool{border:1px solid #c7d2fe;background:#fff;color:#4338ca;border-radius:10px;padding:7px 9px;font-weight:900;cursor:pointer;min-width:38px}.tool.active{background:#4338ca;color:#fff}.color-dot{width:20px;height:20px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #94a3b8;display:inline-block;vertical-align:middle}.canvas-wrap{background-color:white;border:2px solid var(--line);border-radius:14px;overflow:hidden;background-image:linear-gradient(#dbeafe 1px,transparent 1px),linear-gradient(90deg,#dbeafe 1px,transparent 1px);background-size:28px 28px;touch-action:none;overscroll-behavior:contain;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}.scratch canvas{display:block;width:100%;height:570px;touch-action:none;overscroll-behavior:contain;cursor:crosshair;background:transparent;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}.scratch-note{font-size:12px;color:#6366f1;margin:8px 2px 0}.result-box{max-width:700px;margin:auto;text-align:center}.grade-card{background:linear-gradient(135deg,#eff6ff,#f8fafc);border:2px solid #bfdbfe;border-radius:22px;padding:24px;margin:18px 0}.grade-big{font-size:54px;font-weight:900;color:var(--blue-dark)}.stars{font-size:34px;letter-spacing:4px;margin:6px 0}.comment{font-size:20px;font-weight:900;color:#334155}.score-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}.score-card{background:#f8fafc;border:2px solid #e2e8f0;border-radius:16px;padding:15px}.score-card b{display:block;font-size:26px;margin-top:5px}.save-status{min-height:24px;margin:10px 0 16px;font-size:15px;font-weight:900;line-height:1.6}.result-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.review-list{display:grid;gap:14px;text-align:left;margin-top:18px}.review-card{border:2px solid #fecaca;background:#fff7f7;border-radius:17px;padding:16px}.review-title{font-weight:900;color:#b91c1c;margin-bottom:8px}.review-problem{font-family:"Times New Roman",serif;font-size:23px;font-weight:700;margin:8px 0}.review-answer{line-height:1.7;color:#475569}.fullscreen-scratch{position:fixed!important;inset:0!important;z-index:9999!important;border-radius:0!important;padding:14px!important;background:#eef2ff!important}.fullscreen-scratch .canvas-wrap{height:calc(100vh - 92px)}.fullscreen-scratch canvas{height:100%!important}.mobile-scratch-btn{display:none;align-items:center;justify-content:center;gap:6px;background:#4f46e5;color:#fff;border:0;border-radius:14px;padding:12px 16px;font-weight:900;font-size:16px;cursor:pointer}.mobile-scratch-btn:active{transform:scale(.98)}.scratch-close-btn{display:none}.fullscreen-scratch .scratch-close-btn{display:inline-block}
 @media(max-width:980px){.quiz-grid{grid-template-columns:1fr}.scratch{display:none}.scratch canvas{height:370px}.result-actions{grid-template-columns:1fr}.mobile-scratch-btn{display:inline-flex!important}.fullscreen-scratch{display:flex!important;flex-direction:column!important;position:fixed!important;inset:0!important;z-index:99999!important;border-radius:0!important;padding:12px!important;background:#eef2ff!important;overflow:hidden!important}.fullscreen-scratch .canvas-wrap{flex:1;height:auto!important;min-height:0}.fullscreen-scratch canvas{height:100%!important}.mobile-scratch-btn{display:none;align-items:center;justify-content:center;gap:6px;background:#4f46e5;color:#fff;border:0;border-radius:14px;padding:12px 16px;font-weight:900;font-size:16px;cursor:pointer}.mobile-scratch-btn:active{transform:scale(.98)}.scratch-close-btn{display:none}.fullscreen-scratch .scratch-close-btn{display:inline-block}.fullscreen-scratch .scratch-note{padding-bottom:env(safe-area-inset-bottom)}}
-@media(max-width:560px){body{padding:4px}.mode4-answer{gap:6px;padding:10px}.frac-input{width:66px;grid-template-rows:42px 42px;gap:7px}.frac-input.integer-input{width:66px}.frac-input input{height:42px;font-size:20px}.math-x{font-size:36px}.op-select{padding:0 8px}.inner{padding:14px}.btn{padding:12px 13px;font-size:16px}.problem{padding:24px 8px;font-size:clamp(24px,8vw,38px)}.answer{font-size:27px}.topbar{align-items:stretch}.topbar>.btn{width:100%}.stats{justify-content:center}.scratch canvas{height:320px}.score-grid{grid-template-columns:1fr}.scratch-tools{justify-content:flex-start}}
+@media(max-width:560px){body{padding:4px}.answer-entry-row{gap:8px}.answer-x{font-size:30px}.mode4-answer{gap:8px;padding:10px}.answer-sign-select{min-width:64px;height:42px;font-size:19px}.frac-input{width:66px;grid-template-rows:42px 42px;gap:7px}.frac-input.integer-input{width:66px}.frac-input input{height:42px;font-size:20px}.math-x{font-size:36px}.op-select{padding:0 8px}.inner{padding:14px}.btn{padding:12px 13px;font-size:16px}.problem{padding:24px 8px;font-size:clamp(24px,8vw,38px)}.answer{font-size:27px}.topbar{align-items:stretch}.topbar>.btn{width:100%}.stats{justify-content:center}.scratch canvas{height:320px}.score-grid{grid-template-columns:1fr}.scratch-tools{justify-content:flex-start}}
 
 html,body{width:100%;min-height:100%}
 body{margin:0;padding:4px;overflow-x:hidden}
@@ -66,9 +66,9 @@ body{margin:0;padding:4px;overflow-x:hidden}
       <h1 class="title">一元一次方程式挑戰賽</h1>
       <p class="subtitle">請選擇模式：模式一～三每回合 10 題，模式四每回合 5 題</p>
       <div class="modes">
-        <label class="mode-card"><input type="radio" name="mode" value="1" checked><span><div class="mode-title">模式一｜基本移項與合併同類項</div><div class="example">例如：3x - 5 = 2x + 4</div></span></label>
-        <label class="mode-card"><input type="radio" name="mode" value="2"><span><div class="mode-title">模式二｜包含括號的方程式</div><div class="example">例如：3(x - 2) = 2(x + 1)</div></span></label>
-        <label class="mode-card"><input type="radio" name="mode" value="3"><span><div class="mode-title">模式三｜帶有負號與括號的化簡</div><div class="example">例如：5x - (2x - 3) = 12</div></span></label>
+        <label class="mode-card"><input type="radio" name="mode" value="1" checked><span><div class="mode-title">模式一｜基本一元一次方程式</div><div class="example">例如：6x = 7、−3x = 6</div></span></label>
+        <label class="mode-card"><input type="radio" name="mode" value="2"><span><div class="mode-title">模式二｜移項與合併同類項</div><div class="example">例如：3x − 5 = 2x + 4</div></span></label>
+        <label class="mode-card"><input type="radio" name="mode" value="3"><span><div class="mode-title">模式三｜括號、負號與化簡</div><div class="example">例如：3(x − 2) = 2(x + 1)、5x − (2x − 3) = 12</div></span></label>
         <label class="mode-card"><input type="radio" name="mode" value="4"><span><div class="mode-title">模式四｜分數係數方程式</div><div class="example">例如：分式型態方程式求解</div></span></label>
       </div>
       <div class="center"><button id="start-btn" class="btn btn-primary">開始挑戰</button></div>
@@ -84,16 +84,22 @@ body{margin:0;padding:4px;overflow-x:hidden}
           </div>
           <div id="problem-text" class="problem"></div>
           <div class="answer-wrap">
-            <label class="label" for="answer-input">方程式解 ( x = ? )</label>
-            <input id="answer-input" class="answer" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="例如：5 或 -3/2">
-            <div id="mode4-answer" class="mode4-answer hidden" aria-label="第四模式答案輸入區">
-              <div id="x-frac-box" class="frac-input" title="x 值答案輸入">
-                <input id="x-num" inputmode="text" autocomplete="off" aria-label="x值分子或整數" placeholder="分子">
-                <span class="frac-line"></span>
-                <input id="x-den" inputmode="numeric" autocomplete="off" aria-label="x值分母" placeholder="分母">
+            <div class="label">方程式解</div>
+            <div class="answer-entry-row">
+              <div id="mode4-answer" class="mode4-answer" aria-label="方程式答案輸入區">
+                <span class="answer-x" aria-hidden="true">x =</span>
+                <select id="x-sign" class="answer-sign-select hidden" aria-label="分數正負號">
+                  <option value="1">＋</option>
+                  <option value="-1">−</option>
+                </select>
+                <div id="x-frac-box" class="frac-input" title="x 值答案輸入">
+                  <input id="x-num" inputmode="text" autocomplete="off" aria-label="x值整數或分子" placeholder="整數">
+                  <span class="frac-line"></span>
+                  <input id="x-den" inputmode="numeric" autocomplete="off" aria-label="x值分母" placeholder="分母">
+                </div>
               </div>
             </div>
-            <div id="fraction-help" class="fraction-help hidden">若解為整數直接填上格；若為分數，上格填分子、下格填分母，並化成最簡分數。</div>
+            <div id="fraction-help" class="fraction-help">整數請填一格；分數請先選正負號，上格填分子、下格填分母，並化成最簡分數。</div>
             <div id="normalized-preview" class="preview"></div>
             <div class="actions">
               <button id="submit-btn" class="btn btn-green">送出答案（Enter）</button>
@@ -171,98 +177,171 @@ function stackedFractionHTML(top,bottom){return `<span class="math-frac"><span c
 function questionHTML(q){return `<span class="math-expression">${q.qStr}</span>`}
 function escapeHTML(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 
-function makeQuestions(m){
-  const out=[],used=new Set(),target=m===4?5:10;
-  while(out.length<target){
-    let qStr,ansRat;
-    if(m===1){
-      const a=nz(-6,6), c_val=nz(-6,6);
-      if(a===c_val)continue;
-      const xVal=nz(-8,8);
-      const b=nz(-15,15);
-      const d=a*xVal + b - c_val*xVal;
-      if(Math.abs(d)>20)continue;
-      ansRat=rat(xVal,1);
-      qStr=`${linear(a,b)} = ${linear(c_val,d)}`;
-    }else if(m===2){
-      const k1=nz(-4,4), k2=nz(-4,4);
-      const a1=nz(-3,3), b1=nz(-8,8), a2=nz(-3,3), b2=nz(-8,8);
-      const xVal=nz(-6,6);
-      const leftVal=k1*(a1*xVal + b1);
-      const rightVal=k2*(a2*xVal + b2);
-      if(leftVal!==rightVal)continue;
-      ansRat=rat(xVal,1);
-      qStr=`${k1}(${linear(a1,b1)}) = ${k2}(${linear(a2,b2)})`;
-    }else if(m===3){
-      const a=nz(-6,6), b=nz(-6,6), c=nz(-12,12);
-      const xVal=nz(-6,6);
-      if(a===b)continue;
-      const d_val=(a-b)*xVal - c;
-      if(Math.abs(d_val)>25)continue;
-      ansRat=rat(xVal,1);
-      qStr=`${linear(a,0)} - (${linear(b,c)}) = ${d_val}`;
-    }else{
-      const d1=rand(2,5), d2=rand(2,5);
-      const xInt=nz(-7,7);
-      const ac=nz(-4,4), bc=nz(-10,10), cc=nz(-4,4);
-      let bc_adj=bc;
-      while((ac*xInt + bc_adj)%d1!==0){
-        bc_adj=nz(-10,10);
-      }
-      const dc=(ac*xInt + bc_adj)/d1 - cc*xInt;
-      if(Math.abs(dc)>25)continue;
-      ansRat=rat(xInt,1);
-      qStr=`${stackedFractionHTML(linear(ac,bc_adj),d1)} = ${linear(cc,dc)}`;
-      
-      const key=`${qStr}`;
-      if(used.has(key))continue;
-      used.add(key);
-      out.push({qStr, ans:ansRat, meta:{}});
-      continue;
-    }
-    const key=qStr;
-    if(used.has(key))continue;
-    used.add(key);
-    out.push({qStr, ans:ansRat, meta:{}});
+function makeAnswerByRatio(){
+  // 每題有 70% 機率為整數解，30% 機率為最簡分數解。
+  if(Math.random()<0.7){
+    return rat(nz(-9,9),1);
   }
-  return out;
-}
 
-function parseInputToRat(raw){
-  const s=String(raw).trim().toLowerCase().replace(/\s+/g,'').replace(/[＋﹢]/g,'+').replace(/[−－﹣–—]/g,'-');
-  if(!s||/[^0-9+\-\/]/.test(s))return null;
-  const parts=s.split('/');
-  if(parts.length>2)return null;
-  const n=Number(parts[0]);
-  const d=parts[1]?Number(parts[1]):1;
-  if(!Number.isSafeInteger(n)||!Number.isSafeInteger(d)||d===0)return null;
+  let n,d;
+  do{
+    d=rand(2,7);
+    n=nz(-15,15);
+  }while(gcd(n,d)!==1 || Math.abs(n)===d);
+
   return rat(n,d);
 }
 
-function readMode4Answer(){
-  const ns=$('x-num').value.trim(), ds=$('x-den').value.trim();
-  if(!ns)return null;
-  if(!/^-?\d+$/.test(ns))return null;
-  if(ds&&!/^\d+$/.test(ds))return null;
-  const n=Number(ns), d=ds?Number(ds):1;
-  if(!Number.isSafeInteger(n)||!Number.isSafeInteger(d)||d<=0)return null;
-  const simplest=d===1?true:gcd(n,d)===1;
-  return{value:rat(n,d),simplest,raw:ds?`${n}/${ds}`:`${n}`};
+function makeQuestions(m){
+  const out=[],used=new Set(),target=m===4?5:10;
+
+  while(out.length<target){
+    const ansRat=makeAnswerByRatio();
+    const p=ansRat.n;
+    const q=ansRat.d;
+    let qStr='';
+
+    if(m===1){
+      // 基本型：ax = b。係數選成分母的倍數，確保等號右側為整數。
+      const k=nz(-5,5);
+      const a=k*q;
+      const b=k*p;
+      if(Math.abs(a)>35 || Math.abs(b)>60)continue;
+      qStr=`${fx(a)} = ${String(b).replace('-','−')}`;
+
+    }else if(m===2){
+      // 原模式一：ax+b=cx+d。
+      const k=nz(-4,4);
+      const c=nz(-7,7);
+      const a=c+k*q;
+      const b=nz(-15,15);
+      const d=b+k*p;
+      if(a===c || Math.abs(a)>28 || Math.abs(d)>45)continue;
+      qStr=`${linear(a,b)} = ${linear(c,d)}`;
+
+    }else if(m===3){
+      // 原模式二與模式三混合出題。
+      if(Math.random()<0.5){
+        // 括號型：k(ax+b)=cx+d。
+        const outer=nz(-4,4);
+        const innerA=nz(-5,5);
+        const innerB=nz(-8,8);
+        const t=nz(-3,3);
+        const c=outer*innerA-t*q;
+        const d=outer*innerB+t*p;
+        if(Math.abs(c)>32 || Math.abs(d)>50)continue;
+        qStr=`${outer}(${linear(innerA,innerB)}) = ${linear(c,d)}`;
+      }else{
+        // 負號括號型：ax−(bx+c)=d。
+        const k=nz(-4,4);
+        const b=nz(-7,7);
+        const a=b+k*q;
+        const c=nz(-12,12);
+        const d=k*p-c;
+        if(Math.abs(a)>30 || Math.abs(d)>50)continue;
+        qStr=`${linear(a,0)} − (${linear(b,c)}) = ${String(d).replace('-','−')}`;
+      }
+
+    }else{
+      // 模式四保留分數係數方程式型態。
+      const denominator=rand(2,6);
+      const rightX=nz(-5,5);
+      const k=nz(-3,3);
+      const numeratorX=rightX*denominator+k*q;
+      const rightConstant=nz(-8,8);
+      const numeratorConstant=denominator*rightConstant-k*p;
+      if(Math.abs(numeratorX)>35 || Math.abs(numeratorConstant)>55)continue;
+      qStr=`${stackedFractionHTML(linear(numeratorX,numeratorConstant),denominator)} = ${linear(rightX,rightConstant)}`;
+    }
+
+    const key=qStr.replace(/<[^>]+>/g,'');
+    if(used.has(key))continue;
+    used.add(key);
+    out.push({qStr,ans:ansRat,meta:{}});
+  }
+
+  return shuffle(out);
 }
 
-function configureMode4Inputs(q){
-  const el=$('x-frac-box'), num=$('x-num'), den=$('x-den');
-  const isInteger=(q.ans.d===1);
-  el.classList.toggle('integer-input',isInteger);
+function readAnswer(){
+  const q=questions[index];
+  if(!q)return null;
+
+  const ns=$('x-num').value.trim();
+  const ds=$('x-den').value.trim();
+  const isInteger=q.ans.d===1;
+
+  if(!ns)return null;
+
+  if(isInteger){
+    if(!/^[+\-]?\d+$/.test(ns))return null;
+    const n=Number(ns);
+    if(!Number.isSafeInteger(n))return null;
+    return{value:rat(n,1),simplest:true,raw:String(n),displayHTML:String(n)};
+  }
+
+  if(!/^\d+$/.test(ns)||!/^\d+$/.test(ds))return null;
+  const numerator=Number(ns);
+  const denominator=Number(ds);
+  const sign=Number($('x-sign').value);
+  if(!Number.isSafeInteger(numerator)||!Number.isSafeInteger(denominator))return null;
+  if(numerator<=0||denominator<=1)return null;
+
+  const signedNumerator=sign*numerator;
+  const simplest=gcd(numerator,denominator)===1;
+  const value=rat(signedNumerator,denominator);
+  return{
+    value,
+    simplest,
+    numerator,
+    denominator,
+    sign,
+    raw:`${sign<0?'−':''}${numerator}/${denominator}`,
+    displayHTML:`${sign<0?'−':''}<span class="math-frac"><span class="top">${numerator}</span><span class="bar"></span><span class="bottom">${denominator}</span></span>`
+  };
+}
+
+function configureAnswerInputs(q){
+  const box=$('x-frac-box');
+  const sign=$('x-sign');
+  const num=$('x-num');
+  const den=$('x-den');
+  const isInteger=q.ans.d===1;
+
+  box.classList.toggle('integer-input',isInteger);
+  sign.classList.toggle('hidden',isInteger);
   num.placeholder=isInteger?'整數':'分子';
+  num.inputMode=isInteger?'text':'numeric';
   den.placeholder='分母';
   den.tabIndex=isInteger?-1:0;
-  if(isInteger)den.value='';
+  den.disabled=isInteger;
+
+  if(isInteger){
+    sign.value='1';
+    den.value='';
+  }
 }
 
-function clearMode4Inputs(){['x-num','x-den'].forEach(id=>{$(id).value='';$(id).disabled=false});$('mode4-answer').classList.remove('disabled')}
-function disableMode4Inputs(){['x-num','x-den'].forEach(id=>$(id).disabled=true);$('mode4-answer').classList.add('disabled')}
-function updateMode4Preview(){const p=readMode4Answer();$('normalized-preview').innerHTML=!p?'':'系統判讀：x ＝ '+(p.value.d===1?p.value.n:`${p.value.n}/${p.value.d}`)}
+function clearAnswerInputs(){
+  $('x-sign').value='1';
+  ['x-num','x-den'].forEach(id=>{
+    $(id).value='';
+    $(id).disabled=false;
+  });
+  $('x-sign').disabled=false;
+  $('mode4-answer').classList.remove('disabled');
+}
+
+function disableAnswerInputs(){
+  $('x-sign').disabled=true;
+  ['x-num','x-den'].forEach(id=>$(id).disabled=true);
+  $('mode4-answer').classList.add('disabled');
+}
+
+function updateAnswerPreview(){
+  const p=readAnswer();
+  $('normalized-preview').innerHTML=!p?'':`系統判讀：x ＝ ${p.displayHTML}`;
+}
 
 function setTimer(){clearInterval(timer);timer=setInterval(()=>{const e=Math.floor((Date.now()-startTime)/1000);$('time-display').textContent=`⏳ ${String(Math.floor(e/60)).padStart(2,'0')}:${String(e%60).padStart(2,'0')}`},1000)}
 function showOnly(id){['start-screen','quiz-screen','result-screen','review-screen'].forEach(x=>$(x).classList.toggle('hidden',x!==id))}
@@ -297,56 +376,44 @@ function loadQuestion(){
   $('question-number').textContent=`第 ${index+1} / ${total} 題`;
   $('progress-bar').style.width=`${index/total*100}%`;
   $('normalized-preview').innerHTML='';
-  const is4=mode===4;
-  $('answer-input').classList.toggle('hidden',is4);
-  $('mode4-answer').classList.toggle('hidden',!is4);
-  $('fraction-help').classList.toggle('hidden',!is4);
-  if(is4){
-    clearMode4Inputs();
-    configureMode4Inputs(questions[index]);
-    setTimeout(()=>$('x-num').focus(),0);
-  }else{
-    $('answer-input').disabled=false;
-    $('answer-input').value='';
-    $('answer-input').placeholder='例如：5 或 -3/2';
-    $('answer-input').focus();
-  }
+  clearAnswerInputs();
+  configureAnswerInputs(questions[index]);
+  setTimeout(()=>$('x-num').focus(),0);
 }
 
 function updatePreview(){
-  if(mode===4){updateMode4Preview();return}
-  const raw=$('answer-input').value;
-  const p=parseInputToRat(raw);
-  $('normalized-preview').textContent=!raw.trim()?'':p?`系統判讀：x ＝ ${ratText(p)}`:'格式未正確（請輸入數字或分數）';
+  updateAnswerPreview();
 }
 
 function check(){
   if(locked)return;
   const q=questions[index];
-  let p, raw;
-  if(mode===4){
-    const res=readMode4Answer();
-    if(!res){$('feedback').innerHTML='<span style="color:#d97706">請完整填寫答案。</span>';return;}
-    if(!res.simplest){$('feedback').innerHTML='<span style="color:#d97706">答案已辨識，但分數尚未化成最簡分數；請約分後再送出。若可整除，請直接填整數。</span>';return;}
-    p=res.value;
-    raw=res.raw;
-  }else{
-    raw=$('answer-input').value;
-    p=parseInputToRat(raw);
-    if(!p){$('feedback').innerHTML='<span style="color:#d97706">請輸入有效的數字或分數（例如 3 或 -1/2）。</span>';return;}
+  const res=readAnswer();
+  if(!res){
+    const isInteger=q.ans.d===1;
+    $('feedback').innerHTML=isInteger?
+      '<span style="color:#d97706">請在答案格輸入完整整數。</span>':
+      '<span style="color:#d97706">請選擇正負號，並完整填寫分子與分母。</span>';
+    return;
   }
+  if(!res.simplest){
+    $('feedback').innerHTML='<span style="color:#d97706">分數尚未化成最簡分數，請約分後再送出。</span>';
+    return;
+  }
+  const p=res.value;
+  const raw=res.raw;
 
   locked=true;
-  if(mode===4)disableMode4Inputs();else $('answer-input').disabled=true;
+  disableAnswerInputs();
 
   const ok=ratEq(p,q.ans);
   ok?correct++:wrong++;
   records.push({number:index+1,question:q,userRaw:raw,userParsed:p,ok});
 
-  const ansStr=q.ans.d===1?q.ans.n:`${q.ans.n}/${q.ans.d}`;
+  const ansHTML=mathFracHTML(q.ans);
   $('feedback').innerHTML=ok?
-    `<span style="color:#15803d">✨ 正確！</span><div class="solution">方程式之解為：x ＝ ${ansStr}</div>`:
-    `<span style="color:#b91c1c">❌ 答案不正確，正確答案是 x ＝ ${ansStr}</span><div class="solution">方程式之解為：x ＝ ${ansStr}</div>`;
+    `<span style="color:#15803d">✨ 正確！</span><div class="solution">方程式之解為：x ＝ ${ansHTML}</div>`:
+    `<span style="color:#b91c1c">❌ 答案不正確，正確答案是 x ＝ ${ansHTML}</span><div class="solution">方程式之解為：x ＝ ${ansHTML}</div>`;
 
   nextTimer=setTimeout(()=>{
     $('submit-btn').classList.add('hidden');
@@ -419,10 +486,10 @@ async function showResult(){
 
   await saveCurrentScore(score);
 }
-function showReview(){const wrongs=records.filter(r=>!r.ok),box=$('review-list');box.innerHTML=wrongs.length?wrongs.map(r=>`<article class="review-card"><div class="review-title">第 ${r.number} 題 ❌</div><div class="review-problem">${r.question.qStr}</div><div class="review-answer">你的答案：<b>x ＝ ${escapeHTML(r.userRaw||'未作答')}</b><br>正確答案：<b>x ＝ ${r.question.ans.d===1?r.question.ans.n:`${r.question.ans.n}/${r.question.ans.d}`}</b></div></article>`).join(''):'<div class="grade-card">全部答對，沒有需要回顧的錯題！</div>';showOnly('review-screen')}
+function showReview(){const wrongs=records.filter(r=>!r.ok),box=$('review-list');box.innerHTML=wrongs.length?wrongs.map(r=>`<article class="review-card"><div class="review-title">第 ${r.number} 題 ❌</div><div class="review-problem">${r.question.qStr}</div><div class="review-answer">你的答案：<b>x ＝ ${r.userParsed?mathFracHTML(r.userParsed):'未作答'}</b><br>正確答案：<b>x ＝ ${mathFracHTML(r.question.ans)}</b></div></article>`).join(''):'<div class="grade-card">全部答對，沒有需要回顧的錯題！</div>';showOnly('review-screen')}
 function modeSelect(){clearInterval(timer);clearTimeout(nextTimer);$('save-status').textContent='';$('save-status').style.color='';showOnly('start-screen');$('progress-bar').style.width='0%'}
 
-$('start-btn').onclick=()=>startGame(false);$('change-mode-btn').onclick=modeSelect;$('result-change-mode-btn').onclick=modeSelect;$('review-mode-btn').onclick=modeSelect;$('submit-btn').onclick=check;$('next-btn').onclick=next;$('reset-btn').onclick=()=>startGame(true);$('again-btn').onclick=()=>startGame(true);$('review-again-btn').onclick=()=>startGame(true);$('review-btn').onclick=showReview;$('review-back-btn').onclick=()=>showOnly('result-screen');$('answer-input').oninput=updatePreview;['x-num','x-den'].forEach(id=>$(id).addEventListener('input',updateMode4Preview));
+$('start-btn').onclick=()=>startGame(false);$('change-mode-btn').onclick=modeSelect;$('result-change-mode-btn').onclick=modeSelect;$('review-mode-btn').onclick=modeSelect;$('submit-btn').onclick=check;$('next-btn').onclick=next;$('reset-btn').onclick=()=>startGame(true);$('again-btn').onclick=()=>startGame(true);$('review-again-btn').onclick=()=>startGame(true);$('review-btn').onclick=showReview;$('review-back-btn').onclick=()=>showOnly('result-screen');['x-num','x-den'].forEach(id=>$(id).addEventListener('input',updateAnswerPreview));$('x-sign').addEventListener('change',updateAnswerPreview);
 document.addEventListener('keydown',e=>{if(e.key!=='Enter'||$('quiz-screen').classList.contains('hidden'))return;e.preventDefault();nextReady?next():!locked&&check()});
 
 
