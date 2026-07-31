@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>一元一次方程式挑戰賽</title>
+<style>
+:root{--blue:#2563eb;--blue-dark:#1d4ed8;--green:#16a34a;--red:#dc2626;--amber:#d97706;--ink:#1f2937;--muted:#64748b;--line:#dbe3ef;--bg:#eef6ff}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;color:var(--ink)}body{background:linear-gradient(135deg,#eff6ff,#f8fafc);padding:10px}.app{max-width:1540px;margin:auto;background:#fff;border:3px solid #bfdbfe;border-radius:24px;box-shadow:0 18px 45px #1e3a8a22;overflow:hidden}.progress{height:10px;background:#e5e7eb}.progress>div{height:100%;width:0;background:linear-gradient(90deg,#60a5fa,#2563eb);transition:width .3s}.inner{padding:24px}.hidden{display:none!important}.title{text-align:center;color:var(--blue-dark);font-size:clamp(28px,4vw,42px);font-weight:900;margin:0 0 8px}.subtitle{text-align:center;color:var(--muted);margin:0 0 24px}.modes{display:grid;gap:14px;max-width:800px;margin:0 auto 24px}.mode-card input{position:absolute;opacity:0}.mode-card span{display:block;border:2px solid var(--line);border-radius:17px;padding:17px;cursor:pointer;transition:.2s;background:#fff}.mode-card input:checked+span{border-color:#3b82f6;background:#eff6ff;box-shadow:0 0 0 4px #3b82f622}.mode-title{font-weight:900;color:var(--blue-dark);font-size:18px}.example{font-family:"Times New Roman",serif;font-size:20px;margin-top:6px;color:#475569}.center{text-align:center}.btn{border:0;border-radius:14px;padding:13px 20px;font-weight:900;font-size:17px;cursor:pointer;transition:.15s;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}.btn:active{transform:scale(.98)}.btn-primary{background:var(--blue);color:#fff}.btn-green{background:var(--green);color:#fff}.btn-light{background:#eff6ff;color:var(--blue-dark);border:2px solid #bfdbfe}.btn-danger-light{background:#fff1f2;color:#be123c;border:2px solid #fecdd3}.btn-neutral{background:#f1f5f9;color:#334155;border:2px solid #cbd5e1}.quiz-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:20px;align-items:start}.quiz-grid{grid-template-columns:minmax(0,3fr) minmax(420px,2fr)}.topbar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:16px}.stats{display:flex;gap:10px;flex-wrap:wrap}.pill{padding:9px 14px;border-radius:14px;font-size:15px;font-weight:900;box-shadow:0 4px 12px #0f172a10}.pill-blue{background:#dbeafe;color:var(--blue-dark)}.pill-amber{background:#fef3c7;color:#92400e}.pill-gray{background:#f1f5f9;color:#475569}.problem{background:#f8fafc;border:2px solid #e2e8f0;border-radius:20px;padding:30px 14px;text-align:center;font-family:"Times New Roman",serif;font-size:clamp(28px,4.2vw,46px);font-weight:bold;margin-bottom:22px;white-space:nowrap;overflow-x:auto;overflow-y:hidden;overflow-wrap:normal}.answer-wrap{max-width:760px;margin:auto}.label{display:block;font-weight:900;color:#475569;margin-bottom:9px;font-size:18px}.answer{width:100%;border:3px solid var(--line);border-radius:16px;padding:17px;text-align:center;font-size:32px;font-weight:900;outline:none}.answer:focus{border-color:#60a5fa;box-shadow:0 0 0 5px #dbeafe}.mode4-answer{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;padding:14px;border:2px solid #dbeafe;border-radius:18px;background:#f8fbff}.frac-input{position:relative;display:inline-grid;grid-template-rows:48px 48px;width:82px;gap:8px;vertical-align:middle}.frac-input input{width:100%;height:48px;border:2px solid #cbd5e1;border-radius:10px;text-align:center;font-size:24px;font-weight:900;outline:none;background:#fff}.frac-input input:focus{border-color:#60a5fa;box-shadow:0 0 0 4px #dbeafe}.frac-input input::placeholder{font-size:12px;font-weight:700;color:#94a3b8}.frac-input .frac-line{position:absolute;left:5px;right:5px;top:50%;height:2px;background:#1f2937;transform:translateY(-1px);z-index:2;pointer-events:none}.frac-input.integer-input{display:flex;width:82px}.frac-input.integer-input input:first-child{display:block}.frac-input.integer-input input:last-child,.frac-input.integer-input .frac-line{display:none}.math-x{font-family:"Times New Roman",serif;font-size:42px;font-weight:900}.fraction-help{text-align:center;color:#64748b;font-size:13px;margin:8px 0 12px}.math-frac{display:inline-flex;flex-direction:column;align-items:stretch;justify-content:center;min-width:.78em;text-align:center;line-height:.92;margin:0 .035em;vertical-align:middle;transform:translateY(.01em)}.math-frac .top,.math-frac .bottom{display:block;font-size:.64em;line-height:.95;padding:0 .08em}.math-frac .top{border-bottom:2px solid currentColor;padding-bottom:.07em}.math-frac .bottom{padding-top:.07em}.math-frac .bar{display:none}.math-expression{white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;min-width:max-content;line-height:1.15}.mode4-answer.disabled{opacity:.65;pointer-events:none}.preview{min-height:26px;text-align:center;color:#64748b;margin:9px 0 14px;font-size:14px}.actions{display:grid;gap:10px}.feedback{min-height:60px;margin-top:15px;text-align:center;font-size:19px;font-weight:900;line-height:1.55}.solution{margin-top:12px;background:#f8fafc;border-radius:14px;padding:14px;color:#334155;font-family:"Times New Roman",serif;font-size:21px;line-height:1.75}.scratch{display:block;border:2px solid #c7d2fe;background:#eef2ff;border-radius:19px;padding:13px;position:sticky;top:10px}.scratch-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}.scratch-title{font-weight:900;color:#4338ca;font-size:19px}.scratch-tools{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.tool{border:1px solid #c7d2fe;background:#fff;color:#4338ca;border-radius:10px;padding:7px 9px;font-weight:900;cursor:pointer;min-width:38px}.tool.active{background:#4338ca;color:#fff}.color-dot{width:20px;height:20px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #94a3b8;display:inline-block;vertical-align:middle}.canvas-wrap{background-color:white;border:2px solid var(--line);border-radius:14px;overflow:hidden;background-image:linear-gradient(#dbeafe 1px,transparent 1px),linear-gradient(90deg,#dbeafe 1px,transparent 1px);background-size:28px 28px;touch-action:none;overscroll-behavior:contain;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}.scratch canvas{display:block;width:100%;height:570px;touch-action:none;overscroll-behavior:contain;cursor:crosshair;background:transparent;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}.scratch-note{font-size:12px;color:#6366f1;margin:8px 2px 0}.result-box{max-width:700px;margin:auto;text-align:center}.grade-card{background:linear-gradient(135deg,#eff6ff,#f8fafc);border:2px solid #bfdbfe;border-radius:22px;padding:24px;margin:18px 0}.grade-big{font-size:54px;font-weight:900;color:var(--blue-dark)}.stars{font-size:34px;letter-spacing:4px;margin:6px 0}.comment{font-size:20px;font-weight:900;color:#334155}.score-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}.score-card{background:#f8fafc;border:2px solid #e2e8f0;border-radius:16px;padding:15px}.score-card b{display:block;font-size:26px;margin-top:5px}.save-status{min-height:24px;margin:10px 0 16px;font-size:15px;font-weight:900;line-height:1.6}.result-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.review-list{display:grid;gap:14px;text-align:left;margin-top:18px}.review-card{border:2px solid #fecaca;background:#fff7f7;border-radius:17px;padding:16px}.review-title{font-weight:900;color:#b91c1c;margin-bottom:8px}.review-problem{font-family:"Times New Roman",serif;font-size:23px;font-weight:700;margin:8px 0}.review-answer{line-height:1.7;color:#475569}.fullscreen-scratch{position:fixed!important;inset:0!important;z-index:9999!important;border-radius:0!important;padding:14px!important;background:#eef2ff!important}.fullscreen-scratch .canvas-wrap{height:calc(100vh - 92px)}.fullscreen-scratch canvas{height:100%!important}.mobile-scratch-btn{display:none;align-items:center;justify-content:center;gap:6px;background:#4f46e5;color:#fff;border:0;border-radius:14px;padding:12px 16px;font-weight:900;font-size:16px;cursor:pointer}.mobile-scratch-btn:active{transform:scale(.98)}.scratch-close-btn{display:none}.fullscreen-scratch .scratch-close-btn{display:inline-block}
+@media(max-width:980px){.quiz-grid{grid-template-columns:1fr}.scratch{display:none}.scratch canvas{height:370px}.result-actions{grid-template-columns:1fr}.mobile-scratch-btn{display:inline-flex!important}.fullscreen-scratch{display:flex!important;flex-direction:column!important;position:fixed!important;inset:0!important;z-index:99999!important;border-radius:0!important;padding:12px!important;background:#eef2ff!important;overflow:hidden!important}.fullscreen-scratch .canvas-wrap{flex:1;height:auto!important;min-height:0}.fullscreen-scratch canvas{height:100%!important}.mobile-scratch-btn{display:none;align-items:center;justify-content:center;gap:6px;background:#4f46e5;color:#fff;border:0;border-radius:14px;padding:12px 16px;font-weight:900;font-size:16px;cursor:pointer}.mobile-scratch-btn:active{transform:scale(.98)}.scratch-close-btn{display:none}.fullscreen-scratch .scratch-close-btn{display:inline-block}.fullscreen-scratch .scratch-note{padding-bottom:env(safe-area-inset-bottom)}}
+@media(max-width:560px){body{padding:4px}.mode4-answer{gap:6px;padding:10px}.frac-input{width:66px;grid-template-rows:42px 42px;gap:7px}.frac-input.integer-input{width:66px}.frac-input input{height:42px;font-size:20px}.math-x{font-size:36px}.op-select{padding:0 8px}.inner{padding:14px}.btn{padding:12px 13px;font-size:16px}.problem{padding:24px 8px;font-size:clamp(24px,8vw,38px)}.answer{font-size:27px}.topbar{align-items:stretch}.topbar>.btn{width:100%}.stats{justify-content:center}.scratch canvas{height:320px}.score-grid{grid-template-columns:1fr}.scratch-tools{justify-content:flex-start}}
+
+html,body{width:100%;min-height:100%}
+body{margin:0;padding:4px;overflow-x:hidden}
+.app{width:100%;max-width:none;min-height:calc(100vh - 8px);margin:0 auto}
+
+.scratch-head,.scratch-tools,.tool{pointer-events:auto;position:relative;z-index:3}
+.scratch.dragging{position:fixed!important;z-index:9998!important;margin:0!important;user-select:none}
+.scratch.edge-draggable{will-change:left,top}
+.scratch.edge-left,.scratch.edge-right{cursor:ew-resize}
+.scratch.edge-top,.scratch.edge-bottom{cursor:ns-resize}
+.scratch.edge-corner{cursor:move}
+</style>
+</head>
+<body>
+<main id="app" class="app">
+  <div class="progress"><div id="progress-bar"></div></div>
+  <div class="inner">
+    <section id="start-screen">
+      <h1 class="title">一元一次方程式挑戰賽</h1>
+      <p class="subtitle">請選擇模式：模式一～三每回合 10 題，模式四每回合 5 題</p>
+      <div class="modes">
+        <label class="mode-card"><input type="radio" name="mode" value="1" checked><span><div class="mode-title">模式一｜基本移項與合併同類項</div><div class="example">例如：3x - 5 = 2x + 4</div></span></label>
+        <label class="mode-card"><input type="radio" name="mode" value="2"><span><div class="mode-title">模式二｜包含括號的方程式</div><div class="example">例如：3(x - 2) = 2(x + 1)</div></span></label>
+        <label class="mode-card"><input type="radio" name="mode" value="3"><span><div class="mode-title">模式三｜帶有負號與括號的化簡</div><div class="example">例如：5x - (2x - 3) = 12</div></span></label>
+        <label class="mode-card"><input type="radio" name="mode" value="4"><span><div class="mode-title">模式四｜分數係數方程式</div><div class="example">例如：分式型態方程式求解</div></span></label>
+      </div>
+      <div class="center"><button id="start-btn" class="btn btn-primary">開始挑戰</button></div>
+    </section>
+
+    <section id="quiz-screen" class="hidden">
+      <div class="quiz-grid">
+        <div>
+          <div class="topbar">
+            <button id="change-mode-btn" class="btn btn-light">← 重選模式</button><button id="mobile-scratch-btn" class="mobile-scratch-btn" type="button">✍️ 開啟數學草稿紙</button>
+            <div class="stats"><span id="question-number" class="pill pill-blue">第 1 / 10 題</span><span id="mode-badge" class="pill pill-amber">模式一</span><span id="time-display" class="pill pill-gray">⏳ 00:00</span></div>
+          </div>
+          <div id="problem-text" class="problem"></div>
+          <div class="answer-wrap">
+            <label class="label" for="answer-input">方程式解 ( x = ? )</label>
+            <input id="answer-input" class="answer" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="例如：5 或 -3/2">
+            <div id="mode4-answer" class="mode4-answer hidden" aria-label="第四模式答案輸入區">
+              <div id="x-frac-box" class="frac-input" title="x 值答案輸入">
+                <input id="x-num" inputmode="text" autocomplete="off" aria-label="x值分子或整數" placeholder="分子">
+                <span class="frac-line"></span>
+                <input id="x-den" inputmode="numeric" autocomplete="off" aria-label="x值分母" placeholder="分母">
+              </div>
+            </div>
+            <div id="fraction-help" class="fraction-help hidden">若解為整數直接填上格；若為分數，上格填分子、下格填分母，並化成最簡分數。</div>
+            <div id="normalized-preview" class="preview"></div>
+            <div class="actions">
+              <button id="submit-btn" class="btn btn-green">送出答案（Enter）</button>
+              <button id="next-btn" class="btn btn-primary hidden">下一題（Enter）</button>
+              <button id="reset-btn" class="btn btn-danger-light">重新測驗（維持目前模式）</button>
+            </div>
+            <div id="feedback" class="feedback" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <aside id="scratch-panel" class="scratch">
+          <div class="scratch-head">
+            <div class="scratch-title">✍️ 數學草稿紙</div>
+            <div class="scratch-tools">
+              <button id="black-btn" class="tool active" type="button" title="黑筆"><span class="color-dot" style="background:#111827"></span></button>
+              <button id="blue-btn" class="tool" type="button" title="藍筆"><span class="color-dot" style="background:#2563eb"></span></button>
+              <button id="red-btn" class="tool" type="button" title="紅筆"><span class="color-dot" style="background:#dc2626"></span></button>
+              <button id="eraser-btn" class="tool" type="button" title="橡皮擦">🧽</button>
+              <button id="undo-btn" class="tool" type="button" title="上一步" aria-label="上一步">↶</button>
+              <button id="redo-btn" class="tool" type="button" title="下一步" aria-label="下一步">↷</button>
+              <button id="clear-btn" class="tool" type="button" title="清除">🗑</button>
+              <button id="scratch-close-btn" class="tool scratch-close-btn" type="button" title="完成並返回">完成</button><button id="expand-btn" class="tool" type="button" title="放大或縮小">⛶</button>
+            </div>
+          </div>
+          <div class="canvas-wrap"><canvas id="scratch-canvas"></canvas></div>
+          <div class="scratch-note">支援手指、觸控筆與滑鼠。進入下一題時，草稿紙會自動清空。</div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="result-screen" class="hidden result-box">
+      <h2 class="title">挑戰完成！</h2>
+      <div class="grade-card"><div id="final-score" class="grade-big">0 分</div><div id="final-stars" class="stars">☆☆☆☆☆</div><div id="final-comment" class="comment"></div></div>
+      <div class="score-grid"><div class="score-card">答對<b id="final-correct">0</b></div><div class="score-card">答錯<b id="final-wrong">0</b></div><div class="score-card">總時間<b id="final-time">0:00</b></div></div>
+      <p id="save-status" class="save-status" aria-live="polite"></p>
+      <div class="result-actions">
+        <button id="review-btn" class="btn btn-neutral">錯題回顧</button>
+        <button id="again-btn" class="btn btn-primary">🔄 再玩一次</button>
+        <button id="result-change-mode-btn" class="btn btn-light">重選模式</button>
+        <a class="btn btn-neutral" href="../leaderboard.html">🏆 排行榜</a>
+        <a class="btn btn-neutral" href="../my-scores.html">📊 我的成績</a>
+        <a class="btn btn-light" href="../index.html">🏠 回首頁</a>
+      </div>
+    </section>
+
+    <section id="review-screen" class="hidden result-box">
+      <h2 class="title">錯題回顧</h2>
+      <div id="review-list" class="review-list"></div>
+      <div class="result-actions" style="margin-top:18px"><button id="review-back-btn" class="btn btn-light">返回成績</button><button id="review-again-btn" class="btn btn-primary">重新測驗</button><button id="review-mode-btn" class="btn btn-neutral">重選模式</button></div>
+    </section>
+  </div>
+</main>
+<script type="module">
+import { saveGameScore } from "../js/scores.js";
+
+'use strict';
+
+const GAME_ID = "equation";
+const MODE_NAMES={1:'模式一',2:'模式二',3:'模式三',4:'模式四'};
+function totalQuestions(){return mode===4?5:10}
+function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=rand(0,i);[arr[i],arr[j]]=[arr[j],arr[i]]}return arr}
+const $=id=>document.getElementById(id);
+let mode=1,questions=[],index=0,correct=0,wrong=0,startTime=0,timer=null,locked=false,nextReady=false,nextTimer=null,records=[],scoreSaved=false,finalElapsed=0;
+function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min}
+function nz(min,max){let n=0;while(!n)n=rand(min,max);return n}
+function fx(n){if(n===1)return'x';if(n===-1)return'−x';return(n<0?'−'+Math.abs(n):n)+'x'}
+function linear(a,b){let s='';if(a)s=fx(a);if(b){if(!s)s=String(b).replace('-','−');else s+=b>0?' + '+b:' − '+Math.abs(b)}return s||'0'}
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t}return a||1}
+function rat(n,d=1){if(d===0)throw new Error('分母不可為 0');if(d<0){n=-n;d=-d}const g=gcd(n,d);return{n:n/g,d:d/g}}
+function ratEq(a,b){return a.n===b.n&&a.d===b.d}
+function ratAbs(a){return rat(Math.abs(a.n),a.d)}
+function ratText(a){if(a.d===1)return String(a.n).replace('-','−');return `${a.n<0?'−':''}${Math.abs(a.n)}/${a.d}`}
+function mathFracHTML(a,showSign=true){const neg=a.n<0,abs=Math.abs(a.n),sign=showSign&&neg?'−':'';if(a.d===1)return sign+abs;return `${sign}<span class="math-frac"><span class="top">${abs}</span><span class="bar"></span><span class="bottom">${a.d}</span></span>`}
+function stackedFractionHTML(top,bottom){return `<span class="math-frac"><span class="top">${top}</span><span class="bar"></span><span class="bottom">${bottom}</span></span>`}
+function questionHTML(q){return `<span class="math-expression">${q.qStr}</span>`}
+function escapeHTML(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+function makeQuestions(m){
+  const out=[],used=new Set(),target=m===4?5:10;
+  while(out.length<target){
+    let qStr,ansRat;
+    if(m===1){
+      const a=nz(-6,6), c_val=nz(-6,6);
+      if(a===c_val)continue;
+      const xVal=nz(-8,8);
+      const b=nz(-15,15);
+      const d=a*xVal + b - c_val*xVal;
+      if(Math.abs(d)>20)continue;
+      ansRat=rat(xVal,1);
+      qStr=`${linear(a,b)} = ${linear(c_val,d)}`;
+    }else if(m===2){
+      const k1=nz(-4,4), k2=nz(-4,4);
+      const a1=nz(-3,3), b1=nz(-8,8), a2=nz(-3,3), b2=nz(-8,8);
+      const xVal=nz(-6,6);
+      const leftVal=k1*(a1*xVal + b1);
+      const rightVal=k2*(a2*xVal + b2);
+      if(leftVal!==rightVal)continue;
+      ansRat=rat(xVal,1);
+      qStr=`${k1}(${linear(a1,b1)}) = ${k2}(${linear(a2,b2)})`;
+    }else if(m===3){
+      const a=nz(-6,6), b=nz(-6,6), c=nz(-12,12);
+      const xVal=nz(-6,6);
+      if(a===b)continue;
+      const d_val=(a-b)*xVal - c;
+      if(Math.abs(d_val)>25)continue;
+      ansRat=rat(xVal,1);
+      qStr=`${linear(a,0)} - (${linear(b,c)}) = ${d_val}`;
+    }else{
+      const d1=rand(2,5), d2=rand(2,5);
+      const xInt=nz(-7,7);
+      const ac=nz(-4,4), bc=nz(-10,10), cc=nz(-4,4);
+      let bc_adj=bc;
+      while((ac*xInt + bc_adj)%d1!==0){
+        bc_adj=nz(-10,10);
+      }
+      const dc=(ac*xInt + bc_adj)/d1 - cc*xInt;
+      if(Math.abs(dc)>25)continue;
+      ansRat=rat(xInt,1);
+      qStr=`${stackedFractionHTML(linear(ac,bc_adj),d1)} = ${linear(cc,dc)}`;
+      
+      const key=`${qStr}`;
+      if(used.has(key))continue;
+      used.add(key);
+      out.push({qStr, ans:ansRat, meta:{}});
+      continue;
+    }
+    const key=qStr;
+    if(used.has(key))continue;
+    used.add(key);
+    out.push({qStr, ans:ansRat, meta:{}});
+  }
+  return out;
+}
+
+function parseInputToRat(raw){
+  const s=String(raw).trim().toLowerCase().replace(/\s+/g,'').replace(/[＋﹢]/g,'+').replace(/[−－﹣–—]/g,'-');
+  if(!s||/[^0-9+\-\/]/.test(s))return null;
+  const parts=s.split('/');
+  if(parts.length>2)return null;
+  const n=Number(parts[0]);
+  const d=parts[1]?Number(parts[1]):1;
+  if(!Number.isSafeInteger(n)||!Number.isSafeInteger(d)||d===0)return null;
+  return rat(n,d);
+}
+
+function readMode4Answer(){
+  const ns=$('x-num').value.trim(), ds=$('x-den').value.trim();
+  if(!ns)return null;
+  if(!/^-?\d+$/.test(ns))return null;
+  if(ds&&!/^\d+$/.test(ds))return null;
+  const n=Number(ns), d=ds?Number(ds):1;
+  if(!Number.isSafeInteger(n)||!Number.isSafeInteger(d)||d<=0)return null;
+  const simplest=d===1?true:gcd(n,d)===1;
+  return{value:rat(n,d),simplest,raw:ds?`${n}/${ds}`:`${n}`};
+}
+
+function configureMode4Inputs(q){
+  const el=$('x-frac-box'), num=$('x-num'), den=$('x-den');
+  const isInteger=(q.ans.d===1);
+  el.classList.toggle('integer-input',isInteger);
+  num.placeholder=isInteger?'整數':'分子';
+  den.placeholder='分母';
+  den.tabIndex=isInteger?-1:0;
+  if(isInteger)den.value='';
+}
+
+function clearMode4Inputs(){['x-num','x-den'].forEach(id=>{$(id).value='';$(id).disabled=false});$('mode4-answer').classList.remove('disabled')}
+function disableMode4Inputs(){['x-num','x-den'].forEach(id=>$(id).disabled=true);$('mode4-answer').classList.add('disabled')}
+function updateMode4Preview(){const p=readMode4Answer();$('normalized-preview').innerHTML=!p?'':'系統判讀：x ＝ '+(p.value.d===1?p.value.n:`${p.value.n}/${p.value.d}`)}
+
+function setTimer(){clearInterval(timer);timer=setInterval(()=>{const e=Math.floor((Date.now()-startTime)/1000);$('time-display').textContent=`⏳ ${String(Math.floor(e/60)).padStart(2,'0')}:${String(e%60).padStart(2,'0')}`},1000)}
+function showOnly(id){['start-screen','quiz-screen','result-screen','review-screen'].forEach(x=>$(x).classList.toggle('hidden',x!==id))}
+
+function startGame(keepMode=false){
+  clearTimeout(nextTimer);
+  if(!keepMode)mode=Number(document.querySelector('input[name="mode"]:checked').value);
+  questions=makeQuestions(mode);
+  index=correct=wrong=0;
+  records=[];
+  scoreSaved=false;
+  finalElapsed=0;
+  $('save-status').textContent='';
+  $('save-status').style.color='';
+  locked=nextReady=false;
+  startTime=Date.now();
+  setTimer();
+  showOnly('quiz-screen');
+  $('mode-badge').textContent=MODE_NAMES[mode];
+  loadQuestion();
+  setTimeout(resizeCanvas,50);
+}
+
+function loadQuestion(){
+  clearScratchCanvas();
+  clearTimeout(nextTimer);
+  locked=nextReady=false;
+  $('submit-btn').classList.remove('hidden');
+  $('next-btn').classList.add('hidden');
+  $('feedback').innerHTML='';
+  $('problem-text').innerHTML=questionHTML(questions[index]);
+  const total=totalQuestions();
+  $('question-number').textContent=`第 ${index+1} / ${total} 題`;
+  $('progress-bar').style.width=`${index/total*100}%`;
+  $('normalized-preview').innerHTML='';
+  const is4=mode===4;
+  $('answer-input').classList.toggle('hidden',is4);
+  $('mode4-answer').classList.toggle('hidden',!is4);
+  $('fraction-help').classList.toggle('hidden',!is4);
+  if(is4){
+    clearMode4Inputs();
+    configureMode4Inputs(questions[index]);
+    setTimeout(()=>$('x-num').focus(),0);
+  }else{
+    $('answer-input').disabled=false;
+    $('answer-input').value='';
+    $('answer-input').placeholder='例如：5 或 -3/2';
+    $('answer-input').focus();
+  }
+}
+
+function updatePreview(){
+  if(mode===4){updateMode4Preview();return}
+  const raw=$('answer-input').value;
+  const p=parseInputToRat(raw);
+  $('normalized-preview').textContent=!raw.trim()?'':p?`系統判讀：x ＝ ${ratText(p)}`:'格式未正確（請輸入數字或分數）';
+}
+
+function check(){
+  if(locked)return;
+  const q=questions[index];
+  let p, raw;
+  if(mode===4){
+    const res=readMode4Answer();
+    if(!res){$('feedback').innerHTML='<span style="color:#d97706">請完整填寫答案。</span>';return;}
+    if(!res.simplest){$('feedback').innerHTML='<span style="color:#d97706">答案已辨識，但分數尚未化成最簡分數；請約分後再送出。若可整除，請直接填整數。</span>';return;}
+    p=res.value;
+    raw=res.raw;
+  }else{
+    raw=$('answer-input').value;
+    p=parseInputToRat(raw);
+    if(!p){$('feedback').innerHTML='<span style="color:#d97706">請輸入有效的數字或分數（例如 3 或 -1/2）。</span>';return;}
+  }
+
+  locked=true;
+  if(mode===4)disableMode4Inputs();else $('answer-input').disabled=true;
+
+  const ok=ratEq(p,q.ans);
+  ok?correct++:wrong++;
+  records.push({number:index+1,question:q,userRaw:raw,userParsed:p,ok});
+
+  const ansStr=q.ans.d===1?q.ans.n:`${q.ans.n}/${q.ans.d}`;
+  $('feedback').innerHTML=ok?
+    `<span style="color:#15803d">✨ 正確！</span><div class="solution">方程式之解為：x ＝ ${ansStr}</div>`:
+    `<span style="color:#b91c1c">❌ 答案不正確，正確答案是 x ＝ ${ansStr}</span><div class="solution">方程式之解為：x ＝ ${ansStr}</div>`;
+
+  nextTimer=setTimeout(()=>{
+    $('submit-btn').classList.add('hidden');
+    $('next-btn').classList.remove('hidden');
+    $('next-btn').textContent=index===totalQuestions()-1?'查看測驗結果（Enter）':'下一題（Enter）';
+    nextReady=true;
+    $('next-btn').focus();
+  },ok?850:1200);
+}
+
+function next(){if(!nextReady)return;index++;index<totalQuestions()?loadQuestion():showResult()}
+function rating(score){if(score>=90)return{stars:'★★★★★',comment:'太棒了！你已經完全掌握一元一次方程式的解法。'};if(score>=80)return{stars:'★★★★☆',comment:'表現很好，再注意移項正負號就更完美。'};if(score>=60)return{stars:'★★★☆☆',comment:'已掌握基本概念，繼續練習會更熟練。'};return{stars:'★★☆☆☆',comment:'多加利用草稿紙慢慢化簡，再挑戰一次！'}}
+async function saveCurrentScore(score){
+  if(scoreSaved)return;
+  scoreSaved=true;
+
+  const status=$('save-status');
+  status.textContent='☁️ 正在儲存本次成績……';
+  status.style.color='#1d4ed8';
+
+  try{
+    const result=await saveGameScore({
+      game:GAME_ID,
+      score,
+      correctCount:correct,
+      wrongCount:wrong,
+      maxCombo:0,
+      playTime:finalElapsed,
+      mode:String(mode)
+    });
+
+    if(result.success){
+      status.textContent='✅ 本次成績已儲存。';
+      status.style.color='#15803d';
+      return;
+    }
+
+    if(result.reason==='not-logged-in'){
+      status.textContent='ℹ️ 尚未登入，因此本次成績沒有儲存。';
+      status.style.color='#b45309';
+      return;
+    }
+
+    status.textContent='⚠️ 成績暫時無法儲存，請稍後再試。';
+    status.style.color='#b91c1c';
+  }catch(error){
+    console.error('一元一次方程式成績儲存失敗：',error);
+    status.textContent='⚠️ 成績暫時無法儲存，請稍後再試。';
+    status.style.color='#b91c1c';
+  }
+}
+
+async function showResult(){
+  clearInterval(timer);
+  $('progress-bar').style.width='100%';
+
+  finalElapsed=Math.floor((Date.now()-startTime)/1000);
+  const score=Math.round(correct/totalQuestions()*100);
+  const r=rating(score);
+
+  showOnly('result-screen');
+  $('final-score').textContent=`${score} 分`;
+  $('final-stars').textContent=r.stars;
+  $('final-comment').textContent=r.comment;
+  $('final-correct').textContent=correct;
+  $('final-wrong').textContent=wrong;
+  $('final-time').textContent=`${String(Math.floor(finalElapsed/60)).padStart(2,'0')}:${String(finalElapsed%60).padStart(2,'0')}`;
+  $('review-btn').disabled=wrong===0;
+  $('review-btn').textContent=wrong===0?'全部答對，無錯題':'錯題回顧';
+
+  await saveCurrentScore(score);
+}
+function showReview(){const wrongs=records.filter(r=>!r.ok),box=$('review-list');box.innerHTML=wrongs.length?wrongs.map(r=>`<article class="review-card"><div class="review-title">第 ${r.number} 題 ❌</div><div class="review-problem">${r.question.qStr}</div><div class="review-answer">你的答案：<b>x ＝ ${escapeHTML(r.userRaw||'未作答')}</b><br>正確答案：<b>x ＝ ${r.question.ans.d===1?r.question.ans.n:`${r.question.ans.n}/${r.question.ans.d}`}</b></div></article>`).join(''):'<div class="grade-card">全部答對，沒有需要回顧的錯題！</div>';showOnly('review-screen')}
+function modeSelect(){clearInterval(timer);clearTimeout(nextTimer);$('save-status').textContent='';$('save-status').style.color='';showOnly('start-screen');$('progress-bar').style.width='0%'}
+
+$('start-btn').onclick=()=>startGame(false);$('change-mode-btn').onclick=modeSelect;$('result-change-mode-btn').onclick=modeSelect;$('review-mode-btn').onclick=modeSelect;$('submit-btn').onclick=check;$('next-btn').onclick=next;$('reset-btn').onclick=()=>startGame(true);$('again-btn').onclick=()=>startGame(true);$('review-again-btn').onclick=()=>startGame(true);$('review-btn').onclick=showReview;$('review-back-btn').onclick=()=>showOnly('result-screen');$('answer-input').oninput=updatePreview;['x-num','x-den'].forEach(id=>$(id).addEventListener('input',updateMode4Preview));
+document.addEventListener('keydown',e=>{if(e.key!=='Enter'||$('quiz-screen').classList.contains('hidden'))return;e.preventDefault();nextReady?next():!locked&&check()});
+
+const canvas=$('scratch-canvas'),ctx=canvas.getContext('2d');let drawing=false,last=null,tool='pen',penColor='#111827',history=[],redo=[];
+function currentCssSize(){const d=canvas._dpr||Math.max(1,window.devicePixelRatio||1);return{w:canvas.width/d,h:canvas.height/d}}
+function clearScratchCanvas(){const s=currentCssSize();ctx.clearRect(0,0,s.w,s.h);history=[];redo=[]}
+function saveState(){history.push(canvas.toDataURL());if(history.length>40)history.shift();redo=[]}
+function restore(data){const img=new Image();img.onload=()=>{const s=currentCssSize();ctx.clearRect(0,0,s.w,s.h);ctx.drawImage(img,0,0,img.width,img.height,0,0,s.w,s.h)};img.src=data}
+function resizeCanvas(){if($('scratch-panel').offsetParent===null)return;const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;const ratio=Math.max(1,window.devicePixelRatio||1),old=document.createElement('canvas');old.width=canvas.width;old.height=canvas.height;if(canvas.width&&canvas.height)old.getContext('2d').drawImage(canvas,0,0);const oldDpr=canvas._dpr||ratio,oldCssW=old.width/oldDpr,oldCssH=old.height/oldDpr;canvas.width=Math.max(1,Math.round(rect.width*ratio));canvas.height=Math.max(1,Math.round(rect.height*ratio));canvas._dpr=ratio;ctx.setTransform(ratio,0,0,ratio,0,0);ctx.lineCap='round';ctx.lineJoin='round';if(old.width&&old.height)ctx.drawImage(old,0,0,old.width,old.height,0,0,Math.min(oldCssW,rect.width),Math.min(oldCssH,rect.height))}
+function point(e){const r=canvas.getBoundingClientRect(),s=currentCssSize();return{x:(e.clientX-r.left)*(s.w/r.width),y:(e.clientY-r.top)*(s.h/r.height)}}
+
+['contextmenu','selectstart','dragstart','dblclick','auxclick'].forEach(type=>{
+  canvas.addEventListener(type,e=>{e.preventDefault();e.stopPropagation()},{passive:false});
+});
+canvas.addEventListener('touchstart',e=>{e.preventDefault()},{passive:false});
+canvas.addEventListener('touchmove',e=>{e.preventDefault()},{passive:false});
+canvas.addEventListener('mousedown',e=>{if(e.button!==0){e.preventDefault();e.stopPropagation()}},{passive:false});
+
+document.querySelectorAll('#scratch-panel .tool').forEach(btn=>{
+  ['pointerdown','mousedown','touchstart'].forEach(type=>btn.addEventListener(type,e=>e.stopPropagation(),{passive:true}));
+});
+
+const scratchPanel=$('scratch-panel');
+const EDGE=18;
+let panelDragging=false,panelPointerId=null,panelOffsetX=0,panelOffsetY=0;
+function edgeZone(e){
+  const r=scratchPanel.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+  const left=x<=EDGE,right=x>=r.width-EDGE,top=y<=EDGE,bottom=y>=r.height-EDGE;
+  return{left,right,top,bottom,active:left||right||top||bottom,corner:(left||right)&&(top||bottom)};
+}
+function updateEdgeCursor(e){
+  if(panelDragging||scratchPanel.classList.contains('fullscreen-scratch')||window.innerWidth<=980)return;
+  if(e.target.closest('.tool,.canvas-wrap')){scratchPanel.classList.remove('edge-left','edge-right','edge-top','edge-bottom','edge-corner');return}
+  const z=edgeZone(e);scratchPanel.classList.remove('edge-left','edge-right','edge-top','edge-bottom','edge-corner');
+  if(z.corner)scratchPanel.classList.add('edge-corner');else if(z.left)scratchPanel.classList.add('edge-left');else if(z.right)scratchPanel.classList.add('edge-right');else if(z.top)scratchPanel.classList.add('edge-top');else if(z.bottom)scratchPanel.classList.add('edge-bottom');
+}
+scratchPanel.classList.add('edge-draggable');
+scratchPanel.addEventListener('pointermove',updateEdgeCursor);
+scratchPanel.addEventListener('pointerleave',()=>{if(!panelDragging)scratchPanel.classList.remove('edge-left','edge-right','edge-top','edge-bottom','edge-corner')});
+scratchPanel.addEventListener('pointerdown',e=>{
+  if(window.innerWidth<=980||scratchPanel.classList.contains('fullscreen-scratch')||e.button!==0||e.target.closest('.tool,.canvas-wrap'))return;
+  const z=edgeZone(e);if(!z.active)return;
+  e.preventDefault();
+  const r=scratchPanel.getBoundingClientRect();
+  panelDragging=true;panelPointerId=e.pointerId;panelOffsetX=e.clientX-r.left;panelOffsetY=e.clientY-r.top;
+  scratchPanel.classList.add('dragging');
+  scratchPanel.style.width=r.width+'px';scratchPanel.style.left=r.left+'px';scratchPanel.style.top=r.top+'px';
+  scratchPanel.setPointerCapture(e.pointerId);
+});
+scratchPanel.addEventListener('pointermove',e=>{
+  if(!panelDragging||e.pointerId!==panelPointerId)return;
+  e.preventDefault();
+  const maxLeft=Math.max(0,window.innerWidth-scratchPanel.offsetWidth),maxTop=Math.max(0,window.innerHeight-scratchPanel.offsetHeight);
+  scratchPanel.style.left=Math.min(maxLeft,Math.max(0,e.clientX-panelOffsetX))+'px';
+  scratchPanel.style.top=Math.min(maxTop,Math.max(0,e.clientY-panelOffsetY))+'px';
+});
+function stopPanelDrag(e){
+  if(!panelDragging||e.pointerId!==panelPointerId)return;
+  panelDragging=false;scratchPanel.classList.remove('dragging','edge-left','edge-right','edge-top','edge-bottom','edge-corner');
+  if(scratchPanel.hasPointerCapture(e.pointerId))scratchPanel.releasePointerCapture(e.pointerId);
+}
+scratchPanel.addEventListener('pointerup',stopPanelDrag);
+scratchPanel.addEventListener('pointercancel',stopPanelDrag);
+canvas.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'&&e.button!==0){e.preventDefault();return}e.preventDefault();e.stopPropagation();saveState();drawing=true;last=point(e);canvas.setPointerCapture(e.pointerId)});
+canvas.addEventListener('pointermove',e=>{if(!drawing)return;e.preventDefault();e.stopPropagation();const p=point(e);ctx.beginPath();ctx.globalCompositeOperation=tool==='eraser'?'destination-out':'source-over';ctx.strokeStyle=penColor;ctx.lineWidth=tool==='eraser'?26:3.2;ctx.moveTo(last.x,last.y);ctx.lineTo(p.x,p.y);ctx.stroke();last=p});
+function stop(e){if(e){e.preventDefault();e.stopPropagation()}drawing=false;if(e&&canvas.hasPointerCapture(e.pointerId))canvas.releasePointerCapture(e.pointerId)}canvas.addEventListener('pointerup',stop);canvas.addEventListener('pointercancel',stop);
+function selectPen(color,buttonId){tool='pen';penColor=color;['black-btn','blue-btn','red-btn','eraser-btn'].forEach(id=>$(id).classList.toggle('active',id===buttonId))}
+$('black-btn').onclick=()=>selectPen('#111827','black-btn');$('blue-btn').onclick=()=>selectPen('#2563eb','blue-btn');$('red-btn').onclick=()=>selectPen('#dc2626','red-btn');$('eraser-btn').onclick=()=>{tool='eraser';['black-btn','blue-btn','red-btn'].forEach(id=>$(id).classList.remove('active'));$('eraser-btn').classList.add('active')};
+$('clear-btn').onclick=()=>{saveState();const s=currentCssSize();ctx.clearRect(0,0,s.w,s.h)};$('undo-btn').onclick=()=>{if(!history.length)return;redo.push(canvas.toDataURL());restore(history.pop())};$('redo-btn').onclick=()=>{if(!redo.length)return;history.push(canvas.toDataURL());restore(redo.pop())};
+function setScratchFullscreen(open){const panel=$('scratch-panel');panel.classList.toggle('fullscreen-scratch',open);$('expand-btn').textContent=open?'🗗':'⛶';document.body.style.overflow=open?'hidden':'';requestAnimationFrame(()=>requestAnimationFrame(resizeCanvas))}
+$('expand-btn').onclick=()=>setScratchFullscreen(!$('scratch-panel').classList.contains('fullscreen-scratch'));
+$('mobile-scratch-btn').onclick=()=>setScratchFullscreen(true);
+$('scratch-close-btn').onclick=()=>setScratchFullscreen(false);
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('scratch-panel').classList.contains('fullscreen-scratch'))setScratchFullscreen(false)});
+if('ResizeObserver'in window)new ResizeObserver(()=>requestAnimationFrame(resizeCanvas)).observe($('scratch-panel'));window.addEventListener('resize',()=>setTimeout(resizeCanvas,80));window.addEventListener('orientationchange',()=>setTimeout(resizeCanvas,220));setTimeout(resizeCanvas,120);
+</script>
+</html>
