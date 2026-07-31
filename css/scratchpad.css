@@ -1,0 +1,2021 @@
+/*
+==================================================
+Math Game Park 共用計算紙樣式
+檔案：css/scratchpad.css
+版本：1.0
+==================================================
+
+Part 1 功能：
+1. 計算紙開啟按鈕
+2. 桌面浮動面板
+3. 標題列
+4. 關閉按鈕
+5. Canvas 畫布
+6. 面板開啟動畫
+7. 拖曳狀態
+8. 基本無障礙焦點樣式
+==================================================
+*/
+
+
+/*
+==================================================
+一、共用變數
+==================================================
+
+CSS 變數可以集中管理：
+
+1. 面板寬度
+2. 圓角
+3. 陰影
+4. 邊框顏色
+5. 背景顏色
+
+未來需要修改外觀時，
+只要修改這裡即可。
+*/
+
+:root {
+  --scratchpad-panel-width: 430px;
+  --scratchpad-panel-height: 560px;
+
+  --scratchpad-panel-background: #fffdf5;
+  --scratchpad-header-background: #f59e0b;
+
+  --scratchpad-border-color: #d97706;
+  --scratchpad-divider-color: #e5e7eb;
+
+  --scratchpad-text-color: #1f2937;
+  --scratchpad-muted-color: #6b7280;
+
+  --scratchpad-button-background: #ffffff;
+  --scratchpad-button-hover: #fef3c7;
+
+  --scratchpad-active-background: #fde68a;
+  --scratchpad-active-border: #b45309;
+
+  --scratchpad-disabled-background: #f3f4f6;
+  --scratchpad-disabled-text: #9ca3af;
+
+  --scratchpad-panel-radius: 20px;
+  --scratchpad-button-radius: 12px;
+
+  --scratchpad-panel-shadow:
+    0 18px 45px rgba(15, 23, 42, 0.28);
+
+  --scratchpad-focus-shadow:
+    0 0 0 4px rgba(245, 158, 11, 0.3);
+}
+
+
+/*
+==================================================
+二、開啟計算紙按鈕
+==================================================
+
+這顆按鈕會放在遊戲畫面上。
+
+學生點擊後，
+計算紙浮動面板會開啟。
+*/
+
+.scratchpad-open-button {
+  /*
+  使用 inline-flex，
+  讓圖示與文字可以水平排列。
+  */
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  /*
+  按鈕尺寸。
+  */
+
+  min-height: 46px;
+  padding: 10px 18px;
+
+  /*
+  外觀。
+  */
+
+  border: 2px solid var(--scratchpad-border-color);
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fff7d6 0%,
+      #fde68a 100%
+    );
+
+  color: #78350f;
+
+  /*
+  文字設定。
+  */
+
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+
+  /*
+  滑鼠樣式。
+  */
+
+  cursor: pointer;
+
+  /*
+  陰影與動畫。
+  */
+
+  box-shadow:
+    0 5px 0 #b45309,
+    0 8px 16px rgba(120, 53, 15, 0.18);
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+
+/*
+滑鼠移到開啟按鈕時。
+*/
+
+.scratchpad-open-button:hover {
+  transform: translateY(-2px);
+
+  background:
+    linear-gradient(
+      180deg,
+      #fff9e5 0%,
+      #fcd34d 100%
+    );
+
+  box-shadow:
+    0 7px 0 #b45309,
+    0 10px 20px rgba(120, 53, 15, 0.2);
+}
+
+
+/*
+按下開啟按鈕時。
+*/
+
+.scratchpad-open-button:active {
+  transform: translateY(3px);
+
+  box-shadow:
+    0 2px 0 #b45309,
+    0 4px 10px rgba(120, 53, 15, 0.16);
+}
+
+
+/*
+鍵盤操作時的焦點樣式。
+*/
+
+.scratchpad-open-button:focus-visible {
+  outline: none;
+  box-shadow:
+    var(--scratchpad-focus-shadow),
+    0 5px 0 #b45309;
+}
+
+
+/*
+開啟按鈕中的圖示。
+*/
+
+.scratchpad-open-button__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 21px;
+  line-height: 1;
+}
+
+
+/*
+==================================================
+三、浮動計算紙面板
+==================================================
+
+桌面版會顯示成浮動視窗。
+
+JavaScript 會控制：
+
+1. hidden
+2. scratchpad-panel--open
+3. scratchpad-panel--fullscreen
+4. scratchpad-panel--dragging
+*/
+
+.scratchpad-panel {
+  /*
+  固定在瀏覽器畫面中，
+  不會跟著網頁內容捲動。
+  */
+
+  position: fixed;
+
+  /*
+  JavaScript 之後會設定 left、top。
+  這裡先提供右下角備用位置。
+  */
+
+  right: 24px;
+  bottom: 24px;
+
+  /*
+  面板尺寸。
+  */
+
+  width: min(
+    var(--scratchpad-panel-width),
+    calc(100vw - 32px)
+  );
+
+  height: min(
+    var(--scratchpad-panel-height),
+    calc(100vh - 32px)
+  );
+
+  /*
+  使用垂直排列：
+  標題列、工具列、畫布。
+  */
+
+  display: flex;
+  flex-direction: column;
+
+  /*
+  面板外觀。
+  */
+
+  overflow: hidden;
+
+  border: 3px solid var(--scratchpad-border-color);
+  border-radius: var(--scratchpad-panel-radius);
+
+  background: var(--scratchpad-panel-background);
+
+  color: var(--scratchpad-text-color);
+
+  box-shadow: var(--scratchpad-panel-shadow);
+
+  /*
+  必須高於遊戲畫面。
+  */
+
+  z-index: 9999;
+
+  /*
+  一開始先透明與稍微縮小。
+  JavaScript 加上 open class 後才顯示。
+  */
+
+  opacity: 0;
+
+  transform:
+    translateY(12px)
+    scale(0.97);
+
+  pointer-events: none;
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+/*
+HTML hidden 屬性存在時，
+完全不顯示。
+*/
+
+.scratchpad-panel[hidden] {
+  display: none !important;
+}
+
+
+/*
+面板開啟狀態。
+*/
+
+.scratchpad-panel--open {
+  opacity: 1;
+
+  transform:
+    translateY(0)
+    scale(1);
+
+  pointer-events: auto;
+}
+
+
+/*
+拖曳中的面板。
+*/
+
+.scratchpad-panel--dragging {
+  /*
+  拖曳時關閉動畫，
+  避免移動延遲。
+  */
+
+  transition: none;
+
+  /*
+  加深陰影，
+  讓學生知道正在移動視窗。
+  */
+
+  box-shadow:
+    0 24px 60px rgba(15, 23, 42, 0.36);
+}
+
+
+/*
+==================================================
+四、計算紙標題列
+==================================================
+*/
+
+.scratchpad-header {
+  /*
+  標題與關閉按鈕水平排列。
+  */
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  /*
+  固定高度與內距。
+  */
+
+  min-height: 58px;
+  padding: 10px 12px 10px 18px;
+
+  /*
+  外觀。
+  */
+
+  border-bottom: 2px solid var(--scratchpad-border-color);
+
+  background:
+    linear-gradient(
+      135deg,
+      #fbbf24 0%,
+      var(--scratchpad-header-background) 100%
+    );
+
+  color: #451a03;
+
+  /*
+  桌面版可以拖曳。
+  */
+
+  cursor: grab;
+
+  /*
+  防止拖曳時選取文字。
+  */
+
+  user-select: none;
+  -webkit-user-select: none;
+
+  /*
+  防止觸控裝置拖曳時造成頁面滑動。
+  */
+
+  touch-action: none;
+}
+
+
+/*
+拖曳時游標變成抓住。
+*/
+
+.scratchpad-panel--dragging
+.scratchpad-header {
+  cursor: grabbing;
+}
+
+
+/*
+標題左側區域。
+*/
+
+.scratchpad-header__title-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  min-width: 0;
+}
+
+
+/*
+標題圖示。
+*/
+
+.scratchpad-header__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 34px;
+  height: 34px;
+
+  border: 2px solid rgba(120, 53, 15, 0.25);
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.58);
+
+  font-size: 21px;
+  line-height: 1;
+}
+
+
+/*
+主標題。
+*/
+
+.scratchpad-header__title {
+  margin: 0;
+
+  overflow: hidden;
+
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.2;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/*
+副標題。
+
+例如：
+「可以自由計算與畫圖」
+*/
+
+.scratchpad-header__subtitle {
+  margin: 2px 0 0;
+
+  overflow: hidden;
+
+  color: rgba(69, 26, 3, 0.76);
+
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/*
+==================================================
+五、關閉按鈕
+==================================================
+*/
+
+.scratchpad-close-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 38px;
+  height: 38px;
+
+  padding: 0;
+
+  border: 2px solid rgba(120, 53, 15, 0.35);
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.68);
+
+  color: #78350f;
+
+  font-family: inherit;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease,
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+
+/*
+關閉按鈕滑鼠移入。
+*/
+
+.scratchpad-close-button:hover {
+  transform: rotate(6deg) scale(1.06);
+
+  border-color: #991b1b;
+
+  background: #fee2e2;
+
+  color: #991b1b;
+}
+
+
+/*
+關閉按鈕按下。
+*/
+
+.scratchpad-close-button:active {
+  transform: scale(0.94);
+}
+
+
+/*
+鍵盤焦點。
+*/
+
+.scratchpad-close-button:focus-visible {
+  outline: none;
+  box-shadow: var(--scratchpad-focus-shadow);
+}
+
+
+/*
+==================================================
+六、計算紙主要內容
+==================================================
+*/
+
+.scratchpad-content {
+  /*
+  填滿標題列以下的空間。
+  */
+
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+
+  min-height: 0;
+
+  background: var(--scratchpad-panel-background);
+}
+
+
+/*
+==================================================
+七、Canvas 外框
+==================================================
+*/
+
+.scratchpad-canvas-container {
+  /*
+  Canvas 區域占滿剩餘空間。
+  */
+
+  position: relative;
+
+  display: flex;
+  flex: 1;
+
+  min-height: 0;
+
+  padding: 12px;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fffdf7 0%,
+      #fffaf0 100%
+    );
+}
+
+
+/*
+Canvas 本體。
+*/
+
+.scratchpad-canvas {
+  /*
+  填滿容器。
+  */
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  min-height: 220px;
+
+  /*
+  基本白色紙張。
+  下一個 Part 會加入方格線。
+  */
+
+  border: 2px solid #d1d5db;
+  border-radius: 14px;
+
+  background-color: #ffffff;
+
+  /*
+  手指畫圖時，
+  不讓頁面跟著移動或縮放。
+  */
+
+  touch-action: none;
+
+  /*
+  畫筆游標。
+  */
+
+  cursor: crosshair;
+
+  /*
+  防止圖片或 Canvas 被選取。
+  */
+
+  user-select: none;
+  -webkit-user-select: none;
+
+  /*
+  紙張陰影。
+  */
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.9),
+    0 4px 12px rgba(15, 23, 42, 0.1);
+}
+
+
+/*
+Canvas 鍵盤焦點。
+
+雖然 Canvas 主要使用滑鼠或觸控，
+仍保留清楚的焦點提示。
+*/
+
+.scratchpad-canvas:focus-visible {
+  outline: none;
+
+  border-color: var(--scratchpad-border-color);
+
+  box-shadow:
+    var(--scratchpad-focus-shadow),
+    0 4px 12px rgba(15, 23, 42, 0.1);
+}
+
+
+/*
+==================================================
+八、畫布提示文字
+==================================================
+
+HTML 可以在 Canvas 上方放：
+
+「在這裡寫下計算過程」
+
+因為 pointer-events: none，
+提示文字不會阻擋畫圖。
+*/
+
+.scratchpad-canvas-hint {
+  position: absolute;
+
+  top: 28px;
+  left: 50%;
+
+  z-index: 1;
+
+  max-width: calc(100% - 60px);
+
+  padding: 5px 12px;
+
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.82);
+
+  color: var(--scratchpad-muted-color);
+
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+
+  text-align: center;
+
+  pointer-events: none;
+
+  transform: translateX(-50%);
+}
+
+
+/*
+==================================================
+九、通用按鈕設定
+==================================================
+
+避免計算紙內的按鈕
+繼承遊戲頁面中不適合的樣式。
+*/
+
+.scratchpad-panel button {
+  font-family: inherit;
+}
+
+
+/*
+所有可操作按鈕的鍵盤焦點。
+*/
+
+.scratchpad-panel button:focus-visible {
+  outline: none;
+  box-shadow: var(--scratchpad-focus-shadow);
+}
+
+
+/*
+停用按鈕。
+*/
+
+.scratchpad-panel button:disabled {
+  cursor: not-allowed;
+}
+
+
+/*
+==================================================
+十、降低動畫設定
+==================================================
+
+部分使用者會在系統中開啟：
+
+「減少動態效果」
+
+此時我們取消大部分動畫，
+提升使用舒適度。
+*/
+
+@media (prefers-reduced-motion: reduce) {
+  .scratchpad-open-button,
+  .scratchpad-panel,
+  .scratchpad-close-button {
+    transition: none;
+  }
+
+  .scratchpad-open-button:hover,
+  .scratchpad-open-button:active,
+  .scratchpad-close-button:hover,
+  .scratchpad-close-button:active {
+    transform: none;
+  }
+}
+/*
+==================================================
+Part 2：計算紙工具列與操作按鈕
+==================================================
+
+新增樣式：
+1. 工具列容器
+2. 工具分組
+3. 畫筆與橡皮擦
+4. 顏色按鈕
+5. 畫筆粗細按鈕
+6. Undo 與 Redo
+7. 清除按鈕
+8. 下載按鈕
+9. 選取狀態
+10. 停用狀態
+==================================================
+*/
+
+
+/*
+==================================================
+十一、工具列外層
+==================================================
+
+工具列位於：
+
+標題列下方
+Canvas 上方
+*/
+
+.scratchpad-toolbar {
+  /*
+  工具列中的不同按鈕群組
+  可以自動換行。
+  */
+
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  /*
+  工具列內距。
+  */
+
+  padding: 10px 12px;
+
+  /*
+  底部加入分隔線。
+  */
+
+  border-bottom:
+    2px solid
+    var(--scratchpad-divider-color);
+
+  /*
+  淺色背景。
+  */
+
+  background:
+    linear-gradient(
+      180deg,
+      #fffdf5 0%,
+      #fff8e7 100%
+    );
+
+  /*
+  工具列內容太多時，
+  允許水平捲動。
+  */
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  /*
+  防止工具列被 Flex 壓縮。
+  */
+
+  flex-shrink: 0;
+
+  /*
+  手機滑動更順暢。
+  */
+
+  -webkit-overflow-scrolling: touch;
+
+  /*
+  隱藏 Firefox 捲軸。
+  */
+
+  scrollbar-width: thin;
+  scrollbar-color:
+    #fbbf24
+    transparent;
+}
+
+
+/*
+Chrome、Edge、Safari 的捲軸。
+*/
+
+.scratchpad-toolbar::-webkit-scrollbar {
+  height: 6px;
+}
+
+
+.scratchpad-toolbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+
+.scratchpad-toolbar::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: #fbbf24;
+}
+
+
+/*
+==================================================
+十二、工具列群組
+==================================================
+
+每一組功能可以包在：
+
+<div class="scratchpad-tool-group">
+</div>
+*/
+
+.scratchpad-tool-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  /*
+  按鈕群組不拆開換行。
+  */
+
+  flex-shrink: 0;
+
+  /*
+  每組之間稍微區隔。
+  */
+
+  padding-right: 8px;
+
+  border-right:
+    1px solid
+    var(--scratchpad-divider-color);
+}
+
+
+/*
+最後一組不需要右邊框。
+*/
+
+.scratchpad-tool-group:last-child {
+  padding-right: 0;
+  border-right: 0;
+}
+
+
+/*
+工具群組標籤。
+
+例如：
+「工具」
+「顏色」
+「粗細」
+*/
+
+.scratchpad-tool-group__label {
+  margin-right: 2px;
+
+  color: var(--scratchpad-muted-color);
+
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+
+  white-space: nowrap;
+}
+
+
+/*
+==================================================
+十三、一般工具按鈕
+==================================================
+
+使用於：
+
+畫筆
+橡皮擦
+Undo
+Redo
+清除
+下載
+*/
+
+.scratchpad-tool-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  /*
+  最小尺寸讓手指容易點擊。
+  */
+
+  min-width: 38px;
+  min-height: 38px;
+
+  padding: 7px 10px;
+
+  /*
+  按鈕外觀。
+  */
+
+  border:
+    2px solid
+    #d1d5db;
+
+  border-radius:
+    var(--scratchpad-button-radius);
+
+  background:
+    var(--scratchpad-button-background);
+
+  color:
+    var(--scratchpad-text-color);
+
+  /*
+  文字設定。
+  */
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+
+  white-space: nowrap;
+
+  /*
+  操作設定。
+  */
+
+  cursor: pointer;
+
+  /*
+  輕微陰影。
+  */
+
+  box-shadow:
+    0 2px 0 rgba(107, 114, 128, 0.22);
+
+  transition:
+    transform 0.12s ease,
+    border-color 0.12s ease,
+    background-color 0.12s ease,
+    color 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+
+/*
+工具按鈕滑鼠移入。
+*/
+
+.scratchpad-tool-button:hover:not(:disabled) {
+  border-color:
+    var(--scratchpad-border-color);
+
+  background:
+    var(--scratchpad-button-hover);
+
+  color: #78350f;
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 3px 0 rgba(180, 83, 9, 0.28);
+}
+
+
+/*
+工具按鈕按下。
+*/
+
+.scratchpad-tool-button:active:not(:disabled) {
+  transform: translateY(1px);
+
+  box-shadow:
+    0 1px 0 rgba(107, 114, 128, 0.2);
+}
+
+
+/*
+工具按鈕被選取。
+
+JavaScript 會自動加入：
+
+scratchpad-tool-button--active
+*/
+
+.scratchpad-tool-button--active {
+  border-color:
+    var(--scratchpad-active-border);
+
+  background:
+    var(--scratchpad-active-background);
+
+  color: #78350f;
+
+  box-shadow:
+    inset 0 0 0 1px
+      rgba(180, 83, 9, 0.18),
+    0 2px 0
+      rgba(180, 83, 9, 0.28);
+}
+
+
+/*
+選取中的按鈕滑鼠移入。
+*/
+
+.scratchpad-tool-button--active:hover:not(:disabled) {
+  border-color: #92400e;
+
+  background: #fcd34d;
+}
+
+
+/*
+==================================================
+十四、按鈕圖示與文字
+==================================================
+*/
+
+.scratchpad-tool-button__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 20px;
+
+  font-size: 18px;
+  line-height: 1;
+}
+
+
+.scratchpad-tool-button__text {
+  display: inline-block;
+
+  font-size: 13px;
+  line-height: 1;
+}
+
+
+/*
+==================================================
+十五、顏色按鈕
+==================================================
+
+HTML 範例：
+
+<button
+  class="scratchpad-color-button"
+  data-scratchpad-color="#000000"
+  aria-label="黑色畫筆"
+></button>
+*/
+
+.scratchpad-color-button {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 34px;
+  height: 34px;
+
+  padding: 4px;
+
+  border: 2px solid #d1d5db;
+  border-radius: 50%;
+
+  background: #ffffff;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 2px 0 rgba(107, 114, 128, 0.2);
+
+  transition:
+    transform 0.12s ease,
+    border-color 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+
+/*
+顏色按鈕中央的色塊。
+
+色彩由 HTML 中的 style 設定，例如：
+
+style="--scratchpad-color: #2563eb;"
+*/
+
+.scratchpad-color-button::before {
+  content: "";
+
+  display: block;
+
+  width: 20px;
+  height: 20px;
+
+  border:
+    1px solid
+    rgba(15, 23, 42, 0.22);
+
+  border-radius: 50%;
+
+  background:
+    var(
+      --scratchpad-color,
+      #111827
+    );
+
+  box-shadow:
+    inset 0 1px 2px
+      rgba(255, 255, 255, 0.35);
+}
+
+
+/*
+滑鼠移到顏色按鈕。
+*/
+
+.scratchpad-color-button:hover {
+  border-color:
+    var(--scratchpad-border-color);
+
+  transform:
+    translateY(-1px)
+    scale(1.05);
+}
+
+
+/*
+顏色按鈕被選取。
+
+JavaScript 同樣會加入：
+scratchpad-tool-button--active
+*/
+
+.scratchpad-color-button.scratchpad-tool-button--active {
+  border-color:
+    var(--scratchpad-active-border);
+
+  background: #fff7d6;
+
+  box-shadow:
+    0 0 0 3px rgba(245, 158, 11, 0.24),
+    0 2px 0 rgba(180, 83, 9, 0.26);
+}
+
+
+/*
+選取標記。
+*/
+
+.scratchpad-color-button.scratchpad-tool-button--active::after {
+  content: "✓";
+
+  position: absolute;
+
+  right: -4px;
+  bottom: -4px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 16px;
+  height: 16px;
+
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+
+  background:
+    var(--scratchpad-active-border);
+
+  color: #ffffff;
+
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+
+/*
+==================================================
+十六、預設顏色
+==================================================
+
+若 HTML 使用以下 class，
+就不需要另外寫 style。
+*/
+
+.scratchpad-color-button--black {
+  --scratchpad-color: #111827;
+}
+
+
+.scratchpad-color-button--blue {
+  --scratchpad-color: #2563eb;
+}
+
+
+.scratchpad-color-button--red {
+  --scratchpad-color: #dc2626;
+}
+
+
+.scratchpad-color-button--green {
+  --scratchpad-color: #16a34a;
+}
+
+
+/*
+==================================================
+十七、畫筆粗細按鈕
+==================================================
+
+HTML 範例：
+
+<button
+  class="scratchpad-size-button"
+  data-scratchpad-size="4"
+  aria-label="中畫筆"
+>
+  <span class="scratchpad-size-dot"></span>
+</button>
+*/
+
+.scratchpad-size-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 38px;
+  height: 38px;
+
+  padding: 0;
+
+  border: 2px solid #d1d5db;
+  border-radius:
+    var(--scratchpad-button-radius);
+
+  background: #ffffff;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 2px 0 rgba(107, 114, 128, 0.2);
+
+  transition:
+    transform 0.12s ease,
+    border-color 0.12s ease,
+    background-color 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+
+/*
+畫筆粗細按鈕滑鼠移入。
+*/
+
+.scratchpad-size-button:hover {
+  border-color:
+    var(--scratchpad-border-color);
+
+  background:
+    var(--scratchpad-button-hover);
+
+  transform: translateY(-1px);
+}
+
+
+/*
+畫筆粗細按鈕被選取。
+*/
+
+.scratchpad-size-button.scratchpad-tool-button--active {
+  border-color:
+    var(--scratchpad-active-border);
+
+  background:
+    var(--scratchpad-active-background);
+
+  box-shadow:
+    0 0 0 3px rgba(245, 158, 11, 0.2),
+    0 2px 0 rgba(180, 83, 9, 0.24);
+}
+
+
+/*
+按鈕中央的圓點。
+*/
+
+.scratchpad-size-dot {
+  display: block;
+
+  border-radius: 50%;
+
+  background:
+    var(--scratchpad-text-color);
+
+  pointer-events: none;
+}
+
+
+/*
+細畫筆圓點。
+*/
+
+.scratchpad-size-dot--small {
+  width: 6px;
+  height: 6px;
+}
+
+
+/*
+中畫筆圓點。
+*/
+
+.scratchpad-size-dot--medium {
+  width: 11px;
+  height: 11px;
+}
+
+
+/*
+粗畫筆圓點。
+*/
+
+.scratchpad-size-dot--large {
+  width: 17px;
+  height: 17px;
+}
+
+
+/*
+==================================================
+十八、危險與特殊功能按鈕
+==================================================
+*/
+
+
+/*
+清除按鈕。
+*/
+
+.scratchpad-tool-button--danger {
+  border-color: #fecaca;
+
+  background: #fff7f7;
+
+  color: #b91c1c;
+}
+
+
+.scratchpad-tool-button--danger:hover:not(:disabled) {
+  border-color: #ef4444;
+
+  background: #fee2e2;
+
+  color: #991b1b;
+}
+
+
+/*
+下載按鈕。
+*/
+
+.scratchpad-tool-button--download {
+  border-color: #bbf7d0;
+
+  background: #f0fdf4;
+
+  color: #166534;
+}
+
+
+.scratchpad-tool-button--download:hover:not(:disabled) {
+  border-color: #22c55e;
+
+  background: #dcfce7;
+
+  color: #14532d;
+}
+
+
+/*
+==================================================
+十九、按鈕停用狀態
+==================================================
+*/
+
+.scratchpad-tool-button:disabled,
+.scratchpad-color-button:disabled,
+.scratchpad-size-button:disabled {
+  border-color: #e5e7eb;
+
+  background:
+    var(--scratchpad-disabled-background);
+
+  color:
+    var(--scratchpad-disabled-text);
+
+  cursor: not-allowed;
+
+  box-shadow: none;
+
+  opacity: 0.65;
+
+  transform: none;
+}
+
+
+/*
+停用按鈕中的色塊與圓點。
+*/
+
+.scratchpad-color-button:disabled::before,
+.scratchpad-size-button:disabled
+.scratchpad-size-dot {
+  opacity: 0.4;
+}
+
+
+/*
+==================================================
+二十、按鈕鍵盤焦點
+==================================================
+*/
+
+.scratchpad-tool-button:focus-visible,
+.scratchpad-color-button:focus-visible,
+.scratchpad-size-button:focus-visible {
+  outline: none;
+
+  box-shadow:
+    var(--scratchpad-focus-shadow),
+    0 2px 0 rgba(107, 114, 128, 0.2);
+}
+
+
+/*
+==================================================
+二十一、工具列狀態文字
+==================================================
+
+可選擇加入目前工具提示，例如：
+
+「目前：藍色中畫筆」
+*/
+
+.scratchpad-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  min-height: 28px;
+
+  padding: 5px 10px;
+
+  border:
+    1px solid
+    #fde68a;
+
+  border-radius: 999px;
+
+  background: #fffbeb;
+
+  color: #92400e;
+
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+
+  white-space: nowrap;
+}
+
+
+.scratchpad-status__icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+
+/*
+==================================================
+二十二、較窄桌面畫面
+==================================================
+*/
+
+@media (max-width: 900px) {
+  /*
+  縮小工具列按鈕間距。
+  */
+
+  .scratchpad-toolbar {
+    gap: 6px;
+    padding: 8px 10px;
+  }
+
+  .scratchpad-tool-group {
+    gap: 5px;
+    padding-right: 6px;
+  }
+
+  /*
+  較窄時可以隱藏一般按鈕文字，
+  只保留圖示。
+
+  加上這個 class 才會隱藏：
+  scratchpad-tool-button--compact
+  */
+
+  .scratchpad-tool-button--compact
+  .scratchpad-tool-button__text {
+    display: none;
+  }
+}
+
+
+/*
+==================================================
+二十三、降低動畫效果
+==================================================
+*/
+
+@media (prefers-reduced-motion: reduce) {
+  .scratchpad-tool-button,
+  .scratchpad-color-button,
+  .scratchpad-size-button {
+    transition: none;
+  }
+
+  .scratchpad-tool-button:hover,
+  .scratchpad-tool-button:active,
+  .scratchpad-color-button:hover,
+  .scratchpad-size-button:hover {
+    transform: none;
+  }
+}
+/*
+==================================================
+Part 3：手機版、方格紙背景、自適應
+==================================================
+*/
+
+
+/*==========================
+手機全螢幕
+==========================*/
+
+.scratchpad-panel--fullscreen{
+
+    left:0 !important;
+    top:0 !important;
+    right:0 !important;
+    bottom:0 !important;
+
+    width:100vw !important;
+    height:100vh !important;
+
+    max-width:none;
+    max-height:none;
+
+    border-radius:0;
+
+}
+
+
+/*==========================
+平板尺寸
+==========================*/
+
+@media (max-width:1024px){
+
+.scratchpad-panel{
+
+    width:95vw;
+
+    height:92vh;
+
+}
+
+}
+
+
+/*==========================
+手機尺寸
+==========================*/
+
+@media (max-width:768px){
+
+.scratchpad-toolbar{
+
+    justify-content:flex-start;
+
+    padding:8px;
+
+}
+
+.scratchpad-tool-group{
+
+    border-right:none;
+
+    padding-right:0;
+
+}
+
+.scratchpad-header{
+
+    min-height:52px;
+
+    padding:8px 10px;
+
+}
+
+.scratchpad-header__title{
+
+    font-size:17px;
+
+}
+
+.scratchpad-header__subtitle{
+
+    display:none;
+
+}
+
+}
+
+
+/*==========================
+超小手機
+==========================*/
+
+@media (max-width:480px){
+
+.scratchpad-tool-button{
+
+    min-width:34px;
+
+    min-height:34px;
+
+    padding:6px;
+
+}
+
+.scratchpad-color-button{
+
+    width:32px;
+
+    height:32px;
+
+}
+
+.scratchpad-size-button{
+
+    width:34px;
+
+    height:34px;
+
+}
+
+}
+
+
+/*==========================
+Canvas 方格紙背景
+==========================*/
+
+.scratchpad-canvas{
+
+    background-color:white;
+
+    background-image:
+
+    linear-gradient(
+        rgba(0,0,0,.05) 1px,
+        transparent 1px
+    ),
+
+    linear-gradient(
+        90deg,
+        rgba(0,0,0,.05) 1px,
+        transparent 1px
+    );
+
+    background-size:
+
+    24px 24px;
+
+}
+
+
+/*==========================
+滑鼠移入 Canvas
+==========================*/
+
+.scratchpad-canvas:hover{
+
+    border-color:#f59e0b;
+
+}
+
+
+/*==========================
+Canvas 畫圖中
+==========================*/
+
+.scratchpad-canvas--drawing{
+
+    cursor:crosshair;
+
+}
+
+
+/*==========================
+橡皮擦模式
+==========================*/
+
+.scratchpad-canvas--eraser{
+
+    cursor:cell;
+
+}
+
+
+/*==========================
+工具列固定
+==========================*/
+
+.scratchpad-toolbar{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:10;
+
+}
+
+
+/*==========================
+Header固定
+==========================*/
+
+.scratchpad-header{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:20;
+
+}
+
+
+/*==========================
+Canvas容器
+==========================*/
+
+.scratchpad-canvas-container{
+
+    overflow:auto;
+
+}
+
+
+/*==========================
+陰影改善
+==========================*/
+
+.scratchpad-panel{
+
+    backdrop-filter:blur(8px);
+
+}
+
+
+/*==========================
+深色模式
+==========================*/
+
+@media (prefers-color-scheme:dark){
+
+.scratchpad-panel{
+
+    background:#1f2937;
+
+    color:white;
+
+}
+
+.scratchpad-toolbar{
+
+    background:#374151;
+
+}
+
+.scratchpad-canvas{
+
+    background-color:white;
+
+}
+
+}
+
+
+/*==========================
+列印模式
+==========================*/
+
+@media print{
+
+.scratchpad-open-button{
+
+    display:none;
+
+}
+
+.scratchpad-panel{
+
+    display:none;
+
+}
+
+}
+
+
+/*==========================
+動畫
+==========================*/
+
+@keyframes scratchpadFade{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(15px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+.scratchpad-panel--open{
+
+    animation:
+
+    scratchpadFade .2s ease;
+
+}
+
+
+/*==========================
+安全區域(iPhone)
+==========================*/
+
+.scratchpad-panel--fullscreen{
+
+    padding-top:
+
+    env(safe-area-inset-top);
+
+    padding-bottom:
+
+    env(safe-area-inset-bottom);
+
+}
+
+
+/*==========================
+捲軸美化
+==========================*/
+
+.scratchpad-canvas-container::-webkit-scrollbar{
+
+    width:8px;
+
+    height:8px;
+
+}
+
+.scratchpad-canvas-container::-webkit-scrollbar-thumb{
+
+    background:#d1d5db;
+
+    border-radius:999px;
+
+}
+
+.scratchpad-canvas-container::-webkit-scrollbar-thumb:hover{
+
+    background:#9ca3af;
+
+}
