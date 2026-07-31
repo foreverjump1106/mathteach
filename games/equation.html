@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>一元一次方程式挑戰賽</title>
+<link rel="stylesheet" href="../css/scratchpad.css">
 <style>
 :root{--blue:#2563eb;--blue-dark:#1d4ed8;--green:#16a34a;--red:#dc2626;--amber:#d97706;--ink:#1f2937;--muted:#64748b;--line:#dbe3ef;--bg:#eef6ff}
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;color:var(--ink)}body{background:linear-gradient(135deg,#eff6ff,#f8fafc);padding:10px}.app{max-width:1540px;margin:auto;background:#fff;border:3px solid #bfdbfe;border-radius:24px;box-shadow:0 18px 45px #1e3a8a22;overflow:hidden}.progress{height:10px;background:#e5e7eb}.progress>div{height:100%;width:0;background:linear-gradient(90deg,#60a5fa,#2563eb);transition:width .3s}.inner{padding:24px}.hidden{display:none!important}.title{text-align:center;color:var(--blue-dark);font-size:clamp(28px,4vw,42px);font-weight:900;margin:0 0 8px}.subtitle{text-align:center;color:var(--muted);margin:0 0 24px}.modes{display:grid;gap:14px;max-width:800px;margin:0 auto 24px}.mode-card input{position:absolute;opacity:0}.mode-card span{display:block;border:2px solid var(--line);border-radius:17px;padding:17px;cursor:pointer;transition:.2s;background:#fff}.mode-card input:checked+span{border-color:#3b82f6;background:#eff6ff;box-shadow:0 0 0 4px #3b82f622}.mode-title{font-weight:900;color:var(--blue-dark);font-size:18px}.example{font-family:"Times New Roman",serif;font-size:20px;margin-top:6px;color:#475569}.center{text-align:center}.btn{border:0;border-radius:14px;padding:13px 20px;font-weight:900;font-size:17px;cursor:pointer;transition:.15s;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}.btn:active{transform:scale(.98)}.btn-primary{background:var(--blue);color:#fff}.btn-green{background:var(--green);color:#fff}.btn-light{background:#eff6ff;color:var(--blue-dark);border:2px solid #bfdbfe}.btn-danger-light{background:#fff1f2;color:#be123c;border:2px solid #fecdd3}.btn-neutral{background:#f1f5f9;color:#334155;border:2px solid #cbd5e1}.quiz-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:20px;align-items:start}.quiz-grid{grid-template-columns:minmax(0,3fr) minmax(420px,2fr)}.topbar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:16px}.stats{display:flex;gap:10px;flex-wrap:wrap}.pill{padding:9px 14px;border-radius:14px;font-size:15px;font-weight:900;box-shadow:0 4px 12px #0f172a10}.pill-blue{background:#dbeafe;color:var(--blue-dark)}.pill-amber{background:#fef3c7;color:#92400e}.pill-gray{background:#f1f5f9;color:#475569}.problem{background:#f8fafc;border:2px solid #e2e8f0;border-radius:20px;padding:30px 14px;text-align:center;font-family:"Times New Roman",serif;font-size:clamp(28px,4.2vw,46px);font-weight:bold;margin-bottom:22px;white-space:nowrap;overflow-x:auto;overflow-y:hidden;overflow-wrap:normal}.answer-wrap{max-width:760px;margin:auto}.label{display:block;font-weight:900;color:#475569;margin-bottom:9px;font-size:18px}.answer{width:100%;border:3px solid var(--line);border-radius:16px;padding:17px;text-align:center;font-size:32px;font-weight:900;outline:none}.answer:focus{border-color:#60a5fa;box-shadow:0 0 0 5px #dbeafe}.mode4-answer{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;padding:14px;border:2px solid #dbeafe;border-radius:18px;background:#f8fbff}.frac-input{position:relative;display:inline-grid;grid-template-rows:48px 48px;width:82px;gap:8px;vertical-align:middle}.frac-input input{width:100%;height:48px;border:2px solid #cbd5e1;border-radius:10px;text-align:center;font-size:24px;font-weight:900;outline:none;background:#fff}.frac-input input:focus{border-color:#60a5fa;box-shadow:0 0 0 4px #dbeafe}.frac-input input::placeholder{font-size:12px;font-weight:700;color:#94a3b8}.frac-input .frac-line{position:absolute;left:5px;right:5px;top:50%;height:2px;background:#1f2937;transform:translateY(-1px);z-index:2;pointer-events:none}.frac-input.integer-input{display:flex;width:82px}.frac-input.integer-input input:first-child{display:block}.frac-input.integer-input input:last-child,.frac-input.integer-input .frac-line{display:none}.math-x{font-family:"Times New Roman",serif;font-size:42px;font-weight:900}.fraction-help{text-align:center;color:#64748b;font-size:13px;margin:8px 0 12px}.math-frac{display:inline-flex;flex-direction:column;align-items:stretch;justify-content:center;min-width:.78em;text-align:center;line-height:.92;margin:0 .035em;vertical-align:middle;transform:translateY(.01em)}.math-frac .top,.math-frac .bottom{display:block;font-size:.64em;line-height:.95;padding:0 .08em}.math-frac .top{border-bottom:2px solid currentColor;padding-bottom:.07em}.math-frac .bottom{padding-top:.07em}.math-frac .bar{display:none}.math-expression{white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;min-width:max-content;line-height:1.15}.mode4-answer.disabled{opacity:.65;pointer-events:none}.preview{min-height:26px;text-align:center;color:#64748b;margin:9px 0 14px;font-size:14px}.actions{display:grid;gap:10px}.feedback{min-height:60px;margin-top:15px;text-align:center;font-size:19px;font-weight:900;line-height:1.55}.solution{margin-top:12px;background:#f8fafc;border-radius:14px;padding:14px;color:#334155;font-family:"Times New Roman",serif;font-size:21px;line-height:1.75}.scratch{display:block;border:2px solid #c7d2fe;background:#eef2ff;border-radius:19px;padding:13px;position:sticky;top:10px}.scratch-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}.scratch-title{font-weight:900;color:#4338ca;font-size:19px}.scratch-tools{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.tool{border:1px solid #c7d2fe;background:#fff;color:#4338ca;border-radius:10px;padding:7px 9px;font-weight:900;cursor:pointer;min-width:38px}.tool.active{background:#4338ca;color:#fff}.color-dot{width:20px;height:20px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #94a3b8;display:inline-block;vertical-align:middle}.canvas-wrap{background-color:white;border:2px solid var(--line);border-radius:14px;overflow:hidden;background-image:linear-gradient(#dbeafe 1px,transparent 1px),linear-gradient(90deg,#dbeafe 1px,transparent 1px);background-size:28px 28px;touch-action:none;overscroll-behavior:contain;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}.scratch canvas{display:block;width:100%;height:570px;touch-action:none;overscroll-behavior:contain;cursor:crosshair;background:transparent;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}.scratch-note{font-size:12px;color:#6366f1;margin:8px 2px 0}.result-box{max-width:700px;margin:auto;text-align:center}.grade-card{background:linear-gradient(135deg,#eff6ff,#f8fafc);border:2px solid #bfdbfe;border-radius:22px;padding:24px;margin:18px 0}.grade-big{font-size:54px;font-weight:900;color:var(--blue-dark)}.stars{font-size:34px;letter-spacing:4px;margin:6px 0}.comment{font-size:20px;font-weight:900;color:#334155}.score-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}.score-card{background:#f8fafc;border:2px solid #e2e8f0;border-radius:16px;padding:15px}.score-card b{display:block;font-size:26px;margin-top:5px}.save-status{min-height:24px;margin:10px 0 16px;font-size:15px;font-weight:900;line-height:1.6}.result-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.review-list{display:grid;gap:14px;text-align:left;margin-top:18px}.review-card{border:2px solid #fecaca;background:#fff7f7;border-radius:17px;padding:16px}.review-title{font-weight:900;color:#b91c1c;margin-bottom:8px}.review-problem{font-family:"Times New Roman",serif;font-size:23px;font-weight:700;margin:8px 0}.review-answer{line-height:1.7;color:#475569}.fullscreen-scratch{position:fixed!important;inset:0!important;z-index:9999!important;border-radius:0!important;padding:14px!important;background:#eef2ff!important}.fullscreen-scratch .canvas-wrap{height:calc(100vh - 92px)}.fullscreen-scratch canvas{height:100%!important}.mobile-scratch-btn{display:none;align-items:center;justify-content:center;gap:6px;background:#4f46e5;color:#fff;border:0;border-radius:14px;padding:12px 16px;font-weight:900;font-size:16px;cursor:pointer}.mobile-scratch-btn:active{transform:scale(.98)}.scratch-close-btn{display:none}.fullscreen-scratch .scratch-close-btn{display:inline-block}
@@ -42,7 +43,7 @@ body{margin:0;padding:4px;overflow-x:hidden}
       <div class="quiz-grid">
         <div>
           <div class="topbar">
-            <button id="change-mode-btn" class="btn btn-light">← 重選模式</button><button id="mobile-scratch-btn" class="mobile-scratch-btn" type="button">✍️ 開啟數學草稿紙</button>
+            <button id="change-mode-btn" class="btn btn-light">← 重選模式</button>
             <div class="stats"><span id="question-number" class="pill pill-blue">第 1 / 10 題</span><span id="mode-badge" class="pill pill-amber">模式一</span><span id="time-display" class="pill pill-gray">⏳ 00:00</span></div>
           </div>
           <div id="problem-text" class="problem"></div>
@@ -67,23 +68,7 @@ body{margin:0;padding:4px;overflow-x:hidden}
           </div>
         </div>
 
-        <aside id="scratch-panel" class="scratch">
-          <div class="scratch-head">
-            <div class="scratch-title">✍️ 數學草稿紙</div>
-            <div class="scratch-tools">
-              <button id="black-btn" class="tool active" type="button" title="黑筆"><span class="color-dot" style="background:#111827"></span></button>
-              <button id="blue-btn" class="tool" type="button" title="藍筆"><span class="color-dot" style="background:#2563eb"></span></button>
-              <button id="red-btn" class="tool" type="button" title="紅筆"><span class="color-dot" style="background:#dc2626"></span></button>
-              <button id="eraser-btn" class="tool" type="button" title="橡皮擦">🧽</button>
-              <button id="undo-btn" class="tool" type="button" title="上一步" aria-label="上一步">↶</button>
-              <button id="redo-btn" class="tool" type="button" title="下一步" aria-label="下一步">↷</button>
-              <button id="clear-btn" class="tool" type="button" title="清除">🗑</button>
-              <button id="scratch-close-btn" class="tool scratch-close-btn" type="button" title="完成並返回">完成</button><button id="expand-btn" class="tool" type="button" title="放大或縮小">⛶</button>
-            </div>
-          </div>
-          <div class="canvas-wrap"><canvas id="scratch-canvas"></canvas></div>
-          <div class="scratch-note">支援手指、觸控筆與滑鼠。進入下一題時，草稿紙會自動清空。</div>
-        </aside>
+
       </div>
     </section>
 
@@ -109,6 +94,8 @@ body{margin:0;padding:4px;overflow-x:hidden}
     </section>
   </div>
 </main>
+<script src="../js/scratchpad.js"></script>
+<script src="../js/scratchpad-template.js"></script>
 <script type="module">
 import { saveGameScore } from "../js/scores.js";
 
@@ -246,11 +233,10 @@ function startGame(keepMode=false){
   showOnly('quiz-screen');
   $('mode-badge').textContent=MODE_NAMES[mode];
   loadQuestion();
-  setTimeout(resizeCanvas,50);
 }
 
 function loadQuestion(){
-  clearScratchCanvas();
+  if(typeof window.resetGameScratchpad === "function") window.resetGameScratchpad();
   clearTimeout(nextTimer);
   locked=nextReady=false;
   $('submit-btn').classList.remove('hidden');
@@ -389,78 +375,7 @@ function modeSelect(){clearInterval(timer);clearTimeout(nextTimer);$('save-statu
 $('start-btn').onclick=()=>startGame(false);$('change-mode-btn').onclick=modeSelect;$('result-change-mode-btn').onclick=modeSelect;$('review-mode-btn').onclick=modeSelect;$('submit-btn').onclick=check;$('next-btn').onclick=next;$('reset-btn').onclick=()=>startGame(true);$('again-btn').onclick=()=>startGame(true);$('review-again-btn').onclick=()=>startGame(true);$('review-btn').onclick=showReview;$('review-back-btn').onclick=()=>showOnly('result-screen');$('answer-input').oninput=updatePreview;['x-num','x-den'].forEach(id=>$(id).addEventListener('input',updateMode4Preview));
 document.addEventListener('keydown',e=>{if(e.key!=='Enter'||$('quiz-screen').classList.contains('hidden'))return;e.preventDefault();nextReady?next():!locked&&check()});
 
-const canvas=$('scratch-canvas'),ctx=canvas.getContext('2d');let drawing=false,last=null,tool='pen',penColor='#111827',history=[],redo=[];
-function currentCssSize(){const d=canvas._dpr||Math.max(1,window.devicePixelRatio||1);return{w:canvas.width/d,h:canvas.height/d}}
-function clearScratchCanvas(){const s=currentCssSize();ctx.clearRect(0,0,s.w,s.h);history=[];redo=[]}
-function saveState(){history.push(canvas.toDataURL());if(history.length>40)history.shift();redo=[]}
-function restore(data){const img=new Image();img.onload=()=>{const s=currentCssSize();ctx.clearRect(0,0,s.w,s.h);ctx.drawImage(img,0,0,img.width,img.height,0,0,s.w,s.h)};img.src=data}
-function resizeCanvas(){if($('scratch-panel').offsetParent===null)return;const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;const ratio=Math.max(1,window.devicePixelRatio||1),old=document.createElement('canvas');old.width=canvas.width;old.height=canvas.height;if(canvas.width&&canvas.height)old.getContext('2d').drawImage(canvas,0,0);const oldDpr=canvas._dpr||ratio,oldCssW=old.width/oldDpr,oldCssH=old.height/oldDpr;canvas.width=Math.max(1,Math.round(rect.width*ratio));canvas.height=Math.max(1,Math.round(rect.height*ratio));canvas._dpr=ratio;ctx.setTransform(ratio,0,0,ratio,0,0);ctx.lineCap='round';ctx.lineJoin='round';if(old.width&&old.height)ctx.drawImage(old,0,0,old.width,old.height,0,0,Math.min(oldCssW,rect.width),Math.min(oldCssH,rect.height))}
-function point(e){const r=canvas.getBoundingClientRect(),s=currentCssSize();return{x:(e.clientX-r.left)*(s.w/r.width),y:(e.clientY-r.top)*(s.h/r.height)}}
 
-['contextmenu','selectstart','dragstart','dblclick','auxclick'].forEach(type=>{
-  canvas.addEventListener(type,e=>{e.preventDefault();e.stopPropagation()},{passive:false});
-});
-canvas.addEventListener('touchstart',e=>{e.preventDefault()},{passive:false});
-canvas.addEventListener('touchmove',e=>{e.preventDefault()},{passive:false});
-canvas.addEventListener('mousedown',e=>{if(e.button!==0){e.preventDefault();e.stopPropagation()}},{passive:false});
-
-document.querySelectorAll('#scratch-panel .tool').forEach(btn=>{
-  ['pointerdown','mousedown','touchstart'].forEach(type=>btn.addEventListener(type,e=>e.stopPropagation(),{passive:true}));
-});
-
-const scratchPanel=$('scratch-panel');
-const EDGE=18;
-let panelDragging=false,panelPointerId=null,panelOffsetX=0,panelOffsetY=0;
-function edgeZone(e){
-  const r=scratchPanel.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
-  const left=x<=EDGE,right=x>=r.width-EDGE,top=y<=EDGE,bottom=y>=r.height-EDGE;
-  return{left,right,top,bottom,active:left||right||top||bottom,corner:(left||right)&&(top||bottom)};
-}
-function updateEdgeCursor(e){
-  if(panelDragging||scratchPanel.classList.contains('fullscreen-scratch')||window.innerWidth<=980)return;
-  if(e.target.closest('.tool,.canvas-wrap')){scratchPanel.classList.remove('edge-left','edge-right','edge-top','edge-bottom','edge-corner');return}
-  const z=edgeZone(e);scratchPanel.classList.remove('edge-left','edge-right','edge-top','edge-bottom','edge-corner');
-  if(z.corner)scratchPanel.classList.add('edge-corner');else if(z.left)scratchPanel.classList.add('edge-left');else if(z.right)scratchPanel.classList.add('edge-right');else if(z.top)scratchPanel.classList.add('edge-top');else if(z.bottom)scratchPanel.classList.add('edge-bottom');
-}
-scratchPanel.classList.add('edge-draggable');
-scratchPanel.addEventListener('pointermove',updateEdgeCursor);
-scratchPanel.addEventListener('pointerleave',()=>{if(!panelDragging)scratchPanel.classList.remove('edge-left','edge-right','edge-top','edge-bottom','edge-corner')});
-scratchPanel.addEventListener('pointerdown',e=>{
-  if(window.innerWidth<=980||scratchPanel.classList.contains('fullscreen-scratch')||e.button!==0||e.target.closest('.tool,.canvas-wrap'))return;
-  const z=edgeZone(e);if(!z.active)return;
-  e.preventDefault();
-  const r=scratchPanel.getBoundingClientRect();
-  panelDragging=true;panelPointerId=e.pointerId;panelOffsetX=e.clientX-r.left;panelOffsetY=e.clientY-r.top;
-  scratchPanel.classList.add('dragging');
-  scratchPanel.style.width=r.width+'px';scratchPanel.style.left=r.left+'px';scratchPanel.style.top=r.top+'px';
-  scratchPanel.setPointerCapture(e.pointerId);
-});
-scratchPanel.addEventListener('pointermove',e=>{
-  if(!panelDragging||e.pointerId!==panelPointerId)return;
-  e.preventDefault();
-  const maxLeft=Math.max(0,window.innerWidth-scratchPanel.offsetWidth),maxTop=Math.max(0,window.innerHeight-scratchPanel.offsetHeight);
-  scratchPanel.style.left=Math.min(maxLeft,Math.max(0,e.clientX-panelOffsetX))+'px';
-  scratchPanel.style.top=Math.min(maxTop,Math.max(0,e.clientY-panelOffsetY))+'px';
-});
-function stopPanelDrag(e){
-  if(!panelDragging||e.pointerId!==panelPointerId)return;
-  panelDragging=false;scratchPanel.classList.remove('dragging','edge-left','edge-right','edge-top','edge-bottom','edge-corner');
-  if(scratchPanel.hasPointerCapture(e.pointerId))scratchPanel.releasePointerCapture(e.pointerId);
-}
-scratchPanel.addEventListener('pointerup',stopPanelDrag);
-scratchPanel.addEventListener('pointercancel',stopPanelDrag);
-canvas.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'&&e.button!==0){e.preventDefault();return}e.preventDefault();e.stopPropagation();saveState();drawing=true;last=point(e);canvas.setPointerCapture(e.pointerId)});
-canvas.addEventListener('pointermove',e=>{if(!drawing)return;e.preventDefault();e.stopPropagation();const p=point(e);ctx.beginPath();ctx.globalCompositeOperation=tool==='eraser'?'destination-out':'source-over';ctx.strokeStyle=penColor;ctx.lineWidth=tool==='eraser'?26:3.2;ctx.moveTo(last.x,last.y);ctx.lineTo(p.x,p.y);ctx.stroke();last=p});
-function stop(e){if(e){e.preventDefault();e.stopPropagation()}drawing=false;if(e&&canvas.hasPointerCapture(e.pointerId))canvas.releasePointerCapture(e.pointerId)}canvas.addEventListener('pointerup',stop);canvas.addEventListener('pointercancel',stop);
-function selectPen(color,buttonId){tool='pen';penColor=color;['black-btn','blue-btn','red-btn','eraser-btn'].forEach(id=>$(id).classList.toggle('active',id===buttonId))}
-$('black-btn').onclick=()=>selectPen('#111827','black-btn');$('blue-btn').onclick=()=>selectPen('#2563eb','blue-btn');$('red-btn').onclick=()=>selectPen('#dc2626','red-btn');$('eraser-btn').onclick=()=>{tool='eraser';['black-btn','blue-btn','red-btn'].forEach(id=>$(id).classList.remove('active'));$('eraser-btn').classList.add('active')};
-$('clear-btn').onclick=()=>{saveState();const s=currentCssSize();ctx.clearRect(0,0,s.w,s.h)};$('undo-btn').onclick=()=>{if(!history.length)return;redo.push(canvas.toDataURL());restore(history.pop())};$('redo-btn').onclick=()=>{if(!redo.length)return;history.push(canvas.toDataURL());restore(redo.pop())};
-function setScratchFullscreen(open){const panel=$('scratch-panel');panel.classList.toggle('fullscreen-scratch',open);$('expand-btn').textContent=open?'🗗':'⛶';document.body.style.overflow=open?'hidden':'';requestAnimationFrame(()=>requestAnimationFrame(resizeCanvas))}
-$('expand-btn').onclick=()=>setScratchFullscreen(!$('scratch-panel').classList.contains('fullscreen-scratch'));
-$('mobile-scratch-btn').onclick=()=>setScratchFullscreen(true);
-$('scratch-close-btn').onclick=()=>setScratchFullscreen(false);
-
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('scratch-panel').classList.contains('fullscreen-scratch'))setScratchFullscreen(false)});
-if('ResizeObserver'in window)new ResizeObserver(()=>requestAnimationFrame(resizeCanvas)).observe($('scratch-panel'));window.addEventListener('resize',()=>setTimeout(resizeCanvas,80));window.addEventListener('orientationchange',()=>setTimeout(resizeCanvas,220));setTimeout(resizeCanvas,120);
 </script>
+</body>
 </html>
