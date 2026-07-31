@@ -18,10 +18,17 @@
     :root {
       --primary: #1976d2;
       --primary-dark: #125ca6;
+      --secondary: #f57c00;
+      --secondary-dark: #d86600;
+      --success: #2e7d32;
+      --success-dark: #1b5e20;
+      --danger: #e53935;
+      --danger-dark: #b71c1c;
       --background: #edf4ff;
       --card-background: #ffffff;
       --text: #1f2937;
       --muted: #5f6b7a;
+      --border: #dce7f5;
     }
 
     body {
@@ -35,8 +42,8 @@
       background:
         linear-gradient(
           135deg,
-          #edf4ff,
-          #f7faff
+          #e8f2ff,
+          #fff8e8
         );
     }
 
@@ -50,21 +57,25 @@
       width: 100%;
       max-width: 1180px;
       margin: 0 auto;
-      padding: 42px 28px 60px;
+      padding: 32px 28px 60px;
     }
 
-    .page-header {
-      margin-bottom: 34px;
+    .hero-card {
+      padding: 34px 28px;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.96);
       text-align: center;
+      box-shadow:
+        0 14px 36px rgba(31, 41, 55, 0.13);
     }
 
-    .page-header h1 {
+    .hero-card h1 {
       margin: 0 0 12px;
       color: #174f8f;
-      font-size: 40px;
+      font-size: 42px;
     }
 
-    .page-header > p {
+    .hero-subtitle {
       margin: 0;
       color: var(--muted);
       font-size: 18px;
@@ -72,19 +83,56 @@
     }
 
     .login-section {
-      margin-top: 25px;
+      margin-top: 24px;
     }
 
     .user-section {
       display: none;
-      margin-top: 18px;
+      margin-top: 20px;
+    }
+
+    .user-card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      width: min(100%, 480px);
+      margin: 0 auto 18px;
+      padding: 14px 18px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: #f3f8ff;
+    }
+
+    .user-photo {
+      display: none;
+      width: 54px;
+      height: 54px;
+      flex-shrink: 0;
+      border: 3px solid white;
+      border-radius: 50%;
+      background: white;
+      object-fit: cover;
+      box-shadow:
+        0 4px 12px rgba(31, 41, 55, 0.16);
+    }
+
+    .user-information {
+      text-align: left;
     }
 
     .welcome-text {
-      margin: 0 0 14px;
+      margin: 0 0 4px;
       color: #174f8f;
       font-size: 18px;
       font-weight: bold;
+    }
+
+    .user-email {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      overflow-wrap: anywhere;
     }
 
     .login-message {
@@ -92,11 +140,139 @@
       margin: 14px 0 0;
       color: #c62828;
       font-size: 15px;
+      line-height: 1.6;
     }
 
-    .games-section-title {
-      margin: 0 0 22px;
-      font-size: 27px;
+    .button {
+      display: inline-block;
+      min-width: 132px;
+      padding: 13px 24px;
+      border: none;
+      border-radius: 12px;
+      background: var(--primary);
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow:
+        0 5px 0 var(--primary-dark);
+      transition:
+        transform 0.1s ease,
+        box-shadow 0.1s ease,
+        background 0.15s ease,
+        opacity 0.15s ease;
+    }
+
+    .button:hover {
+      background: var(--primary-dark);
+    }
+
+    .button:active {
+      transform: translateY(4px);
+      box-shadow:
+        0 1px 0 var(--primary-dark);
+    }
+
+    .button:disabled {
+      cursor: wait;
+      opacity: 0.7;
+    }
+
+    .logout-button {
+      background: var(--danger);
+      box-shadow:
+        0 5px 0 var(--danger-dark);
+    }
+
+    .logout-button:hover {
+      background: #c62828;
+    }
+
+    .quick-actions {
+      display: grid;
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+      gap: 20px;
+      margin-top: 26px;
+    }
+
+    .quick-card {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      min-height: 145px;
+      padding: 24px;
+      border-radius: 22px;
+      background: white;
+      color: var(--text);
+      text-align: left;
+      text-decoration: none;
+      box-shadow:
+        0 10px 28px rgba(31, 41, 55, 0.11);
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease;
+    }
+
+    .quick-card:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        0 15px 35px rgba(31, 41, 55, 0.16);
+    }
+
+    .quick-icon {
+      display: flex;
+      width: 70px;
+      height: 70px;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      border-radius: 20px;
+      background: #fff3e0;
+      font-size: 38px;
+    }
+
+    .quick-card.score-card .quick-icon {
+      background: #e8f5e9;
+    }
+
+    .quick-content h2 {
+      margin: 0 0 8px;
+      color: #174f8f;
+      font-size: 23px;
+    }
+
+    .quick-content p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .section {
+      margin-top: 36px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      margin: 0;
+      color: var(--text);
+      font-size: 28px;
+    }
+
+    .section-description {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
     }
 
     .games-grid {
@@ -107,7 +283,7 @@
     }
 
     .game-card {
-      min-height: 280px;
+      min-height: 285px;
       padding: 32px 26px;
       border-radius: 22px;
       background: var(--card-background);
@@ -131,7 +307,7 @@
 
     .game-icon {
       margin-bottom: 12px;
-      font-size: 42px;
+      font-size: 44px;
       line-height: 1;
     }
 
@@ -142,55 +318,21 @@
     }
 
     .game-card p {
-      min-height: 56px;
+      min-height: 58px;
       margin: 0 0 25px;
       color: var(--muted);
       font-size: 17px;
       line-height: 1.65;
     }
 
-    .game-button {
-      min-width: 132px;
-      padding: 13px 24px;
-      border: none;
-      border-radius: 11px;
+    .start-button {
       background: var(--primary);
-      color: white;
-      font-size: 17px;
-      font-weight: bold;
-      text-decoration: none;
-      cursor: pointer;
       box-shadow:
         0 5px 0 var(--primary-dark);
-      transition:
-        transform 0.1s ease,
-        box-shadow 0.1s ease,
-        background 0.15s ease;
     }
 
-    .game-button:hover {
+    .start-button:hover {
       background: var(--primary-dark);
-    }
-
-    .game-button:active {
-      transform: translateY(4px);
-      box-shadow:
-        0 1px 0 var(--primary-dark);
-    }
-
-    .game-button:disabled {
-      cursor: wait;
-      opacity: 0.7;
-    }
-
-    .logout-button {
-      background: #e53935;
-      box-shadow:
-        0 5px 0 #b71c1c;
-    }
-
-    .logout-button:hover {
-      background: #c62828;
     }
 
     .waiting-button {
@@ -205,8 +347,20 @@
       background: #7b8794;
     }
 
+    .login-required-note {
+      display: none;
+      margin-top: 14px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: #fff8e1;
+      color: #8a5a00;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
     .page-footer {
-      margin-top: 38px;
+      margin-top: 42px;
+      padding: 20px 10px 0;
       color: #748094;
       font-size: 14px;
       text-align: center;
@@ -214,23 +368,61 @@
 
     @media (max-width: 760px) {
       .page-container {
-        padding: 28px 15px 45px;
+        padding: 18px 14px 45px;
       }
 
-      .page-header {
-        margin-bottom: 28px;
+      .hero-card {
+        padding: 28px 17px;
+        border-radius: 22px;
       }
 
-      .page-header h1 {
+      .hero-card h1 {
         font-size: 31px;
       }
 
-      .page-header > p {
+      .hero-subtitle {
         font-size: 16px;
       }
 
-      .games-section-title {
-        font-size: 23px;
+      .user-card {
+        align-items: center;
+        padding: 13px;
+      }
+
+      .user-information {
+        min-width: 0;
+      }
+
+      .quick-actions {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .quick-card {
+        min-height: 125px;
+        padding: 20px;
+      }
+
+      .quick-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 32px;
+      }
+
+      .quick-content h2 {
+        font-size: 21px;
+      }
+
+      .section-header {
+        display: block;
+      }
+
+      .section-title {
+        font-size: 24px;
+      }
+
+      .section-description {
+        margin-top: 7px;
       }
 
       .games-grid {
@@ -252,6 +444,35 @@
         font-size: 16px;
       }
     }
+
+    @media (max-width: 430px) {
+      .user-card {
+        flex-direction: column;
+      }
+
+      .user-information {
+        text-align: center;
+      }
+
+      .quick-card {
+        align-items: flex-start;
+      }
+
+      .quick-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        font-size: 28px;
+      }
+
+      .quick-content h2 {
+        font-size: 19px;
+      }
+
+      .quick-content p {
+        font-size: 14px;
+      }
+    }
   </style>
 </head>
 
@@ -259,11 +480,11 @@
 
   <main class="page-container">
 
-    <header class="page-header">
+    <header class="hero-card">
 
       <h1>🎮 數學遊戲樂園</h1>
 
-      <p>
+      <p class="hero-subtitle">
         透過遊戲練習數學觀念，<br>
         一起挑戰更高分！
       </p>
@@ -272,7 +493,7 @@
 
         <button
           id="loginBtn"
-          class="game-button"
+          class="button"
           type="button"
         >
           🔐 使用 Google 登入
@@ -282,42 +503,129 @@
           id="userSection"
           class="user-section"
         >
-          <p
-            id="welcomeText"
-            class="welcome-text"
-          >
-          </p>
+
+          <div class="user-card">
+
+            <img
+              id="userPhoto"
+              class="user-photo"
+              src=""
+              alt="玩家頭像"
+            >
+
+            <div class="user-information">
+
+              <p
+                id="welcomeText"
+                class="welcome-text"
+              ></p>
+
+              <p
+                id="userEmail"
+                class="user-email"
+              ></p>
+
+            </div>
+
+          </div>
 
           <button
             id="logoutBtn"
-            class="game-button logout-button"
+            class="button logout-button"
             type="button"
           >
             登出
           </button>
+
         </div>
 
         <p
           id="loginMessage"
           class="login-message"
-        >
-        </p>
+        ></p>
 
       </div>
 
     </header>
 
-    <section>
+    <section class="quick-actions">
 
-      <h2 class="games-section-title">
-        選擇一個遊戲
-      </h2>
+      <a
+        id="leaderboardLink"
+        class="quick-card"
+        href="leaderboard.html"
+      >
+
+        <div class="quick-icon">
+          🏆
+        </div>
+
+        <div class="quick-content">
+
+          <h2>排行榜</h2>
+
+          <p>
+            查看各遊戲的高手排行，
+            挑戰更高名次。
+          </p>
+
+        </div>
+
+      </a>
+
+      <a
+        id="myScoresLink"
+        class="quick-card score-card"
+        href="my-scores.html"
+      >
+
+        <div class="quick-icon">
+          📊
+        </div>
+
+        <div class="quick-content">
+
+          <h2>我的成績</h2>
+
+          <p>
+            查看最高分、平均分數、
+            答題紀錄與遊玩次數。
+          </p>
+
+        </div>
+
+      </a>
+
+    </section>
+
+    <p
+      id="loginRequiredNote"
+      class="login-required-note"
+    >
+      🔐 請先登入 Google 帳號，才能查看個人成績。
+    </p>
+
+    <section class="section">
+
+      <div class="section-header">
+
+        <h2 class="section-title">
+          🎯 選擇一個遊戲
+        </h2>
+
+        <p class="section-description">
+          完成遊戲後，登入玩家的成績會自動儲存。
+        </p>
+
+      </div>
 
       <div class="games-grid">
 
         <article class="game-card">
 
-          <div class="game-icon">🎮</div>
+          <div class="game-icon">
+            🎮
+          </div>
 
           <h2>正負數大挑戰</h2>
 
@@ -327,7 +635,7 @@
           </p>
 
           <a
-            class="game-button"
+            class="button start-button"
             href="games/integer.html"
           >
             開始挑戰
@@ -337,7 +645,9 @@
 
         <article class="game-card">
 
-          <div class="game-icon">⚖️</div>
+          <div class="game-icon">
+            ⚖️
+          </div>
 
           <h2>數的大小比較王</h2>
 
@@ -347,7 +657,7 @@
           </p>
 
           <a
-            class="game-button"
+            class="button start-button"
             href="games/compare.html"
           >
             開始挑戰
@@ -357,7 +667,9 @@
 
         <article class="game-card">
 
-          <div class="game-icon">🧮</div>
+          <div class="game-icon">
+            🧮
+          </div>
 
           <h2>一元一次方程式</h2>
 
@@ -367,7 +679,7 @@
           </p>
 
           <button
-            class="game-button waiting-button"
+            class="button waiting-button"
             type="button"
             disabled
           >
@@ -378,7 +690,9 @@
 
         <article class="game-card">
 
-          <div class="game-icon">📐</div>
+          <div class="game-icon">
+            📐
+          </div>
 
           <h2>比例式</h2>
 
@@ -388,7 +702,7 @@
           </p>
 
           <button
-            class="game-button waiting-button"
+            class="button waiting-button"
             type="button"
             disabled
           >
@@ -437,8 +751,20 @@
     const welcomeText =
       document.getElementById("welcomeText");
 
+    const userEmail =
+      document.getElementById("userEmail");
+
+    const userPhoto =
+      document.getElementById("userPhoto");
+
     const loginMessage =
       document.getElementById("loginMessage");
+
+    const myScoresLink =
+      document.getElementById("myScoresLink");
+
+    const loginRequiredNote =
+      document.getElementById("loginRequiredNote");
 
     loginButton.addEventListener(
       "click",
@@ -489,6 +815,23 @@
       }
     );
 
+    myScoresLink.addEventListener(
+      "click",
+      (event) => {
+        if (!auth.currentUser) {
+          event.preventDefault();
+
+          loginRequiredNote.style.display =
+            "block";
+
+          loginRequiredNote.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+          });
+        }
+      }
+    );
+
     onAuthStateChanged(
       auth,
       async (user) => {
@@ -498,12 +841,24 @@
             user.email ||
             "玩家";
 
-          welcomeText.textContent =
-            "正在建立玩家資料……";
-
           loginButton.style.display = "none";
           userSection.style.display = "block";
           loginMessage.textContent = "";
+          loginRequiredNote.style.display = "none";
+
+          welcomeText.textContent =
+            "正在建立玩家資料……";
+
+          userEmail.textContent =
+            user.email || "";
+
+          if (user.photoURL) {
+            userPhoto.src = user.photoURL;
+            userPhoto.style.display = "block";
+          } else {
+            userPhoto.removeAttribute("src");
+            userPhoto.style.display = "none";
+          }
 
           try {
             console.log(
@@ -559,7 +914,7 @@
               `👋 歡迎回來，${userName}！`;
 
             loginMessage.textContent =
-              "登入成功，但玩家資料暫時無法儲存。";
+              "登入成功，但玩家資料暫時無法更新。";
           }
         } else {
           console.log(
@@ -567,6 +922,10 @@
           );
 
           welcomeText.textContent = "";
+          userEmail.textContent = "";
+
+          userPhoto.removeAttribute("src");
+          userPhoto.style.display = "none";
 
           loginButton.style.display =
             "inline-block";
