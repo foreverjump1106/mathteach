@@ -21,6 +21,41 @@ body{margin:0;padding:4px;overflow-x:hidden}
 .scratch.edge-left,.scratch.edge-right{cursor:ew-resize}
 .scratch.edge-top,.scratch.edge-bottom{cursor:ns-resize}
 .scratch.edge-corner{cursor:move}
+
+/* 方程式遊戲：將共用計算紙按鈕放到上方資訊列 */
+#scratchpad-mobile-button{
+  display:flex;
+  align-items:center;
+}
+
+#scratchpad-mobile-button .scratchpad-open-button{
+  position:static !important;
+  inset:auto !important;
+  display:inline-flex !important;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  min-height:42px;
+  padding:10px 16px;
+  border:2px solid #c7d2fe;
+  border-radius:14px;
+  background:linear-gradient(135deg,#4f46e5,#2563eb);
+  color:#fff;
+  box-shadow:0 6px 16px #3730a333;
+  font-size:16px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+#scratchpad-mobile-button .scratchpad-open-button:hover{
+  filter:brightness(1.05);
+}
+
+@media(max-width:980px){
+  .topbar{align-items:center}
+  #scratchpad-mobile-button{width:100%}
+  #scratchpad-mobile-button .scratchpad-open-button{width:100%}
+}
 </style>
 </head>
 <body>
@@ -45,6 +80,7 @@ body{margin:0;padding:4px;overflow-x:hidden}
           <div class="topbar">
             <button id="change-mode-btn" class="btn btn-light">← 重選模式</button>
             <div class="stats"><span id="question-number" class="pill pill-blue">第 1 / 10 題</span><span id="mode-badge" class="pill pill-amber">模式一</span><span id="time-display" class="pill pill-gray">⏳ 00:00</span></div>
+            <div id="scratchpad-mobile-button"></div>
           </div>
           <div id="problem-text" class="problem"></div>
           <div class="answer-wrap">
@@ -96,10 +132,24 @@ body{margin:0;padding:4px;overflow-x:hidden}
 </main>
 <script src="../js/scratchpad.js"></script>
 <script src="../js/scratchpad-template.js"></script>
+
 <script type="module">
 import { saveGameScore } from "../js/scores.js";
 
 'use strict';
+
+/*
+共用計算紙元件會由 scratchpad-template.js 自動建立。
+建立完成後，把「開啟計算紙」按鈕移到遊戲上方資訊列。
+*/
+document.addEventListener("DOMContentLoaded", () => {
+  const buttonMount = document.getElementById("scratchpad-mobile-button");
+  const openButton = document.getElementById("scratchpadOpenButton");
+
+  if (buttonMount && openButton) {
+    buttonMount.appendChild(openButton);
+  }
+});
 
 const GAME_ID = "equation";
 const MODE_NAMES={1:'模式一',2:'模式二',3:'模式三',4:'模式四'};
