@@ -366,9 +366,95 @@
       text-align: center;
     }
 
+
+    .semester-control {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 0 0 24px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.78);
+      box-shadow: 0 8px 22px rgba(31,41,55,0.08);
+    }
+
+    .semester-control label {
+      color: #174f8f;
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .semester-select {
+      min-width: 230px;
+      padding: 12px 44px 12px 16px;
+      border: 2px solid #bfdbfe;
+      border-radius: 12px;
+      background: white;
+      color: var(--text);
+      font-size: 17px;
+      font-weight: 800;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .semester-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(25,118,210,0.14);
+    }
+
+    .semester-panel {
+      display: none;
+    }
+
+    .semester-panel.active {
+      display: block;
+    }
+
+    .semester-title {
+      margin: 0 0 18px;
+      color: #174f8f;
+      font-size: 24px;
+      text-align: center;
+    }
+
+    .status-badge {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .status-open {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-soon {
+      background: #f1f5f9;
+      color: #64748b;
+    }
+
     @media (max-width: 760px) {
       .page-container {
         padding: 18px 14px 45px;
+      }
+
+      .semester-control {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .semester-control label {
+        text-align: center;
+      }
+
+      .semester-select {
+        width: 100%;
+        min-width: 0;
       }
 
       .hero-card {
@@ -619,97 +705,130 @@
 
       </div>
 
-      <div class="games-grid">
+      <div class="semester-control">
+        <label for="semesterSelect">請選擇學期</label>
+        <select id="semesterSelect" class="semester-select">
+          <option value="grade7-first">七年級上學期</option>
+          <option value="grade7-second">七年級下學期</option>
+        </select>
+      </div>
 
-        <article class="game-card">
+      <div id="grade7-first" class="semester-panel active">
+        <h3 class="semester-title">七年級上學期</h3>
 
-          <div class="game-icon">
-            🎮
-          </div>
+        <div class="games-grid">
 
-          <h2>正負整數大挑戰</h2>
+          <article class="game-card">
+            <span class="status-badge status-open">已開放</span>
+            <div class="game-icon">🎮</div>
+            <h2>正負整數大挑戰</h2>
+            <p>
+              七年級正負整數加減法，
+              挑戰計算速度與正確率。
+            </p>
+            <a class="button start-button" href="games/integer.html">
+              開始挑戰
+            </a>
+          </article>
 
-          <p>
-            七年級正整負數加減法，
-            挑戰計算速度與正確率。
-          </p>
+          <article class="game-card">
+            <span class="status-badge status-open">已開放</span>
+            <div class="game-icon">⚖️</div>
+            <h2>數的大小比較王</h2>
+            <p>
+              挑戰整數、分數與小數的大小比較，
+              選出正確的 ＞、＝或＜。
+            </p>
+            <a class="button start-button" href="games/compare.html">
+              開始挑戰
+            </a>
+          </article>
 
-          <a
-            class="button start-button"
-            href="games/integer.html"
-          >
-            開始挑戰
-          </a>
+          <article class="game-card">
+            <span class="status-badge status-open">已開放</span>
+            <div class="game-icon">🧮</div>
+            <h2>一元一次方程式</h2>
+            <p>
+              解方程式闖關，
+              練習移項、等量公理與分數方程式。
+            </p>
+            <a class="button start-button" href="games/equation.html">
+              開始挑戰
+            </a>
+          </article>
 
-        </article>
+          <article class="game-card">
+            <span class="status-badge status-soon">開發中</span>
+            <div class="game-icon">📐</div>
+            <h2>比例式</h2>
+            <p>
+              練習比例式判斷與計算，
+              建立正確的比例概念。
+            </p>
+            <button class="button waiting-button" type="button" disabled>
+              敬請期待
+            </button>
+          </article>
 
-        <article class="game-card">
+        </div>
+      </div>
 
-          <div class="game-icon">
-            ⚖️
-          </div>
+      <div id="grade7-second" class="semester-panel">
+        <h3 class="semester-title">七年級下學期</h3>
 
-          <h2>數的大小比較王</h2>
+        <div class="games-grid">
 
-          <p>
-            挑戰整數、分數與小數的大小比較，
-            選出正確的 ＞、＝或＜。
-          </p>
+          <article class="game-card">
+            <span class="status-badge status-soon">開發中</span>
+            <div class="game-icon">🔢</div>
+            <h2>二元一次聯立方程式</h2>
+            <p>
+              練習代入消去法與加減消去法，
+              解出兩個未知數。
+            </p>
+            <button class="button waiting-button" type="button" disabled>
+              敬請期待
+            </button>
+          </article>
 
-          <a
-            class="button start-button"
-            href="games/compare.html"
-          >
-            開始挑戰
-          </a>
+          <article class="game-card">
+            <span class="status-badge status-soon">開發中</span>
+            <div class="game-icon">📍</div>
+            <h2>直角坐標與方程式圖形</h2>
+            <p>
+              認識坐標平面，
+              練習描點與判讀二元一次方程式圖形。
+            </p>
+            <button class="button waiting-button" type="button" disabled>
+              敬請期待
+            </button>
+          </article>
 
-        </article>
+          <article class="game-card">
+            <span class="status-badge status-soon">開發中</span>
+            <div class="game-icon">📏</div>
+            <h2>比例與連比</h2>
+            <p>
+              練習比例關係、連比與實際應用題。
+            </p>
+            <button class="button waiting-button" type="button" disabled>
+              敬請期待
+            </button>
+          </article>
 
-        <article class="game-card">
+          <article class="game-card">
+            <span class="status-badge status-soon">開發中</span>
+            <div class="game-icon">📊</div>
+            <h2>統計圖表</h2>
+            <p>
+              練習次數分配、統計圖表與資料判讀。
+            </p>
+            <button class="button waiting-button" type="button" disabled>
+              敬請期待
+            </button>
+          </article>
 
-          <div class="game-icon">
-            🧮
-          </div>
-
-          <h2>一元一次方程式</h2>
-
-          <p>
-            解方程式闖關，
-            練習移項與等量公理。
-          </p>
-
-          <a
-            class="button start-button"
-            href="games/equation.html"
-          >
-            開始挑戰
-          </a>
-
-        </article>
-
-        <article class="game-card">
-
-          <div class="game-icon">
-            📐
-          </div>
-
-          <h2>比例式</h2>
-
-          <p>
-            練習比例式判斷與計算，
-            建立正確的比例概念。
-          </p>
-
-          <button
-            class="button waiting-button"
-            type="button"
-            disabled
-          >
-            敬請期待
-          </button>
-
-        </article>
-
+        </div>
       </div>
 
     </section>
@@ -828,6 +947,25 @@
             block: "center"
           });
         }
+      }
+    );
+
+
+    const semesterSelect =
+      document.getElementById("semesterSelect");
+
+    const semesterPanels =
+      document.querySelectorAll(".semester-panel");
+
+    semesterSelect.addEventListener(
+      "change",
+      () => {
+        semesterPanels.forEach((panel) => {
+          panel.classList.toggle(
+            "active",
+            panel.id === semesterSelect.value
+          );
+        });
       }
     );
 
