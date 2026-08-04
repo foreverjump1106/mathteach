@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>正負分數加減大挑戰</title>
+<link rel="stylesheet" href="../css/scratchpad.css">
+<style>
+:root{
+  --blue:#2563eb;--blue-dark:#1d4ed8;--green:#16a34a;--red:#dc2626;
+  --amber:#d97706;--ink:#1f2937;--muted:#64748b;--line:#dbe3ef;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;color:var(--ink)}
+body{background:linear-gradient(135deg,#eff6ff,#f8fafc);padding:8px}
+button,input,select{font:inherit}
+.hidden{display:none!important}
+.app{width:100%;max-width:1500px;min-height:calc(100vh - 16px);margin:auto;background:#fff;border:3px solid #bfdbfe;border-radius:24px;box-shadow:0 18px 45px #1e3a8a22;overflow:hidden}
+.progress{height:10px;background:#e5e7eb}.progress>div{height:100%;width:0;background:linear-gradient(90deg,#60a5fa,#2563eb);transition:width .25s}
+.inner{padding:24px}
+.title{text-align:center;color:var(--blue-dark);font-size:clamp(28px,4vw,42px);font-weight:900;margin:0 0 8px}
+.subtitle{text-align:center;color:var(--muted);margin:0 0 24px;line-height:1.7}
+.modes{display:grid;gap:14px;max-width:850px;margin:0 auto 24px}
+.mode-card input{position:absolute;opacity:0}
+.mode-card span{display:block;border:2px solid var(--line);border-radius:17px;padding:18px;cursor:pointer;background:#fff;transition:.2s}
+.mode-card input:checked+span{border-color:#3b82f6;background:#eff6ff;box-shadow:0 0 0 4px #3b82f622}
+.mode-title{font-weight:900;color:var(--blue-dark);font-size:19px}
+.example{font-family:"Times New Roman",serif;font-size:20px;margin-top:7px;color:#475569}
+.btn{border:0;border-radius:14px;padding:13px 20px;font-weight:900;font-size:17px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;transition:.15s}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--blue);color:#fff}.btn-green{background:var(--green);color:#fff}
+.btn-light{background:#eff6ff;color:var(--blue-dark);border:2px solid #bfdbfe}
+.btn-danger-light{background:#fff1f2;color:#be123c;border:2px solid #fecdd3}
+.btn-neutral{background:#f1f5f9;color:#334155;border:2px solid #cbd5e1}
+.center{text-align:center}
+.topbar{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.stats{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.pill{padding:9px 14px;border-radius:14px;font-size:15px;font-weight:900;box-shadow:0 4px 12px #0f172a10}
+.pill-blue{background:#dbeafe;color:var(--blue-dark)}.pill-amber{background:#fef3c7;color:#92400e}.pill-gray{background:#f1f5f9;color:#475569}
+#scratchpad-mobile-button{display:flex;align-items:center}
+#scratchpad-mobile-button .scratchpad-open-button{position:static!important;inset:auto!important;display:inline-flex!important;min-height:42px;padding:10px 16px;border:2px solid #c7d2fe;border-radius:14px;background:linear-gradient(135deg,#4f46e5,#2563eb);color:#fff;font-size:16px;font-weight:900;cursor:pointer}
+.problem{background:#f8fafc;border:2px solid #e2e8f0;border-radius:20px;padding:28px 14px;text-align:center;font-family:"Times New Roman",serif;font-size:clamp(28px,4.5vw,48px);font-weight:700;margin-bottom:20px;white-space:nowrap;overflow-x:auto}
+.math-frac{display:inline-flex;flex-direction:column;align-items:stretch;justify-content:center;min-width:.82em;text-align:center;line-height:.95;margin:0 .08em;vertical-align:middle}
+.math-frac .top,.math-frac .bottom{display:block;font-size:.68em;line-height:1;padding:0 .12em}
+.math-frac .top{border-bottom:2px solid currentColor;padding-bottom:.08em}.math-frac .bottom{padding-top:.08em}
+.answer-wrap{max-width:760px;margin:auto}
+.answer-card{display:flex;align-items:center;justify-content:center;gap:12px;min-height:128px;padding:14px;border:2px solid #dbeafe;border-radius:18px;background:#f8fbff}
+.sign-select{height:48px;min-width:72px;padding:0 10px;border:2px solid #cbd5e1;border-radius:10px;background:#fff;font-family:"Times New Roman",serif;font-size:22px;font-weight:900;text-align:center}
+.frac-input{position:relative;display:inline-grid;grid-template-rows:48px 48px;width:88px;gap:8px}
+.frac-input input{width:100%;height:48px;border:2px solid #cbd5e1;border-radius:10px;text-align:center;font-size:23px;font-weight:900;outline:none}
+.frac-line{position:absolute;left:5px;right:5px;top:50%;height:2px;background:#1f2937;transform:translateY(-1px);pointer-events:none}
+.integer-input{width:min(210px,60vw);display:flex}
+.integer-input input:first-child{display:block}.integer-input input:last-child,.integer-input .frac-line{display:none}
+.help{text-align:center;color:#64748b;font-size:13px;margin:9px 0 12px}
+.preview{min-height:26px;text-align:center;color:#64748b;margin:8px 0 14px}
+.actions{display:grid;gap:10px}
+.feedback{min-height:58px;margin-top:15px;text-align:center;font-size:19px;font-weight:900;line-height:1.55}
+.explanation-actions{display:flex;justify-content:center;margin-top:12px}
+.explanation-toggle{border:2px solid #93c5fd;background:#eff6ff;color:#1d4ed8;border-radius:12px;padding:10px 16px;font-size:15px;font-weight:900;cursor:pointer}
+.explanation-panel{margin-top:12px;border:2px solid #bfdbfe;border-radius:16px;background:#f8fbff;padding:16px;text-align:left;color:#334155;line-height:1.7}
+.explanation-title{text-align:center;font-size:19px;font-weight:900;color:#1d4ed8;margin-bottom:10px}
+.explanation-step{border-left:4px solid #60a5fa;background:#fff;border-radius:10px;padding:10px 12px;margin:9px 0}
+.explanation-step-label{display:block;color:#1e40af;font-weight:900;margin-bottom:5px}
+.explanation-math{text-align:center;font-family:"Times New Roman",serif;font-size:24px;font-weight:700;overflow-x:auto;white-space:nowrap;padding:4px 0}
+.explanation-final{border-color:#22c55e;background:#f0fdf4}
+.result-box{max-width:760px;margin:auto;text-align:center}
+.grade-card{background:linear-gradient(135deg,#eff6ff,#f8fafc);border:2px solid #bfdbfe;border-radius:22px;padding:24px;margin:18px 0}
+.grade-big{font-size:54px;font-weight:900;color:var(--blue-dark)}
+.stars{font-size:34px;letter-spacing:4px;margin:6px 0}.comment{font-size:20px;font-weight:900;color:#334155}
+.score-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+.score-card{background:#f8fafc;border:2px solid #e2e8f0;border-radius:16px;padding:15px}.score-card b{display:block;font-size:26px;margin-top:5px}
+.result-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.save-status{min-height:24px;margin:10px 0 16px;font-size:15px;font-weight:900}
+@media(max-width:700px){
+  body{padding:4px}.inner{padding:14px}.topbar{gap:8px}.btn{padding:11px 13px;font-size:15px}
+  .score-grid,.result-actions{grid-template-columns:1fr}.problem{font-size:clamp(25px,8vw,38px)}
+  .answer-card{gap:8px}.sign-select{min-width:62px;height:42px}.frac-input{width:70px;grid-template-rows:42px 42px}.frac-input input{height:42px;font-size:20px}
+}
+</style>
+</head>
+<body>
+<main class="app">
+  <div class="progress"><div id="progress-bar"></div></div>
+  <div class="inner">
+
+    <section id="start-screen">
+      <h1 class="title">正負分數加減大挑戰</h1>
+      <p class="subtitle">先複習最小公倍數，再挑戰正負分數的同分母與異分母加減。</p>
+      <div class="modes">
+        <label class="mode-card">
+          <input type="radio" name="mode" value="lcm" checked>
+          <span><div class="mode-title">基礎複習｜最小公倍數</div><div class="example">例如：求 6 與 8 的最小公倍數</div></span>
+        </label>
+        <label class="mode-card">
+          <input type="radio" name="mode" value="fraction">
+          <span><div class="mode-title">正式挑戰｜正負分數加減</div><div class="example">例如：−2/3 + 5/6、3/4 − (−1/2)</div></span>
+        </label>
+      </div>
+      <div class="center"><button id="start-btn" class="btn btn-primary">開始挑戰</button></div>
+    </section>
+
+    <section id="quiz-screen" class="hidden">
+      <div class="topbar">
+        <button id="change-mode-btn" class="btn btn-light">← 重選模式</button>
+        <span id="question-number" class="pill pill-blue">第 1 / 10 題</span>
+        <span id="mode-badge" class="pill pill-amber">最小公倍數</span>
+        <span id="time-display" class="pill pill-gray">⏳ 00:00</span>
+        <button id="reset-btn" class="btn btn-danger-light">重新測驗（目前模式）</button>
+        <div id="scratchpad-mobile-button"></div>
+      </div>
+
+      <div id="problem-text" class="problem"></div>
+
+      <div class="answer-wrap">
+        <div id="lcm-answer-card" class="answer-card">
+          <div id="lcm-input-box" class="frac-input integer-input">
+            <input id="lcm-answer" inputmode="numeric" autocomplete="off" placeholder="答案">
+            <span class="frac-line"></span><input disabled>
+          </div>
+        </div>
+
+        <div id="fraction-answer-card" class="answer-card hidden">
+          <select id="answer-sign" class="sign-select" aria-label="答案正負號">
+            <option value="1">＋</option>
+            <option value="-1">−</option>
+          </select>
+          <div id="fraction-input-box" class="frac-input">
+            <input id="answer-num" inputmode="numeric" autocomplete="off" placeholder="分子">
+            <span class="frac-line"></span>
+            <input id="answer-den" inputmode="numeric" autocomplete="off" placeholder="分母">
+          </div>
+        </div>
+
+        <div id="answer-help" class="help"></div>
+        <div id="answer-preview" class="preview"></div>
+
+        <div class="actions">
+          <button id="submit-btn" class="btn btn-green">送出答案（Enter）</button>
+          <button id="next-btn" class="btn btn-primary hidden">下一題（Enter）</button>
+        </div>
+        <div id="feedback" class="feedback" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="result-screen" class="hidden result-box">
+      <h2 class="title">挑戰完成！</h2>
+      <div class="grade-card">
+        <div id="final-score" class="grade-big">0 分</div>
+        <div id="final-stars" class="stars">☆☆☆☆☆</div>
+        <div id="final-comment" class="comment"></div>
+      </div>
+      <div class="score-grid">
+        <div class="score-card">答對<b id="final-correct">0</b></div>
+        <div class="score-card">答錯<b id="final-wrong">0</b></div>
+        <div class="score-card">總時間<b id="final-time">00:00</b></div>
+      </div>
+      <p id="save-status" class="save-status"></p>
+      <div class="result-actions">
+        <button id="again-btn" class="btn btn-primary">🔄 再玩一次</button>
+        <button id="result-change-mode-btn" class="btn btn-light">重選模式</button>
+        <a class="btn btn-neutral" href="../leaderboard.html">🏆 排行榜</a>
+        <a class="btn btn-neutral" href="../my-scores.html">📊 我的成績</a>
+        <a class="btn btn-light" href="../index.html">🏠 回首頁</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<script src="../js/scratchpad.js"></script>
+<script src="../js/scratchpad-template.js"></script>
+
+<script type="module">
+import { saveGameScore } from "../js/scores.js";
+
+'use strict';
+
+document.addEventListener("DOMContentLoaded",()=>{
+  const mount=document.getElementById("scratchpad-mobile-button");
+  const button=document.getElementById("scratchpadOpenButton");
+  if(mount&&button)mount.appendChild(button);
+});
+
+const $=id=>document.getElementById(id);
+const GAME_ID="fraction";
+const TOTAL=10;
+
+let mode="lcm",questions=[],index=0,correct=0,wrong=0,locked=false,nextReady=false;
+let startTime=0,timer=null,finalElapsed=0,scoreSaved=false;
+
+function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min}
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t}return a||1}
+function lcm(a,b){return Math.abs(a*b)/gcd(a,b)}
+function simplify(n,d){if(d<0){n=-n;d=-d}const g=gcd(n,d);return{n:n/g,d:d/g}}
+function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=rand(0,i);[arr[i],arr[j]]=[arr[j],arr[i]]}return arr}
+function fracHTML(n,d,showParens=false){
+  const r=simplify(n,d);
+  if(r.d===1)return String(r.n).replace("-","−");
+  const core=`${r.n<0?"−":""}<span class="math-frac"><span class="top">${Math.abs(r.n)}</span><span class="bottom">${r.d}</span></span>`;
+  return showParens&&r.n<0?`(${core})`:core;
+}
+function rawFracHTML(n,d,showParens=false){
+  if(d===1)return String(n).replace("-","−");
+  const core=`${n<0?"−":""}<span class="math-frac"><span class="top">${Math.abs(n)}</span><span class="bottom">${d}</span></span>`;
+  return showParens&&n<0?`(${core})`:core;
+}
+function showOnly(id){["start-screen","quiz-screen","result-screen"].forEach(x=>$(x).classList.toggle("hidden",x!==id))}
+function makeLcmQuestions(){
+  const out=[],used=new Set();
+  while(out.length<TOTAL){
+    const a=rand(2,15),b=rand(2,15);
+    if(a===b)continue;
+    const key=[a,b].sort((x,y)=>x-y).join("-");
+    if(used.has(key))continue;
+    used.add(key);
+    out.push({a,b,answer:lcm(a,b)});
+  }
+  return shuffle(out);
+}
+function makeFractionQuestions(){
+  const out=[];
+  const schedule=[...Array(4).fill("same"),...Array(6).fill("different")];
+  shuffle(schedule);
+  for(const type of schedule){
+    for(let tries=0;tries<500;tries++){
+      let d1=rand(2,12),d2=type==="same"?d1:rand(2,12);
+      if(type==="different"&&d1===d2)continue;
+      let n1=rand(1,12)*(Math.random()<.5?-1:1);
+      let n2=rand(1,12)*(Math.random()<.5?-1:1);
+      if(gcd(n1,d1)!==1||gcd(n2,d2)!==1)continue;
+      const op=Math.random()<.5?"+":"−";
+      const rawN=op==="+"?n1*d2+n2*d1:n1*d2-n2*d1;
+      const rawD=d1*d2;
+      if(rawN===0)continue;
+      const ans=simplify(rawN,rawD);
+      if(Math.abs(ans.n)>40||ans.d>20)continue;
+      out.push({n1,d1,n2,d2,op,rawN,rawD,ans,type});
+      break;
+    }
+  }
+  return shuffle(out);
+}
+function startGame(keepMode=false){
+  if(!keepMode)mode=document.querySelector('input[name="mode"]:checked').value;
+  questions=mode==="lcm"?makeLcmQuestions():makeFractionQuestions();
+  index=correct=wrong=0;locked=nextReady=false;scoreSaved=false;
+  startTime=Date.now();clearInterval(timer);
+  timer=setInterval(updateTimer,1000);
+  showOnly("quiz-screen");
+  $("mode-badge").textContent=mode==="lcm"?"基礎複習｜最小公倍數":"正式挑戰｜正負分數加減";
+  loadQuestion();
+}
+function updateTimer(){
+  const e=Math.floor((Date.now()-startTime)/1000);
+  $("time-display").textContent=`⏳ ${String(Math.floor(e/60)).padStart(2,"0")}:${String(e%60).padStart(2,"0")}`;
+}
+function loadQuestion(){
+  if(typeof window.resetGameScratchpad==="function")window.resetGameScratchpad();
+  locked=nextReady=false;
+  $("submit-btn").classList.remove("hidden");$("next-btn").classList.add("hidden");
+  $("feedback").innerHTML="";$("answer-preview").innerHTML="";
+  $("question-number").textContent=`第 ${index+1} / ${TOTAL} 題`;
+  $("progress-bar").style.width=`${index/TOTAL*100}%`;
+
+  if(mode==="lcm"){
+    const q=questions[index];
+    $("problem-text").innerHTML=`求 ${q.a} 與 ${q.b} 的最小公倍數`;
+    $("lcm-answer-card").classList.remove("hidden");
+    $("fraction-answer-card").classList.add("hidden");
+    $("lcm-answer").value="";$("answer-help").textContent="請輸入正整數答案。";
+    setTimeout(()=>$("lcm-answer").focus(),0);
+  }else{
+    const q=questions[index];
+    $("problem-text").innerHTML=`${rawFracHTML(q.n1,q.d1,true)} <span style="margin:0 .35em">${q.op}</span> ${rawFracHTML(q.n2,q.d2,true)}`;
+    $("lcm-answer-card").classList.add("hidden");
+    $("fraction-answer-card").classList.remove("hidden");
+    $("answer-sign").value="1";$("answer-num").value="";$("answer-den").value="";
+    $("answer-help").textContent="先選正負號，上格填分子、下格填分母，答案必須化成最簡分數。";
+    setTimeout(()=>$("answer-num").focus(),0);
+  }
+}
+function readAnswer(){
+  if(mode==="lcm"){
+    const v=$("lcm-answer").value.trim();
+    if(!/^\d+$/.test(v)||Number(v)<=0)return null;
+    return{value:Number(v),display:String(Number(v))};
+  }
+  const ns=$("answer-num").value.trim(),ds=$("answer-den").value.trim();
+  if(!/^\d+$/.test(ns)||!/^\d+$/.test(ds))return null;
+  const n=Number(ns),d=Number(ds),sign=Number($("answer-sign").value);
+  if(n<=0||d<=0)return null;
+  return{n:sign*n,d,simplest:gcd(n,d)===1,normalized:simplify(sign*n,d),display:`${sign<0?"−":""}${rawFracHTML(n,d)}`};
+}
+function updatePreview(){
+  const a=readAnswer();
+  $("answer-preview").innerHTML=a?(mode==="lcm"?`系統判讀：${a.display}`:`系統判讀：${a.display}`):"";
+}
+function explanationHTML(q){
+  if(mode==="lcm"){
+    const g=gcd(q.a,q.b);
+    return `<div class="explanation-title">逐步解題解析</div>
+      <div class="explanation-step"><span class="explanation-step-label">步驟 1｜找最大公因數</span><div class="explanation-math">GCD(${q.a}, ${q.b}) = ${g}</div></div>
+      <div class="explanation-step"><span class="explanation-step-label">步驟 2｜套用最小公倍數公式</span><div class="explanation-math">(${q.a} × ${q.b}) ÷ ${g} = ${q.answer}</div></div>
+      <div class="explanation-step explanation-final"><span class="explanation-step-label">最後答案</span><div class="explanation-math">${q.answer}</div></div>`;
+  }
+
+  const common=lcm(q.d1,q.d2);
+  if(q.d1===q.d2){
+    const combined=q.op==="+"?q.n1+q.n2:q.n1-q.n2;
+    return `<div class="explanation-title">逐步解題解析</div>
+      <div class="explanation-step"><span class="explanation-step-label">步驟 1｜判斷分母</span><div>兩個分數同分母，分母保持 ${q.d1} 不變。</div></div>
+      <div class="explanation-step"><span class="explanation-step-label">步驟 2｜分子相加減</span><div class="explanation-math">${rawFracHTML(q.n1,q.d1,true)} ${q.op} ${rawFracHTML(q.n2,q.d2,true)} = ${rawFracHTML(combined,q.d1)}</div></div>
+      <div class="explanation-step"><span class="explanation-step-label">步驟 3｜約成最簡分數</span><div class="explanation-math">${rawFracHTML(combined,q.d1)} = ${fracHTML(q.ans.n,q.ans.d)}</div></div>
+      <div class="explanation-step explanation-final"><span class="explanation-step-label">最後答案</span><div class="explanation-math">${fracHTML(q.ans.n,q.ans.d)}</div></div>`;
+  }
+
+  const m1=common/q.d1,m2=common/q.d2;
+  const newN1=q.n1*m1,newN2=q.n2*m2;
+  const combined=q.op==="+"?newN1+newN2:newN1-newN2;
+  return `<div class="explanation-title">逐步解題解析</div>
+    <div class="explanation-step"><span class="explanation-step-label">步驟 1｜找最小公倍數</span><div class="explanation-math">LCM(${q.d1}, ${q.d2}) = ${common}</div></div>
+    <div class="explanation-step"><span class="explanation-step-label">步驟 2｜通分</span><div class="explanation-math">${rawFracHTML(q.n1,q.d1,true)} = ${rawFracHTML(newN1,common)}，${rawFracHTML(q.n2,q.d2,true)} = ${rawFracHTML(newN2,common)}</div></div>
+    <div class="explanation-step"><span class="explanation-step-label">步驟 3｜分子相加減</span><div class="explanation-math">${rawFracHTML(newN1,common,true)} ${q.op} ${rawFracHTML(newN2,common,true)} = ${rawFracHTML(combined,common)}</div></div>
+    <div class="explanation-step"><span class="explanation-step-label">步驟 4｜約成最簡分數</span><div class="explanation-math">${rawFracHTML(combined,common)} = ${fracHTML(q.ans.n,q.ans.d)}</div></div>
+    <div class="explanation-step explanation-final"><span class="explanation-step-label">最後答案</span><div class="explanation-math">${fracHTML(q.ans.n,q.ans.d)}</div></div>`;
+}
+function check(){
+  if(locked)return;
+  const a=readAnswer(),q=questions[index];
+  if(!a){
+    $("feedback").innerHTML='<span style="color:#d97706">請完整輸入有效答案。</span>';return;
+  }
+  if(mode==="fraction"&&!a.simplest){
+    $("feedback").innerHTML='<span style="color:#d97706">答案尚未化成最簡分數，請繼續約分。</span>';return;
+  }
+  locked=true;
+  const ok=mode==="lcm"?a.value===q.answer:(a.normalized.n===q.ans.n&&a.normalized.d===q.ans.d);
+  ok?correct++:wrong++;
+  const ans=mode==="lcm"?q.answer:fracHTML(q.ans.n,q.ans.d);
+  $("feedback").innerHTML=`<span style="color:${ok?"#15803d":"#b91c1c"}">${ok?"✨ 正確！":"❌ 答案不正確"}</span>
+    <div class="explanation-actions"><button id="explanation-toggle" class="explanation-toggle">查看解析</button></div>
+    <div id="explanation-panel" class="explanation-panel hidden"></div>`;
+  $("explanation-toggle").onclick=()=>{
+    const panel=$("explanation-panel");
+    const open=panel.classList.contains("hidden");
+    panel.classList.toggle("hidden",!open);
+    $("explanation-toggle").textContent=open?"收起解析":"查看解析";
+    if(open)panel.innerHTML=explanationHTML(q);
+  };
+  setTimeout(()=>{
+    $("submit-btn").classList.add("hidden");$("next-btn").classList.remove("hidden");
+    $("next-btn").textContent=index===TOTAL-1?"查看測驗結果（Enter）":"下一題（Enter）";
+    nextReady=true;$("next-btn").focus();
+  },ok?700:1000);
+}
+function next(){if(!nextReady)return;index++;index<TOTAL?loadQuestion():showResult()}
+function rating(score){
+  if(score>=90)return{stars:"★★★★★",comment:"太棒了！你已經熟練掌握這個主題。"};
+  if(score>=80)return{stars:"★★★★☆",comment:"表現很好，再多練習幾次就更穩定。"};
+  if(score>=60)return{stars:"★★★☆☆",comment:"已掌握基本概念，繼續練習通分與約分。"};
+  return{stars:"★★☆☆☆",comment:"先從最小公倍數複習，再慢慢挑戰正負分數。"};
+}
+async function saveCurrentScore(score){
+  if(scoreSaved)return;scoreSaved=true;
+  const status=$("save-status");status.textContent="☁️ 正在儲存本次成績……";status.style.color="#1d4ed8";
+  try{
+    const result=await saveGameScore({game:GAME_ID,score,correctCount:correct,wrongCount:wrong,maxCombo:0,playTime:finalElapsed,mode});
+    if(result.success){status.textContent="✅ 本次成績已儲存。";status.style.color="#15803d"}
+    else if(result.reason==="not-logged-in"){status.textContent="ℹ️ 尚未登入，因此本次成績沒有儲存。";status.style.color="#b45309"}
+    else{status.textContent="⚠️ 成績暫時無法儲存。";status.style.color="#b91c1c"}
+  }catch(e){console.error(e);status.textContent="⚠️ 成績暫時無法儲存。";status.style.color="#b91c1c"}
+}
+async function showResult(){
+  clearInterval(timer);$("progress-bar").style.width="100%";
+  finalElapsed=Math.floor((Date.now()-startTime)/1000);
+  const score=Math.round(correct/TOTAL*100),r=rating(score);
+  showOnly("result-screen");
+  $("final-score").textContent=`${score} 分`;$("final-stars").textContent=r.stars;$("final-comment").textContent=r.comment;
+  $("final-correct").textContent=correct;$("final-wrong").textContent=wrong;
+  $("final-time").textContent=`${String(Math.floor(finalElapsed/60)).padStart(2,"0")}:${String(finalElapsed%60).padStart(2,"0")}`;
+  await saveCurrentScore(score);
+}
+function modeSelect(){clearInterval(timer);showOnly("start-screen");$("progress-bar").style.width="0%"}
+
+$("start-btn").onclick=()=>startGame(false);
+$("change-mode-btn").onclick=modeSelect;
+$("result-change-mode-btn").onclick=modeSelect;
+$("reset-btn").onclick=()=>startGame(true);
+$("again-btn").onclick=()=>startGame(true);
+$("submit-btn").onclick=check;
+$("next-btn").onclick=next;
+$("lcm-answer").addEventListener("input",updatePreview);
+["answer-num","answer-den"].forEach(id=>$(id).addEventListener("input",updatePreview));
+$("answer-sign").addEventListener("change",updatePreview);
+document.addEventListener("keydown",e=>{
+  if(e.key!=="Enter"||$("quiz-screen").classList.contains("hidden"))return;
+  e.preventDefault();nextReady?next():!locked&&check();
+});
+</script>
+</body>
+</html>
