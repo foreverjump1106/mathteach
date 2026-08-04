@@ -5,10 +5,12 @@
 ==================================================
 
 功能：
-1. 自動建立「回首頁、排行榜、我的成績」按鈕
-2. 自動判斷目前頁面位於根目錄或 games 資料夾
-3. 所有遊戲共用同一套外觀
-4. 之後只需修改這個檔案，所有遊戲同步更新
+1. 自動建立共用導覽列
+2. 回到數學遊戲樂園首頁
+3. 前往排行榜
+4. 前往我的成績
+5. 自動判斷根目錄路徑
+6. 固定於畫面上方，不影響原本遊戲排版
 ==================================================
 */
 
@@ -21,14 +23,19 @@
   const STYLE_ID =
     "mathGameCommonHeaderStyle";
 
+  const BODY_CLASS =
+    "math-game-has-common-header";
+
   /*
-  判斷目前頁面是否位於 games 資料夾。
+  ==================================================
+  判斷頁面路徑
+  ==================================================
 
-  games/equation.html
-  games/fraction.html
-  games/integer-operations.html
+  games 資料夾內的頁面：
+  ../index.html
 
-  這些頁面返回根目錄時需要使用 ../
+  根目錄頁面：
+  ./index.html
   */
 
   function getBasePath() {
@@ -36,23 +43,27 @@
       document.currentScript;
 
     /*
-    可在 script 標籤手動指定：
+    可以在引用時自行指定：
 
-    data-base-path="../"
+    <script
+      src="../js/common-header.js"
+      data-base-path="../"
+    ></script>
     */
 
     if (
       script &&
+      script.dataset &&
       script.dataset.basePath
     ) {
       return script.dataset.basePath;
     }
 
-    const path =
+    const currentPath =
       window.location.pathname;
 
     if (
-      path.includes("/games/")
+      currentPath.includes("/games/")
     ) {
       return "../";
     }
@@ -61,7 +72,9 @@
   }
 
   /*
-  建立共用 CSS。
+  ==================================================
+  建立共用樣式
+  ==================================================
   */
 
   function createStyle() {
@@ -74,26 +87,63 @@
     }
 
     const style =
-      document.createElement(
-        "style"
-      );
+      document.createElement("style");
 
     style.id =
       STYLE_ID;
 
     style.textContent = `
+      /*
+      預留固定導覽列的上方空間。
+      使用 margin-top，不改變原本 body 的 flex 方向。
+      */
+
+      body.${BODY_CLASS} {
+        padding-top: 86px !important;
+      }
+
+      /*
+      共用導覽列固定於畫面上方，
+      不會成為 body flex 排版中的左右區塊。
+      */
+
       .math-game-common-header {
-        position: relative;
-        z-index: 40;
-        width: min(1100px, calc(100% - 24px));
-        margin: 12px auto 14px;
+        position: fixed;
+        top: 10px;
+        left: 50%;
+        z-index: 1000;
+
+        width: min(
+          1100px,
+          calc(100% - 24px)
+        );
+
+        margin: 0;
         padding: 10px 12px;
+
         border: 1px solid #dbeafe;
         border-radius: 16px;
-        background: rgba(255, 255, 255, 0.96);
+
+        background:
+          rgba(255, 255, 255, 0.97);
+
         box-shadow:
           0 6px 18px
-          rgba(30, 64, 175, 0.10);
+          rgba(30, 64, 175, 0.12);
+
+        transform:
+          translateX(-50%);
+
+        backdrop-filter:
+          blur(8px);
+
+        -webkit-backdrop-filter:
+          blur(8px);
+      }
+
+      .math-game-common-header,
+      .math-game-common-header * {
+        box-sizing: border-box;
       }
 
       .math-game-common-header-inner {
@@ -101,34 +151,53 @@
         align-items: center;
         justify-content: space-between;
         gap: 12px;
+
+        width: 100%;
       }
+
+      /*
+      左側品牌名稱
+      */
 
       .math-game-common-brand {
         display: flex;
         align-items: center;
         gap: 9px;
+
         min-width: 0;
+
         color: #174a7e;
         font-weight: 900;
         white-space: nowrap;
       }
 
       .math-game-common-brand-icon {
+        flex: 0 0 auto;
+
         font-size: 24px;
         line-height: 1;
       }
 
       .math-game-common-brand-text {
         overflow: hidden;
+
         font-size: 17px;
+        line-height: 1.3;
+
         text-overflow: ellipsis;
+        white-space: nowrap;
       }
+
+      /*
+      右側導覽按鈕
+      */
 
       .math-game-common-links {
         display: flex;
         align-items: center;
         justify-content: flex-end;
         gap: 8px;
+
         flex-wrap: wrap;
       }
 
@@ -137,46 +206,65 @@
         align-items: center;
         justify-content: center;
         gap: 6px;
+
         min-height: 40px;
         padding: 8px 14px;
+
         border: 2px solid #2563eb;
         border-radius: 11px;
+
         background: #ffffff;
         color: #1d4ed8;
+
+        font-family:
+          "Microsoft JhengHei",
+          "Noto Sans TC",
+          sans-serif;
+
         font-size: 14px;
         font-weight: 800;
         line-height: 1.2;
+        text-align: center;
         text-decoration: none;
+        white-space: nowrap;
+
         cursor: pointer;
+
         transition:
           transform 0.18s ease,
           background 0.18s ease,
           color 0.18s ease,
+          border-color 0.18s ease,
           box-shadow 0.18s ease;
       }
 
       .math-game-common-link:hover {
         background: #2563eb;
         color: #ffffff;
+
         box-shadow:
           0 5px 12px
           rgba(37, 99, 235, 0.20);
-        transform: translateY(-1px);
+
+        transform:
+          translateY(-1px);
       }
 
       .math-game-common-link:active {
-        transform: translateY(1px);
+        transform:
+          translateY(1px);
       }
 
-      .math-game-common-link.secondary {
-        border-color: #64748b;
-        color: #475569;
+      .math-game-common-link:focus-visible {
+        outline: 3px solid
+          rgba(37, 99, 235, 0.28);
+
+        outline-offset: 2px;
       }
 
-      .math-game-common-link.secondary:hover {
-        background: #64748b;
-        color: #ffffff;
-      }
+      /*
+      排行榜按鈕
+      */
 
       .math-game-common-link.ranking {
         border-color: #f59e0b;
@@ -185,21 +273,48 @@
 
       .math-game-common-link.ranking:hover {
         background: #f59e0b;
+        border-color: #f59e0b;
         color: #ffffff;
       }
 
+      /*
+      我的成績按鈕
+      */
+
+      .math-game-common-link.secondary {
+        border-color: #64748b;
+        color: #475569;
+      }
+
+      .math-game-common-link.secondary:hover {
+        background: #64748b;
+        border-color: #64748b;
+        color: #ffffff;
+      }
+
+      /*
+      平板與手機
+      */
+
       @media (max-width: 720px) {
+        body.${BODY_CLASS} {
+          padding-top: 142px !important;
+        }
+
         .math-game-common-header {
-          width: calc(100% - 16px);
-          margin-top: 8px;
-          margin-bottom: 10px;
+          top: 6px;
+
+          width:
+            calc(100% - 12px);
+
           padding: 9px;
+          border-radius: 14px;
         }
 
         .math-game-common-header-inner {
           align-items: stretch;
           flex-direction: column;
-          gap: 9px;
+          gap: 8px;
         }
 
         .math-game-common-brand {
@@ -208,32 +323,45 @@
 
         .math-game-common-links {
           display: grid;
+
           grid-template-columns:
-            repeat(3, minmax(0, 1fr));
+            repeat(
+              3,
+              minmax(0, 1fr)
+            );
+
           width: 100%;
           gap: 6px;
         }
 
         .math-game-common-link {
           min-width: 0;
-          padding: 8px 5px;
+          min-height: 38px;
+
+          padding: 7px 5px;
+
           font-size: 13px;
-          text-align: center;
+          white-space: normal;
         }
       }
 
       @media (max-width: 430px) {
+        body.${BODY_CLASS} {
+          padding-top: 137px !important;
+        }
+
+        .math-game-common-brand-icon {
+          font-size: 21px;
+        }
+
         .math-game-common-brand-text {
-          font-size: 16px;
+          font-size: 15px;
         }
 
         .math-game-common-link {
           gap: 3px;
+          padding: 7px 3px;
           font-size: 12px;
-        }
-
-        .math-game-common-link-label {
-          display: inline;
         }
       }
     `;
@@ -244,7 +372,9 @@
   }
 
   /*
-  建立單一導覽按鈕。
+  ==================================================
+  建立單一導覽連結
+  ==================================================
   */
 
   function createLink({
@@ -257,39 +387,81 @@
       document.createElement("a");
 
     link.className =
-      `math-game-common-link ${className}`
-        .trim();
+      [
+        "math-game-common-link",
+        className
+      ]
+        .filter(Boolean)
+        .join(" ");
 
     link.href =
       href;
 
-    link.innerHTML = `
-      <span aria-hidden="true">
-        ${icon}
-      </span>
+    const iconElement =
+      document.createElement("span");
 
-      <span class="math-game-common-link-label">
-        ${label}
-      </span>
-    `;
+    iconElement.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+    iconElement.textContent =
+      icon;
+
+    const labelElement =
+      document.createElement("span");
+
+    labelElement.className =
+      "math-game-common-link-label";
+
+    labelElement.textContent =
+      label;
+
+    link.appendChild(
+      iconElement
+    );
+
+    link.appendChild(
+      labelElement
+    );
 
     return link;
   }
 
   /*
-  建立完整導覽列。
+  ==================================================
+  建立共用導覽列
+  ==================================================
   */
 
-  function createHeader(options = {}) {
-    if (
+  function createHeader(
+    options = {}
+  ) {
+    /*
+    防止同一頁重複建立。
+    */
+
+    const existingHeader =
       document.getElementById(
         HEADER_ID
-      )
+      );
+
+    if (existingHeader) {
+      return existingHeader;
+    }
+
+    if (
+      !document.body ||
+      !document.head
     ) {
-      return;
+      return null;
     }
 
     createStyle();
+
+    document.body.classList.add(
+      BODY_CLASS
+    );
 
     const basePath =
       options.basePath ||
@@ -308,59 +480,70 @@
 
     header.setAttribute(
       "aria-label",
-      "數學遊戲導覽列"
+      "數學遊戲樂園共用導覽列"
     );
 
     const inner =
-      document.createElement(
-        "div"
-      );
+      document.createElement("div");
 
     inner.className =
       "math-game-common-header-inner";
 
     /*
-    左側品牌名稱。
+    左側品牌區
     */
 
     const brand =
-      document.createElement(
-        "div"
-      );
+      document.createElement("div");
 
     brand.className =
       "math-game-common-brand";
 
-    brand.innerHTML = `
-      <span
-        class="math-game-common-brand-icon"
-        aria-hidden="true"
-      >
-        🎮
-      </span>
+    const brandIcon =
+      document.createElement("span");
 
-      <span
-        class="math-game-common-brand-text"
-      >
-        數學遊戲樂園
-      </span>
-    `;
+    brandIcon.className =
+      "math-game-common-brand-icon";
+
+    brandIcon.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+    brandIcon.textContent =
+      "🎮";
+
+    const brandText =
+      document.createElement("span");
+
+    brandText.className =
+      "math-game-common-brand-text";
+
+    brandText.textContent =
+      options.brandText ||
+      "數學遊戲樂園";
+
+    brand.appendChild(
+      brandIcon
+    );
+
+    brand.appendChild(
+      brandText
+    );
 
     /*
-    右側導覽按鈕。
+    右側連結區
     */
 
-    const links =
-      document.createElement(
-        "nav"
-      );
+    const navigation =
+      document.createElement("nav");
 
-    links.className =
+    navigation.className =
       "math-game-common-links";
 
-    links.setAttribute(
+    navigation.setAttribute(
       "aria-label",
-      "網站主要導覽"
+      "數學遊戲網站主要導覽"
     );
 
     const homeLink =
@@ -405,15 +588,15 @@
           "secondary"
       });
 
-    links.appendChild(
+    navigation.appendChild(
       homeLink
     );
 
-    links.appendChild(
+    navigation.appendChild(
       rankingLink
     );
 
-    links.appendChild(
+    navigation.appendChild(
       scoresLink
     );
 
@@ -422,7 +605,7 @@
     );
 
     inner.appendChild(
-      links
+      navigation
     );
 
     header.appendChild(
@@ -430,16 +613,15 @@
     );
 
     /*
-    預設放在 body 最前面。
+    fixed 元素不參與 body 的 flex 排版，
+    所以直接放入 body 不會把遊戲推向右側。
 
-    若頁面中有：
-    <div id="commonHeaderMount"></div>
-
-    就會放到指定位置。
+    若頁面有指定掛載點，也可放入掛載點。
     */
 
     const mount =
       document.getElementById(
+        options.mountId ||
         "commonHeaderMount"
       );
 
@@ -448,23 +630,57 @@
         header
       );
     } else {
-      document.body.prepend(
+      document.body.appendChild(
         header
+      );
+    }
+
+    return header;
+  }
+
+  /*
+  ==================================================
+  移除導覽列
+  ==================================================
+  */
+
+  function destroyHeader() {
+    const header =
+      document.getElementById(
+        HEADER_ID
+      );
+
+    if (header) {
+      header.remove();
+    }
+
+    if (document.body) {
+      document.body.classList.remove(
+        BODY_CLASS
       );
     }
   }
 
   /*
-  對外提供手動初始化功能。
+  ==================================================
+  對外功能
+  ==================================================
   */
 
   window.MathGameCommonHeader = {
     init:
-      createHeader
+      createHeader,
+
+    destroy:
+      destroyHeader,
+
+    getBasePath
   };
 
   /*
-  頁面載入後自動建立。
+  ==================================================
+  自動初始化
+  ==================================================
   */
 
   function autoInitialize() {
