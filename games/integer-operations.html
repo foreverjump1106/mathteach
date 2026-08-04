@@ -156,6 +156,86 @@ button,input,select{font:inherit}
   .score-grid,.result-actions{grid-template-columns:1fr}
   .problem{font-size:clamp(28px,8vw,40px)}
 }
+
+.math-frac{
+  display:inline-flex;
+  flex-direction:column;
+  align-items:stretch;
+  justify-content:center;
+  min-width:.9em;
+  margin:0 .08em;
+  vertical-align:middle;
+  text-align:center;
+  line-height:.95;
+}
+.math-frac .top,.math-frac .bottom{
+  display:block;
+  padding:0 .12em;
+  font-size:.68em;
+  line-height:1;
+}
+.math-frac .top{
+  padding-bottom:.08em;
+  border-bottom:2px solid currentColor;
+}
+.math-frac .bottom{padding-top:.08em}
+.answer-type-tabs{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-bottom:12px;
+}
+.answer-type-button{
+  padding:9px 16px;
+  border:2px solid #cbd5e1;
+  border-radius:999px;
+  background:#fff;
+  color:#475569;
+  font-weight:900;
+  cursor:pointer;
+}
+.answer-type-button.active{
+  border-color:#2563eb;
+  background:#dbeafe;
+  color:#1d4ed8;
+}
+.sign-select{
+  min-width:70px;
+  height:52px;
+  padding:0 8px;
+  border:2px solid #cbd5e1;
+  border-radius:10px;
+  background:#fff;
+  font-size:22px;
+  font-weight:900;
+}
+.fraction-input{
+  position:relative;
+  display:grid;
+  grid-template-rows:48px 48px;
+  gap:9px;
+  width:92px;
+}
+.fraction-input input{
+  width:100%;
+  height:48px;
+  border:2px solid #cbd5e1;
+  border-radius:10px;
+  text-align:center;
+  font-size:22px;
+  font-weight:900;
+}
+.fraction-line{
+  position:absolute;
+  left:4px;
+  right:4px;
+  top:50%;
+  height:2px;
+  background:#1f2937;
+  transform:translateY(-1px);
+  pointer-events:none;
+}
+
 </style>
 </head>
 <body>
@@ -165,54 +245,46 @@ button,input,select{font:inherit}
 
     <section id="start-screen">
       <h1 class="title">正負數四則運算大挑戰</h1>
-      <p class="subtitle">從正負數加減、乘除、絕對值到乘方與綜合四則運算，逐步建立完整計算能力。</p>
+      <p class="subtitle">練習正負整數與分數的乘除、絕對值、乘方，以及整數與分數混合的四則運算。</p>
 
       <div class="modes">
         <label class="mode-card">
-          <input type="radio" name="mode" value="addsub" checked>
+          <input type="radio" name="mode" value="muldiv" checked>
           <span>
-            <div class="mode-title">模式一｜正負數加減</div>
-            <div class="example">例如：−8＋15、12−(−7)</div>
-          </span>
-        </label>
-
-        <label class="mode-card">
-          <input type="radio" name="mode" value="multiply">
-          <span>
-            <div class="mode-title">模式二｜正負數乘法</div>
-            <div class="example">例如：(−6)×8、(−7)×(−4)</div>
-          </span>
-        </label>
-
-        <label class="mode-card">
-          <input type="radio" name="mode" value="divide">
-          <span>
-            <div class="mode-title">模式三｜正負數除法</div>
-            <div class="example">例如：(−48)÷6、72÷(−8)</div>
+            <div class="mode-title">模式一｜正負數的乘除</div>
+            <div class="example">整數與分數的正負乘除運算</div>
           </span>
         </label>
 
         <label class="mode-card">
           <input type="radio" name="mode" value="absolute">
           <span>
-            <div class="mode-title">模式四｜絕對值運算</div>
-            <div class="example">例如：|−8|、|−5|−3</div>
+            <div class="mode-title">模式二｜絕對值運算</div>
+            <div class="example">例如：|−5| − |−7| − (−5)</div>
           </span>
         </label>
 
         <label class="mode-card">
           <input type="radio" name="mode" value="power">
           <span>
-            <div class="mode-title">模式五｜乘方計算</div>
-            <div class="example">例如：(−3)³、−3²、7³</div>
+            <div class="mode-title">模式三｜乘方計算</div>
+            <div class="example">例如：−(−2)²</div>
           </span>
         </label>
 
         <label class="mode-card">
           <input type="radio" name="mode" value="mixed">
           <span>
-            <div class="mode-title">模式六｜綜合四則運算</div>
-            <div class="example">例如：|−8|＋(−3)²×(−2)</div>
+            <div class="mode-title">模式四｜四則運算</div>
+            <div class="example">整數、絕對值與乘方的綜合運算</div>
+          </span>
+        </label>
+
+        <label class="mode-card">
+          <input type="radio" name="mode" value="advanced">
+          <span>
+            <div class="mode-title">模式五｜四則運算進階挑戰</div>
+            <div class="example">整數與分數混合四則運算</div>
           </span>
         </label>
       </div>
@@ -235,11 +307,31 @@ button,input,select{font:inherit}
       <div id="problem-text" class="problem"></div>
 
       <div class="answer-wrap">
-        <div class="answer-card">
-          <input id="answer-input" inputmode="numeric" autocomplete="off" placeholder="輸入答案">
+        <div id="answer-type-tabs" class="answer-type-tabs">
+          <button id="integer-tab" class="answer-type-button active" type="button">整數</button>
+          <button id="fraction-tab" class="answer-type-button" type="button">分數</button>
         </div>
 
-        <div class="help">答案為整數，負數請輸入「-」號。</div>
+        <div class="answer-card">
+          <div id="integer-answer-box">
+            <input id="answer-input" inputmode="numeric" autocomplete="off" placeholder="輸入整數答案">
+          </div>
+
+          <div id="fraction-answer-box" class="hidden" style="display:flex;align-items:center;gap:10px">
+            <select id="answer-sign" class="sign-select" aria-label="答案正負號">
+              <option value="1">＋</option>
+              <option value="-1">−</option>
+            </select>
+
+            <div class="fraction-input">
+              <input id="answer-num" inputmode="numeric" autocomplete="off" placeholder="分子">
+              <span class="fraction-line"></span>
+              <input id="answer-den" inputmode="numeric" autocomplete="off" placeholder="分母">
+            </div>
+          </div>
+        </div>
+
+        <div class="help">答案可為整數或最簡分數；負分數請使用左側正負號選單。</div>
         <div id="answer-preview" class="preview"></div>
 
         <div class="actions">
@@ -299,15 +391,14 @@ const GAME_ID="integer-operations";
 const TOTAL=10;
 
 const MODE_NAMES={
-  addsub:"模式一｜正負數加減",
-  multiply:"模式二｜正負數乘法",
-  divide:"模式三｜正負數除法",
-  absolute:"模式四｜絕對值運算",
-  power:"模式五｜乘方計算",
-  mixed:"模式六｜綜合四則運算"
+  muldiv:"模式一｜正負數的乘除",
+  absolute:"模式二｜絕對值運算",
+  power:"模式三｜乘方計算",
+  mixed:"模式四｜四則運算",
+  advanced:"模式五｜四則運算進階挑戰"
 };
 
-let mode="addsub";
+let mode="muldiv";
 let questions=[];
 let index=0;
 let correct=0;
@@ -318,15 +409,10 @@ let startTime=0;
 let timer=null;
 let finalElapsed=0;
 let scoreSaved=false;
+let answerType="integer";
 
-function rand(min,max){
-  return Math.floor(Math.random()*(max-min+1))+min;
-}
-
-function pick(arr){
-  return arr[rand(0,arr.length-1)];
-}
-
+function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min}
+function pick(arr){return arr[rand(0,arr.length-1)]}
 function shuffle(arr){
   for(let i=arr.length-1;i>0;i--){
     const j=rand(0,i);
@@ -334,152 +420,229 @@ function shuffle(arr){
   }
   return arr;
 }
+function gcd(a,b){
+  a=Math.abs(a);b=Math.abs(b);
+  while(b){const t=a%b;a=b;b=t}
+  return a||1;
+}
+function simplify(n,d){
+  if(d===0)throw new Error("分母不可為 0");
+  if(d<0){n=-n;d=-d}
+  const g=gcd(n,d);
+  return{n:n/g,d:d/g};
+}
+function addR(a,b){return simplify(a.n*b.d+b.n*a.d,a.d*b.d)}
+function subR(a,b){return simplify(a.n*b.d-b.n*a.d,a.d*b.d)}
+function mulR(a,b){return simplify(a.n*b.n,a.d*b.d)}
+function divR(a,b){return simplify(a.n*b.d,a.d*b.n)}
+function intR(n){return{n,d:1}}
+function absR(a){return{n:Math.abs(a.n),d:a.d}}
+function eqR(a,b){return a.n===b.n&&a.d===b.d}
+function formatNumber(n){return String(n).replace("-","−")}
+function signedInteger(n){return n<0?`(${formatNumber(n)})`:String(n)}
+function power(base,exp){return Math.pow(base,exp)}
 
-function signed(n){
-  return n<0?`(${n})`:String(n);
+function fracHTML(value,parens=false){
+  const r=simplify(value.n,value.d);
+  if(r.d===1){
+    const s=formatNumber(r.n);
+    return parens&&r.n<0?`(${s})`:s;
+  }
+  const core=`${r.n<0?"−":""}<span class="math-frac"><span class="top">${Math.abs(r.n)}</span><span class="bottom">${r.d}</span></span>`;
+  return parens&&r.n<0?`(${core})`:core;
 }
 
-function formatNumber(n){
-  return String(n).replace("-","−");
+function rationalText(value){
+  const r=simplify(value.n,value.d);
+  return r.d===1?formatNumber(r.n):`${r.n}/${r.d}`;
 }
 
-function power(base,exp){
-  return Math.pow(base,exp);
-}
-
-function makeAddSubQuestion(){
-  let a,b,op,answer;
+function randomProperFraction({positiveOnly=false}={}){
+  let n,d;
   do{
-    a=rand(-20,20);
-    b=rand(-20,20);
-  }while(a===0||b===0);
+    d=rand(2,12);
+    n=rand(1,d-1);
+  }while(gcd(n,d)!==1);
+  if(!positiveOnly&&Math.random()<.5)n=-n;
+  return{n,d};
+}
 
-  op=Math.random()<.5?"+":"−";
-  answer=op==="+"?a+b:a-b;
+function randomNonZeroInteger(min=-12,max=12,positiveOnly=false){
+  let n;
+  do{n=rand(min,max)}while(n===0);
+  if(positiveOnly)n=Math.abs(n);
+  return n;
+}
 
-  return{
-    html:`${formatNumber(a)} ${op} ${signed(b).replace("-","−")}`,
-    answer,
-    steps:[
-      ["判斷運算","先依照加減規則處理正負號。"],
-      ["計算",`${formatNumber(a)} ${op} ${signed(b).replace("-","−")} = ${formatNumber(answer)}`]
-    ]
+function makeMulDivQuestion(positivePositive=false){
+  const kind=pick(["ii","if","fi","ff"]);
+  const op=Math.random()<.5?"×":"÷";
+  let left,right,answer;
+
+  const makeSign=()=>{
+    if(positivePositive)return 1;
+    return Math.random()<.5?-1:1;
   };
-}
 
-function makeMultiplyQuestion(){
-  let a,b;
-  do{
-    a=rand(-12,12);
-    b=rand(-12,12);
-  }while(a===0||b===0||Math.abs(a)===1||Math.abs(b)===1);
+  if(kind==="ii"){
+    left=intR(randomNonZeroInteger(2,12,true)*makeSign());
+    right=intR(randomNonZeroInteger(2,12,true)*makeSign());
+  }else if(kind==="if"){
+    left=intR(randomNonZeroInteger(2,10,true)*makeSign());
+    right=randomProperFraction({positiveOnly:positivePositive});
+  }else if(kind==="fi"){
+    left=randomProperFraction({positiveOnly:positivePositive});
+    right=intR(randomNonZeroInteger(2,10,true)*makeSign());
+  }else{
+    left=randomProperFraction({positiveOnly:positivePositive});
+    right=randomProperFraction({positiveOnly:positivePositive});
+  }
 
-  const answer=a*b;
+  if(op==="÷"&&right.n===0)return makeMulDivQuestion(positivePositive);
+  answer=op==="×"?mulR(left,right):divR(left,right);
+
+  if(Math.abs(answer.n)>120||answer.d>60){
+    return makeMulDivQuestion(positivePositive);
+  }
+
+  const steps=[];
+  if(op==="×"){
+    steps.push(["判斷正負號",`${left.n*right.n<0?"異號相乘，結果為負":"同號相乘，結果為正"}。`]);
+    steps.push(["分子乘分子、分母乘分母",`${fracHTML(left,true)} × ${fracHTML(right,true)} = ${fracHTML({n:left.n*right.n,d:left.d*right.d})}`]);
+  }else{
+    steps.push(["除以一個數等於乘以它的倒數",`${fracHTML(left,true)} ÷ ${fracHTML(right,true)} = ${fracHTML(left,true)} × ${fracHTML({n:right.d,d:right.n},true)}`]);
+    steps.push(["進行乘法",`${fracHTML(left,true)} × ${fracHTML({n:right.d,d:right.n},true)} = ${fracHTML(answer)}`]);
+  }
+  steps.push(["化成最簡分數",`${fracHTML(answer)}`]);
 
   return{
-    html:`${signed(a).replace("-","−")} × ${signed(b).replace("-","−")}`,
+    html:`${fracHTML(left,true)} ${op} ${fracHTML(right,true)}`,
     answer,
-    steps:[
-      ["判斷正負號",`${a<0?"負":"正"}數 × ${b<0?"負":"正"}數，結果為 ${answer<0?"負":"正"}。`],
-      ["計算絕對值",`${Math.abs(a)} × ${Math.abs(b)} = ${Math.abs(answer)}`],
-      ["寫出答案",`${formatNumber(answer)}`]
-    ]
-  };
-}
-
-function makeDivideQuestion(){
-  let divisor,quotient,dividend;
-  do{
-    divisor=rand(-12,12);
-  }while(divisor===0||Math.abs(divisor)===1);
-
-  do{
-    quotient=rand(-12,12);
-  }while(quotient===0||Math.abs(quotient)===1);
-
-  dividend=divisor*quotient;
-
-  return{
-    html:`${signed(dividend).replace("-","−")} ÷ ${signed(divisor).replace("-","−")}`,
-    answer:quotient,
-    steps:[
-      ["判斷正負號",`${dividend<0?"負":"正"}數 ÷ ${divisor<0?"負":"正"}數，結果為 ${quotient<0?"負":"正"}。`],
-      ["計算絕對值",`${Math.abs(dividend)} ÷ ${Math.abs(divisor)} = ${Math.abs(quotient)}`],
-      ["寫出答案",`${formatNumber(quotient)}`]
-    ]
+    steps
   };
 }
 
 function makeAbsoluteQuestion(){
-  const type=rand(1,3);
-  let a,b,answer,html,steps;
+  const type=rand(1,4);
+  let html,answer,steps;
 
   if(type===1){
-    do{a=rand(-25,25)}while(a===0);
-    answer=Math.abs(a);
+    const a=randomNonZeroInteger(-20,20);
+    answer=intR(Math.abs(a));
     html=`|${formatNumber(a)}|`;
     steps=[
-      ["理解絕對值",`絕對值表示與 0 的距離。`],
-      ["計算",`|${formatNumber(a)}| = ${answer}`]
+      ["絕對值表示與 0 的距離",`|${formatNumber(a)}| = ${Math.abs(a)}`]
     ];
   }else if(type===2){
-    do{
-      a=rand(-15,15);
-      b=rand(-12,12);
-    }while(a===0||b===0);
-    answer=Math.abs(a)+b;
-    html=`|${formatNumber(a)}| ${b>=0?"+":"−"} ${Math.abs(b)}`;
+    const a=randomNonZeroInteger(-15,15);
+    const b=randomNonZeroInteger(-12,12);
+    answer=intR(Math.abs(a)-b);
+    html=`|${formatNumber(a)}| − ${signedInteger(b)}`;
     steps=[
       ["先算絕對值",`|${formatNumber(a)}| = ${Math.abs(a)}`],
-      ["再做加減",`${Math.abs(a)} ${b>=0?"+":"−"} ${Math.abs(b)} = ${formatNumber(answer)}`]
+      ["再做減法",`${Math.abs(a)} − ${signedInteger(b)} = ${formatNumber(answer.n)}`]
     ];
-  }else{
-    do{
-      a=rand(-15,15);
-      b=rand(-15,15);
-    }while(a===0||b===0);
-    answer=Math.abs(a)-Math.abs(b);
+  }else if(type===3){
+    const a=randomNonZeroInteger(-15,15);
+    const b=randomNonZeroInteger(-15,15);
+    answer=intR(Math.abs(a)-Math.abs(b));
     html=`|${formatNumber(a)}| − |${formatNumber(b)}|`;
     steps=[
+      ["先算兩個絕對值",`|${formatNumber(a)}| = ${Math.abs(a)}，|${formatNumber(b)}| = ${Math.abs(b)}`],
+      ["再做減法",`${Math.abs(a)} − ${Math.abs(b)} = ${formatNumber(answer.n)}`]
+    ];
+  }else{
+    const a=randomNonZeroInteger(-12,12);
+    const b=randomNonZeroInteger(-12,12);
+    const c=randomNonZeroInteger(-10,10);
+    answer=intR(Math.abs(a)-Math.abs(b)-c);
+    html=`|${formatNumber(a)}| − |${formatNumber(b)}| − ${signedInteger(c)}`;
+    steps=[
       ["先算絕對值",`|${formatNumber(a)}| = ${Math.abs(a)}，|${formatNumber(b)}| = ${Math.abs(b)}`],
-      ["再做減法",`${Math.abs(a)} − ${Math.abs(b)} = ${formatNumber(answer)}`]
+      ["由左到右計算加減",`${Math.abs(a)} − ${Math.abs(b)} − ${signedInteger(c)} = ${formatNumber(answer.n)}`]
     ];
   }
 
   return{html,answer,steps};
 }
 
-function makePowerQuestion(){
-  const type=rand(1,3);
-  let base,exp,answer,html,steps;
+function randomPowerBase(){
+  if (Math.random() < 0.65) {
+    return pick([-4, -3, -2, 2, 3, 4]);
+  }
 
-  if(type===1){
-    base=rand(2,9);
-    exp=rand(2,4);
-    answer=power(base,exp);
-    html=`${base}<sup>${exp}</sup>`;
-    steps=[
-      ["展開乘方",`${base}<sup>${exp}</sup> 表示 ${Array(exp).fill(base).join(" × ")}`],
-      ["計算",`${answer}`]
-    ];
-  }else if(type===2){
-    base=-rand(2,6);
-    exp=rand(2,4);
-    answer=power(base,exp);
-    html=`(${formatNumber(base)})<sup>${exp}</sup>`;
-    steps=[
-      ["辨認底數",`括號內的底數是 ${formatNumber(base)}。`],
-      ["判斷正負",`${exp} 是${exp%2===0?"偶":"奇"}數，所以答案為${answer<0?"負":"正"}。`],
-      ["計算",`${formatNumber(answer)}`]
-    ];
+  return pick([-8, -7, -6, -5, 5, 6, 7, 8]);
+}
+
+function exponentForBase(base){
+  const absoluteBase = Math.abs(base);
+
+  if (absoluteBase === 2) {
+    return rand(2, 10);
+  }
+
+  if (absoluteBase === 3) {
+    return rand(2, 6);
+  }
+
+  if (absoluteBase === 4) {
+    return rand(2, 5);
+  }
+
+  return rand(2, 3);
+}
+
+function makePowerQuestion(forceConfusing=Math.random()<.6){
+  let base=randomPowerBase();
+  let exp=exponentForBase(base);
+  let html,answer,steps;
+
+  if(forceConfusing){
+    const form=rand(1,4);
+
+    if(form===1){
+      const absBase=Math.abs(base);
+      answer=intR(-power(-absBase,exp));
+      html=`−(−${absBase})<sup>${exp}</sup>`;
+      steps=[
+        ["先算括號內的乘方",`(−${absBase})<sup>${exp}</sup> = ${formatNumber(power(-absBase,exp))}`],
+        ["再處理最前面的負號",`−(${formatNumber(power(-absBase,exp))}) = ${formatNumber(answer.n)}`]
+      ];
+    }else if(form===2){
+      base=-Math.abs(base);
+      answer=intR(power(base,exp));
+      html=`(${formatNumber(base)})<sup>${exp}</sup>`;
+      steps=[
+        ["辨認底數",`括號表示底數是 ${formatNumber(base)}。`],
+        ["判斷奇偶次方",`${exp} 是${exp%2===0?"偶":"奇"}數，因此答案為${answer.n<0?"負":"正"}。`],
+        ["計算",`${formatNumber(answer.n)}`]
+      ];
+    }else if(form===3){
+      const absBase=Math.max(5,Math.abs(base));
+      exp=rand(2,3);
+      answer=intR(-power(absBase,exp));
+      html=`−${absBase}<sup>${exp}</sup>`;
+      steps=[
+        ["先算乘方",`${absBase}<sup>${exp}</sup> = ${power(absBase,exp)}`],
+        ["負號不在括號內",`−${power(absBase,exp)} = ${formatNumber(answer.n)}`]
+      ];
+    }else{
+      const absBase=Math.max(5,Math.abs(base));
+      exp=rand(2,3);
+      answer=intR(power(-absBase,exp));
+      html=`(−${absBase})<sup>${exp}</sup>`;
+      steps=[
+        ["括號內整體是底數",`底數為 −${absBase}。`],
+        ["判斷奇偶次方",`${exp} 是${exp%2===0?"偶":"奇"}數，因此答案為${answer.n<0?"負":"正"}。`],
+        ["計算",`${formatNumber(answer.n)}`]
+      ];
+    }
   }else{
-    base=rand(2,6);
-    exp=rand(2,4);
-    answer=-power(base,exp);
-    html=`−${base}<sup>${exp}</sup>`;
+    answer=intR(power(base,exp));
+    html=`${base<0?`(${formatNumber(base)})`:base}<sup>${exp}</sup>`;
     steps=[
-      ["先算乘方",`${base}<sup>${exp}</sup> = ${power(base,exp)}`],
-      ["再處理前方負號",`−${power(base,exp)} = ${formatNumber(answer)}`]
+      ["展開乘方",`${html} 表示 ${Array(exp).fill(base<0?`(${formatNumber(base)})`:String(base)).join(" × ")}`],
+      ["計算",`${formatNumber(answer.n)}`]
     ];
   }
 
@@ -487,76 +650,171 @@ function makePowerQuestion(){
 }
 
 function makeMixedQuestion(){
-  const type=rand(1,4);
+  const type=rand(1,5);
   let html,answer,steps;
 
   if(type===1){
-    const a=rand(2,8);
-    const b=-rand(2,6);
-    const c=rand(2,5);
-    answer=a+b*c;
-    html=`${a} + ${signed(b).replace("-","−")} × ${c}`;
+    const a=randomNonZeroInteger(-8,8);
+    const b=randomNonZeroInteger(-8,8);
+    const c=randomNonZeroInteger(-5,5);
+    answer=intR(Math.abs(a-b)-b*c+power(c,2));
+    html=`|${formatNumber(a)} − ${formatNumber(b)}| − ${signedInteger(b)} × ${c} + (${formatNumber(c)})<sup>2</sup>`;
     steps=[
-      ["先算乘法",`${signed(b).replace("-","−")} × ${c} = ${formatNumber(b*c)}`],
-      ["再算加法",`${a} + ${signed(b*c).replace("-","−")} = ${formatNumber(answer)}`]
+      ["先算絕對值內與乘方",`|${formatNumber(a-b)}| = ${Math.abs(a-b)}，(${formatNumber(c)})² = ${power(c,2)}`],
+      ["再算乘法",`${signedInteger(b)} × ${c} = ${formatNumber(b*c)}`],
+      ["最後由左到右做加減",`${Math.abs(a-b)} − ${signedInteger(b*c)} + ${power(c,2)} = ${formatNumber(answer.n)}`]
     ];
   }else if(type===2){
-    const a=-rand(3,9);
-    const b=rand(2,5);
-    const c=rand(2,4);
-    answer=Math.abs(a)+power(b,c);
-    html=`|${formatNumber(a)}| + ${b}<sup>${c}</sup>`;
+    const a=randomNonZeroInteger(-9,9);
+    const b=randomNonZeroInteger(-5,5);
+    const c=randomNonZeroInteger(-5,5);
+    answer=intR(Math.abs(a)+b*c-power(c,2));
+    html=`|${formatNumber(a)}| + ${signedInteger(b)} × ${c} − (${formatNumber(c)})<sup>2</sup>`;
     steps=[
-      ["先算絕對值與乘方",`|${formatNumber(a)}| = ${Math.abs(a)}，${b}<sup>${c}</sup> = ${power(b,c)}`],
-      ["再相加",`${Math.abs(a)} + ${power(b,c)} = ${answer}`]
+      ["先算絕對值與乘方",`|${formatNumber(a)}| = ${Math.abs(a)}，(${formatNumber(c)})² = ${power(c,2)}`],
+      ["再算乘法",`${signedInteger(b)} × ${c} = ${formatNumber(b*c)}`],
+      ["最後做加減",`${Math.abs(a)} + ${signedInteger(b*c)} − ${power(c,2)} = ${formatNumber(answer.n)}`]
     ];
   }else if(type===3){
     const divisor=pick([-6,-5,-4,-3,3,4,5,6]);
-    const quotient=rand(-8,8)||2;
+    const quotient=randomNonZeroInteger(-8,8);
     const dividend=divisor*quotient;
-    const c=rand(2,9);
-    answer=quotient-c;
-    html=`${signed(dividend).replace("-","−")} ÷ ${signed(divisor).replace("-","−")} − ${c}`;
+    const c=randomNonZeroInteger(-9,9);
+    answer=intR(quotient+Math.abs(c));
+    html=`${signedInteger(dividend)} ÷ ${signedInteger(divisor)} + |${formatNumber(c)}|`;
     steps=[
-      ["先算除法",`${signed(dividend).replace("-","−")} ÷ ${signed(divisor).replace("-","−")} = ${formatNumber(quotient)}`],
-      ["再做減法",`${formatNumber(quotient)} − ${c} = ${formatNumber(answer)}`]
+      ["先算除法與絕對值",`${signedInteger(dividend)} ÷ ${signedInteger(divisor)} = ${formatNumber(quotient)}，|${formatNumber(c)}| = ${Math.abs(c)}`],
+      ["再相加",`${formatNumber(quotient)} + ${Math.abs(c)} = ${formatNumber(answer.n)}`]
     ];
-  }else{
-    const a=-rand(2,6);
-    const exp=rand(2,3);
-    const b=pick([-4,-3,3,4]);
-    const c=rand(2,5);
-    answer=power(a,exp)+b*c;
-    html=`(${formatNumber(a)})<sup>${exp}</sup> + ${signed(b).replace("-","−")} × ${c}`;
+  }else if(type===4){
+    const a=pick([-4,-3,-2,2,3,4]);
+    const exp=rand(2,4);
+    const b=randomNonZeroInteger(-6,6);
+    const c=randomNonZeroInteger(-5,5);
+    answer=intR(power(a,exp)+b*c);
+    html=`(${formatNumber(a)})<sup>${exp}</sup> + ${signedInteger(b)} × ${c}`;
     steps=[
       ["先算乘方",`(${formatNumber(a)})<sup>${exp}</sup> = ${formatNumber(power(a,exp))}`],
-      ["再算乘法",`${signed(b).replace("-","−")} × ${c} = ${formatNumber(b*c)}`],
-      ["最後相加",`${formatNumber(power(a,exp))} + ${signed(b*c).replace("-","−")} = ${formatNumber(answer)}`]
+      ["再算乘法",`${signedInteger(b)} × ${c} = ${formatNumber(b*c)}`],
+      ["最後相加",`${formatNumber(power(a,exp))} + ${signedInteger(b*c)} = ${formatNumber(answer.n)}`]
+    ];
+  }else{
+    const a=randomNonZeroInteger(-10,10);
+    const b=randomNonZeroInteger(-8,8);
+    const c=randomNonZeroInteger(-6,6);
+    answer=intR(Math.abs(a+b)-c);
+    html=`|${formatNumber(a)} + ${signedInteger(b)}| − ${signedInteger(c)}`;
+    steps=[
+      ["先算絕對值內",`${formatNumber(a)} + ${signedInteger(b)} = ${formatNumber(a+b)}`],
+      ["取絕對值",`|${formatNumber(a+b)}| = ${Math.abs(a+b)}`],
+      ["再做減法",`${Math.abs(a+b)} − ${signedInteger(c)} = ${formatNumber(answer.n)}`]
     ];
   }
 
+  if(Math.abs(answer.n)>5000)return makeMixedQuestion();
   return{html,answer,steps};
 }
 
-function makeQuestionByMode(selectedMode){
-  if(selectedMode==="addsub")return makeAddSubQuestion();
-  if(selectedMode==="multiply")return makeMultiplyQuestion();
-  if(selectedMode==="divide")return makeDivideQuestion();
+function makeAdvancedQuestion(){
+  const type=rand(1,5);
+  const f1=randomProperFraction();
+  const f2=randomProperFraction();
+  const i=randomNonZeroInteger(-8,8);
+  let html,answer,steps;
+
+  if(type===1){
+    answer=addR(mulR(f1,intR(i)),f2);
+    html=`${fracHTML(f1,true)} × ${signedInteger(i)} + ${fracHTML(f2,true)}`;
+    steps=[
+      ["先算乘法",`${fracHTML(f1,true)} × ${signedInteger(i)} = ${fracHTML(mulR(f1,intR(i)))}`],
+      ["再做加法",`${fracHTML(mulR(f1,intR(i)))} + ${fracHTML(f2,true)} = ${fracHTML(answer)}`]
+    ];
+  }else if(type===2){
+    answer=subR(divR(f1,f2),intR(i));
+    html=`${fracHTML(f1,true)} ÷ ${fracHTML(f2,true)} − ${signedInteger(i)}`;
+    steps=[
+      ["先算除法",`${fracHTML(f1,true)} ÷ ${fracHTML(f2,true)} = ${fracHTML(divR(f1,f2))}`],
+      ["再做減法",`${fracHTML(divR(f1,f2))} − ${signedInteger(i)} = ${fracHTML(answer)}`]
+    ];
+  }else if(type===3){
+    const absInt=Math.abs(i);
+    answer=addR(absR(f1),mulR(f2,intR(absInt)));
+    html=`|${fracHTML(f1)}| + ${fracHTML(f2,true)} × ${absInt}`;
+    steps=[
+      ["先算絕對值與乘法",`|${fracHTML(f1)}| = ${fracHTML(absR(f1))}，${fracHTML(f2,true)} × ${absInt} = ${fracHTML(mulR(f2,intR(absInt)))}`],
+      ["再相加",`${fracHTML(absR(f1))} + ${fracHTML(mulR(f2,intR(absInt)))} = ${fracHTML(answer)}`]
+    ];
+  }else if(type===4){
+    const p=makePowerQuestion(true);
+    const powerValue=p.answer;
+    answer=addR(powerValue,f1);
+    html=`${p.html} + ${fracHTML(f1,true)}`;
+    steps=[
+      ["先算乘方",`${p.html} = ${fracHTML(powerValue)}`],
+      ["再與分數相加",`${fracHTML(powerValue)} + ${fracHTML(f1,true)} = ${fracHTML(answer)}`]
+    ];
+  }else{
+    const f3=randomProperFraction();
+    answer=subR(addR(f1,mulR(f2,f3)),intR(i));
+    html=`${fracHTML(f1,true)} + ${fracHTML(f2,true)} × ${fracHTML(f3,true)} − ${signedInteger(i)}`;
+    steps=[
+      ["先算分數乘法",`${fracHTML(f2,true)} × ${fracHTML(f3,true)} = ${fracHTML(mulR(f2,f3))}`],
+      ["再由左到右做加減",`${fracHTML(f1,true)} + ${fracHTML(mulR(f2,f3))} − ${signedInteger(i)} = ${fracHTML(answer)}`]
+    ];
+  }
+
+  if(Math.abs(answer.n)>500||answer.d>120)return makeAdvancedQuestion();
+  return{html,answer,steps};
+}
+
+function makeQuestionByMode(selectedMode,positivePositive=false){
+  if(selectedMode==="muldiv")return makeMulDivQuestion(positivePositive);
   if(selectedMode==="absolute")return makeAbsoluteQuestion();
   if(selectedMode==="power")return makePowerQuestion();
-  return makeMixedQuestion();
+  if(selectedMode==="mixed")return makeMixedQuestion();
+  return makeAdvancedQuestion();
 }
 
 function makeQuestions(){
   const out=[];
   const used=new Set();
 
-  while(out.length<TOTAL){
-    const q=makeQuestionByMode(mode);
-    const key=q.html.replace(/\s+/g," ");
-    if(used.has(key))continue;
-    used.add(key);
-    out.push(q);
+  if(mode==="muldiv"){
+    const positiveQuestion=makeMulDivQuestion(true);
+    out.push(positiveQuestion);
+    used.add(positiveQuestion.html.replace(/\s+/g," "));
+
+    while(out.length<TOTAL){
+      const q=makeMulDivQuestion(false);
+      const bothPositive=!q.html.includes("−");
+      if(bothPositive)continue;
+      const key=q.html.replace(/\s+/g," ");
+      if(used.has(key))continue;
+      used.add(key);
+      out.push(q);
+    }
+  }else if(mode==="power"){
+    const confusingCount=6;
+    for(let i=0;i<confusingCount;i++){
+      let q;
+      do{q=makePowerQuestion(true)}while(used.has(q.html));
+      used.add(q.html);
+      out.push(q);
+    }
+    while(out.length<TOTAL){
+      const q=makePowerQuestion(false);
+      if(used.has(q.html))continue;
+      used.add(q.html);
+      out.push(q);
+    }
+  }else{
+    while(out.length<TOTAL){
+      const q=makeQuestionByMode(mode);
+      const key=q.html.replace(/\s+/g," ");
+      if(used.has(key))continue;
+      used.add(key);
+      out.push(q);
+    }
   }
 
   return shuffle(out);
@@ -566,6 +824,19 @@ function showOnly(id){
   ["start-screen","quiz-screen","result-screen"].forEach(section=>{
     $(section).classList.toggle("hidden",section!==id);
   });
+}
+
+function setAnswerType(type){
+  answerType=type;
+  $("integer-tab").classList.toggle("active",type==="integer");
+  $("fraction-tab").classList.toggle("active",type==="fraction");
+  $("integer-answer-box").classList.toggle("hidden",type!=="integer");
+  $("fraction-answer-box").classList.toggle("hidden",type!=="fraction");
+  $("answer-preview").innerHTML="";
+  setTimeout(()=>{
+    if(type==="integer")$("answer-input").focus();
+    else $("answer-num").focus();
+  },0);
 }
 
 function startGame(keepMode=false){
@@ -607,26 +878,43 @@ function loadQuestion(){
   $("submit-btn").classList.remove("hidden");
   $("next-btn").classList.add("hidden");
   $("feedback").innerHTML="";
-  $("answer-preview").textContent="";
+  $("answer-preview").innerHTML="";
   $("answer-input").value="";
+  $("answer-num").value="";
+  $("answer-den").value="";
+  $("answer-sign").value="1";
+  setAnswerType("integer");
 
   $("question-number").textContent=`第 ${index+1} / ${TOTAL} 題`;
   $("progress-bar").style.width=`${index/TOTAL*100}%`;
   $("problem-text").innerHTML=questions[index].html;
-
-  setTimeout(()=>$("answer-input").focus(),0);
 }
 
 function readAnswer(){
-  const raw=$("answer-input").value.trim();
-  if(!/^-?\d+$/.test(raw))return null;
-  return Number(raw);
+  if(answerType==="integer"){
+    const raw=$("answer-input").value.trim();
+    if(!/^-?\d+$/.test(raw))return null;
+    return{value:intR(Number(raw)),simplest:true};
+  }
+
+  const ns=$("answer-num").value.trim();
+  const ds=$("answer-den").value.trim();
+  if(!/^\d+$/.test(ns)||!/^\d+$/.test(ds))return null;
+
+  const n=Number(ns);
+  const d=Number(ds);
+  if(n<=0||d<=0)return null;
+
+  return{
+    value:simplify(Number($("answer-sign").value)*n,d),
+    simplest:gcd(n,d)===1
+  };
 }
 
 function updatePreview(){
   const answer=readAnswer();
-  $("answer-preview").textContent=
-    answer===null?"":`系統判讀：${formatNumber(answer)}`;
+  $("answer-preview").innerHTML=
+    answer?`系統判讀：${fracHTML(answer.value)}`:"";
 }
 
 function explanationHTML(q){
@@ -642,7 +930,7 @@ function explanationHTML(q){
     ${steps}
     <div class="explanation-step explanation-final">
       <span class="explanation-step-label">最後答案</span>
-      <div class="explanation-math">${formatNumber(q.answer)}</div>
+      <div class="explanation-math">${fracHTML(q.answer)}</div>
     </div>
   `;
 }
@@ -651,20 +939,22 @@ function checkAnswer(){
   if(locked)return;
 
   const answer=readAnswer();
-  if(answer===null){
-    $("feedback").innerHTML='<span style="color:#d97706">請輸入有效的整數答案。</span>';
+  if(!answer){
+    $("feedback").innerHTML='<span style="color:#d97706">請完整輸入有效答案。</span>';
+    return;
+  }
+
+  if(answerType==="fraction"&&!answer.simplest){
+    $("feedback").innerHTML='<span style="color:#d97706">答案尚未化成最簡分數，請繼續約分。</span>';
     return;
   }
 
   locked=true;
   const q=questions[index];
-  const isCorrect=answer===q.answer;
+  const isCorrect=eqR(answer.value,q.answer);
 
-  if(isCorrect){
-    correct++;
-  }else{
-    wrong++;
-  }
+  if(isCorrect)correct++;
+  else wrong++;
 
   $("feedback").innerHTML=`
     <span style="color:${isCorrect?"#15803d":"#b91c1c"}">
@@ -681,10 +971,7 @@ function checkAnswer(){
     const opening=panel.classList.contains("hidden");
     panel.classList.toggle("hidden",!opening);
     $("explanation-toggle").textContent=opening?"收起解析":"查看解析";
-
-    if(opening){
-      panel.innerHTML=explanationHTML(q);
-    }
+    if(opening)panel.innerHTML=explanationHTML(q);
   };
 
   setTimeout(()=>{
@@ -701,21 +988,16 @@ function checkAnswer(){
 
 function nextQuestion(){
   if(!nextReady)return;
-
   index++;
-
-  if(index<TOTAL){
-    loadQuestion();
-  }else{
-    showResult();
-  }
+  if(index<TOTAL)loadQuestion();
+  else showResult();
 }
 
 function rating(score){
-  if(score>=90)return{stars:"★★★★★",comment:"太棒了！你已經熟練掌握正負數四則運算。"};
+  if(score>=90)return{stars:"★★★★★",comment:"太棒了！你已經熟練掌握正負數運算。"};
   if(score>=80)return{stars:"★★★★☆",comment:"表現很好，再多練習幾次就更穩定。"};
   if(score>=60)return{stars:"★★★☆☆",comment:"已掌握基本概念，繼續注意運算順序與正負號。"};
-  return{stars:"★★☆☆☆",comment:"先從個別模式練習，再挑戰綜合四則運算。"};
+  return{stars:"★★☆☆☆",comment:"先從個別模式練習，再挑戰進階四則運算。"};
 }
 
 async function saveCurrentScore(score){
@@ -788,17 +1070,20 @@ $("reset-btn").onclick=()=>startGame(true);
 $("again-btn").onclick=()=>startGame(true);
 $("submit-btn").onclick=checkAnswer;
 $("next-btn").onclick=nextQuestion;
-$("answer-input").addEventListener("input",updatePreview);
+$("integer-tab").onclick=()=>setAnswerType("integer");
+$("fraction-tab").onclick=()=>setAnswerType("fraction");
+
+["answer-input","answer-num","answer-den"].forEach(id=>{
+  $(id).addEventListener("input",updatePreview);
+});
+$("answer-sign").addEventListener("change",updatePreview);
 
 document.addEventListener("keydown",event=>{
   if(event.key!=="Enter"||$("quiz-screen").classList.contains("hidden"))return;
   event.preventDefault();
 
-  if(nextReady){
-    nextQuestion();
-  }else if(!locked){
-    checkAnswer();
-  }
+  if(nextReady)nextQuestion();
+  else if(!locked)checkAnswer();
 });
 </script>
 </body>
