@@ -446,6 +446,234 @@
       color: #64748b;
     }
 
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      gap: 18px;
+      margin-bottom: 22px;
+      padding: 20px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 12px 30px rgba(15,23,42,0.10);
+    }
+
+    .dashboard-brand {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-width: 0;
+    }
+
+    .dashboard-title-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .dashboard-logo {
+      font-size: 40px;
+      line-height: 1;
+    }
+
+    .dashboard-title {
+      margin: 0;
+      color: #174f8f;
+      font-size: clamp(28px, 3vw, 38px);
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .dashboard-subtitle {
+      margin: 0 0 14px 52px;
+      color: #64748b;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .compact-user-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 2px;
+      padding: 12px 14px;
+      border: 1px solid #cfe0f7;
+      border-radius: 16px;
+      background: #f4f8ff;
+      color: #174a7e;
+      min-height: 68px;
+    }
+
+    .compact-user-box .user-photo {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex: 0 0 auto;
+      background: white;
+      border: 2px solid #dbeafe;
+    }
+
+    .compact-user-text {
+      min-width: 0;
+      line-height: 1.45;
+    }
+
+    .compact-user-name {
+      color: #174f8f;
+      font-weight: 900;
+      font-size: 16px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .compact-user-email {
+      color: #64748b;
+      font-size: 13px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .compact-auth-actions {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .compact-auth-button {
+      min-width: 112px;
+      padding: 10px 18px;
+      border: 0;
+      border-radius: 12px;
+      color: white;
+      font-size: 15px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 4px 0 rgba(0,0,0,0.16);
+    }
+
+    .compact-login-button {
+      background: #1976d2;
+    }
+
+    .compact-logout-button {
+      background: #ef4444;
+    }
+
+    .dashboard-links {
+      display: grid;
+      grid-template-rows: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .dashboard-link-card {
+      display: grid;
+      grid-template-columns: 58px 1fr;
+      gap: 12px;
+      align-items: center;
+      min-height: 82px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: #fff;
+      color: inherit;
+      text-decoration: none;
+      border: 1px solid #e2e8f0;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+
+    .dashboard-link-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(15,23,42,0.08);
+    }
+
+    .dashboard-link-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      font-size: 30px;
+    }
+
+    .dashboard-link-icon.rank {
+      background: #fff3db;
+    }
+
+    .dashboard-link-icon.scores {
+      background: #eaf7ec;
+    }
+
+    .dashboard-link-title {
+      margin-bottom: 4px;
+      color: #174f8f;
+      font-size: 19px;
+      font-weight: 900;
+    }
+
+    .dashboard-link-text {
+      color: #64748b;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 760px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+        padding: 16px;
+      }
+
+      .dashboard-subtitle {
+        margin-left: 0;
+      }
+
+      .dashboard-links {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: none;
+      }
+
+      .dashboard-link-card {
+        grid-template-columns: 46px 1fr;
+        min-height: 74px;
+        padding: 12px;
+      }
+
+      .dashboard-link-icon {
+        width: 46px;
+        height: 46px;
+        font-size: 24px;
+      }
+
+      .dashboard-link-title {
+        font-size: 16px;
+      }
+
+      .dashboard-link-text {
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .dashboard-title-row {
+        justify-content: center;
+      }
+
+      .dashboard-title {
+        font-size: 28px;
+      }
+
+      .dashboard-subtitle {
+        text-align: center;
+      }
+
+      .dashboard-links {
+        grid-template-columns: 1fr;
+      }
+    }
+
     @media (max-width: 760px) {
       .page-container {
         padding: 18px 14px 45px;
@@ -574,132 +802,72 @@
 
   <main class="page-container">
 
-    <header class="hero-card">
+    <section class="dashboard" aria-label="網站資訊與快捷功能">
 
-      <h1>🎮 數學遊戲樂園</h1>
+      <div class="dashboard-brand">
+        <div class="dashboard-title-row">
+          <div class="dashboard-logo">🎮</div>
+          <h1 class="dashboard-title">數學遊戲樂園</h1>
+        </div>
 
-      <p class="hero-subtitle">
-        透過遊戲練習數學觀念，<br>
-        一起挑戰更高分！
-      </p>
+        <p class="dashboard-subtitle">
+          透過遊戲練習數學觀念，一起挑戰更高分！
+        </p>
 
-      <div class="login-section">
-
-        <button
-          id="loginBtn"
-          class="button"
-          type="button"
-        >
-          🔐 使用 Google 登入
-        </button>
-
-        <div
-          id="userSection"
-          class="user-section"
-        >
-
-          <div class="user-card">
-
-            <img
-              id="userPhoto"
-              class="user-photo"
-              src=""
-              alt="玩家頭像"
-            >
-
-            <div class="user-information">
-
-              <p
-                id="welcomeText"
-                class="welcome-text"
-              ></p>
-
-              <p
-                id="userEmail"
-                class="user-email"
-              ></p>
-
+        <div id="compactUserBox" class="compact-user-box">
+          <div class="compact-user-text">
+            <div id="compactUserName" class="compact-user-name">
+              正在確認登入狀態……
             </div>
-
+            <div id="compactUserEmail" class="compact-user-email"></div>
           </div>
+        </div>
+
+        <div class="compact-auth-actions">
+          <button
+            id="compactLoginButton"
+            class="compact-auth-button compact-login-button"
+            type="button"
+          >
+            Google 登入
+          </button>
 
           <button
-            id="logoutBtn"
-            class="button logout-button"
+            id="compactLogoutButton"
+            class="compact-auth-button compact-logout-button"
             type="button"
+            hidden
           >
             登出
           </button>
-
         </div>
-
-        <p
-          id="loginMessage"
-          class="login-message"
-        ></p>
-
       </div>
 
-    </header>
+      <div class="dashboard-links">
+        <a class="dashboard-link-card" href="leaderboard.html">
+          <div class="dashboard-link-icon rank">🏆</div>
+          <div>
+            <div class="dashboard-link-title">排行榜</div>
+            <div class="dashboard-link-text">
+              查看各遊戲高手排行，挑戰更高名次。
+            </div>
+          </div>
+        </a>
 
-    <section class="quick-actions">
-
-      <a
-        id="leaderboardLink"
-        class="quick-card"
-        href="leaderboard.html"
-      >
-
-        <div class="quick-icon">
-          🏆
-        </div>
-
-        <div class="quick-content">
-
-          <h2>排行榜</h2>
-
-          <p>
-            查看各遊戲的高手排行，
-            挑戰更高名次。
-          </p>
-
-        </div>
-
-      </a>
-
-      <a
-        id="myScoresLink"
-        class="quick-card score-card"
-        href="my-scores.html"
-      >
-
-        <div class="quick-icon">
-          📊
-        </div>
-
-        <div class="quick-content">
-
-          <h2>我的成績</h2>
-
-          <p>
-            查看最高分、平均分數、
-            答題紀錄與遊玩次數。
-          </p>
-
-        </div>
-
-      </a>
+        <a class="dashboard-link-card" href="my-scores.html">
+          <div class="dashboard-link-icon scores">📊</div>
+          <div>
+            <div class="dashboard-link-title">我的成績</div>
+            <div class="dashboard-link-text">
+              查看最高分、平均分數、答題紀錄與遊玩次數。
+            </div>
+          </div>
+        </a>
+      </div>
 
     </section>
 
-    <p
-      id="loginRequiredNote"
-      class="login-required-note"
-    >
-      🔐 請先登入 Google 帳號，才能查看個人成績。
-    </p>
-
-    <section class="section">
+<section class="section">
 
       <div class="section-header">
 
@@ -977,6 +1145,23 @@
       "click",
       async () => {
         loginMessage.textContent = "";
+        if (compactUserBox) {
+          compactUserBox.innerHTML = `
+            <div class="compact-user-text">
+              <div class="compact-user-name">尚未登入</div>
+              <div class="compact-user-email">登入後即可儲存成績與查看個人紀錄。</div>
+            </div>
+          `;
+        }
+
+        if (compactLoginButton) {
+          compactLoginButton.hidden = false;
+        }
+
+        if (compactLogoutButton) {
+          compactLogoutButton.hidden = true;
+        }
+
         loginButton.disabled = true;
         loginButton.textContent = "登入中……";
 
@@ -1058,6 +1243,44 @@
       }
     );
 
+
+    const compactUserBox =
+      document.getElementById("compactUserBox");
+
+    const compactUserName =
+      document.getElementById("compactUserName");
+
+    const compactUserEmail =
+      document.getElementById("compactUserEmail");
+
+    const compactLoginButton =
+      document.getElementById("compactLoginButton");
+
+    const compactLogoutButton =
+      document.getElementById("compactLogoutButton");
+
+    if (compactLoginButton) {
+      compactLoginButton.addEventListener("click", () => {
+        const originalLoginButton =
+          document.getElementById("loginButton");
+
+        if (originalLoginButton) {
+          originalLoginButton.click();
+        }
+      });
+    }
+
+    if (compactLogoutButton) {
+      compactLogoutButton.addEventListener("click", () => {
+        const originalLogoutButton =
+          document.getElementById("logoutButton");
+
+        if (originalLogoutButton) {
+          originalLogoutButton.click();
+        }
+      });
+    }
+
     onAuthStateChanged(
       auth,
       async (user) => {
@@ -1074,6 +1297,42 @@
 
           welcomeText.textContent =
             "正在建立玩家資料……";
+        if (compactUserBox) {
+          compactUserBox.innerHTML = "";
+
+          if (user.photoURL) {
+            const compactPhoto = document.createElement("img");
+            compactPhoto.className = "user-photo";
+            compactPhoto.src = user.photoURL;
+            compactPhoto.alt = "玩家頭像";
+            compactUserBox.appendChild(compactPhoto);
+          }
+
+          const compactText = document.createElement("div");
+          compactText.className = "compact-user-text";
+
+          const compactName = document.createElement("div");
+          compactName.className = "compact-user-name";
+          compactName.textContent =
+            `👋 歡迎回來，${user.displayName || user.email || "玩家"}！`;
+
+          const compactEmail = document.createElement("div");
+          compactEmail.className = "compact-user-email";
+          compactEmail.textContent = user.email || "";
+
+          compactText.appendChild(compactName);
+          compactText.appendChild(compactEmail);
+          compactUserBox.appendChild(compactText);
+        }
+
+        if (compactLoginButton) {
+          compactLoginButton.hidden = true;
+        }
+
+        if (compactLogoutButton) {
+          compactLogoutButton.hidden = false;
+        }
+
 
           userEmail.textContent =
             user.email || "";
