@@ -623,6 +623,28 @@ function makePowerQuestion(forceConfusing=Math.random()<.6){
   return{html,answer,steps};
 }
 
+function exponentForMixedModes(base){
+  return Math.abs(base) <= 3
+    ? rand(2, 3)
+    : 2;
+}
+
+function makeMixedModePower(){
+  const base = pick([
+    -8, -7, -6, -5, -4, -3, -2,
+     2,  3,  4,  5,  6,  7,  8
+  ]);
+
+  const exp = exponentForMixedModes(base);
+
+  return {
+    base,
+    exp,
+    value: power(base, exp),
+    html: `(${formatNumber(base)})<sup>${exp}</sup>`
+  };
+}
+
 function makeMixedQuestion(){
   const type=rand(1,5);
   let html,answer,steps;
@@ -630,24 +652,24 @@ function makeMixedQuestion(){
   if(type===1){
     const a=randomNonZeroInteger(-8,8);
     const b=randomNonZeroInteger(-8,8);
-    const c=randomNonZeroInteger(-5,5);
-    answer=intR(Math.abs(a-b)-b*c+power(c,2));
-    html=`|${formatNumber(a)} − ${formatNumber(b)}| − ${signedInteger(b)} × ${c} + (${formatNumber(c)})<sup>2</sup>`;
+    const p=makeMixedModePower();
+    answer=intR(Math.abs(a-b)-b*p.base+p.value);
+    html=`|${formatNumber(a)} − ${formatNumber(b)}| − ${signedInteger(b)} × ${signedInteger(p.base)} + ${p.html}`;
     steps=[
-      ["先算絕對值內與乘方",`|${formatNumber(a-b)}| = ${Math.abs(a-b)}，(${formatNumber(c)})² = ${power(c,2)}`],
-      ["再算乘法",`${signedInteger(b)} × ${c} = ${formatNumber(b*c)}`],
-      ["最後由左到右做加減",`${Math.abs(a-b)} − ${signedInteger(b*c)} + ${power(c,2)} = ${formatNumber(answer.n)}`]
+      ["先算絕對值內與乘方",`|${formatNumber(a-b)}| = ${Math.abs(a-b)}，${p.html} = ${formatNumber(p.value)}`],
+      ["再算乘法",`${signedInteger(b)} × ${signedInteger(p.base)} = ${formatNumber(b*p.base)}`],
+      ["最後由左到右做加減",`${Math.abs(a-b)} − ${signedInteger(b*p.base)} + ${formatNumber(p.value)} = ${formatNumber(answer.n)}`]
     ];
   }else if(type===2){
     const a=randomNonZeroInteger(-9,9);
     const b=randomNonZeroInteger(-5,5);
-    const c=randomNonZeroInteger(-5,5);
-    answer=intR(Math.abs(a)+b*c-power(c,2));
-    html=`|${formatNumber(a)}| + ${signedInteger(b)} × ${c} − (${formatNumber(c)})<sup>2</sup>`;
+    const p=makeMixedModePower();
+    answer=intR(Math.abs(a)+b*p.base-p.value);
+    html=`|${formatNumber(a)}| + ${signedInteger(b)} × ${signedInteger(p.base)} − ${p.html}`;
     steps=[
-      ["先算絕對值與乘方",`|${formatNumber(a)}| = ${Math.abs(a)}，(${formatNumber(c)})² = ${power(c,2)}`],
-      ["再算乘法",`${signedInteger(b)} × ${c} = ${formatNumber(b*c)}`],
-      ["最後做加減",`${Math.abs(a)} + ${signedInteger(b*c)} − ${power(c,2)} = ${formatNumber(answer.n)}`]
+      ["先算絕對值與乘方",`|${formatNumber(a)}| = ${Math.abs(a)}，${p.html} = ${formatNumber(p.value)}`],
+      ["再算乘法",`${signedInteger(b)} × ${signedInteger(p.base)} = ${formatNumber(b*p.base)}`],
+      ["最後做加減",`${Math.abs(a)} + ${signedInteger(b*p.base)} − ${formatNumber(p.value)} = ${formatNumber(answer.n)}`]
     ];
   }else if(type===3){
     const divisor=pick([-6,-5,-4,-3,3,4,5,6]);
@@ -661,16 +683,15 @@ function makeMixedQuestion(){
       ["再相加",`${formatNumber(quotient)} + ${Math.abs(c)} = ${formatNumber(answer.n)}`]
     ];
   }else if(type===4){
-    const a=pick([-4,-3,-2,2,3,4]);
-    const exp=rand(2,4);
+    const p=makeMixedModePower();
     const b=randomNonZeroInteger(-6,6);
     const c=randomNonZeroInteger(-5,5);
-    answer=intR(power(a,exp)+b*c);
-    html=`(${formatNumber(a)})<sup>${exp}</sup> + ${signedInteger(b)} × ${c}`;
+    answer=intR(p.value+b*c);
+    html=`${p.html} + ${signedInteger(b)} × ${c}`;
     steps=[
-      ["先算乘方",`(${formatNumber(a)})<sup>${exp}</sup> = ${formatNumber(power(a,exp))}`],
+      ["先算乘方",`${p.html} = ${formatNumber(p.value)}`],
       ["再算乘法",`${signedInteger(b)} × ${c} = ${formatNumber(b*c)}`],
-      ["最後相加",`${formatNumber(power(a,exp))} + ${signedInteger(b*c)} = ${formatNumber(answer.n)}`]
+      ["最後相加",`${formatNumber(p.value)} + ${signedInteger(b*c)} = ${formatNumber(answer.n)}`]
     ];
   }else{
     const a=randomNonZeroInteger(-10,10);
@@ -719,13 +740,13 @@ function makeAdvancedQuestion(){
       ["再相加",`${fracHTML(absR(f1))} + ${fracHTML(mulR(f2,intR(absInt)))} = ${fracHTML(answer)}`]
     ];
   }else if(type===4){
-    const p=makePowerQuestion(true);
-    const powerValue=p.answer;
+    const p=makeMixedModePower();
+    const powerValue=intR(p.value);
     answer=addR(powerValue,f1);
     html=`${p.html} + ${fracHTML(f1,true)}`;
     steps=[
-      ["先算乘方",`${p.html} = ${fracHTML(powerValue)}`],
-      ["再與分數相加",`${fracHTML(powerValue)} + ${fracHTML(f1,true)} = ${fracHTML(answer)}`]
+      ["先算乘方",`${p.html} = ${formatNumber(p.value)}`],
+      ["再與分數相加",`${formatNumber(p.value)} + ${fracHTML(f1,true)} = ${fracHTML(answer)}`]
     ];
   }else{
     const f3=randomProperFraction();
