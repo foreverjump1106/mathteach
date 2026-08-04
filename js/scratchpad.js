@@ -2095,15 +2095,89 @@
     ==================================================
     */
 
-    downloadImage(
+    /*
+==================================================
+下載圖片
+==================================================
+*/
+
+/*
+建立下載檔名。
+
+例如：
+math-scratchpad-2026-08-04-1535.png
+*/
+
+createDownloadFilename() {
+  const now =
+    new Date();
+
+  const year =
+    now.getFullYear();
+
+  const month =
+    String(
+      now.getMonth() + 1
+    ).padStart(2, "0");
+
+  const day =
+    String(
+      now.getDate()
+    ).padStart(2, "0");
+
+  const hour =
+    String(
+      now.getHours()
+    ).padStart(2, "0");
+
+  const minute =
+    String(
+      now.getMinutes()
+    ).padStart(2, "0");
+
+  return (
+    `math-scratchpad-` +
+    `${year}-${month}-${day}-` +
+    `${hour}${minute}.png`
+  );
+}
+
+
+/*
+下載計算紙圖片。
+
+下載內容包含：
+1. 白色背景
+2. 淡藍色方格
+3. 原本計算筆跡
+*/
+
+downloadImage(
   filename =
     this.createDownloadFilename()
 ) {
-  if (
-    !this.canvas ||
-    this.isBlank()
-  ) {
+  if (!this.canvas) {
+    console.warn(
+      "下載失敗：找不到計算紙 Canvas。"
+    );
+
     return false;
+  }
+
+  if (this.isBlank()) {
+    console.warn(
+      "計算紙目前是空白的，沒有可以下載的內容。"
+    );
+
+    return false;
+  }
+
+  if (
+    typeof filename !== "string" ||
+    filename.trim() === ""
+  ) {
+    filename =
+      this.createDownloadFilename();
   }
 
   if (
@@ -2115,9 +2189,7 @@
   }
 
   /*
-  建立一張專門用來下載的 Canvas。
-  先畫白色背景，再畫方格線，
-  最後疊上原本的計算筆跡。
+  建立專門輸出的 Canvas。
   */
 
   const exportCanvas =
@@ -2137,12 +2209,36 @@
     );
 
   if (!exportContext) {
+    console.error(
+      "下載失敗：無法建立輸出 Canvas。"
+    );
+
     return false;
   }
 
   /*
-  白色背景。
+  先填入不透明白色背景。
+  這能避免平板或深色圖片檢視器
+  把透明背景顯示成黑色。
   */
+
+  exportContext.save();
+
+  exportContext.setTransform(
+    1,
+    0,
+    0,
+    1,
+    0,
+    0
+  );
+
+  exportContext.globalAlpha =
+    1;
+
+  exportContext
+    .globalCompositeOperation =
+    "source-over";
 
   exportContext.fillStyle =
     "#ffffff";
@@ -2155,15 +2251,19 @@
   );
 
   /*
-  畫淡藍色方格線。
-  間距會依照裝置像素比例調整。
+  畫淡藍色方格。
   */
 
-  const ratio =
+  const pixelRatio =
     this.getPixelRatio();
 
   const gridSize =
-    28 * ratio;
+    Math.max(
+      16,
+      Math.round(
+        28 * pixelRatio
+      )
+    );
 
   exportContext.strokeStyle =
     "#dbeafe";
@@ -2171,7 +2271,7 @@
   exportContext.lineWidth =
     Math.max(
       1,
-      ratio
+      Math.round(pixelRatio)
     );
 
   exportContext.beginPath();
@@ -2182,12 +2282,12 @@
     x += gridSize
   ) {
     exportContext.moveTo(
-      x,
+      x + 0.5,
       0
     );
 
     exportContext.lineTo(
-      x,
+      x + 0.5,
       exportCanvas.height
     );
   }
@@ -2199,51 +2299,95 @@
   ) {
     exportContext.moveTo(
       0,
-      y
+      y + 0.5
     );
 
     exportContext.lineTo(
       exportCanvas.width,
-      y
+      y + 0.5
     );
   }
 
   exportContext.stroke();
 
   /*
-  最後把原本 Canvas 的筆跡疊上去。
+  最後疊上原本筆跡。
   */
 
   exportContext.drawImage(
     this.canvas,
     0,
-    0
+    0,
+    this.canvas.width,
+    this.canvas.height,
+    0,
+    0,
+    exportCanvas.width,
+    exportCanvas.height
   );
 
-  const link =
-    document.createElement(
-      "a"
+  exportContext.restore();
+
+  /*
+  轉成 PNG。
+  */
+
+  let imageUrl = "";
+
+  try {
+    imageUrl =
+      exportCanvas.toDataURL(
+        "image/png",
+        1
+      );
+  } catch (error) {
+    console.error(
+      "下載失敗：圖片轉換錯誤。",
+      error
     );
 
+    return false;
+  }
+
+  /*
+  建立下載連結。
+  */
+
+  const link =
+    document.createElement("a");
+
   link.href =
-    exportCanvas.toDataURL(
-      "image/png"
-    );
+    imageUrl;
 
   link.download =
     filename;
+
+  link.style.display =
+    "none";
 
   document.body.appendChild(
     link
   );
 
-  link.click();
+  try {
+    link.click();
+  } catch (error) {
+    console.error(
+      "下載失敗：瀏覽器無法啟動下載。",
+      error
+    );
 
-  link.remove();
+    link.remove();
+
+    return false;
+  }
+
+  window.setTimeout(() => {
+    link.remove();
+  }, 0);
 
   return true;
 }
-
     /*
     ==================================================
     狀態
