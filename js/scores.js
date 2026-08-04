@@ -11,6 +11,7 @@ import {
  *
  * @param {Object} scoreData
  * @param {string} scoreData.game 遊戲代號，例如 integer
+ * @param {string} scoreData.mode 遊戲模式
  * @param {number} scoreData.score 本次得分
  * @param {number} scoreData.correctCount 答對題數
  * @param {number} scoreData.wrongCount 答錯題數
@@ -20,6 +21,7 @@ import {
  */
 export async function saveGameScore({
   game,
+  mode = "",
   score,
   correctCount = 0,
   wrongCount = 0,
@@ -29,7 +31,9 @@ export async function saveGameScore({
   const user = auth.currentUser;
 
   if (!user) {
-    console.warn("玩家尚未登入，這次成績不會儲存。");
+    console.warn(
+      "玩家尚未登入，這次成績不會儲存。"
+    );
 
     return {
       success: false,
@@ -37,36 +41,50 @@ export async function saveGameScore({
     };
   }
 
-  if (!game || typeof game !== "string") {
-    throw new Error("儲存成績失敗：缺少正確的遊戲代號。");
+  if (
+    !game ||
+    typeof game !== "string"
+  ) {
+    throw new Error(
+      "儲存成績失敗：缺少正確的遊戲代號。"
+    );
   }
 
   if (!Number.isFinite(score)) {
-    throw new Error("儲存成績失敗：分數格式不正確。");
+    throw new Error(
+      "儲存成績失敗：分數格式不正確。"
+    );
   }
 
   const scoreRecord = {
     uid: user.uid,
+
     playerName:
       user.displayName ||
       user.email ||
       "未命名玩家",
 
-    playerEmail: user.email || "",
+    playerEmail:
+      user.email || "",
+
     game,
+    mode,
     score,
     correctCount,
     wrongCount,
     maxCombo,
     playTime,
-    createdAt: serverTimestamp()
+
+    createdAt:
+      serverTimestamp()
   };
 
   try {
-    const documentReference = await addDoc(
-      collection(db, "scores"),
-      scoreRecord
-    );
+    const documentReference =
+      await addDoc(
+        collection(db, "scores"),
+        scoreRecord
+      );
 
     console.log(
       "成績已成功儲存，文件 ID：",
@@ -75,17 +93,49 @@ export async function saveGameScore({
 
     return {
       success: true,
-      documentId: documentReference.id
+      documentId:
+        documentReference.id
     };
   } catch (error) {
-    console.error("========== 儲存成績錯誤 ==========");
+    console.error(
+      "========== 儲存成績錯誤 =========="
+    );
+
     console.error(error);
-    console.error("錯誤代碼：", error?.code);
-    console.error("錯誤訊息：", error?.message);
-    console.error("玩家 UID：", user.uid);
-    console.error("遊戲代號：", game);
-    console.error("本次分數：", score);
-    console.error("==================================");
+
+    console.error(
+      "錯誤代碼：",
+      error?.code
+    );
+
+    console.error(
+      "錯誤訊息：",
+      error?.message
+    );
+
+    console.error(
+      "玩家 UID：",
+      user.uid
+    );
+
+    console.error(
+      "遊戲代號：",
+      game
+    );
+
+    console.error(
+      "遊戲模式：",
+      mode
+    );
+
+    console.error(
+      "本次分數：",
+      score
+    );
+
+    console.error(
+      "=================================="
+    );
 
     return {
       success: false,
