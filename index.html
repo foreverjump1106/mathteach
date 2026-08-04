@@ -854,7 +854,7 @@
           </div>
         </a>
 
-        <a class="dashboard-link-card" href="my-scores.html">
+        <a id="myScoresLink" class="dashboard-link-card" href="my-scores.html">
           <div class="dashboard-link-icon scores">📊</div>
           <div>
             <div class="dashboard-link-title">我的成績</div>
@@ -1114,116 +1114,17 @@
       onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-    const loginButton =
-      document.getElementById("loginBtn");
+    const compactUserBox =
+      document.getElementById("compactUserBox");
 
-    const logoutButton =
-      document.getElementById("logoutBtn");
+    const compactLoginButton =
+      document.getElementById("compactLoginButton");
 
-    const userSection =
-      document.getElementById("userSection");
-
-    const welcomeText =
-      document.getElementById("welcomeText");
-
-    const userEmail =
-      document.getElementById("userEmail");
-
-    const userPhoto =
-      document.getElementById("userPhoto");
-
-    const loginMessage =
-      document.getElementById("loginMessage");
+    const compactLogoutButton =
+      document.getElementById("compactLogoutButton");
 
     const myScoresLink =
       document.getElementById("myScoresLink");
-
-    const loginRequiredNote =
-      document.getElementById("loginRequiredNote");
-
-    loginButton.addEventListener(
-      "click",
-      async () => {
-        loginMessage.textContent = "";
-        if (compactUserBox) {
-          compactUserBox.innerHTML = `
-            <div class="compact-user-text">
-              <div class="compact-user-name">尚未登入</div>
-              <div class="compact-user-email">登入後即可儲存成績與查看個人紀錄。</div>
-            </div>
-          `;
-        }
-
-        if (compactLoginButton) {
-          compactLoginButton.hidden = false;
-        }
-
-        if (compactLogoutButton) {
-          compactLogoutButton.hidden = true;
-        }
-
-        loginButton.disabled = true;
-        loginButton.textContent = "登入中……";
-
-        try {
-          await login();
-        } catch (error) {
-          console.error(
-            "登入失敗：",
-            error
-          );
-
-          loginMessage.textContent =
-            "登入沒有完成，請稍後再試一次。";
-        } finally {
-          loginButton.disabled = false;
-          loginButton.textContent =
-            "🔐 使用 Google 登入";
-        }
-      }
-    );
-
-    logoutButton.addEventListener(
-      "click",
-      async () => {
-        loginMessage.textContent = "";
-        logoutButton.disabled = true;
-        logoutButton.textContent = "登出中……";
-
-        try {
-          await logout();
-        } catch (error) {
-          console.error(
-            "登出失敗：",
-            error
-          );
-
-          loginMessage.textContent =
-            "登出失敗，請稍後再試一次。";
-        } finally {
-          logoutButton.disabled = false;
-          logoutButton.textContent = "登出";
-        }
-      }
-    );
-
-    myScoresLink.addEventListener(
-      "click",
-      (event) => {
-        if (!auth.currentUser) {
-          event.preventDefault();
-
-          loginRequiredNote.style.display =
-            "block";
-
-          loginRequiredNote.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-          });
-        }
-      }
-    );
-
 
     const semesterSelect =
       document.getElementById("semesterSelect");
@@ -1243,182 +1144,133 @@
       }
     );
 
+    compactLoginButton.addEventListener(
+      "click",
+      async () => {
+        compactLoginButton.disabled = true;
+        compactLoginButton.textContent = "登入中……";
 
-    const compactUserBox =
-      document.getElementById("compactUserBox");
-
-    const compactUserName =
-      document.getElementById("compactUserName");
-
-    const compactUserEmail =
-      document.getElementById("compactUserEmail");
-
-    const compactLoginButton =
-      document.getElementById("compactLoginButton");
-
-    const compactLogoutButton =
-      document.getElementById("compactLogoutButton");
-
-    if (compactLoginButton) {
-      compactLoginButton.addEventListener("click", () => {
-        const originalLoginButton =
-          document.getElementById("loginButton");
-
-        if (originalLoginButton) {
-          originalLoginButton.click();
+        try {
+          await login();
+        } catch (error) {
+          console.error("登入失敗：", error);
+          alert("登入沒有完成，請稍後再試一次。");
+        } finally {
+          compactLoginButton.disabled = false;
+          compactLoginButton.textContent = "Google 登入";
         }
-      });
+      }
+    );
+
+    compactLogoutButton.addEventListener(
+      "click",
+      async () => {
+        compactLogoutButton.disabled = true;
+        compactLogoutButton.textContent = "登出中……";
+
+        try {
+          await logout();
+        } catch (error) {
+          console.error("登出失敗：", error);
+          alert("登出失敗，請稍後再試一次。");
+        } finally {
+          compactLogoutButton.disabled = false;
+          compactLogoutButton.textContent = "登出";
+        }
+      }
+    );
+
+    myScoresLink.addEventListener(
+      "click",
+      (event) => {
+        if (!auth.currentUser) {
+          event.preventDefault();
+          alert("請先登入 Google 帳號，才能查看自己的成績。");
+        }
+      }
+    );
+
+    function renderLoggedOut() {
+      compactUserBox.innerHTML = `
+        <div class="compact-user-text">
+          <div class="compact-user-name">尚未登入</div>
+          <div class="compact-user-email">
+            登入後即可儲存成績與查看個人紀錄。
+          </div>
+        </div>
+      `;
+
+      compactLoginButton.hidden = false;
+      compactLogoutButton.hidden = true;
     }
 
-    if (compactLogoutButton) {
-      compactLogoutButton.addEventListener("click", () => {
-        const originalLogoutButton =
-          document.getElementById("logoutButton");
+    function renderLoggedIn(user) {
+      compactUserBox.innerHTML = "";
 
-        if (originalLogoutButton) {
-          originalLogoutButton.click();
-        }
-      });
+      if (user.photoURL) {
+        const photo =
+          document.createElement("img");
+
+        photo.className = "user-photo";
+        photo.src = user.photoURL;
+        photo.alt = "玩家頭像";
+
+        compactUserBox.appendChild(photo);
+      }
+
+      const textBox =
+        document.createElement("div");
+
+      textBox.className =
+        "compact-user-text";
+
+      const name =
+        document.createElement("div");
+
+      name.className =
+        "compact-user-name";
+
+      name.textContent =
+        `👋 歡迎回來，${
+          user.displayName ||
+          user.email ||
+          "玩家"
+        }！`;
+
+      const email =
+        document.createElement("div");
+
+      email.className =
+        "compact-user-email";
+
+      email.textContent =
+        user.email || "";
+
+      textBox.appendChild(name);
+      textBox.appendChild(email);
+      compactUserBox.appendChild(textBox);
+
+      compactLoginButton.hidden = true;
+      compactLogoutButton.hidden = false;
     }
 
     onAuthStateChanged(
       auth,
       async (user) => {
-        if (user) {
-          const userName =
-            user.displayName ||
-            user.email ||
-            "玩家";
-
-          loginButton.style.display = "none";
-          userSection.style.display = "block";
-          loginMessage.textContent = "";
-          loginRequiredNote.style.display = "none";
-
-          welcomeText.textContent =
-            "正在建立玩家資料……";
-        if (compactUserBox) {
-          compactUserBox.innerHTML = "";
-
-          if (user.photoURL) {
-            const compactPhoto = document.createElement("img");
-            compactPhoto.className = "user-photo";
-            compactPhoto.src = user.photoURL;
-            compactPhoto.alt = "玩家頭像";
-            compactUserBox.appendChild(compactPhoto);
-          }
-
-          const compactText = document.createElement("div");
-          compactText.className = "compact-user-text";
-
-          const compactName = document.createElement("div");
-          compactName.className = "compact-user-name";
-          compactName.textContent =
-            `👋 歡迎回來，${user.displayName || user.email || "玩家"}！`;
-
-          const compactEmail = document.createElement("div");
-          compactEmail.className = "compact-user-email";
-          compactEmail.textContent = user.email || "";
-
-          compactText.appendChild(compactName);
-          compactText.appendChild(compactEmail);
-          compactUserBox.appendChild(compactText);
+        if (!user) {
+          renderLoggedOut();
+          return;
         }
 
-        if (compactLoginButton) {
-          compactLoginButton.hidden = true;
-        }
+        renderLoggedIn(user);
 
-        if (compactLogoutButton) {
-          compactLogoutButton.hidden = false;
-        }
-
-
-          userEmail.textContent =
-            user.email || "";
-
-          if (user.photoURL) {
-            userPhoto.src = user.photoURL;
-            userPhoto.style.display = "block";
-          } else {
-            userPhoto.removeAttribute("src");
-            userPhoto.style.display = "none";
-          }
-
-          try {
-            console.log(
-              "準備建立或更新玩家資料：",
-              user.uid
-            );
-
-            await createOrUpdatePlayer(user);
-
-            console.log(
-              "Firestore 玩家資料處理完成"
-            );
-
-            welcomeText.textContent =
-              `👋 歡迎回來，${userName}！`;
-          } catch (error) {
-            console.error(
-              "========== Firestore Error =========="
-            );
-
-            console.error(error);
-
-            console.error(
-              "錯誤代碼：",
-              error?.code
-            );
-
-            console.error(
-              "錯誤訊息：",
-              error?.message
-            );
-
-            console.error(
-              "錯誤堆疊：",
-              error?.stack
-            );
-
-            console.error(
-              "Firebase 專案：",
-              "math-games-529b6"
-            );
-
-            console.error(
-              "登入使用者 UID：",
-              user.uid
-            );
-
-            console.error(
-              "====================================="
-            );
-
-            welcomeText.textContent =
-              `👋 歡迎回來，${userName}！`;
-
-            loginMessage.textContent =
-              "登入成功，但玩家資料暫時無法更新。";
-          }
-        } else {
-          console.log(
-            "目前沒有登入中的使用者"
+        try {
+          await createOrUpdatePlayer(user);
+        } catch (error) {
+          console.error(
+            "玩家資料建立或更新失敗：",
+            error
           );
-
-          welcomeText.textContent = "";
-          userEmail.textContent = "";
-
-          userPhoto.removeAttribute("src");
-          userPhoto.style.display = "none";
-
-          loginButton.style.display =
-            "inline-block";
-
-          userSection.style.display =
-            "none";
-
-          loginMessage.textContent = "";
         }
       }
     );
