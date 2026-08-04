@@ -19,14 +19,28 @@
       margin: 0;
       min-height: 100vh;
       padding: 20px;
-      font-family: "Microsoft JhengHei", sans-serif;
-      background: linear-gradient(135deg, #e3f2fd, #fff8e1);
+      font-family:
+        "Microsoft JhengHei",
+        "Noto Sans TC",
+        sans-serif;
+      background:
+        linear-gradient(
+          135deg,
+          #e3f2fd,
+          #fff8e1
+        );
       color: #333;
+    }
+
+    button,
+    a {
+      font-family: inherit;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .container {
       width: 100%;
-      max-width: 850px;
+      max-width: 900px;
       margin: 0 auto;
     }
 
@@ -36,7 +50,9 @@
       border-radius: 24px;
       background: white;
       text-align: center;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+      box-shadow:
+        0 12px 30px
+        rgba(0, 0, 0, 0.12);
     }
 
     h1 {
@@ -69,14 +85,23 @@
     }
 
     .filter-button {
-      padding: 11px 18px;
+      min-height: 44px;
+      padding: 10px 17px;
       border: 2px solid #1565c0;
       border-radius: 999px;
       background: white;
       color: #1565c0;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: bold;
       cursor: pointer;
+      transition:
+        background 0.15s ease,
+        color 0.15s ease,
+        transform 0.15s ease;
+    }
+
+    .filter-button:hover {
+      transform: translateY(-2px);
     }
 
     .filter-button.active,
@@ -89,7 +114,9 @@
       overflow: hidden;
       border-radius: 24px;
       background: white;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+      box-shadow:
+        0 12px 30px
+        rgba(0, 0, 0, 0.12);
     }
 
     .loading,
@@ -121,11 +148,13 @@
 
     .leaderboard-item {
       display: grid;
-      grid-template-columns: 70px 1fr 120px;
+      grid-template-columns:
+        70px 1fr 120px;
       gap: 12px;
       align-items: center;
       padding: 17px 20px;
-      border-bottom: 1px solid #eeeeee;
+      border-bottom:
+        1px solid #eeeeee;
     }
 
     .leaderboard-item:last-child {
@@ -134,7 +163,8 @@
 
     .leaderboard-item.current-user {
       background: #fff8e1;
-      border-left: 6px solid #ffb300;
+      border-left:
+        6px solid #ffb300;
     }
 
     .rank {
@@ -157,10 +187,17 @@
       white-space: nowrap;
     }
 
-    .game-name,
+    .game-name {
+      margin-bottom: 4px;
+      color: #1565c0;
+      font-size: 14px;
+      font-weight: bold;
+      line-height: 1.5;
+    }
+
     .play-time {
       color: #777;
-      font-size: 14px;
+      font-size: 13px;
     }
 
     .score {
@@ -202,7 +239,7 @@
       opacity: 0.9;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 700px) {
       body {
         padding: 12px;
       }
@@ -211,8 +248,22 @@
         font-size: 29px;
       }
 
+      .header {
+        padding: 24px 16px;
+      }
+
+      .filter-box {
+        gap: 8px;
+      }
+
+      .filter-button {
+        padding: 9px 13px;
+        font-size: 14px;
+      }
+
       .leaderboard-item {
-        grid-template-columns: 52px 1fr 78px;
+        grid-template-columns:
+          52px 1fr 78px;
         padding: 15px 12px;
       }
 
@@ -227,9 +278,54 @@
       .score {
         font-size: 21px;
       }
+    }
+
+    @media (max-width: 480px) {
+      .filter-box {
+        display: grid;
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
+
+      .filter-button {
+        width: 100%;
+        border-radius: 13px;
+      }
+
+      .leaderboard-item {
+        grid-template-columns:
+          44px 1fr 64px;
+        gap: 8px;
+        padding: 14px 8px;
+      }
+
+      .rank {
+        font-size: 19px;
+      }
+
+      .player-name {
+        font-size: 15px;
+      }
+
+      .game-name {
+        font-size: 12px;
+      }
 
       .play-time {
         display: none;
+      }
+
+      .score {
+        font-size: 19px;
+      }
+
+      .footer-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .action-link {
+        text-align: center;
       }
     }
   </style>
@@ -244,17 +340,23 @@
       <h1>🏆 遊戲排行榜</h1>
 
       <p class="subtitle">
-        顯示玩家每一局遊戲的最高成績。<br>
-        排行榜目前顯示前 20 筆紀錄。
+        查看各項數學遊戲的高手成績。<br>
+        每個排行榜顯示分數最高的前 20 筆紀錄。
       </p>
 
-      <div id="userStatus" class="user-box">
+      <div
+        id="userStatus"
+        class="user-box"
+      >
         正在確認登入狀態……
       </div>
 
     </header>
 
-    <nav class="filter-box" aria-label="排行榜遊戲篩選">
+    <nav
+      class="filter-box"
+      aria-label="排行榜遊戲篩選"
+    >
 
       <button
         class="filter-button active"
@@ -269,14 +371,41 @@
         type="button"
         data-game="integer"
       >
-        正負數大挑戰
+        正負整數
+      </button>
+
+      <button
+        class="filter-button"
+        type="button"
+        data-game="compare"
+      >
+        數的大小比較
+      </button>
+
+      <button
+        class="filter-button"
+        type="button"
+        data-game="fraction"
+      >
+        正負分數加減
+      </button>
+
+      <button
+        class="filter-button"
+        type="button"
+        data-game="equation"
+      >
+        一元一次方程式
       </button>
 
     </nav>
 
     <section class="leaderboard-card">
 
-      <div id="loadingMessage" class="loading">
+      <div
+        id="loadingMessage"
+        class="loading"
+      >
         排行榜載入中……
       </div>
 
@@ -291,7 +420,7 @@
         class="empty-message"
         hidden
       >
-        目前還沒有成績紀錄。
+        這個遊戲目前還沒有成績紀錄。
       </div>
 
       <ol
@@ -305,9 +434,16 @@
 
       <a
         class="action-link"
-        href="games/integer.html"
+        href="index.html"
       >
-        🎮 開始遊戲
+        🎮 選擇遊戲
+      </a>
+
+      <a
+        class="action-link secondary"
+        href="my-scores.html"
+      >
+        📊 我的成績
       </a>
 
       <a
