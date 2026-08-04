@@ -80,7 +80,7 @@ body{margin:0;padding:4px;overflow-x:hidden}
       <h1 class="title">一元一次方程式挑戰賽</h1>
       <p class="subtitle">請選擇模式：模式一～三每回合 10 題，模式四每回合 6 題（五類題型皆會出現，另隨機加強一類）</p>
       <div class="modes">
-        <label class="mode-card"><input type="radio" name="mode" value="1" checked><span><div class="mode-title">模式一｜基本一元一次方程式</div><div class="example">例如：6x = 7、−3x = 6</div></span></label>
+        <label class="mode-card"><input type="radio" name="mode" value="1" checked><span><div class="mode-title">模式一｜基本一元一次方程式</div><div class="example">例如：6x = 7、−3x = 6，以及少量分數係數題</div></span></label>
         <label class="mode-card"><input type="radio" name="mode" value="2"><span><div class="mode-title">模式二｜移項與合併同類項</div><div class="example">例如：3x − 5 = 2x + 4</div></span></label>
         <label class="mode-card"><input type="radio" name="mode" value="3"><span><div class="mode-title">模式三｜括號、負號與化簡</div><div class="example">例如：3(x − 2) = 2(x + 1)、5x − (2x − 3) = 12</div></span></label>
         <label class="mode-card"><input type="radio" name="mode" value="4"><span><div class="mode-title">模式四｜分數係數方程式</div><div class="example">例如：分式型態方程式求解</div></span></label>
@@ -589,20 +589,89 @@ function makeQuestions(m){
     return shuffle(out);
   }
 
+  /*
+  模式一固定配置：
+  - 8 題整數係數 ax = b（a 不可為 ±1）
+  - 2 題分數係數 ax = b
+  最後再將 10 題順序打亂。
+  */
+  if(m===1){
+    const schedule=shuffle([
+      'integer','integer','integer','integer',
+      'integer','integer','integer','integer',
+      'fraction','fraction'
+    ]);
+
+    for(const kind of schedule){
+      let question=null;
+
+      for(let retry=0;retry<300;retry++){
+        let qStr='',ansRat,leftA,leftB=rat(0),rightA=rat(0),rightB;
+
+        if(kind==='fraction'){
+          // 分數係數使用最簡真分數或假分數，但不可化成整數或 ±1。
+          let numerator,denominator,coefficient;
+          do{
+            numerator=nz(-9,9);
+            denominator=rand(2,11);
+            coefficient=rat(numerator,denominator);
+          }while(
+            coefficient.d===1 ||
+            Math.abs(coefficient.n)===coefficient.d ||
+            Math.abs(coefficient.n)>9 ||
+            coefficient.d>11
+          );
+
+          const rhs=nz(-9,9);
+          ansRat=ratDiv(rat(rhs),coefficient);
+
+          // 控制答案大小與分母，避免出現過度複雜的數字。
+          if(!ratWithin(ansRat,24,12))continue;
+
+          leftA=coefficient;
+          rightB=rat(rhs);
+          qStr=`${coefficientXHTML(coefficient)} = ${integerText(rhs)}`;
+        }else{
+          ansRat=makeAnswerByRatio();
+          const p=ansRat.n,q=ansRat.d;
+          const k=nz(-5,5),a=k*q,b=k*p;
+
+          // 模式一保留真正需要計算的基本型：x 的係數不可為 1 或 −1。
+          if(Math.abs(a)===1||Math.abs(a)>35||Math.abs(b)>60)continue;
+
+          leftA=rat(a);
+          rightB=rat(b);
+          qStr=`${fx(a)} = ${integerText(b)}`;
+        }
+
+        const key=qStr.replace(/<[^>]+>/g,'');
+        if(used.has(key))continue;
+
+        used.add(key);
+        question={
+          qStr,
+          ans:ansRat,
+          meta:{
+            prepText:kind==='fraction'?'將等號兩邊同除以 x 的分數係數':'由基本型 ax = b 開始',
+            linear:{leftA,leftB,rightA,rightB}
+          }
+        };
+        break;
+      }
+
+      if(!question)throw new Error(`無法建立模式一${kind==='fraction'?'分數':'整數'}係數題目`);
+      out.push(question);
+    }
+
+    return shuffle(out);
+  }
+
   while(out.length<target){
     const ansRat=makeAnswerByRatio();
     const p=ansRat.n,q=ansRat.d;
     let qStr='',leftA,leftB,rightA,rightB,prepText='';
 
-    if(m===1){
-      const k=nz(-5,5),a=k*q,b=k*p;
-      // 模式一保留真正需要計算的基本型：x 的係數不可為 1 或 −1。
-      if(Math.abs(a)===1||Math.abs(a)>35||Math.abs(b)>60)continue;
-      qStr=`${fx(a)} = ${integerText(b)}`;
-      leftA=rat(a);leftB=rat(0);rightA=rat(0);rightB=rat(b);
-      prepText='由基本型 ax = b 開始';
-
-    }else if(m===2){
+    if(m===2){
       const k=nz(-4,4),c=nz(-7,7),a=c+k*q,b=nz(-15,15),d=b+k*p;
       // 避免產生 0x、單獨的 0，或化簡後不自然的零項題目。
       if(a===0||d===0||a===c||Math.abs(a)>28||Math.abs(d)>45)continue;
