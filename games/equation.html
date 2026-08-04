@@ -71,8 +71,14 @@ body{margin:0;padding:4px;overflow-x:hidden}
 .review-explanation summary{cursor:pointer;color:#1d4ed8;font-weight:900}
 
 </style>
+
+<script
+  defer
+  src="../js/common-header.js?v=5"
+></script>
 </head>
 <body>
+<div id="commonHeaderMount"></div>
 <main id="app" class="app">
   <div class="progress"><div id="progress-bar"></div></div>
   <div class="inner">
@@ -937,6 +943,19 @@ $('start-btn').onclick=()=>startGame(false);$('change-mode-btn').onclick=modeSel
 document.addEventListener('keydown',e=>{if(e.key!=='Enter'||$('quiz-screen').classList.contains('hidden'))return;e.preventDefault();nextReady?next():!locked&&check()});
 
 
+</script>
+
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
+    if (window.MathGameCommonHeader) {
+      window.MathGameCommonHeader.init({
+        mountId: "commonHeaderMount",
+        basePath: "../"
+      });
+    } else {
+      console.error("common-header.js 載入失敗，請確認 js/common-header.js 檔案位置。");
+    }
+  });
 </script>
 </body>
 </html>
