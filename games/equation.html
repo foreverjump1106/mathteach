@@ -160,7 +160,6 @@ body{margin:0;padding:4px;overflow-x:hidden}
 </main>
 <script src="../js/scratchpad.js"></script>
 <script src="../js/scratchpad-template.js"></script>
-<script src="../js/sound-manager.js?v=1"></script>
 
 <script type="module">
 import { saveGameScore } from "../js/scores.js";
@@ -182,24 +181,215 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const GAME_ID = "equation";
 
+/*
+一元一次方程式內建音效。
+不再依賴 sound-manager.js，避免路徑、快取或載入順序造成無聲。
+*/
+let equationAudioContext = null;
+
+function getEquationAudioContext(){
+  const AudioContextClass =
+    window.AudioContext ||
+    window.webkitAudioContext;
+
+  if(!AudioContextClass){
+    return null;
+  }
+
+  if(!equationAudioContext){
+    equationAudioContext =
+      new AudioContextClass();
+  }
+
+  return equationAudioContext;
+}
+
+async function ensureEquationAudio(){
+  const context =
+    getEquationAudioContext();
+
+  if(!context){
+    return null;
+  }
+
+  if(context.state === "suspended"){
+    try{
+      await context.resume();
+    }catch(error){
+      console.warn(
+        "音效系統無法啟用：",
+        error
+      );
+    }
+  }
+
+  return context.state === "running"
+    ? context
+    : null;
+}
+
+async function playEquationTone({
+  frequency = 440,
+  duration = 0.18,
+  type = "sine",
+  volume = 0.14,
+  delay = 0
+} = {}){
+  const context =
+    await ensureEquationAudio();
+
+  if(!context){
+    return;
+  }
+
+  const startTime =
+    context.currentTime +
+    Math.max(0, delay);
+
+  const endTime =
+    startTime +
+    Math.max(0.05, duration);
+
+  const oscillator =
+    context.createOscillator();
+
+  const gain =
+    context.createGain();
+
+  oscillator.type = type;
+
+  oscillator.frequency.setValueAtTime(
+    frequency,
+    startTime
+  );
+
+  gain.gain.setValueAtTime(
+    0.0001,
+    startTime
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    Math.max(0.0001, volume),
+    startTime + 0.02
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    0.0001,
+    endTime
+  );
+
+  oscillator.connect(gain);
+  gain.connect(context.destination);
+
+  oscillator.start(startTime);
+  oscillator.stop(endTime);
+
+  oscillator.addEventListener(
+    "ended",
+    () => {
+      oscillator.disconnect();
+      gain.disconnect();
+    },
+    { once: true }
+  );
+}
+
 function playGameSound(soundName){
   try{
-    const soundManager=window.GameSound||window.MathGameSound;
-    const soundFunction=soundManager?.[soundName];
+    if(soundName === "playStart"){
+      Promise.all([
+        playEquationTone({
+          frequency: 392,
+          duration: 0.16,
+          volume: 0.12
+        }),
+        playEquationTone({
+          frequency: 523.25,
+          duration: 0.22,
+          volume: 0.13,
+          delay: 0.12
+        })
+      ]);
+      return;
+    }
 
-    if(typeof soundFunction!=="function")return;
+    if(soundName === "playCorrect"){
+      Promise.all([
+        playEquationTone({
+          frequency: 523.25,
+          duration: 0.17,
+          volume: 0.14
+        }),
+        playEquationTone({
+          frequency: 659.25,
+          duration: 0.20,
+          volume: 0.13,
+          delay: 0.10
+        }),
+        playEquationTone({
+          frequency: 783.99,
+          duration: 0.25,
+          volume: 0.12,
+          delay: 0.20
+        })
+      ]);
+      return;
+    }
 
-    const result=soundFunction.call(soundManager);
+    if(soundName === "playWrong"){
+      Promise.all([
+        playEquationTone({
+          frequency: 329.63,
+          duration: 0.20,
+          type: "triangle",
+          volume: 0.12
+        }),
+        playEquationTone({
+          frequency: 261.63,
+          duration: 0.26,
+          type: "triangle",
+          volume: 0.11,
+          delay: 0.14
+        })
+      ]);
+      return;
+    }
 
-    if(result&&typeof result.catch==="function"){
-      result.catch(error=>{
-        console.warn(`音效播放失敗：${soundName}`,error);
-      });
+    if(soundName === "playComplete"){
+      Promise.all([
+        playEquationTone({
+          frequency: 523.25,
+          duration: 0.18,
+          volume: 0.13
+        }),
+        playEquationTone({
+          frequency: 659.25,
+          duration: 0.20,
+          volume: 0.13,
+          delay: 0.12
+        }),
+        playEquationTone({
+          frequency: 783.99,
+          duration: 0.22,
+          volume: 0.13,
+          delay: 0.24
+        }),
+        playEquationTone({
+          frequency: 1046.5,
+          duration: 0.34,
+          volume: 0.12,
+          delay: 0.38
+        })
+      ]);
     }
   }catch(error){
-    console.warn(`音效播放失敗：${soundName}`,error);
+    console.warn(
+      `音效播放失敗：${soundName}`,
+      error
+    );
   }
 }
+
 const MODE_NAMES={1:'模式一',2:'模式二',3:'模式三',4:'模式四'};
 function totalQuestions(){return mode===4?6:10}
 function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=rand(0,i);[arr[i],arr[j]]=[arr[j],arr[i]]}return arr}
