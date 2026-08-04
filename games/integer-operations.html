@@ -382,8 +382,215 @@ document.addEventListener("DOMContentLoaded",()=>{
 });
 
 const $=id=>document.getElementById(id);
+
 const GAME_ID="integer-operations";
 const TOTAL=10;
+
+/*
+正負數四則運算大挑戰內建音效。
+不依賴其他音效檔案或額外元件。
+*/
+let operationsAudioContext=null;
+
+function getOperationsAudioContext(){
+  const AudioContextClass=
+    window.AudioContext||
+    window.webkitAudioContext;
+
+  if(!AudioContextClass){
+    return null;
+  }
+
+  if(!operationsAudioContext){
+    operationsAudioContext=
+      new AudioContextClass();
+  }
+
+  return operationsAudioContext;
+}
+
+async function ensureOperationsAudio(){
+  const context=
+    getOperationsAudioContext();
+
+  if(!context){
+    return null;
+  }
+
+  if(context.state==="suspended"){
+    try{
+      await context.resume();
+    }catch(error){
+      console.warn("音效系統無法啟用：",error);
+    }
+  }
+
+  return context.state==="running"
+    ?context
+    :null;
+}
+
+async function playOperationsTone({
+  frequency=440,
+  duration=0.18,
+  type="sine",
+  volume=0.14,
+  delay=0
+}={}){
+  const context=
+    await ensureOperationsAudio();
+
+  if(!context){
+    return;
+  }
+
+  const startTime=
+    context.currentTime+
+    Math.max(0,delay);
+
+  const endTime=
+    startTime+
+    Math.max(0.05,duration);
+
+  const oscillator=
+    context.createOscillator();
+
+  const gain=
+    context.createGain();
+
+  oscillator.type=type;
+
+  oscillator.frequency.setValueAtTime(
+    frequency,
+    startTime
+  );
+
+  gain.gain.setValueAtTime(
+    0.0001,
+    startTime
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    Math.max(0.0001,volume),
+    startTime+0.02
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    0.0001,
+    endTime
+  );
+
+  oscillator.connect(gain);
+  gain.connect(context.destination);
+
+  oscillator.start(startTime);
+  oscillator.stop(endTime);
+
+  oscillator.addEventListener(
+    "ended",
+    ()=>{
+      oscillator.disconnect();
+      gain.disconnect();
+    },
+    {once:true}
+  );
+}
+
+function playGameSound(soundName){
+  try{
+    if(soundName==="playStart"){
+      Promise.all([
+        playOperationsTone({
+          frequency:392,
+          duration:0.16,
+          volume:0.12
+        }),
+        playOperationsTone({
+          frequency:523.25,
+          duration:0.22,
+          volume:0.13,
+          delay:0.12
+        })
+      ]);
+      return;
+    }
+
+    if(soundName==="playCorrect"){
+      Promise.all([
+        playOperationsTone({
+          frequency:523.25,
+          duration:0.17,
+          volume:0.14
+        }),
+        playOperationsTone({
+          frequency:659.25,
+          duration:0.20,
+          volume:0.13,
+          delay:0.10
+        }),
+        playOperationsTone({
+          frequency:783.99,
+          duration:0.25,
+          volume:0.12,
+          delay:0.20
+        })
+      ]);
+      return;
+    }
+
+    if(soundName==="playWrong"){
+      Promise.all([
+        playOperationsTone({
+          frequency:329.63,
+          duration:0.20,
+          type:"triangle",
+          volume:0.12
+        }),
+        playOperationsTone({
+          frequency:261.63,
+          duration:0.26,
+          type:"triangle",
+          volume:0.11,
+          delay:0.14
+        })
+      ]);
+      return;
+    }
+
+    if(soundName==="playComplete"){
+      Promise.all([
+        playOperationsTone({
+          frequency:523.25,
+          duration:0.18,
+          volume:0.13
+        }),
+        playOperationsTone({
+          frequency:659.25,
+          duration:0.20,
+          volume:0.13,
+          delay:0.12
+        }),
+        playOperationsTone({
+          frequency:783.99,
+          duration:0.22,
+          volume:0.13,
+          delay:0.24
+        }),
+        playOperationsTone({
+          frequency:1046.5,
+          duration:0.34,
+          volume:0.12,
+          delay:0.38
+        })
+      ]);
+    }
+  }catch(error){
+    console.warn(
+      `音效播放失敗：${soundName}`,
+      error
+    );
+  }
+}
 
 const MODE_NAMES={
   muldiv:"模式一｜正負數的乘除",
@@ -866,6 +1073,8 @@ function showOnly(id){
 
 
 function startGame(keepMode=false){
+  playGameSound("playStart");
+
   if(!keepMode){
     mode=document.querySelector('input[name="mode"]:checked').value;
   }
@@ -1053,8 +1262,13 @@ function checkAnswer(){
   const q=questions[index];
   const isCorrect=eqR(answer.value,q.answer);
 
-  if(isCorrect)correct++;
-  else wrong++;
+  if(isCorrect){
+    correct++;
+    playGameSound("playCorrect");
+  }else{
+    wrong++;
+    playGameSound("playWrong");
+  }
 
   $("feedback").innerHTML=`
     <span style="color:${isCorrect?"#15803d":"#b91c1c"}">
@@ -1138,6 +1352,7 @@ async function saveCurrentScore(score){
 
 async function showResult(){
   clearInterval(timer);
+  playGameSound("playComplete");
   $("progress-bar").style.width="100%";
 
   finalElapsed=Math.floor((Date.now()-startTime)/1000);
