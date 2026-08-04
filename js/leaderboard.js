@@ -1,6 +1,10 @@
 import { auth, db } from "./firebase-config.js";
 
 import {
+  getGameDisplayName
+} from "./game-config.js";
+
+import {
   collection,
   getDocs,
   limit,
@@ -33,31 +37,6 @@ const filterButtons =
 
 let currentUser = null;
 let selectedGame = "all";
-
-const GAME_NAMES = {
-  integer: "正負整數大挑戰",
-  compare: "數的大小比較王",
-  equation: "一元一次方程式",
-  fraction: "正負分數加減大挑戰",
-  "integer-operations": "正負數四則運算大挑戰",
-  ratio: "比例式"
-};
-
-const MODE_NAMES = {
-  "1": "模式一",
-  "2": "模式二",
-  "3": "模式三",
-  "4": "模式四",
-
-  lcm: "最小公倍數複習",
-  fraction: "正負分數加減",
-
-  muldiv: "正負數的乘除",
-  absolute: "絕對值運算",
-  power: "乘方計算",
-  mixed: "四則運算",
-  advanced: "四則運算進階挑戰"
-};
 
 onAuthStateChanged(
   auth,
@@ -93,13 +72,18 @@ filterButtons.forEach((button) => {
       }
 
       filterButtons.forEach((item) => {
-        item.classList.remove("active");
+        item.classList.remove(
+          "active"
+        );
       });
 
-      button.classList.add("active");
+      button.classList.add(
+        "active"
+      );
 
       selectedGame =
-        button.dataset.game || "all";
+        button.dataset.game ||
+        "all";
 
       await loadLeaderboard();
     }
@@ -111,37 +95,63 @@ async function loadLeaderboard() {
 
   try {
     const scoresReference =
-      collection(db, "scores");
+      collection(
+        db,
+        "scores"
+      );
 
     let leaderboardQuery;
 
-    if (selectedGame === "all") {
-      leaderboardQuery = query(
-        scoresReference,
-        orderBy("score", "desc"),
-        limit(20)
-      );
+    if (
+      selectedGame ===
+      "all"
+    ) {
+      leaderboardQuery =
+        query(
+          scoresReference,
+          orderBy(
+            "score",
+            "desc"
+          ),
+          limit(20)
+        );
     } else {
-      leaderboardQuery = query(
-        scoresReference,
-        where("game", "==", selectedGame),
-        orderBy("score", "desc"),
-        limit(20)
-      );
+      leaderboardQuery =
+        query(
+          scoresReference,
+          where(
+            "game",
+            "==",
+            selectedGame
+          ),
+          orderBy(
+            "score",
+            "desc"
+          ),
+          limit(20)
+        );
     }
 
     const snapshot =
-      await getDocs(leaderboardQuery);
+      await getDocs(
+        leaderboardQuery
+      );
 
     const scoreRecords =
       snapshot.docs.map(
-        (documentSnapshot) => ({
-          id: documentSnapshot.id,
+        (
+          documentSnapshot
+        ) => ({
+          id:
+            documentSnapshot.id,
+
           ...documentSnapshot.data()
         })
       );
 
-    renderLeaderboard(scoreRecords);
+    renderLeaderboard(
+      scoreRecords
+    );
   } catch (error) {
     console.error(
       "排行榜讀取失敗：",
@@ -151,171 +161,185 @@ async function loadLeaderboard() {
     showError(error);
   }
 }
-function renderLeaderboard(records) {
-  loadingMessage.hidden = true;
-  errorMessage.hidden = true;
-  leaderboardList.innerHTML = "";
 
-  if (records.length === 0) {
-    emptyMessage.hidden = false;
+function renderLeaderboard(
+  records
+) {
+  loadingMessage.hidden =
+    true;
+
+  errorMessage.hidden =
+    true;
+
+  leaderboardList.innerHTML =
+    "";
+
+  if (
+    records.length === 0
+  ) {
+    emptyMessage.hidden =
+      false;
+
     return;
   }
 
-  emptyMessage.hidden = true;
+  emptyMessage.hidden =
+    true;
 
-  records.forEach((record, index) => {
-    const listItem =
-      document.createElement("li");
+  records.forEach(
+    (
+      record,
+      index
+    ) => {
+      const listItem =
+        document.createElement(
+          "li"
+        );
 
-    listItem.className =
-      "leaderboard-item";
+      listItem.className =
+        "leaderboard-item";
 
-    if (
-      currentUser &&
-      record.uid === currentUser.uid
-    ) {
-      listItem.classList.add(
-        "current-user"
+      if (
+        currentUser &&
+        record.uid ===
+          currentUser.uid
+      ) {
+        listItem.classList.add(
+          "current-user"
+        );
+      }
+
+      const rankElement =
+        document.createElement(
+          "div"
+        );
+
+      rankElement.className =
+        "rank";
+
+      rankElement.textContent =
+        getRankDisplay(
+          index + 1
+        );
+
+      const playerInfo =
+        document.createElement(
+          "div"
+        );
+
+      playerInfo.className =
+        "player-info";
+
+      const playerName =
+        document.createElement(
+          "div"
+        );
+
+      playerName.className =
+        "player-name";
+
+      playerName.textContent =
+        record.playerName ||
+        "未命名玩家";
+
+      const gameName =
+        document.createElement(
+          "div"
+        );
+
+      gameName.className =
+        "game-name";
+
+      gameName.textContent =
+        getGameDisplayName(
+          record.game,
+          record.mode
+        );
+
+      const playTime =
+        document.createElement(
+          "div"
+        );
+
+      playTime.className =
+        "play-time";
+
+      playTime.textContent =
+        formatDate(
+          record.createdAt
+        );
+
+      playerInfo.appendChild(
+        playerName
+      );
+
+      playerInfo.appendChild(
+        gameName
+      );
+
+      playerInfo.appendChild(
+        playTime
+      );
+
+      const scoreElement =
+        document.createElement(
+          "div"
+        );
+
+      scoreElement.className =
+        "score";
+
+      const scoreNumber =
+        document.createElement(
+          "div"
+        );
+
+      scoreNumber.textContent =
+        toSafeNumber(
+          record.score
+        );
+
+      const scoreLabel =
+        document.createElement(
+          "div"
+        );
+
+      scoreLabel.className =
+        "score-label";
+
+      scoreLabel.textContent =
+        "分";
+
+      scoreElement.appendChild(
+        scoreNumber
+      );
+
+      scoreElement.appendChild(
+        scoreLabel
+      );
+
+      listItem.appendChild(
+        rankElement
+      );
+
+      listItem.appendChild(
+        playerInfo
+      );
+
+      listItem.appendChild(
+        scoreElement
+      );
+
+      leaderboardList.appendChild(
+        listItem
       );
     }
-
-    const rankElement =
-      document.createElement("div");
-
-    rankElement.className =
-      "rank";
-
-    rankElement.textContent =
-      getRankDisplay(index + 1);
-
-    const playerInfo =
-      document.createElement("div");
-
-    playerInfo.className =
-      "player-info";
-
-    const playerName =
-      document.createElement("div");
-
-    playerName.className =
-      "player-name";
-
-    playerName.textContent =
-      record.playerName ||
-      "未命名玩家";
-
-    const gameName =
-      document.createElement("div");
-
-    gameName.className =
-      "game-name";
-
-    gameName.textContent =
-      getGameDisplayName(record);
-
-    const playTime =
-      document.createElement("div");
-
-    playTime.className =
-      "play-time";
-
-    playTime.textContent =
-      formatDate(record.createdAt);
-
-    playerInfo.appendChild(
-      playerName
-    );
-
-    playerInfo.appendChild(
-      gameName
-    );
-
-    playerInfo.appendChild(
-      playTime
-    );
-
-    const scoreElement =
-      document.createElement("div");
-
-    scoreElement.className =
-      "score";
-
-    const scoreNumber =
-      document.createElement("div");
-
-    scoreNumber.textContent =
-      toSafeNumber(record.score);
-
-    const scoreLabel =
-      document.createElement("div");
-
-    scoreLabel.className =
-      "score-label";
-
-    scoreLabel.textContent =
-      "分";
-
-    scoreElement.appendChild(
-      scoreNumber
-    );
-
-    scoreElement.appendChild(
-      scoreLabel
-    );
-
-    listItem.appendChild(
-      rankElement
-    );
-
-    listItem.appendChild(
-      playerInfo
-    );
-
-    listItem.appendChild(
-      scoreElement
-    );
-
-    leaderboardList.appendChild(
-      listItem
-    );
-  });
-}
-
-function getGameDisplayName(record) {
-  const gameName =
-    GAME_NAMES[record.game] ||
-    record.game ||
-    "數學遊戲";
-
-  const modeName =
-    getModeDisplayName(record.mode);
-
-  if (!modeName) {
-    return gameName;
-  }
-
-  return `${gameName}｜${modeName}`;
-}
-
-function getModeDisplayName(mode) {
-  if (
-    mode === undefined ||
-    mode === null ||
-    mode === ""
-  ) {
-    return "";
-  }
-
-  const key =
-    String(mode);
-
-  return (
-    MODE_NAMES[key] ||
-    key
   );
 }
 
-function getRankDisplay(rank) {
+function getRankDisplay(
+  rank
+) {
   if (rank === 1) {
     return "🥇";
   }
@@ -331,34 +355,52 @@ function getRankDisplay(rank) {
   return rank;
 }
 
-function toSafeNumber(value) {
+function toSafeNumber(
+  value
+) {
   const number =
     Number(value);
 
-  return Number.isFinite(number)
+  return Number.isFinite(
+    number
+  )
     ? number
     : 0;
 }
 
-function formatDate(timestamp) {
+function formatDate(
+  timestamp
+) {
   if (!timestamp) {
     return "時間未記錄";
   }
 
   try {
     const date =
-      typeof timestamp.toDate === "function"
+      typeof timestamp.toDate ===
+      "function"
         ? timestamp.toDate()
-        : new Date(timestamp);
+        : new Date(
+            timestamp
+          );
 
     return new Intl.DateTimeFormat(
       "zh-TW",
       {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit"
+        year:
+          "numeric",
+
+        month:
+          "2-digit",
+
+        day:
+          "2-digit",
+
+        hour:
+          "2-digit",
+
+        minute:
+          "2-digit"
       }
     ).format(date);
   } catch (error) {
@@ -370,6 +412,7 @@ function formatDate(timestamp) {
     return "時間格式錯誤";
   }
 }
+
 function setLoadingState() {
   loadingMessage.hidden =
     false;
@@ -401,7 +444,9 @@ function showLoginRequiredMessage() {
     "目前尚未登入，請回到首頁登入後再查看排行榜。";
 }
 
-function showError(error) {
+function showError(
+  error
+) {
   loadingMessage.hidden =
     true;
 
