@@ -2095,82 +2095,154 @@
     ==================================================
     */
 
-    createDownloadFilename() {
-      const now =
-        new Date();
-
-      const year =
-        now.getFullYear();
-
-      const month =
-        String(
-          now.getMonth() + 1
-        ).padStart(2, "0");
-
-      const day =
-        String(
-          now.getDate()
-        ).padStart(2, "0");
-
-      const hour =
-        String(
-          now.getHours()
-        ).padStart(2, "0");
-
-      const minute =
-        String(
-          now.getMinutes()
-        ).padStart(2, "0");
-
-      return (
-        `math-scratchpad-` +
-        `${year}-${month}-${day}-` +
-        `${hour}${minute}.png`
-      );
-    }
-
     downloadImage(
-      filename =
-        this.createDownloadFilename()
-    ) {
-      if (
-        !this.canvas ||
-        this.isBlank()
-      ) {
-        return false;
-      }
+  filename =
+    this.createDownloadFilename()
+) {
+  if (
+    !this.canvas ||
+    this.isBlank()
+  ) {
+    return false;
+  }
 
-      if (
-        !filename
-          .toLowerCase()
-          .endsWith(".png")
-      ) {
-        filename += ".png";
-      }
+  if (
+    !filename
+      .toLowerCase()
+      .endsWith(".png")
+  ) {
+    filename += ".png";
+  }
 
-      const link =
-        document.createElement(
-          "a"
-        );
+  /*
+  建立一張專門用來下載的 Canvas。
+  先畫白色背景，再畫方格線，
+  最後疊上原本的計算筆跡。
+  */
 
-      link.href =
-        this.canvas.toDataURL(
-          "image/png"
-        );
+  const exportCanvas =
+    document.createElement(
+      "canvas"
+    );
 
-      link.download =
-        filename;
+  exportCanvas.width =
+    this.canvas.width;
 
-      document.body.appendChild(
-        link
-      );
+  exportCanvas.height =
+    this.canvas.height;
 
-      link.click();
+  const exportContext =
+    exportCanvas.getContext(
+      "2d"
+    );
 
-      link.remove();
+  if (!exportContext) {
+    return false;
+  }
 
-      return true;
-    }
+  /*
+  白色背景。
+  */
+
+  exportContext.fillStyle =
+    "#ffffff";
+
+  exportContext.fillRect(
+    0,
+    0,
+    exportCanvas.width,
+    exportCanvas.height
+  );
+
+  /*
+  畫淡藍色方格線。
+  間距會依照裝置像素比例調整。
+  */
+
+  const ratio =
+    this.getPixelRatio();
+
+  const gridSize =
+    28 * ratio;
+
+  exportContext.strokeStyle =
+    "#dbeafe";
+
+  exportContext.lineWidth =
+    Math.max(
+      1,
+      ratio
+    );
+
+  exportContext.beginPath();
+
+  for (
+    let x = 0;
+    x <= exportCanvas.width;
+    x += gridSize
+  ) {
+    exportContext.moveTo(
+      x,
+      0
+    );
+
+    exportContext.lineTo(
+      x,
+      exportCanvas.height
+    );
+  }
+
+  for (
+    let y = 0;
+    y <= exportCanvas.height;
+    y += gridSize
+  ) {
+    exportContext.moveTo(
+      0,
+      y
+    );
+
+    exportContext.lineTo(
+      exportCanvas.width,
+      y
+    );
+  }
+
+  exportContext.stroke();
+
+  /*
+  最後把原本 Canvas 的筆跡疊上去。
+  */
+
+  exportContext.drawImage(
+    this.canvas,
+    0,
+    0
+  );
+
+  const link =
+    document.createElement(
+      "a"
+    );
+
+  link.href =
+    exportCanvas.toDataURL(
+      "image/png"
+    );
+
+  link.download =
+    filename;
+
+  document.body.appendChild(
+    link
+  );
+
+  link.click();
+
+  link.remove();
+
+  return true;
+}
 
     /*
     ==================================================
