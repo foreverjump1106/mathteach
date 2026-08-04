@@ -5,12 +5,12 @@
 ==================================================
 
 功能：
-1. 自動建立共用導覽列
-2. 回到數學遊戲樂園首頁
-3. 前往排行榜
-4. 前往我的成績
-5. 自動判斷根目錄路徑
-6. 固定於畫面上方，不影響原本遊戲排版
+1. 回到數學遊戲樂園首頁
+2. 前往排行榜
+3. 前往我的成績
+4. 自動依 common-header.js 的位置尋找網站根目錄
+5. 不受目前頁面位於根目錄或 games 資料夾影響
+6. 避免導覽連結錯誤跳到其他遊戲
 ==================================================
 */
 
@@ -28,47 +28,140 @@
 
   /*
   ==================================================
-  判斷頁面路徑
+  取得目前 common-header.js 的網址
   ==================================================
 
-  games 資料夾內的頁面：
-  ../index.html
+  假設檔案位置為：
 
-  根目錄頁面：
-  ./index.html
+  https://網站網址/mathteach/js/common-header.js
+
+  則網站根目錄為：
+
+  https://網站網址/mathteach/
   */
 
-  function getBasePath() {
-    const script =
-      document.currentScript;
-
+  function getCurrentScriptUrl() {
     /*
-    可以在引用時自行指定：
-
-    <script
-      src="../js/common-header.js"
-      data-base-path="../"
-    ></script>
+    document.currentScript 在一般 script 載入時
+    通常可以直接取得目前 JS 的網址。
     */
 
     if (
-      script &&
-      script.dataset &&
-      script.dataset.basePath
+      document.currentScript &&
+      document.currentScript.src
     ) {
-      return script.dataset.basePath;
+      return new URL(
+        document.currentScript.src,
+        window.location.href
+      );
     }
 
-    const currentPath =
-      window.location.pathname;
+    /*
+    若使用 defer 或其他載入方式，
+    currentScript 偶爾可能無法取得，
+    就從所有 script 中尋找 common-header.js。
+    */
+
+    const scripts =
+      Array.from(
+        document.querySelectorAll(
+          "script[src]"
+        )
+      );
+
+    const commonHeaderScript =
+      scripts.find((script) => {
+        try {
+          const scriptUrl =
+            new URL(
+              script.src,
+              window.location.href
+            );
+
+          return scriptUrl.pathname
+            .endsWith(
+              "/js/common-header.js"
+            );
+        } catch (error) {
+          return false;
+        }
+      });
 
     if (
-      currentPath.includes("/games/")
+      commonHeaderScript &&
+      commonHeaderScript.src
     ) {
-      return "../";
+      return new URL(
+        commonHeaderScript.src,
+        window.location.href
+      );
     }
 
-    return "./";
+    return null;
+  }
+
+  /*
+  ==================================================
+  取得網站根目錄
+  ==================================================
+  */
+
+  function getSiteRootUrl() {
+    const scriptUrl =
+      getCurrentScriptUrl();
+
+    if (scriptUrl) {
+      /*
+      common-header.js 位於 js 資料夾，
+      所以使用 ../ 回到網站根目錄。
+      */
+
+      return new URL(
+        "../",
+        scriptUrl
+      );
+    }
+
+    /*
+    保險方式：
+    若目前頁面在 games 資料夾，
+    就回上一層。
+
+    否則以目前頁面所在資料夾為根目錄。
+    */
+
+    if (
+      window.location.pathname
+        .includes("/games/")
+    ) {
+      return new URL(
+        "../",
+        window.location.href
+      );
+    }
+
+    return new URL(
+      "./",
+      window.location.href
+    );
+  }
+
+  /*
+  ==================================================
+  建立網站頁面網址
+  ==================================================
+  */
+
+  function createSiteUrl(
+    filename
+  ) {
+    const rootUrl =
+      getSiteRootUrl();
+
+    return new URL(
+      filename,
+      rootUrl
+    ).href;
   }
 
   /*
@@ -87,31 +180,23 @@
     }
 
     const style =
-      document.createElement("style");
+      document.createElement(
+        "style"
+      );
 
     style.id =
       STYLE_ID;
 
     style.textContent = `
-      /*
-      預留固定導覽列的上方空間。
-      使用 margin-top，不改變原本 body 的 flex 方向。
-      */
-
       body.${BODY_CLASS} {
         padding-top: 86px !important;
       }
-
-      /*
-      共用導覽列固定於畫面上方，
-      不會成為 body flex 排版中的左右區塊。
-      */
 
       .math-game-common-header {
         position: fixed;
         top: 10px;
         left: 50%;
-        z-index: 1000;
+        z-index: 10000;
 
         width: min(
           1100px,
@@ -125,7 +210,7 @@
         border-radius: 16px;
 
         background:
-          rgba(255, 255, 255, 0.97);
+          rgba(255, 255, 255, 0.98);
 
         box-shadow:
           0 6px 18px
@@ -139,6 +224,8 @@
 
         -webkit-backdrop-filter:
           blur(8px);
+
+        pointer-events: auto;
       }
 
       .math-game-common-header,
@@ -155,10 +242,6 @@
         width: 100%;
       }
 
-      /*
-      左側品牌名稱
-      */
-
       .math-game-common-brand {
         display: flex;
         align-items: center;
@@ -173,7 +256,6 @@
 
       .math-game-common-brand-icon {
         flex: 0 0 auto;
-
         font-size: 24px;
         line-height: 1;
       }
@@ -188,10 +270,6 @@
         white-space: nowrap;
       }
 
-      /*
-      右側導覽按鈕
-      */
-
       .math-game-common-links {
         display: flex;
         align-items: center;
@@ -202,6 +280,9 @@
       }
 
       .math-game-common-link {
+        position: relative;
+        z-index: 1;
+
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -229,6 +310,7 @@
         white-space: nowrap;
 
         cursor: pointer;
+        pointer-events: auto;
 
         transition:
           transform 0.18s ease,
@@ -256,15 +338,12 @@
       }
 
       .math-game-common-link:focus-visible {
-        outline: 3px solid
+        outline:
+          3px solid
           rgba(37, 99, 235, 0.28);
 
         outline-offset: 2px;
       }
-
-      /*
-      排行榜按鈕
-      */
 
       .math-game-common-link.ranking {
         border-color: #f59e0b;
@@ -277,10 +356,6 @@
         color: #ffffff;
       }
 
-      /*
-      我的成績按鈕
-      */
-
       .math-game-common-link.secondary {
         border-color: #64748b;
         color: #475569;
@@ -292,10 +367,6 @@
         color: #ffffff;
       }
 
-      /*
-      平板與手機
-      */
-
       @media (max-width: 720px) {
         body.${BODY_CLASS} {
           padding-top: 142px !important;
@@ -303,7 +374,6 @@
 
         .math-game-common-header {
           top: 6px;
-
           width:
             calc(100% - 12px);
 
@@ -394,6 +464,11 @@
         .filter(Boolean)
         .join(" ");
 
+    /*
+    使用完整網址，
+    避免目前頁面路徑影響連結。
+    */
+
     link.href =
       href;
 
@@ -425,6 +500,20 @@
       labelElement
     );
 
+    /*
+    阻止外層卡片或遊戲連結接收到點擊事件。
+
+    避免導覽列若被放進可點擊卡片中，
+    點擊「排行榜」卻觸發遊戲開始連結。
+    */
+
+    link.addEventListener(
+      "click",
+      (event) => {
+        event.stopPropagation();
+      }
+    );
+
     return link;
   }
 
@@ -437,10 +526,6 @@
   function createHeader(
     options = {}
   ) {
-    /*
-    防止同一頁重複建立。
-    */
-
     const existingHeader =
       document.getElementById(
         HEADER_ID
@@ -462,10 +547,6 @@
     document.body.classList.add(
       BODY_CLASS
     );
-
-    const basePath =
-      options.basePath ||
-      getBasePath();
 
     const header =
       document.createElement(
@@ -490,7 +571,7 @@
       "math-game-common-header-inner";
 
     /*
-    左側品牌區
+    品牌區
     */
 
     const brand =
@@ -532,7 +613,7 @@
     );
 
     /*
-    右側連結區
+    導覽連結
     */
 
     const navigation =
@@ -543,13 +624,15 @@
 
     navigation.setAttribute(
       "aria-label",
-      "數學遊戲網站主要導覽"
+      "網站主要導覽"
     );
 
     const homeLink =
       createLink({
         href:
-          `${basePath}index.html`,
+          createSiteUrl(
+            "index.html"
+          ),
 
         icon:
           "🏠",
@@ -561,7 +644,9 @@
     const rankingLink =
       createLink({
         href:
-          `${basePath}leaderboard.html`,
+          createSiteUrl(
+            "leaderboard.html"
+          ),
 
         icon:
           "🏆",
@@ -576,7 +661,9 @@
     const scoresLink =
       createLink({
         href:
-          `${basePath}my-scores.html`,
+          createSiteUrl(
+            "my-scores.html"
+          ),
 
         icon:
           "📊",
@@ -613,16 +700,20 @@
     );
 
     /*
-    fixed 元素不參與 body 的 flex 排版，
-    所以直接放入 body 不會把遊戲推向右側。
+    優先使用指定掛載點。
 
-    若頁面有指定掛載點，也可放入掛載點。
+    若掛載點位於其他可點擊元素中，
+    導覽連結本身已使用 stopPropagation，
+    可避免觸發外層遊戲連結。
     */
+
+    const mountId =
+      options.mountId ||
+      "commonHeaderMount";
 
     const mount =
       document.getElementById(
-        options.mountId ||
-        "commonHeaderMount"
+        mountId
       );
 
     if (mount) {
@@ -630,6 +721,11 @@
         header
       );
     } else {
+      /*
+      直接放到 body 最後，
+      fixed 定位不會影響頁面 flex 排版。
+      */
+
       document.body.appendChild(
         header
       );
@@ -674,7 +770,9 @@
     destroy:
       destroyHeader,
 
-    getBasePath
+    getSiteRootUrl,
+
+    createSiteUrl
   };
 
   /*
