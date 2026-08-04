@@ -179,26 +179,6 @@ button,input,select{font:inherit}
   border-bottom:2px solid currentColor;
 }
 .math-frac .bottom{padding-top:.08em}
-.answer-type-tabs{
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  margin-bottom:12px;
-}
-.answer-type-button{
-  padding:9px 16px;
-  border:2px solid #cbd5e1;
-  border-radius:999px;
-  background:#fff;
-  color:#475569;
-  font-weight:900;
-  cursor:pointer;
-}
-.answer-type-button.active{
-  border-color:#2563eb;
-  background:#dbeafe;
-  color:#1d4ed8;
-}
 .sign-select{
   min-width:70px;
   height:52px;
@@ -307,17 +287,12 @@ button,input,select{font:inherit}
       <div id="problem-text" class="problem"></div>
 
       <div class="answer-wrap">
-        <div id="answer-type-tabs" class="answer-type-tabs">
-          <button id="integer-tab" class="answer-type-button active" type="button">整數</button>
-          <button id="fraction-tab" class="answer-type-button" type="button">分數</button>
-        </div>
-
-        <div class="answer-card">
+<div class="answer-card">
           <div id="integer-answer-box">
             <input id="answer-input" inputmode="numeric" autocomplete="off" placeholder="輸入整數答案">
           </div>
 
-          <div id="fraction-answer-box" class="hidden" style="display:flex;align-items:center;gap:10px">
+          <div id="fraction-answer-box" class="hidden" style="align-items:center;gap:12px">
             <select id="answer-sign" class="sign-select" aria-label="答案正負號">
               <option value="1">＋</option>
               <option value="-1">−</option>
@@ -331,7 +306,7 @@ button,input,select{font:inherit}
           </div>
         </div>
 
-        <div class="help">答案可為整數或最簡分數；負分數請使用左側正負號選單。</div>
+        <div class="help">系統會依正確答案自動顯示整數格或分數格；分數必須填最簡分數。</div>
         <div id="answer-preview" class="preview"></div>
 
         <div class="actions">
@@ -409,7 +384,6 @@ let startTime=0;
 let timer=null;
 let finalElapsed=0;
 let scoreSaved=false;
-let answerType="integer";
 
 function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min}
 function pick(arr){return arr[rand(0,arr.length-1)]}
@@ -820,24 +794,34 @@ function makeQuestions(){
   return shuffle(out);
 }
 
+function configureAnswerInput(answer){
+  const isInteger = answer.d === 1;
+
+  $("integer-answer-box").classList.toggle("hidden", !isInteger);
+  $("fraction-answer-box").classList.toggle("hidden", isInteger);
+  $("fraction-answer-box").style.display = isInteger ? "none" : "flex";
+
+  $("answer-input").value = "";
+  $("answer-num").value = "";
+  $("answer-den").value = "";
+  $("answer-sign").value = "1";
+  $("answer-preview").innerHTML = "";
+
+  setTimeout(() => {
+    if (isInteger) {
+      $("answer-input").focus();
+    } else {
+      $("answer-num").focus();
+    }
+  }, 0);
+}
+
 function showOnly(id){
   ["start-screen","quiz-screen","result-screen"].forEach(section=>{
     $(section).classList.toggle("hidden",section!==id);
   });
 }
 
-function setAnswerType(type){
-  answerType=type;
-  $("integer-tab").classList.toggle("active",type==="integer");
-  $("fraction-tab").classList.toggle("active",type==="fraction");
-  $("integer-answer-box").classList.toggle("hidden",type!=="integer");
-  $("fraction-answer-box").classList.toggle("hidden",type!=="fraction");
-  $("answer-preview").innerHTML="";
-  setTimeout(()=>{
-    if(type==="integer")$("answer-input").focus();
-    else $("answer-num").focus();
-  },0);
-}
 
 function startGame(keepMode=false){
   if(!keepMode){
@@ -879,35 +863,53 @@ function loadQuestion(){
   $("next-btn").classList.add("hidden");
   $("feedback").innerHTML="";
   $("answer-preview").innerHTML="";
-  $("answer-input").value="";
-  $("answer-num").value="";
-  $("answer-den").value="";
-  $("answer-sign").value="1";
-  setAnswerType("integer");
-
   $("question-number").textContent=`第 ${index+1} / ${TOTAL} 題`;
   $("progress-bar").style.width=`${index/TOTAL*100}%`;
   $("problem-text").innerHTML=questions[index].html;
+
+  configureAnswerInput(questions[index].answer);
 }
 
 function readAnswer(){
-  if(answerType==="integer"){
-    const raw=$("answer-input").value.trim();
-    if(!/^-?\d+$/.test(raw))return null;
-    return{value:intR(Number(raw)),simplest:true};
+  const correctAnswer = questions[index].answer;
+  const isInteger = correctAnswer.d === 1;
+
+  if(isInteger){
+    const raw = $("answer-input").value.trim();
+
+    if(!/^-?\d+$/.test(raw)){
+      return null;
+    }
+
+    return{
+      value:intR(Number(raw)),
+      simplest:true
+    };
   }
 
-  const ns=$("answer-num").value.trim();
-  const ds=$("answer-den").value.trim();
-  if(!/^\d+$/.test(ns)||!/^\d+$/.test(ds))return null;
+  const numeratorText = $("answer-num").value.trim();
+  const denominatorText = $("answer-den").value.trim();
 
-  const n=Number(ns);
-  const d=Number(ds);
-  if(n<=0||d<=0)return null;
+  if(
+    !/^\d+$/.test(numeratorText) ||
+    !/^\d+$/.test(denominatorText)
+  ){
+    return null;
+  }
+
+  const numerator = Number(numeratorText);
+  const denominator = Number(denominatorText);
+
+  if(numerator <= 0 || denominator <= 0){
+    return null;
+  }
 
   return{
-    value:simplify(Number($("answer-sign").value)*n,d),
-    simplest:gcd(n,d)===1
+    value:simplify(
+      Number($("answer-sign").value) * numerator,
+      denominator
+    ),
+    simplest:gcd(numerator,denominator) === 1
   };
 }
 
@@ -944,7 +946,7 @@ function checkAnswer(){
     return;
   }
 
-  if(answerType==="fraction"&&!answer.simplest){
+  if(questions[index].answer.d !== 1 && !answer.simplest){
     $("feedback").innerHTML='<span style="color:#d97706">答案尚未化成最簡分數，請繼續約分。</span>';
     return;
   }
@@ -1070,8 +1072,6 @@ $("reset-btn").onclick=()=>startGame(true);
 $("again-btn").onclick=()=>startGame(true);
 $("submit-btn").onclick=checkAnswer;
 $("next-btn").onclick=nextQuestion;
-$("integer-tab").onclick=()=>setAnswerType("integer");
-$("fraction-tab").onclick=()=>setAnswerType("fraction");
 
 ["answer-input","answer-num","answer-den"].forEach(id=>{
   $(id).addEventListener("input",updatePreview);
