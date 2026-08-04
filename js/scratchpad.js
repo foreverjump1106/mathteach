@@ -1744,3 +1744,263 @@ initializePanelResizeObserver() {
       return new Scratchpad(options);
     };
 })();
+/*
+==================================================
+計算紙：同一題關閉後保留內容
+==================================================
+
+功能：
+1. 關閉計算紙時保存畫面。
+2. 再次開啟時恢復畫面。
+3. 關閉、開啟、放大或縮小都不清空。
+4. 只有進入下一題，呼叫 newQuestion() 時才清空。
+==================================================
+*/
+
+const originalScratchpadOpenKeepWork =
+  Scratchpad.prototype.open;
+
+const originalScratchpadCloseKeepWork =
+  Scratchpad.prototype.close;
+
+const originalScratchpadNewQuestionKeepWork =
+  Scratchpad.prototype.newQuestion;
+
+
+/*
+儲存目前這一題的計算內容。
+*/
+
+Scratchpad.prototype.saveCurrentQuestionWork =
+function () {
+  if (
+    !this.canvas ||
+    !this.ctx
+  ) {
+    return;
+  }
+
+  try {
+    this.currentQuestionWorkImage =
+      this.canvas.toDataURL(
+        "image/png"
+      );
+  } catch (error) {
+    console.warn(
+      "計算紙內容保存失敗：",
+      error
+    );
+  }
+};
+
+
+/*
+恢復目前這一題的計算內容。
+*/
+
+Scratchpad.prototype.restoreCurrentQuestionWork =
+function () {
+  if (
+    !this.canvas ||
+    !this.ctx ||
+    !this.currentQuestionWorkImage
+  ) {
+    return;
+  }
+
+  const savedImage =
+    this.currentQuestionWorkImage;
+
+  const image =
+    new Image();
+
+  image.onload = () => {
+    if (
+      !this.canvas ||
+      !this.ctx
+    ) {
+      return;
+    }
+
+    const rect =
+      this.canvas.getBoundingClientRect();
+
+    if (
+      rect.width <= 0 ||
+      rect.height <= 0
+    ) {
+      return;
+    }
+
+    const pixelRatio =
+      window.devicePixelRatio || 1;
+
+    const canvasWidth =
+      Math.max(
+        1,
+        Math.round(
+          rect.width *
+          pixelRatio
+        )
+      );
+
+    const canvasHeight =
+      Math.max(
+        1,
+        Math.round(
+          rect.height *
+          pixelRatio
+        )
+      );
+
+    /*
+    重新設定 Canvas 大小。
+
+    設定大小後 Canvas 會變成空白，
+    所以下面會立即把保存的畫面畫回去。
+    */
+
+    this.canvas.width =
+      canvasWidth;
+
+    this.canvas.height =
+      canvasHeight;
+
+    /*
+    使用實際像素繪製保存的圖片。
+    */
+
+    this.ctx.setTransform(
+      1,
+      0,
+      0,
+      1,
+      0,
+      0
+    );
+
+    this.ctx.clearRect(
+      0,
+      0,
+      canvasWidth,
+      canvasHeight
+    );
+
+    this.ctx.drawImage(
+      image,
+      0,
+      0,
+      canvasWidth,
+      canvasHeight
+    );
+
+    /*
+    恢復成一般繪圖座標。
+    */
+
+    this.ctx.setTransform(
+      pixelRatio,
+      0,
+      0,
+      pixelRatio,
+      0,
+      0
+    );
+
+    this.ctx.lineCap =
+      "round";
+
+    this.ctx.lineJoin =
+      "round";
+
+    /*
+    更新復原與重做按鈕狀態。
+    */
+
+    if (
+      typeof this.updateToolbarState ===
+      "function"
+    ) {
+      this.updateToolbarState();
+    }
+  };
+
+  image.src =
+    savedImage;
+};
+
+
+/*
+重新包裝 open()。
+
+開啟計算紙後，
+把同一題原本的計算內容恢復。
+*/
+
+Scratchpad.prototype.open =
+function () {
+  originalScratchpadOpenKeepWork.call(
+    this
+  );
+
+  /*
+  等待面板顯示完成，
+  避免隱藏狀態下取得的尺寸為 0。
+  */
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      this.restoreCurrentQuestionWork();
+    });
+  });
+};
+
+
+/*
+重新包裝 close()。
+
+關閉前先保存內容，
+關閉本身不會清空畫布。
+*/
+
+Scratchpad.prototype.close =
+function () {
+  this.saveCurrentQuestionWork();
+
+  originalScratchpadCloseKeepWork.call(
+    this
+  );
+};
+
+
+/*
+重新包裝 newQuestion()。
+
+只有進入下一題時，
+才清空上一題的計算內容。
+*/
+
+Scratchpad.prototype.newQuestion =
+function () {
+  /*
+  清除上一題保存的圖片。
+  */
+
+  this.currentQuestionWorkImage =
+    null;
+
+  /*
+  執行原本的新題目功能：
+  清除畫面、Undo 與 Redo。
+  */
+
+  originalScratchpadNewQuestionKeepWork.call(
+    this
+  );
+
+  /*
+  將新題目的空白畫面設為目前狀態。
+  */
+
+  this.saveCurrentQuestionWork();
+};
