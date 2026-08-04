@@ -55,6 +55,7 @@ const GAME_NAMES = {
   compare: "數的大小比較王",
   equation: "一元一次方程式",
   fraction: "正負分數加減大挑戰",
+  "integer-operations": "正負數四則運算大挑戰",
   ratio: "比例式"
 };
 
@@ -63,6 +64,7 @@ const GAME_ORDER = [
   "compare",
   "fraction",
   "equation",
+  "integer-operations",
   "ratio"
 ];
 
@@ -71,8 +73,15 @@ const MODE_NAMES = {
   "2": "模式二",
   "3": "模式三",
   "4": "模式四",
+
   lcm: "最小公倍數複習",
-  fraction: "正負分數加減"
+  fraction: "正負分數加減",
+
+  muldiv: "正負數的乘除",
+  absolute: "絕對值運算",
+  power: "乘方計算",
+  mixed: "四則運算",
+  advanced: "四則運算進階挑戰"
 };
 
 onAuthStateChanged(
