@@ -1,5 +1,9 @@
 import { auth, db } from "./firebase-config.js";
-
+import {
+  getGameName,
+  getModeName,
+  getGameOrder
+} from "./game-config.js";
 import {
   collection,
   getDocs,
@@ -49,40 +53,6 @@ const gameSummaryList =
 
 const historyList =
   document.getElementById("historyList");
-
-const GAME_NAMES = {
-  integer: "正負整數大挑戰",
-  compare: "數的大小比較王",
-  equation: "一元一次方程式",
-  fraction: "正負分數加減大挑戰",
-  "integer-operations": "正負數四則運算大挑戰",
-  ratio: "比例式"
-};
-
-const GAME_ORDER = [
-  "integer",
-  "compare",
-  "fraction",
-  "equation",
-  "integer-operations",
-  "ratio"
-];
-
-const MODE_NAMES = {
-  "1": "模式一",
-  "2": "模式二",
-  "3": "模式三",
-  "4": "模式四",
-
-  lcm: "最小公倍數複習",
-  fraction: "正負分數加減",
-
-  muldiv: "正負數的乘除",
-  absolute: "絕對值運算",
-  power: "乘方計算",
-  mixed: "四則運算",
-  advanced: "四則運算進階挑戰"
-};
 
 onAuthStateChanged(
   auth,
@@ -383,16 +353,11 @@ function renderGameSummary(records) {
     }
   );
 
-  const knownGames =
-    GAME_ORDER.filter(
-      (gameKey) => {
-        return Boolean(
-          groupedGames[
-            gameKey
-          ]
-        );
-      }
-    );
+const knownGames =
+  getGameOrder().filter(
+    (gameKey) =>
+      Boolean(groupedGames[gameKey])
+  );
 
   const unknownGames =
     Object.keys(
@@ -476,12 +441,8 @@ function renderGameSummary(records) {
       gameTitle.className =
         "game-title";
 
-      gameTitle.textContent =
-        GAME_NAMES[
-          gameKey
-        ] ||
-        gameKey ||
-        "數學遊戲";
+     gameTitle.textContent =
+       getGameName(gameKey);
 
       const playCount =
         createGameStatistic(
@@ -603,11 +564,7 @@ function renderHistory(records) {
         "history-game";
 
       gameName.textContent =
-        GAME_NAMES[
-          record.game
-        ] ||
-        record.game ||
-        "數學遊戲";
+          getGameName(record.game);
 
       const details =
         document.createElement(
@@ -633,9 +590,10 @@ function renderHistory(records) {
         );
 
       const modeText =
-        getModeDisplayName(
-          record.mode
-        );
+  getModeName(
+    record.game,
+    record.mode
+  );
 
       details.textContent =
         `${formatDate(
@@ -707,26 +665,6 @@ function renderHistory(records) {
         listItem
       );
     }
-  );
-}
-
-function getModeDisplayName(mode) {
-  if (
-    mode === undefined ||
-    mode === null ||
-    mode === ""
-  ) {
-    return "";
-  }
-
-  const key =
-    String(mode);
-
-  return (
-    MODE_NAMES[
-      key
-    ] ||
-    key
   );
 }
 
