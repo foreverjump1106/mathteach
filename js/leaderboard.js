@@ -13,63 +13,97 @@ import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-const userStatus = document.getElementById("userStatus");
-const loadingMessage = document.getElementById("loadingMessage");
-const errorMessage = document.getElementById("errorMessage");
-const emptyMessage = document.getElementById("emptyMessage");
-const leaderboardList = document.getElementById("leaderboardList");
-const filterButtons = document.querySelectorAll(".filter-button");
+const userStatus =
+  document.getElementById("userStatus");
+
+const loadingMessage =
+  document.getElementById("loadingMessage");
+
+const errorMessage =
+  document.getElementById("errorMessage");
+
+const emptyMessage =
+  document.getElementById("emptyMessage");
+
+const leaderboardList =
+  document.getElementById("leaderboardList");
+
+const filterButtons =
+  document.querySelectorAll(".filter-button");
 
 let currentUser = null;
 let selectedGame = "all";
 
 const GAME_NAMES = {
-  integer: "正負數大挑戰",
-  compare: "數的大小比較王"
+  integer: "正負整數大挑戰",
+  compare: "數的大小比較王",
+  equation: "一元一次方程式",
+  fraction: "正負分數加減大挑戰",
+  ratio: "比例式"
 };
 
-onAuthStateChanged(auth, async (user) => {
-  currentUser = user;
+const MODE_NAMES = {
+  "1": "模式一",
+  "2": "模式二",
+  "3": "模式三",
+  "4": "模式四",
+  lcm: "最小公倍數複習",
+  fraction: "正負分數加減"
+};
 
-  if (!user) {
-    userStatus.textContent = "請先回到首頁登入 Google 帳號，才能查看排行榜。";
-    showLoginRequiredMessage();
-    return;
-  }
+onAuthStateChanged(
+  auth,
+  async (user) => {
+    currentUser = user;
 
-  const playerName =
-    user.displayName ||
-    user.email ||
-    "玩家";
+    if (!user) {
+      userStatus.textContent =
+        "請先回到首頁登入 Google 帳號，才能查看排行榜。";
 
-  userStatus.textContent = `目前登入：${playerName}`;
-
-  await loadLeaderboard();
-});
-
-filterButtons.forEach((button) => {
-  button.addEventListener("click", async () => {
-    if (!currentUser) {
+      showLoginRequiredMessage();
       return;
     }
 
-    filterButtons.forEach((item) => {
-      item.classList.remove("active");
-    });
+    const playerName =
+      user.displayName ||
+      user.email ||
+      "玩家";
 
-    button.classList.add("active");
-
-    selectedGame = button.dataset.game;
+    userStatus.textContent =
+      `目前登入：${playerName}`;
 
     await loadLeaderboard();
-  });
+  }
+);
+
+filterButtons.forEach((button) => {
+  button.addEventListener(
+    "click",
+    async () => {
+      if (!currentUser) {
+        return;
+      }
+
+      filterButtons.forEach((item) => {
+        item.classList.remove("active");
+      });
+
+      button.classList.add("active");
+
+      selectedGame =
+        button.dataset.game || "all";
+
+      await loadLeaderboard();
+    }
+  );
 });
 
 async function loadLeaderboard() {
   setLoadingState();
 
   try {
-    const scoresReference = collection(db, "scores");
+    const scoresReference =
+      collection(db, "scores");
 
     let leaderboardQuery;
 
@@ -88,16 +122,24 @@ async function loadLeaderboard() {
       );
     }
 
-    const snapshot = await getDocs(leaderboardQuery);
+    const snapshot =
+      await getDocs(leaderboardQuery);
 
-    const scoreRecords = snapshot.docs.map((documentSnapshot) => ({
-      id: documentSnapshot.id,
-      ...documentSnapshot.data()
-    }));
+    const scoreRecords =
+      snapshot.docs.map(
+        (documentSnapshot) => ({
+          id: documentSnapshot.id,
+          ...documentSnapshot.data()
+        })
+      );
 
     renderLeaderboard(scoreRecords);
   } catch (error) {
-    console.error("排行榜讀取失敗：", error);
+    console.error(
+      "排行榜讀取失敗：",
+      error
+    );
+
     showError(error);
   }
 }
@@ -115,64 +157,155 @@ function renderLeaderboard(records) {
   emptyMessage.hidden = true;
 
   records.forEach((record, index) => {
-    const listItem = document.createElement("li");
-    listItem.className = "leaderboard-item";
+    const listItem =
+      document.createElement("li");
+
+    listItem.className =
+      "leaderboard-item";
 
     if (
       currentUser &&
       record.uid === currentUser.uid
     ) {
-      listItem.classList.add("current-user");
+      listItem.classList.add(
+        "current-user"
+      );
     }
 
-    const rankElement = document.createElement("div");
-    rankElement.className = "rank";
-    rankElement.textContent = getRankDisplay(index + 1);
+    const rankElement =
+      document.createElement("div");
 
-    const playerInfo = document.createElement("div");
-    playerInfo.className = "player-info";
+    rankElement.className =
+      "rank";
 
-    const playerName = document.createElement("div");
-    playerName.className = "player-name";
+    rankElement.textContent =
+      getRankDisplay(index + 1);
+
+    const playerInfo =
+      document.createElement("div");
+
+    playerInfo.className =
+      "player-info";
+
+    const playerName =
+      document.createElement("div");
+
+    playerName.className =
+      "player-name";
+
     playerName.textContent =
       record.playerName ||
       "未命名玩家";
 
-    const gameName = document.createElement("div");
-    gameName.className = "game-name";
+    const gameName =
+      document.createElement("div");
+
+    gameName.className =
+      "game-name";
+
     gameName.textContent =
-      GAME_NAMES[record.game] ||
-      record.game ||
-      "數學遊戲";
+      getGameDisplayName(record);
 
-    const playTime = document.createElement("div");
-    playTime.className = "play-time";
-    playTime.textContent = formatDate(record.createdAt);
+    const playTime =
+      document.createElement("div");
 
-    playerInfo.appendChild(playerName);
-    playerInfo.appendChild(gameName);
-    playerInfo.appendChild(playTime);
+    playTime.className =
+      "play-time";
 
-    const scoreElement = document.createElement("div");
-    scoreElement.className = "score";
+    playTime.textContent =
+      formatDate(record.createdAt);
 
-    const scoreNumber = document.createElement("div");
+    playerInfo.appendChild(
+      playerName
+    );
+
+    playerInfo.appendChild(
+      gameName
+    );
+
+    playerInfo.appendChild(
+      playTime
+    );
+
+    const scoreElement =
+      document.createElement("div");
+
+    scoreElement.className =
+      "score";
+
+    const scoreNumber =
+      document.createElement("div");
+
     scoreNumber.textContent =
-      Number(record.score) || 0;
+      toSafeNumber(record.score);
 
-    const scoreLabel = document.createElement("div");
-    scoreLabel.className = "score-label";
-    scoreLabel.textContent = "分";
+    const scoreLabel =
+      document.createElement("div");
 
-    scoreElement.appendChild(scoreNumber);
-    scoreElement.appendChild(scoreLabel);
+    scoreLabel.className =
+      "score-label";
 
-    listItem.appendChild(rankElement);
-    listItem.appendChild(playerInfo);
-    listItem.appendChild(scoreElement);
+    scoreLabel.textContent =
+      "分";
 
-    leaderboardList.appendChild(listItem);
+    scoreElement.appendChild(
+      scoreNumber
+    );
+
+    scoreElement.appendChild(
+      scoreLabel
+    );
+
+    listItem.appendChild(
+      rankElement
+    );
+
+    listItem.appendChild(
+      playerInfo
+    );
+
+    listItem.appendChild(
+      scoreElement
+    );
+
+    leaderboardList.appendChild(
+      listItem
+    );
   });
+}
+
+function getGameDisplayName(record) {
+  const gameName =
+    GAME_NAMES[record.game] ||
+    record.game ||
+    "數學遊戲";
+
+  const modeName =
+    getModeDisplayName(record.mode);
+
+  if (!modeName) {
+    return gameName;
+  }
+
+  return `${gameName}｜${modeName}`;
+}
+
+function getModeDisplayName(mode) {
+  if (
+    mode === undefined ||
+    mode === null ||
+    mode === ""
+  ) {
+    return "";
+  }
+
+  const key =
+    String(mode);
+
+  return (
+    MODE_NAMES[key] ||
+    key
+  );
 }
 
 function getRankDisplay(rank) {
@@ -191,6 +324,15 @@ function getRankDisplay(rank) {
   return rank;
 }
 
+function toSafeNumber(value) {
+  const number =
+    Number(value);
+
+  return Number.isFinite(number)
+    ? number
+    : 0;
+}
+
 function formatDate(timestamp) {
   if (!timestamp) {
     return "時間未記錄";
@@ -202,58 +344,94 @@ function formatDate(timestamp) {
         ? timestamp.toDate()
         : new Date(timestamp);
 
-    return new Intl.DateTimeFormat("zh-TW", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit"
-    }).format(date);
+    return new Intl.DateTimeFormat(
+      "zh-TW",
+      {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit"
+      }
+    ).format(date);
   } catch (error) {
-    console.warn("時間格式轉換失敗：", error);
+    console.warn(
+      "時間格式轉換失敗：",
+      error
+    );
+
     return "時間格式錯誤";
   }
 }
 
 function setLoadingState() {
-  loadingMessage.hidden = false;
-  errorMessage.hidden = true;
-  emptyMessage.hidden = true;
-  leaderboardList.innerHTML = "";
+  loadingMessage.hidden =
+    false;
+
+  errorMessage.hidden =
+    true;
+
+  emptyMessage.hidden =
+    true;
+
+  leaderboardList.innerHTML =
+    "";
 }
 
 function showLoginRequiredMessage() {
-  loadingMessage.hidden = true;
-  emptyMessage.hidden = true;
-  errorMessage.hidden = false;
-  leaderboardList.innerHTML = "";
+  loadingMessage.hidden =
+    true;
+
+  emptyMessage.hidden =
+    true;
+
+  errorMessage.hidden =
+    false;
+
+  leaderboardList.innerHTML =
+    "";
 
   errorMessage.textContent =
     "目前尚未登入，請回到首頁登入後再查看排行榜。";
 }
 
 function showError(error) {
-  loadingMessage.hidden = true;
-  emptyMessage.hidden = true;
-  errorMessage.hidden = false;
-  leaderboardList.innerHTML = "";
+  loadingMessage.hidden =
+    true;
+
+  emptyMessage.hidden =
+    true;
+
+  errorMessage.hidden =
+    false;
+
+  leaderboardList.innerHTML =
+    "";
 
   if (
-    error?.code === "permission-denied"
+    error?.code ===
+    "permission-denied"
   ) {
     errorMessage.textContent =
       "排行榜讀取權限不足，請確認 Firestore Rules 是否已允許登入玩家讀取 scores。";
+
     return;
   }
 
   if (
-    error?.code === "failed-precondition"
+    error?.code ===
+    "failed-precondition"
   ) {
     errorMessage.innerHTML =
-      "這個排行榜查詢需要建立 Firestore 索引。<br>請開啟瀏覽器 Console，點選 Firebase 提供的建立索引網址。";
+      "這個排行榜查詢需要建立 Firestore 索引。<br>" +
+      "請開啟瀏覽器 Console，點選 Firebase 提供的建立索引網址。";
+
     return;
   }
 
   errorMessage.textContent =
-    `排行榜讀取失敗：${error?.message || "未知錯誤"}`;
+    `排行榜讀取失敗：${
+      error?.message ||
+      "未知錯誤"
+    }`;
 }
