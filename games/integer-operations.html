@@ -189,6 +189,17 @@ button,input,select{font:inherit}
   font-size:22px;
   font-weight:900;
 }
+.whole-input{
+  width:88px !important;
+  min-height:52px !important;
+  border:2px solid #cbd5e1;
+  border-radius:10px;
+  text-align:center;
+  font-size:22px !important;
+  font-weight:900;
+  outline:none;
+}
+
 .fraction-input{
   position:relative;
   display:grid;
@@ -298,6 +309,15 @@ button,input,select{font:inherit}
               <option value="-1">−</option>
             </select>
 
+            <input
+              id="answer-whole"
+              class="whole-input"
+              inputmode="numeric"
+              autocomplete="off"
+              placeholder="整數"
+              aria-label="帶分數整數部分"
+            >
+
             <div class="fraction-input">
               <input id="answer-num" inputmode="numeric" autocomplete="off" placeholder="分子">
               <span class="fraction-line"></span>
@@ -306,7 +326,7 @@ button,input,select{font:inherit}
           </div>
         </div>
 
-        <div class="help">系統會依正確答案自動顯示整數格或分數格；分數必須填最簡分數。</div>
+        <div class="help">分數答案可填最簡假分數，或填成最簡帶分數；整數部分可留空。</div>
         <div id="answer-preview" class="preview"></div>
 
         <div class="actions">
@@ -823,6 +843,7 @@ function configureAnswerInput(answer){
   $("fraction-answer-box").style.display = isInteger ? "none" : "flex";
 
   $("answer-input").value = "";
+  $("answer-whole").value = "";
   $("answer-num").value = "";
   $("answer-den").value = "";
   $("answer-sign").value = "1";
@@ -904,40 +925,83 @@ function readAnswer(){
 
     return{
       value:intR(Number(raw)),
-      simplest:true
+      simplest:true,
+      mixedValid:true
     };
   }
 
+  const wholeText = $("answer-whole").value.trim();
   const numeratorText = $("answer-num").value.trim();
   const denominatorText = $("answer-den").value.trim();
 
   if(
+    !/^\d*$/.test(wholeText) ||
     !/^\d+$/.test(numeratorText) ||
     !/^\d+$/.test(denominatorText)
   ){
     return null;
   }
 
+  const whole = wholeText === "" ? 0 : Number(wholeText);
   const numerator = Number(numeratorText);
   const denominator = Number(denominatorText);
 
-  if(numerator <= 0 || denominator <= 0){
+  if(
+    whole < 0 ||
+    numerator < 0 ||
+    denominator <= 0
+  ){
     return null;
   }
 
+  const sign = Number($("answer-sign").value);
+
+  // 帶分數時，分子必須小於分母；假分數時 whole 為 0，可以大於分母。
+  const mixedValid =
+    whole === 0 ||
+    numerator < denominator;
+
+  const improperNumerator =
+    whole * denominator + numerator;
+
   return{
     value:simplify(
-      Number($("answer-sign").value) * numerator,
+      sign * improperNumerator,
       denominator
     ),
-    simplest:gcd(numerator,denominator) === 1
+    simplest:gcd(numerator,denominator) === 1,
+    mixedValid
   };
 }
 
 function updatePreview(){
   const answer=readAnswer();
-  $("answer-preview").innerHTML=
-    answer?`系統判讀：${fracHTML(answer.value)}`:"";
+
+  if(!answer){
+    $("answer-preview").innerHTML="";
+    return;
+  }
+
+  const wholeText=$("answer-whole")?.value.trim() || "";
+  const numeratorText=$("answer-num")?.value.trim() || "";
+  const denominatorText=$("answer-den")?.value.trim() || "";
+
+  if(questions[index].answer.d !== 1){
+    const signText=$("answer-sign").value === "-1" ? "−" : "";
+    const wholePart=wholeText === "" ? "" : `${wholeText}`;
+    const fractionPart=`
+      <span class="math-frac">
+        <span class="top">${numeratorText}</span>
+        <span class="bottom">${denominatorText}</span>
+      </span>
+    `;
+
+    $("answer-preview").innerHTML=
+      `系統判讀：${signText}${wholePart}${fractionPart}`;
+  }else{
+    $("answer-preview").innerHTML=
+      `系統判讀：${fracHTML(answer.value)}`;
+  }
 }
 
 function explanationHTML(q){
@@ -967,8 +1031,21 @@ function checkAnswer(){
     return;
   }
 
-  if(questions[index].answer.d !== 1 && !answer.simplest){
-    $("feedback").innerHTML='<span style="color:#d97706">答案尚未化成最簡分數，請繼續約分。</span>';
+  if(
+    questions[index].answer.d !== 1 &&
+    !answer.mixedValid
+  ){
+    $("feedback").innerHTML=
+      '<span style="color:#d97706">帶分數的分子必須小於分母。</span>';
+    return;
+  }
+
+  if(
+    questions[index].answer.d !== 1 &&
+    !answer.simplest
+  ){
+    $("feedback").innerHTML=
+      '<span style="color:#d97706">分數尚未化成最簡分數，請繼續約分。</span>';
     return;
   }
 
@@ -1094,7 +1171,7 @@ $("again-btn").onclick=()=>startGame(true);
 $("submit-btn").onclick=checkAnswer;
 $("next-btn").onclick=nextQuestion;
 
-["answer-input","answer-num","answer-den"].forEach(id=>{
+["answer-input","answer-whole","answer-num","answer-den"].forEach(id=>{
   $(id).addEventListener("input",updatePreview);
 });
 $("answer-sign").addEventListener("change",updatePreview);
