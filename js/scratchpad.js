@@ -2275,3 +2275,1102 @@
       );
     };
 })();
+/*
+==================================================
+共用計算紙：桌面版八方向縮放擴充
+請貼在原本 scratchpad.js 最底部
+==================================================
+
+支援方向：
+上、下、左、右
+左上、右上、左下、右下
+
+特色：
+1. 保留原本計算紙所有功能
+2. 縮放時不會清空計算內容
+3. 縮放結束後重新調整 Canvas 畫質
+4. 手機版不啟用八方向縮放
+5. 不需要修改 scratchpad-template.js
+==================================================
+*/
+
+(function () {
+  "use strict";
+
+  /*
+  確認原本共用計算紙已載入。
+  */
+
+  if (
+    typeof window.Scratchpad !==
+    "function"
+  ) {
+    console.error(
+      "八方向縮放載入失敗：找不到 window.Scratchpad。"
+    );
+
+    return;
+  }
+
+  const Scratchpad =
+    window.Scratchpad;
+
+  /*
+  避免程式被重複加入。
+  */
+
+  if (
+    Scratchpad.prototype
+      .eightDirectionResizeInstalled
+  ) {
+    return;
+  }
+
+  Scratchpad.prototype
+    .eightDirectionResizeInstalled =
+    true;
+
+  /*
+  ==================================================
+  共用設定
+  ==================================================
+  */
+
+  const RESIZE_STYLE_ID =
+    "scratchpadEightDirectionResizeStyle";
+
+  const HANDLE_CLASS =
+    "scratchpad-resize-handle";
+
+  const DIRECTIONS = [
+    "top",
+    "right",
+    "bottom",
+    "left",
+    "top-left",
+    "top-right",
+    "bottom-left",
+    "bottom-right"
+  ];
+
+  /*
+  ==================================================
+  加入縮放控制點 CSS
+  ==================================================
+  */
+
+  function installResizeStyles() {
+    if (
+      document.getElementById(
+        RESIZE_STYLE_ID
+      )
+    ) {
+      return;
+    }
+
+    const style =
+      document.createElement(
+        "style"
+      );
+
+    style.id =
+      RESIZE_STYLE_ID;
+
+    style.textContent = `
+      /*
+      計算紙面板必須可以放置絕對定位控制點。
+      */
+
+      .scratchpad-panel {
+        position: fixed;
+      }
+
+      /*
+      縮放控制點預設透明，
+      滑鼠靠近邊緣時會呈現對應游標。
+      */
+
+      .${HANDLE_CLASS} {
+        position: absolute;
+        z-index: 120;
+        display: block;
+        background: transparent;
+        touch-action: none;
+        user-select: none;
+        -webkit-user-select: none;
+      }
+
+      /*
+      上方
+      */
+
+      .${HANDLE_CLASS}[data-resize-direction="top"] {
+        top: -5px;
+        left: 14px;
+        right: 14px;
+        height: 10px;
+        cursor: ns-resize;
+      }
+
+      /*
+      下方
+      */
+
+      .${HANDLE_CLASS}[data-resize-direction="bottom"] {
+        bottom: -5px;
+        left: 14px;
+        right: 14px;
+        height: 10px;
+        cursor: ns-resize;
+      }
+
+      /*
+      左側
+      */
+
+      .${HANDLE_CLASS}[data-resize-direction="left"] {
+        top: 14px;
+        bottom: 14px;
+        left: -5px;
+        width: 10px;
+        cursor: ew-resize;
+      }
+
+      /*
+      右側
+      */
+
+      .${HANDLE_CLASS}[data-resize-direction="right"] {
+        top: 14px;
+        right: -5px;
+        bottom: 14px;
+        width: 10px;
+        cursor: ew-resize;
+      }
+
+      /*
+      左上角
+      */
+
+      .${HANDLE_CLASS}[data-resize-direction="top-left"] {
+        top: -7px;
+        left: -7px;
+        width: 18px;
+        height: 18px;
+        cursor: nwse-resize;
+      }
+
+      /*
+      右上角
+      */
+
+      .${HANDLE_CLASS}[data-resize-direction="top-right"] {
+        top: -7px;
+        right: -7px;
+        width: 18px;
+        height: 18px;
+        cursor: nesw-resize;
+      }
+
+      /*
+      左下角
+      */
+
+      .${HANDLE_CLASS}[data-resize-direction="bottom-left"] {
+        bottom: -7px;
+        left: -7px;
+        width: 18px;
+        height: 18px;
+        cursor: nesw-resize;
+      }
+
+      /*
+      右下角
+      */
+
+      .${HANDLE_CLASS}[data-resize-direction="bottom-right"] {
+        right: -7px;
+        bottom: -7px;
+        width: 18px;
+        height: 18px;
+        cursor: nwse-resize;
+      }
+
+      /*
+      縮放進行中。
+      */
+
+      .scratchpad-panel--resizing {
+        user-select: none !important;
+        -webkit-user-select: none !important;
+      }
+
+      .scratchpad-panel--resizing iframe,
+      .scratchpad-panel--resizing button,
+      .scratchpad-panel--resizing canvas {
+        pointer-events: none;
+      }
+
+      /*
+      手機版維持全螢幕，不啟用縮放點。
+      */
+
+      @media (max-width: 768px) {
+        .${HANDLE_CLASS} {
+          display: none !important;
+        }
+      }
+    `;
+
+    document.head.appendChild(
+      style
+    );
+  }
+
+  /*
+  ==================================================
+  判斷方向
+  ==================================================
+  */
+
+  function directionHas(
+    direction,
+    value
+  ) {
+    return direction
+      .split("-")
+      .includes(value);
+  }
+
+  /*
+  ==================================================
+  限制數值
+  ==================================================
+  */
+
+  function clamp(
+    value,
+    minimum,
+    maximum
+  ) {
+    return Math.min(
+      Math.max(
+        value,
+        minimum
+      ),
+      maximum
+    );
+  }
+
+  /*
+  ==================================================
+  建立八方向控制點
+  ==================================================
+  */
+
+  Scratchpad.prototype
+    .initializeEightDirectionResize =
+    function () {
+      if (
+        !this.panel ||
+        this
+          .eightDirectionResizeReady
+      ) {
+        return;
+      }
+
+      installResizeStyles();
+
+      this
+        .eightDirectionResizeReady =
+        true;
+
+      this
+        .isResizingPanel =
+        false;
+
+      this.resizeDirection =
+        "";
+
+      this.resizePointerId =
+        null;
+
+      this.resizeStartX =
+        0;
+
+      this.resizeStartY =
+        0;
+
+      this.resizeStartLeft =
+        0;
+
+      this.resizeStartTop =
+        0;
+
+      this.resizeStartWidth =
+        0;
+
+      this.resizeStartHeight =
+        0;
+
+      /*
+      最小尺寸可在 createScratchpad() 傳入：
+
+      resizeMinWidth: 320
+      resizeMinHeight: 300
+      */
+
+      this.resizeMinWidth =
+        Number(
+          this.options
+            ?.resizeMinWidth
+        ) || 320;
+
+      this.resizeMinHeight =
+        Number(
+          this.options
+            ?.resizeMinHeight
+        ) || 300;
+
+      this.resizeHandles =
+        [];
+
+      DIRECTIONS.forEach(
+        (direction) => {
+          const handle =
+            document.createElement(
+              "div"
+            );
+
+          handle.className =
+            HANDLE_CLASS;
+
+          handle.dataset
+            .resizeDirection =
+            direction;
+
+          handle.setAttribute(
+            "aria-hidden",
+            "true"
+          );
+
+          handle.title =
+            `調整計算紙大小：${direction}`;
+
+          this.panel.appendChild(
+            handle
+          );
+
+          this.resizeHandles.push(
+            handle
+          );
+
+          /*
+          開始縮放。
+          */
+
+          this.addEvent(
+            handle,
+            "pointerdown",
+            (event) => {
+              this.startEightDirectionResize(
+                event,
+                direction,
+                handle
+              );
+            }
+          );
+        }
+      );
+
+      /*
+      在 window 上追蹤滑鼠，
+      避免游標移出面板後縮放中斷。
+      */
+
+      this.addEvent(
+        window,
+        "pointermove",
+        (event) => {
+          this.moveEightDirectionResize(
+            event
+          );
+        }
+      );
+
+      this.addEvent(
+        window,
+        "pointerup",
+        (event) => {
+          this.stopEightDirectionResize(
+            event
+          );
+        }
+      );
+
+      this.addEvent(
+        window,
+        "pointercancel",
+        (event) => {
+          this.stopEightDirectionResize(
+            event
+          );
+        }
+      );
+    };
+
+  /*
+  ==================================================
+  開始八方向縮放
+  ==================================================
+  */
+
+  Scratchpad.prototype
+    .startEightDirectionResize =
+    function (
+      event,
+      direction,
+      handle
+    ) {
+      if (
+        !this.panel ||
+        !this.isOpen ||
+        this.isMobileView() ||
+        (
+          event.pointerType ===
+            "mouse" &&
+          event.button !== 0
+        )
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      /*
+      開始縮放前先保存畫布，
+      避免 ResizeObserver 重新設定 Canvas 時遺失內容。
+      */
+
+      if (
+        typeof this
+          .saveCurrentQuestionImage ===
+        "function"
+      ) {
+        this
+          .saveCurrentQuestionImage();
+      }
+
+      const rect =
+        this.panel
+          .getBoundingClientRect();
+
+      this
+        .isResizingPanel =
+        true;
+
+      this.resizeDirection =
+        direction;
+
+      this.resizePointerId =
+        event.pointerId;
+
+      this.resizeStartX =
+        event.clientX;
+
+      this.resizeStartY =
+        event.clientY;
+
+      this.resizeStartLeft =
+        rect.left;
+
+      this.resizeStartTop =
+        rect.top;
+
+      this.resizeStartWidth =
+        rect.width;
+
+      this.resizeStartHeight =
+        rect.height;
+
+      /*
+      固定成像素尺寸與位置，
+      避免原本 right、bottom 或 CSS 寬高干擾。
+      */
+
+      this.panel.style.left =
+        `${rect.left}px`;
+
+      this.panel.style.top =
+        `${rect.top}px`;
+
+      this.panel.style.right =
+        "auto";
+
+      this.panel.style.bottom =
+        "auto";
+
+      this.panel.style.width =
+        `${rect.width}px`;
+
+      this.panel.style.height =
+        `${rect.height}px`;
+
+      this.panel.classList.add(
+        "scratchpad-panel--resizing"
+      );
+
+      /*
+      縮放時暫時阻止 ResizeObserver
+      不斷重新建立 Canvas。
+      */
+
+      this.isOpeningPanel =
+        true;
+
+      try {
+        handle.setPointerCapture(
+          event.pointerId
+        );
+      } catch (error) {
+        // 部分瀏覽器不支援時忽略。
+      }
+    };
+
+  /*
+  ==================================================
+  執行八方向縮放
+  ==================================================
+  */
+
+  Scratchpad.prototype
+    .moveEightDirectionResize =
+    function (event) {
+      if (
+        !this.isResizingPanel ||
+        !this.panel ||
+        event.pointerId !==
+          this.resizePointerId
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+
+      const direction =
+        this.resizeDirection;
+
+      const deltaX =
+        event.clientX -
+        this.resizeStartX;
+
+      const deltaY =
+        event.clientY -
+        this.resizeStartY;
+
+      let left =
+        this.resizeStartLeft;
+
+      let top =
+        this.resizeStartTop;
+
+      let width =
+        this.resizeStartWidth;
+
+      let height =
+        this.resizeStartHeight;
+
+      /*
+      右側縮放。
+      */
+
+      if (
+        directionHas(
+          direction,
+          "right"
+        )
+      ) {
+        width =
+          this.resizeStartWidth +
+          deltaX;
+      }
+
+      /*
+      左側縮放。
+
+      左邊界移動時，
+      寬度與 left 必須同時改變。
+      */
+
+      if (
+        directionHas(
+          direction,
+          "left"
+        )
+      ) {
+        width =
+          this.resizeStartWidth -
+          deltaX;
+
+        left =
+          this.resizeStartLeft +
+          deltaX;
+      }
+
+      /*
+      下方縮放。
+      */
+
+      if (
+        directionHas(
+          direction,
+          "bottom"
+        )
+      ) {
+        height =
+          this.resizeStartHeight +
+          deltaY;
+      }
+
+      /*
+      上方縮放。
+
+      上邊界移動時，
+      高度與 top 必須同時改變。
+      */
+
+      if (
+        directionHas(
+          direction,
+          "top"
+        )
+      ) {
+        height =
+          this.resizeStartHeight -
+          deltaY;
+
+        top =
+          this.resizeStartTop +
+          deltaY;
+      }
+
+      /*
+      視窗最大可用尺寸。
+      */
+
+      const viewportWidth =
+        window.innerWidth;
+
+      const viewportHeight =
+        window.innerHeight;
+
+      const margin =
+        6;
+
+      /*
+      最小尺寸限制。
+      */
+
+      if (
+        width <
+        this.resizeMinWidth
+      ) {
+        if (
+          directionHas(
+            direction,
+            "left"
+          )
+        ) {
+          left =
+            this.resizeStartLeft +
+            (
+              this.resizeStartWidth -
+              this.resizeMinWidth
+            );
+        }
+
+        width =
+          this.resizeMinWidth;
+      }
+
+      if (
+        height <
+        this.resizeMinHeight
+      ) {
+        if (
+          directionHas(
+            direction,
+            "top"
+          )
+        ) {
+          top =
+            this.resizeStartTop +
+            (
+              this.resizeStartHeight -
+              this.resizeMinHeight
+            );
+        }
+
+        height =
+          this.resizeMinHeight;
+      }
+
+      /*
+      左邊不能超出視窗。
+      */
+
+      if (left < margin) {
+        if (
+          directionHas(
+            direction,
+            "left"
+          )
+        ) {
+          width +=
+            left - margin;
+        }
+
+        left =
+          margin;
+      }
+
+      /*
+      上邊不能超出視窗。
+      */
+
+      if (top < margin) {
+        if (
+          directionHas(
+            direction,
+            "top"
+          )
+        ) {
+          height +=
+            top - margin;
+        }
+
+        top =
+          margin;
+      }
+
+      /*
+      右邊不能超出視窗。
+      */
+
+      if (
+        left + width >
+        viewportWidth - margin
+      ) {
+        if (
+          directionHas(
+            direction,
+            "right"
+          )
+        ) {
+          width =
+            viewportWidth -
+            margin -
+            left;
+        } else {
+          left =
+            viewportWidth -
+            margin -
+            width;
+        }
+      }
+
+      /*
+      下邊不能超出視窗。
+      */
+
+      if (
+        top + height >
+        viewportHeight - margin
+      ) {
+        if (
+          directionHas(
+            direction,
+            "bottom"
+          )
+        ) {
+          height =
+            viewportHeight -
+            margin -
+            top;
+        } else {
+          top =
+            viewportHeight -
+            margin -
+            height;
+        }
+      }
+
+      /*
+      再次套用最小值，
+      避免視窗限制後尺寸小於最低尺寸。
+      */
+
+      width =
+        Math.max(
+          this.resizeMinWidth,
+          width
+        );
+
+      height =
+        Math.max(
+          this.resizeMinHeight,
+          height
+        );
+
+      /*
+      寫入面板樣式。
+      */
+
+      this.panel.style.left =
+        `${Math.round(left)}px`;
+
+      this.panel.style.top =
+        `${Math.round(top)}px`;
+
+      this.panel.style.width =
+        `${Math.round(width)}px`;
+
+      this.panel.style.height =
+        `${Math.round(height)}px`;
+
+      this.panel.style.right =
+        "auto";
+
+      this.panel.style.bottom =
+        "auto";
+    };
+
+  /*
+  ==================================================
+  結束八方向縮放
+  ==================================================
+  */
+
+  Scratchpad.prototype
+    .stopEightDirectionResize =
+    async function (event) {
+      if (
+        !this.isResizingPanel
+      ) {
+        return;
+      }
+
+      if (
+        event &&
+        this.resizePointerId !==
+          null &&
+        event.pointerId !==
+          this.resizePointerId
+      ) {
+        return;
+      }
+
+      this
+        .isResizingPanel =
+        false;
+
+      this.panel?.classList.remove(
+        "scratchpad-panel--resizing"
+      );
+
+      this.resizeDirection =
+        "";
+
+      this.resizePointerId =
+        null;
+
+      /*
+      縮放停止後才讓 ResizeObserver
+      與 Canvas 尺寸更新恢復運作。
+      */
+
+      this.isOpeningPanel =
+        false;
+
+      /*
+      重新依面板大小設定 Canvas，
+      並保留剛才的計算內容。
+      */
+
+      try {
+        if (
+          typeof this
+            .resizeCanvasPreserveContent ===
+          "function"
+        ) {
+          await this
+            .resizeCanvasPreserveContent();
+        } else if (
+          typeof this.setupCanvas ===
+          "function"
+        ) {
+          await this.setupCanvas(
+            true
+          );
+        }
+
+        if (
+          typeof this
+            .saveCurrentQuestionImage ===
+          "function"
+        ) {
+          this
+            .saveCurrentQuestionImage();
+        }
+
+        if (
+          typeof this
+            .keepPanelInsideViewport ===
+          "function"
+        ) {
+          this
+            .keepPanelInsideViewport();
+        }
+
+        if (
+          typeof this
+            .updateToolbarState ===
+          "function"
+        ) {
+          this
+            .updateToolbarState();
+        }
+      } catch (error) {
+        console.error(
+          "計算紙縮放後重新調整畫布失敗：",
+          error
+        );
+      }
+    };
+
+  /*
+  ==================================================
+  包裝原本 initialize()
+  ==================================================
+
+  scratchpad-template.js 通常會在 scratchpad.js
+  載入完成後才建立 Scratchpad 實例。
+
+  因此在實例建立前包裝 initialize()，
+  可以自動加入八方向縮放功能。
+  */
+
+  const originalInitialize =
+    Scratchpad.prototype
+      .initialize;
+
+  Scratchpad.prototype
+    .initialize =
+    function () {
+      originalInitialize.call(
+        this
+      );
+
+      this
+        .initializeEightDirectionResize();
+    };
+
+  /*
+  ==================================================
+  包裝原本拖曳開始
+  ==================================================
+
+  正在縮放時不可同時拖曳面板。
+  */
+
+  const originalStartPanelDrag =
+    Scratchpad.prototype
+      .startPanelDrag;
+
+  Scratchpad.prototype
+    .startPanelDrag =
+    function (event) {
+      if (
+        this.isResizingPanel ||
+        event.target.closest(
+          `.${HANDLE_CLASS}`
+        )
+      ) {
+        return;
+      }
+
+      originalStartPanelDrag.call(
+        this,
+        event
+      );
+    };
+
+  /*
+  ==================================================
+  包裝原本響應式模式
+  ==================================================
+
+  從桌面切換到手機版時清除手動寬高，
+  恢復原本全螢幕模式。
+  */
+
+  const originalUpdateResponsiveMode =
+    Scratchpad.prototype
+      .updateResponsiveMode;
+
+  Scratchpad.prototype
+    .updateResponsiveMode =
+    function () {
+      originalUpdateResponsiveMode.call(
+        this
+      );
+
+      if (
+        this.isMobileView() &&
+        this.panel
+      ) {
+        this.panel.style.width =
+          "";
+
+        this.panel.style.height =
+          "";
+      }
+    };
+
+  /*
+  ==================================================
+  包裝 destroy()
+  ==================================================
+  */
+
+  const originalDestroy =
+    Scratchpad.prototype.destroy;
+
+  Scratchpad.prototype.destroy =
+    function () {
+      if (
+        Array.isArray(
+          this.resizeHandles
+        )
+      ) {
+        this.resizeHandles
+          .forEach(
+            (handle) => {
+              handle.remove();
+            }
+          );
+      }
+
+      this.resizeHandles =
+        [];
+
+      originalDestroy.call(
+        this
+      );
+    };
+
+  console.log(
+    "共用計算紙八方向縮放功能已載入。"
+  );
+})();
