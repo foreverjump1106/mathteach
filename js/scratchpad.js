@@ -22,102 +22,157 @@
         options.headerId || "scratchpadHeader";
 
       this.openButtonId =
-        options.openButtonId || "scratchpadOpenButton";
+        options.openButtonId ||
+        "scratchpadOpenButton";
 
       this.closeButtonId =
-        options.closeButtonId || "scratchpadCloseButton";
+        options.closeButtonId ||
+        "scratchpadCloseButton";
 
       this.penButtonId =
-        options.penButtonId || "scratchpadPenButton";
+        options.penButtonId ||
+        "scratchpadPenButton";
 
       this.eraserButtonId =
-        options.eraserButtonId || "scratchpadEraserButton";
+        options.eraserButtonId ||
+        "scratchpadEraserButton";
 
       this.undoButtonId =
-        options.undoButtonId || "scratchpadUndoButton";
+        options.undoButtonId ||
+        "scratchpadUndoButton";
 
       this.redoButtonId =
-        options.redoButtonId || "scratchpadRedoButton";
+        options.redoButtonId ||
+        "scratchpadRedoButton";
 
       this.clearButtonId =
-        options.clearButtonId || "scratchpadClearButton";
+        options.clearButtonId ||
+        "scratchpadClearButton";
 
       this.downloadButtonId =
         options.downloadButtonId ||
         "scratchpadDownloadButton";
 
       this.defaultColor =
-        options.defaultColor || "#111827";
+        options.defaultColor ||
+        "#111827";
 
       this.defaultSize =
         Number(options.defaultSize) || 4;
 
       this.canvas =
-        document.getElementById(this.canvasId);
+        document.getElementById(
+          this.canvasId
+        );
 
       this.panel =
-        document.getElementById(this.panelId);
+        document.getElementById(
+          this.panelId
+        );
 
       this.header =
-        document.getElementById(this.headerId);
+        document.getElementById(
+          this.headerId
+        );
 
       this.openButton =
-        document.getElementById(this.openButtonId);
+        document.getElementById(
+          this.openButtonId
+        );
 
       this.closeButton =
-        document.getElementById(this.closeButtonId);
+        document.getElementById(
+          this.closeButtonId
+        );
 
       this.penButton =
-        document.getElementById(this.penButtonId);
+        document.getElementById(
+          this.penButtonId
+        );
 
       this.eraserButton =
-        document.getElementById(this.eraserButtonId);
+        document.getElementById(
+          this.eraserButtonId
+        );
 
       this.undoButton =
-        document.getElementById(this.undoButtonId);
+        document.getElementById(
+          this.undoButtonId
+        );
 
       this.redoButton =
-        document.getElementById(this.redoButtonId);
+        document.getElementById(
+          this.redoButtonId
+        );
 
       this.clearButton =
-        document.getElementById(this.clearButtonId);
+        document.getElementById(
+          this.clearButtonId
+        );
 
       this.downloadButton =
-        document.getElementById(this.downloadButtonId);
+        document.getElementById(
+          this.downloadButtonId
+        );
 
-      /*
-      先建立空陣列，避免工具列尚未初始化時
-      呼叫 forEach() 產生錯誤。
-      */
       this.colorButtons = [];
       this.sizeButtons = [];
 
       this.ctx = null;
 
       this.tool = "pen";
-      this.currentColor = this.defaultColor;
-      this.currentSize = this.defaultSize;
+
+      this.currentColor =
+        this.defaultColor;
+
+      this.currentSize =
+        this.defaultSize;
 
       this.isDrawing = false;
-      this.hasDrawnInCurrentStroke = false;
+
+      this.hasDrawnInCurrentStroke =
+        false;
 
       this.lastX = 0;
       this.lastY = 0;
 
       this.isOpen = false;
 
+      this.isOpeningPanel = false;
+
       this.isDraggingPanel = false;
+
       this.dragStartX = 0;
       this.dragStartY = 0;
+
       this.panelStartLeft = 0;
       this.panelStartTop = 0;
 
       this.undoStack = [];
       this.redoStack = [];
+
       this.maxHistory = 30;
-      this.isRestoringHistory = false;
+
+      this.isRestoringHistory =
+        false;
+
+      /*
+      保存同一題目前的計算內容。
+
+      關閉計算紙時保存，
+      再次開啟時還原。
+
+      只有進入下一題時才清空。
+      */
+
+      this.currentQuestionImage =
+        null;
 
       this.eventCleanups = [];
+
+      this.panelResizeObserver =
+        null;
+
       this.isDestroyed = false;
 
       if (!this.canvas) {
@@ -128,10 +183,14 @@
         return;
       }
 
-      this.ctx = this.canvas.getContext("2d");
+      this.ctx =
+        this.canvas.getContext("2d");
 
       if (!this.ctx) {
-        console.error("瀏覽器無法建立 Canvas 2D 繪圖環境。");
+        console.error(
+          "瀏覽器無法建立 Canvas 2D 繪圖環境。"
+        );
+
         return;
       }
 
@@ -139,25 +198,39 @@
     }
 
     initialize() {
-      this.setupCanvas();
+      this.setupCanvas(false);
+
       this.initializeDrawing();
+
       this.initializeWindow();
+
       this.initializeToolbar();
+
       this.initializeKeyboardShortcuts();
+
       this.initializeResizeListener();
+
       this.initializePanelResizeObserver();
-      
+
       this.saveHistory();
+
+      this.saveCurrentQuestionImage();
+
       this.updateToolbarState();
     }
 
     /*
     ==================================================
-    共用事件綁定
+    共用事件
     ==================================================
     */
 
-    addEvent(element, eventName, handler, options) {
+    addEvent(
+      element,
+      eventName,
+      handler,
+      options
+    ) {
       if (!element) {
         return;
       }
@@ -179,40 +252,85 @@
 
     /*
     ==================================================
-    Canvas 尺寸
+    Canvas 尺寸與影像
     ==================================================
     */
 
-    setupCanvas(preserveContent = false) {
-      if (!this.canvas || !this.ctx) {
-        return;
+    getPixelRatio() {
+      return Math.max(
+        1,
+        window.devicePixelRatio || 1
+      );
+    }
+
+    setupCanvas(
+      preserveContent = false,
+      savedImageOverride = null
+    ) {
+      if (
+        !this.canvas ||
+        !this.ctx
+      ) {
+        return Promise.resolve();
       }
 
       const rect =
-        this.canvas.getBoundingClientRect();
-
-      if (rect.width <= 0 || rect.height <= 0) {
-        return;
-      }
-
-      let oldImage = null;
+        this.canvas
+          .getBoundingClientRect();
 
       if (
-        preserveContent &&
-        this.canvas.width > 0 &&
-        this.canvas.height > 0
+        rect.width <= 0 ||
+        rect.height <= 0
       ) {
-        oldImage = this.canvas.toDataURL("image/png");
+        return Promise.resolve();
       }
 
+      const oldImage =
+        savedImageOverride ||
+        (
+          preserveContent &&
+          this.canvas.width > 0 &&
+          this.canvas.height > 0
+            ? this.canvas.toDataURL(
+                "image/png"
+              )
+            : null
+        );
+
       const ratio =
-        window.devicePixelRatio || 1;
+        this.getPixelRatio();
+
+      const requiredWidth =
+        Math.max(
+          1,
+          Math.round(
+            rect.width * ratio
+          )
+        );
+
+      const requiredHeight =
+        Math.max(
+          1,
+          Math.round(
+            rect.height * ratio
+          )
+        );
+
+      /*
+      重新設定 Canvas 尺寸時，
+      Canvas 內容會被清空。
+      因此若 oldImage 存在，
+      稍後會把圖片畫回來。
+      */
 
       this.canvas.width =
-        Math.max(1, Math.round(rect.width * ratio));
+        requiredWidth;
 
       this.canvas.height =
-        Math.max(1, Math.round(rect.height * ratio));
+        requiredHeight;
+
+      this.canvas.style.touchAction =
+        "none";
 
       this.ctx.setTransform(
         ratio,
@@ -223,41 +341,188 @@
         0
       );
 
-      this.ctx.lineCap = "round";
-      this.ctx.lineJoin = "round";
+      this.ctx.lineCap =
+        "round";
 
-      this.canvas.style.touchAction = "none";
+      this.ctx.lineJoin =
+        "round";
 
-      if (oldImage) {
-        const image = new Image();
+      this.ctx.globalCompositeOperation =
+        "source-over";
 
-        image.onload = () => {
-          if (!this.ctx || !this.canvas) {
+      if (!oldImage) {
+        return Promise.resolve();
+      }
+
+      return this.drawImageToCanvas(
+        oldImage
+      );
+    }
+
+    drawImageToCanvas(imageData) {
+      return new Promise(
+        (resolve, reject) => {
+          if (
+            !imageData ||
+            !this.canvas ||
+            !this.ctx
+          ) {
+            resolve();
             return;
           }
 
-          this.ctx.save();
-          this.ctx.resetTransform();
+          const image =
+            new Image();
 
-          this.ctx.drawImage(
-            image,
-            0,
-            0,
-            this.canvas.width,
-            this.canvas.height
+          image.onload = () => {
+            if (
+              !this.canvas ||
+              !this.ctx
+            ) {
+              resolve();
+              return;
+            }
+
+            this.isRestoringHistory =
+              true;
+
+            this.ctx.save();
+
+            this.ctx.setTransform(
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            );
+
+            this.ctx.clearRect(
+              0,
+              0,
+              this.canvas.width,
+              this.canvas.height
+            );
+
+            this.ctx.drawImage(
+              image,
+              0,
+              0,
+              this.canvas.width,
+              this.canvas.height
+            );
+
+            this.ctx.restore();
+
+            const ratio =
+              this.getPixelRatio();
+
+            this.ctx.setTransform(
+              ratio,
+              0,
+              0,
+              ratio,
+              0,
+              0
+            );
+
+            this.ctx.lineCap =
+              "round";
+
+            this.ctx.lineJoin =
+              "round";
+
+            this.ctx
+              .globalCompositeOperation =
+              "source-over";
+
+            this.isRestoringHistory =
+              false;
+
+            resolve();
+          };
+
+          image.onerror = () => {
+            this.isRestoringHistory =
+              false;
+
+            reject(
+              new Error(
+                "無法還原計算紙內容。"
+              )
+            );
+          };
+
+          image.src =
+            imageData;
+        }
+      );
+    }
+
+    async resizeCanvasPreserveContent() {
+      /*
+      面板剛開啟時，
+      暫時不讓 ResizeObserver
+      重複調整 Canvas。
+      */
+
+      if (
+        this.isOpeningPanel ||
+        !this.canvas
+      ) {
+        return;
+      }
+
+      const savedImage =
+        this.canvas.toDataURL(
+          "image/png"
+        );
+
+      await this.setupCanvas(
+        false,
+        savedImage
+      );
+
+      this.saveCurrentQuestionImage();
+
+      this.updateToolbarState();
+    }
+
+    saveCurrentQuestionImage() {
+      if (!this.canvas) {
+        return;
+      }
+
+      try {
+        this.currentQuestionImage =
+          this.canvas.toDataURL(
+            "image/png"
           );
-
-          this.ctx.restore();
-
-          this.resetHistory();
-        };
-
-        image.src = oldImage;
+      } catch (error) {
+        console.warn(
+          "計算紙內容保存失敗：",
+          error
+        );
       }
     }
 
-    resizeCanvasPreserveContent() {
-      this.setupCanvas(true);
+    async restoreCurrentQuestionImage() {
+      if (
+        !this.currentQuestionImage
+      ) {
+        return;
+      }
+
+      try {
+        await this.drawImageToCanvas(
+          this.currentQuestionImage
+        );
+      } catch (error) {
+        console.warn(
+          "計算紙內容還原失敗：",
+          error
+        );
+      }
     }
 
     /*
@@ -270,47 +535,58 @@
       this.addEvent(
         this.canvas,
         "pointerdown",
-        (event) => this.startDrawing(event)
+        (event) => {
+          this.startDrawing(event);
+        }
       );
 
       this.addEvent(
         this.canvas,
         "pointermove",
-        (event) => this.draw(event)
+        (event) => {
+          this.draw(event);
+        }
       );
 
-      this.addEvent(
-        this.canvas,
+      [
         "pointerup",
-        (event) => this.stopDrawing(event)
-      );
-
-      this.addEvent(
-        this.canvas,
         "pointercancel",
-        (event) => this.stopDrawing(event)
-      );
-
-      this.addEvent(
-        this.canvas,
-        "pointerleave",
-        (event) => this.stopDrawing(event)
+        "pointerleave"
+      ].forEach(
+        (eventName) => {
+          this.addEvent(
+            this.canvas,
+            eventName,
+            (event) => {
+              this.stopDrawing(
+                event
+              );
+            }
+          );
+        }
       );
     }
 
     getPointerPosition(event) {
       const rect =
-        this.canvas.getBoundingClientRect();
+        this.canvas
+          .getBoundingClientRect();
 
       return {
-        x: event.clientX - rect.left,
-        y: event.clientY - rect.top
+        x:
+          event.clientX -
+          rect.left,
+
+        y:
+          event.clientY -
+          rect.top
       };
     }
 
     startDrawing(event) {
       if (
-        event.pointerType === "mouse" &&
+        event.pointerType ===
+          "mouse" &&
         event.button !== 0
       ) {
         return;
@@ -319,48 +595,74 @@
       event.preventDefault();
 
       try {
-        this.canvas.setPointerCapture(
-          event.pointerId
-        );
+        this.canvas
+          .setPointerCapture(
+            event.pointerId
+          );
       } catch (error) {
-        // 某些瀏覽器不支援時可忽略。
+        // 不支援時可忽略。
       }
 
       const position =
-        this.getPointerPosition(event);
+        this.getPointerPosition(
+          event
+        );
 
       this.isDrawing = true;
-      this.hasDrawnInCurrentStroke = false;
 
-      this.lastX = position.x;
-      this.lastY = position.y;
+      this
+        .hasDrawnInCurrentStroke =
+        false;
+
+      this.lastX =
+        position.x;
+
+      this.lastY =
+        position.y;
     }
 
     draw(event) {
-      if (!this.isDrawing || !this.ctx) {
+      if (
+        !this.isDrawing ||
+        !this.ctx
+      ) {
         return;
       }
 
       event.preventDefault();
 
       const position =
-        this.getPointerPosition(event);
+        this.getPointerPosition(
+          event
+        );
 
       this.ctx.beginPath();
-      this.ctx.lineCap = "round";
-      this.ctx.lineJoin = "round";
 
-      if (this.tool === "eraser") {
-        this.ctx.globalCompositeOperation =
+      this.ctx.lineCap =
+        "round";
+
+      this.ctx.lineJoin =
+        "round";
+
+      if (
+        this.tool ===
+        "eraser"
+      ) {
+        this.ctx
+          .globalCompositeOperation =
           "destination-out";
 
         this.ctx.strokeStyle =
-          "rgba(0, 0, 0, 1)";
+          "rgba(0,0,0,1)";
 
         this.ctx.lineWidth =
-          Math.max(this.currentSize * 4, 16);
+          Math.max(
+            this.currentSize * 4,
+            16
+          );
       } else {
-        this.ctx.globalCompositeOperation =
+        this.ctx
+          .globalCompositeOperation =
           "source-over";
 
         this.ctx.strokeStyle =
@@ -382,10 +684,15 @@
 
       this.ctx.stroke();
 
-      this.lastX = position.x;
-      this.lastY = position.y;
+      this.lastX =
+        position.x;
 
-      this.hasDrawnInCurrentStroke = true;
+      this.lastY =
+        position.y;
+
+      this
+        .hasDrawnInCurrentStroke =
+        true;
     }
 
     stopDrawing(event) {
@@ -397,75 +704,99 @@
 
       if (this.ctx) {
         this.ctx.closePath();
-        this.ctx.globalCompositeOperation =
+
+        this.ctx
+          .globalCompositeOperation =
           "source-over";
       }
 
       if (
         event &&
         this.canvas &&
-        this.canvas.hasPointerCapture &&
-        this.canvas.hasPointerCapture(event.pointerId)
+        this.canvas
+          .hasPointerCapture &&
+        this.canvas
+          .hasPointerCapture(
+            event.pointerId
+          )
       ) {
         try {
-          this.canvas.releasePointerCapture(
-            event.pointerId
-          );
+          this.canvas
+            .releasePointerCapture(
+              event.pointerId
+            );
         } catch (error) {
           // 可忽略。
         }
       }
 
-      if (this.hasDrawnInCurrentStroke) {
+      if (
+        this
+          .hasDrawnInCurrentStroke
+      ) {
         this.saveHistory();
+
+        this.saveCurrentQuestionImage();
       }
 
-      this.hasDrawnInCurrentStroke = false;
+      this
+        .hasDrawnInCurrentStroke =
+        false;
+
       this.updateToolbarState();
     }
 
     /*
     ==================================================
-    工具切換
+    工具設定
     ==================================================
     */
 
     usePen() {
       this.tool = "pen";
+
       this.notifyToolChange();
     }
 
     useEraser() {
       this.tool = "eraser";
+
       this.notifyToolChange();
     }
 
     setColor(color) {
       if (
-        typeof color !== "string" ||
+        typeof color !==
+          "string" ||
         color.trim() === ""
       ) {
         return;
       }
 
-      this.currentColor = color;
+      this.currentColor =
+        color;
+
       this.tool = "pen";
 
       this.notifyToolChange();
     }
 
     setSize(size) {
-      const newSize = Number(size);
+      const newSize =
+        Number(size);
 
       if (
-        !Number.isFinite(newSize) ||
+        !Number.isFinite(
+          newSize
+        ) ||
         newSize < 1 ||
         newSize > 50
       ) {
         return;
       }
 
-      this.currentSize = newSize;
+      this.currentSize =
+        newSize;
 
       this.notifyToolChange();
     }
@@ -482,9 +813,14 @@
           "scratchpadtoolchange",
           {
             detail: {
-              tool: this.tool,
-              color: this.currentColor,
-              size: this.currentSize
+              tool:
+                this.tool,
+
+              color:
+                this.currentColor,
+
+              size:
+                this.currentSize
             }
           }
         )
@@ -498,12 +834,23 @@
     */
 
     clear(saveToHistory = true) {
-      if (!this.canvas || !this.ctx) {
+      if (
+        !this.canvas ||
+        !this.ctx
+      ) {
         return;
       }
 
       this.ctx.save();
-      this.ctx.resetTransform();
+
+      this.ctx.setTransform(
+        1,
+        0,
+        0,
+        1,
+        0,
+        0
+      );
 
       this.ctx.clearRect(
         0,
@@ -514,12 +861,27 @@
 
       this.ctx.restore();
 
-      this.ctx.globalCompositeOperation =
+      const ratio =
+        this.getPixelRatio();
+
+      this.ctx.setTransform(
+        ratio,
+        0,
+        0,
+        ratio,
+        0,
+        0
+      );
+
+      this.ctx
+        .globalCompositeOperation =
         "source-over";
 
       if (saveToHistory) {
         this.saveHistory();
       }
+
+      this.saveCurrentQuestionImage();
 
       this.updateToolbarState();
     }
@@ -530,7 +892,9 @@
       }
 
       const blankCanvas =
-        document.createElement("canvas");
+        document.createElement(
+          "canvas"
+        );
 
       blankCanvas.width =
         this.canvas.width;
@@ -539,14 +903,18 @@
         this.canvas.height;
 
       return (
-        this.canvas.toDataURL("image/png") ===
-        blankCanvas.toDataURL("image/png")
+        this.canvas.toDataURL(
+          "image/png"
+        ) ===
+        blankCanvas.toDataURL(
+          "image/png"
+        )
       );
     }
 
     /*
     ==================================================
-    歷史紀錄
+    復原與重做
     ==================================================
     */
 
@@ -555,7 +923,9 @@
         return null;
       }
 
-      return this.canvas.toDataURL("image/png");
+      return this.canvas.toDataURL(
+        "image/png"
+      );
     }
 
     saveHistory() {
@@ -578,12 +948,17 @@
           this.undoStack.length - 1
         ];
 
-      if (lastImage === imageData) {
+      if (
+        lastImage ===
+        imageData
+      ) {
         this.notifyHistoryChange();
         return;
       }
 
-      this.undoStack.push(imageData);
+      this.undoStack.push(
+        imageData
+      );
 
       if (
         this.undoStack.length >
@@ -597,65 +972,20 @@
       this.notifyHistoryChange();
     }
 
-    restoreCanvasImage(imageData) {
-      return new Promise(
-        (resolve, reject) => {
-          if (
-            !imageData ||
-            !this.canvas ||
-            !this.ctx
-          ) {
-            resolve();
-            return;
-          }
+    async restoreCanvasImage(
+      imageData
+    ) {
+      if (!imageData) {
+        return;
+      }
 
-          const image = new Image();
-
-          image.onload = () => {
-            this.isRestoringHistory = true;
-
-            this.ctx.save();
-            this.ctx.resetTransform();
-
-            this.ctx.clearRect(
-              0,
-              0,
-              this.canvas.width,
-              this.canvas.height
-            );
-
-            this.ctx.drawImage(
-              image,
-              0,
-              0,
-              this.canvas.width,
-              this.canvas.height
-            );
-
-            this.ctx.restore();
-
-            this.ctx.globalCompositeOperation =
-              "source-over";
-
-            this.isRestoringHistory = false;
-
-            this.updateToolbarState();
-            resolve();
-          };
-
-          image.onerror = () => {
-            this.isRestoringHistory = false;
-
-            reject(
-              new Error(
-                "無法還原計算紙內容。"
-              )
-            );
-          };
-
-          image.src = imageData;
-        }
+      await this.drawImageToCanvas(
+        imageData
       );
+
+      this.saveCurrentQuestionImage();
+
+      this.updateToolbarState();
     }
 
     async undo() {
@@ -666,7 +996,9 @@
       const currentImage =
         this.undoStack.pop();
 
-      this.redoStack.push(currentImage);
+      this.redoStack.push(
+        currentImage
+      );
 
       const previousImage =
         this.undoStack[
@@ -690,7 +1022,9 @@
       const nextImage =
         this.redoStack.pop();
 
-      this.undoStack.push(nextImage);
+      this.undoStack.push(
+        nextImage
+      );
 
       await this.restoreCanvasImage(
         nextImage
@@ -702,11 +1036,17 @@
     }
 
     canUndo() {
-      return this.undoStack.length > 1;
+      return (
+        this.undoStack.length >
+        1
+      );
     }
 
     canRedo() {
-      return this.redoStack.length > 0;
+      return (
+        this.redoStack.length >
+        0
+      );
     }
 
     notifyHistoryChange() {
@@ -721,14 +1061,22 @@
           "scratchpadhistorychange",
           {
             detail: {
-              canUndo: this.canUndo(),
-              canRedo: this.canRedo(),
-              undoCount: Math.max(
-                this.undoStack.length - 1,
-                0
-              ),
+              canUndo:
+                this.canUndo(),
+
+              canRedo:
+                this.canRedo(),
+
+              undoCount:
+                Math.max(
+                  this.undoStack
+                    .length - 1,
+                  0
+                ),
+
               redoCount:
-                this.redoStack.length
+                this.redoStack
+                  .length
             }
           }
         )
@@ -740,13 +1088,22 @@
       this.redoStack = [];
 
       this.saveHistory();
+
       this.notifyHistoryChange();
     }
 
+    /*
+    只有換下一題時才清空。
+    */
+
     newQuestion() {
+      this.currentQuestionImage =
+        null;
+
       this.clear(false);
 
       this.tool = "pen";
+
       this.currentColor =
         this.defaultColor;
 
@@ -754,12 +1111,15 @@
         this.defaultSize;
 
       this.resetHistory();
+
+      this.saveCurrentQuestionImage();
+
       this.updateToolbarState();
     }
 
     /*
     ==================================================
-    開啟與關閉面板
+    開啟與關閉
     ==================================================
     */
 
@@ -772,37 +1132,57 @@
         return;
       }
 
-      if (this.panel.hidden === false) {
-        this.panel.hidden = true;
-      }
+      this.panel.hidden = true;
 
       this.addEvent(
         this.openButton,
         "click",
-        () => this.open()
+        () => {
+          this.open();
+        }
       );
 
       this.addEvent(
         this.closeButton,
         "click",
-        () => this.close()
+        () => {
+          this.close();
+        }
       );
 
       this.initializePanelDragging();
+
       this.updateResponsiveMode();
     }
 
     isMobileView() {
-      return window.innerWidth <= 768;
+      return (
+        window.innerWidth <= 768
+      );
     }
 
     open() {
-      if (!this.panel) {
+      if (
+        !this.panel ||
+        this.isOpen
+      ) {
         return;
       }
 
       this.isOpen = true;
-      this.panel.hidden = false;
+
+      this.isOpeningPanel =
+        true;
+
+      /*
+      先記住同一題關閉前的畫面。
+      */
+
+      const savedImage =
+        this.currentQuestionImage;
+
+      this.panel.hidden =
+        false;
 
       this.panel.classList.add(
         "scratchpad-panel--open"
@@ -818,15 +1198,57 @@
       this.updateResponsiveMode();
 
       requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          this.setupCanvas(true);
+        requestAnimationFrame(
+          async () => {
+            /*
+            先依照目前面板實際尺寸
+            重新建立 Canvas。
+            */
 
-          if (
-            this.undoStack.length === 0
-          ) {
-            this.saveHistory();
+            await this.setupCanvas(
+              false
+            );
+
+            /*
+            再把關閉前的計算內容
+            還原回來。
+            */
+
+            if (savedImage) {
+              this
+                .currentQuestionImage =
+                savedImage;
+
+              await this
+                .restoreCurrentQuestionImage();
+            } else {
+              this
+                .saveCurrentQuestionImage();
+            }
+
+            if (
+              this.undoStack
+                .length === 0
+            ) {
+              this.saveHistory();
+            }
+
+            /*
+            延遲解除開啟鎖定，
+            避免 ResizeObserver
+            把畫面再次清空。
+            */
+
+            window.setTimeout(
+              () => {
+                this
+                  .isOpeningPanel =
+                  false;
+              },
+              220
+            );
           }
-        });
+        );
       });
 
       this.panel.dispatchEvent(
@@ -835,6 +1257,7 @@
           {
             detail: {
               isOpen: true,
+
               isMobile:
                 this.isMobileView()
             }
@@ -844,11 +1267,24 @@
     }
 
     close() {
-      if (!this.panel) {
+      if (
+        !this.panel ||
+        !this.isOpen
+      ) {
         return;
       }
 
+      /*
+      關閉前保存目前內容。
+      關閉本身不清空。
+      */
+
+      this.saveCurrentQuestionImage();
+
       this.isOpen = false;
+
+      this.isOpeningPanel =
+        false;
 
       this.panel.classList.remove(
         "scratchpad-panel--open"
@@ -869,6 +1305,7 @@
           {
             detail: {
               isOpen: false,
+
               isMobile:
                 this.isMobileView()
             }
@@ -884,6 +1321,12 @@
         this.open();
       }
     }
+
+    /*
+    ==================================================
+    響應式與位置
+    ==================================================
+    */
 
     updateResponsiveMode() {
       if (!this.panel) {
@@ -919,24 +1362,28 @@
       const margin = 24;
 
       const panelWidth =
-        this.panel.offsetWidth || 420;
+        this.panel.offsetWidth ||
+        420;
 
       const panelHeight =
-        this.panel.offsetHeight || 560;
+        this.panel.offsetHeight ||
+        560;
 
-      const left = Math.max(
-        window.innerWidth -
-          panelWidth -
-          margin,
-        margin
-      );
+      const left =
+        Math.max(
+          window.innerWidth -
+            panelWidth -
+            margin,
+          margin
+        );
 
-      const top = Math.max(
-        window.innerHeight -
-          panelHeight -
-          margin,
-        margin
-      );
+      const top =
+        Math.max(
+          window.innerHeight -
+            panelHeight -
+            margin,
+          margin
+        );
 
       this.panel.style.left =
         `${left}px`;
@@ -944,59 +1391,66 @@
       this.panel.style.top =
         `${top}px`;
 
-      this.panel.style.right = "auto";
-      this.panel.style.bottom = "auto";
+      this.panel.style.right =
+        "auto";
+
+      this.panel.style.bottom =
+        "auto";
     }
 
-    /*
-    ==================================================
-    拖曳視窗
-    ==================================================
-    */
-
     initializePanelDragging() {
-      if (!this.header || !this.panel) {
+      if (
+        !this.header ||
+        !this.panel
+      ) {
         return;
       }
 
       this.addEvent(
         this.header,
         "pointerdown",
-        (event) =>
-          this.startPanelDrag(event)
+        (event) => {
+          this.startPanelDrag(
+            event
+          );
+        }
       );
 
       this.addEvent(
         window,
         "pointermove",
-        (event) =>
-          this.movePanel(event)
+        (event) => {
+          this.movePanel(event);
+        }
       );
 
-      this.addEvent(
-        window,
+      [
         "pointerup",
-        () => this.stopPanelDrag()
-      );
-
-      this.addEvent(
-        window,
-        "pointercancel",
-        () => this.stopPanelDrag()
+        "pointercancel"
+      ].forEach(
+        (eventName) => {
+          this.addEvent(
+            window,
+            eventName,
+            () => {
+              this.stopPanelDrag();
+            }
+          );
+        }
       );
     }
 
     startPanelDrag(event) {
       if (
         this.isMobileView() ||
-        event.target.closest("button")
-      ) {
-        return;
-      }
-
-      if (
-        event.pointerType === "mouse" &&
-        event.button !== 0
+        event.target.closest(
+          "button"
+        ) ||
+        (
+          event.pointerType ===
+            "mouse" &&
+          event.button !== 0
+        )
       ) {
         return;
       }
@@ -1004,24 +1458,33 @@
       event.preventDefault();
 
       const rect =
-        this.panel.getBoundingClientRect();
+        this.panel
+          .getBoundingClientRect();
 
-      this.isDraggingPanel = true;
+      this.isDraggingPanel =
+        true;
 
-      this.dragStartX = event.clientX;
-      this.dragStartY = event.clientY;
+      this.dragStartX =
+        event.clientX;
 
-      this.panelStartLeft = rect.left;
-      this.panelStartTop = rect.top;
+      this.dragStartY =
+        event.clientY;
+
+      this.panelStartLeft =
+        rect.left;
+
+      this.panelStartTop =
+        rect.top;
 
       this.panel.classList.add(
         "scratchpad-panel--dragging"
       );
 
       try {
-        this.header.setPointerCapture(
-          event.pointerId
-        );
+        this.header
+          .setPointerCapture(
+            event.pointerId
+          );
       } catch (error) {
         // 可忽略。
       }
@@ -1043,33 +1506,41 @@
         event.clientY -
         this.dragStartY;
 
-      const maxLeft = Math.max(
-        window.innerWidth -
-          this.panel.offsetWidth,
-        0
-      );
-
-      const maxTop = Math.max(
-        window.innerHeight -
-          this.panel.offsetHeight,
-        0
-      );
-
-      const newLeft = Math.min(
+      const maxLeft =
         Math.max(
-          this.panelStartLeft + moveX,
+          window.innerWidth -
+            this.panel
+              .offsetWidth,
           0
-        ),
-        maxLeft
-      );
+        );
 
-      const newTop = Math.min(
+      const maxTop =
         Math.max(
-          this.panelStartTop + moveY,
+          window.innerHeight -
+            this.panel
+              .offsetHeight,
           0
-        ),
-        maxTop
-      );
+        );
+
+      const newLeft =
+        Math.min(
+          Math.max(
+            this.panelStartLeft +
+              moveX,
+            0
+          ),
+          maxLeft
+        );
+
+      const newTop =
+        Math.min(
+          Math.max(
+            this.panelStartTop +
+              moveY,
+            0
+          ),
+          maxTop
+        );
 
       this.panel.style.left =
         `${newLeft}px`;
@@ -1077,16 +1548,22 @@
       this.panel.style.top =
         `${newTop}px`;
 
-      this.panel.style.right = "auto";
-      this.panel.style.bottom = "auto";
+      this.panel.style.right =
+        "auto";
+
+      this.panel.style.bottom =
+        "auto";
     }
 
     stopPanelDrag() {
-      if (!this.isDraggingPanel) {
+      if (
+        !this.isDraggingPanel
+      ) {
         return;
       }
 
-      this.isDraggingPanel = false;
+      this.isDraggingPanel =
+        false;
 
       if (this.panel) {
         this.panel.classList.remove(
@@ -1104,34 +1581,48 @@
       }
 
       const rect =
-        this.panel.getBoundingClientRect();
+        this.panel
+          .getBoundingClientRect();
 
-      const maxLeft = Math.max(
-        window.innerWidth -
-          this.panel.offsetWidth,
-        0
-      );
+      const maxLeft =
+        Math.max(
+          window.innerWidth -
+            this.panel
+              .offsetWidth,
+          0
+        );
 
-      const maxTop = Math.max(
-        window.innerHeight -
-          this.panel.offsetHeight,
-        0
-      );
+      const maxTop =
+        Math.max(
+          window.innerHeight -
+            this.panel
+              .offsetHeight,
+          0
+        );
 
       this.panel.style.left =
         `${Math.min(
-          Math.max(rect.left, 0),
+          Math.max(
+            rect.left,
+            0
+          ),
           maxLeft
         )}px`;
 
       this.panel.style.top =
         `${Math.min(
-          Math.max(rect.top, 0),
+          Math.max(
+            rect.top,
+            0
+          ),
           maxTop
         )}px`;
 
-      this.panel.style.right = "auto";
-      this.panel.style.bottom = "auto";
+      this.panel.style.right =
+        "auto";
+
+      this.panel.style.bottom =
+        "auto";
     }
 
     /*
@@ -1141,28 +1632,34 @@
     */
 
     initializeToolbar() {
-      this.colorButtons = Array.from(
-        document.querySelectorAll(
-          "[data-scratchpad-color]"
-        )
-      );
+      this.colorButtons =
+        Array.from(
+          document.querySelectorAll(
+            "[data-scratchpad-color]"
+          )
+        );
 
-      this.sizeButtons = Array.from(
-        document.querySelectorAll(
-          "[data-scratchpad-size]"
-        )
-      );
+      this.sizeButtons =
+        Array.from(
+          document.querySelectorAll(
+            "[data-scratchpad-size]"
+          )
+        );
 
       this.addEvent(
         this.penButton,
         "click",
-        () => this.usePen()
+        () => {
+          this.usePen();
+        }
       );
 
       this.addEvent(
         this.eraserButton,
         "click",
-        () => this.useEraser()
+        () => {
+          this.useEraser();
+        }
       );
 
       this.addEvent(
@@ -1270,14 +1767,19 @@
         return;
       }
 
-      /*
-      再次保護，避免尚未建立陣列時出錯。
-      */
-      if (!Array.isArray(this.colorButtons)) {
+      if (
+        !Array.isArray(
+          this.colorButtons
+        )
+      ) {
         this.colorButtons = [];
       }
 
-      if (!Array.isArray(this.sizeButtons)) {
+      if (
+        !Array.isArray(
+          this.sizeButtons
+        )
+      ) {
         this.sizeButtons = [];
       }
 
@@ -1293,31 +1795,28 @@
 
       this.colorButtons.forEach(
         (button) => {
-          const isActive =
-            this.tool === "pen" &&
-            button.dataset
-              .scratchpadColor ===
-              this.currentColor;
-
           this.setButtonActiveState(
             button,
-            isActive
+            this.tool ===
+              "pen" &&
+            button.dataset
+              .scratchpadColor ===
+              this.currentColor
           );
         }
       );
 
       this.sizeButtons.forEach(
         (button) => {
-          const isActive =
+          this.setButtonActiveState(
+            button,
             Number(
               button.dataset
                 .scratchpadSize
             ) ===
-            Number(this.currentSize);
-
-          this.setButtonActiveState(
-            button,
-            isActive
+              Number(
+                this.currentSize
+              )
           );
         }
       );
@@ -1328,7 +1827,9 @@
 
         this.undoButton.setAttribute(
           "aria-disabled",
-          String(!this.canUndo())
+          String(
+            !this.canUndo()
+          )
         );
       }
 
@@ -1338,7 +1839,9 @@
 
         this.redoButton.setAttribute(
           "aria-disabled",
-          String(!this.canRedo())
+          String(
+            !this.canRedo()
+          )
         );
       }
 
@@ -1368,7 +1871,7 @@
 
     /*
     ==================================================
-    鍵盤快捷鍵
+    快捷鍵
     ==================================================
     */
 
@@ -1376,10 +1879,11 @@
       this.addEvent(
         window,
         "keydown",
-        (event) =>
+        (event) => {
           this.handleKeyboardShortcut(
             event
-          )
+          );
+        }
       );
     }
 
@@ -1398,7 +1902,8 @@
             "INPUT" ||
           activeElement.tagName ===
             "TEXTAREA" ||
-          activeElement.isContentEditable
+          activeElement
+            .isContentEditable
         );
 
       if (isTyping) {
@@ -1418,7 +1923,9 @@
         !event.shiftKey
       ) {
         event.preventDefault();
+
         this.undo();
+
         return;
       }
 
@@ -1433,17 +1940,27 @@
         )
       ) {
         event.preventDefault();
+
         this.redo();
+
         return;
       }
 
-      if (event.key === "Escape") {
+      if (
+        event.key ===
+        "Escape"
+      ) {
         event.preventDefault();
+
         this.close();
+
         return;
       }
 
-      if (event.key === "Delete") {
+      if (
+        event.key ===
+        "Delete"
+      ) {
         event.preventDefault();
 
         if (!this.isBlank()) {
@@ -1454,107 +1971,87 @@
 
     /*
     ==================================================
-    視窗大小改變
+    面板縮放
     ==================================================
     */
-/*
-==================================================
-監聽計算紙面板拉大與縮小
-==================================================
 
-當使用者拖曳面板右下角時，
-ResizeObserver 會偵測面板尺寸改變。
-
-調整完成後：
-1. 重新設定 Canvas 大小
-2. 保留原本的計算內容
-3. 防止面板超出瀏覽器畫面
-*/
-
-initializePanelResizeObserver() {
-  if (
-    !this.panel ||
-    typeof ResizeObserver !== "function"
-  ) {
-    return;
-  }
-
-  let resizeTimer = null;
-
-  this.panelResizeObserver =
-    new ResizeObserver(() => {
-      /*
-      面板尚未開啟時不處理。
-      */
-
+    initializePanelResizeObserver() {
       if (
-        !this.isOpen ||
-        this.isDestroyed
+        !this.panel ||
+        typeof ResizeObserver !==
+          "function"
       ) {
         return;
       }
 
-      /*
-      手機版使用全螢幕，
-      不需要處理手動縮放。
-      */
+      let resizeTimer =
+        null;
 
-      if (this.isMobileView()) {
-        return;
-      }
-
-      /*
-      使用延遲處理，
-      避免使用者拖曳過程中
-      Canvas 每一瞬間都重新建立。
-      */
-
-      window.clearTimeout(resizeTimer);
-
-      resizeTimer =
-        window.setTimeout(() => {
+      this.panelResizeObserver =
+        new ResizeObserver(() => {
           if (
             !this.isOpen ||
-            this.isDestroyed
+            this.isOpeningPanel ||
+            this.isDestroyed ||
+            this.isMobileView()
           ) {
             return;
           }
 
-          /*
-          Canvas 配合新的面板尺寸，
-          並保留原本畫面。
-          */
+          window.clearTimeout(
+            resizeTimer
+          );
 
-          this.resizeCanvasPreserveContent();
+          resizeTimer =
+            window.setTimeout(
+              async () => {
+                if (
+                  !this.isOpen ||
+                  this
+                    .isOpeningPanel ||
+                  this.isDestroyed
+                ) {
+                  return;
+                }
 
-          /*
-          防止拉大後超出瀏覽器範圍。
-          */
+                await this
+                  .resizeCanvasPreserveContent();
 
-          this.keepPanelInsideViewport();
-        }, 120);
-    });
+                this
+                  .keepPanelInsideViewport();
+              },
+              160
+            );
+        });
 
-  this.panelResizeObserver.observe(
-    this.panel
-  );
+      this.panelResizeObserver
+        .observe(this.panel);
 
-  /*
-  Scratchpad 銷毀時，
-  一起停止 ResizeObserver。
-  */
+      this.eventCleanups.push(
+        () => {
+          window.clearTimeout(
+            resizeTimer
+          );
 
-  this.eventCleanups.push(() => {
-    window.clearTimeout(resizeTimer);
+          if (
+            this
+              .panelResizeObserver
+          ) {
+            this
+              .panelResizeObserver
+              .disconnect();
 
-    if (this.panelResizeObserver) {
-      this.panelResizeObserver.disconnect();
-      this.panelResizeObserver = null;
+            this
+              .panelResizeObserver =
+              null;
+          }
+        }
+      );
     }
-  });
-}
+
     initializeResizeListener() {
-      let resizeTimer = null;
+      let resizeTimer =
+        null;
 
       this.addEvent(
         window,
@@ -1566,20 +2063,27 @@ initializePanelResizeObserver() {
 
           resizeTimer =
             window.setTimeout(
-              () => {
-                this.updateResponsiveMode();
+              async () => {
+                this
+                  .updateResponsiveMode();
 
                 if (
                   !this.isMobileView()
                 ) {
-                  this.keepPanelInsideViewport();
+                  this
+                    .keepPanelInsideViewport();
                 }
 
-                if (this.isOpen) {
-                  this.resizeCanvasPreserveContent();
+                if (
+                  this.isOpen &&
+                  !this
+                    .isOpeningPanel
+                ) {
+                  await this
+                    .resizeCanvasPreserveContent();
                 }
               },
-              150
+              180
             );
         }
       );
@@ -1587,12 +2091,13 @@ initializePanelResizeObserver() {
 
     /*
     ==================================================
-    圖片下載
+    下載圖片
     ==================================================
     */
 
     createDownloadFilename() {
-      const now = new Date();
+      const now =
+        new Date();
 
       const year =
         now.getFullYear();
@@ -1644,17 +2149,24 @@ initializePanelResizeObserver() {
       }
 
       const link =
-        document.createElement("a");
+        document.createElement(
+          "a"
+        );
 
       link.href =
         this.canvas.toDataURL(
           "image/png"
         );
 
-      link.download = filename;
+      link.download =
+        filename;
 
-      document.body.appendChild(link);
+      document.body.appendChild(
+        link
+      );
+
       link.click();
+
       link.remove();
 
       return true;
@@ -1662,22 +2174,33 @@ initializePanelResizeObserver() {
 
     /*
     ==================================================
-    狀態與銷毀
+    狀態
     ==================================================
     */
 
     getState() {
       return {
-        tool: this.tool,
-        color: this.currentColor,
-        size: this.currentSize,
-        isOpen: this.isOpen,
+        tool:
+          this.tool,
+
+        color:
+          this.currentColor,
+
+        size:
+          this.currentSize,
+
+        isOpen:
+          this.isOpen,
+
         isMobile:
           this.isMobileView(),
+
         isBlank:
           this.isBlank(),
+
         canUndo:
           this.canUndo(),
+
         canRedo:
           this.canRedo()
       };
@@ -1707,8 +2230,12 @@ initializePanelResizeObserver() {
       this.undoStack = [];
       this.redoStack = [];
 
+      this.currentQuestionImage =
+        null;
+
       if (this.panel) {
-        this.panel.hidden = true;
+        this.panel.hidden =
+          true;
 
         this.panel.classList.remove(
           "scratchpad-panel--open",
@@ -1723,6 +2250,7 @@ initializePanelResizeObserver() {
       this.canvas = null;
       this.panel = null;
       this.header = null;
+
       this.openButton = null;
       this.closeButton = null;
 
@@ -1733,17 +2261,17 @@ initializePanelResizeObserver() {
 
   /*
   ==================================================
-  提供給 scratchpad-template.js 使用
+  對外提供
   ==================================================
   */
 
-  window.Scratchpad = Scratchpad;
+  window.Scratchpad =
+    Scratchpad;
 
   window.createScratchpad =
     function (options = {}) {
-      return new Scratchpad(options);
+      return new Scratchpad(
+        options
+      );
     };
 })();
-/*
-
-
