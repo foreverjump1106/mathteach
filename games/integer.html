@@ -15,25 +15,86 @@
       box-sizing: border-box;
     }
 
+    html {
+      min-height: 100%;
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
-      padding: 20px;
-      font-family: "Microsoft JhengHei", sans-serif;
-      background: linear-gradient(135deg, #e3f2fd, #fff8e1);
+      min-height: 100dvh;
+      padding: 96px 20px 20px;
+
+      font-family:
+        "Microsoft JhengHei",
+        "Noto Sans TC",
+        sans-serif;
+
+      background:
+        linear-gradient(
+          135deg,
+          #e3f2fd,
+          #fff8e1
+        );
+
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+
+    /*
+    ==================================================
+    共用導覽列保險樣式
+    ==================================================
+
+    即使瀏覽器暫時載入舊版 common-header.js，
+    也不會讓導覽列參與 body 的橫向 flex 排版。
+    */
+
+    #mathGameCommonHeader {
+      position: fixed !important;
+      top: 10px !important;
+      left: 50% !important;
+      right: auto !important;
+      bottom: auto !important;
+      z-index: 1000 !important;
+
+      width:
+        min(
+          1100px,
+          calc(100% - 24px)
+        ) !important;
+
+      margin: 0 !important;
+
+      transform:
+        translateX(-50%) !important;
+    }
+
+    /*
+    common-header.js 會加入這個 class。
+
+    這裡直接設定上方空間，
+    避免導覽列遮住遊戲內容。
+    */
+
+    body.math-game-has-common-header {
+      padding-top: 96px !important;
     }
 
     .game-container {
       width: 100%;
       max-width: 560px;
       padding: 30px;
+
       background: white;
       border-radius: 24px;
+
       text-align: center;
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+
+      box-shadow:
+        0 12px 35px
+        rgba(0, 0, 0, 0.15);
     }
 
     h1 {
@@ -49,7 +110,9 @@
 
     .status-bar {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns:
+        repeat(3, 1fr);
+
       gap: 10px;
       margin-bottom: 22px;
     }
@@ -58,6 +121,7 @@
       padding: 12px 5px;
       background: #eef5ff;
       border-radius: 12px;
+
       color: #174a7e;
       font-weight: bold;
     }
@@ -65,7 +129,10 @@
     .danger-time {
       color: #c62828;
       background: #ffebee;
-      animation: pulse 0.6s infinite alternate;
+
+      animation:
+        pulse 0.6s
+        infinite alternate;
     }
 
     @keyframes pulse {
@@ -81,9 +148,12 @@
     .question {
       min-height: 80px;
       margin: 18px 0;
+
+      color: #222;
+
       font-size: 38px;
       font-weight: bold;
-      color: #222;
+
       display: flex;
       justify-content: center;
       align-items: center;
@@ -93,37 +163,51 @@
       width: 100%;
       max-width: 260px;
       min-height: 62px;
+
       margin: 0 auto;
       padding: 12px 16px;
+
       border: 3px solid #90caf9;
       border-radius: 12px;
+
       background: white;
       color: #222;
+
       font-size: 28px;
       text-align: center;
       line-height: 32px;
+
       overflow-wrap: anywhere;
     }
 
     .keypad {
       width: 100%;
       max-width: 330px;
+
       margin: 20px auto 0;
+
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns:
+        repeat(3, 1fr);
+
       gap: 10px;
     }
 
     .keypad button {
       min-height: 52px;
+
       margin: 0;
       padding: 10px;
+
       border: none;
       border-radius: 12px;
+
       background: #eef5ff;
       color: #174a7e;
+
       font-size: 22px;
       font-weight: bold;
+
       cursor: pointer;
       touch-action: manipulation;
     }
@@ -162,6 +246,7 @@
     .feedback {
       min-height: 35px;
       margin-top: 18px;
+
       font-size: 21px;
       font-weight: bold;
     }
@@ -184,7 +269,9 @@
 
     .final-score {
       margin: 20px 0;
+
       color: #f57c00;
+
       font-size: 44px;
       font-weight: bold;
     }
@@ -197,6 +284,7 @@
     #saveStatus {
       min-height: 28px;
       margin: 12px 0;
+
       font-size: 15px;
       font-weight: bold;
       line-height: 1.6;
@@ -204,12 +292,16 @@
 
     .restart-button {
       padding: 13px 30px;
+
       border: none;
       border-radius: 12px;
+
       background: #1565c0;
       color: white;
+
       font-size: 18px;
       font-weight: bold;
+
       cursor: pointer;
       touch-action: manipulation;
     }
@@ -219,24 +311,41 @@
       background: #0d47a1;
     }
 
+    /*
+    舊版返回按鈕暫時隱藏。
+
+    現在已改用共用導覽列，
+    避免同一頁出現兩個返回首頁按鈕。
+    */
+
     .back-link {
-      display: inline-block;
-      margin-top: 24px;
-      color: #1565c0;
-      text-decoration: none;
-      font-weight: bold;
+      display: none;
     }
 
-    .back-link:hover {
-      text-decoration: underline;
+    /*
+    ==================================================
+    手機版
+    ==================================================
+    */
+
+    @media (max-width: 720px) {
+      body,
+      body.math-game-has-common-header {
+        align-items: flex-start;
+        padding:
+          148px
+          12px
+          12px !important;
+      }
+
+      #mathGameCommonHeader {
+        top: 6px !important;
+        width:
+          calc(100% - 12px) !important;
+      }
     }
 
     @media (max-width: 500px) {
-      body {
-        align-items: flex-start;
-        padding: 12px;
-      }
-
       .game-container {
         padding: 22px 16px;
       }
@@ -281,7 +390,10 @@
 
       <div class="status-bar">
 
-        <div id="timeBox" class="status-item">
+        <div
+          id="timeBox"
+          class="status-item"
+        >
           ⏱️ 時間<br>
           <span id="time">60</span>
         </div>
@@ -319,17 +431,68 @@
         aria-label="答案輸入鍵盤"
       >
 
-        <button type="button" data-value="1">1</button>
-        <button type="button" data-value="2">2</button>
-        <button type="button" data-value="3">3</button>
+        <button
+          type="button"
+          data-value="1"
+        >
+          1
+        </button>
 
-        <button type="button" data-value="4">4</button>
-        <button type="button" data-value="5">5</button>
-        <button type="button" data-value="6">6</button>
+        <button
+          type="button"
+          data-value="2"
+        >
+          2
+        </button>
 
-        <button type="button" data-value="7">7</button>
-        <button type="button" data-value="8">8</button>
-        <button type="button" data-value="9">9</button>
+        <button
+          type="button"
+          data-value="3"
+        >
+          3
+        </button>
+
+        <button
+          type="button"
+          data-value="4"
+        >
+          4
+        </button>
+
+        <button
+          type="button"
+          data-value="5"
+        >
+          5
+        </button>
+
+        <button
+          type="button"
+          data-value="6"
+        >
+          6
+        </button>
+
+        <button
+          type="button"
+          data-value="7"
+        >
+          7
+        </button>
+
+        <button
+          type="button"
+          data-value="8"
+        >
+          8
+        </button>
+
+        <button
+          type="button"
+          data-value="9"
+        >
+          9
+        </button>
 
         <button
           id="plusButton"
@@ -340,7 +503,12 @@
           ＋
         </button>
 
-        <button type="button" data-value="0">0</button>
+        <button
+          type="button"
+          data-value="0"
+        >
+          0
+        </button>
 
         <button
           id="minusButton"
@@ -396,11 +564,19 @@
 
       <p>你的本次得分是：</p>
 
-      <div id="finalScore" class="final-score">
+      <div
+        id="finalScore"
+        class="final-score"
+      >
         0
       </div>
 
       <p id="resultMessage"></p>
+
+      <div
+        id="saveStatus"
+        aria-live="polite"
+      ></div>
 
       <button
         id="restartButton"
@@ -412,14 +588,20 @@
 
     </section>
 
- 
-
   </main>
 
   <script
     type="module"
     src="../js/integer-game.js"
   ></script>
-<script src="../js/common-header.js"></script>
+
+  <!--
+  v=3 用來避免瀏覽器繼續讀取舊版 common-header.js。
+  下次修改 common-header.js 時可改成 v=4。
+  -->
+  <script
+    src="../js/common-header.js?v=3"
+  ></script>
+
 </body>
 </html>
