@@ -160,6 +160,7 @@ body{margin:0;padding:4px;overflow-x:hidden}
 </main>
 <script src="../js/scratchpad.js"></script>
 <script src="../js/scratchpad-template.js"></script>
+<script src="../js/sound-manager.js?v=1"></script>
 
 <script type="module">
 import { saveGameScore } from "../js/scores.js";
@@ -180,6 +181,25 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const GAME_ID = "equation";
+
+function playGameSound(soundName){
+  try{
+    const soundManager=window.GameSound||window.MathGameSound;
+    const soundFunction=soundManager?.[soundName];
+
+    if(typeof soundFunction!=="function")return;
+
+    const result=soundFunction.call(soundManager);
+
+    if(result&&typeof result.catch==="function"){
+      result.catch(error=>{
+        console.warn(`音效播放失敗：${soundName}`,error);
+      });
+    }
+  }catch(error){
+    console.warn(`音效播放失敗：${soundName}`,error);
+  }
+}
 const MODE_NAMES={1:'模式一',2:'模式二',3:'模式三',4:'模式四'};
 function totalQuestions(){return mode===4?6:10}
 function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=rand(0,i);[arr[i],arr[j]]=[arr[j],arr[i]]}return arr}
@@ -797,6 +817,7 @@ function showOnly(id){['start-screen','quiz-screen','result-screen','review-scre
 
 function startGame(keepMode=false){
   clearTimeout(nextTimer);
+  playGameSound("playStart");
   if(!keepMode)mode=Number(document.querySelector('input[name="mode"]:checked').value);
   questions=makeQuestions(mode);
   index=correct=wrong=0;
@@ -856,7 +877,15 @@ function check(){
   disableAnswerInputs();
 
   const ok=ratEq(p,q.ans);
-  ok?correct++:wrong++;
+
+  if(ok){
+    correct++;
+    playGameSound("playCorrect");
+  }else{
+    wrong++;
+    playGameSound("playWrong");
+  }
+
   records.push({number:index+1,question:q,userRaw:raw,userParsed:p,ok});
 
   const ansHTML=mathFracHTML(q.ans);
@@ -918,6 +947,7 @@ async function saveCurrentScore(score){
 
 async function showResult(){
   clearInterval(timer);
+  playGameSound("playComplete");
   $('progress-bar').style.width='100%';
 
   finalElapsed=Math.floor((Date.now()-startTime)/1000);
