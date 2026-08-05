@@ -1278,12 +1278,25 @@
           "hidden"
         );
 
-      $("input-message")
-        .textContent =
-        "";
-
       const question =
         questions[index];
+
+      if (!question) {
+        console.error(
+          "題目載入失敗：找不到目前題目",
+          { index, questions, mode }
+        );
+
+        $("question-label")
+          .textContent =
+          "題目載入失敗";
+
+        $("question-content")
+          .textContent =
+          "請重新選擇模式後再試一次。";
+
+        return;
+      }
 
       $("question-label")
         .textContent =
