@@ -208,9 +208,36 @@
       padding: 5px 10px 0;
     }
 
-    sup {
-      font-size: 0.62em;
-      vertical-align: super;
+    /*
+    ================================================
+    次方顯示修正
+    讓題目、解析與錯題回顧中的次方更接近課本格式
+    ================================================
+    */
+
+    .question-content sup,
+    .explanation sup,
+    .review-question sup,
+    .review-answer sup {
+      display: inline-block;
+      position: relative;
+      top: -0.62em;
+      left: 1px;
+      margin-left: 1px;
+      font-size: 0.5em;
+      font-weight: 800;
+      line-height: 1;
+      vertical-align: baseline;
+    }
+
+    .question-content sup {
+      top: -0.68em;
+      font-size: 0.48em;
+    }
+
+    .fraction sup {
+      top: -0.55em;
+      font-size: 0.5em;
     }
 
     .scratchpad-row {
