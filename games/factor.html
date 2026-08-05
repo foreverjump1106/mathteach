@@ -9,6 +9,8 @@
 
   <title>質因數分解、公因數公倍數大挑戰</title>
 
+  <link rel="stylesheet" href="../css/scratchpad.css">
+
   <style>
     * {
       box-sizing: border-box;
@@ -69,7 +71,7 @@
     }
 
     .game-header {
-      padding: 20px 20px 14px;
+      padding: 26px 24px 20px;
       text-align: center;
       background:
         linear-gradient(
@@ -93,7 +95,7 @@
     }
 
     .screen {
-      padding: 18px;
+      padding: 24px;
     }
 
     .hidden {
@@ -156,16 +158,16 @@
       display: grid;
       grid-template-columns:
         repeat(4, minmax(0, 1fr));
-      gap: 8px;
-      margin-bottom: 10px;
+      gap: 10px;
+      margin-bottom: 16px;
     }
 
     .status-box {
-      min-height: 54px;
+      min-height: 72px;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 7px 6px;
+      padding: 10px 8px;
       border-radius: 14px;
       background: var(--primary-light);
       color: var(--primary-dark);
@@ -174,13 +176,13 @@
     }
 
     .status-value {
-      margin-top: 2px;
-      font-size: 15px;
+      margin-top: 4px;
+      font-size: 19px;
     }
 
     .progress-shell {
-      height: 9px;
-      margin-bottom: 12px;
+      height: 12px;
+      margin-bottom: 18px;
       overflow: hidden;
       border-radius: 999px;
       background: #e2e8f0;
@@ -200,8 +202,7 @@
     }
 
     .question-card {
-      position: relative;
-      padding: 16px 76px 16px 16px;
+      padding: 24px 18px;
       border: 2px solid var(--primary-border);
       border-radius: 20px;
       background: #ffffff;
@@ -215,13 +216,13 @@
     }
 
     .question-content {
-      min-height: 70px;
+      min-height: 100px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       gap: 12px;
       color: #0f172a;
-      font-size: clamp(27px, 5vw, 38px);
+      font-size: clamp(28px, 6vw, 43px);
       font-weight: 900;
       line-height: 1.45;
     }
@@ -236,14 +237,9 @@
     }
 
     .scratchpad-row {
-      position: absolute;
-      top: 50%;
-      right: 14px;
-      z-index: 2;
       display: flex;
       justify-content: center;
-      margin: 0;
-      transform: translateY(-50%);
+      margin: 14px 0;
     }
 
     #scratchpad-mobile-button {
@@ -251,30 +247,9 @@
       justify-content: center;
     }
 
-    #scratchpad-mobile-button button {
-      min-width: 46px !important;
-      width: 46px !important;
-      height: 46px !important;
-      padding: 0 !important;
-      overflow: hidden;
-      border-radius: 50% !important;
-      white-space: nowrap;
-      text-indent: -9999px;
-      box-shadow: 0 5px 12px rgba(15, 23, 42, 0.16);
-    }
-
-    #scratchpad-mobile-button button::before {
-      content: "✏️";
-      display: block;
-      text-indent: 0;
-      font-size: 22px;
-      line-height: 46px;
-      text-align: center;
-    }
-
     .answer-panel {
-      margin-top: 12px;
-      padding: 14px;
+      margin-top: 18px;
+      padding: 20px;
       border: 2px solid var(--primary-border);
       border-radius: 20px;
       background:
@@ -286,7 +261,7 @@
     }
 
     .answer-title {
-      margin-bottom: 8px;
+      margin-bottom: 12px;
       color: var(--primary-dark);
       text-align: center;
       font-weight: 900;
@@ -294,11 +269,11 @@
 
     .prime-expression {
       display: flex;
-      min-height: 72px;
+      min-height: 94px;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       overflow-x: auto;
-      padding: 8px 10px;
+      padding: 12px;
       border: 3px solid var(--primary-border);
       border-radius: 16px;
       background: #ffffff;
@@ -306,13 +281,13 @@
 
     .factor-slot {
       position: relative;
-      min-width: 62px;
-      min-height: 54px;
+      min-width: 74px;
+      min-height: 64px;
       display: inline-flex;
       flex: 0 0 auto;
       align-items: center;
       justify-content: center;
-      padding: 14px 10px 7px;
+      padding: 17px 12px 8px;
       border: 2px solid #cbd5e1;
       border-radius: 14px;
       background: #ffffff;
@@ -330,17 +305,17 @@
     }
 
     .factor-base {
-      font-size: 28px;
+      font-size: 32px;
       font-weight: 900;
       line-height: 1;
     }
 
     .factor-exponent {
       position: absolute;
-      top: 4px;
-      right: 7px;
+      top: 5px;
+      right: 9px;
       color: var(--primary-dark);
-      font-size: 15px;
+      font-size: 17px;
       font-weight: 900;
       line-height: 1;
     }
@@ -359,15 +334,15 @@
     }
 
     .input-controls {
-      margin-top: 10px;
+      margin-top: 16px;
     }
 
     .control-group {
-      margin-top: 8px;
+      margin-top: 12px;
     }
 
     .control-label {
-      margin-bottom: 5px;
+      margin-bottom: 8px;
       color: var(--muted);
       text-align: center;
       font-size: 14px;
@@ -382,9 +357,9 @@
     }
 
     .math-key {
-      min-width: 48px;
-      min-height: 38px;
-      padding: 6px 10px;
+      min-width: 54px;
+      min-height: 44px;
+      padding: 8px 12px;
       border: 2px solid var(--primary-border);
       border-radius: 12px;
       background: #ffffff;
@@ -399,7 +374,7 @@
     }
 
     .math-key.action {
-      min-width: 92px;
+      min-width: 112px;
     }
 
     .math-key.danger {
@@ -409,7 +384,7 @@
     }
 
     .input-hint {
-      margin: 8px 0 0;
+      margin: 13px 0 0;
       color: var(--muted);
       text-align: center;
       font-size: 14px;
@@ -417,8 +392,8 @@
     }
 
     .input-message {
-      min-height: 20px;
-      margin-top: 6px;
+      min-height: 24px;
+      margin-top: 10px;
       color: var(--warning);
       text-align: center;
       font-size: 14px;
@@ -429,14 +404,14 @@
     .button-row {
       display: flex;
       justify-content: center;
-      gap: 8px;
+      gap: 10px;
       margin-top: 18px;
       flex-wrap: wrap;
     }
 
     .game-button {
-      min-width: 118px;
-      padding: 10px 16px;
+      min-width: 136px;
+      padding: 12px 20px;
       border: none;
       border-radius: 12px;
       background: var(--primary);
@@ -471,8 +446,8 @@
     }
 
     .feedback {
-      min-height: 42px;
-      margin-top: 10px;
+      min-height: 54px;
+      margin-top: 16px;
       text-align: center;
       font-size: 18px;
       font-weight: 900;
@@ -488,8 +463,8 @@
     }
 
     .explanation {
-      margin-top: 10px;
-      padding: 12px;
+      margin-top: 14px;
+      padding: 16px;
       border-radius: 14px;
       background: #f8fafc;
       color: #334155;
@@ -591,24 +566,8 @@
           repeat(2, minmax(0, 1fr));
       }
 
-      .question-card {
-        padding: 14px 62px 14px 12px;
-      }
-
-      .scratchpad-row {
-        right: 9px;
-      }
-
       .answer-panel {
-        padding: 12px 8px;
-      }
-
-      .control-buttons {
-        gap: 6px;
-      }
-
-      .math-key {
-        min-width: 44px;
+        padding: 16px 10px;
       }
 
       .result-grid {
@@ -737,10 +696,10 @@
 
           <div id="question-content" class="question-content"></div>
 
-          <div class="scratchpad-row">
-            <div id="scratchpad-mobile-button"></div>
-          </div>
+        </div>
 
+        <div class="scratchpad-row">
+          <div id="scratchpad-mobile-button"></div>
         </div>
 
         <div class="answer-panel">
@@ -777,7 +736,7 @@
                   class="math-key action"
                   type="button"
                 >
-                  ＋ 新增
+                  ＋ 新增一組
                 </button>
 
                 <button
@@ -1193,7 +1152,7 @@
 
           button.textContent =
             exponent === 1
-              ? "¹"
+              ? "1（省略）"
               : toSuperscript(
                   exponent
                 );
