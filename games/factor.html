@@ -11,6 +11,8 @@
 
   <link rel="stylesheet" href="../css/scratchpad.css">
 
+  <link rel="stylesheet" href="../css/expression-input.css">
+
   <style>
     * {
       box-sizing: border-box;
@@ -703,69 +705,7 @@
         </div>
 
         <div class="answer-panel">
-
-          <div class="answer-title">
-            標準分解式答案
-          </div>
-
-          <div
-            id="prime-expression"
-            class="prime-expression"
-            aria-label="標準分解式答案"
-          ></div>
-
-          <div class="input-controls">
-
-            <div class="control-group">
-              <div class="control-label">選擇質因數</div>
-              <div id="prime-buttons" class="control-buttons"></div>
-            </div>
-
-            <div class="control-group">
-              <div class="control-label">選擇指數</div>
-              <div id="exponent-buttons" class="control-buttons"></div>
-            </div>
-
-            <div class="control-group">
-              <div class="control-label">編輯答案</div>
-
-              <div class="control-buttons">
-
-                <button
-                  id="add-factor-button"
-                  class="math-key action"
-                  type="button"
-                >
-                  ＋ 新增一組
-                </button>
-
-                <button
-                  id="delete-factor-button"
-                  class="math-key action"
-                  type="button"
-                >
-                  ⌫ 刪除
-                </button>
-
-                <button
-                  id="clear-factor-button"
-                  class="math-key danger"
-                  type="button"
-                >
-                  清除
-                </button>
-
-              </div>
-            </div>
-
-          </div>
-
-          <p class="input-hint">
-            指數為 1 時不顯示；質因數必須由小到大排列。
-          </p>
-
-          <div id="input-message" class="input-message"></div>
-
+          <div id="answerMount"></div>
         </div>
 
         <div class="button-row">
@@ -908,6 +848,7 @@
   <script src="../js/scratchpad.js"></script>
   <script src="../js/scratchpad-template.js"></script>
   <script src="../js/sound-manager.js?v=1"></script>
+  <script src="../js/expression-input.js?v=1"></script>
 
   <script type="module">
 
@@ -1001,11 +942,78 @@
     let scoreSaved =
       false;
 
-    let factorSlots =
-      [];
+    const answerInput =
+      new window.ExpressionInput({
+        mountId:
+          "answerMount",
 
-    let activeSlotIndex =
-      0;
+        allowNumber:
+          false,
+
+        allowExpression:
+          true,
+
+        defaultMode:
+          "expression",
+
+        baseOptions: [
+          2,
+          3,
+          5,
+          7,
+          11,
+          13
+        ],
+
+        exponentOptions: [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+
+        allowCustomBase:
+          false,
+
+        maxTerms:
+          7,
+
+        requireAscendingBases:
+          true,
+
+        disallowDuplicateBases:
+          true,
+
+        omitExponentOne:
+          true,
+
+        theme: {
+          primary:
+            "#00897b",
+
+          light:
+            "#f0fdfa",
+
+          border:
+            "#80cbc4"
+        },
+
+        labels: {
+          expressionLabel:
+            "請輸入標準分解式",
+
+          baseLabel:
+            "選擇質因數",
+
+          exponentLabel:
+            "選擇指數",
+
+          editLabel:
+            "編輯答案"
+        }
+      });
 
     /*
     ==================================================
@@ -1097,84 +1105,6 @@
         );
       }
     }
-
-    /*
-    ==================================================
-    建立數學輸入按鍵
-    ==================================================
-    */
-
-    function buildInputButtons() {
-      PRIME_OPTIONS.forEach(
-        (prime) => {
-          const button =
-            document.createElement(
-              "button"
-            );
-
-          button.type =
-            "button";
-
-          button.className =
-            "math-key";
-
-          button.textContent =
-            prime;
-
-          button.addEventListener(
-            "click",
-            () => {
-              setActivePrime(
-                prime
-              );
-            }
-          );
-
-          $("prime-buttons")
-            .appendChild(
-              button
-            );
-        }
-      );
-
-      EXPONENT_OPTIONS.forEach(
-        (exponent) => {
-          const button =
-            document.createElement(
-              "button"
-            );
-
-          button.type =
-            "button";
-
-          button.className =
-            "math-key";
-
-          button.textContent =
-            exponent === 1
-              ? "1（省略）"
-              : toSuperscript(
-                  exponent
-                );
-
-          button.addEventListener(
-            "click",
-            () => {
-              setActiveExponent(
-                exponent
-              );
-            }
-          );
-
-          $("exponent-buttons")
-            .appendChild(
-              button
-            );
-        }
-      );
-    }
-
-    buildInputButtons();
 
     /*
     ==================================================
@@ -1383,455 +1313,54 @@
           100
         }%`;
 
-      resetPrimeFactorInput();
+      answerInput.reset();
+
+      answerInput.setDisabled(
+        false
+      );
     }
 
     /*
     ==================================================
-    標準分解式答案元件
+    讀取共用標準分解式輸入器
     ==================================================
     */
 
-    function resetPrimeFactorInput() {
-      factorSlots = [
-        {
-          prime:
-            null,
-
-          exponent:
-            1
-        }
-      ];
-
-      activeSlotIndex =
-        0;
-
-      renderPrimeExpression();
-    }
-
-    function addFactorSlot() {
-      if (locked) {
-        return;
-      }
-
-      if (
-        factorSlots.length >=
-        7
-      ) {
-        $("input-message")
-          .textContent =
-          "最多可輸入 7 組質因數。";
-
-        return;
-      }
-
-      factorSlots.push({
-        prime:
-          null,
-
-        exponent:
-          1
-      });
-
-      activeSlotIndex =
-        factorSlots.length -
-        1;
-
-      $("input-message")
-        .textContent =
-        "";
-
-      renderPrimeExpression();
-    }
-
-    function deleteFactorSlot() {
-      if (locked) {
-        return;
-      }
-
-      if (
-        factorSlots.length ===
-        1
-      ) {
-        factorSlots[0] = {
-          prime:
-            null,
-
-          exponent:
-            1
-        };
-
-        activeSlotIndex =
-          0;
-      } else {
-        factorSlots.splice(
-          activeSlotIndex,
-          1
-        );
-
-        activeSlotIndex =
-          Math.max(
-            0,
-            activeSlotIndex -
-            1
-          );
-      }
-
-      $("input-message")
-        .textContent =
-        "";
-
-      renderPrimeExpression();
-    }
-
-    function setActivePrime(
-      prime
-    ) {
-      if (locked) {
-        return;
-      }
-
-      const duplicateIndex =
-        factorSlots.findIndex(
-          (
-            slot,
-            slotIndex
-          ) => {
-            return (
-              slotIndex !==
-                activeSlotIndex &&
-              slot.prime ===
-                prime
-            );
-          }
-        );
-
-      if (
-        duplicateIndex !==
-        -1
-      ) {
-        $("input-message")
-          .textContent =
-          "相同質因數要合併成次方，不可重複出現。";
-
-        return;
-      }
-
-      const previousPrime =
-        getPreviousPrime(
-          activeSlotIndex
-        );
-
-      const nextPrime =
-        getNextPrime(
-          activeSlotIndex
-        );
-
-      if (
-        (
-          previousPrime !==
-            null &&
-          prime <=
-            previousPrime
-        ) ||
-        (
-          nextPrime !==
-            null &&
-          prime >=
-            nextPrime
-        )
-      ) {
-        $("input-message")
-          .textContent =
-          "標準分解式的質因數必須由小到大排列。";
-
-        return;
-      }
-
-      factorSlots[
-        activeSlotIndex
-      ].prime =
-        prime;
-
-      $("input-message")
-        .textContent =
-        "";
-
-      renderPrimeExpression();
-    }
-
-    function setActiveExponent(
-      exponent
-    ) {
-      if (locked) {
-        return;
-      }
-
-      factorSlots[
-        activeSlotIndex
-      ].exponent =
-        exponent;
-
-      $("input-message")
-        .textContent =
-        "";
-
-      renderPrimeExpression();
-    }
-
-    function getPreviousPrime(
-      slotIndex
-    ) {
-      for (
-        let currentIndex =
-          slotIndex - 1;
-        currentIndex >= 0;
-        currentIndex--
-      ) {
-        if (
-          factorSlots[
-            currentIndex
-          ].prime !==
-          null
-        ) {
-          return factorSlots[
-            currentIndex
-          ].prime;
-        }
-      }
-
-      return null;
-    }
-
-    function getNextPrime(
-      slotIndex
-    ) {
-      for (
-        let currentIndex =
-          slotIndex + 1;
-        currentIndex <
-          factorSlots.length;
-        currentIndex++
-      ) {
-        if (
-          factorSlots[
-            currentIndex
-          ].prime !==
-          null
-        ) {
-          return factorSlots[
-            currentIndex
-          ].prime;
-        }
-      }
-
-      return null;
-    }
-
-    function renderPrimeExpression() {
-      const expression =
-        $("prime-expression");
-
-      expression.innerHTML =
-        "";
-
-      factorSlots.forEach(
-        (
-          slot,
-          slotIndex
-        ) => {
-          if (
-            slotIndex >
-            0
-          ) {
-            const multiply =
-              document.createElement(
-                "span"
-              );
-
-            multiply.className =
-              "multiply-symbol";
-
-            multiply.textContent =
-              "×";
-
-            expression.appendChild(
-              multiply
-            );
-          }
-
-          const slotButton =
-            document.createElement(
-              "button"
-            );
-
-          slotButton.type =
-            "button";
-
-          slotButton.className =
-            "factor-slot";
-
-          if (
-            slotIndex ===
-            activeSlotIndex
-          ) {
-            slotButton.classList.add(
-              "active"
-            );
-          }
-
-          slotButton.addEventListener(
-            "click",
-            () => {
-              if (locked) {
-                return;
-              }
-
-              activeSlotIndex =
-                slotIndex;
-
-              $("input-message")
-                .textContent =
-                "";
-
-              renderPrimeExpression();
-            }
-          );
-
-          if (
-            slot.prime ===
-            null
-          ) {
-            const placeholder =
-              document.createElement(
-                "span"
-              );
-
-            placeholder.className =
-              "factor-placeholder";
-
-            placeholder.textContent =
-              "選質因數";
-
-            slotButton.appendChild(
-              placeholder
-            );
-          } else {
-            const base =
-              document.createElement(
-                "span"
-              );
-
-            base.className =
-              "factor-base";
-
-            base.textContent =
-              slot.prime;
-
-            slotButton.appendChild(
-              base
-            );
-
-            if (
-              slot.exponent >
-              1
-            ) {
-              const exponent =
-                document.createElement(
-                  "span"
-                );
-
-              exponent.className =
-                "factor-exponent";
-
-              exponent.textContent =
-                toSuperscript(
-                  slot.exponent
-                );
-
-              slotButton.appendChild(
-                exponent
-              );
-            }
-          }
-
-          expression.appendChild(
-            slotButton
-          );
-        }
-      );
-    }
-
     function readPrimeFactorAnswer() {
-      const answerMap =
-        {};
+      const validation =
+        answerInput.validate();
 
-      for (
-        const slot of
-        factorSlots
+      if (
+        !validation.valid
       ) {
-        if (
-          slot.prime ===
-          null
-        ) {
-          return {
-            valid:
-              false,
+        return {
+          valid:
+            false,
 
-            message:
-              "每一組都必須選擇質因數。"
-          };
-        }
-
-        if (
-          answerMap[
-            slot.prime
-          ]
-        ) {
-          return {
-            valid:
-              false,
-
-            message:
-              "相同質因數不可重複，請合併成次方。"
-          };
-        }
-
-        answerMap[
-          slot.prime
-        ] =
-          slot.exponent;
+          message:
+            "請完成正確的標準分解式。"
+        };
       }
 
-      const primes =
-        factorSlots.map(
-          (slot) =>
-            slot.prime
-        );
+      const terms =
+        validation.value.terms;
 
-      for (
-        let primeIndex =
-          1;
-        primeIndex <
-          primes.length;
-        primeIndex++
+      const isStandard =
+        window.ExpressionInputUtils
+          .isStandardPrimeFactorization(
+            terms
+          );
+
+      if (
+        !isStandard
       ) {
-        if (
-          primes[
-            primeIndex
-          ] <=
-          primes[
-            primeIndex - 1
-          ]
-        ) {
-          return {
-            valid:
-              false,
+        return {
+          valid:
+            false,
 
-            message:
-              "質因數必須由小到大排列。"
-          };
-        }
+          message:
+            "答案必須是質因數由小到大排列的標準分解式。"
+        };
       }
 
       return {
@@ -1839,7 +1368,15 @@
           true,
 
         map:
-          answerMap
+          window.ExpressionInputUtils
+            .termsToFactorMap(
+              terms
+            ),
+
+        terms,
+
+        html:
+          validation.value.html
       };
     }
 
@@ -1860,9 +1397,9 @@
       if (
         !answer.valid
       ) {
-        $("input-message")
-          .textContent =
-          answer.message;
+        answerInput.showMessage(
+          answer.message
+        );
 
         return;
       }
@@ -1878,6 +1415,10 @@
 
       locked =
         true;
+
+      answerInput.setDisabled(
+        true
+      );
 
       if (
         isCorrect
@@ -3251,24 +2792,6 @@
             }
           );
         }
-      );
-
-    $("add-factor-button")
-      .addEventListener(
-        "click",
-        addFactorSlot
-      );
-
-    $("delete-factor-button")
-      .addEventListener(
-        "click",
-        deleteFactorSlot
-      );
-
-    $("clear-factor-button")
-      .addEventListener(
-        "click",
-        resetPrimeFactorInput
       );
 
     $("submit-button")
