@@ -1,6 +1,7 @@
 import { auth, db } from "./firebase-config.js";
 
 import {
+  getFinishedGames,
   getGameDisplayName
 } from "./game-config.js";
 
@@ -32,11 +33,126 @@ const emptyMessage =
 const leaderboardList =
   document.getElementById("leaderboardList");
 
-const filterButtons =
-  document.querySelectorAll(".filter-button");
+const filterBox =
+  document.getElementById("filterBox");
 
 let currentUser = null;
 let selectedGame = "all";
+
+/*
+==================================================
+依 game-config.js 自動建立排行榜篩選按鈕
+==================================================
+*/
+
+function createFilterButton({
+  gameId,
+  label,
+  active = false
+}) {
+  const button =
+    document.createElement("button");
+
+  button.className =
+    "filter-button";
+
+  button.type =
+    "button";
+
+  button.dataset.game =
+    gameId;
+
+  button.textContent =
+    label;
+
+  if (active) {
+    button.classList.add(
+      "active"
+    );
+  }
+
+  button.addEventListener(
+    "click",
+    async () => {
+      if (!currentUser) {
+        return;
+      }
+
+      filterBox
+        .querySelectorAll(
+          ".filter-button"
+        )
+        .forEach((item) => {
+          item.classList.remove(
+            "active"
+          );
+        });
+
+      button.classList.add(
+        "active"
+      );
+
+      selectedGame =
+        gameId;
+
+      await loadLeaderboard();
+    }
+  );
+
+  return button;
+}
+
+function renderFilterButtons() {
+  if (!filterBox) {
+    console.error(
+      "找不到排行榜篩選區域 filterBox。"
+    );
+
+    return;
+  }
+
+  filterBox.innerHTML =
+    "";
+
+  filterBox.appendChild(
+    createFilterButton({
+      gameId:
+        "all",
+
+      label:
+        "全部遊戲",
+
+      active:
+        true
+    })
+  );
+
+  const finishedGames =
+    getFinishedGames();
+
+  finishedGames.forEach(
+    (game) => {
+      filterBox.appendChild(
+        createFilterButton({
+          gameId:
+            game.id,
+
+          label:
+            game.shortName ||
+            game.name
+        })
+      );
+    }
+  );
+}
+
+renderFilterButtons();
+
+/*
+==================================================
+登入狀態
+==================================================
+*/
 
 onAuthStateChanged(
   auth,
@@ -48,6 +164,7 @@ onAuthStateChanged(
         "請先回到首頁登入 Google 帳號，才能查看排行榜。";
 
       showLoginRequiredMessage();
+
       return;
     }
 
@@ -63,32 +180,11 @@ onAuthStateChanged(
   }
 );
 
-filterButtons.forEach((button) => {
-  button.addEventListener(
-    "click",
-    async () => {
-      if (!currentUser) {
-        return;
-      }
-
-      filterButtons.forEach((item) => {
-        item.classList.remove(
-          "active"
-        );
-      });
-
-      button.classList.add(
-        "active"
-      );
-
-      selectedGame =
-        button.dataset.game ||
-        "all";
-
-      await loadLeaderboard();
-    }
-  );
-});
+/*
+==================================================
+讀取排行榜
+==================================================
+*/
 
 async function loadLeaderboard() {
   setLoadingState();
@@ -109,25 +205,30 @@ async function loadLeaderboard() {
       leaderboardQuery =
         query(
           scoresReference,
+
           orderBy(
             "score",
             "desc"
           ),
+
           limit(20)
         );
     } else {
       leaderboardQuery =
         query(
           scoresReference,
+
           where(
             "game",
             "==",
             selectedGame
           ),
+
           orderBy(
             "score",
             "desc"
           ),
+
           limit(20)
         );
     }
@@ -161,6 +262,12 @@ async function loadLeaderboard() {
     showError(error);
   }
 }
+
+/*
+==================================================
+顯示排行榜
+==================================================
+*/
 
 function renderLeaderboard(
   records
@@ -240,6 +347,7 @@ function renderLeaderboard(
 
       playerName.textContent =
         record.playerName ||
+        record.displayName ||
         "未命名玩家";
 
       const gameName =
@@ -337,6 +445,12 @@ function renderLeaderboard(
   );
 }
 
+/*
+==================================================
+名次顯示
+==================================================
+*/
+
 function getRankDisplay(
   rank
 ) {
@@ -352,8 +466,14 @@ function getRankDisplay(
     return "🥉";
   }
 
-  return rank;
+  return String(rank);
 }
+
+/*
+==================================================
+安全轉換數字
+==================================================
+*/
 
 function toSafeNumber(
   value
@@ -368,6 +488,12 @@ function toSafeNumber(
     : 0;
 }
 
+/*
+==================================================
+時間格式
+==================================================
+*/
+
 function formatDate(
   timestamp
 ) {
@@ -376,13 +502,37 @@ function formatDate(
   }
 
   try {
-    const date =
+    let date;
+
+    if (
       typeof timestamp.toDate ===
       "function"
-        ? timestamp.toDate()
-        : new Date(
-            timestamp
-          );
+    ) {
+      date =
+        timestamp.toDate();
+    } else if (
+      timestamp.seconds !==
+      undefined
+    ) {
+      date =
+        new Date(
+          timestamp.seconds *
+            1000
+        );
+    } else {
+      date =
+        new Date(
+          timestamp
+        );
+    }
+
+    if (
+      Number.isNaN(
+        date.getTime()
+      )
+    ) {
+      return "時間格式錯誤";
+    }
 
     return new Intl.DateTimeFormat(
       "zh-TW",
@@ -400,7 +550,10 @@ function formatDate(
           "2-digit",
 
         minute:
-          "2-digit"
+          "2-digit",
+
+        hour12:
+          false
       }
     ).format(date);
   } catch (error) {
@@ -412,6 +565,12 @@ function formatDate(
     return "時間格式錯誤";
   }
 }
+
+/*
+==================================================
+載入狀態
+==================================================
+*/
 
 function setLoadingState() {
   loadingMessage.hidden =
@@ -426,6 +585,12 @@ function setLoadingState() {
   leaderboardList.innerHTML =
     "";
 }
+
+/*
+==================================================
+尚未登入
+==================================================
+*/
 
 function showLoginRequiredMessage() {
   loadingMessage.hidden =
@@ -443,6 +608,12 @@ function showLoginRequiredMessage() {
   errorMessage.textContent =
     "目前尚未登入，請回到首頁登入後再查看排行榜。";
 }
+
+/*
+==================================================
+錯誤訊息
+==================================================
+*/
 
 function showError(
   error
