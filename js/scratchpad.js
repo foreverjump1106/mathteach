@@ -4893,3 +4893,646 @@ downloadImage(
     "計算紙拖曳區域與工具列操作安全修正已載入。"
   );
 })();
+/*
+==================================================
+共用計算紙：淺黃色工具列背景拖曳修正版
+檔案位置：js/scratchpad.js
+貼在整個檔案最底部
+==================================================
+
+拖曳區域：
+1. 深黃色標題列
+2. 淺黃色工具列的空白背景
+3. 計算紙四周淺黃色邊緣
+
+不可拖曳區域：
+1. 所有功能按鈕
+2. 顏色按鈕
+3. 粗細按鈕
+4. 輸入框、選單
+5. 畫布
+6. 縮放把手
+
+其他功能保持不變。
+==================================================
+*/
+
+(function () {
+  "use strict";
+
+  const PANEL_SELECTOR =
+    ".scratchpad-panel";
+
+  const HEADER_SELECTOR =
+    ".scratchpad-header";
+
+  /*
+  請依目前 scratchpad-template.js 的實際類別，
+  同時支援常見工具列命名。
+  */
+
+  const TOOLBAR_SELECTORS = [
+    ".scratchpad-toolbar",
+    ".scratchpad-tools",
+    ".scratchpad-controls",
+    ".scratchpad-tool-area",
+    ".scratchpad-toolbar-area"
+  ].join(",");
+
+  const INTERACTIVE_SELECTOR = [
+    "button",
+    "input",
+    "select",
+    "textarea",
+    "a",
+    "canvas",
+    "[role='button']",
+    "[contenteditable='true']",
+    ".scratchpad-tool-button",
+    ".scratchpad-color-button",
+    ".scratchpad-size-button",
+    ".scratchpad-resize-handle",
+    ".scratchpad-canvas-container"
+  ].join(",");
+
+  const EDGE_SIZE = 18;
+
+  let dragState = null;
+
+  /*
+  ==================================================
+  安裝補充樣式
+  ==================================================
+  */
+
+  function installStyles() {
+    if (
+      document.getElementById(
+        "scratchpad-toolbar-background-drag-style"
+      )
+    ) {
+      return;
+    }
+
+    const style =
+      document.createElement("style");
+
+    style.id =
+      "scratchpad-toolbar-background-drag-style";
+
+    style.textContent = `
+      ${HEADER_SELECTOR} {
+        cursor: grab;
+        touch-action: none;
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+      }
+
+      ${TOOLBAR_SELECTORS} {
+        cursor: grab;
+        touch-action: none;
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+      }
+
+      ${TOOLBAR_SELECTORS} button,
+      ${TOOLBAR_SELECTORS} input,
+      ${TOOLBAR_SELECTORS} select,
+      ${TOOLBAR_SELECTORS} textarea,
+      ${TOOLBAR_SELECTORS} [role="button"] {
+        cursor: pointer;
+        touch-action: manipulation;
+        -webkit-touch-callout: none;
+        user-select: none;
+        -webkit-user-select: none;
+      }
+
+      ${PANEL_SELECTOR}.scratchpad-background-dragging,
+      ${PANEL_SELECTOR}.scratchpad-background-dragging ${HEADER_SELECTOR},
+      ${PANEL_SELECTOR}.scratchpad-background-dragging ${TOOLBAR_SELECTORS} {
+        cursor: grabbing !important;
+      }
+    `;
+
+    document.head.appendChild(
+      style
+    );
+  }
+
+  /*
+  ==================================================
+  僅接受滑鼠左鍵或主要觸控點
+  ==================================================
+  */
+
+  function isPrimaryPointer(event) {
+    if (
+      event.pointerType === "mouse"
+    ) {
+      return event.button === 0;
+    }
+
+    return (
+      event.isPrimary !== false
+    );
+  }
+
+  /*
+  ==================================================
+  功能按鈕本身不可啟動拖曳
+  ==================================================
+  */
+
+  function isInteractiveTarget(target) {
+    if (
+      !(target instanceof Element)
+    ) {
+      return false;
+    }
+
+    return Boolean(
+      target.closest(
+        INTERACTIVE_SELECTOR
+      )
+    );
+  }
+
+  /*
+  ==================================================
+  判斷是否位於面板四周淺黃色邊緣
+  ==================================================
+  */
+
+  function isPanelEdge(
+    panel,
+    event
+  ) {
+    const rect =
+      panel.getBoundingClientRect();
+
+    const leftDistance =
+      event.clientX -
+      rect.left;
+
+    const rightDistance =
+      rect.right -
+      event.clientX;
+
+    const topDistance =
+      event.clientY -
+      rect.top;
+
+    const bottomDistance =
+      rect.bottom -
+      event.clientY;
+
+    return (
+      leftDistance <= EDGE_SIZE ||
+      rightDistance <= EDGE_SIZE ||
+      topDistance <= EDGE_SIZE ||
+      bottomDistance <= EDGE_SIZE
+    );
+  }
+
+  /*
+  ==================================================
+  判斷可拖曳區域
+  ==================================================
+  */
+
+  function isDragArea(
+    panel,
+    event
+  ) {
+    const target =
+      event.target;
+
+    if (
+      !(target instanceof Element)
+    ) {
+      return false;
+    }
+
+    /*
+    功能鍵、畫布、縮放把手等，
+    一律保留自己的原始功能。
+    */
+
+    if (
+      isInteractiveTarget(target)
+    ) {
+      return false;
+    }
+
+    /*
+    深黃色標題列。
+    */
+
+    if (
+      target.closest(
+        HEADER_SELECTOR
+      )
+    ) {
+      return true;
+    }
+
+    /*
+    淺黃色工具列背景。
+
+    因為上面已經排除所有功能鍵，
+    所以只有真正的背景空白處能拖曳。
+    */
+
+    if (
+      target.closest(
+        TOOLBAR_SELECTORS
+      )
+    ) {
+      return true;
+    }
+
+    /*
+    面板四周淺黃色邊緣。
+    */
+
+    return isPanelEdge(
+      panel,
+      event
+    );
+  }
+
+  /*
+  ==================================================
+  開始拖曳
+  ==================================================
+  */
+
+  function startDrag(
+    panel,
+    event
+  ) {
+    if (
+      !isPrimaryPointer(event) ||
+      !isDragArea(panel, event)
+    ) {
+      return;
+    }
+
+    const rect =
+      panel.getBoundingClientRect();
+
+    dragState = {
+      panel,
+      pointerId:
+        event.pointerId,
+
+      offsetX:
+        event.clientX -
+        rect.left,
+
+      offsetY:
+        event.clientY -
+        rect.top
+    };
+
+    panel.classList.add(
+      "scratchpad-background-dragging"
+    );
+
+    panel.style.left =
+      `${rect.left}px`;
+
+    panel.style.top =
+      `${rect.top}px`;
+
+    panel.style.right =
+      "auto";
+
+    panel.style.bottom =
+      "auto";
+
+    try {
+      panel.setPointerCapture(
+        event.pointerId
+      );
+    } catch (error) {
+      // 某些舊瀏覽器不支援，不影響拖曳。
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  /*
+  ==================================================
+  拖曳中
+  ==================================================
+  */
+
+  function moveDrag(event) {
+    if (
+      !dragState ||
+      event.pointerId !==
+        dragState.pointerId
+    ) {
+      return;
+    }
+
+    const panel =
+      dragState.panel;
+
+    const panelWidth =
+      panel.offsetWidth;
+
+    const panelHeight =
+      panel.offsetHeight;
+
+    const margin = 8;
+
+    const maximumLeft =
+      Math.max(
+        margin,
+        window.innerWidth -
+          panelWidth -
+          margin
+      );
+
+    const maximumTop =
+      Math.max(
+        margin,
+        window.innerHeight -
+          panelHeight -
+          margin
+      );
+
+    let left =
+      event.clientX -
+      dragState.offsetX;
+
+    let top =
+      event.clientY -
+      dragState.offsetY;
+
+    left =
+      Math.min(
+        Math.max(
+          left,
+          margin
+        ),
+        maximumLeft
+      );
+
+    top =
+      Math.min(
+        Math.max(
+          top,
+          margin
+        ),
+        maximumTop
+      );
+
+    panel.style.left =
+      `${left}px`;
+
+    panel.style.top =
+      `${top}px`;
+
+    event.preventDefault();
+  }
+
+  /*
+  ==================================================
+  結束拖曳
+  ==================================================
+  */
+
+  function stopDrag(event) {
+    if (
+      !dragState ||
+      (
+        event.pointerId !== undefined &&
+        event.pointerId !==
+          dragState.pointerId
+      )
+    ) {
+      return;
+    }
+
+    const panel =
+      dragState.panel;
+
+    panel.classList.remove(
+      "scratchpad-background-dragging"
+    );
+
+    /*
+    與前面建立的位置記憶功能相容。
+    若 Scratchpad 實例掛在元素上，就同步儲存位置。
+    */
+
+    const rect =
+      panel.getBoundingClientRect();
+
+    panel.dataset.lastLeft =
+      String(rect.left);
+
+    panel.dataset.lastTop =
+      String(rect.top);
+
+    dragState = null;
+  }
+
+  /*
+  ==================================================
+  功能鍵安全設定
+  ==================================================
+  */
+
+  function protectControls(panel) {
+    panel
+      .querySelectorAll(
+        INTERACTIVE_SELECTOR
+      )
+      .forEach(
+        (control) => {
+          if (
+            control.dataset
+              .scratchpadControlProtected ===
+            "true"
+          ) {
+            return;
+          }
+
+          control.dataset
+            .scratchpadControlProtected =
+            "true";
+
+          /*
+          功能鍵按下時不傳到背景拖曳區。
+          */
+
+          control.addEventListener(
+            "pointerdown",
+            (event) => {
+              event.stopPropagation();
+
+              if (
+                event.pointerType ===
+                  "mouse" &&
+                event.button !== 0
+              ) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+              }
+            }
+          );
+
+          /*
+          禁止右鍵選單及平板長按選單。
+          */
+
+          control.addEventListener(
+            "contextmenu",
+            (event) => {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+          );
+
+          control.addEventListener(
+            "dragstart",
+            (event) => {
+              event.preventDefault();
+            }
+          );
+
+          control.addEventListener(
+            "selectstart",
+            (event) => {
+              event.preventDefault();
+            }
+          );
+        }
+      );
+  }
+
+  /*
+  ==================================================
+  初始化單一計算紙
+  ==================================================
+  */
+
+  function initializePanel(panel) {
+    if (
+      panel.dataset
+        .toolbarBackgroundDragReady ===
+      "true"
+    ) {
+      protectControls(panel);
+      return;
+    }
+
+    panel.dataset
+      .toolbarBackgroundDragReady =
+      "true";
+
+    panel.addEventListener(
+      "pointerdown",
+      (event) => {
+        startDrag(
+          panel,
+          event
+        );
+      }
+    );
+
+    /*
+    整個計算紙停用瀏覽器右鍵選單。
+    */
+
+    panel.addEventListener(
+      "contextmenu",
+      (event) => {
+        event.preventDefault();
+      }
+    );
+
+    protectControls(panel);
+  }
+
+  /*
+  ==================================================
+  尋找並初始化所有計算紙
+  ==================================================
+  */
+
+  function initializeAllPanels() {
+    document
+      .querySelectorAll(
+        PANEL_SELECTOR
+      )
+      .forEach(
+        initializePanel
+      );
+  }
+
+  installStyles();
+
+  initializeAllPanels();
+
+  /*
+  計算紙可能由 JavaScript 稍後建立，
+  因此持續偵測新面板。
+  */
+
+  const observer =
+    new MutationObserver(
+      () => {
+        initializeAllPanels();
+      }
+    );
+
+  observer.observe(
+    document.documentElement,
+    {
+      childList: true,
+      subtree: true
+    }
+  );
+
+  document.addEventListener(
+    "pointermove",
+    moveDrag,
+    {
+      passive: false
+    }
+  );
+
+  document.addEventListener(
+    "pointerup",
+    stopDrag
+  );
+
+  document.addEventListener(
+    "pointercancel",
+    stopDrag
+  );
+
+  window.addEventListener(
+    "blur",
+    () => {
+      if (dragState) {
+        stopDrag({
+          pointerId:
+            dragState.pointerId
+        });
+      }
+    }
+  );
+
+  console.log(
+    "計算紙淺黃色工具列背景拖曳功能已載入。"
+  );
+})();
