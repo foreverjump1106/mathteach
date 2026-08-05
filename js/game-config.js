@@ -394,7 +394,7 @@ export const GAME_CONFIG = {
       "練習質因數分解，並用指數形式求最大公因數與最小公倍數。",
 
     finished:
-      false,
+      true,
 
     difficulty:
       2,
