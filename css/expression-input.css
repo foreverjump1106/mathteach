@@ -9,20 +9,12 @@
   width: 100%;
   margin: 0 auto;
   padding: 18px;
-  border:
-    2px solid
-    var(
-      --expression-border,
-      #90caf9
-    );
+  border: 2px solid var(--expression-border, #90caf9);
   border-radius: 18px;
   background:
     linear-gradient(
       180deg,
-      var(
-        --expression-light,
-        #eef7ff
-      ),
+      var(--expression-light, #eef7ff),
       #ffffff
     );
   color: #1f2937;
@@ -40,34 +32,14 @@
     sans-serif;
 }
 
-/*
-==================================================
-停用狀態
-==================================================
-*/
-
 .expression-input.disabled {
   opacity: 0.7;
 }
 
-.expression-input.disabled button,
-.expression-input.disabled input {
-  cursor: not-allowed;
-}
-
-/*
-==================================================
-作答模式切換
-==================================================
-*/
-
 .expression-input__mode-switch {
   display: grid;
   grid-template-columns:
-    repeat(
-      2,
-      minmax(0, 1fr)
-    );
+    repeat(2, minmax(0, 1fr));
   gap: 10px;
   margin-bottom: 14px;
 }
@@ -75,53 +47,24 @@
 .expression-input__mode-button {
   min-height: 44px;
   padding: 10px 14px;
-  border:
-    2px solid
-    var(
-      --expression-border,
-      #90caf9
-    );
+  border: 2px solid var(--expression-border, #90caf9);
   border-radius: 12px;
   background: #ffffff;
-  color:
-    var(
-      --expression-primary,
-      #1565c0
-    );
+  color: var(--expression-primary, #1565c0);
   font-size: 15px;
   font-weight: 900;
   cursor: pointer;
-  transition:
-    background 0.15s ease,
-    color 0.15s ease,
-    transform 0.15s ease,
-    border-color 0.15s ease;
 }
 
 .expression-input__mode-button:hover {
-  transform:
-    translateY(-1px);
+  transform: translateY(-1px);
 }
 
 .expression-input__mode-button.active {
-  border-color:
-    var(
-      --expression-primary,
-      #1565c0
-    );
-  background:
-    var(
-      --expression-primary,
-      #1565c0
-    );
+  border-color: var(--expression-primary, #1565c0);
+  background: var(--expression-primary, #1565c0);
   color: #ffffff;
 }
-
-/*
-==================================================
-輸入區顯示與隱藏
-==================================================
-*/
 
 .expression-input__panel {
   display: none;
@@ -139,22 +82,11 @@
   font-weight: 900;
 }
 
-/*
-==================================================
-一般數字輸入
-==================================================
-*/
-
 .expression-input__number-input {
   width: 100%;
   min-height: 58px;
   padding: 10px 14px;
-  border:
-    3px solid
-    var(
-      --expression-border,
-      #90caf9
-    );
+  border: 3px solid var(--expression-border, #90caf9);
   border-radius: 14px;
   background: #ffffff;
   color: #111827;
@@ -162,37 +94,18 @@
   font-weight: 900;
   text-align: center;
   outline: none;
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
 }
 
 .expression-input__number-input:focus {
-  border-color:
-    var(
-      --expression-primary,
-      #1565c0
-    );
+  border-color: var(--expression-primary, #1565c0);
   box-shadow:
     0 0 0 4px
-    rgba(
-      21,
-      101,
-      192,
-      0.14
-    );
+    rgba(21, 101, 192, 0.14);
 }
 
 .expression-input__number-input::placeholder {
   color: #94a3b8;
-  font-weight: 700;
 }
-
-/*
-==================================================
-指數式顯示區
-==================================================
-*/
 
 .expression-input__expression-display {
   display: flex;
@@ -201,35 +114,10 @@
   gap: 9px;
   overflow-x: auto;
   padding: 10px;
-  border:
-    3px solid
-    var(
-      --expression-border,
-      #90caf9
-    );
+  border: 3px solid var(--expression-border, #90caf9);
   border-radius: 14px;
   background: #ffffff;
-  scrollbar-width: thin;
 }
-
-.expression-input__expression-display::-webkit-scrollbar {
-  height: 8px;
-}
-
-.expression-input__expression-display::-webkit-scrollbar-thumb {
-  border-radius: 999px;
-  background:
-    var(
-      --expression-border,
-      #90caf9
-    );
-}
-
-/*
-==================================================
-單一底數與指數項目
-==================================================
-*/
 
 .expression-input__term {
   position: relative;
@@ -240,37 +128,21 @@
   align-items: center;
   justify-content: center;
   padding: 15px 12px 8px;
-  border:
-    2px solid
-    #cbd5e1;
+  border: 2px solid #cbd5e1;
   border-radius: 13px;
   background: #ffffff;
   cursor: pointer;
-  transition:
-    border-color 0.14s ease,
-    box-shadow 0.14s ease,
-    transform 0.14s ease;
 }
 
 .expression-input__term:hover {
-  transform:
-    translateY(-1px);
+  transform: translateY(-1px);
 }
 
 .expression-input__term.active {
-  border-color:
-    var(
-      --expression-primary,
-      #1565c0
-    );
+  border-color: var(--expression-primary, #1565c0);
   box-shadow:
     0 0 0 4px
-    rgba(
-      21,
-      101,
-      192,
-      0.14
-    );
+    rgba(21, 101, 192, 0.14);
 }
 
 .expression-input__base {
@@ -284,11 +156,7 @@
   position: absolute;
   top: 4px;
   right: 8px;
-  color:
-    var(
-      --expression-primary,
-      #1565c0
-    );
+  color: var(--expression-primary, #1565c0);
   font-size: 16px;
   font-weight: 900;
   line-height: 1;
@@ -302,20 +170,10 @@
 
 .expression-input__operator {
   flex: 0 0 auto;
-  color:
-    var(
-      --expression-primary,
-      #1565c0
-    );
+  color: var(--expression-primary, #1565c0);
   font-size: 28px;
   font-weight: 900;
 }
-
-/*
-==================================================
-控制區
-==================================================
-*/
 
 .expression-input__controls {
   margin-top: 14px;
@@ -340,50 +198,26 @@
   flex-wrap: wrap;
 }
 
-/*
-==================================================
-底數、指數與功能按鍵
-==================================================
-*/
-
 .expression-input__key {
   min-width: 50px;
   min-height: 42px;
   padding: 7px 11px;
-  border:
-    2px solid
-    var(
-      --expression-border,
-      #90caf9
-    );
+  border: 2px solid var(--expression-border, #90caf9);
   border-radius: 11px;
   background: #ffffff;
-  color:
-    var(
-      --expression-primary,
-      #1565c0
-    );
+  color: var(--expression-primary, #1565c0);
   font-size: 16px;
   font-weight: 900;
   cursor: pointer;
-  transition:
-    background 0.14s ease,
-    transform 0.14s ease,
-    border-color 0.14s ease;
 }
 
 .expression-input__key:hover,
 .expression-input__key:active {
-  background:
-    var(
-      --expression-light,
-      #eef7ff
-    );
+  background: var(--expression-light, #eef7ff);
 }
 
 .expression-input__key:active {
-  transform:
-    translateY(2px);
+  transform: translateY(2px);
 }
 
 .expression-input__key.action {
@@ -396,221 +230,84 @@
   color: #b91c1c;
 }
 
-.expression-input__key.danger:hover {
-  background: #fee2e2;
-}
-/*
-==================================================
-自訂底數輸入
-==================================================
-*/
-
 .expression-input__custom-base {
-  width: 90px;
+  width: 94px;
   min-height: 42px;
   padding: 6px 10px;
   border: 2px solid var(--expression-border, #90caf9);
-  border-radius: 10px;
+  border-radius: 11px;
   background: #ffffff;
   color: #111827;
-  text-align: center;
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 900;
+  text-align: center;
   outline: none;
 }
 
 .expression-input__custom-base:focus {
   border-color: var(--expression-primary, #1565c0);
-  box-shadow: 0 0 0 3px rgba(21,101,192,.15);
 }
-
-/*
-==================================================
-訊息
-==================================================
-*/
 
 .expression-input__message {
-  min-height: 22px;
-  margin-top: 12px;
+  min-height: 24px;
+  margin-top: 10px;
+  color: #b91c1c;
   text-align: center;
-  color: #d32f2f;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 900;
+  line-height: 1.5;
 }
-
-/*
-==================================================
-答案預覽
-==================================================
-*/
 
 .expression-input__preview {
-  margin-top: 12px;
-  padding: 12px;
-  border-radius: 12px;
-  background: #f8fbff;
+  margin-top: 10px;
+  padding: 11px 12px;
   border: 1px dashed var(--expression-border, #90caf9);
+  border-radius: 12px;
+  background: #f8fafc;
+  color: #475569;
   text-align: center;
-  font-size: 17px;
-  font-weight: 700;
-  color: #1565c0;
-  word-break: break-word;
+  font-size: 15px;
+  line-height: 1.6;
 }
 
-.expression-input__preview strong{
-  color:#0d47a1;
+.expression-input__preview strong {
+  color: #111827;
 }
-
-/*
-==================================================
-disabled
-==================================================
-*/
 
 .expression-input button:disabled,
-.expression-input input:disabled{
-  opacity:.6;
-  cursor:not-allowed;
+.expression-input input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-/*
-==================================================
-手機版
-==================================================
-*/
+@media (max-width: 560px) {
+  .expression-input {
+    padding: 14px 10px;
+  }
 
-@media (max-width:768px){
+  .expression-input__mode-switch {
+    grid-template-columns: 1fr;
+  }
 
-.expression-input{
-  padding:14px;
+  .expression-input__expression-display {
+    min-height: 74px;
+  }
+
+  .expression-input__term {
+    min-width: 62px;
+    min-height: 52px;
+  }
+
+  .expression-input__base {
+    font-size: 27px;
+  }
+
+  .expression-input__key {
+    min-width: 45px;
+    padding: 6px 9px;
+  }
+
+  .expression-input__key.action {
+    min-width: 96px;
+  }
 }
-
-.expression-input__expression-display{
-  min-height:70px;
-}
-
-.expression-input__term{
-  min-width:60px;
-  min-height:52px;
-}
-
-.expression-input__base{
-  font-size:26px;
-}
-
-.expression-input__exponent{
-  font-size:15px;
-}
-
-.expression-input__operator{
-  font-size:24px;
-}
-
-.expression-input__key{
-  min-width:46px;
-  min-height:40px;
-  font-size:15px;
-}
-
-.expression-input__key.action{
-  min-width:90px;
-}
-
-}
-
-/*
-==================================================
-小手機
-==================================================
-*/
-
-@media (max-width:480px){
-
-.expression-input{
-  padding:12px;
-}
-
-.expression-input__mode-switch{
-  grid-template-columns:1fr;
-}
-
-.expression-input__button-row{
-  gap:6px;
-}
-
-.expression-input__key{
-  min-width:42px;
-  min-height:38px;
-  font-size:14px;
-}
-
-.expression-input__key.action{
-  flex:1;
-  min-width:120px;
-}
-
-.expression-input__expression-display{
-  justify-content:flex-start;
-}
-
-.expression-input__term{
-  min-width:56px;
-}
-
-.expression-input__base{
-  font-size:24px;
-}
-
-.expression-input__preview{
-  font-size:15px;
-}
-
-}
-
-/*
-==================================================
-桌機大螢幕
-==================================================
-*/
-
-@media (min-width:1200px){
-
-.expression-input{
-  max-width:900px;
-}
-
-}
-
-/*
-==================================================
-動畫
-==================================================
-*/
-
-.expression-input__term,
-.expression-input__key,
-.expression-input__mode-button{
-
-  transition:
-    all .18s ease;
-
-}
-
-.expression-input__term.active{
-
-  transform:translateY(-2px);
-
-}
-
-.expression-input__key:hover{
-
-  transform:translateY(-1px);
-
-}
-
-/*
-==================================================
-END
-==================================================
-*/
