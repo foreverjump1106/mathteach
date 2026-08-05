@@ -4226,3 +4226,670 @@ downloadImage(
     "共用計算紙位置功能已載入：首次在按鈕附近開啟，重新開啟保留最後位置。"
   );
 })();
+/*
+==================================================
+共用計算紙：拖曳區域與工具列操作安全修正
+請貼在 js/scratchpad.js 最底部
+==================================================
+
+功能：
+1. 原本深黃色標題列仍可拖曳。
+2. 計算紙四周淺黃色邊緣也可拖曳。
+3. 工具列按鈕只能用滑鼠左鍵或一般點按操作。
+4. 滑鼠右鍵不會觸發工具，也不顯示右鍵選單。
+5. 平板、手機長按工具按鈕不顯示選單、不拖曳面板。
+6. 工具列、畫布、縮放把手不會誤觸面板拖曳。
+7. 其他畫筆、橡皮擦、復原、重做、清除、下載、
+   面板縮放、位置記憶等功能保持不變。
+==================================================
+*/
+
+(function () {
+  "use strict";
+
+  if (
+    typeof window.Scratchpad !==
+    "function"
+  ) {
+    console.error(
+      "計算紙操作安全修正載入失敗：找不到 window.Scratchpad。"
+    );
+
+    return;
+  }
+
+  const Scratchpad =
+    window.Scratchpad;
+
+  if (
+    Scratchpad.prototype
+      .safeToolbarAndEdgeDragInstalled
+  ) {
+    return;
+  }
+
+  Scratchpad.prototype
+    .safeToolbarAndEdgeDragInstalled =
+    true;
+
+  const STYLE_ID =
+    "scratchpadSafeToolbarAndEdgeDragStyle";
+
+  /*
+  淺黃色邊緣可拖曳的寬度。
+  數值太大會影響工具與畫布，
+  18px 約等於目前面板的邊框與留白區。
+  */
+
+  const EDGE_DRAG_SIZE =
+    18;
+
+  /*
+  ==================================================
+  安裝 CSS
+  ==================================================
+  */
+
+  function installSafeOperationStyles() {
+    if (
+      document.getElementById(
+        STYLE_ID
+      )
+    ) {
+      return;
+    }
+
+    const style =
+      document.createElement(
+        "style"
+      );
+
+    style.id =
+      STYLE_ID;
+
+    style.textContent = `
+      /*
+      標題列與面板淺黃色邊緣可拖曳。
+      */
+
+      .scratchpad-header {
+        cursor: move;
+        cursor: grab;
+        touch-action: none;
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+      }
+
+      .scratchpad-panel--dragging,
+      .scratchpad-panel--dragging .scratchpad-header {
+        cursor: grabbing !important;
+      }
+
+      /*
+      面板本身保留觸控事件，
+      由 JavaScript 判斷是否位於邊緣。
+      */
+
+      .scratchpad-panel {
+        -webkit-touch-callout: none;
+      }
+
+      /*
+      工具列及所有按鈕只處理一般點按。
+      manipulation 可避免雙擊縮放與部分長按行為。
+      */
+
+      .scratchpad-toolbar,
+      .scratchpad-toolbar button,
+      .scratchpad-tool-button,
+      .scratchpad-color-button,
+      .scratchpad-size-button,
+      #scratchpadCloseButton {
+        touch-action: manipulation;
+        -webkit-touch-callout: none;
+        user-select: none;
+        -webkit-user-select: none;
+      }
+
+      /*
+      工具按鈕不能被瀏覽器原生拖曳。
+      */
+
+      .scratchpad-toolbar button,
+      .scratchpad-tool-button,
+      .scratchpad-color-button,
+      .scratchpad-size-button,
+      #scratchpadCloseButton {
+        -webkit-user-drag: none;
+        user-drag: none;
+      }
+    `;
+
+    document.head.appendChild(
+      style
+    );
+  }
+
+  /*
+  ==================================================
+  判斷是否為滑鼠左鍵或一般觸控
+  ==================================================
+  */
+
+  function isPrimaryPointer(event) {
+    if (!event) {
+      return false;
+    }
+
+    /*
+    滑鼠只能接受左鍵。
+    button 0 為左鍵。
+    */
+
+    if (
+      event.pointerType ===
+      "mouse"
+    ) {
+      return (
+        event.button === 0
+      );
+    }
+
+    /*
+    手指與觸控筆只接受主要接觸點。
+    */
+
+    return (
+      event.isPrimary !== false
+    );
+  }
+
+  /*
+  ==================================================
+  判斷元素是否為互動功能
+  ==================================================
+  */
+
+  function isInteractiveElement(target) {
+    if (
+      !(target instanceof Element)
+    ) {
+      return false;
+    }
+
+    return Boolean(
+      target.closest(
+        [
+          "button",
+          "input",
+          "select",
+          "textarea",
+          "a",
+          "canvas",
+          "[role='button']",
+          ".scratchpad-toolbar",
+          ".scratchpad-canvas-container",
+          ".scratchpad-resize-handle"
+        ].join(",")
+      )
+    );
+  }
+
+  /*
+  ==================================================
+  判斷是否點在淺黃色邊緣
+  ==================================================
+  */
+
+  function isPanelEdge(
+    panel,
+    event
+  ) {
+    if (
+      !panel ||
+      !event
+    ) {
+      return false;
+    }
+
+    const rect =
+      panel.getBoundingClientRect();
+
+    const distanceFromLeft =
+      event.clientX -
+      rect.left;
+
+    const distanceFromRight =
+      rect.right -
+      event.clientX;
+
+    const distanceFromTop =
+      event.clientY -
+      rect.top;
+
+    const distanceFromBottom =
+      rect.bottom -
+      event.clientY;
+
+    return (
+      distanceFromLeft <=
+        EDGE_DRAG_SIZE ||
+      distanceFromRight <=
+        EDGE_DRAG_SIZE ||
+      distanceFromTop <=
+        EDGE_DRAG_SIZE ||
+      distanceFromBottom <=
+        EDGE_DRAG_SIZE
+    );
+  }
+
+  /*
+  ==================================================
+  判斷是否可從目前位置拖曳
+  ==================================================
+  */
+
+  function isAllowedDragArea(
+    scratchpad,
+    event
+  ) {
+    if (
+      !scratchpad?.panel ||
+      !event?.target
+    ) {
+      return false;
+    }
+
+    const target =
+      event.target;
+
+    /*
+    工具按鈕、畫布與縮放把手不可拖曳。
+    */
+
+    if (
+      isInteractiveElement(
+        target
+      )
+    ) {
+      return false;
+    }
+
+    /*
+    深黃色標題列可拖曳。
+    */
+
+    if (
+      target.closest(
+        ".scratchpad-header"
+      )
+    ) {
+      return true;
+    }
+
+    /*
+    四周淺黃色邊緣可拖曳。
+    */
+
+    return isPanelEdge(
+      scratchpad.panel,
+      event
+    );
+  }
+
+  /*
+  ==================================================
+  改寫拖曳開始判斷
+  ==================================================
+  */
+
+  const originalStartPanelDrag =
+    Scratchpad.prototype
+      .startPanelDrag;
+
+  Scratchpad.prototype
+    .startPanelDrag =
+    function (event) {
+      if (
+        !this.panel ||
+        this.isDraggingPanel ||
+        this.isResizingPanel
+      ) {
+        return;
+      }
+
+      /*
+      右鍵、非主要手指皆不處理。
+      */
+
+      if (
+        !isPrimaryPointer(
+          event
+        )
+      ) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        return;
+      }
+
+      /*
+      只允許標題列或淺黃色邊緣拖曳。
+      */
+
+      if (
+        !isAllowedDragArea(
+          this,
+          event
+        )
+      ) {
+        return;
+      }
+
+      /*
+      交給原本拖曳功能處理，
+      保留位置限制與位置記憶功能。
+      */
+
+      originalStartPanelDrag.call(
+        this,
+        event
+      );
+    };
+
+  /*
+  ==================================================
+  初始化工具列安全操作
+  ==================================================
+  */
+
+  Scratchpad.prototype
+    .initializeSafeToolbarAndEdgeDrag =
+    function () {
+      if (
+        this.safeToolbarInitialized ||
+        !this.panel
+      ) {
+        return;
+      }
+
+      this.safeToolbarInitialized =
+        true;
+
+      installSafeOperationStyles();
+
+      const panel =
+        this.panel;
+
+      const toolbar =
+        panel.querySelector(
+          ".scratchpad-toolbar"
+        );
+
+      /*
+      功能按鈕集合。
+      */
+
+      const controls =
+        Array.from(
+          panel.querySelectorAll(
+            [
+              ".scratchpad-toolbar button",
+              ".scratchpad-tool-button",
+              ".scratchpad-color-button",
+              ".scratchpad-size-button",
+              "#scratchpadCloseButton"
+            ].join(",")
+          )
+        );
+
+      /*
+      ------------------------------------------------
+      淺黃色邊緣拖曳
+      ------------------------------------------------
+
+      原本標題列已有拖曳事件。
+      這裡額外監聽面板本身，
+      讓四周淺黃色邊緣也可啟動拖曳。
+      */
+
+      const handlePanelPointerDown =
+        (event) => {
+          if (
+            !isAllowedDragArea(
+              this,
+              event
+            )
+          ) {
+            return;
+          }
+
+          this.startPanelDrag(
+            event
+          );
+        };
+
+      panel.addEventListener(
+        "pointerdown",
+        handlePanelPointerDown
+      );
+
+      /*
+      ------------------------------------------------
+      工具按鈕只接受左鍵或一般點按
+      ------------------------------------------------
+      */
+
+      const handleControlPointerDown =
+        (event) => {
+          /*
+          阻止事件傳到面板，
+          避免按功能鍵時移動計算紙。
+          */
+
+          event.stopPropagation();
+
+          if (
+            !isPrimaryPointer(
+              event
+            )
+          ) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+          }
+        };
+
+      const handleControlContextMenu =
+        (event) => {
+          /*
+          滑鼠右鍵與觸控長按皆不顯示選單。
+          */
+
+          event.preventDefault();
+          event.stopPropagation();
+        };
+
+      const handleControlDragStart =
+        (event) => {
+          event.preventDefault();
+        };
+
+      const handleControlSelectStart =
+        (event) => {
+          event.preventDefault();
+        };
+
+      controls.forEach(
+        (control) => {
+          control.addEventListener(
+            "pointerdown",
+            handleControlPointerDown
+          );
+
+          control.addEventListener(
+            "contextmenu",
+            handleControlContextMenu
+          );
+
+          control.addEventListener(
+            "dragstart",
+            handleControlDragStart
+          );
+
+          control.addEventListener(
+            "selectstart",
+            handleControlSelectStart
+          );
+        }
+      );
+
+      /*
+      工具列空白處也不顯示右鍵或長按選單。
+      */
+
+      if (toolbar) {
+        toolbar.addEventListener(
+          "contextmenu",
+          handleControlContextMenu
+        );
+
+        toolbar.addEventListener(
+          "dragstart",
+          handleControlDragStart
+        );
+
+        toolbar.addEventListener(
+          "selectstart",
+          handleControlSelectStart
+        );
+      }
+
+      /*
+      整個計算紙禁止瀏覽器原生右鍵選單。
+      右鍵不執行任何工具功能。
+      */
+
+      const handlePanelContextMenu =
+        (event) => {
+          event.preventDefault();
+        };
+
+      panel.addEventListener(
+        "contextmenu",
+        handlePanelContextMenu
+      );
+
+      /*
+      銷毀元件時清除新增事件。
+      */
+
+      this.safeToolbarCleanup =
+        () => {
+          panel.removeEventListener(
+            "pointerdown",
+            handlePanelPointerDown
+          );
+
+          panel.removeEventListener(
+            "contextmenu",
+            handlePanelContextMenu
+          );
+
+          controls.forEach(
+            (control) => {
+              control.removeEventListener(
+                "pointerdown",
+                handleControlPointerDown
+              );
+
+              control.removeEventListener(
+                "contextmenu",
+                handleControlContextMenu
+              );
+
+              control.removeEventListener(
+                "dragstart",
+                handleControlDragStart
+              );
+
+              control.removeEventListener(
+                "selectstart",
+                handleControlSelectStart
+              );
+            }
+          );
+
+          if (toolbar) {
+            toolbar.removeEventListener(
+              "contextmenu",
+              handleControlContextMenu
+            );
+
+            toolbar.removeEventListener(
+              "dragstart",
+              handleControlDragStart
+            );
+
+            toolbar.removeEventListener(
+              "selectstart",
+              handleControlSelectStart
+            );
+          }
+        };
+    };
+
+  /*
+  ==================================================
+  包裝 initialize()
+  ==================================================
+  */
+
+  const originalInitialize =
+    Scratchpad.prototype
+      .initialize;
+
+  Scratchpad.prototype
+    .initialize =
+    function () {
+      originalInitialize.call(
+        this
+      );
+
+      this
+        .initializeSafeToolbarAndEdgeDrag();
+    };
+
+  /*
+  ==================================================
+  包裝 destroy()
+  ==================================================
+  */
+
+  const originalDestroy =
+    Scratchpad.prototype
+      .destroy;
+
+  Scratchpad.prototype
+    .destroy =
+    function () {
+      if (
+        typeof this
+          .safeToolbarCleanup ===
+        "function"
+      ) {
+        this.safeToolbarCleanup();
+      }
+
+      this.safeToolbarCleanup =
+        null;
+
+      originalDestroy.call(
+        this
+      );
+    };
+
+  console.log(
+    "計算紙拖曳區域與工具列操作安全修正已載入。"
+  );
+})();
