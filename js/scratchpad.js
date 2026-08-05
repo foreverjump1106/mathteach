@@ -3590,3 +3590,639 @@ downloadImage(
     "共用計算紙八方向縮放功能已載入。"
   );
 })();
+/*
+==================================================
+共用計算紙：開啟位置與關閉位置保留
+請貼在 js/scratchpad.js 的最底部
+==================================================
+
+功能：
+1. 電腦與平板第一次開啟時，計算紙出現在按鈕附近。
+2. 使用者拖曳計算紙後，記住最後位置。
+3. 關閉再開啟時，回到最後關閉的位置。
+4. 切換題目不重設位置。
+5. 只有整個頁面重新整理或關閉後，位置才重設。
+6. 手機窄螢幕維持全螢幕計算紙。
+==================================================
+*/
+
+(function () {
+  "use strict";
+
+  /*
+  確認共用計算紙已經載入。
+  */
+
+  if (
+    typeof window.Scratchpad !==
+    "function"
+  ) {
+    console.error(
+      "計算紙位置功能載入失敗：找不到 window.Scratchpad。"
+    );
+
+    return;
+  }
+
+  const Scratchpad =
+    window.Scratchpad;
+
+  /*
+  避免重複安裝。
+  */
+
+  if (
+    Scratchpad.prototype
+      .nearButtonPositionInstalled
+  ) {
+    return;
+  }
+
+  Scratchpad.prototype
+    .nearButtonPositionInstalled =
+    true;
+
+  /*
+  手機維持全螢幕的寬度界線。
+
+  平板通常大於 480px，
+  因此會使用浮動計算紙。
+  */
+
+  const PHONE_MAX_WIDTH =
+    480;
+
+  const VIEWPORT_MARGIN =
+    12;
+
+  const BUTTON_GAP =
+    12;
+
+  /*
+  ==================================================
+  判斷目前是否使用浮動計算紙
+  ==================================================
+  */
+
+  Scratchpad.prototype
+    .useFloatingScratchpad =
+    function () {
+      return (
+        window.innerWidth >
+        PHONE_MAX_WIDTH
+      );
+    };
+
+  /*
+  ==================================================
+  限制數值範圍
+  ==================================================
+  */
+
+  Scratchpad.prototype
+    .clampScratchpadValue =
+    function (
+      value,
+      minimum,
+      maximum
+    ) {
+      return Math.min(
+        Math.max(
+          value,
+          minimum
+        ),
+        maximum
+      );
+    };
+
+  /*
+  ==================================================
+  套用計算紙位置
+  ==================================================
+  */
+
+  Scratchpad.prototype
+    .applySavedScratchpadPosition =
+    function () {
+      if (
+        !this.panel ||
+        !this.savedScratchpadPosition ||
+        !this.useFloatingScratchpad()
+      ) {
+        return false;
+      }
+
+      const panelWidth =
+        this.panel.offsetWidth ||
+        420;
+
+      const panelHeight =
+        this.panel.offsetHeight ||
+        560;
+
+      const maximumLeft =
+        Math.max(
+          VIEWPORT_MARGIN,
+          window.innerWidth -
+            panelWidth -
+            VIEWPORT_MARGIN
+        );
+
+      const maximumTop =
+        Math.max(
+          VIEWPORT_MARGIN,
+          window.innerHeight -
+            panelHeight -
+            VIEWPORT_MARGIN
+        );
+
+      const left =
+        this.clampScratchpadValue(
+          this.savedScratchpadPosition
+            .left,
+          VIEWPORT_MARGIN,
+          maximumLeft
+        );
+
+      const top =
+        this.clampScratchpadValue(
+          this.savedScratchpadPosition
+            .top,
+          VIEWPORT_MARGIN,
+          maximumTop
+        );
+
+      this.panel.style.left =
+        `${left}px`;
+
+      this.panel.style.top =
+        `${top}px`;
+
+      this.panel.style.right =
+        "auto";
+
+      this.panel.style.bottom =
+        "auto";
+
+      /*
+      視窗尺寸改變後，
+      同步更新修正過的位置。
+      */
+
+      this.savedScratchpadPosition = {
+        left,
+        top
+      };
+
+      return true;
+    };
+
+  /*
+  ==================================================
+  儲存目前計算紙位置
+  ==================================================
+  */
+
+  Scratchpad.prototype
+    .saveScratchpadPosition =
+    function () {
+      if (
+        !this.panel ||
+        !this.useFloatingScratchpad()
+      ) {
+        return;
+      }
+
+      const rect =
+        this.panel
+          .getBoundingClientRect();
+
+      if (
+        !Number.isFinite(
+          rect.left
+        ) ||
+        !Number.isFinite(
+          rect.top
+        )
+      ) {
+        return;
+      }
+
+      this.savedScratchpadPosition = {
+        left:
+          rect.left,
+
+        top:
+          rect.top
+      };
+    };
+
+  /*
+  ==================================================
+  第一次開啟時，放在按鈕附近
+  ==================================================
+  */
+
+  Scratchpad.prototype
+    .positionScratchpadNearButton =
+    function () {
+      if (
+        !this.panel ||
+        !this.useFloatingScratchpad()
+      ) {
+        return;
+      }
+
+      const button =
+        this.openButton ||
+        document.getElementById(
+          this.openButtonId ||
+          "scratchpadOpenButton"
+        );
+
+      /*
+      如果找不到按鈕，
+      才改放在畫面中央。
+      */
+
+      if (!button) {
+        this.positionScratchpadAtCenter();
+
+        return;
+      }
+
+      const buttonRect =
+        button.getBoundingClientRect();
+
+      const panelWidth =
+        this.panel.offsetWidth ||
+        420;
+
+      const panelHeight =
+        this.panel.offsetHeight ||
+        560;
+
+      /*
+      水平方向：
+      讓計算紙大致對齊按鈕中央。
+      */
+
+      let left =
+        buttonRect.left +
+        buttonRect.width / 2 -
+        panelWidth / 2;
+
+      /*
+      垂直方向：
+      優先顯示在按鈕下方。
+      */
+
+      let top =
+        buttonRect.bottom +
+        BUTTON_GAP;
+
+      const spaceBelow =
+        window.innerHeight -
+        buttonRect.bottom -
+        VIEWPORT_MARGIN;
+
+      const spaceAbove =
+        buttonRect.top -
+        VIEWPORT_MARGIN;
+
+      /*
+      下方放不下、上方空間較多時，
+      改放在按鈕上方。
+      */
+
+      if (
+        spaceBelow <
+          panelHeight &&
+        spaceAbove >
+          spaceBelow
+      ) {
+        top =
+          buttonRect.top -
+          panelHeight -
+          BUTTON_GAP;
+      }
+
+      const maximumLeft =
+        Math.max(
+          VIEWPORT_MARGIN,
+          window.innerWidth -
+            panelWidth -
+            VIEWPORT_MARGIN
+        );
+
+      const maximumTop =
+        Math.max(
+          VIEWPORT_MARGIN,
+          window.innerHeight -
+            panelHeight -
+            VIEWPORT_MARGIN
+        );
+
+      left =
+        this.clampScratchpadValue(
+          left,
+          VIEWPORT_MARGIN,
+          maximumLeft
+        );
+
+      top =
+        this.clampScratchpadValue(
+          top,
+          VIEWPORT_MARGIN,
+          maximumTop
+        );
+
+      this.panel.style.left =
+        `${left}px`;
+
+      this.panel.style.top =
+        `${top}px`;
+
+      this.panel.style.right =
+        "auto";
+
+      this.panel.style.bottom =
+        "auto";
+    };
+
+  /*
+  ==================================================
+  找不到按鈕時放在畫面中央
+  ==================================================
+  */
+
+  Scratchpad.prototype
+    .positionScratchpadAtCenter =
+    function () {
+      if (
+        !this.panel ||
+        !this.useFloatingScratchpad()
+      ) {
+        return;
+      }
+
+      const panelWidth =
+        this.panel.offsetWidth ||
+        420;
+
+      const panelHeight =
+        this.panel.offsetHeight ||
+        560;
+
+      const left =
+        Math.max(
+          VIEWPORT_MARGIN,
+          (
+            window.innerWidth -
+            panelWidth
+          ) /
+          2
+        );
+
+      const top =
+        Math.max(
+          VIEWPORT_MARGIN,
+          (
+            window.innerHeight -
+            panelHeight
+          ) /
+          2
+        );
+
+      this.panel.style.left =
+        `${left}px`;
+
+      this.panel.style.top =
+        `${top}px`;
+
+      this.panel.style.right =
+        "auto";
+
+      this.panel.style.bottom =
+        "auto";
+    };
+
+  /*
+  ==================================================
+  包裝原本響應式模式
+  ==================================================
+  */
+
+  const originalUpdateResponsiveMode =
+    Scratchpad.prototype
+      .updateResponsiveMode;
+
+  Scratchpad.prototype
+    .updateResponsiveMode =
+    function () {
+      if (!this.panel) {
+        return;
+      }
+
+      /*
+      手機窄螢幕維持原本全螢幕模式。
+      */
+
+      if (
+        !this.useFloatingScratchpad()
+      ) {
+        originalUpdateResponsiveMode.call(
+          this
+        );
+
+        return;
+      }
+
+      /*
+      平板與電腦都使用浮動面板。
+      */
+
+      this.panel.classList.remove(
+        "scratchpad-panel--fullscreen"
+      );
+
+      this.panel.style.right =
+        "auto";
+
+      this.panel.style.bottom =
+        "auto";
+
+      /*
+      已經有記錄位置時，
+      保持在最後的位置。
+      */
+
+      if (
+        this.savedScratchpadPosition
+      ) {
+        this.applySavedScratchpadPosition();
+      }
+    };
+
+  /*
+  ==================================================
+  包裝原本開啟功能
+  ==================================================
+  */
+
+  const originalOpen =
+    Scratchpad.prototype.open;
+
+  Scratchpad.prototype.open =
+    function () {
+      /*
+      先執行原本開啟功能，
+      保留畫布、音效、事件與歷史紀錄。
+      */
+
+      originalOpen.call(
+        this
+      );
+
+      if (
+        !this.panel ||
+        !this.useFloatingScratchpad()
+      ) {
+        return;
+      }
+
+      /*
+      等面板顯示並取得正確寬高後，
+      再設定位置。
+      */
+
+      window.requestAnimationFrame(
+        () => {
+          window.requestAnimationFrame(
+            () => {
+              if (
+                this.savedScratchpadPosition
+              ) {
+                this.applySavedScratchpadPosition();
+              } else {
+                this.positionScratchpadNearButton();
+              }
+
+              /*
+              調整 Canvas 時保留計算內容。
+              */
+
+              if (
+                typeof this
+                  .resizeCanvasPreserveContent ===
+                "function"
+              ) {
+                this
+                  .resizeCanvasPreserveContent();
+              }
+            }
+          );
+        }
+      );
+    };
+
+  /*
+  ==================================================
+  包裝原本關閉功能
+  ==================================================
+  */
+
+  const originalClose =
+    Scratchpad.prototype.close;
+
+  Scratchpad.prototype.close =
+    function () {
+      /*
+      關閉前先記住最後位置。
+      */
+
+      if (
+        this.panel &&
+        this.useFloatingScratchpad()
+      ) {
+        this.saveScratchpadPosition();
+      }
+
+      originalClose.call(
+        this
+      );
+    };
+
+  /*
+  ==================================================
+  拖曳停止後記住位置
+  ==================================================
+  */
+
+  const originalStopPanelDrag =
+    Scratchpad.prototype
+      .stopPanelDrag;
+
+  Scratchpad.prototype
+    .stopPanelDrag =
+    function () {
+      const wasDragging =
+        this.isDraggingPanel;
+
+      originalStopPanelDrag.call(
+        this
+      );
+
+      if (
+        wasDragging &&
+        this.panel &&
+        this.useFloatingScratchpad()
+      ) {
+        this.saveScratchpadPosition();
+      }
+    };
+
+  /*
+  ==================================================
+  視窗尺寸改變時，只修正超出畫面的部分
+  不重新放回起始位置
+  ==================================================
+  */
+
+  const originalKeepPanelInsideViewport =
+    Scratchpad.prototype
+      .keepPanelInsideViewport;
+
+  Scratchpad.prototype
+    .keepPanelInsideViewport =
+    function () {
+      originalKeepPanelInsideViewport.call(
+        this
+      );
+
+      if (
+        this.panel &&
+        this.useFloatingScratchpad()
+      ) {
+        this.saveScratchpadPosition();
+      }
+    };
+
+  /*
+  ==================================================
+  頁面重新載入時自然重設
+
+  savedScratchpadPosition 只存在目前頁面的記憶體，
+  沒有寫入 localStorage 或 sessionStorage。
+
+  因此：
+  - 關閉計算紙再開啟：保留位置
+  - 換下一題：保留位置
+  - 重新整理／關閉頁面：重設位置
+  ==================================================
+  */
+
+  console.log(
+    "共用計算紙位置功能已載入：首次在按鈕附近開啟，重新開啟保留最後位置。"
+  );
+})();
