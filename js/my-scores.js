@@ -1,9 +1,11 @@
 import { auth, db } from "./firebase-config.js";
+
 import {
   getGameName,
   getModeName,
   getGameOrder
 } from "./game-config.js";
+
 import {
   collection,
   getDocs,
@@ -54,6 +56,12 @@ const gameSummaryList =
 const historyList =
   document.getElementById("historyList");
 
+/*
+==================================================
+監聽登入狀態
+==================================================
+*/
+
 onAuthStateChanged(
   auth,
   async (user) => {
@@ -64,16 +72,27 @@ onAuthStateChanged(
 
     renderUser(user);
 
-    await loadMyScores(user.uid);
+    await loadMyScores(
+      user.uid
+    );
   }
 );
 
+/*
+==================================================
+顯示目前登入玩家
+==================================================
+*/
+
 function renderUser(user) {
-  userStatus.innerHTML = "";
+  userStatus.innerHTML =
+    "";
 
   if (user.photoURL) {
     const userPhoto =
-      document.createElement("img");
+      document.createElement(
+        "img"
+      );
 
     userPhoto.className =
       "user-photo";
@@ -90,7 +109,9 @@ function renderUser(user) {
   }
 
   const userName =
-    document.createElement("span");
+    document.createElement(
+      "span"
+    );
 
   userName.textContent =
     `目前登入：${
@@ -103,6 +124,12 @@ function renderUser(user) {
     userName
   );
 }
+
+/*
+==================================================
+讀取個人成績
+==================================================
+*/
 
 async function loadMyScores(uid) {
   setLoadingState();
@@ -117,6 +144,7 @@ async function loadMyScores(uid) {
     const myScoresQuery =
       query(
         scoresReference,
+
         where(
           "uid",
           "==",
@@ -131,7 +159,9 @@ async function loadMyScores(uid) {
 
     const records =
       snapshot.docs.map(
-        (documentSnapshot) => ({
+        (
+          documentSnapshot
+        ) => ({
           id:
             documentSnapshot.id,
 
@@ -168,6 +198,12 @@ async function loadMyScores(uid) {
   }
 }
 
+/*
+==================================================
+顯示個人成績
+==================================================
+*/
+
 function renderMyScores(records) {
   loadingMessage.hidden =
     true;
@@ -175,7 +211,9 @@ function renderMyScores(records) {
   errorMessage.hidden =
     true;
 
-  if (records.length === 0) {
+  if (
+    records.length === 0
+  ) {
     emptyMessage.hidden =
       false;
 
@@ -223,6 +261,12 @@ function renderMyScores(records) {
   );
 }
 
+/*
+==================================================
+計算整體統計資料
+==================================================
+*/
+
 function calculateStatistics(records) {
   const totalGames =
     records.length;
@@ -251,6 +295,7 @@ function calculateStatistics(records) {
       ) => {
         return Math.max(
           highest,
+
           toSafeNumber(
             record.score
           )
@@ -267,6 +312,7 @@ function calculateStatistics(records) {
       ) => {
         return Math.max(
           highest,
+
           toSafeNumber(
             record.maxCombo
           )
@@ -325,6 +371,12 @@ function calculateStatistics(records) {
   };
 }
 
+/*
+==================================================
+顯示各遊戲統計
+==================================================
+*/
+
 function renderGameSummary(records) {
   gameSummaryList.innerHTML =
     "";
@@ -349,22 +401,41 @@ function renderGameSummary(records) {
 
       groupedGames[
         gameKey
-      ].push(record);
+      ].push(
+        record
+      );
     }
   );
 
-const knownGames =
-  getGameOrder().filter(
-    (gameKey) =>
-      Boolean(groupedGames[gameKey])
-  );
+  /*
+  從 game-config.js 取得目前已完成遊戲的排列順序。
+  */
+
+  const gameOrder =
+    getGameOrder();
+
+  const knownGames =
+    gameOrder.filter(
+      (gameKey) => {
+        return Boolean(
+          groupedGames[
+            gameKey
+          ]
+        );
+      }
+    );
+
+  /*
+  保留舊資料或尚未加入 game-config.js 的遊戲紀錄，
+  避免資料消失。
+  */
 
   const unknownGames =
     Object.keys(
       groupedGames
     ).filter(
       (gameKey) => {
-        return !GAME_ORDER.includes(
+        return !gameOrder.includes(
           gameKey
         );
       }
@@ -393,6 +464,7 @@ const knownGames =
           ) => {
             return Math.max(
               highest,
+
               toSafeNumber(
                 record.score
               )
@@ -441,8 +513,10 @@ const knownGames =
       gameTitle.className =
         "game-title";
 
-     gameTitle.textContent =
-       getGameName(gameKey);
+      gameTitle.textContent =
+        getGameName(
+          gameKey
+        );
 
       const playCount =
         createGameStatistic(
@@ -484,6 +558,12 @@ const knownGames =
     }
   );
 }
+
+/*
+==================================================
+建立單一遊戲統計欄位
+==================================================
+*/
 
 function createGameStatistic(
   value,
@@ -530,6 +610,12 @@ function createGameStatistic(
   return wrapper;
 }
 
+/*
+==================================================
+顯示最近遊玩紀錄
+==================================================
+*/
+
 function renderHistory(records) {
   historyList.innerHTML =
     "";
@@ -564,7 +650,9 @@ function renderHistory(records) {
         "history-game";
 
       gameName.textContent =
-          getGameName(record.game);
+        getGameName(
+          record.game
+        );
 
       const details =
         document.createElement(
@@ -590,10 +678,10 @@ function renderHistory(records) {
         );
 
       const modeText =
-  getModeName(
-    record.game,
-    record.mode
-  );
+        getModeName(
+          record.game,
+          record.mode
+        );
 
       details.textContent =
         `${formatDate(
@@ -668,6 +756,12 @@ function renderHistory(records) {
   );
 }
 
+/*
+==================================================
+安全轉換數字
+==================================================
+*/
+
 function toSafeNumber(value) {
   const number =
     Number(value);
@@ -678,6 +772,12 @@ function toSafeNumber(value) {
     ? number
     : 0;
 }
+
+/*
+==================================================
+取得時間毫秒數，供排序使用
+==================================================
+*/
 
 function getTimestampMilliseconds(
   timestamp
@@ -703,6 +803,17 @@ function getTimestampMilliseconds(
         .getTime();
     }
 
+    if (
+      timestamp.seconds !==
+      undefined
+    ) {
+      return (
+        Number(
+          timestamp.seconds
+        ) * 1000
+      );
+    }
+
     return (
       new Date(
         timestamp
@@ -719,19 +830,50 @@ function getTimestampMilliseconds(
   }
 }
 
+/*
+==================================================
+顯示日期時間
+==================================================
+*/
+
 function formatDate(timestamp) {
   if (!timestamp) {
     return "時間未記錄";
   }
 
   try {
-    const date =
+    let date;
+
+    if (
       typeof timestamp.toDate ===
       "function"
-        ? timestamp.toDate()
-        : new Date(
-            timestamp
-          );
+    ) {
+      date =
+        timestamp.toDate();
+    } else if (
+      timestamp.seconds !==
+      undefined
+    ) {
+      date =
+        new Date(
+          Number(
+            timestamp.seconds
+          ) * 1000
+        );
+    } else {
+      date =
+        new Date(
+          timestamp
+        );
+    }
+
+    if (
+      Number.isNaN(
+        date.getTime()
+      )
+    ) {
+      return "時間格式錯誤";
+    }
 
     return new Intl.DateTimeFormat(
       "zh-TW",
@@ -749,9 +891,14 @@ function formatDate(timestamp) {
           "2-digit",
 
         minute:
-          "2-digit"
+          "2-digit",
+
+        hour12:
+          false
       }
-    ).format(date);
+    ).format(
+      date
+    );
   } catch (error) {
     console.warn(
       "日期格式轉換失敗：",
@@ -761,6 +908,12 @@ function formatDate(timestamp) {
     return "時間格式錯誤";
   }
 }
+
+/*
+==================================================
+設定載入畫面
+==================================================
+*/
 
 function setLoadingState() {
   loadingMessage.hidden =
@@ -775,6 +928,12 @@ function setLoadingState() {
   statsSection.style.display =
     "none";
 }
+
+/*
+==================================================
+尚未登入
+==================================================
+*/
 
 function showLoginRequiredMessage() {
   userStatus.textContent =
@@ -795,6 +954,12 @@ function showLoginRequiredMessage() {
   errorMessage.textContent =
     "請先登入 Google 帳號，才能查看自己的成績。";
 }
+
+/*
+==================================================
+顯示錯誤
+==================================================
+*/
 
 function showError(error) {
   loadingMessage.hidden =
