@@ -32,9 +32,11 @@
     sans-serif;
 }
 
-.expression-input.disabled {
-  opacity: 0.7;
-}
+/*
+==================================================
+作答模式切換
+==================================================
+*/
 
 .expression-input__mode-switch {
   display: grid;
@@ -54,6 +56,10 @@
   font-size: 15px;
   font-weight: 900;
   cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    transform 0.15s ease;
 }
 
 .expression-input__mode-button:hover {
@@ -65,6 +71,12 @@
   background: var(--expression-primary, #1565c0);
   color: #ffffff;
 }
+
+/*
+==================================================
+輸入區顯示與隱藏
+==================================================
+*/
 
 .expression-input__panel {
   display: none;
@@ -82,6 +94,12 @@
   font-weight: 900;
 }
 
+/*
+==================================================
+一般數字輸入
+==================================================
+*/
+
 .expression-input__number-input {
   width: 100%;
   min-height: 58px;
@@ -90,7 +108,7 @@
   border-radius: 14px;
   background: #ffffff;
   color: #111827;
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 900;
   text-align: center;
   outline: none;
@@ -100,64 +118,76 @@
   border-color: var(--expression-primary, #1565c0);
   box-shadow:
     0 0 0 4px
-    rgba(21, 101, 192, 0.14);
+    color-mix(
+      in srgb,
+      var(--expression-primary, #1565c0) 18%,
+      transparent
+    );
 }
 
-.expression-input__number-input::placeholder {
-  color: #94a3b8;
-}
+/*
+==================================================
+標準分解式顯示區
+==================================================
+*/
 
 .expression-input__expression-display {
   display: flex;
-  min-height: 82px;
+  min-height: 94px;
   align-items: center;
-  gap: 9px;
+  gap: 11px;
   overflow-x: auto;
-  padding: 10px;
+  padding: 12px;
   border: 3px solid var(--expression-border, #90caf9);
   border-radius: 14px;
   background: #ffffff;
 }
 
+/*
+==================================================
+單一底數與指數項目
+==================================================
+*/
+
 .expression-input__term {
   position: relative;
-  min-width: 72px;
-  min-height: 58px;
+  min-width: 84px;
+  min-height: 68px;
   display: inline-flex;
   flex: 0 0 auto;
   align-items: center;
   justify-content: center;
-  padding: 15px 12px 8px;
+  padding: 18px 14px 10px;
   border: 2px solid #cbd5e1;
   border-radius: 13px;
   background: #ffffff;
   cursor: pointer;
 }
 
-.expression-input__term:hover {
-  transform: translateY(-1px);
-}
-
 .expression-input__term.active {
   border-color: var(--expression-primary, #1565c0);
   box-shadow:
     0 0 0 4px
-    rgba(21, 101, 192, 0.14);
+    color-mix(
+      in srgb,
+      var(--expression-primary, #1565c0) 16%,
+      transparent
+    );
 }
 
 .expression-input__base {
   color: #111827;
-  font-size: 30px;
+  font-size: 36px;
   font-weight: 900;
   line-height: 1;
 }
 
 .expression-input__exponent {
   position: absolute;
-  top: 4px;
-  right: 8px;
+  top: 5px;
+  right: 9px;
   color: var(--expression-primary, #1565c0);
-  font-size: 16px;
+  font-size: 19px;
   font-weight: 900;
   line-height: 1;
 }
@@ -174,6 +204,12 @@
   font-size: 28px;
   font-weight: 900;
 }
+
+/*
+==================================================
+控制區
+==================================================
+*/
 
 .expression-input__controls {
   margin-top: 14px;
@@ -198,6 +234,12 @@
   flex-wrap: wrap;
 }
 
+/*
+==================================================
+底數、指數與功能按鍵
+==================================================
+*/
+
 .expression-input__key {
   min-width: 50px;
   min-height: 42px;
@@ -216,10 +258,6 @@
   background: var(--expression-light, #eef7ff);
 }
 
-.expression-input__key:active {
-  transform: translateY(2px);
-}
-
 .expression-input__key.action {
   min-width: 102px;
 }
@@ -229,6 +267,12 @@
   background: #fff7f7;
   color: #b91c1c;
 }
+
+/*
+==================================================
+自訂底數輸入
+==================================================
+*/
 
 .expression-input__custom-base {
   width: 94px;
@@ -248,25 +292,36 @@
   border-color: var(--expression-primary, #1565c0);
 }
 
+/*
+==================================================
+提示訊息
+==================================================
+*/
+
 .expression-input__message {
   min-height: 24px;
   margin-top: 10px;
-  color: #b91c1c;
+  color: #b45309;
   text-align: center;
   font-size: 14px;
   font-weight: 900;
   line-height: 1.5;
 }
 
+/*
+==================================================
+答案預覽
+==================================================
+*/
+
 .expression-input__preview {
   margin-top: 10px;
-  padding: 11px 12px;
-  border: 1px dashed var(--expression-border, #90caf9);
+  padding: 10px 12px;
   border-radius: 12px;
   background: #f8fafc;
   color: #475569;
   text-align: center;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.6;
 }
 
@@ -274,11 +329,11 @@
   color: #111827;
 }
 
-.expression-input button:disabled,
-.expression-input input:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
+/*
+==================================================
+手機版
+==================================================
+*/
 
 @media (max-width: 560px) {
   .expression-input {
@@ -294,20 +349,19 @@
   }
 
   .expression-input__term {
-    min-width: 62px;
-    min-height: 52px;
+    min-width: 70px;
+    min-height: 60px;
   }
 
   .expression-input__base {
-    font-size: 27px;
+    font-size: 32px;
+  }
+
+  .expression-input__exponent {
+    font-size: 17px;
   }
 
   .expression-input__key {
-    min-width: 45px;
-    padding: 6px 9px;
-  }
-
-  .expression-input__key.action {
-    min-width: 96px;
+    min-width: 46px;
   }
 }
