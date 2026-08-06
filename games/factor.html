@@ -212,25 +212,61 @@
     }
 
     .question-label {
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       color: var(--muted);
+      font-size: clamp(17px, 2.2vw, 21px);
       font-weight: 900;
+      line-height: 1.6;
     }
 
     .question-content {
       min-height: 100px;
       display: flex;
-      flex-direction: column;
+      align-items: center;
       justify-content: center;
-      gap: 12px;
       color: #0f172a;
-      font-size: clamp(28px, 6vw, 43px);
+      font-size: clamp(21px, 3.2vw, 31px);
       font-weight: 900;
-      line-height: 1.45;
+      line-height: 1.55;
+      overflow-x: auto;
+      overflow-y: hidden;
     }
 
     .question-line {
       white-space: nowrap;
+    }
+
+    .pair-expression {
+      display: inline-flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 3px;
+      max-width: 100%;
+      white-space: nowrap;
+      letter-spacing: 0.01em;
+    }
+
+    .pair-bracket,
+    .pair-comma {
+      color: var(--primary-dark);
+      font-weight: 900;
+    }
+
+    .pair-bracket {
+      font-size: 1.12em;
+    }
+
+    .pair-comma {
+      margin: 0 3px;
+    }
+
+    .question-content sup {
+      position: relative;
+      top: -0.48em;
+      margin-left: 1px;
+      font-size: 0.58em;
+      line-height: 1;
+      vertical-align: baseline;
     }
 
     sup {
@@ -570,6 +606,19 @@
 
       .answer-panel {
         padding: 16px 10px;
+      }
+
+      .question-label {
+        font-size: 17px;
+      }
+
+      .question-content {
+        justify-content: flex-start;
+        font-size: clamp(18px, 4.6vw, 25px);
+      }
+
+      .pair-expression {
+        min-width: max-content;
       }
 
       .result-grid {
@@ -1704,8 +1753,9 @@
             : "求下列兩數的最小公倍數，答案請寫成標準分解式",
 
         html:
-          `<div class="question-line">${expressionToHtml(firstExpression)}</div>` +
-          `<div class="question-line">${expressionToHtml(secondExpression)}</div>`,
+          operation === "gcd"
+            ? `<div class="pair-expression"><span class="pair-bracket">(</span>${expressionToHtml(firstExpression)}<span class="pair-comma">,</span>${expressionToHtml(secondExpression)}<span class="pair-bracket">)</span></div>`
+            : `<div class="pair-expression"><span class="pair-bracket">[</span>${expressionToHtml(firstExpression)}<span class="pair-comma">,</span>${expressionToHtml(secondExpression)}<span class="pair-bracket">]</span></div>`,
 
         plainText:
           `${firstExpression}|${secondExpression}`,
@@ -1784,8 +1834,9 @@
             : "進階：求下列兩數的最小公倍數，答案請寫成標準分解式",
 
         html:
-          `<div class="question-line">${firstDisplay}</div>` +
-          `<div class="question-line">${secondProduct.join("×")}</div>`,
+          operation === "gcd"
+            ? `<div class="pair-expression"><span class="pair-bracket">(</span>${firstDisplay}<span class="pair-comma">,</span>${secondProduct.join("×")}<span class="pair-bracket">)</span></div>`
+            : `<div class="pair-expression"><span class="pair-bracket">[</span>${firstDisplay}<span class="pair-comma">,</span>${secondProduct.join("×")}<span class="pair-bracket">]</span></div>`,
 
         plainText:
           `${firstDisplay}|${secondProduct.join("x")}`,
