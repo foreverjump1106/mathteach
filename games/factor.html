@@ -1610,13 +1610,27 @@
     function createQuestionSet(
       selectedMode
     ) {
+      if (
+        selectedMode ===
+        "mixed"
+      ) {
+        return createMixedQuestionSet();
+      }
+
       const generated =
         [];
 
+      let safetyCount =
+        0;
+
       while (
         generated.length <
-        TOTAL_QUESTIONS
+          TOTAL_QUESTIONS &&
+        safetyCount <
+          500
       ) {
+        safetyCount++;
+
         const question =
           createQuestion(
             selectedMode
@@ -1638,8 +1652,18 @@
         }
       }
 
+      if (
+        generated.length <
+        TOTAL_QUESTIONS
+      ) {
+        throw new Error(
+          "無法產生足夠的不重複題目。"
+        );
+      }
+
       return generated;
     }
+
 
     function createQuestion(
       selectedMode
@@ -1769,85 +1793,718 @@
       };
     }
 
-    function createMixedQuestion() {
-      const operation =
-        Math.random() <
-        0.5
-          ? "gcd"
-          : "lcm";
+    /*
+    ==================================================
+    模式四：十種進階混合題型
+    每次挑戰固定十種各一題，再隨機排序
+    ==================================================
+    */
+
+    function createMixedQuestionSet() {
+      const questionSettings = [
+        {
+          form:
+            "standard-standard",
+
+          operation:
+            "gcd"
+        },
+
+        {
+          form:
+            "standard-standard",
+
+          operation:
+            "lcm"
+        },
+
+        {
+          form:
+            "integer-standard",
+
+          operation:
+            "gcd"
+        },
+
+        {
+          form:
+            "integer-standard",
+
+          operation:
+            "lcm"
+        },
+
+        {
+          form:
+            "integer-product",
+
+          operation:
+            "gcd"
+        },
+
+        {
+          form:
+            "integer-product",
+
+          operation:
+            "lcm"
+        },
+
+        {
+          form:
+            "standard-product",
+
+          operation:
+            Math.random() <
+            0.5
+              ? "gcd"
+              : "lcm"
+        },
+
+        {
+          form:
+            "integer-integer",
+
+          operation:
+            Math.random() <
+            0.5
+              ? "gcd"
+              : "lcm"
+        },
+
+        {
+          form:
+            "three-values",
+
+          operation:
+            "gcd"
+        },
+
+        {
+          form:
+            "three-values",
+
+          operation:
+            "lcm"
+        }
+      ];
+
+      return shuffle(
+        questionSettings.map(
+          (
+            setting,
+            questionIndex
+          ) => {
+            return createMixedQuestion(
+              setting.form,
+              setting.operation,
+              questionIndex + 1
+            );
+          }
+        )
+      );
+    }
+
+    function createMixedQuestion(
+      formType = null,
+      operation = null,
+      typeNumber = 0
+    ) {
+      const resolvedFormType =
+        formType ||
+        randomChoice([
+          "standard-standard",
+          "integer-standard",
+          "integer-product",
+          "standard-product",
+          "integer-integer"
+        ]);
+
+      const resolvedOperation =
+        operation ||
+        (
+          Math.random() <
+          0.5
+            ? "gcd"
+            : "lcm"
+        );
+
+      if (
+        resolvedFormType ===
+        "three-values"
+      ) {
+        return createThreeValueMixedQuestion(
+          resolvedOperation,
+          typeNumber
+        );
+      }
 
       const pair =
         randomStandardPair(
-          operation
+          resolvedOperation
         );
 
-      const firstFormType =
-        randomChoice([
-          "integer",
-          "standard"
-        ]);
+      const firstMap =
+        pair.firstMap;
 
-      const secondFormType =
-        "product";
+      const secondMap =
+        pair.secondMap;
 
-      const firstDisplay =
-        firstFormType ===
-        "integer"
-          ? String(
-              valueFromMap(
-                pair.firstMap
-              )
-            )
-          : expressionToHtml(
-              mapToExpression(
-                pair.firstMap
-              )
-            );
+      const firstInteger =
+        valueFromMap(
+          firstMap
+        );
+
+      const secondInteger =
+        valueFromMap(
+          secondMap
+        );
+
+      const firstStandard =
+        expressionToHtml(
+          mapToExpression(
+            firstMap
+          )
+        );
+
+      const secondStandard =
+        expressionToHtml(
+          mapToExpression(
+            secondMap
+          )
+        );
+
+      const firstProduct =
+        mapToCompositeProduct(
+          firstMap
+        ).join("×");
 
       const secondProduct =
         mapToCompositeProduct(
-          pair.secondMap
-        );
+          secondMap
+        ).join("×");
+
+      let displays =
+        [];
+
+      let formDescription =
+        "";
+
+      if (
+        resolvedFormType ===
+        "standard-standard"
+      ) {
+        displays = [
+          firstStandard,
+          secondStandard
+        ];
+
+        formDescription =
+          "兩個標準分解式";
+      } else if (
+        resolvedFormType ===
+        "integer-standard"
+      ) {
+        if (
+          Math.random() <
+          0.5
+        ) {
+          displays = [
+            String(
+              firstInteger
+            ),
+            secondStandard
+          ];
+        } else {
+          displays = [
+            firstStandard,
+            String(
+              secondInteger
+            )
+          ];
+        }
+
+        formDescription =
+          "一般整數與標準分解式";
+      } else if (
+        resolvedFormType ===
+        "integer-product"
+      ) {
+        if (
+          Math.random() <
+          0.5
+        ) {
+          displays = [
+            String(
+              firstInteger
+            ),
+            secondProduct
+          ];
+        } else {
+          displays = [
+            firstProduct,
+            String(
+              secondInteger
+            )
+          ];
+        }
+
+        formDescription =
+          "一般整數與連續乘積";
+      } else if (
+        resolvedFormType ===
+        "standard-product"
+      ) {
+        if (
+          Math.random() <
+          0.5
+        ) {
+          displays = [
+            firstStandard,
+            secondProduct
+          ];
+        } else {
+          displays = [
+            firstProduct,
+            secondStandard
+          ];
+        }
+
+        formDescription =
+          "標準分解式與連續乘積";
+      } else {
+        displays = [
+          String(
+            firstInteger
+          ),
+          String(
+            secondInteger
+          )
+        ];
+
+        formDescription =
+          "兩個一般整數";
+      }
 
       const answerMap =
-        operation ===
+        resolvedOperation ===
         "gcd"
           ? gcdMap(
-              pair.firstMap,
-              pair.secondMap
+              firstMap,
+              secondMap
             )
           : lcmMap(
-              pair.firstMap,
-              pair.secondMap
+              firstMap,
+              secondMap
             );
 
       return {
         type:
           "mixed",
 
+        mixedType:
+          resolvedFormType,
+
+        typeNumber,
+
+        operation:
+          resolvedOperation,
+
+        label:
+          resolvedOperation ===
+          "gcd"
+            ? `進階：求下列${formDescription}的最大公因數，答案請寫成標準分解式`
+            : `進階：求下列${formDescription}的最小公倍數，答案請寫成標準分解式`,
+
+        html:
+          buildOperationDisplay(
+            resolvedOperation,
+            displays
+          ),
+
+        plainText:
+          `${typeNumber}|${resolvedFormType}|${resolvedOperation}|${displays.join("|")}`,
+
+        sourceMaps: [
+          firstMap,
+          secondMap
+        ],
+
+        answerMap
+      };
+    }
+
+    function createThreeValueMixedQuestion(
+      operation,
+      typeNumber
+    ) {
+      const maps =
+        createThreeFactorMaps(
+          operation
+        );
+
+      const displayType =
+        randomChoice([
+          "three-integers",
+          "three-standards",
+          "three-mixed"
+        ]);
+
+      let displays =
+        [];
+
+      let formDescription =
+        "";
+
+      if (
+        displayType ===
+        "three-integers"
+      ) {
+        displays =
+          maps.map(
+            (factorMap) => {
+              return String(
+                valueFromMap(
+                  factorMap
+                )
+              );
+            }
+          );
+
+        formDescription =
+          "三個一般整數";
+      } else if (
+        displayType ===
+        "three-standards"
+      ) {
+        displays =
+          maps.map(
+            (factorMap) => {
+              return expressionToHtml(
+                mapToExpression(
+                  factorMap
+                )
+              );
+            }
+          );
+
+        formDescription =
+          "三個標準分解式";
+      } else {
+        displays =
+          shuffle([
+            String(
+              valueFromMap(
+                maps[0]
+              )
+            ),
+
+            expressionToHtml(
+              mapToExpression(
+                maps[1]
+              )
+            ),
+
+            mapToCompositeProduct(
+              maps[2]
+            ).join("×")
+          ]);
+
+        formDescription =
+          "三個不同形式的數";
+      }
+
+      const answerMap =
+        operation ===
+        "gcd"
+          ? gcdMapMany(
+              maps
+            )
+          : lcmMapMany(
+              maps
+            );
+
+      return {
+        type:
+          "mixed",
+
+        mixedType:
+          displayType,
+
+        typeNumber,
+
         operation,
 
         label:
           operation ===
           "gcd"
-            ? "進階：求下列兩數的最大公因數，答案請寫成標準分解式"
-            : "進階：求下列兩數的最小公倍數，答案請寫成標準分解式",
+            ? `進階：求下列${formDescription}的最大公因數，答案請寫成標準分解式`
+            : `進階：求下列${formDescription}的最小公倍數，答案請寫成標準分解式`,
 
         html:
-          operation === "gcd"
-            ? `<div class="pair-expression"><span class="pair-bracket">(</span>${firstDisplay}<span class="pair-comma">,</span>${secondProduct.join("×")}<span class="pair-bracket">)</span></div>`
-            : `<div class="pair-expression"><span class="pair-bracket">[</span>${firstDisplay}<span class="pair-comma">,</span>${secondProduct.join("×")}<span class="pair-bracket">]</span></div>`,
+          buildOperationDisplay(
+            operation,
+            displays
+          ),
 
         plainText:
-          `${firstDisplay}|${secondProduct.join("x")}`,
+          `${typeNumber}|${displayType}|${operation}|${displays.join("|")}`,
 
-        sourceMaps: [
-          pair.firstMap,
-          pair.secondMap
-        ],
+        sourceMaps:
+          maps,
 
         answerMap
       };
+    }
+
+    function createThreeFactorMaps(
+      operation
+    ) {
+      let attemptCount =
+        0;
+
+      while (
+        attemptCount <
+        300
+      ) {
+        attemptCount++;
+
+        const maps = [
+          randomFactorMap({
+            maxValue:
+              700,
+
+            minPrimeCount:
+              2,
+
+            maxPrimeCount:
+              4
+          }),
+
+          randomFactorMap({
+            maxValue:
+              700,
+
+            minPrimeCount:
+              2,
+
+            maxPrimeCount:
+              4
+          }),
+
+          randomFactorMap({
+            maxValue:
+              700,
+
+            minPrimeCount:
+              2,
+
+            maxPrimeCount:
+              4
+          })
+        ];
+
+        if (
+          operation ===
+          "gcd"
+        ) {
+          const sharedPrime =
+            randomChoice([
+              2,
+              3,
+              5,
+              7
+            ]);
+
+          maps.forEach(
+            (factorMap) => {
+              factorMap[
+                sharedPrime
+              ] =
+                Math.max(
+                  1,
+                  factorMap[
+                    sharedPrime
+                  ] ||
+                  0
+                );
+            }
+          );
+        }
+
+        const values =
+          maps.map(
+            (factorMap) =>
+              valueFromMap(
+                factorMap
+              )
+          );
+
+        if (
+          new Set(
+            values
+          ).size !==
+          3
+        ) {
+          continue;
+        }
+
+        if (
+          values.some(
+            (value) =>
+              value >
+              1200
+          )
+        ) {
+          continue;
+        }
+
+        if (
+          operation ===
+          "gcd" &&
+          Object.keys(
+            gcdMapMany(
+              maps
+            )
+          ).length ===
+          0
+        ) {
+          continue;
+        }
+
+        if (
+          operation ===
+          "lcm" &&
+          valueFromMap(
+            lcmMapMany(
+              maps
+            )
+          ) >
+          3000000
+        ) {
+          continue;
+        }
+
+        return maps;
+      }
+
+      return [
+        {
+          2: 3,
+          3: 1
+        },
+
+        {
+          2: 2,
+          3: 2
+        },
+
+        {
+          2: 2,
+          3: 1,
+          5: 1
+        }
+      ];
+    }
+
+    function gcdMapMany(
+      maps
+    ) {
+      if (
+        !Array.isArray(
+          maps
+        ) ||
+        maps.length ===
+          0
+      ) {
+        return {};
+      }
+
+      return maps
+        .slice(1)
+        .reduce(
+          (
+            currentMap,
+            nextMap
+          ) => {
+            return gcdMap(
+              currentMap,
+              nextMap
+            );
+          },
+          {
+            ...maps[0]
+          }
+        );
+    }
+
+    function lcmMapMany(
+      maps
+    ) {
+      if (
+        !Array.isArray(
+          maps
+        ) ||
+        maps.length ===
+          0
+      ) {
+        return {};
+      }
+
+      return maps
+        .slice(1)
+        .reduce(
+          (
+            currentMap,
+            nextMap
+          ) => {
+            return lcmMap(
+              currentMap,
+              nextMap
+            );
+          },
+          {
+            ...maps[0]
+          }
+        );
+    }
+
+    function buildOperationDisplay(
+      operation,
+      displays
+    ) {
+      const openingBracket =
+        operation ===
+        "gcd"
+          ? "("
+          : "[";
+
+      const closingBracket =
+        operation ===
+        "gcd"
+          ? ")"
+          : "]";
+
+      const joinedContent =
+        displays
+          .map(
+            (display) => {
+              return (
+                `<span class="pair-value">${display}</span>`
+              );
+            }
+          )
+          .join(
+            `<span class="pair-comma">,</span>`
+          );
+
+      return (
+        `<div class="pair-expression">` +
+          `<span class="pair-bracket">${openingBracket}</span>` +
+          joinedContent +
+          `<span class="pair-bracket">${closingBracket}</span>` +
+        `</div>`
+      );
     }
 
     function randomStandardPair(
