@@ -2,36 +2,36 @@
 ==================================================
 數學遊戲樂園：排行榜
 檔案位置：js/leaderboard.js
-版本：2.0 - 多模式獨立排行榜
+
+版本：2.1
+多模式獨立排行＋模式切換版
 ==================================================
 
 排行榜規則：
 
-1. 有多種模式的遊戲：
-   每個模式各自建立排行榜。
+1. 多模式遊戲：
+   每個模式各自排行。
 
-2. 每個模式最多顯示前 20 名。
+2. 多模式排行榜：
+   使用模式按鈕切換，
+   不把所有模式全部往下排列。
 
-3. 同一玩家在：
-   同一遊戲 + 同一模式
-   只保留最佳成績。
+3. 每個模式最多前 20 名。
 
-4. 最佳成績判斷：
-   第一順位：分數較高
-   第二順位：遊戲時間較短
-   第三順位：較早達成
+4. 同一玩家：
+   同一遊戲＋同一模式
+   只保留最佳紀錄。
 
-5. 單模式遊戲：
-   直接顯示該遊戲排行榜。
+5. 最佳紀錄比較順序：
+   ① 分數高
+   ② playTime 短
+   ③ 較早達成
 
-6. 同分時：
-   playTime 較短者排名較前。
+6. 單模式遊戲：
+   直接顯示前 20 名。
 
-7. 排行榜模式名稱：
-   自動讀取 game-config.js。
-
-8. 不在 Firestore 查詢階段 limit(20)，
-   避免多模式遊戲資料被提前截斷。
+7. Firestore 不先 limit(20)，
+   避免不同模式被提前截斷。
 ==================================================
 */
 
@@ -42,7 +42,6 @@ import {
 
 import {
   getFinishedGames,
-  getGameDisplayName,
   getGameConfig,
   getGameName,
   getModeName
@@ -99,22 +98,249 @@ const filterBox =
 
 /*
 ==================================================
-狀態
+基本設定
 ==================================================
 */
-
-let currentUser = null;
-
-let selectedGame =
-  "all";
 
 const LEADERBOARD_LIMIT =
   20;
 
+let currentUser =
+  null;
+
+let selectedGame =
+  "all";
+
 
 /*
 ==================================================
-建立遊戲篩選按鈕
+排行榜專用樣式
+
+直接由 JS 加入，
+因此目前 leaderboard.html
+不需要額外修改。
+==================================================
+*/
+
+function injectLeaderboardStyles() {
+  if (
+    document.getElementById(
+      "leaderboardDynamicStyles"
+    )
+  ) {
+    return;
+  }
+
+  const style =
+    document.createElement(
+      "style"
+    );
+
+  style.id =
+    "leaderboardDynamicStyles";
+
+  style.textContent = `
+    /*
+    ================================================
+    遊戲區塊
+    ================================================
+    */
+
+    .leaderboard-game-section {
+      list-style: none;
+      margin: 0 0 28px;
+      padding: 0;
+    }
+
+    .leaderboard-game-title {
+      margin: 0 0 14px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-size: 21px;
+      font-weight: 900;
+      line-height: 1.4;
+      text-align: left;
+    }
+
+
+    /*
+    ================================================
+    模式切換
+    ================================================
+    */
+
+    .leaderboard-mode-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 14px;
+      padding: 4px 0;
+    }
+
+    .leaderboard-mode-tab {
+      min-height: 42px;
+      padding: 9px 15px;
+
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+
+      background: #ffffff;
+      color: #475569;
+
+      font: inherit;
+      font-size: 14px;
+      font-weight: 900;
+
+      cursor: pointer;
+
+      transition:
+        background-color .15s ease,
+        color .15s ease,
+        border-color .15s ease,
+        transform .15s ease;
+
+      touch-action: manipulation;
+
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .leaderboard-mode-tab:hover {
+      border-color: #60a5fa;
+      background: #eff6ff;
+      color: #1d4ed8;
+    }
+
+    .leaderboard-mode-tab:active {
+      transform: scale(.98);
+    }
+
+    .leaderboard-mode-tab.active {
+      border-color: #2563eb;
+      background: #2563eb;
+      color: #ffffff;
+      box-shadow: 0 5px 12px rgba(37, 99, 235, .22);
+    }
+
+
+    /*
+    ================================================
+    模式排行榜內容
+    ================================================
+    */
+
+    .leaderboard-mode-content {
+      display: block;
+    }
+
+    .leaderboard-mode-content[hidden] {
+      display: none !important;
+    }
+
+    .leaderboard-mode-heading {
+      margin: 0 0 10px;
+      color: #334155;
+      font-size: 17px;
+      font-weight: 900;
+      text-align: left;
+    }
+
+    .leaderboard-mode-empty {
+      margin: 10px 0 18px;
+      padding: 24px 16px;
+
+      border: 2px dashed #cbd5e1;
+      border-radius: 14px;
+
+      background: #f8fafc;
+      color: #64748b;
+
+      font-size: 15px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+
+    /*
+    ================================================
+    排行清單
+    ================================================
+    */
+
+    .leaderboard-ranking-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      display: grid;
+      gap: 10px;
+    }
+
+    .leaderboard-ranking-list
+    .leaderboard-item {
+      margin: 0;
+    }
+
+
+    /*
+    ================================================
+    遊戲時間
+    ================================================
+    */
+
+    .leaderboard-play-duration {
+      margin-top: 3px;
+      color: #0f766e;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+
+    /*
+    ================================================
+    手機
+    ================================================
+    */
+
+    @media (max-width: 560px) {
+
+      .leaderboard-game-title {
+        font-size: 18px;
+        padding: 10px 12px;
+      }
+
+      .leaderboard-mode-tabs {
+        gap: 6px;
+      }
+
+      .leaderboard-mode-tab {
+        flex: 1 1 calc(50% - 6px);
+        min-width: 120px;
+        padding: 8px 8px;
+        font-size: 13px;
+      }
+
+      .leaderboard-mode-heading {
+        font-size: 16px;
+      }
+    }
+  `;
+
+  document.head.appendChild(
+    style
+  );
+}
+
+injectLeaderboardStyles();
+
+
+/*
+==================================================
+遊戲篩選按鈕
 ==================================================
 */
 
@@ -180,12 +406,6 @@ function createFilterButton({
 }
 
 
-/*
-==================================================
-建立遊戲篩選區
-==================================================
-*/
-
 function renderFilterButtons() {
   if (!filterBox) {
     console.error(
@@ -211,23 +431,21 @@ function renderFilterButtons() {
     })
   );
 
-  const finishedGames =
-    getFinishedGames();
+  getFinishedGames()
+    .forEach(
+      (game) => {
+        filterBox.appendChild(
+          createFilterButton({
+            gameId:
+              game.id,
 
-  finishedGames.forEach(
-    (game) => {
-      filterBox.appendChild(
-        createFilterButton({
-          gameId:
-            game.id,
-
-          label:
-            game.shortName ||
-            game.name
-        })
-      );
-    }
-  );
+            label:
+              game.shortName ||
+              game.name
+          })
+        );
+      }
+    );
 }
 
 renderFilterButtons();
@@ -290,14 +508,10 @@ async function loadLeaderboard() {
     let leaderboardQuery;
 
     /*
-    ================================================
-    重要：
-    這裡不再使用 limit(20)。
+    不在 Firestore 階段先 limit 20。
 
-    因為如果先限制 20 筆，
-    多模式遊戲就可能只抓到某一個模式，
-    其他模式沒有足夠資料。
-    ================================================
+    因為：
+    不同模式都需要各自前 20 名。
     */
 
     if (
@@ -326,7 +540,7 @@ async function loadLeaderboard() {
         leaderboardQuery
       );
 
-    const scoreRecords =
+    const records =
       snapshot.docs.map(
         (
           documentSnapshot
@@ -339,8 +553,9 @@ async function loadLeaderboard() {
       );
 
     renderLeaderboard(
-      scoreRecords
+      records
     );
+
   } catch (error) {
     console.error(
       "排行榜讀取失敗：",
@@ -356,7 +571,7 @@ async function loadLeaderboard() {
 
 /*
 ==================================================
-取得遊戲模式設定
+遊戲模式
 ==================================================
 */
 
@@ -390,34 +605,13 @@ function getConfiguredModes(
         ),
 
       name:
-        modeName
+        String(
+          modeName
+        )
     })
   );
 }
 
-
-/*
-==================================================
-判斷遊戲是否為多模式
-==================================================
-*/
-
-function isMultiModeGame(
-  gameId
-) {
-  return (
-    getConfiguredModes(
-      gameId
-    ).length > 1
-  );
-}
-
-
-/*
-==================================================
-模式標準化
-==================================================
-*/
 
 function normalizeMode(
   mode
@@ -460,10 +654,7 @@ function toSafeNumber(
 
 /*
 ==================================================
-取得遊戲時間
-
-舊資料如果沒有 playTime，
-視為非常慢，避免排到同分玩家前面。
+遊戲時間
 ==================================================
 */
 
@@ -484,13 +675,18 @@ function getPlayTime(
     return value;
   }
 
+  /*
+  舊資料沒有時間時，
+  同分時排在有時間資料的人後面。
+  */
+
   return Number.POSITIVE_INFINITY;
 }
 
 
 /*
 ==================================================
-Timestamp 轉毫秒
+Firestore Timestamp
 ==================================================
 */
 
@@ -525,7 +721,8 @@ function getTimestampMilliseconds(
       return (
         Number(
           timestamp.seconds
-        ) * 1000
+        ) *
+        1000
       );
     }
 
@@ -544,6 +741,7 @@ function getTimestampMilliseconds(
     ) {
       return time;
     }
+
   } catch (_) {}
 
   return Number.POSITIVE_INFINITY;
@@ -552,12 +750,7 @@ function getTimestampMilliseconds(
 
 /*
 ==================================================
-比較兩筆成績
-
-回傳：
-負數 = A 排前面
-正數 = B 排前面
-0 = 完全相同
+排行榜排序核心
 ==================================================
 */
 
@@ -567,7 +760,7 @@ function compareScoreRecords(
 ) {
   /*
   第一順位：
-  分數高者優先
+  分數較高
   */
 
   const scoreA =
@@ -590,9 +783,10 @@ function compareScoreRecords(
     );
   }
 
+
   /*
   第二順位：
-  完成時間短者優先
+  花費時間較短
   */
 
   const timeA =
@@ -615,9 +809,10 @@ function compareScoreRecords(
     );
   }
 
+
   /*
   第三順位：
-  較早達成者優先
+  較早達成
   */
 
   const createdA =
@@ -640,9 +835,10 @@ function compareScoreRecords(
     );
   }
 
+
   /*
-  最後用文件 ID，
-  保證排序結果穩定。
+  最後以文件 ID
+  保持排序穩定。
   */
 
   return String(
@@ -659,7 +855,7 @@ function compareScoreRecords(
 
 /*
 ==================================================
-判斷新紀錄是否比舊紀錄好
+判斷新紀錄是否較佳
 ==================================================
 */
 
@@ -682,7 +878,7 @@ function isBetterRecord(
 
 /*
 ==================================================
-同一玩家只保留最佳成績
+同一玩家只留最佳成績
 ==================================================
 */
 
@@ -694,14 +890,6 @@ function keepBestRecordPerPlayer(
 
   records.forEach(
     (record) => {
-      /*
-      正常登入玩家使用 uid。
-
-      若舊資料沒有 uid，
-      則使用文件 ID，
-      避免不同玩家被誤認為同一人。
-      */
-
       const playerKey =
         record.uid
           ? `uid:${record.uid}`
@@ -735,7 +923,7 @@ function keepBestRecordPerPlayer(
 
 /*
 ==================================================
-建立前 20 名
+取得前 20 名
 ==================================================
 */
 
@@ -777,9 +965,8 @@ function groupRecordsByMode(
     );
 
   /*
-  先按照 game-config 建立模式，
-  即使某模式目前沒有人玩，
-  也能保留模式順序。
+  先依 game-config 建立模式，
+  保證按鈕順序一致。
   */
 
   configuredModes.forEach(
@@ -792,30 +979,30 @@ function groupRecordsByMode(
   );
 
   /*
-  再放入實際成績。
+  再加入 Firestore 實際紀錄。
   */
 
   records.forEach(
     (record) => {
-      const mode =
+      const modeId =
         normalizeMode(
           record.mode
         );
 
       if (
         !groups.has(
-          mode
+          modeId
         )
       ) {
         groups.set(
-          mode,
+          modeId,
           []
         );
       }
 
       groups
         .get(
-          mode
+          modeId
         )
         .push(
           record
@@ -829,7 +1016,7 @@ function groupRecordsByMode(
 
 /*
 ==================================================
-取得排行榜顯示用的遊戲清單
+排行榜需要顯示的遊戲
 ==================================================
 */
 
@@ -845,22 +1032,10 @@ function getGamesForLeaderboard(
         selectedGame
       );
 
-    if (game) {
-      return [
-        game
-      ];
-    }
-
-    return [];
+    return game
+      ? [game]
+      : [];
   }
-
-  /*
-  全部遊戲：
-  依 game-config 的正式順序。
-  */
-
-  const finishedGames =
-    getFinishedGames();
 
   const recordGameIds =
     new Set(
@@ -870,18 +1045,19 @@ function getGamesForLeaderboard(
       )
     );
 
-  return finishedGames.filter(
-    (game) =>
-      recordGameIds.has(
-        game.id
-      )
-  );
+  return getFinishedGames()
+    .filter(
+      (game) =>
+        recordGameIds.has(
+          game.id
+        )
+    );
 }
 
 
 /*
 ==================================================
-主排行榜顯示
+主顯示
 ==================================================
 */
 
@@ -903,9 +1079,7 @@ function renderLeaderboard(
       "";
   }
 
-  if (
-    !leaderboardList
-  ) {
+  if (!leaderboardList) {
     console.error(
       "找不到 leaderboardList。"
     );
@@ -965,7 +1139,7 @@ function renderLeaderboard(
 
 /*
 ==================================================
-顯示單一遊戲排行榜
+單一遊戲排行榜
 ==================================================
 */
 
@@ -973,13 +1147,6 @@ function renderGameLeaderboard(
   game,
   records
 ) {
-  if (
-    !game ||
-    !leaderboardList
-  ) {
-    return;
-  }
-
   const gameSection =
     document.createElement(
       "li"
@@ -988,8 +1155,10 @@ function renderGameLeaderboard(
   gameSection.className =
     "leaderboard-game-section";
 
+
   /*
-  遊戲標題
+  全部遊戲模式時，
+  顯示遊戲標題。
   */
 
   if (
@@ -1012,10 +1181,12 @@ function renderGameLeaderboard(
     );
   }
 
+
   const configuredModes =
     getConfiguredModes(
       game.id
     );
+
 
   /*
   ================================================
@@ -1027,76 +1198,10 @@ function renderGameLeaderboard(
     configuredModes.length >
     1
   ) {
-    const groups =
-      groupRecordsByMode(
-        game.id,
-        records
-      );
-
-    configuredModes.forEach(
-      (mode) => {
-        const modeRecords =
-          groups.get(
-            mode.id
-          ) || [];
-
-        renderModeLeaderboard(
-          gameSection,
-          game,
-          mode.id,
-          mode.name,
-          modeRecords,
-          true
-        );
-      }
-    );
-
-    /*
-    如果資料庫存在舊模式，
-    但 game-config 已經沒有，
-    不讓資料直接消失。
-
-    會放在正式模式後方。
-    */
-
-    groups.forEach(
-      (
-        modeRecords,
-        modeId
-      ) => {
-        const alreadyConfigured =
-          configuredModes.some(
-            (mode) =>
-              mode.id ===
-              modeId
-          );
-
-        if (
-          alreadyConfigured
-        ) {
-          return;
-        }
-
-        if (
-          modeRecords.length ===
-          0
-        ) {
-          return;
-        }
-
-        renderModeLeaderboard(
-          gameSection,
-          game,
-          modeId,
-          getModeName(
-            game.id,
-            modeId
-          ) ||
-            "其他模式",
-          modeRecords,
-          true
-        );
-      }
+    renderMultiModeLeaderboard(
+      gameSection,
+      game,
+      records
     );
   }
 
@@ -1107,26 +1212,24 @@ function renderGameLeaderboard(
   */
 
   else {
-    /*
-    即使 game-config 有一個模式，
-    也視為單排行榜。
-
-    不另外做不必要的模式分區。
-    */
-
     const topRecords =
       buildTopRecords(
         records
       );
 
-    renderRankingList(
-      gameSection,
-      topRecords,
-      {
-        showMode:
-          false
-      }
-    );
+    if (
+      topRecords.length ===
+      0
+    ) {
+      appendEmptyMessage(
+        gameSection
+      );
+    } else {
+      renderRankingList(
+        gameSection,
+        topRecords
+      );
+    }
   }
 
   leaderboardList.appendChild(
@@ -1137,86 +1240,335 @@ function renderGameLeaderboard(
 
 /*
 ==================================================
-顯示單一模式排行榜
+多模式排行榜
 ==================================================
 */
 
-function renderModeLeaderboard(
+function renderMultiModeLeaderboard(
   parent,
   game,
-  modeId,
-  modeName,
-  records,
-  showModeTitle
+  records
 ) {
-  const modeSection =
+  const configuredModes =
+    getConfiguredModes(
+      game.id
+    );
+
+  const groups =
+    groupRecordsByMode(
+      game.id,
+      records
+    );
+
+
+  /*
+  ================================================
+  正式模式＋舊資料模式
+  ================================================
+  */
+
+  const modes =
+    [...configuredModes];
+
+  groups.forEach(
+    (
+      modeRecords,
+      modeId
+    ) => {
+      const exists =
+        modes.some(
+          (mode) =>
+            mode.id ===
+            modeId
+        );
+
+      if (
+        !exists &&
+        modeRecords.length >
+          0
+      ) {
+        modes.push({
+          id:
+            modeId,
+
+          name:
+            getModeName(
+              game.id,
+              modeId
+            ) ||
+            modeId ||
+            "其他模式"
+        });
+      }
+    }
+  );
+
+
+  if (
+    modes.length === 0
+  ) {
+    const topRecords =
+      buildTopRecords(
+        records
+      );
+
+    renderRankingList(
+      parent,
+      topRecords
+    );
+
+    return;
+  }
+
+
+  /*
+  ================================================
+  模式按鈕
+  ================================================
+  */
+
+  const tabs =
     document.createElement(
       "div"
     );
 
-  modeSection.className =
-    "leaderboard-mode-section";
+  tabs.className =
+    "leaderboard-mode-tabs";
 
-  if (
-    showModeTitle
-  ) {
-    const modeTitle =
-      document.createElement(
-        "div"
-      );
+  tabs.setAttribute(
+    "role",
+    "tablist"
+  );
 
-    modeTitle.className =
-      "leaderboard-mode-title";
 
-    modeTitle.textContent =
-      modeName ||
-      getModeName(
-        game.id,
-        modeId
-      ) ||
-      "模式";
+  /*
+  ================================================
+  模式內容區
+  ================================================
+  */
 
-    modeSection.appendChild(
-      modeTitle
-    );
-  }
-
-  const topRecords =
-    buildTopRecords(
-      records
+  const contents =
+    document.createElement(
+      "div"
     );
 
-  if (
-    topRecords.length ===
-    0
-  ) {
-    const noScore =
-      document.createElement(
-        "div"
-      );
+  contents.className =
+    "leaderboard-mode-contents";
 
-    noScore.className =
-      "leaderboard-mode-empty";
 
-    noScore.textContent =
-      "目前尚無成績";
+  let firstAvailableIndex =
+    modes.findIndex(
+      (mode) => {
+        const modeRecords =
+          groups.get(
+            mode.id
+          ) || [];
 
-    modeSection.appendChild(
-      noScore
-    );
-  } else {
-    renderRankingList(
-      modeSection,
-      topRecords,
-      {
-        showMode:
-          false
+        return (
+          modeRecords.length >
+          0
+        );
       }
     );
+
+  if (
+    firstAvailableIndex <
+    0
+  ) {
+    firstAvailableIndex =
+      0;
   }
 
+
+  modes.forEach(
+    (
+      mode,
+      index
+    ) => {
+      /*
+      ==============================================
+      Tab button
+      ==============================================
+      */
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+      button.type =
+        "button";
+
+      button.className =
+        "leaderboard-mode-tab";
+
+      button.dataset.mode =
+        mode.id;
+
+      button.textContent =
+        mode.name;
+
+      button.setAttribute(
+        "role",
+        "tab"
+      );
+
+
+      /*
+      ==============================================
+      模式排行榜
+      ==============================================
+      */
+
+      const content =
+        document.createElement(
+          "div"
+        );
+
+      content.className =
+        "leaderboard-mode-content";
+
+      content.dataset.mode =
+        mode.id;
+
+      content.setAttribute(
+        "role",
+        "tabpanel"
+      );
+
+
+      const heading =
+        document.createElement(
+          "div"
+        );
+
+      heading.className =
+        "leaderboard-mode-heading";
+
+      heading.textContent =
+        `${mode.name}｜前 ${LEADERBOARD_LIMIT} 名`;
+
+      content.appendChild(
+        heading
+      );
+
+
+      const modeRecords =
+        groups.get(
+          mode.id
+        ) || [];
+
+      const topRecords =
+        buildTopRecords(
+          modeRecords
+        );
+
+
+      if (
+        topRecords.length ===
+        0
+      ) {
+        appendEmptyMessage(
+          content,
+          "目前這個模式尚無成績"
+        );
+      } else {
+        renderRankingList(
+          content,
+          topRecords
+        );
+      }
+
+
+      /*
+      ==============================================
+      初始模式
+      ==============================================
+      */
+
+      const initial =
+        index ===
+        firstAvailableIndex;
+
+      button.classList.toggle(
+        "active",
+        initial
+      );
+
+      button.setAttribute(
+        "aria-selected",
+        String(
+          initial
+        )
+      );
+
+      content.hidden =
+        !initial;
+
+
+      /*
+      ==============================================
+      點擊切換
+      ==============================================
+      */
+
+      button.addEventListener(
+        "click",
+        () => {
+          tabs
+            .querySelectorAll(
+              ".leaderboard-mode-tab"
+            )
+            .forEach(
+              (tab) => {
+                const active =
+                  tab === button;
+
+                tab.classList.toggle(
+                  "active",
+                  active
+                );
+
+                tab.setAttribute(
+                  "aria-selected",
+                  String(active)
+                );
+              }
+            );
+
+
+          contents
+            .querySelectorAll(
+              ".leaderboard-mode-content"
+            )
+            .forEach(
+              (panel) => {
+                panel.hidden =
+                  panel.dataset.mode !==
+                  mode.id;
+              }
+            );
+        }
+      );
+
+
+      tabs.appendChild(
+        button
+      );
+
+      contents.appendChild(
+        content
+      );
+    }
+  );
+
+
   parent.appendChild(
-    modeSection
+    tabs
+  );
+
+  parent.appendChild(
+    contents
   );
 }
 
@@ -1229,10 +1581,7 @@ function renderModeLeaderboard(
 
 function renderRankingList(
   parent,
-  records,
-  {
-    showMode = false
-  } = {}
+  records
 ) {
   const list =
     document.createElement(
@@ -1247,15 +1596,11 @@ function renderRankingList(
       record,
       index
     ) => {
-      const listItem =
+      list.appendChild(
         createLeaderboardItem(
           record,
-          index + 1,
-          showMode
-        );
-
-      list.appendChild(
-        listItem
+          index + 1
+        )
       );
     }
   );
@@ -1268,14 +1613,13 @@ function renderRankingList(
 
 /*
 ==================================================
-建立單筆排行榜
+單一排行榜項目
 ==================================================
 */
 
 function createLeaderboardItem(
   record,
-  rank,
-  showMode = false
+  rank
 ) {
   const listItem =
     document.createElement(
@@ -1284,6 +1628,13 @@ function createLeaderboardItem(
 
   listItem.className =
     "leaderboard-item";
+
+
+  /*
+  ================================================
+  自己的紀錄
+  ================================================
+  */
 
   if (
     currentUser &&
@@ -1295,8 +1646,11 @@ function createLeaderboardItem(
     );
   }
 
+
   /*
+  ================================================
   名次
+  ================================================
   */
 
   const rankElement =
@@ -1312,8 +1666,11 @@ function createLeaderboardItem(
       rank
     );
 
+
   /*
-  玩家資訊
+  ================================================
+  玩家資料
+  ================================================
   */
 
   const playerInfo =
@@ -1323,6 +1680,7 @@ function createLeaderboardItem(
 
   playerInfo.className =
     "player-info";
+
 
   const playerName =
     document.createElement(
@@ -1337,12 +1695,9 @@ function createLeaderboardItem(
     record.displayName ||
     "未命名玩家";
 
-  playerInfo.appendChild(
-    playerName
-  );
 
   /*
-  遊戲／模式名稱
+  遊戲名稱
   */
 
   const gameName =
@@ -1353,33 +1708,22 @@ function createLeaderboardItem(
   gameName.className =
     "game-name";
 
-  if (showMode) {
-    gameName.textContent =
-      getGameDisplayName(
-        record.game,
-        record.mode
-      );
-  } else {
-    gameName.textContent =
-      getGameName(
-        record.game
-      );
-  }
+  gameName.textContent =
+    getGameName(
+      record.game
+    );
 
-  playerInfo.appendChild(
-    gameName
-  );
 
   /*
   完成時間
   */
 
-  const playTimeElement =
+  const playDuration =
     document.createElement(
       "div"
     );
 
-  playTimeElement.className =
+  playDuration.className =
     "leaderboard-play-duration";
 
   const playTime =
@@ -1392,21 +1736,18 @@ function createLeaderboardItem(
       playTime
     )
   ) {
-    playTimeElement.textContent =
-      `⏱ ${formatPlayTime(
+    playDuration.textContent =
+      `⏱ 完成時間：${formatPlayTime(
         playTime
       )}`;
   } else {
-    playTimeElement.textContent =
-      "⏱ 時間未記錄";
+    playDuration.textContent =
+      "⏱ 完成時間：未記錄";
   }
 
-  playerInfo.appendChild(
-    playTimeElement
-  );
 
   /*
-  成績建立日期
+  達成日期
   */
 
   const createdTime =
@@ -1422,12 +1763,28 @@ function createLeaderboardItem(
       record.createdAt
     );
 
+
+  playerInfo.appendChild(
+    playerName
+  );
+
+  playerInfo.appendChild(
+    gameName
+  );
+
+  playerInfo.appendChild(
+    playDuration
+  );
+
   playerInfo.appendChild(
     createdTime
   );
 
+
   /*
+  ================================================
   分數
+  ================================================
   */
 
   const scoreElement =
@@ -1438,6 +1795,7 @@ function createLeaderboardItem(
   scoreElement.className =
     "score";
 
+
   const scoreNumber =
     document.createElement(
       "div"
@@ -1447,6 +1805,7 @@ function createLeaderboardItem(
     toSafeNumber(
       record.score
     );
+
 
   const scoreLabel =
     document.createElement(
@@ -1459,6 +1818,7 @@ function createLeaderboardItem(
   scoreLabel.textContent =
     "分";
 
+
   scoreElement.appendChild(
     scoreNumber
   );
@@ -1467,8 +1827,11 @@ function createLeaderboardItem(
     scoreLabel
   );
 
+
   /*
+  ================================================
   組合
+  ================================================
   */
 
   listItem.appendChild(
@@ -1484,6 +1847,34 @@ function createLeaderboardItem(
   );
 
   return listItem;
+}
+
+
+/*
+==================================================
+空資料
+==================================================
+*/
+
+function appendEmptyMessage(
+  parent,
+  message =
+    "目前尚無成績"
+) {
+  const empty =
+    document.createElement(
+      "div"
+    );
+
+  empty.className =
+    "leaderboard-mode-empty";
+
+  empty.textContent =
+    message;
+
+  parent.appendChild(
+    empty
+  );
 }
 
 
@@ -1522,11 +1913,7 @@ function getRankDisplay(
 
 /*
 ==================================================
-遊戲時間格式
-
-例如：
-45 -> 45秒
-75 -> 1分15秒
+遊戲時間
 ==================================================
 */
 
@@ -1547,7 +1934,9 @@ function formatPlayTime(
     safeSeconds <
     60
   ) {
-    return `${safeSeconds}秒`;
+    return (
+      `${safeSeconds} 秒`
+    );
   }
 
   const minutes =
@@ -1564,19 +1953,21 @@ function formatPlayTime(
     remainingSeconds ===
     0
   ) {
-    return `${minutes}分`;
+    return (
+      `${minutes} 分`
+    );
   }
 
   return (
-    `${minutes}分` +
-    `${remainingSeconds}秒`
+    `${minutes} 分 ` +
+    `${remainingSeconds} 秒`
   );
 }
 
 
 /*
 ==================================================
-日期格式
+日期
 ==================================================
 */
 
@@ -1596,6 +1987,7 @@ function formatDate(
     ) {
       date =
         timestamp.toDate();
+
     } else if (
       timestamp.seconds !==
       undefined
@@ -1605,12 +1997,14 @@ function formatDate(
           timestamp.seconds *
             1000
         );
+
     } else {
       date =
         new Date(
           timestamp
         );
     }
+
 
     if (
       Number.isNaN(
@@ -1619,6 +2013,7 @@ function formatDate(
     ) {
       return "時間格式錯誤";
     }
+
 
     return new Intl.DateTimeFormat(
       "zh-TW",
@@ -1644,6 +2039,7 @@ function formatDate(
     ).format(
       date
     );
+
   } catch (error) {
     console.warn(
       "時間格式轉換失敗：",
@@ -1701,17 +2097,17 @@ function showLoginRequiredMessage() {
       true;
   }
 
+  if (leaderboardList) {
+    leaderboardList.innerHTML =
+      "";
+  }
+
   if (errorMessage) {
     errorMessage.hidden =
       false;
 
     errorMessage.textContent =
       "目前尚未登入，請回到首頁登入後再查看排行榜。";
-  }
-
-  if (leaderboardList) {
-    leaderboardList.innerHTML =
-      "";
   }
 }
 
@@ -1735,11 +2131,6 @@ function showError(
       true;
   }
 
-  if (errorMessage) {
-    errorMessage.hidden =
-      false;
-  }
-
   if (leaderboardList) {
     leaderboardList.innerHTML =
       "";
@@ -1748,6 +2139,10 @@ function showError(
   if (!errorMessage) {
     return;
   }
+
+  errorMessage.hidden =
+    false;
+
 
   if (
     error?.code ===
@@ -1759,6 +2154,7 @@ function showError(
     return;
   }
 
+
   if (
     error?.code ===
     "failed-precondition"
@@ -1768,6 +2164,7 @@ function showError(
 
     return;
   }
+
 
   errorMessage.textContent =
     `排行榜讀取失敗：${
