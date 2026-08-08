@@ -2,6 +2,18 @@
 ==================================================
 數學遊戲樂園：共用計算紙
 檔案位置：js/scratchpad.js
+版本：2.0 - Pointer Events 統一拖曳版
+==================================================
+
+重點：
+1. 滑鼠、平板、手機統一使用 Pointer Events。
+2. 深黃色標題列可拖曳。
+3. 淺黃色工具列空白處可拖曳。
+4. 功能按鈕仍只執行原本功能，不啟動拖曳。
+5. Canvas 只負責書寫，不啟動面板拖曳。
+6. 使用 setPointerCapture()，手指移出原區域仍可持續拖曳。
+7. 關閉再開啟保留最後位置；重新整理頁面才重設。
+8. 桌面版保留八方向縮放；手機與平板不顯示縮放控制點。
 ==================================================
 */
 
@@ -12,183 +24,119 @@
     constructor(options = {}) {
       this.options = options;
 
-      this.canvasId =
-        options.canvasId || "scratchpadCanvas";
+      this.canvasId = options.canvasId || "scratchpadCanvas";
+      this.panelId = options.panelId || "scratchpadPanel";
+      this.headerId = options.headerId || "scratchpadHeader";
+      this.openButtonId = options.openButtonId || "scratchpadOpenButton";
+      this.closeButtonId = options.closeButtonId || "scratchpadCloseButton";
+      this.penButtonId = options.penButtonId || "scratchpadPenButton";
+      this.eraserButtonId = options.eraserButtonId || "scratchpadEraserButton";
+      this.undoButtonId = options.undoButtonId || "scratchpadUndoButton";
+      this.redoButtonId = options.redoButtonId || "scratchpadRedoButton";
+      this.clearButtonId = options.clearButtonId || "scratchpadClearButton";
+      this.downloadButtonId = options.downloadButtonId || "scratchpadDownloadButton";
 
-      this.panelId =
-        options.panelId || "scratchpadPanel";
+      this.defaultColor = options.defaultColor || "#111827";
+      this.defaultSize = Number(options.defaultSize) || 4;
+      this.maxHistory = Number(options.maxHistory) || 30;
 
-      this.headerId =
-        options.headerId || "scratchpadHeader";
+      this.canvas = document.getElementById(this.canvasId);
+      this.panel = document.getElementById(this.panelId);
+      this.header = document.getElementById(this.headerId);
+      this.openButton = document.getElementById(this.openButtonId);
+      this.closeButton = document.getElementById(this.closeButtonId);
+      this.penButton = document.getElementById(this.penButtonId);
+      this.eraserButton = document.getElementById(this.eraserButtonId);
+      this.undoButton = document.getElementById(this.undoButtonId);
+      this.redoButton = document.getElementById(this.redoButtonId);
+      this.clearButton = document.getElementById(this.clearButtonId);
+      this.downloadButton = document.getElementById(this.downloadButtonId);
 
-      this.openButtonId =
-        options.openButtonId ||
-        "scratchpadOpenButton";
+      this.toolbar = this.panel?.querySelector(".scratchpad-toolbar") || null;
 
-      this.closeButtonId =
-        options.closeButtonId ||
-        "scratchpadCloseButton";
+      this.colorButtons = this.panel
+        ? Array.from(
+            this.panel.querySelectorAll(
+              "[data-scratchpad-color]"
+            )
+          )
+        : [];
 
-      this.penButtonId =
-        options.penButtonId ||
-        "scratchpadPenButton";
-
-      this.eraserButtonId =
-        options.eraserButtonId ||
-        "scratchpadEraserButton";
-
-      this.undoButtonId =
-        options.undoButtonId ||
-        "scratchpadUndoButton";
-
-      this.redoButtonId =
-        options.redoButtonId ||
-        "scratchpadRedoButton";
-
-      this.clearButtonId =
-        options.clearButtonId ||
-        "scratchpadClearButton";
-
-      this.downloadButtonId =
-        options.downloadButtonId ||
-        "scratchpadDownloadButton";
-
-      this.defaultColor =
-        options.defaultColor ||
-        "#111827";
-
-      this.defaultSize =
-        Number(options.defaultSize) || 4;
-
-      this.canvas =
-        document.getElementById(
-          this.canvasId
-        );
-
-      this.panel =
-        document.getElementById(
-          this.panelId
-        );
-
-      this.header =
-        document.getElementById(
-          this.headerId
-        );
-
-      this.openButton =
-        document.getElementById(
-          this.openButtonId
-        );
-
-      this.closeButton =
-        document.getElementById(
-          this.closeButtonId
-        );
-
-      this.penButton =
-        document.getElementById(
-          this.penButtonId
-        );
-
-      this.eraserButton =
-        document.getElementById(
-          this.eraserButtonId
-        );
-
-      this.undoButton =
-        document.getElementById(
-          this.undoButtonId
-        );
-
-      this.redoButton =
-        document.getElementById(
-          this.redoButtonId
-        );
-
-      this.clearButton =
-        document.getElementById(
-          this.clearButtonId
-        );
-
-      this.downloadButton =
-        document.getElementById(
-          this.downloadButtonId
-        );
-
-      this.colorButtons = [];
-      this.sizeButtons = [];
+      this.sizeButtons = this.panel
+        ? Array.from(
+            this.panel.querySelectorAll(
+              "[data-scratchpad-size]"
+            )
+          )
+        : [];
 
       this.ctx = null;
 
       this.tool = "pen";
-
-      this.currentColor =
-        this.defaultColor;
-
-      this.currentSize =
-        this.defaultSize;
+      this.currentColor = this.defaultColor;
+      this.currentSize = this.defaultSize;
 
       this.isDrawing = false;
-
-      this.hasDrawnInCurrentStroke =
-        false;
-
+      this.drawingPointerId = null;
+      this.hasDrawnInCurrentStroke = false;
       this.lastX = 0;
       this.lastY = 0;
 
-      this.isOpen = false;
+      this.undoStack = [];
+      this.redoStack = [];
+      this.currentQuestionImage = null;
+      this.isRestoringHistory = false;
 
+      this.isOpen = false;
       this.isOpeningPanel = false;
 
       this.isDraggingPanel = false;
+      this.dragPointerId = null;
+      this.dragOffsetX = 0;
+      this.dragOffsetY = 0;
+      this.savedPanelPosition = null;
 
-      this.dragStartX = 0;
-      this.dragStartY = 0;
+      this.isResizingPanel = false;
+      this.resizePointerId = null;
+      this.resizeDirection = "";
+      this.resizeStartX = 0;
+      this.resizeStartY = 0;
+      this.resizeStartLeft = 0;
+      this.resizeStartTop = 0;
+      this.resizeStartWidth = 0;
+      this.resizeStartHeight = 0;
 
-      this.panelStartLeft = 0;
-      this.panelStartTop = 0;
+      this.resizeHandles = [];
 
-      this.undoStack = [];
-      this.redoStack = [];
+      this.resizeMinWidth =
+        Number(options.resizeMinWidth) || 320;
 
-      this.maxHistory = 30;
-
-      this.isRestoringHistory =
-        false;
-
-      /*
-      保存同一題目前的計算內容。
-
-      關閉計算紙時保存，
-      再次開啟時還原。
-
-      只有進入下一題時才清空。
-      */
-
-      this.currentQuestionImage =
-        null;
+      this.resizeMinHeight =
+        Number(options.resizeMinHeight) || 300;
 
       this.eventCleanups = [];
-
-      this.panelResizeObserver =
-        null;
-
+      this.resizeTimer = null;
       this.isDestroyed = false;
 
-      if (!this.canvas) {
+      if (
+        !this.canvas ||
+        !this.panel
+      ) {
         console.error(
-          `找不到 id="${this.canvasId}" 的 Canvas。`
+          "Scratchpad 初始化失敗：找不到 Canvas 或面板。"
         );
 
         return;
       }
 
       this.ctx =
-        this.canvas.getContext("2d");
+        this.canvas.getContext(
+          "2d"
+        );
 
       if (!this.ctx) {
         console.error(
-          "瀏覽器無法建立 Canvas 2D 繪圖環境。"
+          "Scratchpad 初始化失敗：無法建立 Canvas 2D 環境。"
         );
 
         return;
@@ -198,32 +146,19 @@
     }
 
     initialize() {
-      this.setupCanvas(false);
-
+      this.initializeProtection();
       this.initializeDrawing();
-
-      this.initializeWindow();
-
       this.initializeToolbar();
-
+      this.initializeWindow();
       this.initializeKeyboardShortcuts();
-
+      this.initializeResizeHandles();
       this.initializeResizeListener();
 
-      this.initializePanelResizeObserver();
-
-      this.saveHistory();
-
+      this.setupCanvas(false);
+      this.saveHistory(true);
       this.saveCurrentQuestionImage();
-
       this.updateToolbarState();
     }
-
-    /*
-    ==================================================
-    共用事件
-    ==================================================
-    */
 
     addEvent(
       element,
@@ -241,29 +176,163 @@
         options
       );
 
-      this.eventCleanups.push(() => {
-        element.removeEventListener(
-          eventName,
-          handler,
-          options
-        );
-      });
+      this.eventCleanups.push(
+        () => {
+          element.removeEventListener(
+            eventName,
+            handler,
+            options
+          );
+        }
+      );
     }
 
     /*
     ==================================================
-    Canvas 尺寸與影像
+    裝置與尺寸
+    ==================================================
+    */
+
+    isDesktopResizeView() {
+      return (
+        window.innerWidth >= 981
+      );
+    }
+
+    getViewportMargin() {
+      return (
+        window.innerWidth <= 560
+          ? 8
+          : 12
+      );
+    }
+
+    getDefaultPanelSize() {
+      const width =
+        window.innerWidth;
+
+      const height =
+        window.innerHeight;
+
+      if (
+        width <= 560
+      ) {
+        return {
+          width:
+            Math.max(
+              280,
+              Math.min(
+                360,
+                Math.round(
+                  width * 0.86
+                )
+              )
+            ),
+
+          height:
+            Math.max(
+              360,
+              Math.min(
+                520,
+                Math.round(
+                  height * 0.70
+                )
+              )
+            )
+        };
+      }
+
+      if (
+        width <= 980
+      ) {
+        return {
+          width:
+            Math.max(
+              340,
+              Math.min(
+                460,
+                Math.round(
+                  width * 0.72
+                )
+              )
+            ),
+
+          height:
+            Math.max(
+              420,
+              Math.min(
+                580,
+                Math.round(
+                  height * 0.72
+                )
+              )
+            )
+        };
+      }
+
+      return {
+        width: 430,
+        height: 560
+      };
+    }
+
+    applyResponsivePanelSize(
+      force = false
+    ) {
+      if (!this.panel) {
+        return;
+      }
+
+      if (
+        !force &&
+        this.isDesktopResizeView() &&
+        this.panel.dataset.userResized ===
+          "true"
+      ) {
+        return;
+      }
+
+      const size =
+        this.getDefaultPanelSize();
+
+      this.panel.style.width =
+        `${
+          Math.min(
+            size.width,
+            window.innerWidth -
+              this.getViewportMargin() *
+                2
+          )
+        }px`;
+
+      this.panel.style.height =
+        `${
+          Math.min(
+            size.height,
+            window.innerHeight -
+              this.getViewportMargin() *
+                2
+          )
+        }px`;
+    }
+
+    /*
+    ==================================================
+    Canvas
     ==================================================
     */
 
     getPixelRatio() {
-      return Math.max(
-        1,
-        window.devicePixelRatio || 1
+      return (
+        Math.max(
+          1,
+          window.devicePixelRatio ||
+            1
+        )
       );
     }
 
-    setupCanvas(
+    async setupCanvas(
       preserveContent = false,
       savedImageOverride = null
     ) {
@@ -271,7 +340,7 @@
         !this.canvas ||
         !this.ctx
       ) {
-        return Promise.resolve();
+        return;
       }
 
       const rect =
@@ -282,15 +351,15 @@
         rect.width <= 0 ||
         rect.height <= 0
       ) {
-        return Promise.resolve();
+        return;
       }
 
       const oldImage =
         savedImageOverride ||
         (
           preserveContent &&
-          this.canvas.width > 0 &&
-          this.canvas.height > 0
+          this.canvas.width &&
+          this.canvas.height
             ? this.canvas.toDataURL(
                 "image/png"
               )
@@ -300,37 +369,23 @@
       const ratio =
         this.getPixelRatio();
 
-      const requiredWidth =
-        Math.max(
-          1,
-          Math.round(
-            rect.width * ratio
-          )
-        );
-
-      const requiredHeight =
-        Math.max(
-          1,
-          Math.round(
-            rect.height * ratio
-          )
-        );
-
-      /*
-      重新設定 Canvas 尺寸時，
-      Canvas 內容會被清空。
-      因此若 oldImage 存在，
-      稍後會把圖片畫回來。
-      */
-
       this.canvas.width =
-        requiredWidth;
+        Math.max(
+          1,
+          Math.round(
+            rect.width *
+            ratio
+          )
+        );
 
       this.canvas.height =
-        requiredHeight;
-
-      this.canvas.style.touchAction =
-        "none";
+        Math.max(
+          1,
+          Math.round(
+            rect.height *
+            ratio
+          )
+        );
 
       this.ctx.setTransform(
         ratio,
@@ -350,18 +405,21 @@
       this.ctx.globalCompositeOperation =
         "source-over";
 
-      if (!oldImage) {
-        return Promise.resolve();
+      if (oldImage) {
+        await this.drawImageToCanvas(
+          oldImage
+        );
       }
-
-      return this.drawImageToCanvas(
-        oldImage
-      );
     }
 
-    drawImageToCanvas(imageData) {
+    drawImageToCanvas(
+      imageData
+    ) {
       return new Promise(
-        (resolve, reject) => {
+        (
+          resolve,
+          reject
+        ) => {
           if (
             !imageData ||
             !this.canvas ||
@@ -374,84 +432,85 @@
           const image =
             new Image();
 
-          image.onload = () => {
-            if (
-              !this.canvas ||
-              !this.ctx
-            ) {
+          image.onload =
+            () => {
+              if (
+                !this.canvas ||
+                !this.ctx
+              ) {
+                resolve();
+                return;
+              }
+
+              this.isRestoringHistory =
+                true;
+
+              this.ctx.save();
+
+              this.ctx.setTransform(
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              );
+
+              this.ctx.clearRect(
+                0,
+                0,
+                this.canvas.width,
+                this.canvas.height
+              );
+
+              this.ctx.drawImage(
+                image,
+                0,
+                0,
+                this.canvas.width,
+                this.canvas.height
+              );
+
+              this.ctx.restore();
+
+              const ratio =
+                this.getPixelRatio();
+
+              this.ctx.setTransform(
+                ratio,
+                0,
+                0,
+                ratio,
+                0,
+                0
+              );
+
+              this.ctx.lineCap =
+                "round";
+
+              this.ctx.lineJoin =
+                "round";
+
+              this.ctx.globalCompositeOperation =
+                "source-over";
+
+              this.isRestoringHistory =
+                false;
+
               resolve();
-              return;
-            }
+            };
 
-            this.isRestoringHistory =
-              true;
+          image.onerror =
+            () => {
+              this.isRestoringHistory =
+                false;
 
-            this.ctx.save();
-
-            this.ctx.setTransform(
-              1,
-              0,
-              0,
-              1,
-              0,
-              0
-            );
-
-            this.ctx.clearRect(
-              0,
-              0,
-              this.canvas.width,
-              this.canvas.height
-            );
-
-            this.ctx.drawImage(
-              image,
-              0,
-              0,
-              this.canvas.width,
-              this.canvas.height
-            );
-
-            this.ctx.restore();
-
-            const ratio =
-              this.getPixelRatio();
-
-            this.ctx.setTransform(
-              ratio,
-              0,
-              0,
-              ratio,
-              0,
-              0
-            );
-
-            this.ctx.lineCap =
-              "round";
-
-            this.ctx.lineJoin =
-              "round";
-
-            this.ctx
-              .globalCompositeOperation =
-              "source-over";
-
-            this.isRestoringHistory =
-              false;
-
-            resolve();
-          };
-
-          image.onerror = () => {
-            this.isRestoringHistory =
-              false;
-
-            reject(
-              new Error(
-                "無法還原計算紙內容。"
-              )
-            );
-          };
+              reject(
+                new Error(
+                  "無法還原計算紙內容。"
+                )
+              );
+            };
 
           image.src =
             imageData;
@@ -460,31 +519,27 @@
     }
 
     async resizeCanvasPreserveContent() {
-      /*
-      面板剛開啟時，
-      暫時不讓 ResizeObserver
-      重複調整 Canvas。
-      */
-
       if (
-        this.isOpeningPanel ||
-        !this.canvas
+        !this.canvas ||
+        this.isOpeningPanel
       ) {
         return;
       }
 
-      const savedImage =
-        this.canvas.toDataURL(
-          "image/png"
-        );
+      const saved =
+        this.canvas.width &&
+        this.canvas.height
+          ? this.canvas.toDataURL(
+              "image/png"
+            )
+          : this.currentQuestionImage;
 
       await this.setupCanvas(
         false,
-        savedImage
+        saved
       );
 
       this.saveCurrentQuestionImage();
-
       this.updateToolbarState();
     }
 
@@ -527,7 +582,7 @@
 
     /*
     ==================================================
-    畫筆功能
+    畫筆
     ==================================================
     */
 
@@ -535,39 +590,50 @@
       this.addEvent(
         this.canvas,
         "pointerdown",
-        (event) => {
-          this.startDrawing(event);
-        }
+        (event) =>
+          this.startDrawing(
+            event
+          )
       );
 
       this.addEvent(
         this.canvas,
         "pointermove",
-        (event) => {
-          this.draw(event);
-        }
+        (event) =>
+          this.draw(
+            event
+          )
       );
 
-      [
+      this.addEvent(
+        this.canvas,
         "pointerup",
+        (event) =>
+          this.stopDrawing(
+            event
+          )
+      );
+
+      this.addEvent(
+        this.canvas,
         "pointercancel",
-        "pointerleave"
-      ].forEach(
-        (eventName) => {
-          this.addEvent(
-            this.canvas,
-            eventName,
-            (event) => {
-              this.stopDrawing(
-                event
-              );
-            }
-          );
-        }
+        (event) =>
+          this.stopDrawing(
+            event
+          )
+      );
+
+      this.addEvent(
+        this.canvas,
+        "contextmenu",
+        (event) =>
+          event.preventDefault()
       );
     }
 
-    getPointerPosition(event) {
+    getPointerPosition(
+      event
+    ) {
       const rect =
         this.canvas
           .getBoundingClientRect();
@@ -583,7 +649,9 @@
       };
     }
 
-    startDrawing(event) {
+    startDrawing(
+      event
+    ) {
       if (
         event.pointerType ===
           "mouse" &&
@@ -592,38 +660,50 @@
         return;
       }
 
-      event.preventDefault();
-
-      try {
-        this.canvas
-          .setPointerCapture(
-            event.pointerId
-          );
-      } catch (error) {
-        // 不支援時可忽略。
+      if (
+        this.isDraggingPanel ||
+        this.isResizingPanel
+      ) {
+        return;
       }
 
-      const position =
+      event.preventDefault();
+      event.stopPropagation();
+
+      this.isDrawing =
+        true;
+
+      this.drawingPointerId =
+        event.pointerId;
+
+      this.hasDrawnInCurrentStroke =
+        false;
+
+      try {
+        this.canvas.setPointerCapture(
+          event.pointerId
+        );
+      } catch (_) {}
+
+      const point =
         this.getPointerPosition(
           event
         );
 
-      this.isDrawing = true;
-
-      this
-        .hasDrawnInCurrentStroke =
-        false;
-
       this.lastX =
-        position.x;
+        point.x;
 
       this.lastY =
-        position.y;
+        point.y;
     }
 
-    draw(event) {
+    draw(
+      event
+    ) {
       if (
         !this.isDrawing ||
+        event.pointerId !==
+          this.drawingPointerId ||
         !this.ctx
       ) {
         return;
@@ -631,7 +711,7 @@
 
       event.preventDefault();
 
-      const position =
+      const point =
         this.getPointerPosition(
           event
         );
@@ -648,8 +728,7 @@
         this.tool ===
         "eraser"
       ) {
-        this.ctx
-          .globalCompositeOperation =
+        this.ctx.globalCompositeOperation =
           "destination-out";
 
         this.ctx.strokeStyle =
@@ -657,12 +736,12 @@
 
         this.ctx.lineWidth =
           Math.max(
-            this.currentSize * 4,
+            this.currentSize *
+              4,
             16
           );
       } else {
-        this.ctx
-          .globalCompositeOperation =
+        this.ctx.globalCompositeOperation =
           "source-over";
 
         this.ctx.strokeStyle =
@@ -678,69 +757,77 @@
       );
 
       this.ctx.lineTo(
-        position.x,
-        position.y
+        point.x,
+        point.y
       );
 
       this.ctx.stroke();
 
       this.lastX =
-        position.x;
+        point.x;
 
       this.lastY =
-        position.y;
+        point.y;
 
-      this
-        .hasDrawnInCurrentStroke =
+      this.hasDrawnInCurrentStroke =
         true;
     }
 
-    stopDrawing(event) {
-      if (!this.isDrawing) {
+    stopDrawing(
+      event
+    ) {
+      if (
+        !this.isDrawing
+      ) {
         return;
       }
 
-      this.isDrawing = false;
+      if (
+        event &&
+        this.drawingPointerId !==
+          null &&
+        event.pointerId !==
+          this.drawingPointerId
+      ) {
+        return;
+      }
 
-      if (this.ctx) {
+      this.isDrawing =
+        false;
+
+      if (
+        this.ctx
+      ) {
         this.ctx.closePath();
 
-        this.ctx
-          .globalCompositeOperation =
+        this.ctx.globalCompositeOperation =
           "source-over";
       }
 
       if (
         event &&
-        this.canvas &&
         this.canvas
-          .hasPointerCapture &&
-        this.canvas
-          .hasPointerCapture(
-            event.pointerId
-          )
+          ?.hasPointerCapture
+          ?.(event.pointerId)
       ) {
         try {
-          this.canvas
-            .releasePointerCapture(
-              event.pointerId
-            );
-        } catch (error) {
-          // 可忽略。
-        }
+          this.canvas.releasePointerCapture(
+            event.pointerId
+          );
+        } catch (_) {}
       }
 
+      this.drawingPointerId =
+        null;
+
       if (
-        this
-          .hasDrawnInCurrentStroke
+        this.hasDrawnInCurrentStroke
       ) {
         this.saveHistory();
-
         this.saveCurrentQuestionImage();
       }
 
-      this
-        .hasDrawnInCurrentStroke =
+      this.hasDrawnInCurrentStroke =
         false;
 
       this.updateToolbarState();
@@ -748,92 +835,166 @@
 
     /*
     ==================================================
-    工具設定
+    歷史紀錄
     ==================================================
     */
 
-    usePen() {
-      this.tool = "pen";
-
-      this.notifyToolChange();
+    getSnapshot() {
+      try {
+        return (
+          this.canvas.toDataURL(
+            "image/png"
+          )
+        );
+      } catch (_) {
+        return null;
+      }
     }
 
-    useEraser() {
-      this.tool = "eraser";
-
-      this.notifyToolChange();
-    }
-
-    setColor(color) {
+    saveHistory(
+      force = false
+    ) {
       if (
-        typeof color !==
-          "string" ||
-        color.trim() === ""
+        !this.canvas ||
+        this.isRestoringHistory
       ) {
         return;
       }
 
-      this.currentColor =
-        color;
+      const snapshot =
+        this.getSnapshot();
 
-      this.tool = "pen";
-
-      this.notifyToolChange();
-    }
-
-    setSize(size) {
-      const newSize =
-        Number(size);
+      if (!snapshot) {
+        return;
+      }
 
       if (
-        !Number.isFinite(
-          newSize
-        ) ||
-        newSize < 1 ||
-        newSize > 50
+        !force &&
+        this.undoStack[
+          this.undoStack.length - 1
+        ] === snapshot
       ) {
         return;
       }
 
-      this.currentSize =
-        newSize;
+      this.undoStack.push(
+        snapshot
+      );
 
-      this.notifyToolChange();
-    }
+      if (
+        this.undoStack.length >
+        this.maxHistory
+      ) {
+        this.undoStack.shift();
+      }
 
-    notifyToolChange() {
+      this.redoStack = [];
+
       this.updateToolbarState();
+    }
 
-      if (!this.canvas) {
-        return;
-      }
-
-      this.canvas.dispatchEvent(
-        new CustomEvent(
-          "scratchpadtoolchange",
-          {
-            detail: {
-              tool:
-                this.tool,
-
-              color:
-                this.currentColor,
-
-              size:
-                this.currentSize
-            }
-          }
-        )
+    canUndo() {
+      return (
+        this.undoStack.length >
+        1
       );
     }
 
-    /*
-    ==================================================
-    清除與空白判斷
-    ==================================================
-    */
+    canRedo() {
+      return (
+        this.redoStack.length >
+        0
+      );
+    }
 
-    clear(saveToHistory = true) {
+    async undo() {
+      if (
+        !this.canUndo()
+      ) {
+        return;
+      }
+
+      const current =
+        this.undoStack.pop();
+
+      this.redoStack.push(
+        current
+      );
+
+      const target =
+        this.undoStack[
+          this.undoStack.length - 1
+        ];
+
+      await this.drawImageToCanvas(
+        target
+      );
+
+      this.saveCurrentQuestionImage();
+      this.updateToolbarState();
+    }
+
+    async redo() {
+      if (
+        !this.canRedo()
+      ) {
+        return;
+      }
+
+      const target =
+        this.redoStack.pop();
+
+      this.undoStack.push(
+        target
+      );
+
+      await this.drawImageToCanvas(
+        target
+      );
+
+      this.saveCurrentQuestionImage();
+      this.updateToolbarState();
+    }
+
+    isBlank() {
+      if (
+        !this.canvas ||
+        !this.ctx
+      ) {
+        return true;
+      }
+
+      try {
+        const pixels =
+          this.ctx.getImageData(
+            0,
+            0,
+            this.canvas.width,
+            this.canvas.height
+          ).data;
+
+        for (
+          let i = 3;
+          i <
+          pixels.length;
+          i += 4
+        ) {
+          if (
+            pixels[i] !== 0
+          ) {
+            return false;
+          }
+        }
+      } catch (_) {
+        return false;
+      }
+
+      return true;
+    }
+
+    clear(
+      saveToHistory = true
+    ) {
       if (
         !this.canvas ||
         !this.ctx
@@ -873,313 +1034,472 @@
         0
       );
 
-      this.ctx
-        .globalCompositeOperation =
-        "source-over";
-
-      if (saveToHistory) {
+      if (
+        saveToHistory
+      ) {
         this.saveHistory();
       }
 
       this.saveCurrentQuestionImage();
-
       this.updateToolbarState();
     }
 
-    isBlank() {
-      if (!this.canvas) {
-        return true;
-      }
+    newQuestion() {
+      this.clear(false);
 
-      const blankCanvas =
-        document.createElement(
-          "canvas"
-        );
-
-      blankCanvas.width =
-        this.canvas.width;
-
-      blankCanvas.height =
-        this.canvas.height;
-
-      return (
-        this.canvas.toDataURL(
-          "image/png"
-        ) ===
-        blankCanvas.toDataURL(
-          "image/png"
-        )
-      );
-    }
-
-    /*
-    ==================================================
-    復原與重做
-    ==================================================
-    */
-
-    getCanvasImage() {
-      if (!this.canvas) {
-        return null;
-      }
-
-      return this.canvas.toDataURL(
-        "image/png"
-      );
-    }
-
-    saveHistory() {
-      if (
-        this.isRestoringHistory ||
-        !this.canvas
-      ) {
-        return;
-      }
-
-      const imageData =
-        this.getCanvasImage();
-
-      if (!imageData) {
-        return;
-      }
-
-      const lastImage =
-        this.undoStack[
-          this.undoStack.length - 1
-        ];
-
-      if (
-        lastImage ===
-        imageData
-      ) {
-        this.notifyHistoryChange();
-        return;
-      }
-
-      this.undoStack.push(
-        imageData
-      );
-
-      if (
-        this.undoStack.length >
-        this.maxHistory
-      ) {
-        this.undoStack.shift();
-      }
-
-      this.redoStack = [];
-
-      this.notifyHistoryChange();
-    }
-
-    async restoreCanvasImage(
-      imageData
-    ) {
-      if (!imageData) {
-        return;
-      }
-
-      await this.drawImageToCanvas(
-        imageData
-      );
-
-      this.saveCurrentQuestionImage();
-
-      this.updateToolbarState();
-    }
-
-    async undo() {
-      if (!this.canUndo()) {
-        return false;
-      }
-
-      const currentImage =
-        this.undoStack.pop();
-
-      this.redoStack.push(
-        currentImage
-      );
-
-      const previousImage =
-        this.undoStack[
-          this.undoStack.length - 1
-        ];
-
-      await this.restoreCanvasImage(
-        previousImage
-      );
-
-      this.notifyHistoryChange();
-
-      return true;
-    }
-
-    async redo() {
-      if (!this.canRedo()) {
-        return false;
-      }
-
-      const nextImage =
-        this.redoStack.pop();
-
-      this.undoStack.push(
-        nextImage
-      );
-
-      await this.restoreCanvasImage(
-        nextImage
-      );
-
-      this.notifyHistoryChange();
-
-      return true;
-    }
-
-    canUndo() {
-      return (
-        this.undoStack.length >
-        1
-      );
-    }
-
-    canRedo() {
-      return (
-        this.redoStack.length >
-        0
-      );
-    }
-
-    notifyHistoryChange() {
-      this.updateToolbarState();
-
-      if (!this.canvas) {
-        return;
-      }
-
-      this.canvas.dispatchEvent(
-        new CustomEvent(
-          "scratchpadhistorychange",
-          {
-            detail: {
-              canUndo:
-                this.canUndo(),
-
-              canRedo:
-                this.canRedo(),
-
-              undoCount:
-                Math.max(
-                  this.undoStack
-                    .length - 1,
-                  0
-                ),
-
-              redoCount:
-                this.redoStack
-                  .length
-            }
-          }
-        )
-      );
-    }
-
-    resetHistory() {
       this.undoStack = [];
       this.redoStack = [];
 
-      this.saveHistory();
-
-      this.notifyHistoryChange();
-    }
-
-    /*
-    只有換下一題時才清空。
-    */
-
-    newQuestion() {
-      this.currentQuestionImage =
-        null;
-
-      this.clear(false);
-
-      this.tool = "pen";
-
-      this.currentColor =
-        this.defaultColor;
-
-      this.currentSize =
-        this.defaultSize;
-
-      this.resetHistory();
-
+      this.saveHistory(true);
       this.saveCurrentQuestionImage();
-
       this.updateToolbarState();
     }
 
     /*
     ==================================================
-    開啟與關閉
+    工具列
+    ==================================================
+    */
+
+    initializeToolbar() {
+      this.colorButtons =
+        this.panel
+          ? Array.from(
+              this.panel.querySelectorAll(
+                "[data-scratchpad-color]"
+              )
+            )
+          : [];
+
+      this.sizeButtons =
+        this.panel
+          ? Array.from(
+              this.panel.querySelectorAll(
+                "[data-scratchpad-size]"
+              )
+            )
+          : [];
+
+      this.addEvent(
+        this.penButton,
+        "click",
+        () =>
+          this.setTool(
+            "pen"
+          )
+      );
+
+      this.addEvent(
+        this.eraserButton,
+        "click",
+        () =>
+          this.setTool(
+            "eraser"
+          )
+      );
+
+      this.addEvent(
+        this.undoButton,
+        "click",
+        () =>
+          this.undo()
+      );
+
+      this.addEvent(
+        this.redoButton,
+        "click",
+        () =>
+          this.redo()
+      );
+
+      this.addEvent(
+        this.clearButton,
+        "click",
+        () =>
+          this.clear(true)
+      );
+
+      this.addEvent(
+        this.downloadButton,
+        "click",
+        () =>
+          this.downloadImage()
+      );
+
+      this.colorButtons.forEach(
+        (button) => {
+          this.addEvent(
+            button,
+            "click",
+            () => {
+              this.setColor(
+                button.dataset
+                  .scratchpadColor ||
+                this.defaultColor
+              );
+            }
+          );
+        }
+      );
+
+      this.sizeButtons.forEach(
+        (button) => {
+          this.addEvent(
+            button,
+            "click",
+            () => {
+              this.setSize(
+                Number(
+                  button.dataset
+                    .scratchpadSize
+                ) ||
+                this.defaultSize
+              );
+            }
+          );
+        }
+      );
+
+      this.updateToolbarState();
+    }
+
+    setTool(
+      tool
+    ) {
+      this.tool =
+        tool === "eraser"
+          ? "eraser"
+          : "pen";
+
+      this.updateToolbarState();
+    }
+
+    setColor(
+      color
+    ) {
+      this.currentColor =
+        color ||
+        this.defaultColor;
+
+      this.tool =
+        "pen";
+
+      this.updateToolbarState();
+    }
+
+    setSize(
+      size
+    ) {
+      this.currentSize =
+        Math.max(
+          1,
+          Number(size) ||
+          this.defaultSize
+        );
+
+      this.updateToolbarState();
+    }
+
+    updateToolbarState() {
+      if (
+        this.penButton
+      ) {
+        this.penButton.classList.toggle(
+          "scratchpad-tool-button--active",
+          this.tool === "pen"
+        );
+
+        this.penButton.setAttribute(
+          "aria-pressed",
+          String(
+            this.tool === "pen"
+          )
+        );
+      }
+
+      if (
+        this.eraserButton
+      ) {
+        this.eraserButton.classList.toggle(
+          "scratchpad-tool-button--active",
+          this.tool === "eraser"
+        );
+
+        this.eraserButton.setAttribute(
+          "aria-pressed",
+          String(
+            this.tool === "eraser"
+          )
+        );
+      }
+
+      this.colorButtons.forEach(
+        (button) => {
+          const active =
+            this.tool === "pen" &&
+            button.dataset
+              .scratchpadColor ===
+              this.currentColor;
+
+          button.classList.toggle(
+            "scratchpad-tool-button--active",
+            active
+          );
+
+          button.setAttribute(
+            "aria-pressed",
+            String(active)
+          );
+        }
+      );
+
+      this.sizeButtons.forEach(
+        (button) => {
+          const active =
+            Number(
+              button.dataset
+                .scratchpadSize
+            ) ===
+            this.currentSize;
+
+          button.classList.toggle(
+            "scratchpad-tool-button--active",
+            active
+          );
+
+          button.setAttribute(
+            "aria-pressed",
+            String(active)
+          );
+        }
+      );
+
+      if (
+        this.undoButton
+      ) {
+        this.undoButton.disabled =
+          !this.canUndo();
+      }
+
+      if (
+        this.redoButton
+      ) {
+        this.redoButton.disabled =
+          !this.canRedo();
+      }
+
+      const blank =
+        this.isBlank();
+
+      if (
+        this.clearButton
+      ) {
+        this.clearButton.disabled =
+          blank;
+      }
+
+      if (
+        this.downloadButton
+      ) {
+        this.downloadButton.disabled =
+          blank;
+      }
+    }
+
+    /*
+    ==================================================
+    右鍵、長按與互動保護
+    ==================================================
+    */
+
+    initializeProtection() {
+      const interactiveSelector = [
+        "button",
+        "input",
+        "select",
+        "textarea",
+        "a",
+        "canvas",
+        "[role='button']",
+        ".scratchpad-resize-handle"
+      ].join(",");
+
+      this.interactiveSelector =
+        interactiveSelector;
+
+      this.addEvent(
+        this.panel,
+        "contextmenu",
+        (event) => {
+          event.preventDefault();
+        }
+      );
+
+      this.panel
+        .querySelectorAll(
+          "button, input, select, textarea, a"
+        )
+        .forEach(
+          (control) => {
+            this.addEvent(
+              control,
+              "pointerdown",
+              (event) => {
+                event.stopPropagation();
+
+                if (
+                  event.pointerType ===
+                    "mouse" &&
+                  event.button !== 0
+                ) {
+                  event.preventDefault();
+                }
+              }
+            );
+
+            this.addEvent(
+              control,
+              "contextmenu",
+              (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+            );
+
+            this.addEvent(
+              control,
+              "dragstart",
+              (event) =>
+                event.preventDefault()
+            );
+
+            this.addEvent(
+              control,
+              "selectstart",
+              (event) =>
+                event.preventDefault()
+            );
+          }
+        );
+    }
+
+    isInteractiveTarget(
+      target
+    ) {
+      return (
+        target instanceof Element &&
+        Boolean(
+          target.closest(
+            this.interactiveSelector
+          )
+        )
+      );
+    }
+
+    isAllowedDragTarget(
+      target
+    ) {
+      if (
+        !(
+          target instanceof
+          Element
+        )
+      ) {
+        return false;
+      }
+
+      if (
+        this.isInteractiveTarget(
+          target
+        )
+      ) {
+        return false;
+      }
+
+      if (
+        target.closest(
+          ".scratchpad-header"
+        )
+      ) {
+        return true;
+      }
+
+      if (
+        target.closest(
+          ".scratchpad-toolbar"
+        )
+      ) {
+        return true;
+      }
+
+      return false;
+    }
+
+    /*
+    ==================================================
+    開啟、關閉與位置
     ==================================================
     */
 
     initializeWindow() {
-      if (!this.panel) {
-        console.warn(
-          `找不到 id="${this.panelId}" 的計算紙面板。`
-        );
-
-        return;
-      }
-
-      this.panel.hidden = true;
-
       this.addEvent(
         this.openButton,
         "click",
-        () => {
-          this.open();
-        }
+        () =>
+          this.open()
       );
 
       this.addEvent(
         this.closeButton,
         "click",
-        () => {
-          this.close();
-        }
+        () =>
+          this.close()
       );
 
-      this.initializePanelDragging();
+      this.addEvent(
+        this.panel,
+        "pointerdown",
+        (event) =>
+          this.startPanelDrag(
+            event
+          )
+      );
 
-      this.updateResponsiveMode();
-    }
+      this.addEvent(
+        this.panel,
+        "pointermove",
+        (event) =>
+          this.dragPanel(
+            event
+          )
+      );
 
-    isMobileView() {
-      return (
-        window.innerWidth <= 768
+      this.addEvent(
+        this.panel,
+        "pointerup",
+        (event) =>
+          this.stopPanelDrag(
+            event
+          )
+      );
+
+      this.addEvent(
+        this.panel,
+        "pointercancel",
+        (event) =>
+          this.stopPanelDrag(
+            event
+          )
       );
     }
 
-    open() {
-      if (
-        !this.panel ||
-        this.isOpen
-      ) {
+    async open() {
+      if (!this.panel) {
         return;
       }
 
-      this.isOpen = true;
-
       this.isOpeningPanel =
         true;
-
-      /*
-      先記住同一題關閉前的畫面。
-      */
-
-      const savedImage =
-        this.currentQuestionImage;
 
       this.panel.hidden =
         false;
@@ -1188,202 +1508,242 @@
         "scratchpad-panel--open"
       );
 
-      if (this.openButton) {
+      this.panel.classList.remove(
+        "scratchpad-panel--fullscreen"
+      );
+
+      this.isOpen =
+        true;
+
+      if (
+        this.openButton
+      ) {
         this.openButton.setAttribute(
           "aria-expanded",
           "true"
         );
       }
 
-      this.updateResponsiveMode();
-
-      requestAnimationFrame(() => {
-        requestAnimationFrame(
-          async () => {
-            /*
-            先依照目前面板實際尺寸
-            重新建立 Canvas。
-            */
-
-            await this.setupCanvas(
-              false
-            );
-
-            /*
-            再把關閉前的計算內容
-            還原回來。
-            */
-
-            if (savedImage) {
-              this
-                .currentQuestionImage =
-                savedImage;
-
-              await this
-                .restoreCurrentQuestionImage();
-            } else {
-              this
-                .saveCurrentQuestionImage();
-            }
-
-            if (
-              this.undoStack
-                .length === 0
-            ) {
-              this.saveHistory();
-            }
-
-            /*
-            延遲解除開啟鎖定，
-            避免 ResizeObserver
-            把畫面再次清空。
-            */
-
-            window.setTimeout(
-              () => {
-                this
-                  .isOpeningPanel =
-                  false;
-              },
-              220
-            );
-          }
-        );
-      });
-
-      this.panel.dispatchEvent(
-        new CustomEvent(
-          "scratchpadopen",
-          {
-            detail: {
-              isOpen: true,
-
-              isMobile:
-                this.isMobileView()
-            }
-          }
-        )
+      this.applyResponsivePanelSize(
+        false
       );
-    }
 
-    close() {
+      await new Promise(
+        (resolve) => {
+          requestAnimationFrame(
+            () =>
+              requestAnimationFrame(
+                resolve
+              )
+          );
+        }
+      );
+
       if (
-        !this.panel ||
-        !this.isOpen
+        this.savedPanelPosition
       ) {
-        return;
+        this.applySavedPanelPosition();
+      } else {
+        this.positionNearOpenButton();
       }
 
-      /*
-      關閉前保存目前內容。
-      關閉本身不清空。
-      */
-
-      this.saveCurrentQuestionImage();
-
-      this.isOpen = false;
+      this.keepPanelInsideViewport();
 
       this.isOpeningPanel =
         false;
 
-      this.panel.classList.remove(
-        "scratchpad-panel--open"
+      await this.setupCanvas(
+        false,
+        this.currentQuestionImage
       );
 
-      this.panel.hidden = true;
+      this.updateToolbarState();
+    }
 
-      if (this.openButton) {
+    close() {
+      if (!this.panel) {
+        return;
+      }
+
+      this.savePanelPosition();
+      this.saveCurrentQuestionImage();
+
+      this.panel.classList.remove(
+        "scratchpad-panel--open",
+        "scratchpad-panel--dragging"
+      );
+
+      this.panel.hidden =
+        true;
+
+      this.isOpen =
+        false;
+
+      if (
+        this.openButton
+      ) {
         this.openButton.setAttribute(
           "aria-expanded",
           "false"
         );
       }
-
-      this.panel.dispatchEvent(
-        new CustomEvent(
-          "scratchpadclose",
-          {
-            detail: {
-              isOpen: false,
-
-              isMobile:
-                this.isMobileView()
-            }
-          }
-        )
-      );
     }
 
     toggle() {
-      if (this.isOpen) {
+      if (
+        this.isOpen
+      ) {
         this.close();
       } else {
         this.open();
       }
     }
 
-    /*
-    ==================================================
-    響應式與位置
-    ==================================================
-    */
-
-    updateResponsiveMode() {
+    positionNearOpenButton() {
       if (!this.panel) {
         return;
       }
 
-      this.panel.classList.toggle(
-        "scratchpad-panel--fullscreen",
-        this.isMobileView()
-      );
+      const margin =
+        this.getViewportMargin();
 
-      if (this.isMobileView()) {
-        this.panel.style.left = "";
-        this.panel.style.top = "";
-        this.panel.style.right = "";
-        this.panel.style.bottom = "";
-      } else if (
-        !this.panel.style.left ||
-        !this.panel.style.top
+      const gap =
+        12;
+
+      const panelRect =
+        this.panel
+          .getBoundingClientRect();
+
+      const buttonRect =
+        this.openButton
+          ?.getBoundingClientRect();
+
+      let left;
+      let top;
+
+      if (
+        buttonRect
       ) {
-        this.setDefaultDesktopPosition();
+        left =
+          buttonRect.left +
+          buttonRect.width /
+            2 -
+          panelRect.width /
+            2;
+
+        top =
+          buttonRect.bottom +
+          gap;
+
+        const spaceBelow =
+          window.innerHeight -
+          buttonRect.bottom -
+          margin;
+
+        const spaceAbove =
+          buttonRect.top -
+          margin;
+
+        if (
+          spaceBelow <
+            panelRect.height &&
+          spaceAbove >
+            spaceBelow
+        ) {
+          top =
+            buttonRect.top -
+            panelRect.height -
+            gap;
+        }
+      } else {
+        left =
+          (
+            window.innerWidth -
+            panelRect.width
+          ) /
+          2;
+
+        top =
+          (
+            window.innerHeight -
+            panelRect.height
+          ) /
+          2;
       }
+
+      const clamped =
+        this.clampPanelPosition(
+          left,
+          top
+        );
+
+      this.setPanelPosition(
+        clamped.left,
+        clamped.top
+      );
     }
 
-    setDefaultDesktopPosition() {
-      if (
-        !this.panel ||
-        this.isMobileView()
-      ) {
+    clampPanelPosition(
+      left,
+      top
+    ) {
+      const margin =
+        this.getViewportMargin();
+
+      const width =
+        this.panel
+          ?.offsetWidth ||
+        0;
+
+      const height =
+        this.panel
+          ?.offsetHeight ||
+        0;
+
+      const maxLeft =
+        Math.max(
+          margin,
+          window.innerWidth -
+            width -
+            margin
+        );
+
+      const maxTop =
+        Math.max(
+          margin,
+          window.innerHeight -
+            height -
+            margin
+        );
+
+      return {
+        left:
+          Math.min(
+            maxLeft,
+            Math.max(
+              margin,
+              left
+            )
+          ),
+
+        top:
+          Math.min(
+            maxTop,
+            Math.max(
+              margin,
+              top
+            )
+          )
+      };
+    }
+
+    setPanelPosition(
+      left,
+      top
+    ) {
+      if (!this.panel) {
         return;
       }
-
-      const margin = 24;
-
-      const panelWidth =
-        this.panel.offsetWidth ||
-        420;
-
-      const panelHeight =
-        this.panel.offsetHeight ||
-        560;
-
-      const left =
-        Math.max(
-          window.innerWidth -
-            panelWidth -
-            margin,
-          margin
-        );
-
-      const top =
-        Math.max(
-          window.innerHeight -
-            panelHeight -
-            margin,
-          margin
-        );
 
       this.panel.style.left =
         `${left}px`;
@@ -1398,64 +1758,115 @@
         "auto";
     }
 
-    initializePanelDragging() {
+    savePanelPosition() {
       if (
-        !this.header ||
+        !this.panel ||
+        this.panel.hidden
+      ) {
+        return;
+      }
+
+      const rect =
+        this.panel
+          .getBoundingClientRect();
+
+      this.savedPanelPosition = {
+        left:
+          rect.left,
+
+        top:
+          rect.top
+      };
+    }
+
+    applySavedPanelPosition() {
+      if (
+        !this.savedPanelPosition ||
         !this.panel
       ) {
         return;
       }
 
-      this.addEvent(
-        this.header,
-        "pointerdown",
-        (event) => {
-          this.startPanelDrag(
-            event
-          );
-        }
-      );
+      const clamped =
+        this.clampPanelPosition(
+          this.savedPanelPosition
+            .left,
 
-      this.addEvent(
-        window,
-        "pointermove",
-        (event) => {
-          this.movePanel(event);
-        }
-      );
+          this.savedPanelPosition
+            .top
+        );
 
-      [
-        "pointerup",
-        "pointercancel"
-      ].forEach(
-        (eventName) => {
-          this.addEvent(
-            window,
-            eventName,
-            () => {
-              this.stopPanelDrag();
-            }
-          );
-        }
+      this.savedPanelPosition =
+        clamped;
+
+      this.setPanelPosition(
+        clamped.left,
+        clamped.top
       );
     }
 
-    startPanelDrag(event) {
+    keepPanelInsideViewport() {
       if (
-        this.isMobileView() ||
-        event.target.closest(
-          "button"
-        ) ||
-        (
-          event.pointerType ===
-            "mouse" &&
-          event.button !== 0
+        !this.panel ||
+        this.panel.hidden
+      ) {
+        return;
+      }
+
+      const rect =
+        this.panel
+          .getBoundingClientRect();
+
+      const clamped =
+        this.clampPanelPosition(
+          rect.left,
+          rect.top
+        );
+
+      this.setPanelPosition(
+        clamped.left,
+        clamped.top
+      );
+
+      this.savedPanelPosition =
+        clamped;
+    }
+
+    /*
+    ==================================================
+    Pointer Events 拖曳核心
+    ==================================================
+    */
+
+    startPanelDrag(
+      event
+    ) {
+      if (
+        !this.panel ||
+        this.isResizingPanel ||
+        this.isDrawing
+      ) {
+        return;
+      }
+
+      if (
+        event.pointerType ===
+          "mouse" &&
+        event.button !== 0
+      ) {
+        return;
+      }
+
+      if (
+        !this.isAllowedDragTarget(
+          event.target
         )
       ) {
         return;
       }
 
       event.preventDefault();
+      event.stopPropagation();
 
       const rect =
         this.panel
@@ -1464,626 +1875,588 @@
       this.isDraggingPanel =
         true;
 
-      this.dragStartX =
-        event.clientX;
+      this.dragPointerId =
+        event.pointerId;
 
-      this.dragStartY =
-        event.clientY;
-
-      this.panelStartLeft =
+      this.dragOffsetX =
+        event.clientX -
         rect.left;
 
-      this.panelStartTop =
+      this.dragOffsetY =
+        event.clientY -
         rect.top;
 
       this.panel.classList.add(
         "scratchpad-panel--dragging"
       );
 
+      this.setPanelPosition(
+        rect.left,
+        rect.top
+      );
+
+      /*
+      關鍵：
+      由整個 panel 捕捉 pointer。
+
+      手指離開原本的淺黃色區域後，
+      pointermove 仍會持續送到 panel。
+      */
+
       try {
-        this.header
-          .setPointerCapture(
-            event.pointerId
-          );
-      } catch (error) {
-        // 可忽略。
-      }
+        this.panel.setPointerCapture(
+          event.pointerId
+        );
+      } catch (_) {}
     }
 
-    movePanel(event) {
+    dragPanel(
+      event
+    ) {
       if (
         !this.isDraggingPanel ||
-        !this.panel
+        event.pointerId !==
+          this.dragPointerId
       ) {
         return;
       }
 
-      const moveX =
+      event.preventDefault();
+
+      const requestedLeft =
         event.clientX -
-        this.dragStartX;
+        this.dragOffsetX;
 
-      const moveY =
+      const requestedTop =
         event.clientY -
-        this.dragStartY;
+        this.dragOffsetY;
 
-      const maxLeft =
-        Math.max(
-          window.innerWidth -
-            this.panel
-              .offsetWidth,
-          0
+      const clamped =
+        this.clampPanelPosition(
+          requestedLeft,
+          requestedTop
         );
 
-      const maxTop =
-        Math.max(
-          window.innerHeight -
-            this.panel
-              .offsetHeight,
-          0
-        );
-
-      const newLeft =
-        Math.min(
-          Math.max(
-            this.panelStartLeft +
-              moveX,
-            0
-          ),
-          maxLeft
-        );
-
-      const newTop =
-        Math.min(
-          Math.max(
-            this.panelStartTop +
-              moveY,
-            0
-          ),
-          maxTop
-        );
-
-      this.panel.style.left =
-        `${newLeft}px`;
-
-      this.panel.style.top =
-        `${newTop}px`;
-
-      this.panel.style.right =
-        "auto";
-
-      this.panel.style.bottom =
-        "auto";
+      this.setPanelPosition(
+        clamped.left,
+        clamped.top
+      );
     }
 
-    stopPanelDrag() {
+    stopPanelDrag(
+      event
+    ) {
       if (
         !this.isDraggingPanel
       ) {
         return;
       }
 
-      this.isDraggingPanel =
-        false;
-
-      if (this.panel) {
-        this.panel.classList.remove(
-          "scratchpad-panel--dragging"
-        );
-      }
-    }
-
-    keepPanelInsideViewport() {
       if (
-        !this.panel ||
-        this.isMobileView()
+        event &&
+        this.dragPointerId !==
+          null &&
+        event.pointerId !==
+          this.dragPointerId
       ) {
         return;
       }
 
-      const rect =
+      if (
+        event &&
         this.panel
-          .getBoundingClientRect();
+          ?.hasPointerCapture
+          ?.(event.pointerId)
+      ) {
+        try {
+          this.panel.releasePointerCapture(
+            event.pointerId
+          );
+        } catch (_) {}
+      }
 
-      const maxLeft =
-        Math.max(
-          window.innerWidth -
-            this.panel
-              .offsetWidth,
-          0
+      this.isDraggingPanel =
+        false;
+
+      this.dragPointerId =
+        null;
+
+      this.panel
+        ?.classList
+        .remove(
+          "scratchpad-panel--dragging"
         );
 
-      const maxTop =
-        Math.max(
-          window.innerHeight -
-            this.panel
-              .offsetHeight,
-          0
-        );
-
-      this.panel.style.left =
-        `${Math.min(
-          Math.max(
-            rect.left,
-            0
-          ),
-          maxLeft
-        )}px`;
-
-      this.panel.style.top =
-        `${Math.min(
-          Math.max(
-            rect.top,
-            0
-          ),
-          maxTop
-        )}px`;
-
-      this.panel.style.right =
-        "auto";
-
-      this.panel.style.bottom =
-        "auto";
+      this.savePanelPosition();
     }
 
     /*
     ==================================================
-    工具列
+    桌面版八方向縮放
     ==================================================
     */
 
-    initializeToolbar() {
-      this.colorButtons =
-        Array.from(
-          document.querySelectorAll(
-            "[data-scratchpad-color]"
-          )
-        );
-
-      this.sizeButtons =
-        Array.from(
-          document.querySelectorAll(
-            "[data-scratchpad-size]"
-          )
-        );
-
-      this.addEvent(
-        this.penButton,
-        "click",
-        () => {
-          this.usePen();
-        }
-      );
-
-      this.addEvent(
-        this.eraserButton,
-        "click",
-        () => {
-          this.useEraser();
-        }
-      );
-
-      this.addEvent(
-        this.undoButton,
-        "click",
-        async () => {
-          try {
-            await this.undo();
-          } catch (error) {
-            console.error(
-              "復原失敗：",
-              error
-            );
-          }
-        }
-      );
-
-      this.addEvent(
-        this.redoButton,
-        "click",
-        async () => {
-          try {
-            await this.redo();
-          } catch (error) {
-            console.error(
-              "重做失敗：",
-              error
-            );
-          }
-        }
-      );
-
-      this.addEvent(
-        this.clearButton,
-        "click",
-        () => {
-          if (!this.isBlank()) {
-            this.clear(true);
-          }
-        }
-      );
-
-      this.addEvent(
-        this.downloadButton,
-        "click",
-        () => {
-          if (!this.isBlank()) {
-            this.downloadImage();
-          }
-        }
-      );
-
-      this.colorButtons.forEach(
-        (button) => {
-          this.addEvent(
-            button,
-            "click",
-            () => {
-              this.setColor(
-                button.dataset
-                  .scratchpadColor
-              );
-            }
-          );
-        }
-      );
-
-      this.sizeButtons.forEach(
-        (button) => {
-          this.addEvent(
-            button,
-            "click",
-            () => {
-              this.setSize(
-                button.dataset
-                  .scratchpadSize
-              );
-            }
-          );
-        }
-      );
-    }
-
-    setButtonActiveState(
-      button,
-      isActive
-    ) {
-      if (!button) {
+    initializeResizeHandles() {
+      if (!this.panel) {
         return;
       }
 
-      button.classList.toggle(
-        "scratchpad-tool-button--active",
-        isActive
-      );
+      const directions = [
+        "top",
+        "right",
+        "bottom",
+        "left",
+        "top-left",
+        "top-right",
+        "bottom-left",
+        "bottom-right"
+      ];
 
-      button.setAttribute(
-        "aria-pressed",
-        String(isActive)
-      );
-    }
+      directions.forEach(
+        (direction) => {
+          const handle =
+            document.createElement(
+              "div"
+            );
 
-    updateToolbarState() {
-      if (this.isDestroyed) {
-        return;
-      }
+          handle.className =
+            "scratchpad-resize-handle";
 
-      if (
-        !Array.isArray(
-          this.colorButtons
-        )
-      ) {
-        this.colorButtons = [];
-      }
+          handle.dataset
+            .resizeDirection =
+              direction;
 
-      if (
-        !Array.isArray(
-          this.sizeButtons
-        )
-      ) {
-        this.sizeButtons = [];
-      }
-
-      this.setButtonActiveState(
-        this.penButton,
-        this.tool === "pen"
-      );
-
-      this.setButtonActiveState(
-        this.eraserButton,
-        this.tool === "eraser"
-      );
-
-      this.colorButtons.forEach(
-        (button) => {
-          this.setButtonActiveState(
-            button,
-            this.tool ===
-              "pen" &&
-            button.dataset
-              .scratchpadColor ===
-              this.currentColor
+          handle.setAttribute(
+            "aria-hidden",
+            "true"
           );
-        }
-      );
 
-      this.sizeButtons.forEach(
-        (button) => {
-          this.setButtonActiveState(
-            button,
-            Number(
-              button.dataset
-                .scratchpadSize
-            ) ===
-              Number(
-                this.currentSize
+          this.panel.appendChild(
+            handle
+          );
+
+          this.resizeHandles.push(
+            handle
+          );
+
+          this.addEvent(
+            handle,
+            "pointerdown",
+            (event) =>
+              this.startResize(
+                event,
+                direction
+              )
+          );
+
+          this.addEvent(
+            handle,
+            "pointermove",
+            (event) =>
+              this.resizePanel(
+                event
+              )
+          );
+
+          this.addEvent(
+            handle,
+            "pointerup",
+            (event) =>
+              this.stopResize(
+                event
+              )
+          );
+
+          this.addEvent(
+            handle,
+            "pointercancel",
+            (event) =>
+              this.stopResize(
+                event
               )
           );
         }
       );
 
-      if (this.undoButton) {
-        this.undoButton.disabled =
-          !this.canUndo();
+      this.updateResizeHandleVisibility();
+    }
 
-        this.undoButton.setAttribute(
-          "aria-disabled",
-          String(
-            !this.canUndo()
+    updateResizeHandleVisibility() {
+      const visible =
+        this.isDesktopResizeView();
+
+      this.resizeHandles.forEach(
+        (handle) => {
+          handle.hidden =
+            !visible;
+        }
+      );
+    }
+
+    startResize(
+      event,
+      direction
+    ) {
+      if (
+        !this.isDesktopResizeView() ||
+        !this.panel
+      ) {
+        return;
+      }
+
+      if (
+        event.pointerType ===
+          "mouse" &&
+        event.button !== 0
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      const rect =
+        this.panel
+          .getBoundingClientRect();
+
+      this.isResizingPanel =
+        true;
+
+      this.resizePointerId =
+        event.pointerId;
+
+      this.resizeDirection =
+        direction;
+
+      this.resizeStartX =
+        event.clientX;
+
+      this.resizeStartY =
+        event.clientY;
+
+      this.resizeStartLeft =
+        rect.left;
+
+      this.resizeStartTop =
+        rect.top;
+
+      this.resizeStartWidth =
+        rect.width;
+
+      this.resizeStartHeight =
+        rect.height;
+
+      this.panel.classList.add(
+        "scratchpad-panel--resizing"
+      );
+
+      try {
+        event.currentTarget
+          .setPointerCapture(
+            event.pointerId
+          );
+      } catch (_) {}
+    }
+
+    resizePanel(
+      event
+    ) {
+      if (
+        !this.isResizingPanel ||
+        event.pointerId !==
+          this.resizePointerId ||
+        !this.panel
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+
+      const margin =
+        this.getViewportMargin();
+
+      const dx =
+        event.clientX -
+        this.resizeStartX;
+
+      const dy =
+        event.clientY -
+        this.resizeStartY;
+
+      const direction =
+        this.resizeDirection;
+
+      let left =
+        this.resizeStartLeft;
+
+      let top =
+        this.resizeStartTop;
+
+      let width =
+        this.resizeStartWidth;
+
+      let height =
+        this.resizeStartHeight;
+
+      if (
+        direction.includes(
+          "right"
+        )
+      ) {
+        width += dx;
+      }
+
+      if (
+        direction.includes(
+          "bottom"
+        )
+      ) {
+        height += dy;
+      }
+
+      if (
+        direction.includes(
+          "left"
+        )
+      ) {
+        width -= dx;
+        left += dx;
+      }
+
+      if (
+        direction.includes(
+          "top"
+        )
+      ) {
+        height -= dy;
+        top += dy;
+      }
+
+      const maxWidth =
+        window.innerWidth -
+        margin * 2;
+
+      const maxHeight =
+        window.innerHeight -
+        margin * 2;
+
+      width =
+        Math.min(
+          maxWidth,
+          Math.max(
+            this.resizeMinWidth,
+            width
           )
         );
-      }
 
-      if (this.redoButton) {
-        this.redoButton.disabled =
-          !this.canRedo();
-
-        this.redoButton.setAttribute(
-          "aria-disabled",
-          String(
-            !this.canRedo()
+      height =
+        Math.min(
+          maxHeight,
+          Math.max(
+            this.resizeMinHeight,
+            height
           )
         );
-      }
 
-      const blank =
-        this.isBlank();
-
-      if (this.clearButton) {
-        this.clearButton.disabled =
-          blank;
-
-        this.clearButton.setAttribute(
-          "aria-disabled",
-          String(blank)
+      left =
+        Math.min(
+          window.innerWidth -
+            width -
+            margin,
+          Math.max(
+            margin,
+            left
+          )
         );
-      }
 
-      if (this.downloadButton) {
-        this.downloadButton.disabled =
-          blank;
-
-        this.downloadButton.setAttribute(
-          "aria-disabled",
-          String(blank)
+      top =
+        Math.min(
+          window.innerHeight -
+            height -
+            margin,
+          Math.max(
+            margin,
+            top
+          )
         );
+
+      this.panel.style.width =
+        `${width}px`;
+
+      this.panel.style.height =
+        `${height}px`;
+
+      this.setPanelPosition(
+        left,
+        top
+      );
+
+      this.panel.dataset.userResized =
+        "true";
+    }
+
+    async stopResize(
+      event
+    ) {
+      if (
+        !this.isResizingPanel
+      ) {
+        return;
       }
+
+      if (
+        event &&
+        this.resizePointerId !==
+          null &&
+        event.pointerId !==
+          this.resizePointerId
+      ) {
+        return;
+      }
+
+      if (
+        event
+          ?.currentTarget
+          ?.hasPointerCapture
+          ?.(event.pointerId)
+      ) {
+        try {
+          event.currentTarget
+            .releasePointerCapture(
+              event.pointerId
+            );
+        } catch (_) {}
+      }
+
+      this.isResizingPanel =
+        false;
+
+      this.resizePointerId =
+        null;
+
+      this.resizeDirection =
+        "";
+
+      this.panel
+        ?.classList
+        .remove(
+          "scratchpad-panel--resizing"
+        );
+
+      this.savePanelPosition();
+
+      await this.resizeCanvasPreserveContent();
     }
 
     /*
     ==================================================
-    快捷鍵
+    鍵盤
     ==================================================
     */
 
     initializeKeyboardShortcuts() {
       this.addEvent(
-        window,
+        document,
         "keydown",
         (event) => {
-          this.handleKeyboardShortcut(
-            event
-          );
-        }
-      );
-    }
-
-    handleKeyboardShortcut(event) {
-      if (!this.isOpen) {
-        return;
-      }
-
-      const activeElement =
-        document.activeElement;
-
-      const isTyping =
-        activeElement &&
-        (
-          activeElement.tagName ===
-            "INPUT" ||
-          activeElement.tagName ===
-            "TEXTAREA" ||
-          activeElement
-            .isContentEditable
-        );
-
-      if (isTyping) {
-        return;
-      }
-
-      const controlPressed =
-        event.ctrlKey ||
-        event.metaKey;
-
-      const key =
-        event.key.toLowerCase();
-
-      if (
-        controlPressed &&
-        key === "z" &&
-        !event.shiftKey
-      ) {
-        event.preventDefault();
-
-        this.undo();
-
-        return;
-      }
-
-      if (
-        controlPressed &&
-        (
-          key === "y" ||
-          (
-            event.shiftKey &&
-            key === "z"
-          )
-        )
-      ) {
-        event.preventDefault();
-
-        this.redo();
-
-        return;
-      }
-
-      if (
-        event.key ===
-        "Escape"
-      ) {
-        event.preventDefault();
-
-        this.close();
-
-        return;
-      }
-
-      if (
-        event.key ===
-        "Delete"
-      ) {
-        event.preventDefault();
-
-        if (!this.isBlank()) {
-          this.clear(true);
-        }
-      }
-    }
-
-    /*
-    ==================================================
-    面板縮放
-    ==================================================
-    */
-
-    initializePanelResizeObserver() {
-      if (
-        !this.panel ||
-        typeof ResizeObserver !==
-          "function"
-      ) {
-        return;
-      }
-
-      let resizeTimer =
-        null;
-
-      this.panelResizeObserver =
-        new ResizeObserver(() => {
           if (
-            !this.isOpen ||
-            this.isOpeningPanel ||
-            this.isDestroyed ||
-            this.isMobileView()
+            !this.isOpen
           ) {
             return;
           }
 
-          window.clearTimeout(
-            resizeTimer
-          );
+          if (
+            event.key ===
+            "Escape"
+          ) {
+            event.preventDefault();
 
-          resizeTimer =
-            window.setTimeout(
-              async () => {
-                if (
-                  !this.isOpen ||
-                  this
-                    .isOpeningPanel ||
-                  this.isDestroyed
-                ) {
-                  return;
-                }
+            this.close();
 
-                await this
-                  .resizeCanvasPreserveContent();
+            return;
+          }
 
-                this
-                  .keepPanelInsideViewport();
-              },
-              160
-            );
-        });
+          const command =
+            event.ctrlKey ||
+            event.metaKey;
 
-      this.panelResizeObserver
-        .observe(this.panel);
+          if (!command) {
+            return;
+          }
 
-      this.eventCleanups.push(
-        () => {
-          window.clearTimeout(
-            resizeTimer
-          );
+          const key =
+            event.key
+              .toLowerCase();
 
           if (
-            this
-              .panelResizeObserver
+            key === "z" &&
+            !event.shiftKey
           ) {
-            this
-              .panelResizeObserver
-              .disconnect();
+            event.preventDefault();
 
-            this
-              .panelResizeObserver =
-              null;
+            this.undo();
+
+          } else if (
+            key === "y" ||
+            (
+              key === "z" &&
+              event.shiftKey
+            )
+          ) {
+            event.preventDefault();
+
+            this.redo();
           }
         }
       );
     }
 
-    initializeResizeListener() {
-      let resizeTimer =
-        null;
+    /*
+    ==================================================
+    視窗尺寸變化
+    ==================================================
+    */
 
+    initializeResizeListener() {
       this.addEvent(
         window,
         "resize",
         () => {
           window.clearTimeout(
-            resizeTimer
+            this.resizeTimer
           );
 
-          resizeTimer =
+          this.resizeTimer =
             window.setTimeout(
               async () => {
-                this
-                  .updateResponsiveMode();
+                this.updateResizeHandleVisibility();
+
+                /*
+                平板／手機轉向時，
+                重新調整尺寸，
+                但不會回到固定起始位置。
+                */
 
                 if (
-                  !this.isMobileView()
+                  !this.isDesktopResizeView()
                 ) {
-                  this
-                    .keepPanelInsideViewport();
+                  this.panel.dataset.userResized =
+                    "false";
+
+                  this.applyResponsivePanelSize(
+                    true
+                  );
                 }
 
                 if (
-                  this.isOpen &&
-                  !this
-                    .isOpeningPanel
+                  this.isOpen
                 ) {
-                  await this
-                    .resizeCanvasPreserveContent();
+                  this.keepPanelInsideViewport();
+
+                  await this.resizeCanvasPreserveContent();
                 }
               },
-              180
+              120
             );
         }
       );
@@ -2095,299 +2468,83 @@
     ==================================================
     */
 
-    /*
-==================================================
-下載圖片
-==================================================
-*/
+    createDownloadFilename() {
+      const now =
+        new Date();
 
-/*
-建立下載檔名。
+      const pad =
+        (value) =>
+          String(value)
+            .padStart(
+              2,
+              "0"
+            );
 
-例如：
-math-scratchpad-2026-08-04-1535.png
-*/
-
-createDownloadFilename() {
-  const now =
-    new Date();
-
-  const year =
-    now.getFullYear();
-
-  const month =
-    String(
-      now.getMonth() + 1
-    ).padStart(2, "0");
-
-  const day =
-    String(
-      now.getDate()
-    ).padStart(2, "0");
-
-  const hour =
-    String(
-      now.getHours()
-    ).padStart(2, "0");
-
-  const minute =
-    String(
-      now.getMinutes()
-    ).padStart(2, "0");
-
-  return (
-    `math-scratchpad-` +
-    `${year}-${month}-${day}-` +
-    `${hour}${minute}.png`
-  );
-}
-
-
-/*
-下載計算紙圖片。
-
-下載內容包含：
-1. 白色背景
-2. 淡藍色方格
-3. 原本計算筆跡
-*/
-
-downloadImage(
-  filename =
-    this.createDownloadFilename()
-) {
-  if (!this.canvas) {
-    console.warn(
-      "下載失敗：找不到計算紙 Canvas。"
-    );
-
-    return false;
-  }
-
-  if (this.isBlank()) {
-    console.warn(
-      "計算紙目前是空白的，沒有可以下載的內容。"
-    );
-
-    return false;
-  }
-
-  if (
-    typeof filename !== "string" ||
-    filename.trim() === ""
-  ) {
-    filename =
-      this.createDownloadFilename();
-  }
-
-  if (
-    !filename
-      .toLowerCase()
-      .endsWith(".png")
-  ) {
-    filename += ".png";
-  }
-
-  /*
-  建立專門輸出的 Canvas。
-  */
-
-  const exportCanvas =
-    document.createElement(
-      "canvas"
-    );
-
-  exportCanvas.width =
-    this.canvas.width;
-
-  exportCanvas.height =
-    this.canvas.height;
-
-  const exportContext =
-    exportCanvas.getContext(
-      "2d"
-    );
-
-  if (!exportContext) {
-    console.error(
-      "下載失敗：無法建立輸出 Canvas。"
-    );
-
-    return false;
-  }
-
-  /*
-  先填入不透明白色背景。
-  這能避免平板或深色圖片檢視器
-  把透明背景顯示成黑色。
-  */
-
-  exportContext.save();
-
-  exportContext.setTransform(
-    1,
-    0,
-    0,
-    1,
-    0,
-    0
-  );
-
-  exportContext.globalAlpha =
-    1;
-
-  exportContext
-    .globalCompositeOperation =
-    "source-over";
-
-  exportContext.fillStyle =
-    "#ffffff";
-
-  exportContext.fillRect(
-    0,
-    0,
-    exportCanvas.width,
-    exportCanvas.height
-  );
-
-  /*
-  畫淡藍色方格。
-  */
-
-  const pixelRatio =
-    this.getPixelRatio();
-
-  const gridSize =
-    Math.max(
-      16,
-      Math.round(
-        28 * pixelRatio
-      )
-    );
-
-  exportContext.strokeStyle =
-    "#dbeafe";
-
-  exportContext.lineWidth =
-    Math.max(
-      1,
-      Math.round(pixelRatio)
-    );
-
-  exportContext.beginPath();
-
-  for (
-    let x = 0;
-    x <= exportCanvas.width;
-    x += gridSize
-  ) {
-    exportContext.moveTo(
-      x + 0.5,
-      0
-    );
-
-    exportContext.lineTo(
-      x + 0.5,
-      exportCanvas.height
-    );
-  }
-
-  for (
-    let y = 0;
-    y <= exportCanvas.height;
-    y += gridSize
-  ) {
-    exportContext.moveTo(
-      0,
-      y + 0.5
-    );
-
-    exportContext.lineTo(
-      exportCanvas.width,
-      y + 0.5
-    );
-  }
-
-  exportContext.stroke();
-
-  /*
-  最後疊上原本筆跡。
-  */
-
-  exportContext.drawImage(
-    this.canvas,
-    0,
-    0,
-    this.canvas.width,
-    this.canvas.height,
-    0,
-    0,
-    exportCanvas.width,
-    exportCanvas.height
-  );
-
-  exportContext.restore();
-
-  /*
-  轉成 PNG。
-  */
-
-  let imageUrl = "";
-
-  try {
-    imageUrl =
-      exportCanvas.toDataURL(
-        "image/png",
-        1
+      return (
+        `math-scratchpad-` +
+        `${now.getFullYear()}-` +
+        `${pad(
+          now.getMonth() +
+          1
+        )}-` +
+        `${pad(
+          now.getDate()
+        )}-` +
+        `${pad(
+          now.getHours()
+        )}` +
+        `${pad(
+          now.getMinutes()
+        )}.png`
       );
-  } catch (error) {
-    console.error(
-      "下載失敗：圖片轉換錯誤。",
-      error
-    );
+    }
 
-    return false;
-  }
+    downloadImage(
+      filename =
+        this.createDownloadFilename()
+    ) {
+      if (
+        !this.canvas ||
+        this.isBlank()
+      ) {
+        return false;
+      }
 
-  /*
-  建立下載連結。
-  */
+      if (
+        !filename
+          .toLowerCase()
+          .endsWith(
+            ".png"
+          )
+      ) {
+        filename +=
+          ".png";
+      }
 
-  const link =
-    document.createElement("a");
+      const link =
+        document.createElement(
+          "a"
+        );
 
-  link.href =
-    imageUrl;
+      link.href =
+        this.canvas.toDataURL(
+          "image/png"
+        );
 
-  link.download =
-    filename;
+      link.download =
+        filename;
 
-  link.style.display =
-    "none";
+      document.body.appendChild(
+        link
+      );
 
-  document.body.appendChild(
-    link
-  );
+      link.click();
 
-  try {
-    link.click();
-  } catch (error) {
-    console.error(
-      "下載失敗：瀏覽器無法啟動下載。",
-      error
-    );
+      link.remove();
 
-    link.remove();
+      return true;
+    }
 
-    return false;
-  }
-
-  window.setTimeout(() => {
-    link.remove();
-  }, 0);
-
-  return true;
-}
     /*
     ==================================================
     狀態
@@ -2408,9 +2565,6 @@ downloadImage(
         isOpen:
           this.isOpen,
 
-        isMobile:
-          this.isMobileView(),
-
         isBlank:
           this.isBlank(),
 
@@ -2418,7 +2572,14 @@ downloadImage(
           this.canUndo(),
 
         canRedo:
-          this.canRedo()
+          this.canRedo(),
+
+        position:
+          this.savedPanelPosition
+            ? {
+                ...this.savedPanelPosition
+              }
+            : null
       };
     }
 
@@ -2435,3104 +2596,55 @@ downloadImage(
         (cleanup) => {
           try {
             cleanup();
-          } catch (error) {
-            // 可忽略。
-          }
+          } catch (_) {}
         }
       );
 
       this.eventCleanups = [];
 
-      this.undoStack = [];
-      this.redoStack = [];
+      this.resizeHandles.forEach(
+        (handle) =>
+          handle.remove()
+      );
 
-      this.currentQuestionImage =
-        null;
+      this.resizeHandles = [];
 
-      if (this.panel) {
+      if (
+        this.panel
+      ) {
         this.panel.hidden =
           true;
-
-        this.panel.classList.remove(
-          "scratchpad-panel--open",
-          "scratchpad-panel--fullscreen",
-          "scratchpad-panel--dragging"
-        );
       }
 
-      this.isDestroyed = true;
+      this.isDestroyed =
+        true;
 
-      this.ctx = null;
-      this.canvas = null;
-      this.panel = null;
-      this.header = null;
+      this.ctx =
+        null;
 
-      this.openButton = null;
-      this.closeButton = null;
+      this.canvas =
+        null;
 
-      this.colorButtons = [];
-      this.sizeButtons = [];
+      this.panel =
+        null;
+
+      this.header =
+        null;
+
+      this.toolbar =
+        null;
     }
   }
-
-  /*
-  ==================================================
-  對外提供
-  ==================================================
-  */
 
   window.Scratchpad =
     Scratchpad;
 
   window.createScratchpad =
-    function (options = {}) {
+    function (
+      options = {}
+    ) {
       return new Scratchpad(
         options
       );
     };
-})();
-/*
-==================================================
-共用計算紙：桌面版八方向縮放擴充
-請貼在原本 scratchpad.js 最底部
-==================================================
-
-支援方向：
-上、下、左、右
-左上、右上、左下、右下
-
-特色：
-1. 保留原本計算紙所有功能
-2. 縮放時不會清空計算內容
-3. 縮放結束後重新調整 Canvas 畫質
-4. 手機版不啟用八方向縮放
-5. 不需要修改 scratchpad-template.js
-==================================================
-*/
-
-(function () {
-  "use strict";
-
-  /*
-  確認原本共用計算紙已載入。
-  */
-
-  if (
-    typeof window.Scratchpad !==
-    "function"
-  ) {
-    console.error(
-      "八方向縮放載入失敗：找不到 window.Scratchpad。"
-    );
-
-    return;
-  }
-
-  const Scratchpad =
-    window.Scratchpad;
-
-  /*
-  避免程式被重複加入。
-  */
-
-  if (
-    Scratchpad.prototype
-      .eightDirectionResizeInstalled
-  ) {
-    return;
-  }
-
-  Scratchpad.prototype
-    .eightDirectionResizeInstalled =
-    true;
-
-  /*
-  ==================================================
-  共用設定
-  ==================================================
-  */
-
-  const RESIZE_STYLE_ID =
-    "scratchpadEightDirectionResizeStyle";
-
-  const HANDLE_CLASS =
-    "scratchpad-resize-handle";
-
-  const DIRECTIONS = [
-    "top",
-    "right",
-    "bottom",
-    "left",
-    "top-left",
-    "top-right",
-    "bottom-left",
-    "bottom-right"
-  ];
-
-  /*
-  ==================================================
-  加入縮放控制點 CSS
-  ==================================================
-  */
-
-  function installResizeStyles() {
-    if (
-      document.getElementById(
-        RESIZE_STYLE_ID
-      )
-    ) {
-      return;
-    }
-
-    const style =
-      document.createElement(
-        "style"
-      );
-
-    style.id =
-      RESIZE_STYLE_ID;
-
-    style.textContent = `
-      /*
-      計算紙面板必須可以放置絕對定位控制點。
-      */
-
-      .scratchpad-panel {
-        position: fixed;
-      }
-
-      /*
-      縮放控制點預設透明，
-      滑鼠靠近邊緣時會呈現對應游標。
-      */
-
-      .${HANDLE_CLASS} {
-        position: absolute;
-        z-index: 120;
-        display: block;
-        background: transparent;
-        touch-action: none;
-        user-select: none;
-        -webkit-user-select: none;
-      }
-
-      /*
-      上方
-      */
-
-      .${HANDLE_CLASS}[data-resize-direction="top"] {
-        top: -5px;
-        left: 14px;
-        right: 14px;
-        height: 10px;
-        cursor: ns-resize;
-      }
-
-      /*
-      下方
-      */
-
-      .${HANDLE_CLASS}[data-resize-direction="bottom"] {
-        bottom: -5px;
-        left: 14px;
-        right: 14px;
-        height: 10px;
-        cursor: ns-resize;
-      }
-
-      /*
-      左側
-      */
-
-      .${HANDLE_CLASS}[data-resize-direction="left"] {
-        top: 14px;
-        bottom: 14px;
-        left: -5px;
-        width: 10px;
-        cursor: ew-resize;
-      }
-
-      /*
-      右側
-      */
-
-      .${HANDLE_CLASS}[data-resize-direction="right"] {
-        top: 14px;
-        right: -5px;
-        bottom: 14px;
-        width: 10px;
-        cursor: ew-resize;
-      }
-
-      /*
-      左上角
-      */
-
-      .${HANDLE_CLASS}[data-resize-direction="top-left"] {
-        top: -7px;
-        left: -7px;
-        width: 18px;
-        height: 18px;
-        cursor: nwse-resize;
-      }
-
-      /*
-      右上角
-      */
-
-      .${HANDLE_CLASS}[data-resize-direction="top-right"] {
-        top: -7px;
-        right: -7px;
-        width: 18px;
-        height: 18px;
-        cursor: nesw-resize;
-      }
-
-      /*
-      左下角
-      */
-
-      .${HANDLE_CLASS}[data-resize-direction="bottom-left"] {
-        bottom: -7px;
-        left: -7px;
-        width: 18px;
-        height: 18px;
-        cursor: nesw-resize;
-      }
-
-      /*
-      右下角
-      */
-
-      .${HANDLE_CLASS}[data-resize-direction="bottom-right"] {
-        right: -7px;
-        bottom: -7px;
-        width: 18px;
-        height: 18px;
-        cursor: nwse-resize;
-      }
-
-      /*
-      縮放進行中。
-      */
-
-      .scratchpad-panel--resizing {
-        user-select: none !important;
-        -webkit-user-select: none !important;
-      }
-
-      .scratchpad-panel--resizing iframe,
-      .scratchpad-panel--resizing button,
-      .scratchpad-panel--resizing canvas {
-        pointer-events: none;
-      }
-
-      /*
-      手機版維持全螢幕，不啟用縮放點。
-      */
-
-      @media (max-width: 768px) {
-        .${HANDLE_CLASS} {
-          display: none !important;
-        }
-      }
-    `;
-
-    document.head.appendChild(
-      style
-    );
-  }
-
-  /*
-  ==================================================
-  判斷方向
-  ==================================================
-  */
-
-  function directionHas(
-    direction,
-    value
-  ) {
-    return direction
-      .split("-")
-      .includes(value);
-  }
-
-  /*
-  ==================================================
-  限制數值
-  ==================================================
-  */
-
-  function clamp(
-    value,
-    minimum,
-    maximum
-  ) {
-    return Math.min(
-      Math.max(
-        value,
-        minimum
-      ),
-      maximum
-    );
-  }
-
-  /*
-  ==================================================
-  建立八方向控制點
-  ==================================================
-  */
-
-  Scratchpad.prototype
-    .initializeEightDirectionResize =
-    function () {
-      if (
-        !this.panel ||
-        this
-          .eightDirectionResizeReady
-      ) {
-        return;
-      }
-
-      installResizeStyles();
-
-      this
-        .eightDirectionResizeReady =
-        true;
-
-      this
-        .isResizingPanel =
-        false;
-
-      this.resizeDirection =
-        "";
-
-      this.resizePointerId =
-        null;
-
-      this.resizeStartX =
-        0;
-
-      this.resizeStartY =
-        0;
-
-      this.resizeStartLeft =
-        0;
-
-      this.resizeStartTop =
-        0;
-
-      this.resizeStartWidth =
-        0;
-
-      this.resizeStartHeight =
-        0;
-
-      /*
-      最小尺寸可在 createScratchpad() 傳入：
-
-      resizeMinWidth: 320
-      resizeMinHeight: 300
-      */
-
-      this.resizeMinWidth =
-        Number(
-          this.options
-            ?.resizeMinWidth
-        ) || 320;
-
-      this.resizeMinHeight =
-        Number(
-          this.options
-            ?.resizeMinHeight
-        ) || 300;
-
-      this.resizeHandles =
-        [];
-
-      DIRECTIONS.forEach(
-        (direction) => {
-          const handle =
-            document.createElement(
-              "div"
-            );
-
-          handle.className =
-            HANDLE_CLASS;
-
-          handle.dataset
-            .resizeDirection =
-            direction;
-
-          handle.setAttribute(
-            "aria-hidden",
-            "true"
-          );
-
-          handle.title =
-            `調整計算紙大小：${direction}`;
-
-          this.panel.appendChild(
-            handle
-          );
-
-          this.resizeHandles.push(
-            handle
-          );
-
-          /*
-          開始縮放。
-          */
-
-          this.addEvent(
-            handle,
-            "pointerdown",
-            (event) => {
-              this.startEightDirectionResize(
-                event,
-                direction,
-                handle
-              );
-            }
-          );
-        }
-      );
-
-      /*
-      在 window 上追蹤滑鼠，
-      避免游標移出面板後縮放中斷。
-      */
-
-      this.addEvent(
-        window,
-        "pointermove",
-        (event) => {
-          this.moveEightDirectionResize(
-            event
-          );
-        }
-      );
-
-      this.addEvent(
-        window,
-        "pointerup",
-        (event) => {
-          this.stopEightDirectionResize(
-            event
-          );
-        }
-      );
-
-      this.addEvent(
-        window,
-        "pointercancel",
-        (event) => {
-          this.stopEightDirectionResize(
-            event
-          );
-        }
-      );
-    };
-
-  /*
-  ==================================================
-  開始八方向縮放
-  ==================================================
-  */
-
-  Scratchpad.prototype
-    .startEightDirectionResize =
-    function (
-      event,
-      direction,
-      handle
-    ) {
-      if (
-        !this.panel ||
-        !this.isOpen ||
-        this.isMobileView() ||
-        (
-          event.pointerType ===
-            "mouse" &&
-          event.button !== 0
-        )
-      ) {
-        return;
-      }
-
-      event.preventDefault();
-      event.stopPropagation();
-
-      /*
-      開始縮放前先保存畫布，
-      避免 ResizeObserver 重新設定 Canvas 時遺失內容。
-      */
-
-      if (
-        typeof this
-          .saveCurrentQuestionImage ===
-        "function"
-      ) {
-        this
-          .saveCurrentQuestionImage();
-      }
-
-      const rect =
-        this.panel
-          .getBoundingClientRect();
-
-      this
-        .isResizingPanel =
-        true;
-
-      this.resizeDirection =
-        direction;
-
-      this.resizePointerId =
-        event.pointerId;
-
-      this.resizeStartX =
-        event.clientX;
-
-      this.resizeStartY =
-        event.clientY;
-
-      this.resizeStartLeft =
-        rect.left;
-
-      this.resizeStartTop =
-        rect.top;
-
-      this.resizeStartWidth =
-        rect.width;
-
-      this.resizeStartHeight =
-        rect.height;
-
-      /*
-      固定成像素尺寸與位置，
-      避免原本 right、bottom 或 CSS 寬高干擾。
-      */
-
-      this.panel.style.left =
-        `${rect.left}px`;
-
-      this.panel.style.top =
-        `${rect.top}px`;
-
-      this.panel.style.right =
-        "auto";
-
-      this.panel.style.bottom =
-        "auto";
-
-      this.panel.style.width =
-        `${rect.width}px`;
-
-      this.panel.style.height =
-        `${rect.height}px`;
-
-      this.panel.classList.add(
-        "scratchpad-panel--resizing"
-      );
-
-      /*
-      縮放時暫時阻止 ResizeObserver
-      不斷重新建立 Canvas。
-      */
-
-      this.isOpeningPanel =
-        true;
-
-      try {
-        handle.setPointerCapture(
-          event.pointerId
-        );
-      } catch (error) {
-        // 部分瀏覽器不支援時忽略。
-      }
-    };
-
-  /*
-  ==================================================
-  執行八方向縮放
-  ==================================================
-  */
-
-  Scratchpad.prototype
-    .moveEightDirectionResize =
-    function (event) {
-      if (
-        !this.isResizingPanel ||
-        !this.panel ||
-        event.pointerId !==
-          this.resizePointerId
-      ) {
-        return;
-      }
-
-      event.preventDefault();
-
-      const direction =
-        this.resizeDirection;
-
-      const deltaX =
-        event.clientX -
-        this.resizeStartX;
-
-      const deltaY =
-        event.clientY -
-        this.resizeStartY;
-
-      let left =
-        this.resizeStartLeft;
-
-      let top =
-        this.resizeStartTop;
-
-      let width =
-        this.resizeStartWidth;
-
-      let height =
-        this.resizeStartHeight;
-
-      /*
-      右側縮放。
-      */
-
-      if (
-        directionHas(
-          direction,
-          "right"
-        )
-      ) {
-        width =
-          this.resizeStartWidth +
-          deltaX;
-      }
-
-      /*
-      左側縮放。
-
-      左邊界移動時，
-      寬度與 left 必須同時改變。
-      */
-
-      if (
-        directionHas(
-          direction,
-          "left"
-        )
-      ) {
-        width =
-          this.resizeStartWidth -
-          deltaX;
-
-        left =
-          this.resizeStartLeft +
-          deltaX;
-      }
-
-      /*
-      下方縮放。
-      */
-
-      if (
-        directionHas(
-          direction,
-          "bottom"
-        )
-      ) {
-        height =
-          this.resizeStartHeight +
-          deltaY;
-      }
-
-      /*
-      上方縮放。
-
-      上邊界移動時，
-      高度與 top 必須同時改變。
-      */
-
-      if (
-        directionHas(
-          direction,
-          "top"
-        )
-      ) {
-        height =
-          this.resizeStartHeight -
-          deltaY;
-
-        top =
-          this.resizeStartTop +
-          deltaY;
-      }
-
-      /*
-      視窗最大可用尺寸。
-      */
-
-      const viewportWidth =
-        window.innerWidth;
-
-      const viewportHeight =
-        window.innerHeight;
-
-      const margin =
-        6;
-
-      /*
-      最小尺寸限制。
-      */
-
-      if (
-        width <
-        this.resizeMinWidth
-      ) {
-        if (
-          directionHas(
-            direction,
-            "left"
-          )
-        ) {
-          left =
-            this.resizeStartLeft +
-            (
-              this.resizeStartWidth -
-              this.resizeMinWidth
-            );
-        }
-
-        width =
-          this.resizeMinWidth;
-      }
-
-      if (
-        height <
-        this.resizeMinHeight
-      ) {
-        if (
-          directionHas(
-            direction,
-            "top"
-          )
-        ) {
-          top =
-            this.resizeStartTop +
-            (
-              this.resizeStartHeight -
-              this.resizeMinHeight
-            );
-        }
-
-        height =
-          this.resizeMinHeight;
-      }
-
-      /*
-      左邊不能超出視窗。
-      */
-
-      if (left < margin) {
-        if (
-          directionHas(
-            direction,
-            "left"
-          )
-        ) {
-          width +=
-            left - margin;
-        }
-
-        left =
-          margin;
-      }
-
-      /*
-      上邊不能超出視窗。
-      */
-
-      if (top < margin) {
-        if (
-          directionHas(
-            direction,
-            "top"
-          )
-        ) {
-          height +=
-            top - margin;
-        }
-
-        top =
-          margin;
-      }
-
-      /*
-      右邊不能超出視窗。
-      */
-
-      if (
-        left + width >
-        viewportWidth - margin
-      ) {
-        if (
-          directionHas(
-            direction,
-            "right"
-          )
-        ) {
-          width =
-            viewportWidth -
-            margin -
-            left;
-        } else {
-          left =
-            viewportWidth -
-            margin -
-            width;
-        }
-      }
-
-      /*
-      下邊不能超出視窗。
-      */
-
-      if (
-        top + height >
-        viewportHeight - margin
-      ) {
-        if (
-          directionHas(
-            direction,
-            "bottom"
-          )
-        ) {
-          height =
-            viewportHeight -
-            margin -
-            top;
-        } else {
-          top =
-            viewportHeight -
-            margin -
-            height;
-        }
-      }
-
-      /*
-      再次套用最小值，
-      避免視窗限制後尺寸小於最低尺寸。
-      */
-
-      width =
-        Math.max(
-          this.resizeMinWidth,
-          width
-        );
-
-      height =
-        Math.max(
-          this.resizeMinHeight,
-          height
-        );
-
-      /*
-      寫入面板樣式。
-      */
-
-      this.panel.style.left =
-        `${Math.round(left)}px`;
-
-      this.panel.style.top =
-        `${Math.round(top)}px`;
-
-      this.panel.style.width =
-        `${Math.round(width)}px`;
-
-      this.panel.style.height =
-        `${Math.round(height)}px`;
-
-      this.panel.style.right =
-        "auto";
-
-      this.panel.style.bottom =
-        "auto";
-    };
-
-  /*
-  ==================================================
-  結束八方向縮放
-  ==================================================
-  */
-
-  Scratchpad.prototype
-    .stopEightDirectionResize =
-    async function (event) {
-      if (
-        !this.isResizingPanel
-      ) {
-        return;
-      }
-
-      if (
-        event &&
-        this.resizePointerId !==
-          null &&
-        event.pointerId !==
-          this.resizePointerId
-      ) {
-        return;
-      }
-
-      this
-        .isResizingPanel =
-        false;
-
-      this.panel?.classList.remove(
-        "scratchpad-panel--resizing"
-      );
-
-      this.resizeDirection =
-        "";
-
-      this.resizePointerId =
-        null;
-
-      /*
-      縮放停止後才讓 ResizeObserver
-      與 Canvas 尺寸更新恢復運作。
-      */
-
-      this.isOpeningPanel =
-        false;
-
-      /*
-      重新依面板大小設定 Canvas，
-      並保留剛才的計算內容。
-      */
-
-      try {
-        if (
-          typeof this
-            .resizeCanvasPreserveContent ===
-          "function"
-        ) {
-          await this
-            .resizeCanvasPreserveContent();
-        } else if (
-          typeof this.setupCanvas ===
-          "function"
-        ) {
-          await this.setupCanvas(
-            true
-          );
-        }
-
-        if (
-          typeof this
-            .saveCurrentQuestionImage ===
-          "function"
-        ) {
-          this
-            .saveCurrentQuestionImage();
-        }
-
-        if (
-          typeof this
-            .keepPanelInsideViewport ===
-          "function"
-        ) {
-          this
-            .keepPanelInsideViewport();
-        }
-
-        if (
-          typeof this
-            .updateToolbarState ===
-          "function"
-        ) {
-          this
-            .updateToolbarState();
-        }
-      } catch (error) {
-        console.error(
-          "計算紙縮放後重新調整畫布失敗：",
-          error
-        );
-      }
-    };
-
-  /*
-  ==================================================
-  包裝原本 initialize()
-  ==================================================
-
-  scratchpad-template.js 通常會在 scratchpad.js
-  載入完成後才建立 Scratchpad 實例。
-
-  因此在實例建立前包裝 initialize()，
-  可以自動加入八方向縮放功能。
-  */
-
-  const originalInitialize =
-    Scratchpad.prototype
-      .initialize;
-
-  Scratchpad.prototype
-    .initialize =
-    function () {
-      originalInitialize.call(
-        this
-      );
-
-      this
-        .initializeEightDirectionResize();
-    };
-
-  /*
-  ==================================================
-  包裝原本拖曳開始
-  ==================================================
-
-  正在縮放時不可同時拖曳面板。
-  */
-
-  const originalStartPanelDrag =
-    Scratchpad.prototype
-      .startPanelDrag;
-
-  Scratchpad.prototype
-    .startPanelDrag =
-    function (event) {
-      if (
-        this.isResizingPanel ||
-        event.target.closest(
-          `.${HANDLE_CLASS}`
-        )
-      ) {
-        return;
-      }
-
-      originalStartPanelDrag.call(
-        this,
-        event
-      );
-    };
-
-  /*
-  ==================================================
-  包裝原本響應式模式
-  ==================================================
-
-  從桌面切換到手機版時清除手動寬高，
-  恢復原本全螢幕模式。
-  */
-
-  const originalUpdateResponsiveMode =
-    Scratchpad.prototype
-      .updateResponsiveMode;
-
-  Scratchpad.prototype
-    .updateResponsiveMode =
-    function () {
-      originalUpdateResponsiveMode.call(
-        this
-      );
-
-      if (
-        this.isMobileView() &&
-        this.panel
-      ) {
-        this.panel.style.width =
-          "";
-
-        this.panel.style.height =
-          "";
-      }
-    };
-
-  /*
-  ==================================================
-  包裝 destroy()
-  ==================================================
-  */
-
-  const originalDestroy =
-    Scratchpad.prototype.destroy;
-
-  Scratchpad.prototype.destroy =
-    function () {
-      if (
-        Array.isArray(
-          this.resizeHandles
-        )
-      ) {
-        this.resizeHandles
-          .forEach(
-            (handle) => {
-              handle.remove();
-            }
-          );
-      }
-
-      this.resizeHandles =
-        [];
-
-      originalDestroy.call(
-        this
-      );
-    };
-
-  console.log(
-    "共用計算紙八方向縮放功能已載入。"
-  );
-})();
-/*
-==================================================
-共用計算紙：開啟位置與關閉位置保留
-請貼在 js/scratchpad.js 的最底部
-==================================================
-
-功能：
-1. 電腦與平板第一次開啟時，計算紙出現在按鈕附近。
-2. 使用者拖曳計算紙後，記住最後位置。
-3. 關閉再開啟時，回到最後關閉的位置。
-4. 切換題目不重設位置。
-5. 只有整個頁面重新整理或關閉後，位置才重設。
-6. 手機窄螢幕維持全螢幕計算紙。
-==================================================
-*/
-
-(function () {
-  "use strict";
-
-  /*
-  確認共用計算紙已經載入。
-  */
-
-  if (
-    typeof window.Scratchpad !==
-    "function"
-  ) {
-    console.error(
-      "計算紙位置功能載入失敗：找不到 window.Scratchpad。"
-    );
-
-    return;
-  }
-
-  const Scratchpad =
-    window.Scratchpad;
-
-  /*
-  避免重複安裝。
-  */
-
-  if (
-    Scratchpad.prototype
-      .nearButtonPositionInstalled
-  ) {
-    return;
-  }
-
-  Scratchpad.prototype
-    .nearButtonPositionInstalled =
-    true;
-
-  /*
-  手機維持全螢幕的寬度界線。
-
-  平板通常大於 480px，
-  因此會使用浮動計算紙。
-  */
-
-  const PHONE_MAX_WIDTH =
-    480;
-
-  const VIEWPORT_MARGIN =
-    12;
-
-  const BUTTON_GAP =
-    12;
-
-  /*
-  ==================================================
-  判斷目前是否使用浮動計算紙
-  ==================================================
-  */
-
-  Scratchpad.prototype
-    .useFloatingScratchpad =
-    function () {
-      return (
-        window.innerWidth >
-        PHONE_MAX_WIDTH
-      );
-    };
-
-  /*
-  ==================================================
-  限制數值範圍
-  ==================================================
-  */
-
-  Scratchpad.prototype
-    .clampScratchpadValue =
-    function (
-      value,
-      minimum,
-      maximum
-    ) {
-      return Math.min(
-        Math.max(
-          value,
-          minimum
-        ),
-        maximum
-      );
-    };
-
-  /*
-  ==================================================
-  套用計算紙位置
-  ==================================================
-  */
-
-  Scratchpad.prototype
-    .applySavedScratchpadPosition =
-    function () {
-      if (
-        !this.panel ||
-        !this.savedScratchpadPosition ||
-        !this.useFloatingScratchpad()
-      ) {
-        return false;
-      }
-
-      const panelWidth =
-        this.panel.offsetWidth ||
-        420;
-
-      const panelHeight =
-        this.panel.offsetHeight ||
-        560;
-
-      const maximumLeft =
-        Math.max(
-          VIEWPORT_MARGIN,
-          window.innerWidth -
-            panelWidth -
-            VIEWPORT_MARGIN
-        );
-
-      const maximumTop =
-        Math.max(
-          VIEWPORT_MARGIN,
-          window.innerHeight -
-            panelHeight -
-            VIEWPORT_MARGIN
-        );
-
-      const left =
-        this.clampScratchpadValue(
-          this.savedScratchpadPosition
-            .left,
-          VIEWPORT_MARGIN,
-          maximumLeft
-        );
-
-      const top =
-        this.clampScratchpadValue(
-          this.savedScratchpadPosition
-            .top,
-          VIEWPORT_MARGIN,
-          maximumTop
-        );
-
-      this.panel.style.left =
-        `${left}px`;
-
-      this.panel.style.top =
-        `${top}px`;
-
-      this.panel.style.right =
-        "auto";
-
-      this.panel.style.bottom =
-        "auto";
-
-      /*
-      視窗尺寸改變後，
-      同步更新修正過的位置。
-      */
-
-      this.savedScratchpadPosition = {
-        left,
-        top
-      };
-
-      return true;
-    };
-
-  /*
-  ==================================================
-  儲存目前計算紙位置
-  ==================================================
-  */
-
-  Scratchpad.prototype
-    .saveScratchpadPosition =
-    function () {
-      if (
-        !this.panel ||
-        !this.useFloatingScratchpad()
-      ) {
-        return;
-      }
-
-      const rect =
-        this.panel
-          .getBoundingClientRect();
-
-      if (
-        !Number.isFinite(
-          rect.left
-        ) ||
-        !Number.isFinite(
-          rect.top
-        )
-      ) {
-        return;
-      }
-
-      this.savedScratchpadPosition = {
-        left:
-          rect.left,
-
-        top:
-          rect.top
-      };
-    };
-
-  /*
-  ==================================================
-  第一次開啟時，放在按鈕附近
-  ==================================================
-  */
-
-  Scratchpad.prototype
-    .positionScratchpadNearButton =
-    function () {
-      if (
-        !this.panel ||
-        !this.useFloatingScratchpad()
-      ) {
-        return;
-      }
-
-      const button =
-        this.openButton ||
-        document.getElementById(
-          this.openButtonId ||
-          "scratchpadOpenButton"
-        );
-
-      /*
-      如果找不到按鈕，
-      才改放在畫面中央。
-      */
-
-      if (!button) {
-        this.positionScratchpadAtCenter();
-
-        return;
-      }
-
-      const buttonRect =
-        button.getBoundingClientRect();
-
-      const panelWidth =
-        this.panel.offsetWidth ||
-        420;
-
-      const panelHeight =
-        this.panel.offsetHeight ||
-        560;
-
-      /*
-      水平方向：
-      讓計算紙大致對齊按鈕中央。
-      */
-
-      let left =
-        buttonRect.left +
-        buttonRect.width / 2 -
-        panelWidth / 2;
-
-      /*
-      垂直方向：
-      優先顯示在按鈕下方。
-      */
-
-      let top =
-        buttonRect.bottom +
-        BUTTON_GAP;
-
-      const spaceBelow =
-        window.innerHeight -
-        buttonRect.bottom -
-        VIEWPORT_MARGIN;
-
-      const spaceAbove =
-        buttonRect.top -
-        VIEWPORT_MARGIN;
-
-      /*
-      下方放不下、上方空間較多時，
-      改放在按鈕上方。
-      */
-
-      if (
-        spaceBelow <
-          panelHeight &&
-        spaceAbove >
-          spaceBelow
-      ) {
-        top =
-          buttonRect.top -
-          panelHeight -
-          BUTTON_GAP;
-      }
-
-      const maximumLeft =
-        Math.max(
-          VIEWPORT_MARGIN,
-          window.innerWidth -
-            panelWidth -
-            VIEWPORT_MARGIN
-        );
-
-      const maximumTop =
-        Math.max(
-          VIEWPORT_MARGIN,
-          window.innerHeight -
-            panelHeight -
-            VIEWPORT_MARGIN
-        );
-
-      left =
-        this.clampScratchpadValue(
-          left,
-          VIEWPORT_MARGIN,
-          maximumLeft
-        );
-
-      top =
-        this.clampScratchpadValue(
-          top,
-          VIEWPORT_MARGIN,
-          maximumTop
-        );
-
-      this.panel.style.left =
-        `${left}px`;
-
-      this.panel.style.top =
-        `${top}px`;
-
-      this.panel.style.right =
-        "auto";
-
-      this.panel.style.bottom =
-        "auto";
-    };
-
-  /*
-  ==================================================
-  找不到按鈕時放在畫面中央
-  ==================================================
-  */
-
-  Scratchpad.prototype
-    .positionScratchpadAtCenter =
-    function () {
-      if (
-        !this.panel ||
-        !this.useFloatingScratchpad()
-      ) {
-        return;
-      }
-
-      const panelWidth =
-        this.panel.offsetWidth ||
-        420;
-
-      const panelHeight =
-        this.panel.offsetHeight ||
-        560;
-
-      const left =
-        Math.max(
-          VIEWPORT_MARGIN,
-          (
-            window.innerWidth -
-            panelWidth
-          ) /
-          2
-        );
-
-      const top =
-        Math.max(
-          VIEWPORT_MARGIN,
-          (
-            window.innerHeight -
-            panelHeight
-          ) /
-          2
-        );
-
-      this.panel.style.left =
-        `${left}px`;
-
-      this.panel.style.top =
-        `${top}px`;
-
-      this.panel.style.right =
-        "auto";
-
-      this.panel.style.bottom =
-        "auto";
-    };
-
-  /*
-  ==================================================
-  包裝原本響應式模式
-  ==================================================
-  */
-
-  const originalUpdateResponsiveMode =
-    Scratchpad.prototype
-      .updateResponsiveMode;
-
-  Scratchpad.prototype
-    .updateResponsiveMode =
-    function () {
-      if (!this.panel) {
-        return;
-      }
-
-      /*
-      手機窄螢幕維持原本全螢幕模式。
-      */
-
-      if (
-        !this.useFloatingScratchpad()
-      ) {
-        originalUpdateResponsiveMode.call(
-          this
-        );
-
-        return;
-      }
-
-      /*
-      平板與電腦都使用浮動面板。
-      */
-
-      this.panel.classList.remove(
-        "scratchpad-panel--fullscreen"
-      );
-
-      this.panel.style.right =
-        "auto";
-
-      this.panel.style.bottom =
-        "auto";
-
-      /*
-      已經有記錄位置時，
-      保持在最後的位置。
-      */
-
-      if (
-        this.savedScratchpadPosition
-      ) {
-        this.applySavedScratchpadPosition();
-      }
-    };
-
-  /*
-  ==================================================
-  包裝原本開啟功能
-  ==================================================
-  */
-
-  const originalOpen =
-    Scratchpad.prototype.open;
-
-  Scratchpad.prototype.open =
-    function () {
-      /*
-      先執行原本開啟功能，
-      保留畫布、音效、事件與歷史紀錄。
-      */
-
-      originalOpen.call(
-        this
-      );
-
-      if (
-        !this.panel ||
-        !this.useFloatingScratchpad()
-      ) {
-        return;
-      }
-
-      /*
-      等面板顯示並取得正確寬高後，
-      再設定位置。
-      */
-
-      window.requestAnimationFrame(
-        () => {
-          window.requestAnimationFrame(
-            () => {
-              if (
-                this.savedScratchpadPosition
-              ) {
-                this.applySavedScratchpadPosition();
-              } else {
-                this.positionScratchpadNearButton();
-              }
-
-              /*
-              調整 Canvas 時保留計算內容。
-              */
-
-              if (
-                typeof this
-                  .resizeCanvasPreserveContent ===
-                "function"
-              ) {
-                this
-                  .resizeCanvasPreserveContent();
-              }
-            }
-          );
-        }
-      );
-    };
-
-  /*
-  ==================================================
-  包裝原本關閉功能
-  ==================================================
-  */
-
-  const originalClose =
-    Scratchpad.prototype.close;
-
-  Scratchpad.prototype.close =
-    function () {
-      /*
-      關閉前先記住最後位置。
-      */
-
-      if (
-        this.panel &&
-        this.useFloatingScratchpad()
-      ) {
-        this.saveScratchpadPosition();
-      }
-
-      originalClose.call(
-        this
-      );
-    };
-
-  /*
-  ==================================================
-  拖曳停止後記住位置
-  ==================================================
-  */
-
-  const originalStopPanelDrag =
-    Scratchpad.prototype
-      .stopPanelDrag;
-
-  Scratchpad.prototype
-    .stopPanelDrag =
-    function () {
-      const wasDragging =
-        this.isDraggingPanel;
-
-      originalStopPanelDrag.call(
-        this
-      );
-
-      if (
-        wasDragging &&
-        this.panel &&
-        this.useFloatingScratchpad()
-      ) {
-        this.saveScratchpadPosition();
-      }
-    };
-
-  /*
-  ==================================================
-  視窗尺寸改變時，只修正超出畫面的部分
-  不重新放回起始位置
-  ==================================================
-  */
-
-  const originalKeepPanelInsideViewport =
-    Scratchpad.prototype
-      .keepPanelInsideViewport;
-
-  Scratchpad.prototype
-    .keepPanelInsideViewport =
-    function () {
-      originalKeepPanelInsideViewport.call(
-        this
-      );
-
-      if (
-        this.panel &&
-        this.useFloatingScratchpad()
-      ) {
-        this.saveScratchpadPosition();
-      }
-    };
-
-  /*
-  ==================================================
-  頁面重新載入時自然重設
-
-  savedScratchpadPosition 只存在目前頁面的記憶體，
-  沒有寫入 localStorage 或 sessionStorage。
-
-  因此：
-  - 關閉計算紙再開啟：保留位置
-  - 換下一題：保留位置
-  - 重新整理／關閉頁面：重設位置
-  ==================================================
-  */
-
-  console.log(
-    "共用計算紙位置功能已載入：首次在按鈕附近開啟，重新開啟保留最後位置。"
-  );
-})();
-/*
-==================================================
-共用計算紙：拖曳區域與工具列操作安全修正
-請貼在 js/scratchpad.js 最底部
-==================================================
-
-功能：
-1. 原本深黃色標題列仍可拖曳。
-2. 計算紙四周淺黃色邊緣也可拖曳。
-3. 工具列按鈕只能用滑鼠左鍵或一般點按操作。
-4. 滑鼠右鍵不會觸發工具，也不顯示右鍵選單。
-5. 平板、手機長按工具按鈕不顯示選單、不拖曳面板。
-6. 工具列、畫布、縮放把手不會誤觸面板拖曳。
-7. 其他畫筆、橡皮擦、復原、重做、清除、下載、
-   面板縮放、位置記憶等功能保持不變。
-==================================================
-*/
-
-(function () {
-  "use strict";
-
-  if (
-    typeof window.Scratchpad !==
-    "function"
-  ) {
-    console.error(
-      "計算紙操作安全修正載入失敗：找不到 window.Scratchpad。"
-    );
-
-    return;
-  }
-
-  const Scratchpad =
-    window.Scratchpad;
-
-  if (
-    Scratchpad.prototype
-      .safeToolbarAndEdgeDragInstalled
-  ) {
-    return;
-  }
-
-  Scratchpad.prototype
-    .safeToolbarAndEdgeDragInstalled =
-    true;
-
-  const STYLE_ID =
-    "scratchpadSafeToolbarAndEdgeDragStyle";
-
-  /*
-  淺黃色邊緣可拖曳的寬度。
-  數值太大會影響工具與畫布，
-  18px 約等於目前面板的邊框與留白區。
-  */
-
-  const EDGE_DRAG_SIZE =
-    18;
-
-  /*
-  ==================================================
-  安裝 CSS
-  ==================================================
-  */
-
-  function installSafeOperationStyles() {
-    if (
-      document.getElementById(
-        STYLE_ID
-      )
-    ) {
-      return;
-    }
-
-    const style =
-      document.createElement(
-        "style"
-      );
-
-    style.id =
-      STYLE_ID;
-
-    style.textContent = `
-      /*
-      標題列與面板淺黃色邊緣可拖曳。
-      */
-
-      .scratchpad-header {
-        cursor: move;
-        cursor: grab;
-        touch-action: none;
-        user-select: none;
-        -webkit-user-select: none;
-        -webkit-touch-callout: none;
-      }
-
-      .scratchpad-panel--dragging,
-      .scratchpad-panel--dragging .scratchpad-header {
-        cursor: grabbing !important;
-      }
-
-      /*
-      面板本身保留觸控事件，
-      由 JavaScript 判斷是否位於邊緣。
-      */
-
-      .scratchpad-panel {
-        -webkit-touch-callout: none;
-      }
-
-      /*
-      工具列及所有按鈕只處理一般點按。
-      manipulation 可避免雙擊縮放與部分長按行為。
-      */
-
-      .scratchpad-toolbar,
-      .scratchpad-toolbar button,
-      .scratchpad-tool-button,
-      .scratchpad-color-button,
-      .scratchpad-size-button,
-      #scratchpadCloseButton {
-        touch-action: manipulation;
-        -webkit-touch-callout: none;
-        user-select: none;
-        -webkit-user-select: none;
-      }
-
-      /*
-      工具按鈕不能被瀏覽器原生拖曳。
-      */
-
-      .scratchpad-toolbar button,
-      .scratchpad-tool-button,
-      .scratchpad-color-button,
-      .scratchpad-size-button,
-      #scratchpadCloseButton {
-        -webkit-user-drag: none;
-        user-drag: none;
-      }
-    `;
-
-    document.head.appendChild(
-      style
-    );
-  }
-
-  /*
-  ==================================================
-  判斷是否為滑鼠左鍵或一般觸控
-  ==================================================
-  */
-
-  function isPrimaryPointer(event) {
-    if (!event) {
-      return false;
-    }
-
-    /*
-    滑鼠只能接受左鍵。
-    button 0 為左鍵。
-    */
-
-    if (
-      event.pointerType ===
-      "mouse"
-    ) {
-      return (
-        event.button === 0
-      );
-    }
-
-    /*
-    手指與觸控筆只接受主要接觸點。
-    */
-
-    return (
-      event.isPrimary !== false
-    );
-  }
-
-  /*
-  ==================================================
-  判斷元素是否為互動功能
-  ==================================================
-  */
-
-  function isInteractiveElement(target) {
-    if (
-      !(target instanceof Element)
-    ) {
-      return false;
-    }
-
-    return Boolean(
-      target.closest(
-        [
-          "button",
-          "input",
-          "select",
-          "textarea",
-          "a",
-          "canvas",
-          "[role='button']",
-          ".scratchpad-toolbar",
-          ".scratchpad-canvas-container",
-          ".scratchpad-resize-handle"
-        ].join(",")
-      )
-    );
-  }
-
-  /*
-  ==================================================
-  判斷是否點在淺黃色邊緣
-  ==================================================
-  */
-
-  function isPanelEdge(
-    panel,
-    event
-  ) {
-    if (
-      !panel ||
-      !event
-    ) {
-      return false;
-    }
-
-    const rect =
-      panel.getBoundingClientRect();
-
-    const distanceFromLeft =
-      event.clientX -
-      rect.left;
-
-    const distanceFromRight =
-      rect.right -
-      event.clientX;
-
-    const distanceFromTop =
-      event.clientY -
-      rect.top;
-
-    const distanceFromBottom =
-      rect.bottom -
-      event.clientY;
-
-    return (
-      distanceFromLeft <=
-        EDGE_DRAG_SIZE ||
-      distanceFromRight <=
-        EDGE_DRAG_SIZE ||
-      distanceFromTop <=
-        EDGE_DRAG_SIZE ||
-      distanceFromBottom <=
-        EDGE_DRAG_SIZE
-    );
-  }
-
-  /*
-  ==================================================
-  判斷是否可從目前位置拖曳
-  ==================================================
-  */
-
-  function isAllowedDragArea(
-    scratchpad,
-    event
-  ) {
-    if (
-      !scratchpad?.panel ||
-      !event?.target
-    ) {
-      return false;
-    }
-
-    const target =
-      event.target;
-
-    /*
-    工具按鈕、畫布與縮放把手不可拖曳。
-    */
-
-    if (
-      isInteractiveElement(
-        target
-      )
-    ) {
-      return false;
-    }
-
-    /*
-    深黃色標題列可拖曳。
-    */
-
-    if (
-      target.closest(
-        ".scratchpad-header"
-      )
-    ) {
-      return true;
-    }
-
-    /*
-    四周淺黃色邊緣可拖曳。
-    */
-
-    return isPanelEdge(
-      scratchpad.panel,
-      event
-    );
-  }
-
-  /*
-  ==================================================
-  改寫拖曳開始判斷
-  ==================================================
-  */
-
-  const originalStartPanelDrag =
-    Scratchpad.prototype
-      .startPanelDrag;
-
-  Scratchpad.prototype
-    .startPanelDrag =
-    function (event) {
-      if (
-        !this.panel ||
-        this.isDraggingPanel ||
-        this.isResizingPanel
-      ) {
-        return;
-      }
-
-      /*
-      右鍵、非主要手指皆不處理。
-      */
-
-      if (
-        !isPrimaryPointer(
-          event
-        )
-      ) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        return;
-      }
-
-      /*
-      只允許標題列或淺黃色邊緣拖曳。
-      */
-
-      if (
-        !isAllowedDragArea(
-          this,
-          event
-        )
-      ) {
-        return;
-      }
-
-      /*
-      交給原本拖曳功能處理，
-      保留位置限制與位置記憶功能。
-      */
-
-      originalStartPanelDrag.call(
-        this,
-        event
-      );
-    };
-
-  /*
-  ==================================================
-  初始化工具列安全操作
-  ==================================================
-  */
-
-  Scratchpad.prototype
-    .initializeSafeToolbarAndEdgeDrag =
-    function () {
-      if (
-        this.safeToolbarInitialized ||
-        !this.panel
-      ) {
-        return;
-      }
-
-      this.safeToolbarInitialized =
-        true;
-
-      installSafeOperationStyles();
-
-      const panel =
-        this.panel;
-
-      const toolbar =
-        panel.querySelector(
-          ".scratchpad-toolbar"
-        );
-
-      /*
-      功能按鈕集合。
-      */
-
-      const controls =
-        Array.from(
-          panel.querySelectorAll(
-            [
-              ".scratchpad-toolbar button",
-              ".scratchpad-tool-button",
-              ".scratchpad-color-button",
-              ".scratchpad-size-button",
-              "#scratchpadCloseButton"
-            ].join(",")
-          )
-        );
-
-      /*
-      ------------------------------------------------
-      淺黃色邊緣拖曳
-      ------------------------------------------------
-
-      原本標題列已有拖曳事件。
-      這裡額外監聽面板本身，
-      讓四周淺黃色邊緣也可啟動拖曳。
-      */
-
-      const handlePanelPointerDown =
-        (event) => {
-          if (
-            !isAllowedDragArea(
-              this,
-              event
-            )
-          ) {
-            return;
-          }
-
-          this.startPanelDrag(
-            event
-          );
-        };
-
-      panel.addEventListener(
-        "pointerdown",
-        handlePanelPointerDown
-      );
-
-      /*
-      ------------------------------------------------
-      工具按鈕只接受左鍵或一般點按
-      ------------------------------------------------
-      */
-
-      const handleControlPointerDown =
-        (event) => {
-          /*
-          阻止事件傳到面板，
-          避免按功能鍵時移動計算紙。
-          */
-
-          event.stopPropagation();
-
-          if (
-            !isPrimaryPointer(
-              event
-            )
-          ) {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-          }
-        };
-
-      const handleControlContextMenu =
-        (event) => {
-          /*
-          滑鼠右鍵與觸控長按皆不顯示選單。
-          */
-
-          event.preventDefault();
-          event.stopPropagation();
-        };
-
-      const handleControlDragStart =
-        (event) => {
-          event.preventDefault();
-        };
-
-      const handleControlSelectStart =
-        (event) => {
-          event.preventDefault();
-        };
-
-      controls.forEach(
-        (control) => {
-          control.addEventListener(
-            "pointerdown",
-            handleControlPointerDown
-          );
-
-          control.addEventListener(
-            "contextmenu",
-            handleControlContextMenu
-          );
-
-          control.addEventListener(
-            "dragstart",
-            handleControlDragStart
-          );
-
-          control.addEventListener(
-            "selectstart",
-            handleControlSelectStart
-          );
-        }
-      );
-
-      /*
-      工具列空白處也不顯示右鍵或長按選單。
-      */
-
-      if (toolbar) {
-        toolbar.addEventListener(
-          "contextmenu",
-          handleControlContextMenu
-        );
-
-        toolbar.addEventListener(
-          "dragstart",
-          handleControlDragStart
-        );
-
-        toolbar.addEventListener(
-          "selectstart",
-          handleControlSelectStart
-        );
-      }
-
-      /*
-      整個計算紙禁止瀏覽器原生右鍵選單。
-      右鍵不執行任何工具功能。
-      */
-
-      const handlePanelContextMenu =
-        (event) => {
-          event.preventDefault();
-        };
-
-      panel.addEventListener(
-        "contextmenu",
-        handlePanelContextMenu
-      );
-
-      /*
-      銷毀元件時清除新增事件。
-      */
-
-      this.safeToolbarCleanup =
-        () => {
-          panel.removeEventListener(
-            "pointerdown",
-            handlePanelPointerDown
-          );
-
-          panel.removeEventListener(
-            "contextmenu",
-            handlePanelContextMenu
-          );
-
-          controls.forEach(
-            (control) => {
-              control.removeEventListener(
-                "pointerdown",
-                handleControlPointerDown
-              );
-
-              control.removeEventListener(
-                "contextmenu",
-                handleControlContextMenu
-              );
-
-              control.removeEventListener(
-                "dragstart",
-                handleControlDragStart
-              );
-
-              control.removeEventListener(
-                "selectstart",
-                handleControlSelectStart
-              );
-            }
-          );
-
-          if (toolbar) {
-            toolbar.removeEventListener(
-              "contextmenu",
-              handleControlContextMenu
-            );
-
-            toolbar.removeEventListener(
-              "dragstart",
-              handleControlDragStart
-            );
-
-            toolbar.removeEventListener(
-              "selectstart",
-              handleControlSelectStart
-            );
-          }
-        };
-    };
-
-  /*
-  ==================================================
-  包裝 initialize()
-  ==================================================
-  */
-
-  const originalInitialize =
-    Scratchpad.prototype
-      .initialize;
-
-  Scratchpad.prototype
-    .initialize =
-    function () {
-      originalInitialize.call(
-        this
-      );
-
-      this
-        .initializeSafeToolbarAndEdgeDrag();
-    };
-
-  /*
-  ==================================================
-  包裝 destroy()
-  ==================================================
-  */
-
-  const originalDestroy =
-    Scratchpad.prototype
-      .destroy;
-
-  Scratchpad.prototype
-    .destroy =
-    function () {
-      if (
-        typeof this
-          .safeToolbarCleanup ===
-        "function"
-      ) {
-        this.safeToolbarCleanup();
-      }
-
-      this.safeToolbarCleanup =
-        null;
-
-      originalDestroy.call(
-        this
-      );
-    };
-
-  console.log(
-    "計算紙拖曳區域與工具列操作安全修正已載入。"
-  );
-})();
-/*
-==================================================
-共用計算紙：淺黃色工具列背景拖曳修正版
-檔案位置：js/scratchpad.js
-貼在整個檔案最底部
-==================================================
-
-拖曳區域：
-1. 深黃色標題列
-2. 淺黃色工具列的空白背景
-3. 計算紙四周淺黃色邊緣
-
-不可拖曳區域：
-1. 所有功能按鈕
-2. 顏色按鈕
-3. 粗細按鈕
-4. 輸入框、選單
-5. 畫布
-6. 縮放把手
-
-其他功能保持不變。
-==================================================
-*/
-
-(function () {
-  "use strict";
-
-  const PANEL_SELECTOR =
-    ".scratchpad-panel";
-
-  const HEADER_SELECTOR =
-    ".scratchpad-header";
-
-  /*
-  請依目前 scratchpad-template.js 的實際類別，
-  同時支援常見工具列命名。
-  */
-
-  const TOOLBAR_SELECTORS = [
-    ".scratchpad-toolbar",
-    ".scratchpad-tools",
-    ".scratchpad-controls",
-    ".scratchpad-tool-area",
-    ".scratchpad-toolbar-area"
-  ].join(",");
-
-  const INTERACTIVE_SELECTOR = [
-    "button",
-    "input",
-    "select",
-    "textarea",
-    "a",
-    "canvas",
-    "[role='button']",
-    "[contenteditable='true']",
-    ".scratchpad-tool-button",
-    ".scratchpad-color-button",
-    ".scratchpad-size-button",
-    ".scratchpad-resize-handle",
-    ".scratchpad-canvas-container"
-  ].join(",");
-
-  const EDGE_SIZE = 18;
-
-  let dragState = null;
-
-  /*
-  ==================================================
-  安裝補充樣式
-  ==================================================
-  */
-
-  function installStyles() {
-    if (
-      document.getElementById(
-        "scratchpad-toolbar-background-drag-style"
-      )
-    ) {
-      return;
-    }
-
-    const style =
-      document.createElement("style");
-
-    style.id =
-      "scratchpad-toolbar-background-drag-style";
-
-    style.textContent = `
-      ${HEADER_SELECTOR} {
-        cursor: grab;
-        touch-action: none;
-        user-select: none;
-        -webkit-user-select: none;
-        -webkit-touch-callout: none;
-      }
-
-      ${TOOLBAR_SELECTORS} {
-        cursor: grab;
-        touch-action: none;
-        user-select: none;
-        -webkit-user-select: none;
-        -webkit-touch-callout: none;
-      }
-
-      ${TOOLBAR_SELECTORS} button,
-      ${TOOLBAR_SELECTORS} input,
-      ${TOOLBAR_SELECTORS} select,
-      ${TOOLBAR_SELECTORS} textarea,
-      ${TOOLBAR_SELECTORS} [role="button"] {
-        cursor: pointer;
-        touch-action: manipulation;
-        -webkit-touch-callout: none;
-        user-select: none;
-        -webkit-user-select: none;
-      }
-
-      ${PANEL_SELECTOR}.scratchpad-background-dragging,
-      ${PANEL_SELECTOR}.scratchpad-background-dragging ${HEADER_SELECTOR},
-      ${PANEL_SELECTOR}.scratchpad-background-dragging ${TOOLBAR_SELECTORS} {
-        cursor: grabbing !important;
-      }
-    `;
-
-    document.head.appendChild(
-      style
-    );
-  }
-
-  /*
-  ==================================================
-  僅接受滑鼠左鍵或主要觸控點
-  ==================================================
-  */
-
-  function isPrimaryPointer(event) {
-    if (
-      event.pointerType === "mouse"
-    ) {
-      return event.button === 0;
-    }
-
-    return (
-      event.isPrimary !== false
-    );
-  }
-
-  /*
-  ==================================================
-  功能按鈕本身不可啟動拖曳
-  ==================================================
-  */
-
-  function isInteractiveTarget(target) {
-    if (
-      !(target instanceof Element)
-    ) {
-      return false;
-    }
-
-    return Boolean(
-      target.closest(
-        INTERACTIVE_SELECTOR
-      )
-    );
-  }
-
-  /*
-  ==================================================
-  判斷是否位於面板四周淺黃色邊緣
-  ==================================================
-  */
-
-  function isPanelEdge(
-    panel,
-    event
-  ) {
-    const rect =
-      panel.getBoundingClientRect();
-
-    const leftDistance =
-      event.clientX -
-      rect.left;
-
-    const rightDistance =
-      rect.right -
-      event.clientX;
-
-    const topDistance =
-      event.clientY -
-      rect.top;
-
-    const bottomDistance =
-      rect.bottom -
-      event.clientY;
-
-    return (
-      leftDistance <= EDGE_SIZE ||
-      rightDistance <= EDGE_SIZE ||
-      topDistance <= EDGE_SIZE ||
-      bottomDistance <= EDGE_SIZE
-    );
-  }
-
-  /*
-  ==================================================
-  判斷可拖曳區域
-  ==================================================
-  */
-
-  function isDragArea(
-    panel,
-    event
-  ) {
-    const target =
-      event.target;
-
-    if (
-      !(target instanceof Element)
-    ) {
-      return false;
-    }
-
-    /*
-    功能鍵、畫布、縮放把手等，
-    一律保留自己的原始功能。
-    */
-
-    if (
-      isInteractiveTarget(target)
-    ) {
-      return false;
-    }
-
-    /*
-    深黃色標題列。
-    */
-
-    if (
-      target.closest(
-        HEADER_SELECTOR
-      )
-    ) {
-      return true;
-    }
-
-    /*
-    淺黃色工具列背景。
-
-    因為上面已經排除所有功能鍵，
-    所以只有真正的背景空白處能拖曳。
-    */
-
-    if (
-      target.closest(
-        TOOLBAR_SELECTORS
-      )
-    ) {
-      return true;
-    }
-
-    /*
-    面板四周淺黃色邊緣。
-    */
-
-    return isPanelEdge(
-      panel,
-      event
-    );
-  }
-
-  /*
-  ==================================================
-  開始拖曳
-  ==================================================
-  */
-
-  function startDrag(
-    panel,
-    event
-  ) {
-    if (
-      !isPrimaryPointer(event) ||
-      !isDragArea(panel, event)
-    ) {
-      return;
-    }
-
-    const rect =
-      panel.getBoundingClientRect();
-
-    dragState = {
-      panel,
-      pointerId:
-        event.pointerId,
-
-      offsetX:
-        event.clientX -
-        rect.left,
-
-      offsetY:
-        event.clientY -
-        rect.top
-    };
-
-    panel.classList.add(
-      "scratchpad-background-dragging"
-    );
-
-    panel.style.left =
-      `${rect.left}px`;
-
-    panel.style.top =
-      `${rect.top}px`;
-
-    panel.style.right =
-      "auto";
-
-    panel.style.bottom =
-      "auto";
-
-    try {
-      panel.setPointerCapture(
-        event.pointerId
-      );
-    } catch (error) {
-      // 某些舊瀏覽器不支援，不影響拖曳。
-    }
-
-    event.preventDefault();
-    event.stopPropagation();
-  }
-
-  /*
-  ==================================================
-  拖曳中
-  ==================================================
-  */
-
-  function moveDrag(event) {
-    if (
-      !dragState ||
-      event.pointerId !==
-        dragState.pointerId
-    ) {
-      return;
-    }
-
-    const panel =
-      dragState.panel;
-
-    const panelWidth =
-      panel.offsetWidth;
-
-    const panelHeight =
-      panel.offsetHeight;
-
-    const margin = 8;
-
-    const maximumLeft =
-      Math.max(
-        margin,
-        window.innerWidth -
-          panelWidth -
-          margin
-      );
-
-    const maximumTop =
-      Math.max(
-        margin,
-        window.innerHeight -
-          panelHeight -
-          margin
-      );
-
-    let left =
-      event.clientX -
-      dragState.offsetX;
-
-    let top =
-      event.clientY -
-      dragState.offsetY;
-
-    left =
-      Math.min(
-        Math.max(
-          left,
-          margin
-        ),
-        maximumLeft
-      );
-
-    top =
-      Math.min(
-        Math.max(
-          top,
-          margin
-        ),
-        maximumTop
-      );
-
-    panel.style.left =
-      `${left}px`;
-
-    panel.style.top =
-      `${top}px`;
-
-    event.preventDefault();
-  }
-
-  /*
-  ==================================================
-  結束拖曳
-  ==================================================
-  */
-
-  function stopDrag(event) {
-    if (
-      !dragState ||
-      (
-        event.pointerId !== undefined &&
-        event.pointerId !==
-          dragState.pointerId
-      )
-    ) {
-      return;
-    }
-
-    const panel =
-      dragState.panel;
-
-    panel.classList.remove(
-      "scratchpad-background-dragging"
-    );
-
-    /*
-    與前面建立的位置記憶功能相容。
-    若 Scratchpad 實例掛在元素上，就同步儲存位置。
-    */
-
-    const rect =
-      panel.getBoundingClientRect();
-
-    panel.dataset.lastLeft =
-      String(rect.left);
-
-    panel.dataset.lastTop =
-      String(rect.top);
-
-    dragState = null;
-  }
-
-  /*
-  ==================================================
-  功能鍵安全設定
-  ==================================================
-  */
-
-  function protectControls(panel) {
-    panel
-      .querySelectorAll(
-        INTERACTIVE_SELECTOR
-      )
-      .forEach(
-        (control) => {
-          if (
-            control.dataset
-              .scratchpadControlProtected ===
-            "true"
-          ) {
-            return;
-          }
-
-          control.dataset
-            .scratchpadControlProtected =
-            "true";
-
-          /*
-          功能鍵按下時不傳到背景拖曳區。
-          */
-
-          control.addEventListener(
-            "pointerdown",
-            (event) => {
-              event.stopPropagation();
-
-              if (
-                event.pointerType ===
-                  "mouse" &&
-                event.button !== 0
-              ) {
-                event.preventDefault();
-                event.stopImmediatePropagation();
-              }
-            }
-          );
-
-          /*
-          禁止右鍵選單及平板長按選單。
-          */
-
-          control.addEventListener(
-            "contextmenu",
-            (event) => {
-              event.preventDefault();
-              event.stopPropagation();
-            }
-          );
-
-          control.addEventListener(
-            "dragstart",
-            (event) => {
-              event.preventDefault();
-            }
-          );
-
-          control.addEventListener(
-            "selectstart",
-            (event) => {
-              event.preventDefault();
-            }
-          );
-        }
-      );
-  }
-
-  /*
-  ==================================================
-  初始化單一計算紙
-  ==================================================
-  */
-
-  function initializePanel(panel) {
-    if (
-      panel.dataset
-        .toolbarBackgroundDragReady ===
-      "true"
-    ) {
-      protectControls(panel);
-      return;
-    }
-
-    panel.dataset
-      .toolbarBackgroundDragReady =
-      "true";
-
-    panel.addEventListener(
-      "pointerdown",
-      (event) => {
-        startDrag(
-          panel,
-          event
-        );
-      }
-    );
-
-    /*
-    整個計算紙停用瀏覽器右鍵選單。
-    */
-
-    panel.addEventListener(
-      "contextmenu",
-      (event) => {
-        event.preventDefault();
-      }
-    );
-
-    protectControls(panel);
-  }
-
-  /*
-  ==================================================
-  尋找並初始化所有計算紙
-  ==================================================
-  */
-
-  function initializeAllPanels() {
-    document
-      .querySelectorAll(
-        PANEL_SELECTOR
-      )
-      .forEach(
-        initializePanel
-      );
-  }
-
-  installStyles();
-
-  initializeAllPanels();
-
-  /*
-  計算紙可能由 JavaScript 稍後建立，
-  因此持續偵測新面板。
-  */
-
-  const observer =
-    new MutationObserver(
-      () => {
-        initializeAllPanels();
-      }
-    );
-
-  observer.observe(
-    document.documentElement,
-    {
-      childList: true,
-      subtree: true
-    }
-  );
-
-  document.addEventListener(
-    "pointermove",
-    moveDrag,
-    {
-      passive: false
-    }
-  );
-
-  document.addEventListener(
-    "pointerup",
-    stopDrag
-  );
-
-  document.addEventListener(
-    "pointercancel",
-    stopDrag
-  );
-
-  window.addEventListener(
-    "blur",
-    () => {
-      if (dragState) {
-        stopDrag({
-          pointerId:
-            dragState.pointerId
-        });
-      }
-    }
-  );
-
-  console.log(
-    "計算紙淺黃色工具列背景拖曳功能已載入。"
-  );
 })();
