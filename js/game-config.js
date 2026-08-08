@@ -20,6 +20,13 @@
 */
 
 export const GAME_CONFIG = {
+
+  /*
+  ==================================================
+  1. 正負整數大挑戰
+  ==================================================
+  */
+
   integer: {
     id:
       "integer",
@@ -88,6 +95,13 @@ export const GAME_CONFIG = {
         "模式四"
     }
   },
+
+
+  /*
+  ==================================================
+  2. 數的大小比較王
+  ==================================================
+  */
 
   compare: {
     id:
@@ -158,6 +172,13 @@ export const GAME_CONFIG = {
     }
   },
 
+
+  /*
+  ==================================================
+  3. 正負分數加減大挑戰
+  ==================================================
+  */
+
   fraction: {
     id:
       "fraction",
@@ -221,6 +242,28 @@ export const GAME_CONFIG = {
     }
   },
 
+
+  /*
+  ==================================================
+  4. 指數律大挑戰
+  ==================================================
+
+  正式規劃：
+
+  模式一：
+  基礎練習
+  整合同底數相乘、同底數相除、
+  冪的乘方、零次方、相同指數等基礎題型。
+
+  模式二：
+  綜合挑戰
+  將不同指數律混合出題。
+
+  目前遊戲仍在製作中，
+  所以 finished 暫時保持 false。
+  ==================================================
+  */
+
   exponent: {
     id:
       "exponent",
@@ -247,7 +290,7 @@ export const GAME_CONFIG = {
       "games/exponent.html",
 
     description:
-      "練習同底數相乘、相除、冪的乘方、零次方與綜合指數律。",
+      "先整合練習基本指數律，再進入多種指數律混合的綜合挑戰。",
 
     finished:
       false,
@@ -276,22 +319,20 @@ export const GAME_CONFIG = {
     },
 
     modes: {
-      multiplication:
-        "同底數相乘",
+      "1":
+        "模式一｜基礎練習",
 
-      division:
-        "同底數相除",
-
-      powerOfPower:
-        "冪的乘方",
-
-      zeroExponent:
-        "零次方",
-
-      mixed:
-        "綜合指數律"
+      "2":
+        "模式二｜綜合挑戰"
     }
   },
+
+
+  /*
+  ==================================================
+  5. 正負數四則運算大挑戰
+  ==================================================
+  */
 
   "integer-operations": {
     id:
@@ -365,6 +406,13 @@ export const GAME_CONFIG = {
     }
   },
 
+
+  /*
+  ==================================================
+  6. 質因數分解、公因數公倍數大挑戰
+  ==================================================
+  */
+
   factor: {
     id:
       "factor",
@@ -433,6 +481,13 @@ export const GAME_CONFIG = {
         "綜合挑戰"
     }
   },
+
+
+  /*
+  ==================================================
+  7. 一元一次方程式
+  ==================================================
+  */
 
   equation: {
     id:
@@ -503,6 +558,20 @@ export const GAME_CONFIG = {
     }
   },
 
+
+  /*
+  ==================================================
+  七年級下學期
+  ==================================================
+  */
+
+
+  /*
+  ==================================================
+  1. 二元一次聯立方程式
+  ==================================================
+  */
+
   simultaneousEquation: {
     id:
       "simultaneousEquation",
@@ -559,6 +628,13 @@ export const GAME_CONFIG = {
 
     modes: {}
   },
+
+
+  /*
+  ==================================================
+  2. 直角坐標與方程式圖形
+  ==================================================
+  */
 
   coordinate: {
     id:
@@ -617,6 +693,13 @@ export const GAME_CONFIG = {
     modes: {}
   },
 
+
+  /*
+  ==================================================
+  3. 比例式、正比與反比
+  ==================================================
+  */
+
   ratio: {
     id:
       "ratio",
@@ -673,6 +756,13 @@ export const GAME_CONFIG = {
 
     modes: {}
   },
+
+
+  /*
+  ==================================================
+  4. 統計圖表
+  ==================================================
+  */
 
   statistics: {
     id:
@@ -785,7 +875,9 @@ export function getModeName(
   }
 
   const modeKey =
-    String(mode);
+    String(
+      mode
+    );
 
   return (
     GAME_CONFIG[gameId]
@@ -892,7 +984,10 @@ export function getGamesBySemester(
         semester
     )
     .sort(
-      (gameA, gameB) =>
+      (
+        gameA,
+        gameB
+      ) =>
         gameA.order -
         gameB.order
     );
@@ -915,7 +1010,10 @@ export function getFinishedGames() {
         true
     )
     .sort(
-      (gameA, gameB) => {
+      (
+        gameA,
+        gameB
+      ) => {
         if (
           gameA.semester ===
           gameB.semester
@@ -947,11 +1045,16 @@ export function getRecommendedGames() {
   )
     .filter(
       (game) =>
-        game.finished === true &&
-        game.recommended === true
+        game.finished ===
+          true &&
+        game.recommended ===
+          true
     )
     .sort(
-      (gameA, gameB) =>
+      (
+        gameA,
+        gameB
+      ) =>
         gameA.order -
         gameB.order
     );
@@ -970,11 +1073,16 @@ export function getNewGames() {
   )
     .filter(
       (game) =>
-        game.finished === true &&
-        game.isNew === true
+        game.finished ===
+          true &&
+        game.isNew ===
+          true
     )
     .sort(
-      (gameA, gameB) =>
+      (
+        gameA,
+        gameB
+      ) =>
         gameA.order -
         gameB.order
     );
@@ -1007,7 +1115,8 @@ export function isGameFinished(
 ) {
   return (
     GAME_CONFIG[gameId]
-      ?.finished === true
+      ?.finished ===
+      true
   );
 }
 
