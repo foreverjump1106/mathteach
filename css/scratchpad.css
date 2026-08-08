@@ -2,7 +2,19 @@
 ==================================================
 Math Game Park 共用計算紙樣式
 檔案：css/scratchpad.css
-版本：2.0 - 行動裝置可自由拖曳版
+
+版本：2.1
+全裝置浮動＋拖曳＋八方向縮放版
+==================================================
+
+功能：
+1. 電腦、平板、手機皆為浮動計算紙。
+2. 深黃色標題列可以拖曳。
+3. 淺黃色工具列空白處可以拖曳。
+4. 工具按鈕維持自己的功能。
+5. Canvas 維持書寫功能。
+6. 電腦、平板、手機全部支援八方向縮放。
+7. 觸控裝置的縮放感應區較大，方便手指操作。
 ==================================================
 */
 
@@ -47,6 +59,13 @@ Math Game Park 共用計算紙樣式
     rgba(245, 158, 11, 0.3);
 }
 
+
+/*
+==================================================
+基本設定
+==================================================
+*/
+
 * {
   box-sizing: border-box;
 }
@@ -54,7 +73,7 @@ Math Game Park 共用計算紙樣式
 
 /*
 ==================================================
-開啟按鈕
+開啟計算紙按鈕
 ==================================================
 */
 
@@ -118,6 +137,7 @@ Math Game Park 共用計算紙樣式
     background-color 0.15s ease;
 }
 
+
 .scratchpad-open-button:hover {
   transform:
     translateY(-2px);
@@ -130,10 +150,12 @@ Math Game Park 共用計算紙樣式
     );
 }
 
+
 .scratchpad-open-button:active {
   transform:
     translateY(3px);
 }
+
 
 .scratchpad-open-button:focus-visible {
   outline: none;
@@ -142,6 +164,7 @@ Math Game Park 共用計算紙樣式
     var(--scratchpad-focus-shadow),
     0 5px 0 #b45309;
 }
+
 
 .scratchpad-open-button__icon {
   display: inline-flex;
@@ -158,7 +181,7 @@ Math Game Park 共用計算紙樣式
 
 /*
 ==================================================
-浮動面板
+浮動計算紙面板
 ==================================================
 */
 
@@ -183,6 +206,20 @@ Math Game Park 共用計算紙樣式
     min(
       var(--scratchpad-panel-height),
       calc(100vh - 24px)
+    );
+
+  min-width: 240px;
+
+  min-height: 300px;
+
+  max-width:
+    calc(
+      100vw - 16px
+    );
+
+  max-height:
+    calc(
+      100vh - 16px
     );
 
   display: flex;
@@ -233,9 +270,19 @@ Math Game Park 共用計算紙樣式
   -webkit-touch-callout: none;
 }
 
+
+/*
+隱藏狀態
+*/
+
 .scratchpad-panel[hidden] {
   display: none !important;
 }
+
+
+/*
+開啟狀態
+*/
 
 .scratchpad-panel--open {
   opacity: 1;
@@ -244,6 +291,13 @@ Math Game Park 共用計算紙樣式
 
   pointer-events: auto;
 }
+
+
+/*
+拖曳與縮放中
+不要使用 transition，
+避免手指操作產生延遲感。
+*/
 
 .scratchpad-panel--dragging,
 .scratchpad-panel--resizing {
@@ -258,12 +312,19 @@ Math Game Park 共用計算紙樣式
       42,
       0.36
     );
+
+  user-select: none;
+
+  -webkit-user-select: none;
+
+  -webkit-touch-callout: none;
 }
 
 
 /*
 ==================================================
 深黃色標題列
+可以拖曳
 ==================================================
 */
 
@@ -307,24 +368,37 @@ Math Game Park 共用計算紙樣式
   cursor: grab;
 
   /*
-  關鍵：
-  手指在標題列拖曳時，
-  瀏覽器不可接管成頁面捲動。
+  非常重要：
+  手機／平板拖曳時，
+  禁止瀏覽器把動作當成頁面捲動。
   */
 
   touch-action: none;
+
+  overscroll-behavior: contain;
 
   user-select: none;
 
   -webkit-user-select: none;
 
   -webkit-touch-callout: none;
+
+  -webkit-tap-highlight-color:
+    transparent;
 }
+
 
 .scratchpad-panel--dragging
 .scratchpad-header {
   cursor: grabbing;
 }
+
+
+/*
+==================================================
+標題文字
+==================================================
+*/
 
 .scratchpad-header__title-area {
   display: flex;
@@ -337,6 +411,7 @@ Math Game Park 共用計算紙樣式
 
   pointer-events: none;
 }
+
 
 .scratchpad-header__icon {
   display: inline-flex;
@@ -373,6 +448,7 @@ Math Game Park 共用計算紙樣式
   font-size: 21px;
 }
 
+
 .scratchpad-header__title {
   margin: 0;
 
@@ -390,6 +466,7 @@ Math Game Park 共用計算紙樣式
   white-space:
     nowrap;
 }
+
 
 .scratchpad-header__subtitle {
   margin:
@@ -475,6 +552,11 @@ Math Game Park 共用計算紙樣式
 
   cursor: pointer;
 
+  /*
+  關閉按鈕只負責點擊，
+  不作為拖曳區。
+  */
+
   touch-action:
     manipulation;
 
@@ -491,6 +573,7 @@ Math Game Park 共用計算紙樣式
     transparent;
 }
 
+
 .scratchpad-close-button:hover {
   border-color:
     #991b1b;
@@ -505,7 +588,7 @@ Math Game Park 共用計算紙樣式
 
 /*
 ==================================================
-內容
+內容主區域
 ==================================================
 */
 
@@ -528,8 +611,7 @@ Math Game Park 共用計算紙樣式
 /*
 ==================================================
 淺黃色工具列
-
-功能鍵以外的空白區域可拖曳
+空白背景可以拖曳
 ==================================================
 */
 
@@ -559,11 +641,14 @@ Math Game Park 共用計算紙樣式
     grab;
 
   /*
-  這是手機和平板拖曳最重要的設定之一。
+  手機、平板拖曳核心設定。
   */
 
   touch-action:
     none;
+
+  overscroll-behavior:
+    contain;
 
   user-select:
     none;
@@ -573,13 +658,27 @@ Math Game Park 共用計算紙樣式
 
   -webkit-touch-callout:
     none;
+
+  -webkit-tap-highlight-color:
+    transparent;
 }
+
 
 .scratchpad-panel--dragging
 .scratchpad-toolbar {
   cursor:
     grabbing;
 }
+
+
+/*
+==================================================
+工具群組
+
+群組本身可以算淺黃色背景的一部分，
+真正的 button 會被 JS 排除。
+==================================================
+*/
 
 .scratchpad-tool-group {
   display:
@@ -594,6 +693,7 @@ Math Game Park 共用計算紙樣式
   min-height:
     38px;
 }
+
 
 .scratchpad-tool-group__label {
   color:
@@ -670,8 +770,7 @@ Math Game Park 共用計算紙樣式
     pointer;
 
   /*
-  按鈕保留正常點按，
-  不作為拖曳區。
+  功能鍵維持一般點按。
   */
 
   touch-action:
@@ -693,6 +792,7 @@ Math Game Park 共用計算紙樣式
     transparent;
 }
 
+
 .scratchpad-tool-button:hover,
 .scratchpad-color-button:hover,
 .scratchpad-size-button:hover {
@@ -701,6 +801,7 @@ Math Game Park 共用計算紙樣式
       --scratchpad-button-hover
     );
 }
+
 
 .scratchpad-tool-button--active,
 .scratchpad-color-button.scratchpad-tool-button--active,
@@ -725,6 +826,7 @@ Math Game Park 共用計算紙樣式
     );
 }
 
+
 .scratchpad-tool-button:disabled,
 .scratchpad-color-button:disabled,
 .scratchpad-size-button:disabled {
@@ -745,15 +847,18 @@ Math Game Park 共用計算紙樣式
     0.6;
 }
 
+
 .scratchpad-tool-button--compact {
   padding-inline:
     8px;
 }
 
+
 .scratchpad-tool-button--danger:not(:disabled) {
   color:
     #b91c1c;
 }
+
 
 .scratchpad-tool-button__icon {
   display:
@@ -771,6 +876,7 @@ Math Game Park 共用計算紙樣式
   pointer-events:
     none;
 }
+
 
 .scratchpad-tool-button__text {
   pointer-events:
@@ -794,6 +900,7 @@ Math Game Park 共用計算紙樣式
   padding:
     0;
 }
+
 
 .scratchpad-color-button::after {
   content:
@@ -830,20 +937,24 @@ Math Game Park 共用計算紙樣式
     );
 }
 
+
 .scratchpad-color-button--black::after {
   background:
     #111827;
 }
+
 
 .scratchpad-color-button--blue::after {
   background:
     #2563eb;
 }
 
+
 .scratchpad-color-button--red::after {
   background:
     #dc2626;
 }
+
 
 .scratchpad-color-button--green::after {
   background:
@@ -868,6 +979,7 @@ Math Game Park 共用計算紙樣式
     0;
 }
 
+
 .scratchpad-size-dot {
   display:
     block;
@@ -882,6 +994,7 @@ Math Game Park 共用計算紙樣式
     none;
 }
 
+
 .scratchpad-size-dot--small {
   width:
     5px;
@@ -890,6 +1003,7 @@ Math Game Park 共用計算紙樣式
     5px;
 }
 
+
 .scratchpad-size-dot--medium {
   width:
     9px;
@@ -897,6 +1011,7 @@ Math Game Park 共用計算紙樣式
   height:
     9px;
 }
+
 
 .scratchpad-size-dot--large {
   width:
@@ -909,7 +1024,7 @@ Math Game Park 共用計算紙樣式
 
 /*
 ==================================================
-Canvas
+Canvas 容器
 ==================================================
 */
 
@@ -936,7 +1051,7 @@ Canvas
     #fffaf0;
 
   /*
-  Canvas 區域完全保留給書寫。
+  Canvas 完全保留給書寫。
   */
 
   touch-action:
@@ -944,7 +1059,23 @@ Canvas
 
   overscroll-behavior:
     contain;
+
+  user-select:
+    none;
+
+  -webkit-user-select:
+    none;
+
+  -webkit-touch-callout:
+    none;
 }
+
+
+/*
+==================================================
+Canvas
+==================================================
+*/
 
 .scratchpad-canvas {
   display:
@@ -1005,6 +1136,13 @@ Canvas
     transparent;
 }
 
+
+/*
+==================================================
+Canvas 提示文字
+==================================================
+*/
+
 .scratchpad-canvas-hint {
   position:
     absolute;
@@ -1040,6 +1178,7 @@ Canvas
     nowrap;
 }
 
+
 .scratchpad-canvas-hint[hidden] {
   display:
     none !important;
@@ -1048,7 +1187,8 @@ Canvas
 
 /*
 ==================================================
-桌面版八方向縮放控制點
+八方向縮放
+電腦／平板／手機全部啟用
 ==================================================
 */
 
@@ -1057,7 +1197,7 @@ Canvas
     absolute;
 
   z-index:
-    200;
+    300;
 
   display:
     block;
@@ -1065,168 +1205,166 @@ Canvas
   background:
     transparent;
 
+  /*
+  手機、平板縮放時，
+  不允許瀏覽器進行頁面捲動。
+  */
+
   touch-action:
     none;
+
+  overscroll-behavior:
+    contain;
 
   user-select:
     none;
 
   -webkit-user-select:
     none;
+
+  -webkit-touch-callout:
+    none;
+
+  -webkit-tap-highlight-color:
+    transparent;
 }
+
+
+/*
+理論上新版 JS 不會再將它們隱藏，
+這條保留作為標準 hidden 行為。
+*/
 
 .scratchpad-resize-handle[hidden] {
   display:
     none !important;
 }
 
+
+/*
+==================================================
+上邊縮放
+==================================================
+*/
+
 .scratchpad-resize-handle[
   data-resize-direction="top"
 ] {
   top:
-    -5px;
+    -8px;
 
   left:
-    14px;
+    24px;
 
   right:
-    14px;
+    24px;
 
   height:
-    10px;
+    18px;
 
   cursor:
     ns-resize;
 }
+
+
+/*
+==================================================
+下邊縮放
+==================================================
+*/
 
 .scratchpad-resize-handle[
   data-resize-direction="bottom"
 ] {
   bottom:
-    -5px;
+    -8px;
 
   left:
-    14px;
+    24px;
 
   right:
-    14px;
+    24px;
 
   height:
-    10px;
+    18px;
 
   cursor:
     ns-resize;
 }
 
+
+/*
+==================================================
+左邊縮放
+==================================================
+*/
+
 .scratchpad-resize-handle[
   data-resize-direction="left"
 ] {
   left:
-    -5px;
+    -8px;
 
   top:
-    14px;
+    24px;
 
   bottom:
-    14px;
+    24px;
 
   width:
-    10px;
+    18px;
 
   cursor:
     ew-resize;
 }
+
+
+/*
+==================================================
+右邊縮放
+==================================================
+*/
 
 .scratchpad-resize-handle[
   data-resize-direction="right"
 ] {
   right:
-    -5px;
+    -8px;
 
   top:
-    14px;
+    24px;
 
   bottom:
-    14px;
+    24px;
 
   width:
-    10px;
+    18px;
 
   cursor:
     ew-resize;
 }
 
+
+/*
+==================================================
+左上角縮放
+==================================================
+*/
+
 .scratchpad-resize-handle[
   data-resize-direction="top-left"
 ] {
   top:
-    -6px;
+    -10px;
 
   left:
-    -6px;
+    -10px;
 
   width:
-    18px;
+    30px;
 
   height:
-    18px;
-
-  cursor:
-    nwse-resize;
-}
-
-.scratchpad-resize-handle[
-  data-resize-direction="top-right"
-] {
-  top:
-    -6px;
-
-  right:
-    -6px;
-
-  width:
-    18px;
-
-  height:
-    18px;
-
-  cursor:
-    nesw-resize;
-}
-
-.scratchpad-resize-handle[
-  data-resize-direction="bottom-left"
-] {
-  bottom:
-    -6px;
-
-  left:
-    -6px;
-
-  width:
-    18px;
-
-  height:
-    18px;
-
-  cursor:
-    nesw-resize;
-}
-
-.scratchpad-resize-handle[
-  data-resize-direction="bottom-right"
-] {
-  bottom:
-    -6px;
-
-  right:
-    -6px;
-
-  width:
-    18px;
-
-  height:
-    18px;
+    30px;
 
   cursor:
     nwse-resize;
@@ -1235,15 +1373,277 @@ Canvas
 
 /*
 ==================================================
+右上角縮放
+==================================================
+*/
+
+.scratchpad-resize-handle[
+  data-resize-direction="top-right"
+] {
+  top:
+    -10px;
+
+  right:
+    -10px;
+
+  width:
+    30px;
+
+  height:
+    30px;
+
+  cursor:
+    nesw-resize;
+}
+
+
+/*
+==================================================
+左下角縮放
+==================================================
+*/
+
+.scratchpad-resize-handle[
+  data-resize-direction="bottom-left"
+] {
+  bottom:
+    -10px;
+
+  left:
+    -10px;
+
+  width:
+    30px;
+
+  height:
+    30px;
+
+  cursor:
+    nesw-resize;
+}
+
+
+/*
+==================================================
+右下角縮放
+==================================================
+*/
+
+.scratchpad-resize-handle[
+  data-resize-direction="bottom-right"
+] {
+  bottom:
+    -10px;
+
+  right:
+    -10px;
+
+  width:
+    30px;
+
+  height:
+    30px;
+
+  cursor:
+    nwse-resize;
+}
+
+
+/*
+==================================================
+觸控裝置專用
+
+手指比滑鼠游標大，
+所以把八方向縮放的透明感應區放大。
+
+不影響畫面外觀。
+==================================================
+*/
+
+@media (pointer: coarse) {
+
+  /*
+  上
+  */
+
+  .scratchpad-resize-handle[
+    data-resize-direction="top"
+  ] {
+    top:
+      -11px;
+
+    left:
+      36px;
+
+    right:
+      36px;
+
+    height:
+      24px;
+  }
+
+
+  /*
+  下
+  */
+
+  .scratchpad-resize-handle[
+    data-resize-direction="bottom"
+  ] {
+    bottom:
+      -11px;
+
+    left:
+      36px;
+
+    right:
+      36px;
+
+    height:
+      24px;
+  }
+
+
+  /*
+  左
+  */
+
+  .scratchpad-resize-handle[
+    data-resize-direction="left"
+  ] {
+    left:
+      -11px;
+
+    top:
+      36px;
+
+    bottom:
+      36px;
+
+    width:
+      24px;
+  }
+
+
+  /*
+  右
+  */
+
+  .scratchpad-resize-handle[
+    data-resize-direction="right"
+  ] {
+    right:
+      -11px;
+
+    top:
+      36px;
+
+    bottom:
+      36px;
+
+    width:
+      24px;
+  }
+
+
+  /*
+  四個角
+  */
+
+  .scratchpad-resize-handle[
+    data-resize-direction="top-left"
+  ],
+  .scratchpad-resize-handle[
+    data-resize-direction="top-right"
+  ],
+  .scratchpad-resize-handle[
+    data-resize-direction="bottom-left"
+  ],
+  .scratchpad-resize-handle[
+    data-resize-direction="bottom-right"
+  ] {
+    width:
+      40px;
+
+    height:
+      40px;
+  }
+
+
+  /*
+  左上
+  */
+
+  .scratchpad-resize-handle[
+    data-resize-direction="top-left"
+  ] {
+    top:
+      -13px;
+
+    left:
+      -13px;
+  }
+
+
+  /*
+  右上
+  */
+
+  .scratchpad-resize-handle[
+    data-resize-direction="top-right"
+  ] {
+    top:
+      -13px;
+
+    right:
+      -13px;
+  }
+
+
+  /*
+  左下
+  */
+
+  .scratchpad-resize-handle[
+    data-resize-direction="bottom-left"
+  ] {
+    bottom:
+      -13px;
+
+    left:
+      -13px;
+  }
+
+
+  /*
+  右下
+  */
+
+  .scratchpad-resize-handle[
+    data-resize-direction="bottom-right"
+  ] {
+    bottom:
+      -13px;
+
+    right:
+      -13px;
+  }
+}
+
+
+/*
+==================================================
 平板
-保留浮動視窗
+仍為浮動視窗＋八方向縮放
 ==================================================
 */
 
 @media (
-  max-width:
-    980px
+  min-width: 561px
+) and (
+  max-width: 980px
 ) {
+
   .scratchpad-panel {
     width:
       min(
@@ -1257,24 +1657,28 @@ Canvas
         580px
       );
 
+    /*
+    平板也允許縮小，
+    不再限制成過大的最低尺寸。
+    */
+
     min-width:
-      340px;
+      300px;
 
     min-height:
-      420px;
+      340px;
 
     max-width:
       calc(
-        100vw -
-        16px
+        100vw - 16px
       );
 
     max-height:
       calc(
-        100vh -
-        16px
+        100vh - 16px
       );
   }
+
 
   .scratchpad-toolbar {
     gap:
@@ -1283,6 +1687,7 @@ Canvas
     padding:
       8px 9px;
   }
+
 
   .scratchpad-tool-button,
   .scratchpad-color-button,
@@ -1296,16 +1701,23 @@ Canvas
 /*
 ==================================================
 手機
-仍然使用浮動計算紙
-不再強制全螢幕
+仍然使用浮動視窗
+並保留八方向縮放
 ==================================================
 */
 
 @media (
-  max-width:
-    560px
+  max-width: 560px
 ) {
+
   .scratchpad-panel {
+    /*
+    這只是「第一次開啟」的初始尺寸。
+
+    使用者仍然可以利用八個方向
+    自由縮放。
+    */
+
     width:
       86vw;
 
@@ -1313,26 +1725,29 @@ Canvas
       70vh;
 
     min-width:
-      280px;
+      240px;
 
     min-height:
-      360px;
+      300px;
 
     max-width:
       calc(
-        100vw -
-        16px
+        100vw - 16px
       );
 
     max-height:
       calc(
-        100vh -
-        16px
+        100vh - 16px
       );
 
     border-radius:
       16px;
   }
+
+
+  /*
+  標題列
+  */
 
   .scratchpad-header {
     min-height:
@@ -1345,6 +1760,7 @@ Canvas
       12px;
   }
 
+
   .scratchpad-header__icon {
     width:
       30px;
@@ -1356,15 +1772,22 @@ Canvas
       18px;
   }
 
+
   .scratchpad-header__title {
     font-size:
       16px;
   }
 
+
   .scratchpad-header__subtitle {
     display:
       none;
   }
+
+
+  /*
+  關閉按鈕
+  */
 
   .scratchpad-close-button {
     width:
@@ -1377,6 +1800,11 @@ Canvas
       20px;
   }
 
+
+  /*
+  工具列
+  */
+
   .scratchpad-toolbar {
     gap:
       5px;
@@ -1387,12 +1815,20 @@ Canvas
     max-height:
       132px;
 
+    /*
+    若工具列內容超出，
+    工具列本身可以上下捲動。
+
+    但空白處仍可由 JS 判斷拖曳。
+    */
+
     overflow-y:
       auto;
 
     overscroll-behavior:
       contain;
   }
+
 
   .scratchpad-tool-group {
     gap:
@@ -1402,10 +1838,16 @@ Canvas
       32px;
   }
 
+
   .scratchpad-tool-group__label {
     font-size:
       11px;
   }
+
+
+  /*
+  功能鍵
+  */
 
   .scratchpad-tool-button,
   .scratchpad-color-button,
@@ -1420,10 +1862,18 @@ Canvas
       12px;
   }
 
+
+  /*
+  手機減少文字，
+  保留圖示，
+  增加計算紙可用空間。
+  */
+
   .scratchpad-tool-button__text {
     display:
       none;
   }
+
 
   .scratchpad-color-button,
   .scratchpad-size-button {
@@ -1434,13 +1884,74 @@ Canvas
       31px;
   }
 
+
+  /*
+  Canvas
+  */
+
   .scratchpad-canvas-container {
     padding:
       8px;
   }
 
+
   .scratchpad-canvas-hint {
     font-size:
       13px;
+  }
+}
+
+
+/*
+==================================================
+小尺寸手機
+==================================================
+*/
+
+@media (
+  max-width: 380px
+) {
+
+  .scratchpad-panel {
+    width:
+      calc(
+        100vw - 16px
+      );
+
+    height:
+      68vh;
+
+    min-width:
+      220px;
+
+    min-height:
+      280px;
+  }
+
+
+  .scratchpad-toolbar {
+    padding:
+      6px;
+
+    gap:
+      4px;
+  }
+
+
+  .scratchpad-tool-button,
+  .scratchpad-color-button,
+  .scratchpad-size-button {
+    min-height:
+      30px;
+  }
+
+
+  .scratchpad-color-button,
+  .scratchpad-size-button {
+    width:
+      29px;
+
+    min-width:
+      29px;
   }
 }
