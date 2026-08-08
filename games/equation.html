@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-
 <title>一元一次方程式挑戰賽</title>
 
 <link rel="stylesheet" href="../css/scratchpad.css">
@@ -13,12 +12,10 @@
   --blue:#2563eb;
   --blue-dark:#1d4ed8;
   --green:#16a34a;
-  --red:#dc2626;
   --amber:#d97706;
   --ink:#1f2937;
   --muted:#64748b;
   --line:#dbe3ef;
-  --bg:#eef6ff;
 }
 
 *{
@@ -49,13 +46,14 @@ body{
 
 .app{
   width:100%;
-  max-width:none;
   min-height:calc(100vh - 8px);
   margin:0 auto;
   background:#fff;
   border:3px solid #bfdbfe;
   border-radius:24px;
-  box-shadow:0 18px 45px #1e3a8a22;
+  box-shadow:
+    0 18px 45px
+    #1e3a8a22;
   overflow:hidden;
 }
 
@@ -67,7 +65,12 @@ body{
 .progress>div{
   height:100%;
   width:0;
-  background:linear-gradient(90deg,#60a5fa,#2563eb);
+  background:
+    linear-gradient(
+      90deg,
+      #60a5fa,
+      #2563eb
+    );
   transition:width .3s;
 }
 
@@ -82,7 +85,12 @@ body{
 .title{
   text-align:center;
   color:var(--blue-dark);
-  font-size:clamp(28px,4vw,42px);
+  font-size:
+    clamp(
+      28px,
+      4vw,
+      42px
+    );
   font-weight:900;
   margin:0 0 8px;
 }
@@ -118,7 +126,9 @@ body{
 .mode-card input:checked+span{
   border-color:#3b82f6;
   background:#eff6ff;
-  box-shadow:0 0 0 4px #3b82f622;
+  box-shadow:
+    0 0 0 4px
+    #3b82f622;
 }
 
 .mode-title{
@@ -128,7 +138,9 @@ body{
 }
 
 .example{
-  font-family:"Times New Roman",serif;
+  font-family:
+    "Times New Roman",
+    serif;
   font-size:20px;
   margin-top:6px;
   color:#475569;
@@ -206,7 +218,9 @@ body{
   border-radius:14px;
   font-size:15px;
   font-weight:900;
-  box-shadow:0 4px 12px #0f172a10;
+  box-shadow:
+    0 4px 12px
+    #0f172a10;
 }
 
 .pill-blue{
@@ -230,8 +244,15 @@ body{
   border-radius:20px;
   padding:30px 14px;
   text-align:center;
-  font-family:"Times New Roman",serif;
-  font-size:clamp(28px,4.2vw,46px);
+  font-family:
+    "Times New Roman",
+    serif;
+  font-size:
+    clamp(
+      28px,
+      4.2vw,
+      46px
+    );
   font-weight:bold;
   margin-bottom:22px;
   white-space:nowrap;
@@ -260,7 +281,9 @@ body{
 
 .answer-x{
   flex:0 0 auto;
-  font-family:"Times New Roman",serif;
+  font-family:
+    "Times New Roman",
+    serif;
   font-size:38px;
   font-weight:900;
   color:#1f2937;
@@ -290,7 +313,9 @@ body{
   background:#fff;
   color:#1f2937;
   text-align:center;
-  font-family:"Times New Roman",serif;
+  font-family:
+    "Times New Roman",
+    serif;
   font-size:22px;
   font-weight:900;
   outline:none;
@@ -299,13 +324,17 @@ body{
 
 .answer-sign-select:focus{
   border-color:#60a5fa;
-  box-shadow:0 0 0 4px #dbeafe;
+  box-shadow:
+    0 0 0 4px
+    #dbeafe;
 }
 
 .frac-input{
   position:relative;
   display:inline-grid;
-  grid-template-rows:48px 48px;
+  grid-template-rows:
+    48px
+    48px;
   width:82px;
   gap:8px;
   vertical-align:middle;
@@ -325,7 +354,9 @@ body{
 
 .frac-input input:focus{
   border-color:#60a5fa;
-  box-shadow:0 0 0 4px #dbeafe;
+  box-shadow:
+    0 0 0 4px
+    #dbeafe;
 }
 
 .frac-input input::placeholder{
@@ -389,7 +420,8 @@ body{
 }
 
 .math-frac .top{
-  border-bottom:2px solid currentColor;
+  border-bottom:
+    2px solid currentColor;
   padding-bottom:.07em;
 }
 
@@ -443,7 +475,9 @@ body{
   border-radius:14px;
   padding:14px;
   color:#334155;
-  font-family:"Times New Roman",serif;
+  font-family:
+    "Times New Roman",
+    serif;
   font-size:21px;
   line-height:1.75;
 }
@@ -455,7 +489,12 @@ body{
 }
 
 .grade-card{
-  background:linear-gradient(135deg,#eff6ff,#f8fafc);
+  background:
+    linear-gradient(
+      135deg,
+      #eff6ff,
+      #f8fafc
+    );
   border:2px solid #bfdbfe;
   border-radius:22px;
   padding:24px;
@@ -482,7 +521,11 @@ body{
 
 .score-grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:
+    repeat(
+      3,
+      1fr
+    );
   gap:12px;
   margin:18px 0;
 }
@@ -510,7 +553,11 @@ body{
 
 .result-actions{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:
+    repeat(
+      3,
+      1fr
+    );
   gap:10px;
 }
 
@@ -535,7 +582,9 @@ body{
 }
 
 .review-problem{
-  font-family:"Times New Roman",serif;
+  font-family:
+    "Times New Roman",
+    serif;
   font-size:23px;
   font-weight:700;
   margin:8px 0;
@@ -551,7 +600,8 @@ body{
   align-items:center;
 }
 
-#scratchpad-mobile-button .scratchpad-open-button{
+#scratchpad-mobile-button
+.scratchpad-open-button{
   position:static!important;
   inset:auto!important;
   display:inline-flex!important;
@@ -562,92 +612,19 @@ body{
   padding:10px 16px;
   border:2px solid #c7d2fe;
   border-radius:14px;
-  background:linear-gradient(135deg,#4f46e5,#2563eb);
+  background:
+    linear-gradient(
+      135deg,
+      #4f46e5,
+      #2563eb
+    );
   color:#fff;
-  box-shadow:0 6px 16px #3730a333;
+  box-shadow:
+    0 6px 16px
+    #3730a333;
   font-size:16px;
   font-weight:900;
   cursor:pointer;
-}
-
-.explanation-actions{
-  display:flex;
-  justify-content:center;
-  margin-top:12px;
-}
-
-.explanation-toggle{
-  border:2px solid #93c5fd;
-  background:#eff6ff;
-  color:#1d4ed8;
-  border-radius:12px;
-  padding:10px 16px;
-  font-size:15px;
-  font-weight:900;
-  cursor:pointer;
-}
-
-.explanation-panel{
-  margin-top:12px;
-  border:2px solid #bfdbfe;
-  border-radius:16px;
-  background:#f8fbff;
-  padding:16px;
-  text-align:left;
-  color:#334155;
-  font-size:16px;
-  font-weight:500;
-  line-height:1.7;
-}
-
-.explanation-title{
-  font-size:19px;
-  font-weight:900;
-  color:#1d4ed8;
-  margin-bottom:10px;
-  text-align:center;
-}
-
-.explanation-step{
-  border-left:4px solid #60a5fa;
-  background:#fff;
-  border-radius:10px;
-  padding:10px 12px;
-  margin:9px 0;
-}
-
-.explanation-step-label{
-  display:block;
-  color:#1e40af;
-  font-weight:900;
-  margin-bottom:5px;
-}
-
-.explanation-math{
-  text-align:center;
-  font-family:"Times New Roman",serif;
-  font-size:24px;
-  font-weight:700;
-  overflow-x:auto;
-  white-space:nowrap;
-  padding:4px 0;
-}
-
-.explanation-final{
-  border-color:#22c55e;
-  background:#f0fdf4;
-}
-
-.review-explanation{
-  margin-top:12px;
-  border-top:1px dashed #fca5a5;
-  padding-top:10px;
-}
-
-.review-explanation summary{
-  cursor:pointer;
-  color:#1d4ed8;
-  font-weight:900;
 }
 
 @media(max-width:980px){
@@ -668,7 +645,12 @@ body{
 
   .problem{
     padding:24px 8px;
-    font-size:clamp(24px,8vw,38px);
+    font-size:
+      clamp(
+        24px,
+        8vw,
+        38px
+      );
   }
 
   .answer-x{
@@ -688,7 +670,9 @@ body{
 
   .frac-input{
     width:66px;
-    grid-template-rows:42px 42px;
+    grid-template-rows:
+      42px
+      42px;
     gap:7px;
   }
 
@@ -707,7 +691,10 @@ body{
 }
 </style>
 
-<script defer src="../js/common-header.js?v=5"></script>
+<script
+  defer
+  src="../js/common-header.js?v=5"
+></script>
 
 </head>
 
@@ -715,303 +702,441 @@ body{
 
 <div id="commonHeaderMount"></div>
 
-<main id="app" class="app">
-
-<div class="progress">
-  <div id="progress-bar"></div>
-</div>
-
-<div class="inner">
-
-<!-- ==================== 開始畫面 ==================== -->
-
-<section id="start-screen">
-
-<h1 class="title">
-一元一次方程式挑戰賽
-</h1>
-
-<p class="subtitle">
-請選擇模式：模式一～三每回合 10 題，模式四每回合 6 題
-</p>
-
-<div class="modes">
-
-<label class="mode-card">
-<input type="radio" name="mode" value="1" checked>
-<span>
-<div class="mode-title">
-模式一｜基本一元一次方程式
-</div>
-<div class="example">
-例如：6x = 7、−3x = 6，以及少量分數答案
-</div>
-</span>
-</label>
-
-<label class="mode-card">
-<input type="radio" name="mode" value="2">
-<span>
-<div class="mode-title">
-模式二｜移項與合併同類項
-</div>
-<div class="example">
-例如：3x − 5 = 2x + 4
-</div>
-</span>
-</label>
-
-<label class="mode-card">
-<input type="radio" name="mode" value="3">
-<span>
-<div class="mode-title">
-模式三｜括號、負號與化簡
-</div>
-<div class="example">
-例如：3(x − 2) = 2(x + 1)、(x − 2) − (−3x + 5) = 5
-</div>
-</span>
-</label>
-
-<label class="mode-card">
-<input type="radio" name="mode" value="4">
-<span>
-<div class="mode-title">
-模式四｜分數係數方程式
-</div>
-<div class="example">
-綜合分式、括號、移項與化簡
-</div>
-</span>
-</label>
+<main
+  id="app"
+  class="app"
+>
 
-</div>
+  <div class="progress">
+    <div id="progress-bar"></div>
+  </div>
 
-<div class="center">
-<button id="start-btn" class="btn btn-primary">
-開始挑戰
-</button>
-</div>
+  <div class="inner">
 
-</section>
+    <section id="start-screen">
 
-<!-- ==================== 測驗畫面 ==================== -->
+      <h1 class="title">
+        一元一次方程式挑戰賽
+      </h1>
 
-<section id="quiz-screen" class="hidden">
+      <p class="subtitle">
+        請選擇模式：模式一～三每回合 10 題，模式四每回合 6 題
+      </p>
 
-<div class="quiz-grid">
-<div>
+      <div class="modes">
 
-<div class="topbar">
+        <label class="mode-card">
 
-<button id="change-mode-btn" class="btn btn-light">
-← 重選模式
-</button>
+          <input
+            type="radio"
+            name="mode"
+            value="1"
+            checked
+          >
 
-<span id="question-number" class="pill pill-blue">
-第 1 / 10 題
-</span>
+          <span>
 
-<span id="mode-badge" class="pill pill-amber">
-模式一
-</span>
+            <div class="mode-title">
+              模式一｜基本一元一次方程式
+            </div>
 
-<span id="time-display" class="pill pill-gray">
-⏳ 00:00
-</span>
+            <div class="example">
+              例如：6x = 7、−3x = 6
+            </div>
 
-<button id="reset-btn" class="btn btn-danger-light">
-重新測驗（目前模式）
-</button>
+          </span>
 
-<div id="scratchpad-mobile-button"></div>
+        </label>
 
-</div>
+        <label class="mode-card">
 
-<div id="problem-text" class="problem"></div>
+          <input
+            type="radio"
+            name="mode"
+            value="2"
+          >
 
-<div class="answer-wrap">
+          <span>
 
-<div class="label">
-方程式解
-</div>
+            <div class="mode-title">
+              模式二｜移項與合併同類項
+            </div>
 
-<div class="answer-entry-row">
+            <div class="example">
+              例如：3x − 5 = 2x + 4
+            </div>
 
-<div id="mode4-answer"
-     class="mode4-answer"
-     aria-label="方程式答案輸入區">
+          </span>
 
-<span class="answer-x">
-x =
-</span>
+        </label>
 
-<select id="x-sign"
-        class="answer-sign-select hidden"
-        aria-label="分數正負號">
+        <label class="mode-card">
 
-<option value="1">＋</option>
-<option value="-1">−</option>
+          <input
+            type="radio"
+            name="mode"
+            value="3"
+          >
 
-</select>
+          <span>
 
-<div id="x-frac-box"
-     class="frac-input"
-     title="x 值答案輸入">
+            <div class="mode-title">
+              模式三｜括號、負號與化簡
+            </div>
 
-<input id="x-num"
-       inputmode="text"
-       autocomplete="off"
-       aria-label="x值整數或分子"
-       placeholder="整數">
+            <div class="example">
+              例如：(x − 2) − (−3x + 5) = 5
+            </div>
 
-<span class="frac-line"></span>
+          </span>
 
-<input id="x-den"
-       inputmode="numeric"
-       autocomplete="off"
-       aria-label="x值分母"
-       placeholder="分母">
+        </label>
 
-</div>
+        <label class="mode-card">
 
-</div>
-</div>
+          <input
+            type="radio"
+            name="mode"
+            value="4"
+          >
 
-<div id="fraction-help" class="fraction-help">
-整數請填一格；分數請先選正負號，上格填分子、下格填分母，並化成最簡分數。
-</div>
+          <span>
 
-<div id="normalized-preview" class="preview"></div>
+            <div class="mode-title">
+              模式四｜分數係數方程式
+            </div>
 
-<div class="actions">
+            <div class="example">
+              綜合分式、括號、移項與化簡
+            </div>
 
-<button id="submit-btn" class="btn btn-green">
-送出答案（Enter）
-</button>
+          </span>
+
+        </label>
+
+      </div>
+
+      <div class="center">
+
+        <button
+          id="start-btn"
+          class="btn btn-primary"
+        >
+          開始挑戰
+        </button>
+
+      </div>
+
+    </section>
+
+    <section
+      id="quiz-screen"
+      class="hidden"
+    >
+
+      <div class="quiz-grid">
+
+        <div>
+
+          <div class="topbar">
+
+            <button
+              id="change-mode-btn"
+              class="btn btn-light"
+            >
+              ← 重選模式
+            </button>
 
-<button id="next-btn" class="btn btn-primary hidden">
-下一題（Enter）
-</button>
+            <span
+              id="question-number"
+              class="pill pill-blue"
+            >
+              第 1 / 10 題
+            </span>
 
-</div>
+            <span
+              id="mode-badge"
+              class="pill pill-amber"
+            >
+              模式一
+            </span>
+
+            <span
+              id="time-display"
+              class="pill pill-gray"
+            >
+              ⏳ 00:00
+            </span>
+
+            <button
+              id="reset-btn"
+              class="btn btn-danger-light"
+            >
+              重新測驗（目前模式）
+            </button>
+
+            <div id="scratchpad-mobile-button"></div>
+
+          </div>
 
-<div id="feedback" class="feedback" aria-live="polite"></div>
+          <div
+            id="problem-text"
+            class="problem"
+          ></div>
 
-</div>
-</div>
-</div>
+          <div class="answer-wrap">
 
-</section>
+            <div class="label">
+              方程式解
+            </div>
 
-<!-- ==================== 結果畫面 ==================== -->
+            <div class="answer-entry-row">
 
-<section id="result-screen" class="hidden result-box">
+              <div
+                id="mode4-answer"
+                class="mode4-answer"
+              >
 
-<h2 class="title">
-挑戰完成！
-</h2>
+                <span class="answer-x">
+                  x =
+                </span>
 
-<div class="grade-card">
+                <select
+                  id="x-sign"
+                  class="answer-sign-select hidden"
+                >
+                  <option value="1">
+                    ＋
+                  </option>
+
+                  <option value="-1">
+                    −
+                  </option>
+                </select>
 
-<div id="final-score" class="grade-big">
-0 分
-</div>
+                <div
+                  id="x-frac-box"
+                  class="frac-input"
+                >
 
-<div id="final-stars" class="stars">
-☆☆☆☆☆
-</div>
+                  <input
+                    id="x-num"
+                    inputmode="text"
+                    autocomplete="off"
+                    placeholder="整數"
+                  >
+
+                  <span class="frac-line"></span>
+
+                  <input
+                    id="x-den"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    placeholder="分母"
+                  >
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="fraction-help">
+              整數請填一格；分數請先選正負號，上格填分子、下格填分母，並化成最簡分數。
+            </div>
+
+            <div
+              id="normalized-preview"
+              class="preview"
+            ></div>
+
+            <div class="actions">
+
+              <button
+                id="submit-btn"
+                class="btn btn-green"
+              >
+                送出答案（Enter）
+              </button>
+
+              <button
+                id="next-btn"
+                class="btn btn-primary hidden"
+              >
+                下一題（Enter）
+              </button>
+
+            </div>
+
+            <div
+              id="feedback"
+              class="feedback"
+            ></div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <section
+      id="result-screen"
+      class="hidden result-box"
+    >
+
+      <h2 class="title">
+        挑戰完成！
+      </h2>
+
+      <div class="grade-card">
+
+        <div
+          id="final-score"
+          class="grade-big"
+        >
+          0 分
+        </div>
+
+        <div
+          id="final-stars"
+          class="stars"
+        >
+          ☆☆☆☆☆
+        </div>
+
+        <div
+          id="final-comment"
+          class="comment"
+        ></div>
+
+      </div>
+
+      <div class="score-grid">
+
+        <div class="score-card">
+          答對
+          <b id="final-correct">
+            0
+          </b>
+        </div>
+
+        <div class="score-card">
+          答錯
+          <b id="final-wrong">
+            0
+          </b>
+        </div>
+
+        <div class="score-card">
+          總時間
+          <b id="final-time">
+            0:00
+          </b>
+        </div>
+
+      </div>
+
+      <p
+        id="save-status"
+        class="save-status"
+      ></p>
+
+      <div class="result-actions">
+
+        <button
+          id="review-btn"
+          class="btn btn-neutral"
+        >
+          錯題回顧
+        </button>
+
+        <button
+          id="again-btn"
+          class="btn btn-primary"
+        >
+          🔄 再玩一次
+        </button>
+
+        <button
+          id="result-change-mode-btn"
+          class="btn btn-light"
+        >
+          重選模式
+        </button>
+
+        <a
+          class="btn btn-neutral"
+          href="../leaderboard.html"
+        >
+          🏆 排行榜
+        </a>
+
+        <a
+          class="btn btn-neutral"
+          href="../my-scores.html"
+        >
+          📊 我的成績
+        </a>
+
+        <a
+          class="btn btn-light"
+          href="../index.html"
+        >
+          🏠 回首頁
+        </a>
+
+      </div>
+
+    </section>
+
+    <section
+      id="review-screen"
+      class="hidden result-box"
+    >
+
+      <h2 class="title">
+        錯題回顧
+      </h2>
+
+      <div
+        id="review-list"
+        class="review-list"
+      ></div>
+
+      <div
+        class="result-actions"
+        style="margin-top:18px"
+      >
+
+        <button
+          id="review-back-btn"
+          class="btn btn-light"
+        >
+          返回成績
+        </button>
+
+        <button
+          id="review-again-btn"
+          class="btn btn-primary"
+        >
+          重新測驗
+        </button>
+
+        <button
+          id="review-mode-btn"
+          class="btn btn-neutral"
+        >
+          重選模式
+        </button>
+
+      </div>
+
+    </section>
+
+  </div>
 
-<div id="final-comment" class="comment"></div>
-
-</div>
-
-<div class="score-grid">
-
-<div class="score-card">
-答對
-<b id="final-correct">0</b>
-</div>
-
-<div class="score-card">
-答錯
-<b id="final-wrong">0</b>
-</div>
-
-<div class="score-card">
-總時間
-<b id="final-time">0:00</b>
-</div>
-
-</div>
-
-<p id="save-status"
-   class="save-status"
-   aria-live="polite">
-</p>
-
-<div class="result-actions">
-
-<button id="review-btn" class="btn btn-neutral">
-錯題回顧
-</button>
-
-<button id="again-btn" class="btn btn-primary">
-🔄 再玩一次
-</button>
-
-<button id="result-change-mode-btn" class="btn btn-light">
-重選模式
-</button>
-
-<a class="btn btn-neutral"
-   href="../leaderboard.html">
-🏆 排行榜
-</a>
-
-<a class="btn btn-neutral"
-   href="../my-scores.html">
-📊 我的成績
-</a>
-
-<a class="btn btn-light"
-   href="../index.html">
-🏠 回首頁
-</a>
-
-</div>
-
-</section>
-
-<!-- ==================== 錯題回顧 ==================== -->
-
-<section id="review-screen" class="hidden result-box">
-
-<h2 class="title">
-錯題回顧
-</h2>
-
-<div id="review-list" class="review-list"></div>
-
-<div class="result-actions" style="margin-top:18px">
-
-<button id="review-back-btn" class="btn btn-light">
-返回成績
-</button>
-
-<button id="review-again-btn" class="btn btn-primary">
-重新測驗
-</button>
-
-<button id="review-mode-btn" class="btn btn-neutral">
-重選模式
-</button>
-
-</div>
-
-</section>
-
-</div>
 </main>
 
 <script src="../js/scratchpad.js"></script>
@@ -1025,11 +1150,8 @@ import {
 
 "use strict";
 
-/* ==================================================
-   基本設定
-================================================== */
-
-const GAME_ID = "equation";
+const GAME_ID =
+  "equation";
 
 const MODE_NAMES = {
   1:"模式一",
@@ -1038,7 +1160,9 @@ const MODE_NAMES = {
   4:"模式四"
 };
 
-const $ = id => document.getElementById(id);
+const $ =
+  id =>
+    document.getElementById(id);
 
 let mode = 1;
 let questions = [];
@@ -1054,230 +1178,83 @@ let nextReady = false;
 let nextTimer = null;
 
 let records = [];
+
 let scoreSaved = false;
 let finalElapsed = 0;
 
-let equationAudioContext = null;
+let equationAudioContext =
+  null;
 
 
-/* ==================================================
-   音效
-================================================== */
+/*
+==================================================
+基本工具
+==================================================
+*/
 
-function getEquationAudioContext(){
-
-  const AudioContextClass =
-    window.AudioContext ||
-    window.webkitAudioContext;
-
-  if(!AudioContextClass){
-    return null;
-  }
-
-  if(!equationAudioContext){
-    equationAudioContext =
-      new AudioContextClass();
-  }
-
-  return equationAudioContext;
-}
-
-async function ensureEquationAudio(){
-
-  const context =
-    getEquationAudioContext();
-
-  if(!context){
-    return null;
-  }
-
-  if(context.state === "suspended"){
-    try{
-      await context.resume();
-    }catch(error){
-      console.warn("音效系統無法啟用：",error);
-    }
-  }
-
-  return context.state === "running"
-    ? context
-    : null;
-}
-
-async function playEquationTone({
-  frequency=440,
-  duration=.18,
-  type="sine",
-  volume=.14,
-  delay=0
-}={}){
-
-  const context =
-    await ensureEquationAudio();
-
-  if(!context){
-    return;
-  }
-
-  const start =
-    context.currentTime +
-    Math.max(0,delay);
-
-  const end =
-    start +
-    Math.max(.05,duration);
-
-  const oscillator =
-    context.createOscillator();
-
-  const gain =
-    context.createGain();
-
-  oscillator.type = type;
-
-  oscillator.frequency.setValueAtTime(
-    frequency,
-    start
+function totalQuestions() {
+  return (
+    mode === 4
+      ? 6
+      : 10
   );
+}
 
-  gain.gain.setValueAtTime(
-    .0001,
-    start
+function rand(
+  min,
+  max
+) {
+  return (
+    Math.floor(
+      Math.random() *
+      (
+        max -
+        min +
+        1
+      )
+    ) +
+    min
   );
-
-  gain.gain.exponentialRampToValueAtTime(
-    Math.max(.0001,volume),
-    start+.02
-  );
-
-  gain.gain.exponentialRampToValueAtTime(
-    .0001,
-    end
-  );
-
-  oscillator.connect(gain);
-  gain.connect(context.destination);
-
-  oscillator.start(start);
-  oscillator.stop(end);
 }
 
-function playGameSound(soundName){
+function nz(
+  min,
+  max
+) {
+  let n = 0;
 
-  if(soundName==="playStart"){
-
-    playEquationTone({
-      frequency:392
-    });
-
-    playEquationTone({
-      frequency:523.25,
-      delay:.12
-    });
-
-    return;
-  }
-
-  if(soundName==="playCorrect"){
-
-    playEquationTone({
-      frequency:523.25
-    });
-
-    playEquationTone({
-      frequency:659.25,
-      delay:.1
-    });
-
-    playEquationTone({
-      frequency:783.99,
-      delay:.2
-    });
-
-    return;
-  }
-
-  if(soundName==="playWrong"){
-
-    playEquationTone({
-      frequency:329.63,
-      type:"triangle"
-    });
-
-    playEquationTone({
-      frequency:261.63,
-      type:"triangle",
-      delay:.14
-    });
-
-    return;
-  }
-
-  if(soundName==="playComplete"){
-
-    [
-      523.25,
-      659.25,
-      783.99,
-      1046.5
-    ].forEach((frequency,i)=>{
-
-      playEquationTone({
-        frequency,
-        delay:i*.12
-      });
-
-    });
-  }
-}
-
-
-/* ==================================================
-   基本數學工具
-================================================== */
-
-function totalQuestions(){
-
-  return mode===4
-    ? 6
-    : 10;
-}
-
-function rand(min,max){
-
-  return Math.floor(
-    Math.random()*
-    (max-min+1)
-  )+min;
-}
-
-function nz(min,max){
-
-  let n=0;
-
-  while(!n){
-    n=rand(min,max);
+  while (!n) {
+    n =
+      rand(
+        min,
+        max
+      );
   }
 
   return n;
 }
 
-function shuffle(array){
+function shuffle(array) {
+  const result = [
+    ...array
+  ];
 
-  const result=[...array];
-
-  for(
-    let i=result.length-1;
-    i>0;
+  for (
+    let i =
+      result.length - 1;
+    i > 0;
     i--
-  ){
-
-    const j=rand(0,i);
+  ) {
+    const j =
+      rand(
+        0,
+        i
+      );
 
     [
       result[i],
       result[j]
-    ]=[
+    ] = [
       result[j],
       result[i]
     ];
@@ -1286,202 +1263,253 @@ function shuffle(array){
   return result;
 }
 
-function gcd(a,b){
+function gcd(
+  a,
+  b
+) {
+  a =
+    Math.abs(a);
 
-  a=Math.abs(a);
-  b=Math.abs(b);
+  b =
+    Math.abs(b);
 
-  while(b){
+  while (b) {
+    const temp =
+      a % b;
 
-    const t=a%b;
+    a = b;
 
-    a=b;
-    b=t;
+    b = temp;
   }
-
-  return a||1;
-}
-
-function lcm(a,b){
-
-  a=Math.abs(a);
-  b=Math.abs(b);
-
-  if(!a||!b){
-    return 0;
-  }
-
-  return Math.abs(a*b)/gcd(a,b);
-}
-
-function rat(n,d=1){
-
-  if(d===0){
-    throw new Error("分母不可為 0");
-  }
-
-  if(d<0){
-    n=-n;
-    d=-d;
-  }
-
-  const g=gcd(n,d);
-
-  return {
-    n:n/g,
-    d:d/g
-  };
-}
-
-function ratEq(a,b){
 
   return (
-    a.n===b.n &&
-    a.d===b.d
+    a || 1
   );
 }
 
-function ratAbs(a){
+function rat(
+  n,
+  d = 1
+) {
+  if (
+    d === 0
+  ) {
+    throw new Error(
+      "分母不可為 0"
+    );
+  }
 
+  if (
+    d < 0
+  ) {
+    n =
+      -n;
+
+    d =
+      -d;
+  }
+
+  const g =
+    gcd(
+      n,
+      d
+    );
+
+  return {
+    n:
+      n / g,
+
+    d:
+      d / g
+  };
+}
+
+function ratEq(
+  a,
+  b
+) {
+  return (
+    a.n === b.n &&
+    a.d === b.d
+  );
+}
+
+function ratAbs(a) {
   return rat(
     Math.abs(a.n),
     a.d
   );
 }
 
-function ratAdd(a,b){
-
+function ratAdd(
+  a,
+  b
+) {
   return rat(
-    a.n*b.d+b.n*a.d,
-    a.d*b.d
+    a.n * b.d +
+    b.n * a.d,
+    a.d * b.d
   );
 }
 
-function ratSub(a,b){
-
+function ratSub(
+  a,
+  b
+) {
   return rat(
-    a.n*b.d-b.n*a.d,
-    a.d*b.d
+    a.n * b.d -
+    b.n * a.d,
+    a.d * b.d
   );
 }
 
-function ratMul(a,b){
-
+function ratMul(
+  a,
+  b
+) {
   return rat(
-    a.n*b.n,
-    a.d*b.d
+    a.n * b.n,
+    a.d * b.d
   );
 }
 
-function ratDiv(a,b){
-
-  if(b.n===0){
-    throw new Error("不可除以 0");
+function ratDiv(
+  a,
+  b
+) {
+  if (
+    b.n === 0
+  ) {
+    throw new Error(
+      "不可除以 0"
+    );
   }
 
   return rat(
-    a.n*b.d,
-    a.d*b.n
+    a.n * b.d,
+    a.d * b.n
   );
 }
 
-function ratIsInteger(a){
-
-  return a.d===1;
+function ratIsInteger(a) {
+  return (
+    a.d === 1
+  );
 }
 
 function ratWithin(
   a,
-  maxAbs=80,
-  maxDen=12
-){
-
+  maxAbs = 80,
+  maxDen = 12
+) {
   return (
-    Math.abs(a.n)<=maxAbs*a.d &&
-    a.d<=maxDen
+    Math.abs(a.n) <=
+      maxAbs * a.d &&
+    a.d <=
+      maxDen
   );
 }
 
 
-/* ==================================================
-   數學顯示格式
-================================================== */
+/*
+==================================================
+數學格式
+==================================================
+*/
 
-function integerText(n){
-
-  return String(n).replace("-","−");
+function integerText(n) {
+  return String(n)
+    .replace(
+      "-",
+      "−"
+    );
 }
 
-function fx(n){
-
-  if(n===1){
+function fx(n) {
+  if (
+    n === 1
+  ) {
     return "x";
   }
 
-  if(n===-1){
+  if (
+    n === -1
+  ) {
     return "−x";
   }
 
   return (
     (
-      n<0
-        ? "−"+Math.abs(n)
+      n < 0
+        ? "−" +
+          Math.abs(n)
         : n
-    )+
+    ) +
     "x"
   );
 }
 
-function linear(a,b){
+function linear(
+  a,
+  b
+) {
+  let text = "";
 
-  let text="";
-
-  if(a){
-    text=fx(a);
+  if (a) {
+    text =
+      fx(a);
   }
 
-  if(b){
-
-    if(!text){
-
-      text=integerText(b);
-
-    }else{
-
-      text+=
-        b>0
+  if (b) {
+    if (!text) {
+      text =
+        integerText(b);
+    } else {
+      text +=
+        b > 0
           ? ` + ${b}`
           : ` − ${Math.abs(b)}`;
     }
   }
 
-  return text||"0";
+  return (
+    text || "0"
+  );
 }
 
 function mathFracHTML(
   value,
-  showSign=true
-){
+  showSign = true
+) {
+  const negative =
+    value.n < 0;
 
-  const neg=value.n<0;
+  const absolute =
+    Math.abs(
+      value.n
+    );
 
-  const abs=Math.abs(value.n);
-
-  const sign=
-    showSign&&neg
+  const sign =
+    showSign &&
+    negative
       ? "−"
       : "";
 
-  if(value.d===1){
-    return sign+abs;
+  if (
+    value.d === 1
+  ) {
+    return (
+      sign +
+      absolute
+    );
   }
 
   return (
-    `${sign}`+
-    `<span class="math-frac">`+
-      `<span class="top">${abs}</span>`+
-      `<span class="bar"></span>`+
-      `<span class="bottom">${value.d}</span>`+
+    `${sign}` +
+    `<span class="math-frac">` +
+      `<span class="top">${absolute}</span>` +
+      `<span class="bar"></span>` +
+      `<span class="bottom">${value.d}</span>` +
     `</span>`
   );
 }
@@ -1489,144 +1517,236 @@ function mathFracHTML(
 function stackedFractionHTML(
   top,
   bottom
-){
-
+) {
   return (
-    `<span class="math-frac">`+
-      `<span class="top">${top}</span>`+
-      `<span class="bar"></span>`+
-      `<span class="bottom">${bottom}</span>`+
+    `<span class="math-frac">` +
+      `<span class="top">${top}</span>` +
+      `<span class="bar"></span>` +
+      `<span class="bottom">${bottom}</span>` +
     `</span>`
   );
 }
 
 function signedHTML(
   value,
-  first=false
-){
+  first = false
+) {
+  const r =
+    rat(
+      value.n,
+      value.d
+    );
 
-  const r=rat(
-    value.n,
-    value.d
-  );
-
-  if(first){
-
+  if (first) {
     return mathFracHTML(
       r,
       true
     );
   }
 
-  return r.n<0
-    ? ` − ${mathFracHTML(
-        ratAbs(r),
-        false
-      )}`
-    : ` + ${mathFracHTML(
-        r,
-        false
-      )}`;
+  return (
+    r.n < 0
+      ? ` − ${mathFracHTML(
+          ratAbs(r),
+          false
+        )}`
+      : ` + ${mathFracHTML(
+          r,
+          false
+        )}`
+  );
 }
 
-function coefficientXHTML(value){
+function coefficientXHTML(
+  value
+) {
+  const r =
+    rat(
+      value.n,
+      value.d
+    );
 
-  const r=rat(
-    value.n,
-    value.d
-  );
-
-  if(r.n===0){
+  if (
+    r.n === 0
+  ) {
     return "";
   }
 
-  const negative=
-    r.n<0;
+  const negative =
+    r.n < 0;
 
-  const abs=
+  const absolute =
     ratAbs(r);
 
-  const sign=
+  const sign =
     negative
       ? "−"
       : "";
 
-  if(abs.n===abs.d){
-    return `${sign}x`;
+  if (
+    absolute.n ===
+    absolute.d
+  ) {
+    return (
+      `${sign}x`
+    );
   }
 
   return (
-    `${sign}`+
+    `${sign}` +
     `${mathFracHTML(
-      abs,
+      absolute,
       false
     )}x`
   );
 }
 
-function rationalLinearHTML(a,b){
+function rationalLinearHTML(
+  a,
+  b
+) {
+  let text = "";
 
-  let text="";
-
-  if(a.n!==0){
-    text=coefficientXHTML(a);
+  if (
+    a.n !== 0
+  ) {
+    text =
+      coefficientXHTML(a);
   }
 
-  if(b.n!==0){
-
-    text+=signedHTML(
-      b,
-      !text
-    );
-  }
-
-  return text||"0";
-}
-
-
-/* ==================================================
-   ★ 括號前係數格式
-
-   1(x−2)  → (x−2)
-   −1(x−2) → −(x−2)
-
-================================================== */
-
-function bracketCoefficientText(
-  coefficient,
-  inside
-){
-
-  if(coefficient===1){
-
-    return `(${inside})`;
-  }
-
-  if(coefficient===-1){
-
-    return `−(${inside})`;
+  if (
+    b.n !== 0
+  ) {
+    text +=
+      signedHTML(
+        b,
+        !text
+      );
   }
 
   return (
-    `${integerText(coefficient)}`+
-    `(${inside})`
+    text || "0"
   );
 }
 
 
 /*
-雙重保險。
-
-如果任何舊題型仍然意外產生：
-
-1(...)
-−1(...)
-
-顯示前也會自動修正。
+==================================================
+括號前係數
+==================================================
 */
 
-function normalizeUnitBracketCoefficients(value){
+function bracketCoefficientText(
+  coefficient,
+  inside
+) {
+  if (
+    coefficient === 1
+  ) {
+    return (
+      `(${inside})`
+    );
+  }
 
+  if (
+    coefficient === -1
+  ) {
+    return (
+      `−(${inside})`
+    );
+  }
+
+  return (
+    `${integerText(
+      coefficient
+    )}(${inside})`
+  );
+}
+
+
+/*
+==================================================
+★ 本次重要修正
+
+專門處理：
+
+第一組括號 − 第二組括號
+
+若第二組係數為：
+
+1
+→ − (...)
+
+−1
+→ + (...)
+
+3
+→ − 3(...)
+
+−3
+→ + 3(...)
+
+因此永遠不會再出現：
+
+− −(...)
+==================================================
+*/
+
+function signedSubtractedBracketText(
+  coefficient,
+  inside
+) {
+  if (
+    coefficient === 1
+  ) {
+    return (
+      ` − (${inside})`
+    );
+  }
+
+  if (
+    coefficient === -1
+  ) {
+    return (
+      ` + (${inside})`
+    );
+  }
+
+  if (
+    coefficient > 1
+  ) {
+    return (
+      ` − ${coefficient}(${inside})`
+    );
+  }
+
+  return (
+    ` + ${Math.abs(
+      coefficient
+    )}(${inside})`
+  );
+}
+
+
+/*
+==================================================
+顯示前最後一道保護
+
+即使其他地方意外產生：
+
+− −(...)
+也會整理成：
++ (...)
+
++ −(...)
+也會整理成：
+− (...)
+==================================================
+*/
+
+function normalizeUnitBracketCoefficients(
+  value
+) {
   return String(value)
 
     .replace(
@@ -1637,62 +1757,91 @@ function normalizeUnitBracketCoefficients(value){
     .replace(
       /(^|[\s=+−\-])1(?=\s*\()/g,
       "$1"
+    )
+
+    .replace(
+      /\s*−\s*−\s*(?=\()/g,
+      " + "
+    )
+
+    .replace(
+      /\s*\+\s*−\s*(?=\()/g,
+      " − "
     );
 }
 
-function questionHTML(q){
-
+function questionHTML(q) {
   return (
-    `<span class="math-expression">`+
+    `<span class="math-expression">` +
       `${normalizeUnitBracketCoefficients(
         q.qStr
-      )}`+
+      )}` +
     `</span>`
   );
 }
 
 
-/* ==================================================
-   產生答案
-================================================== */
+/*
+==================================================
+答案產生
+==================================================
+*/
 
-function makeAnswerByRatio(){
-
-  if(Math.random()<.7){
-
+function makeAnswerByRatio() {
+  if (
+    Math.random() <
+    .7
+  ) {
     return rat(
-      nz(-9,9)
+      nz(
+        -9,
+        9
+      )
     );
   }
 
   let n;
   let d;
 
-  do{
+  do {
+    d =
+      rand(
+        2,
+        7
+      );
 
-    d=rand(2,7);
+    n =
+      nz(
+        -15,
+        15
+      );
 
-    n=nz(-15,15);
-
-  }while(
-    gcd(n,d)!==1 ||
-    Math.abs(n)===d
+  } while (
+    gcd(
+      n,
+      d
+    ) !== 1 ||
+    Math.abs(n) ===
+      d
   );
 
-  return rat(n,d);
+  return rat(
+    n,
+    d
+  );
 }
 
 
-/* ==================================================
-   模式四題型順序
+/*
+==================================================
+模式四類型
+==================================================
+*/
 
-   A～E 每次至少各出現一次
-   第六題再隨機抽其中一類
-================================================== */
-
-function makeMode4TypeSchedule(target){
-
-  const base=[
+function makeMode4TypeSchedule(
+  target
+) {
+  const base = [
     "A",
     "B",
     "C",
@@ -1700,120 +1849,139 @@ function makeMode4TypeSchedule(target){
     "E"
   ];
 
-  const schedule=[
+  const schedule = [
     ...base
   ];
 
-  while(schedule.length<target){
-
+  while (
+    schedule.length <
+    target
+  ) {
     schedule.push(
       base[
         rand(
           0,
-          base.length-1
+          base.length - 1
         )
       ]
     );
   }
 
-  return shuffle(schedule);
+  return shuffle(
+    schedule
+  );
 }
 
 
-/* ==================================================
-   模式四出題
-================================================== */
+/*
+==================================================
+模式四
+==================================================
+*/
 
 function makeMode4Question(
   type,
   ansRat
-){
+) {
+  const x =
+    ansRat;
 
-  const x=ansRat;
-
-  for(
-    let attempt=0;
-    attempt<800;
+  for (
+    let attempt = 0;
+    attempt < 800;
     attempt++
-  ){
+  ) {
 
-    /* ---------- A 類 ---------- */
+    if (
+      type === "A"
+    ) {
+      const a =
+        rat(
+          nz(-5,5),
+          rand(2,7)
+        );
 
-    if(type==="A"){
+      const b =
+        rat(
+          nz(-5,5),
+          rand(2,7)
+        );
 
-      const a=rat(
-        nz(-5,5),
-        rand(2,7)
-      );
-
-      const b=rat(
-        nz(-5,5),
-        rand(2,7)
-      );
-
-      if(ratEq(a,b)){
+      if (
+        ratEq(
+          a,
+          b
+        )
+      ) {
         continue;
       }
 
-      const leftB=
+      const leftB =
         rat(
           nz(-8,8)
         );
 
-      const rightB=
+      const rightB =
         ratAdd(
           ratMul(
-            ratSub(a,b),
+            ratSub(
+              a,
+              b
+            ),
             x
           ),
           leftB
         );
 
-      if(
+      if (
         !ratWithin(
           rightB,
           35,
           8
         )
-      ){
+      ) {
         continue;
       }
 
       return {
-
         qStr:
           `${rationalLinearHTML(
             a,
             leftB
-          )} = `+
+          )} = ` +
           `${rationalLinearHTML(
             b,
             rightB
           )}`,
 
-        ans:ansRat
+        ans:
+          ansRat
       };
     }
 
 
-    /* ---------- B 類 ---------- */
+    if (
+      type === "B"
+    ) {
+      const alpha =
+        rat(
+          nz(-5,5),
+          rand(2,6)
+        );
 
-    if(type==="B"){
+      const beta =
+        rat(
+          nz(1,5),
+          rand(2,6)
+        );
 
-      const alpha=rat(
-        nz(-5,5),
-        rand(2,6)
-      );
+      const inside =
+        rand(
+          -15,
+          15
+        );
 
-      const beta=rat(
-        nz(1,5),
-        rand(2,6)
-      );
-
-      const inside=
-        rand(-15,15);
-
-      const rhs=
+      const rhs =
         ratAdd(
           ratMul(
             ratSub(
@@ -1824,46 +1992,83 @@ function makeMode4Question(
           ),
           ratMul(
             beta,
-            rat(inside)
+            rat(
+              inside
+            )
           )
         );
 
-      if(!ratIsInteger(rhs)){
+      if (
+        !ratIsInteger(
+          rhs
+        )
+      ) {
         continue;
       }
 
-      const bracket=
-        inside===0
+      const bracket =
+        inside === 0
           ? "x"
-          : inside>0
+          : inside > 0
             ? `x − ${inside}`
-            : `x + ${Math.abs(inside)}`;
+            : `x + ${Math.abs(
+                inside
+              )}`;
 
       return {
-
         qStr:
-          `${coefficientXHTML(alpha)} − `+
-          `${mathFracHTML(beta,false)}`+
-          `(${bracket}) = `+
-          `${integerText(rhs.n)}`,
+          `${coefficientXHTML(
+            alpha
+          )} − ` +
+          `${mathFracHTML(
+            beta,
+            false
+          )}` +
+          `(${bracket}) = ` +
+          `${integerText(
+            rhs.n
+          )}`,
 
-        ans:ansRat
+        ans:
+          ansRat
       };
     }
 
 
-    /* ---------- C 類 ---------- */
+    if (
+      type === "C"
+    ) {
+      const m =
+        rand(
+          2,
+          7
+        );
 
-    if(type==="C"){
+      const n =
+        rand(
+          2,
+          7
+        );
 
-      const m=rand(2,7);
-      const n=rand(2,7);
+      const a =
+        nz(
+          -8,
+          8
+        );
 
-      const a=nz(-8,8);
-      const b=rand(-12,12);
-      const c=nz(-8,8);
+      const b =
+        rand(
+          -12,
+          12
+        );
 
-      const leftAtX=
+      const c =
+        nz(
+          -8,
+          8
+        );
+
+      const leftAtX =
         ratAdd(
           ratMul(
             rat(a),
@@ -1872,10 +2077,13 @@ function makeMode4Question(
           rat(b)
         );
 
-      const d=
+      const d =
         ratSub(
           ratMul(
-            rat(n,m),
+            rat(
+              n,
+              m
+            ),
             leftAtX
           ),
           ratMul(
@@ -1884,92 +2092,155 @@ function makeMode4Question(
           )
         );
 
-      if(!ratIsInteger(d)){
+      if (
+        !ratIsInteger(
+          d
+        )
+      ) {
         continue;
       }
 
       return {
-
         qStr:
           `${stackedFractionHTML(
-            linear(a,b),
+            linear(
+              a,
+              b
+            ),
             m
-          )} = `+
+          )} = ` +
           `${stackedFractionHTML(
-            linear(c,d.n),
+            linear(
+              c,
+              d.n
+            ),
             n
           )}`,
 
-        ans:ansRat
+        ans:
+          ansRat
       };
     }
 
 
-    /* ---------- D 類 ---------- */
-
-    if(type==="D"){
-
-      const m=
-        rand(2,8);
-
-      const rhs=
-        rand(-10,10);
-
-      const A=
-        ratSub(
-          ratMul(
-            rat(m+1),
-            x
-          ),
-          rat(m*rhs)
+    if (
+      type === "D"
+    ) {
+      const m =
+        rand(
+          2,
+          8
         );
 
-      if(!ratIsInteger(A)){
+      const rhs =
+        rand(
+          -10,
+          10
+        );
+
+      const A =
+        ratSub(
+          ratMul(
+            rat(
+              m + 1
+            ),
+            x
+          ),
+          rat(
+            m *
+            rhs
+          )
+        );
+
+      if (
+        !ratIsInteger(
+          A
+        )
+      ) {
         continue;
       }
 
-      const numerator=
-        A.n===0
+      const numerator =
+        A.n === 0
           ? "−x"
-          : A.n>0
+          : A.n > 0
             ? `${A.n} − x`
-            : `−${Math.abs(A.n)} − x`;
+            : `−${Math.abs(
+                A.n
+              )} − x`;
 
       return {
-
         qStr:
-          `x − `+
+          `x − ` +
           `${stackedFractionHTML(
             numerator,
             m
-          )} = `+
-          `${integerText(rhs)}`,
+          )} = ` +
+          `${integerText(
+            rhs
+          )}`,
 
-        ans:ansRat
+        ans:
+          ansRat
       };
     }
 
 
-    /* ---------- E 類 ---------- */
+    const m =
+      rand(
+        2,
+        6
+      );
 
-    const m=rand(2,6);
-    const n=rand(2,6);
-    const r=rand(2,6);
+    const n =
+      rand(
+        2,
+        6
+      );
 
-    const a=nz(-5,5);
-    const b=rand(-7,7);
+    const r =
+      rand(
+        2,
+        6
+      );
 
-    const c=nz(-5,5);
-    const d=rand(-8,8);
+    const a =
+      nz(
+        -5,
+        5
+      );
 
-    const e=nz(-5,5);
+    const b =
+      rand(
+        -7,
+        7
+      );
 
-    const operation=
-      Math.random()<.5
+    const c =
+      nz(
+        -5,
+        5
+      );
+
+    const d =
+      rand(
+        -8,
+        8
+      );
+
+    const e =
+      nz(
+        -5,
+        5
+      );
+
+    const operation =
+      Math.random() <
+      .5
         ? 1
         : -1;
 
-    const left1=
+    const left1 =
       ratDiv(
         ratMul(
           rat(a),
@@ -1981,7 +2252,7 @@ function makeMode4Question(
         rat(m)
       );
 
-    const left2=
+    const left2 =
       ratDiv(
         ratAdd(
           ratMul(
@@ -1993,8 +2264,8 @@ function makeMode4Question(
         rat(n)
       );
 
-    const left=
-      operation===1
+    const left =
+      operation === 1
         ? ratAdd(
             left1,
             left2
@@ -2004,7 +2275,7 @@ function makeMode4Question(
             left2
           );
 
-    const f=
+    const f =
       ratSub(
         ratMul(
           rat(r),
@@ -2016,51 +2287,65 @@ function makeMode4Question(
         )
       );
 
-    if(!ratIsInteger(f)){
+    if (
+      !ratIsInteger(
+        f
+      )
+    ) {
       continue;
     }
 
-    const firstTop=
-      b===0
+    const firstTop =
+      b === 0
         ? fx(a)
         : `${
-            a===1
+            a === 1
               ? ""
-              : a===-1
+              : a === -1
                 ? "−"
-                : integerText(a)
+                : integerText(
+                    a
+                  )
           }(x ${
-            b>0
+            b > 0
               ? "+"
               : "−"
-          } ${Math.abs(b)})`;
+          } ${Math.abs(
+            b
+          )})`;
 
-    const secondTop=
-      linear(c,d);
+    const secondTop =
+      linear(
+        c,
+        d
+      );
 
     return {
-
       qStr:
         `${stackedFractionHTML(
           firstTop,
           m
-        )}`+
+        )}` +
         `${
-          operation===1
+          operation === 1
             ? " + "
             : " − "
-        }`+
+        }` +
         `${stackedFractionHTML(
           secondTop,
           n
-        )}`+
-        ` = `+
+        )}` +
+        ` = ` +
         `${stackedFractionHTML(
-          linear(e,f.n),
+          linear(
+            e,
+            f.n
+          ),
           r
         )}`,
 
-      ans:ansRat
+      ans:
+        ansRat
     };
   }
 
@@ -2070,102 +2355,146 @@ function makeMode4Question(
 }
 
 
-/* ==================================================
-   四種模式出題總控制
-================================================== */
+/*
+==================================================
+所有模式題目
+==================================================
+*/
 
-function makeQuestions(selectedMode){
+function makeQuestions(
+  selectedMode
+) {
+  const output = [];
 
-  const output=[];
-  const used=new Set();
+  const used =
+    new Set();
 
-  const target=
-    selectedMode===4
+  const target =
+    selectedMode === 4
       ? 6
       : 10;
 
 
-  /* ==================================================
-     模式四
-  ================================================== */
+  /*
+  模式四
+  */
 
-  if(selectedMode===4){
-
-    const schedule=
+  if (
+    selectedMode === 4
+  ) {
+    const schedule =
       makeMode4TypeSchedule(
         target
       );
 
-    schedule.forEach(type=>{
+    schedule.forEach(
+      type => {
+        for (
+          let retry = 0;
+          retry < 150;
+          retry++
+        ) {
+          const question =
+            makeMode4Question(
+              type,
+              makeAnswerByRatio()
+            );
 
-      for(
-        let retry=0;
-        retry<150;
-        retry++
-      ){
+          const key =
+            question.qStr
+              .replace(
+                /<[^>]+>/g,
+                ""
+              );
 
-        const question=
-          makeMode4Question(
-            type,
-            makeAnswerByRatio()
+          if (
+            used.has(
+              key
+            )
+          ) {
+            continue;
+          }
+
+          used.add(
+            key
           );
 
-        const key=
-          question.qStr.replace(
-            /<[^>]+>/g,
-            ""
+          output.push(
+            question
           );
 
-        if(used.has(key)){
-          continue;
+          break;
         }
-
-        used.add(key);
-        output.push(question);
-
-        break;
       }
-    });
+    );
 
-    return shuffle(output);
+    return shuffle(
+      output
+    );
   }
 
 
-  /* ==================================================
-     模式一
-     ax = b
-  ================================================== */
+  /*
+  模式一
+  */
 
-  if(selectedMode===1){
-
-    while(output.length<target){
-
-      const ans=
+  if (
+    selectedMode === 1
+  ) {
+    while (
+      output.length <
+      target
+    ) {
+      const ans =
         makeAnswerByRatio();
 
-      const p=ans.n;
-      const q=ans.d;
+      const p =
+        ans.n;
 
-      const k=nz(-5,5);
+      const q =
+        ans.d;
 
-      const a=k*q;
-      const b=k*p;
+      const k =
+        nz(
+          -5,
+          5
+        );
 
-      if(
-        Math.abs(a)>35 ||
-        Math.abs(b)>60
-      ){
+      const a =
+        k *
+        q;
+
+      const b =
+        k *
+        p;
+
+      if (
+        Math.abs(a) >
+          35 ||
+        Math.abs(b) >
+          60
+      ) {
         continue;
       }
 
-      const qStr=
-        `${fx(a)} = ${integerText(b)}`;
+      const qStr =
+        `${fx(
+          a
+        )} = ${integerText(
+          b
+        )}`;
 
-      if(used.has(qStr)){
+      if (
+        used.has(
+          qStr
+        )
+      ) {
         continue;
       }
 
-      used.add(qStr);
+      used.add(
+        qStr
+      );
 
       output.push({
         qStr,
@@ -2173,59 +2502,88 @@ function makeQuestions(selectedMode){
       });
     }
 
-    return shuffle(output);
+    return shuffle(
+      output
+    );
   }
 
 
-  /* ==================================================
-     模式二
-     ax+b = cx+d
-  ================================================== */
+  /*
+  模式二
+  */
 
-  if(selectedMode===2){
-
-    while(output.length<target){
-
-      const ans=
+  if (
+    selectedMode === 2
+  ) {
+    while (
+      output.length <
+      target
+    ) {
+      const ans =
         makeAnswerByRatio();
 
-      const p=ans.n;
-      const q=ans.d;
+      const p =
+        ans.n;
 
-      const k=nz(-4,4);
-      const c=nz(-7,7);
+      const q =
+        ans.d;
 
-      const a=
-        c+k*q;
+      const k =
+        nz(
+          -4,
+          4
+        );
 
-      const b=
-        nz(-15,15);
+      const c =
+        nz(
+          -7,
+          7
+        );
 
-      const d=
-        b+k*p;
+      const a =
+        c +
+        k *
+        q;
 
-      if(
-        a===0 ||
-        a===c
-      ){
+      const b =
+        nz(
+          -15,
+          15
+        );
+
+      const d =
+        b +
+        k *
+        p;
+
+      if (
+        a === 0 ||
+        a === c
+      ) {
         continue;
       }
 
-      const qStr=
+      const qStr =
         `${linear(
           a,
           b
-        )} = `+
+        )} = ` +
         `${linear(
           c,
           d
         )}`;
 
-      if(used.has(qStr)){
+      if (
+        used.has(
+          qStr
+        )
+      ) {
         continue;
       }
 
-      used.add(qStr);
+      used.add(
+        qStr
+      );
 
       output.push({
         qStr,
@@ -2233,98 +2591,111 @@ function makeQuestions(selectedMode){
       });
     }
 
-    return shuffle(output);
+    return shuffle(
+      output
+    );
   }
 
 
-  /* ==================================================
-     模式三
-     括號、負號與化簡
+  /*
+  ==================================================
+  模式三
+  ==================================================
+  */
 
-     ★ 已修改：
-     括號前係數 1 不顯示
-  ================================================== */
-
-  while(output.length<target){
-
-    const ans=
+  while (
+    output.length <
+    target
+  ) {
+    const ans =
       makeAnswerByRatio();
 
 
     /*
-    ------------------------------------------
-    題型 A
-
-    a(bx+c)=dx+e
-
-    例如：
-
-    3(x−2)=2x+1
-
-    若 a=1：
-
-    (x−2)=...
-
-    不會顯示：
-
-    1(x−2)=...
-    ------------------------------------------
+    題型 A：
+    單一括號
     */
 
-    if(Math.random()<.5){
+    if (
+      Math.random() <
+      .5
+    ) {
+      const outer =
+        nz(
+          -4,
+          4
+        );
 
-      const outer=
-        nz(-4,4);
+      const innerA =
+        nz(
+          -5,
+          5
+        );
 
-      const innerA=
-        nz(-5,5);
+      const innerB =
+        nz(
+          -8,
+          8
+        );
 
-      const innerB=
-        nz(-8,8);
+      const t =
+        nz(
+          -3,
+          3
+        );
 
-      const t=
-        nz(-3,3);
+      const c =
+        outer *
+        innerA -
+        t *
+        ans.d;
 
-      const c=
-        outer*innerA -
-        t*ans.d;
+      const d =
+        outer *
+        innerB +
+        t *
+        ans.n;
 
-      const d=
-        outer*innerB +
-        t*ans.n;
-
-      if(
-        c===0 ||
-        Math.abs(c)>32 ||
-        Math.abs(d)>50
-      ){
+      if (
+        c === 0 ||
+        Math.abs(c) >
+          32 ||
+        Math.abs(d) >
+          50
+      ) {
         continue;
       }
 
-      const inside=
+      const inside =
         linear(
           innerA,
           innerB
         );
 
-      const leftBracket=
+      const leftBracket =
         bracketCoefficientText(
           outer,
           inside
         );
 
-      const qStr=
-        `${leftBracket} = `+
+      const qStr =
+        `${leftBracket} = ` +
         `${linear(
           c,
           d
         )}`;
 
-      if(used.has(qStr)){
+      if (
+        used.has(
+          qStr
+        )
+      ) {
         continue;
       }
 
-      used.add(qStr);
+      used.add(
+        qStr
+      );
 
       output.push({
         qStr,
@@ -2336,88 +2707,106 @@ function makeQuestions(selectedMode){
 
 
     /*
-    ------------------------------------------
-    題型 B
+    ==================================================
+    題型 B：
+    兩組括號相減
 
-    a(bx+c) − d(ex+f) = g
-
-    例如：
-
-    1(x−2)−1(−3x+5)=5
-
-    顯示為：
-
-    (x−2)−(−3x+5)=5
-
-    又例如：
-
-    −3(x−7)−1(−5x+2)=9
-
-    顯示為：
-
-    −3(x−7)−(−5x+2)=9
-    ------------------------------------------
+    這裡就是本次修正重點。
+    ==================================================
     */
 
-    const firstOuter=
-      nz(-4,4);
-
-    const secondOuter=
-      nz(-4,4);
-
-    const firstX=
-      nz(-5,5);
-
-    const firstConst=
-      rand(-8,8);
-
-    const secondX=
-      nz(-5,5);
-
-    const secondConst=
-      rand(-8,8);
-
-    const leftA=
-      firstOuter*firstX -
-      secondOuter*secondX;
-
-    const leftB=
-      firstOuter*firstConst -
-      secondOuter*secondConst;
-
-    if(leftA===0){
-      continue;
-    }
-
-    const rhs=
-      ratAdd(
-        ratMul(
-          rat(leftA),
-          ans
-        ),
-        rat(leftB)
+    const firstOuter =
+      nz(
+        -4,
+        4
       );
 
-    if(
-      !ratIsInteger(rhs) ||
-      Math.abs(rhs.n)>80
-    ){
+    const secondOuter =
+      nz(
+        -4,
+        4
+      );
+
+    const firstX =
+      nz(
+        -5,
+        5
+      );
+
+    const firstConst =
+      rand(
+        -8,
+        8
+      );
+
+    const secondX =
+      nz(
+        -5,
+        5
+      );
+
+    const secondConst =
+      rand(
+        -8,
+        8
+      );
+
+    const leftA =
+      firstOuter *
+      firstX -
+      secondOuter *
+      secondX;
+
+    const leftB =
+      firstOuter *
+      firstConst -
+      secondOuter *
+      secondConst;
+
+    if (
+      leftA === 0
+    ) {
       continue;
     }
 
-    const firstInside=
+    const rhs =
+      ratAdd(
+        ratMul(
+          rat(
+            leftA
+          ),
+          ans
+        ),
+        rat(
+          leftB
+        )
+      );
+
+    if (
+      !ratIsInteger(
+        rhs
+      ) ||
+      Math.abs(
+        rhs.n
+      ) >
+      80
+    ) {
+      continue;
+    }
+
+    const firstInside =
       linear(
         firstX,
         firstConst
       );
 
-    const secondInside=
+    const secondInside =
       linear(
         secondX,
         secondConst
       );
 
-    const firstPart=
+    const firstPart =
       bracketCoefficientText(
         firstOuter,
         firstInside
@@ -2425,46 +2814,48 @@ function makeQuestions(selectedMode){
 
 
     /*
-    第二組括號：
+    ★ 注意：
 
-    係數 = 1
-    → 只留下括號
+    不再寫：
 
-    係數 = −1
-    → 顯示 −(...)
+    firstPart + " − " + secondPart
+
+    因為這會造成：
+
+    − −(...)
+
+    現在由：
+    signedSubtractedBracketText()
+
+    自己決定要顯示 + 或 −。
     */
 
-    let secondPart;
+    const secondPart =
+      signedSubtractedBracketText(
+        secondOuter,
+        secondInside
+      );
 
-    if(secondOuter===1){
+    const qStr =
+      `${firstPart}` +
+      `${secondPart}` +
+      ` = ` +
+      `${integerText(
+        rhs.n
+      )}`;
 
-      secondPart=
-        `(${secondInside})`;
 
-    }else if(secondOuter===-1){
-
-      secondPart=
-        `−(${secondInside})`;
-
-    }else{
-
-      secondPart=
-        `${integerText(
-          secondOuter
-        )}`+
-        `(${secondInside})`;
-    }
-
-    const qStr=
-      `${firstPart} − `+
-      `${secondPart} = `+
-      `${integerText(rhs.n)}`;
-
-    if(used.has(qStr)){
+    if (
+      used.has(
+        qStr
+      )
+    ) {
       continue;
     }
 
-    used.add(qStr);
+    used.add(
+      qStr
+    );
 
     output.push({
       qStr,
@@ -2472,104 +2863,127 @@ function makeQuestions(selectedMode){
     });
   }
 
-  return shuffle(output);
+  return shuffle(
+    output
+  );
 }
 
 
-/* ==================================================
-   答案輸入
-================================================== */
+/*
+==================================================
+答案讀取
+==================================================
+*/
 
-function readAnswer(){
-
-  const q=
+function readAnswer() {
+  const q =
     questions[index];
 
-  if(!q){
+  if (!q) {
     return null;
   }
 
-  const numeratorText=
-    $("x-num").value.trim();
+  const numeratorText =
+    $("x-num")
+      .value
+      .trim();
 
-  const denominatorText=
-    $("x-den").value.trim();
+  const denominatorText =
+    $("x-den")
+      .value
+      .trim();
 
-  const integerAnswer=
-    q.ans.d===1;
+  const integerAnswer =
+    q.ans.d === 1;
 
-  if(!numeratorText){
+  if (
+    !numeratorText
+  ) {
     return null;
   }
 
-
-  /* ---------- 整數答案 ---------- */
-
-  if(integerAnswer){
-
-    if(
-      !/^[+\-]?\d+$/.test(
-        numeratorText
-      )
-    ){
+  if (
+    integerAnswer
+  ) {
+    if (
+      !/^[+\-]?\d+$/
+        .test(
+          numeratorText
+        )
+    ) {
       return null;
     }
 
-    const n=
+    const n =
       Number(
         numeratorText
       );
 
-    if(!Number.isSafeInteger(n)){
+    if (
+      !Number
+        .isSafeInteger(
+          n
+        )
+    ) {
       return null;
     }
 
     return {
+      value:
+        rat(n),
 
-      value:rat(n),
+      simplest:
+        true,
 
-      simplest:true,
-
-      raw:String(n),
+      raw:
+        String(n),
 
       displayHTML:
         integerText(n)
     };
   }
 
-
-  /* ---------- 分數答案 ---------- */
-
-  if(
-    !/^\d+$/.test(numeratorText) ||
-    !/^\d+$/.test(denominatorText)
-  ){
+  if (
+    !/^\d+$/
+      .test(
+        numeratorText
+      ) ||
+    !/^\d+$/
+      .test(
+        denominatorText
+      )
+  ) {
     return null;
   }
 
-  const numerator=
-    Number(numeratorText);
-
-  const denominator=
-    Number(denominatorText);
-
-  const sign=
+  const numerator =
     Number(
-      $("x-sign").value
+      numeratorText
     );
 
-  if(
-    numerator<=0 ||
-    denominator<=1
-  ){
+  const denominator =
+    Number(
+      denominatorText
+    );
+
+  const sign =
+    Number(
+      $("x-sign")
+        .value
+    );
+
+  if (
+    numerator <= 0 ||
+    denominator <= 1
+  ) {
     return null;
   }
 
-  const signedNumerator=
-    sign*numerator;
+  const signedNumerator =
+    sign *
+    numerator;
 
   return {
-
     value:
       rat(
         signedNumerator,
@@ -2580,14 +2994,14 @@ function readAnswer(){
       gcd(
         numerator,
         denominator
-      )===1,
+      ) === 1,
 
     raw:
-      `${sign<0?"−":""}`+
+      `${sign < 0 ? "−" : ""}` +
       `${numerator}/${denominator}`,
 
     displayHTML:
-      `${sign<0?"−":""}`+
+      `${sign < 0 ? "−" : ""}` +
       `${stackedFractionHTML(
         numerator,
         denominator
@@ -2595,29 +3009,41 @@ function readAnswer(){
   };
 }
 
+function clearAnswerInputs() {
+  $("x-sign")
+    .value =
+      "1";
 
-function clearAnswerInputs(){
+  $("x-sign")
+    .disabled =
+      false;
 
-  $("x-sign").value="1";
+  $("x-num")
+    .value =
+      "";
 
-  $("x-sign").disabled=false;
+  $("x-den")
+    .value =
+      "";
 
-  $("x-num").value="";
-  $("x-den").value="";
+  $("x-num")
+    .disabled =
+      false;
 
-  $("x-num").disabled=false;
-  $("x-den").disabled=false;
+  $("x-den")
+    .disabled =
+      false;
 
   $("mode4-answer")
     .classList
-    .remove("disabled");
+    .remove(
+      "disabled"
+    );
 }
 
-
-function configureAnswerInputs(q){
-
-  const integer=
-    q.ans.d===1;
+function configureAnswerInputs(q) {
+  const integer =
+    q.ans.d === 1;
 
   $("x-frac-box")
     .classList
@@ -2633,125 +3059,413 @@ function configureAnswerInputs(q){
       integer
     );
 
-  $("x-num").placeholder=
+  $("x-num")
+    .placeholder =
+      integer
+        ? "整數"
+        : "分子";
+
+  $("x-den")
+    .disabled =
+      integer;
+
+  if (
     integer
-      ? "整數"
-      : "分子";
-
-  $("x-den").disabled=
-    integer;
-
-  if(integer){
-    $("x-den").value="";
+  ) {
+    $("x-den")
+      .value =
+        "";
   }
 }
 
+function disableAnswerInputs() {
+  $("x-sign")
+    .disabled =
+      true;
 
-function disableAnswerInputs(){
+  $("x-num")
+    .disabled =
+      true;
 
-  $("x-sign").disabled=true;
-
-  $("x-num").disabled=true;
-  $("x-den").disabled=true;
+  $("x-den")
+    .disabled =
+      true;
 
   $("mode4-answer")
     .classList
-    .add("disabled");
+    .add(
+      "disabled"
+    );
 }
 
-
-function updateAnswerPreview(){
-
-  const answer=
+function updateAnswerPreview() {
+  const answer =
     readAnswer();
 
-  $("normalized-preview").innerHTML=
-    answer
-      ? `系統判讀：x ＝ ${answer.displayHTML}`
-      : "";
+  $("normalized-preview")
+    .innerHTML =
+      answer
+        ? `系統判讀：x ＝ ${answer.displayHTML}`
+        : "";
 }
 
 
-/* ==================================================
-   畫面控制
-================================================== */
+/*
+==================================================
+畫面
+==================================================
+*/
 
-function showOnly(id){
-
+function showOnly(id) {
   [
     "start-screen",
     "quiz-screen",
     "result-screen",
     "review-screen"
-  ].forEach(screenId=>{
-
-    $(screenId)
-      .classList
-      .toggle(
-        "hidden",
-        screenId!==id
-      );
-
-  });
+  ].forEach(
+    screenId => {
+      $(screenId)
+        .classList
+        .toggle(
+          "hidden",
+          screenId !==
+          id
+        );
+    }
+  );
 }
 
 
-/* ==================================================
-   計時器
-================================================== */
+/*
+==================================================
+計時
+==================================================
+*/
 
-function setTimer(){
+function setTimer() {
+  clearInterval(
+    timer
+  );
 
-  clearInterval(timer);
+  timer =
+    setInterval(
+      () => {
+        const seconds =
+          Math.floor(
+            (
+              Date.now() -
+              startTime
+            ) /
+            1000
+          );
 
-  timer=setInterval(()=>{
+        const minutes =
+          Math.floor(
+            seconds /
+            60
+          );
 
-    const seconds=
-      Math.floor(
-        (
-          Date.now()-
-          startTime
-        )/1000
-      );
+        const remain =
+          seconds %
+          60;
 
-    const minutes=
-      Math.floor(
-        seconds/60
-      );
-
-    const remain=
-      seconds%60;
-
-    $("time-display").textContent=
-      `⏳ ${
-        String(minutes)
-          .padStart(2,"0")
-      }:${
-        String(remain)
-          .padStart(2,"0")
-      }`;
-
-  },1000);
+        $("time-display")
+          .textContent =
+            `⏳ ${String(
+              minutes
+            ).padStart(
+              2,
+              "0"
+            )}:${String(
+              remain
+            ).padStart(
+              2,
+              "0"
+            )}`;
+      },
+      1000
+    );
 }
 
 
-/* ==================================================
-   開始遊戲
-================================================== */
+/*
+==================================================
+音效
+==================================================
+*/
+
+function getEquationAudioContext() {
+  const AudioContextClass =
+    window.AudioContext ||
+    window.webkitAudioContext;
+
+  if (
+    !AudioContextClass
+  ) {
+    return null;
+  }
+
+  if (
+    !equationAudioContext
+  ) {
+    equationAudioContext =
+      new AudioContextClass();
+  }
+
+  return equationAudioContext;
+}
+
+async function ensureEquationAudio() {
+  const context =
+    getEquationAudioContext();
+
+  if (
+    !context
+  ) {
+    return null;
+  }
+
+  if (
+    context.state ===
+    "suspended"
+  ) {
+    try {
+      await context.resume();
+    } catch (
+      error
+    ) {
+      console.warn(
+        "音效系統無法啟用：",
+        error
+      );
+    }
+  }
+
+  return (
+    context.state ===
+    "running"
+      ? context
+      : null
+  );
+}
+
+async function playEquationTone({
+  frequency = 440,
+  duration = .18,
+  type = "sine",
+  volume = .14,
+  delay = 0
+} = {}) {
+  const context =
+    await ensureEquationAudio();
+
+  if (
+    !context
+  ) {
+    return;
+  }
+
+  const start =
+    context.currentTime +
+    Math.max(
+      0,
+      delay
+    );
+
+  const end =
+    start +
+    Math.max(
+      .05,
+      duration
+    );
+
+  const oscillator =
+    context
+      .createOscillator();
+
+  const gain =
+    context
+      .createGain();
+
+  oscillator.type =
+    type;
+
+  oscillator
+    .frequency
+    .setValueAtTime(
+      frequency,
+      start
+    );
+
+  gain
+    .gain
+    .setValueAtTime(
+      .0001,
+      start
+    );
+
+  gain
+    .gain
+    .exponentialRampToValueAtTime(
+      Math.max(
+        .0001,
+        volume
+      ),
+      start +
+      .02
+    );
+
+  gain
+    .gain
+    .exponentialRampToValueAtTime(
+      .0001,
+      end
+    );
+
+  oscillator
+    .connect(
+      gain
+    );
+
+  gain
+    .connect(
+      context.destination
+    );
+
+  oscillator.start(
+    start
+  );
+
+  oscillator.stop(
+    end
+  );
+}
+
+function playGameSound(
+  soundName
+) {
+  if (
+    soundName ===
+    "playStart"
+  ) {
+    playEquationTone({
+      frequency:
+        392
+    });
+
+    playEquationTone({
+      frequency:
+        523.25,
+
+      delay:
+        .12
+    });
+
+    return;
+  }
+
+  if (
+    soundName ===
+    "playCorrect"
+  ) {
+    playEquationTone({
+      frequency:
+        523.25
+    });
+
+    playEquationTone({
+      frequency:
+        659.25,
+
+      delay:
+        .1
+    });
+
+    playEquationTone({
+      frequency:
+        783.99,
+
+      delay:
+        .2
+    });
+
+    return;
+  }
+
+  if (
+    soundName ===
+    "playWrong"
+  ) {
+    playEquationTone({
+      frequency:
+        329.63,
+
+      type:
+        "triangle"
+    });
+
+    playEquationTone({
+      frequency:
+        261.63,
+
+      type:
+        "triangle",
+
+      delay:
+        .14
+    });
+
+    return;
+  }
+
+  if (
+    soundName ===
+    "playComplete"
+  ) {
+    [
+      523.25,
+      659.25,
+      783.99,
+      1046.5
+    ].forEach(
+      (
+        frequency,
+        i
+      ) => {
+        playEquationTone({
+          frequency,
+
+          delay:
+            i *
+            .12
+        });
+      }
+    );
+  }
+}
+
+
+/*
+==================================================
+開始
+==================================================
+*/
 
 function startGame(
-  keepMode=false
-){
-
-  clearTimeout(nextTimer);
+  keepMode = false
+) {
+  clearTimeout(
+    nextTimer
+  );
 
   playGameSound(
     "playStart"
   );
 
-  if(!keepMode){
-
-    mode=
+  if (
+    !keepMode
+  ) {
+    mode =
       Number(
         document
           .querySelector(
@@ -2761,27 +3475,41 @@ function startGame(
       );
   }
 
-  questions=
-    makeQuestions(mode);
+  questions =
+    makeQuestions(
+      mode
+    );
 
-  index=0;
-  correct=0;
-  wrong=0;
+  index = 0;
+  correct = 0;
+  wrong = 0;
 
-  records=[];
+  records = [];
 
-  scoreSaved=false;
-  finalElapsed=0;
+  scoreSaved =
+    false;
 
-  locked=false;
-  nextReady=false;
+  finalElapsed =
+    0;
 
-  startTime=Date.now();
+  locked =
+    false;
 
-  $("save-status").textContent="";
+  nextReady =
+    false;
 
-  $("mode-badge").textContent=
-    MODE_NAMES[mode];
+  startTime =
+    Date.now();
+
+  $("save-status")
+    .textContent =
+      "";
+
+  $("mode-badge")
+    .textContent =
+      MODE_NAMES[
+        mode
+      ];
 
   setTimer();
 
@@ -2793,118 +3521,150 @@ function startGame(
 }
 
 
-/* ==================================================
-   載入題目
-================================================== */
+/*
+==================================================
+載入題目
+==================================================
+*/
 
-function loadQuestion(){
-
-  if(
-    typeof window.resetGameScratchpad
-    ==="function"
-  ){
-    window.resetGameScratchpad();
+function loadQuestion() {
+  if (
+    typeof window
+      .resetGameScratchpad ===
+    "function"
+  ) {
+    window
+      .resetGameScratchpad();
   }
 
-  clearTimeout(nextTimer);
+  clearTimeout(
+    nextTimer
+  );
 
-  locked=false;
-  nextReady=false;
+  locked =
+    false;
+
+  nextReady =
+    false;
 
   $("submit-btn")
     .classList
-    .remove("hidden");
+    .remove(
+      "hidden"
+    );
 
   $("next-btn")
     .classList
-    .add("hidden");
+    .add(
+      "hidden"
+    );
 
-  $("feedback").innerHTML="";
+  $("feedback")
+    .innerHTML =
+      "";
 
-  const q=
-    questions[index];
+  const q =
+    questions[
+      index
+    ];
 
-  $("problem-text").innerHTML=
-    questionHTML(q);
+  $("problem-text")
+    .innerHTML =
+      questionHTML(
+        q
+      );
 
-  const total=
+  const total =
     totalQuestions();
 
-  $("question-number").textContent=
-    `第 ${index+1} / ${total} 題`;
+  $("question-number")
+    .textContent =
+      `第 ${index + 1} / ${total} 題`;
 
-  $("progress-bar").style.width=
-    `${index/total*100}%`;
+  $("progress-bar")
+    .style
+    .width =
+      `${index / total * 100}%`;
 
   clearAnswerInputs();
 
-  configureAnswerInputs(q);
+  configureAnswerInputs(
+    q
+  );
 
   updateAnswerPreview();
 
-  setTimeout(()=>{
-
-    $("x-num").focus();
-
-  },0);
+  setTimeout(
+    () => {
+      $("x-num")
+        .focus();
+    },
+    0
+  );
 }
 
 
-/* ==================================================
-   檢查答案
-================================================== */
+/*
+==================================================
+檢查答案
+==================================================
+*/
 
-function check(){
-
-  if(locked){
+function check() {
+  if (
+    locked
+  ) {
     return;
   }
 
-  const q=
-    questions[index];
+  const q =
+    questions[
+      index
+    ];
 
-  const answer=
+  const answer =
     readAnswer();
 
-  if(!answer){
-
-    $("feedback").innerHTML=
-      '<span style="color:#d97706">請完整輸入答案。</span>';
-
-    return;
-  }
-
-  if(!answer.simplest){
-
-    $("feedback").innerHTML=
-      '<span style="color:#d97706">分數尚未化成最簡分數。</span>';
+  if (
+    !answer
+  ) {
+    $("feedback")
+      .innerHTML =
+        '<span style="color:#d97706">請完整輸入答案。</span>';
 
     return;
   }
 
-  const ok=
+  if (
+    !answer.simplest
+  ) {
+    $("feedback")
+      .innerHTML =
+        '<span style="color:#d97706">分數尚未化成最簡分數。</span>';
+
+    return;
+  }
+
+  const ok =
     ratEq(
       answer.value,
       q.ans
     );
 
-  locked=true;
+  locked =
+    true;
 
   disableAnswerInputs();
 
-
-  /* ---------- 答對 ---------- */
-
-  if(ok){
-
+  if (
+    ok
+  ) {
     correct++;
 
     playGameSound(
       "playCorrect"
     );
-
-  }else{
-
+  } else {
     wrong++;
 
     playGameSound(
@@ -2912,12 +3672,12 @@ function check(){
     );
   }
 
-
   records.push({
+    number:
+      index + 1,
 
-    number:index+1,
-
-    question:q,
+    question:
+      q,
 
     userParsed:
       answer.value,
@@ -2926,110 +3686,122 @@ function check(){
       answer.raw,
 
     ok
-
   });
 
-
-  const ansHTML=
+  const ansHTML =
     mathFracHTML(
       q.ans
     );
 
+  $("feedback")
+    .innerHTML =
+      (
+        ok
+          ? '<span style="color:#15803d">✨ 正確！</span>'
+          : `<span style="color:#b91c1c">❌ 答案不正確，正確答案是 x ＝ ${ansHTML}</span>`
+      ) +
+      `<div class="solution">` +
+        `方程式之解為：x ＝ ${ansHTML}` +
+      `</div>`;
 
-  $("feedback").innerHTML=
+  nextTimer =
+    setTimeout(
+      () => {
+        $("submit-btn")
+          .classList
+          .add(
+            "hidden"
+          );
 
-    (
+        $("next-btn")
+          .classList
+          .remove(
+            "hidden"
+          );
+
+        $("next-btn")
+          .textContent =
+            index ===
+              totalQuestions() - 1
+              ? "查看測驗結果（Enter）"
+              : "下一題（Enter）";
+
+        nextReady =
+          true;
+
+        $("next-btn")
+          .focus();
+      },
       ok
-        ? `<span style="color:#15803d">✨ 正確！</span>`
-        : `<span style="color:#b91c1c">❌ 答案不正確，正確答案是 x ＝ ${ansHTML}</span>`
-    )
-
-    +
-
-    `<div class="solution">
-       方程式之解為：x ＝ ${ansHTML}
-     </div>`;
-
-
-  nextTimer=setTimeout(()=>{
-
-    $("submit-btn")
-      .classList
-      .add("hidden");
-
-    $("next-btn")
-      .classList
-      .remove("hidden");
-
-    $("next-btn").textContent=
-      index===totalQuestions()-1
-        ? "查看測驗結果（Enter）"
-        : "下一題（Enter）";
-
-    nextReady=true;
-
-    $("next-btn").focus();
-
-  },ok?850:1200);
+        ? 850
+        : 1200
+    );
 }
 
 
-/* ==================================================
-   下一題
-================================================== */
+/*
+==================================================
+下一題
+==================================================
+*/
 
-function next(){
-
-  if(!nextReady){
+function next() {
+  if (
+    !nextReady
+  ) {
     return;
   }
 
   index++;
 
-  if(index<totalQuestions()){
-
+  if (
+    index <
+    totalQuestions()
+  ) {
     loadQuestion();
-
-  }else{
-
+  } else {
     showResult();
   }
 }
 
 
-/* ==================================================
-   評語
-================================================== */
+/*
+==================================================
+結果
+==================================================
+*/
 
-function rating(score){
-
-  if(score>=90){
-
+function rating(score) {
+  if (
+    score >= 90
+  ) {
     return {
-
-      stars:"★★★★★",
+      stars:
+        "★★★★★",
 
       comment:
         "太棒了！你已經完全掌握一元一次方程式的解法。"
     };
   }
 
-  if(score>=80){
-
+  if (
+    score >= 80
+  ) {
     return {
-
-      stars:"★★★★☆",
+      stars:
+        "★★★★☆",
 
       comment:
         "表現很好，再注意移項與負號就更完美。"
     };
   }
 
-  if(score>=60){
-
+  if (
+    score >= 60
+  ) {
     return {
-
-      stars:"★★★☆☆",
+      stars:
+        "★★★☆☆",
 
       comment:
         "已掌握基本概念，繼續練習會更熟練。"
@@ -3037,178 +3809,191 @@ function rating(score){
   }
 
   return {
-
-    stars:"★★☆☆☆",
+    stars:
+      "★★☆☆☆",
 
     comment:
       "多加利用計算紙慢慢化簡，再挑戰一次！"
   };
 }
 
-
-/* ==================================================
-   儲存成績
-================================================== */
-
-async function saveCurrentScore(score){
-
-  if(scoreSaved){
+async function saveCurrentScore(
+  score
+) {
+  if (
+    scoreSaved
+  ) {
     return;
   }
 
-  scoreSaved=true;
+  scoreSaved =
+    true;
 
-  const status=
+  const status =
     $("save-status");
 
-  status.textContent=
+  status.textContent =
     "☁️ 正在儲存本次成績……";
 
-  try{
-
-    const result=
+  try {
+    const result =
       await saveGameScore({
-
-        game:GAME_ID,
+        game:
+          GAME_ID,
 
         score,
 
-        correctCount:correct,
+        correctCount:
+          correct,
 
-        wrongCount:wrong,
+        wrongCount:
+          wrong,
 
-        maxCombo:0,
+        maxCombo:
+          0,
 
-        playTime:finalElapsed,
+        playTime:
+          finalElapsed,
 
-        mode:String(mode)
-
+        mode:
+          String(
+            mode
+          )
       });
 
-
-    if(result.success){
-
-      status.textContent=
+    if (
+      result.success
+    ) {
+      status.textContent =
         "✅ 本次成績已儲存。";
 
-      status.style.color=
+      status.style.color =
         "#15803d";
 
       return;
     }
 
-
-    if(
-      result.reason===
+    if (
+      result.reason ===
       "not-logged-in"
-    ){
-
-      status.textContent=
+    ) {
+      status.textContent =
         "ℹ️ 尚未登入，因此本次成績沒有儲存。";
 
-      status.style.color=
+      status.style.color =
         "#b45309";
 
       return;
     }
 
-
-    status.textContent=
+    status.textContent =
       "⚠️ 成績暫時無法儲存。";
 
-    status.style.color=
+    status.style.color =
       "#b91c1c";
 
-  }catch(error){
-
+  } catch (
+    error
+  ) {
     console.error(
       "成績儲存失敗：",
       error
     );
 
-    status.textContent=
+    status.textContent =
       "⚠️ 成績暫時無法儲存。";
 
-    status.style.color=
+    status.style.color =
       "#b91c1c";
   }
 }
 
-
-/* ==================================================
-   顯示結果
-================================================== */
-
-async function showResult(){
-
-  clearInterval(timer);
+async function showResult() {
+  clearInterval(
+    timer
+  );
 
   playGameSound(
     "playComplete"
   );
 
-  finalElapsed=
+  finalElapsed =
     Math.floor(
       (
-        Date.now()-
+        Date.now() -
         startTime
-      )/1000
+      ) /
+      1000
     );
 
-  const score=
+  const score =
     Math.round(
-      correct/
-      totalQuestions()*
+      correct /
+      totalQuestions() *
       100
     );
 
-  const result=
-    rating(score);
+  const result =
+    rating(
+      score
+    );
 
-  $("progress-bar").style.width=
-    "100%";
+  $("progress-bar")
+    .style
+    .width =
+      "100%";
 
   showOnly(
     "result-screen"
   );
 
-  $("final-score").textContent=
-    `${score} 分`;
+  $("final-score")
+    .textContent =
+      `${score} 分`;
 
-  $("final-stars").textContent=
-    result.stars;
+  $("final-stars")
+    .textContent =
+      result.stars;
 
-  $("final-comment").textContent=
-    result.comment;
+  $("final-comment")
+    .textContent =
+      result.comment;
 
-  $("final-correct").textContent=
-    correct;
+  $("final-correct")
+    .textContent =
+      correct;
 
-  $("final-wrong").textContent=
-    wrong;
+  $("final-wrong")
+    .textContent =
+      wrong;
 
-  $("final-time").textContent=
-    `${
-      String(
+  $("final-time")
+    .textContent =
+      `${String(
         Math.floor(
-          finalElapsed/60
+          finalElapsed /
+          60
         )
-      ).padStart(2,"0")
-    }:${
-      String(
-        finalElapsed%60
-      ).padStart(2,"0")
-    }`;
+      ).padStart(
+        2,
+        "0"
+      )}:${String(
+        finalElapsed %
+        60
+      ).padStart(
+        2,
+        "0"
+      )}`;
 
+  $("review-btn")
+    .disabled =
+      wrong === 0;
 
-  $("review-btn").disabled=
-    wrong===0;
-
-  $("review-btn").textContent=
-    wrong===0
-      ? "全部答對，無錯題"
-      : "錯題回顧";
-
+  $("review-btn")
+    .textContent =
+      wrong === 0
+        ? "全部答對，無錯題"
+        : "錯題回顧";
 
   await saveCurrentScore(
     score
@@ -3216,85 +4001,59 @@ async function showResult(){
 }
 
 
-/* ==================================================
-   錯題回顧
-================================================== */
+/*
+==================================================
+錯題回顧
+==================================================
+*/
 
-function showReview(){
-
-  const wrongRecords=
+function showReview() {
+  const wrongRecords =
     records.filter(
-      record=>!record.ok
+      record =>
+        !record.ok
     );
 
-  const box=
+  const box =
     $("review-list");
 
-
-  if(wrongRecords.length===0){
-
-    box.innerHTML=
+  if (
+    wrongRecords.length ===
+    0
+  ) {
+    box.innerHTML =
       '<div class="grade-card">全部答對，沒有需要回顧的錯題！</div>';
-
-  }else{
-
-    box.innerHTML=
+  } else {
+    box.innerHTML =
       wrongRecords
-        .map(record=>{
+        .map(
+          record => {
+            return (
+              `<article class="review-card">` +
 
-          return (
+                `<div class="review-title">` +
+                  `第 ${record.number} 題 ❌` +
+                `</div>` +
 
-            `<article class="review-card">`
+                `<div class="review-problem">` +
+                  `${normalizeUnitBracketCoefficients(
+                    record.question.qStr
+                  )}` +
+                `</div>` +
 
-            +
+                `<div class="review-answer">` +
+                  `你的答案：<b>x ＝ ${mathFracHTML(
+                    record.userParsed
+                  )}</b><br>` +
+                  `正確答案：<b>x ＝ ${mathFracHTML(
+                    record.question.ans
+                  )}</b>` +
+                `</div>` +
 
-            `<div class="review-title">
-               第 ${record.number} 題 ❌
-             </div>`
-
-            +
-
-            `<div class="review-problem">
-               ${
-                 normalizeUnitBracketCoefficients(
-                   record.question.qStr
-                 )
-               }
-             </div>`
-
-            +
-
-            `<div class="review-answer">
-
-               你的答案：
-               <b>
-                 x ＝ ${
-                   mathFracHTML(
-                     record.userParsed
-                   )
-                 }
-               </b>
-
-               <br>
-
-               正確答案：
-               <b>
-                 x ＝ ${
-                   mathFracHTML(
-                     record.question.ans
-                   )
-                 }
-               </b>
-
-             </div>`
-
-            +
-
-            `</article>`
-
-          );
-
-        })
+              `</article>`
+            );
+          }
+        )
         .join("");
   }
 
@@ -3304,20 +4063,29 @@ function showReview(){
 }
 
 
-/* ==================================================
-   回模式選擇
-================================================== */
+/*
+==================================================
+模式選擇
+==================================================
+*/
 
-function modeSelect(){
+function modeSelect() {
+  clearInterval(
+    timer
+  );
 
-  clearInterval(timer);
+  clearTimeout(
+    nextTimer
+  );
 
-  clearTimeout(nextTimer);
+  $("save-status")
+    .textContent =
+      "";
 
-  $("save-status").textContent="";
-
-  $("progress-bar").style.width=
-    "0%";
+  $("progress-bar")
+    .style
+    .width =
+      "0%";
 
   showOnly(
     "start-screen"
@@ -3325,18 +4093,21 @@ function modeSelect(){
 }
 
 
-/* ==================================================
-   按鈕事件
-================================================== */
+/*
+==================================================
+事件
+==================================================
+*/
 
 $("start-btn")
   .addEventListener(
     "click",
-    ()=>{
-      startGame(false);
+    () => {
+      startGame(
+        false
+      );
     }
   );
-
 
 $("change-mode-btn")
   .addEventListener(
@@ -3344,13 +4115,11 @@ $("change-mode-btn")
     modeSelect
   );
 
-
 $("result-change-mode-btn")
   .addEventListener(
     "click",
     modeSelect
   );
-
 
 $("review-mode-btn")
   .addEventListener(
@@ -3358,13 +4127,11 @@ $("review-mode-btn")
     modeSelect
   );
 
-
 $("submit-btn")
   .addEventListener(
     "click",
     check
   );
-
 
 $("next-btn")
   .addEventListener(
@@ -3372,33 +4139,35 @@ $("next-btn")
     next
   );
 
-
 $("reset-btn")
   .addEventListener(
     "click",
-    ()=>{
-      startGame(true);
+    () => {
+      startGame(
+        true
+      );
     }
   );
-
 
 $("again-btn")
   .addEventListener(
     "click",
-    ()=>{
-      startGame(true);
+    () => {
+      startGame(
+        true
+      );
     }
   );
-
 
 $("review-again-btn")
   .addEventListener(
     "click",
-    ()=>{
-      startGame(true);
+    () => {
+      startGame(
+        true
+      );
     }
   );
-
 
 $("review-btn")
   .addEventListener(
@@ -3406,21 +4175,15 @@ $("review-btn")
     showReview
   );
 
-
 $("review-back-btn")
   .addEventListener(
     "click",
-    ()=>{
+    () => {
       showOnly(
         "result-screen"
       );
     }
   );
-
-
-/* ==================================================
-   輸入框事件
-================================================== */
 
 $("x-num")
   .addEventListener(
@@ -3428,13 +4191,11 @@ $("x-num")
     updateAnswerPreview
   );
 
-
 $("x-den")
   .addEventListener(
     "input",
     updateAnswerPreview
   );
-
 
 $("x-sign")
   .addEventListener(
@@ -3442,79 +4203,75 @@ $("x-sign")
     updateAnswerPreview
   );
 
-
-/* ==================================================
-   Enter 鍵
-================================================== */
-
 document.addEventListener(
   "keydown",
-  event=>{
-
-    if(
-      event.key!=="Enter" ||
+  event => {
+    if (
+      event.key !==
+        "Enter" ||
       $("quiz-screen")
         .classList
-        .contains("hidden")
-    ){
+        .contains(
+          "hidden"
+        )
+    ) {
       return;
     }
 
     event.preventDefault();
 
-    if(nextReady){
-
+    if (
+      nextReady
+    ) {
       next();
-
-    }else if(!locked){
-
+    } else if (
+      !locked
+    ) {
       check();
     }
   }
 );
 
 
-/* ==================================================
-   共用 Header + 計算紙
-================================================== */
+/*
+==================================================
+Header + 計算紙
+==================================================
+*/
 
 window.addEventListener(
   "DOMContentLoaded",
-  ()=>{
+  () => {
+    if (
+      window
+        .MathGameCommonHeader
+    ) {
+      window
+        .MathGameCommonHeader
+        .init({
+          mountId:
+            "commonHeaderMount",
 
-    if(
-      window.MathGameCommonHeader
-    ){
-
-      window.MathGameCommonHeader.init({
-
-        mountId:
-          "commonHeaderMount",
-
-        basePath:
-          "../"
-
-      });
+          basePath:
+            "../"
+        });
     }
 
-
-    const buttonMount=
+    const buttonMount =
       $("scratchpad-mobile-button");
 
-    const openButton=
+    const openButton =
       $("scratchpadOpenButton");
 
-
-    if(
+    if (
       buttonMount &&
       openButton
-    ){
-
-      buttonMount.appendChild(
-        openButton
-      );
+    ) {
+      buttonMount
+        .appendChild(
+          openButton
+        );
     }
-
   }
 );
 
