@@ -2,7 +2,7 @@
 ==================================================
 數學遊戲樂園：共用計算紙
 檔案位置：js/scratchpad.js
-版本：2.0 - Pointer Events 統一拖曳版
+版本：2.1 - 全裝置拖曳＋八方向縮放版
 ==================================================
 
 重點：
@@ -13,7 +13,8 @@
 5. Canvas 只負責書寫，不啟動面板拖曳。
 6. 使用 setPointerCapture()，手指移出原區域仍可持續拖曳。
 7. 關閉再開啟保留最後位置；重新整理頁面才重設。
-8. 桌面版保留八方向縮放；手機與平板不顯示縮放控制點。
+8. 電腦、平板、手機全部保留八方向縮放。
+9. 平板、手機旋轉畫面後，不會強制把使用者縮放過的尺寸重設。
 ==================================================
 */
 
@@ -24,99 +25,231 @@
     constructor(options = {}) {
       this.options = options;
 
-      this.canvasId = options.canvasId || "scratchpadCanvas";
-      this.panelId = options.panelId || "scratchpadPanel";
-      this.headerId = options.headerId || "scratchpadHeader";
-      this.openButtonId = options.openButtonId || "scratchpadOpenButton";
-      this.closeButtonId = options.closeButtonId || "scratchpadCloseButton";
-      this.penButtonId = options.penButtonId || "scratchpadPenButton";
-      this.eraserButtonId = options.eraserButtonId || "scratchpadEraserButton";
-      this.undoButtonId = options.undoButtonId || "scratchpadUndoButton";
-      this.redoButtonId = options.redoButtonId || "scratchpadRedoButton";
-      this.clearButtonId = options.clearButtonId || "scratchpadClearButton";
-      this.downloadButtonId = options.downloadButtonId || "scratchpadDownloadButton";
+      this.canvasId =
+        options.canvasId ||
+        "scratchpadCanvas";
 
-      this.defaultColor = options.defaultColor || "#111827";
-      this.defaultSize = Number(options.defaultSize) || 4;
-      this.maxHistory = Number(options.maxHistory) || 30;
+      this.panelId =
+        options.panelId ||
+        "scratchpadPanel";
 
-      this.canvas = document.getElementById(this.canvasId);
-      this.panel = document.getElementById(this.panelId);
-      this.header = document.getElementById(this.headerId);
-      this.openButton = document.getElementById(this.openButtonId);
-      this.closeButton = document.getElementById(this.closeButtonId);
-      this.penButton = document.getElementById(this.penButtonId);
-      this.eraserButton = document.getElementById(this.eraserButtonId);
-      this.undoButton = document.getElementById(this.undoButtonId);
-      this.redoButton = document.getElementById(this.redoButtonId);
-      this.clearButton = document.getElementById(this.clearButtonId);
-      this.downloadButton = document.getElementById(this.downloadButtonId);
+      this.headerId =
+        options.headerId ||
+        "scratchpadHeader";
 
-      this.toolbar = this.panel?.querySelector(".scratchpad-toolbar") || null;
+      this.openButtonId =
+        options.openButtonId ||
+        "scratchpadOpenButton";
 
-      this.colorButtons = this.panel
-        ? Array.from(
-            this.panel.querySelectorAll(
-              "[data-scratchpad-color]"
+      this.closeButtonId =
+        options.closeButtonId ||
+        "scratchpadCloseButton";
+
+      this.penButtonId =
+        options.penButtonId ||
+        "scratchpadPenButton";
+
+      this.eraserButtonId =
+        options.eraserButtonId ||
+        "scratchpadEraserButton";
+
+      this.undoButtonId =
+        options.undoButtonId ||
+        "scratchpadUndoButton";
+
+      this.redoButtonId =
+        options.redoButtonId ||
+        "scratchpadRedoButton";
+
+      this.clearButtonId =
+        options.clearButtonId ||
+        "scratchpadClearButton";
+
+      this.downloadButtonId =
+        options.downloadButtonId ||
+        "scratchpadDownloadButton";
+
+      this.defaultColor =
+        options.defaultColor ||
+        "#111827";
+
+      this.defaultSize =
+        Number(
+          options.defaultSize
+        ) || 4;
+
+      this.maxHistory =
+        Number(
+          options.maxHistory
+        ) || 30;
+
+      this.canvas =
+        document.getElementById(
+          this.canvasId
+        );
+
+      this.panel =
+        document.getElementById(
+          this.panelId
+        );
+
+      this.header =
+        document.getElementById(
+          this.headerId
+        );
+
+      this.openButton =
+        document.getElementById(
+          this.openButtonId
+        );
+
+      this.closeButton =
+        document.getElementById(
+          this.closeButtonId
+        );
+
+      this.penButton =
+        document.getElementById(
+          this.penButtonId
+        );
+
+      this.eraserButton =
+        document.getElementById(
+          this.eraserButtonId
+        );
+
+      this.undoButton =
+        document.getElementById(
+          this.undoButtonId
+        );
+
+      this.redoButton =
+        document.getElementById(
+          this.redoButtonId
+        );
+
+      this.clearButton =
+        document.getElementById(
+          this.clearButtonId
+        );
+
+      this.downloadButton =
+        document.getElementById(
+          this.downloadButtonId
+        );
+
+      this.toolbar =
+        this.panel?.querySelector(
+          ".scratchpad-toolbar"
+        ) || null;
+
+      this.colorButtons =
+        this.panel
+          ? Array.from(
+              this.panel.querySelectorAll(
+                "[data-scratchpad-color]"
+              )
             )
-          )
-        : [];
+          : [];
 
-      this.sizeButtons = this.panel
-        ? Array.from(
-            this.panel.querySelectorAll(
-              "[data-scratchpad-size]"
+      this.sizeButtons =
+        this.panel
+          ? Array.from(
+              this.panel.querySelectorAll(
+                "[data-scratchpad-size]"
+              )
             )
-          )
-        : [];
+          : [];
 
       this.ctx = null;
 
       this.tool = "pen";
-      this.currentColor = this.defaultColor;
-      this.currentSize = this.defaultSize;
+
+      this.currentColor =
+        this.defaultColor;
+
+      this.currentSize =
+        this.defaultSize;
 
       this.isDrawing = false;
-      this.drawingPointerId = null;
-      this.hasDrawnInCurrentStroke = false;
+
+      this.drawingPointerId =
+        null;
+
+      this.hasDrawnInCurrentStroke =
+        false;
+
       this.lastX = 0;
       this.lastY = 0;
 
       this.undoStack = [];
       this.redoStack = [];
-      this.currentQuestionImage = null;
-      this.isRestoringHistory = false;
+
+      this.currentQuestionImage =
+        null;
+
+      this.isRestoringHistory =
+        false;
 
       this.isOpen = false;
-      this.isOpeningPanel = false;
 
-      this.isDraggingPanel = false;
-      this.dragPointerId = null;
+      this.isOpeningPanel =
+        false;
+
+      this.isDraggingPanel =
+        false;
+
+      this.dragPointerId =
+        null;
+
       this.dragOffsetX = 0;
       this.dragOffsetY = 0;
-      this.savedPanelPosition = null;
 
-      this.isResizingPanel = false;
-      this.resizePointerId = null;
-      this.resizeDirection = "";
+      this.savedPanelPosition =
+        null;
+
+      this.isResizingPanel =
+        false;
+
+      this.resizePointerId =
+        null;
+
+      this.resizeDirection =
+        "";
+
       this.resizeStartX = 0;
       this.resizeStartY = 0;
+
       this.resizeStartLeft = 0;
       this.resizeStartTop = 0;
+
       this.resizeStartWidth = 0;
       this.resizeStartHeight = 0;
 
       this.resizeHandles = [];
 
+      /*
+      手機也允許縮小，
+      但不能小到無法操作。
+      */
+
       this.resizeMinWidth =
-        Number(options.resizeMinWidth) || 320;
+        Number(
+          options.resizeMinWidth
+        ) || 240;
 
       this.resizeMinHeight =
-        Number(options.resizeMinHeight) || 300;
+        Number(
+          options.resizeMinHeight
+        ) || 280;
 
       this.eventCleanups = [];
-      this.resizeTimer = null;
-      this.isDestroyed = false;
+
+      this.resizeTimer =
+        null;
+
+      this.isDestroyed =
+        false;
 
       if (
         !this.canvas ||
@@ -155,8 +288,11 @@
       this.initializeResizeListener();
 
       this.setupCanvas(false);
+
       this.saveHistory(true);
+
       this.saveCurrentQuestionImage();
+
       this.updateToolbarState();
     }
 
@@ -193,10 +329,16 @@
     ==================================================
     */
 
+    /*
+    保留這個函式名稱，
+    避免其他程式依賴它。
+
+    但現在所有裝置
+    都支援八方向縮放。
+    */
+
     isDesktopResizeView() {
-      return (
-        window.innerWidth >= 981
-      );
+      return true;
     }
 
     getViewportMargin() {
@@ -220,7 +362,7 @@
         return {
           width:
             Math.max(
-              280,
+              240,
               Math.min(
                 360,
                 Math.round(
@@ -231,7 +373,7 @@
 
           height:
             Math.max(
-              360,
+              300,
               Math.min(
                 520,
                 Math.round(
@@ -248,7 +390,7 @@
         return {
           width:
             Math.max(
-              340,
+              300,
               Math.min(
                 460,
                 Math.round(
@@ -259,7 +401,7 @@
 
           height:
             Math.max(
-              420,
+              340,
               Math.min(
                 580,
                 Math.round(
@@ -283,10 +425,15 @@
         return;
       }
 
+      /*
+      使用者曾手動縮放後，
+      不要再覆蓋他的尺寸。
+      */
+
       if (
         !force &&
-        this.isDesktopResizeView() &&
-        this.panel.dataset.userResized ===
+        this.panel.dataset
+          .userResized ===
           "true"
       ) {
         return;
@@ -323,12 +470,10 @@
     */
 
     getPixelRatio() {
-      return (
-        Math.max(
-          1,
-          window.devicePixelRatio ||
-            1
-        )
+      return Math.max(
+        1,
+        window.devicePixelRatio ||
+          1
       );
     }
 
@@ -402,7 +547,8 @@
       this.ctx.lineJoin =
         "round";
 
-      this.ctx.globalCompositeOperation =
+      this.ctx
+        .globalCompositeOperation =
         "source-over";
 
       if (oldImage) {
@@ -426,6 +572,7 @@
             !this.ctx
           ) {
             resolve();
+
             return;
           }
 
@@ -439,6 +586,7 @@
                 !this.ctx
               ) {
                 resolve();
+
                 return;
               }
 
@@ -491,7 +639,8 @@
               this.ctx.lineJoin =
                 "round";
 
-              this.ctx.globalCompositeOperation =
+              this.ctx
+                .globalCompositeOperation =
                 "source-over";
 
               this.isRestoringHistory =
@@ -540,6 +689,7 @@
       );
 
       this.saveCurrentQuestionImage();
+
       this.updateToolbarState();
     }
 
@@ -668,6 +818,7 @@
       }
 
       event.preventDefault();
+
       event.stopPropagation();
 
       this.isDrawing =
@@ -680,9 +831,10 @@
         false;
 
       try {
-        this.canvas.setPointerCapture(
-          event.pointerId
-        );
+        this.canvas
+          .setPointerCapture(
+            event.pointerId
+          );
       } catch (_) {}
 
       const point =
@@ -728,7 +880,8 @@
         this.tool ===
         "eraser"
       ) {
-        this.ctx.globalCompositeOperation =
+        this.ctx
+          .globalCompositeOperation =
           "destination-out";
 
         this.ctx.strokeStyle =
@@ -741,7 +894,8 @@
             16
           );
       } else {
-        this.ctx.globalCompositeOperation =
+        this.ctx
+          .globalCompositeOperation =
           "source-over";
 
         this.ctx.strokeStyle =
@@ -800,7 +954,8 @@
       ) {
         this.ctx.closePath();
 
-        this.ctx.globalCompositeOperation =
+        this.ctx
+          .globalCompositeOperation =
           "source-over";
       }
 
@@ -811,9 +966,10 @@
           ?.(event.pointerId)
       ) {
         try {
-          this.canvas.releasePointerCapture(
-            event.pointerId
-          );
+          this.canvas
+            .releasePointerCapture(
+              event.pointerId
+            );
         } catch (_) {}
       }
 
@@ -824,6 +980,7 @@
         this.hasDrawnInCurrentStroke
       ) {
         this.saveHistory();
+
         this.saveCurrentQuestionImage();
       }
 
@@ -841,10 +998,8 @@
 
     getSnapshot() {
       try {
-        return (
-          this.canvas.toDataURL(
-            "image/png"
-          )
+        return this.canvas.toDataURL(
+          "image/png"
         );
       } catch (_) {
         return null;
@@ -871,7 +1026,8 @@
       if (
         !force &&
         this.undoStack[
-          this.undoStack.length - 1
+          this.undoStack.length -
+            1
         ] === snapshot
       ) {
         return;
@@ -923,7 +1079,8 @@
 
       const target =
         this.undoStack[
-          this.undoStack.length - 1
+          this.undoStack.length -
+            1
         ];
 
       await this.drawImageToCanvas(
@@ -931,6 +1088,7 @@
       );
 
       this.saveCurrentQuestionImage();
+
       this.updateToolbarState();
     }
 
@@ -953,6 +1111,7 @@
       );
 
       this.saveCurrentQuestionImage();
+
       this.updateToolbarState();
     }
 
@@ -1041,6 +1200,7 @@
       }
 
       this.saveCurrentQuestionImage();
+
       this.updateToolbarState();
     }
 
@@ -1048,10 +1208,13 @@
       this.clear(false);
 
       this.undoStack = [];
+
       this.redoStack = [];
 
       this.saveHistory(true);
+
       this.saveCurrentQuestionImage();
+
       this.updateToolbarState();
     }
 
@@ -1116,7 +1279,9 @@
         this.clearButton,
         "click",
         () =>
-          this.clear(true)
+          this.clear(
+            true
+          )
       );
 
       this.addEvent(
@@ -1135,7 +1300,7 @@
               this.setColor(
                 button.dataset
                   .scratchpadColor ||
-                this.defaultColor
+                  this.defaultColor
               );
             }
           );
@@ -1153,7 +1318,7 @@
                   button.dataset
                     .scratchpadSize
                 ) ||
-                this.defaultSize
+                  this.defaultSize
               );
             }
           );
@@ -1194,7 +1359,7 @@
         Math.max(
           1,
           Number(size) ||
-          this.defaultSize
+            this.defaultSize
         );
 
       this.updateToolbarState();
@@ -1204,39 +1369,49 @@
       if (
         this.penButton
       ) {
-        this.penButton.classList.toggle(
-          "scratchpad-tool-button--active",
-          this.tool === "pen"
-        );
-
-        this.penButton.setAttribute(
-          "aria-pressed",
-          String(
+        this.penButton
+          .classList
+          .toggle(
+            "scratchpad-tool-button--active",
             this.tool === "pen"
-          )
-        );
+          );
+
+        this.penButton
+          .setAttribute(
+            "aria-pressed",
+            String(
+              this.tool ===
+                "pen"
+            )
+          );
       }
 
       if (
         this.eraserButton
       ) {
-        this.eraserButton.classList.toggle(
-          "scratchpad-tool-button--active",
-          this.tool === "eraser"
-        );
+        this.eraserButton
+          .classList
+          .toggle(
+            "scratchpad-tool-button--active",
+            this.tool ===
+              "eraser"
+          );
 
-        this.eraserButton.setAttribute(
-          "aria-pressed",
-          String(
-            this.tool === "eraser"
-          )
-        );
+        this.eraserButton
+          .setAttribute(
+            "aria-pressed",
+            String(
+              this.tool ===
+                "eraser"
+            )
+          );
       }
 
       this.colorButtons.forEach(
         (button) => {
           const active =
-            this.tool === "pen" &&
+            this.tool ===
+              "pen" &&
             button.dataset
               .scratchpadColor ===
               this.currentColor;
@@ -1362,6 +1537,7 @@
               "contextmenu",
               (event) => {
                 event.preventDefault();
+
                 event.stopPropagation();
               }
             );
@@ -1387,7 +1563,8 @@
       target
     ) {
       return (
-        target instanceof Element &&
+        target instanceof
+          Element &&
         Boolean(
           target.closest(
             this.interactiveSelector
@@ -1566,11 +1743,13 @@
       }
 
       this.savePanelPosition();
+
       this.saveCurrentQuestionImage();
 
       this.panel.classList.remove(
         "scratchpad-panel--open",
-        "scratchpad-panel--dragging"
+        "scratchpad-panel--dragging",
+        "scratchpad-panel--resizing"
       );
 
       this.panel.hidden =
@@ -1607,8 +1786,7 @@
       const margin =
         this.getViewportMargin();
 
-      const gap =
-        12;
+      const gap = 12;
 
       const panelRect =
         this.panel
@@ -1866,6 +2044,7 @@
       }
 
       event.preventDefault();
+
       event.stopPropagation();
 
       const rect =
@@ -1897,16 +2076,17 @@
 
       /*
       關鍵：
-      由整個 panel 捕捉 pointer。
+      面板捕捉 Pointer。
 
-      手指離開原本的淺黃色區域後，
-      pointermove 仍會持續送到 panel。
+      手指離開深黃色或淺黃色區域後，
+      仍可持續拖曳。
       */
 
       try {
-        this.panel.setPointerCapture(
-          event.pointerId
-        );
+        this.panel
+          .setPointerCapture(
+            event.pointerId
+          );
       } catch (_) {}
     }
 
@@ -1969,9 +2149,10 @@
           ?.(event.pointerId)
       ) {
         try {
-          this.panel.releasePointerCapture(
-            event.pointerId
-          );
+          this.panel
+            .releasePointerCapture(
+              event.pointerId
+            );
         } catch (_) {}
       }
 
@@ -1992,7 +2173,8 @@
 
     /*
     ==================================================
-    桌面版八方向縮放
+    八方向縮放
+    電腦／平板／手機全部啟用
     ==================================================
     */
 
@@ -2082,13 +2264,14 @@
     }
 
     updateResizeHandleVisibility() {
-      const visible =
-        this.isDesktopResizeView();
+      /*
+      電腦／平板／手機全部顯示。
+      */
 
       this.resizeHandles.forEach(
         (handle) => {
           handle.hidden =
-            !visible;
+            false;
         }
       );
     }
@@ -2098,8 +2281,9 @@
       direction
     ) {
       if (
-        !this.isDesktopResizeView() ||
-        !this.panel
+        !this.panel ||
+        this.isDraggingPanel ||
+        this.isDrawing
       ) {
         return;
       }
@@ -2113,6 +2297,7 @@
       }
 
       event.preventDefault();
+
       event.stopPropagation();
 
       const rect =
@@ -2149,6 +2334,14 @@
       this.panel.classList.add(
         "scratchpad-panel--resizing"
       );
+
+      /*
+      關鍵：
+      縮放把手捕捉 Pointer。
+
+      滑鼠或手指離開把手後，
+      仍可持續縮放。
+      */
 
       try {
         event.currentTarget
@@ -2220,6 +2413,7 @@
         )
       ) {
         width -= dx;
+
         left += dx;
       }
 
@@ -2229,40 +2423,130 @@
         )
       ) {
         height -= dy;
+
         top += dy;
       }
 
       const maxWidth =
-        window.innerWidth -
-        margin * 2;
-
-      const maxHeight =
-        window.innerHeight -
-        margin * 2;
-
-      width =
-        Math.min(
-          maxWidth,
-          Math.max(
-            this.resizeMinWidth,
-            width
-          )
+        Math.max(
+          this.resizeMinWidth,
+          window.innerWidth -
+            margin * 2
         );
 
-      height =
-        Math.min(
-          maxHeight,
-          Math.max(
-            this.resizeMinHeight,
-            height
+      const maxHeight =
+        Math.max(
+          this.resizeMinHeight,
+          window.innerHeight -
+            margin * 2
+        );
+
+      /*
+      左邊或上邊往內縮時，
+      要同步修正 left / top，
+      避免達到最小尺寸後面板跳動。
+      */
+
+      if (
+        width <
+        this.resizeMinWidth
+      ) {
+        if (
+          direction.includes(
+            "left"
           )
+        ) {
+          left =
+            this.resizeStartLeft +
+            (
+              this.resizeStartWidth -
+              this.resizeMinWidth
+            );
+        }
+
+        width =
+          this.resizeMinWidth;
+      }
+
+      if (
+        height <
+        this.resizeMinHeight
+      ) {
+        if (
+          direction.includes(
+            "top"
+          )
+        ) {
+          top =
+            this.resizeStartTop +
+            (
+              this.resizeStartHeight -
+              this.resizeMinHeight
+            );
+        }
+
+        height =
+          this.resizeMinHeight;
+      }
+
+      if (
+        width >
+        maxWidth
+      ) {
+        if (
+          direction.includes(
+            "left"
+          )
+        ) {
+          left =
+            margin;
+        }
+
+        width =
+          maxWidth;
+      }
+
+      if (
+        height >
+        maxHeight
+      ) {
+        if (
+          direction.includes(
+            "top"
+          )
+        ) {
+          top =
+            margin;
+        }
+
+        height =
+          maxHeight;
+      }
+
+      /*
+      再依照目前尺寸，
+      限制面板不能跑出螢幕。
+      */
+
+      const maximumLeft =
+        Math.max(
+          margin,
+          window.innerWidth -
+            width -
+            margin
+        );
+
+      const maximumTop =
+        Math.max(
+          margin,
+          window.innerHeight -
+            height -
+            margin
         );
 
       left =
         Math.min(
-          window.innerWidth -
-            width -
-            margin,
+          maximumLeft,
           Math.max(
             margin,
             left
@@ -2271,9 +2555,7 @@
 
       top =
         Math.min(
-          window.innerHeight -
-            height -
-            margin,
+          maximumTop,
           Math.max(
             margin,
             top
@@ -2291,7 +2573,13 @@
         top
       );
 
-      this.panel.dataset.userResized =
+      /*
+      記錄使用者曾手動縮放。
+      關閉再開不重設尺寸。
+      */
+
+      this.panel.dataset
+        .userResized =
         "true";
     }
 
@@ -2344,6 +2632,11 @@
         );
 
       this.savePanelPosition();
+
+      /*
+      縮放結束後再重設 Canvas，
+      避免縮放過程一直重畫造成卡頓。
+      */
 
       await this.resizeCanvasPreserveContent();
     }
@@ -2429,20 +2722,25 @@
           this.resizeTimer =
             window.setTimeout(
               async () => {
+                /*
+                八方向縮放永遠保持啟用。
+                */
+
                 this.updateResizeHandleVisibility();
 
                 /*
-                平板／手機轉向時，
-                重新調整尺寸，
-                但不會回到固定起始位置。
+                不再因為手機／平板轉向，
+                把 userResized 清除。
+
+                若使用者沒有手動縮放過，
+                才套用新的預設尺寸。
                 */
 
                 if (
-                  !this.isDesktopResizeView()
+                  this.panel.dataset
+                    .userResized !==
+                  "true"
                 ) {
-                  this.panel.dataset.userResized =
-                    "false";
-
                   this.applyResponsivePanelSize(
                     true
                   );
@@ -2453,7 +2751,8 @@
                 ) {
                   this.keepPanelInsideViewport();
 
-                  await this.resizeCanvasPreserveContent();
+                  await this
+                    .resizeCanvasPreserveContent();
                 }
               },
               120
