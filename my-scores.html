@@ -17,331 +17,981 @@
 
     body {
       margin: 0;
+
       min-height: 100vh;
+
       padding: 20px;
-      font-family: "Microsoft JhengHei", sans-serif;
-      background: linear-gradient(135deg, #e3f2fd, #fff8e1);
+
+      font-family:
+        "Microsoft JhengHei",
+        sans-serif;
+
+      background:
+        linear-gradient(
+          135deg,
+          #e3f2fd,
+          #fff8e1
+        );
+
       color: #333;
     }
 
+
+    /*
+    ==================================================
+    主容器
+    ==================================================
+    */
+
     .container {
       width: 100%;
+
       max-width: 920px;
+
       margin: 0 auto;
     }
 
+
+    /*
+    ==================================================
+    頁首
+    ==================================================
+    */
+
     .header {
-      margin-bottom: 22px;
+      margin-bottom: 18px;
+
       padding: 28px 22px;
+
       border-radius: 24px;
+
       background: white;
+
       text-align: center;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+
+      box-shadow:
+        0 12px 30px
+        rgba(
+          0,
+          0,
+          0,
+          0.12
+        );
     }
 
+
     h1 {
-      margin: 0 0 10px;
+      margin:
+        0 0 10px;
+
       color: #1565c0;
+
       font-size: 36px;
     }
 
+
     .subtitle {
       margin: 0;
+
       color: #666;
+
       line-height: 1.7;
     }
 
+
+    /*
+    ==================================================
+    使用者登入資訊
+    ==================================================
+    */
+
     .user-box {
       display: flex;
+
       align-items: center;
+
       justify-content: center;
+
       gap: 12px;
+
       margin-top: 18px;
+
       padding: 13px;
+
       border-radius: 14px;
+
       background: #eef5ff;
+
       color: #174a7e;
+
       font-weight: bold;
     }
 
+
     .user-photo {
       width: 42px;
+
       height: 42px;
+
       border-radius: 50%;
+
       object-fit: cover;
+
       background: white;
     }
+
+
+    /*
+    ==================================================
+    上方快速導覽
+    ==================================================
+    */
+
+    .top-actions {
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      gap: 12px;
+
+      flex-wrap: wrap;
+
+      margin:
+        0 0 20px;
+
+      padding:
+        14px 16px;
+
+      border-radius:
+        18px;
+
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          0.78
+        );
+
+      box-shadow:
+        0 8px 22px
+        rgba(
+          0,
+          0,
+          0,
+          0.08
+        );
+    }
+
+
+    .top-action-link {
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      gap:
+        6px;
+
+      min-height:
+        46px;
+
+      padding:
+        11px 20px;
+
+      border-radius:
+        13px;
+
+      color:
+        white;
+
+      text-decoration:
+        none;
+
+      font-size:
+        16px;
+
+      font-weight:
+        bold;
+
+      line-height:
+        1;
+
+      touch-action:
+        manipulation;
+
+      user-select:
+        none;
+
+      -webkit-user-select:
+        none;
+
+      -webkit-tap-highlight-color:
+        transparent;
+
+      transition:
+        transform 0.15s ease,
+        opacity 0.15s ease;
+    }
+
+
+    .top-action-link.home {
+      background:
+        #607d8b;
+    }
+
+
+    .top-action-link.ranking {
+      background:
+        #f57c00;
+    }
+
+
+    .top-action-link:hover {
+      opacity:
+        0.9;
+
+      transform:
+        translateY(-1px);
+    }
+
+
+    .top-action-link:active {
+      transform:
+        translateY(1px);
+    }
+
+
+    /*
+    ==================================================
+    載入 / 錯誤 / 無資料
+    ==================================================
+    */
 
     .loading,
     .error-message,
     .empty-message {
-      padding: 45px 20px;
-      border-radius: 22px;
-      background: white;
-      text-align: center;
-      font-size: 18px;
-      line-height: 1.8;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+      padding:
+        45px 20px;
+
+      border-radius:
+        22px;
+
+      background:
+        white;
+
+      text-align:
+        center;
+
+      font-size:
+        18px;
+
+      line-height:
+        1.8;
+
+      box-shadow:
+        0 12px 30px
+        rgba(
+          0,
+          0,
+          0,
+          0.1
+        );
     }
+
 
     .loading {
-      color: #1565c0;
+      color:
+        #1565c0;
     }
+
 
     .error-message {
-      color: #c62828;
+      color:
+        #c62828;
     }
 
+
     .empty-message {
-      color: #666;
+      color:
+        #666;
     }
+
+
+    /*
+    ==================================================
+    統計區
+    ==================================================
+    */
 
     .stats-section {
       display: none;
     }
 
+
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+
+      grid-template-columns:
+        repeat(
+          3,
+          1fr
+        );
+
       gap: 16px;
-      margin-bottom: 22px;
+
+      margin-bottom:
+        22px;
     }
+
 
     .stat-card {
-      min-height: 135px;
-      padding: 22px 14px;
-      border-radius: 20px;
-      background: white;
-      text-align: center;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      min-height:
+        135px;
+
+      padding:
+        22px 14px;
+
+      border-radius:
+        20px;
+
+      background:
+        white;
+
+      text-align:
+        center;
+
+      box-shadow:
+        0 10px 25px
+        rgba(
+          0,
+          0,
+          0,
+          0.1
+        );
     }
+
 
     .stat-icon {
-      margin-bottom: 8px;
-      font-size: 30px;
+      margin-bottom:
+        8px;
+
+      font-size:
+        30px;
     }
+
 
     .stat-value {
-      color: #1565c0;
-      font-size: 30px;
-      font-weight: bold;
+      color:
+        #1565c0;
+
+      font-size:
+        30px;
+
+      font-weight:
+        bold;
     }
+
 
     .stat-label {
-      margin-top: 7px;
-      color: #666;
-      font-size: 15px;
+      margin-top:
+        7px;
+
+      color:
+        #666;
+
+      font-size:
+        15px;
     }
+
+
+    /*
+    ==================================================
+    各遊戲表現
+    ==================================================
+    */
 
     .game-summary {
-      margin-bottom: 22px;
-      padding: 22px;
-      border-radius: 22px;
-      background: white;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      margin-bottom:
+        22px;
+
+      padding:
+        22px;
+
+      border-radius:
+        22px;
+
+      background:
+        white;
+
+      box-shadow:
+        0 10px 25px
+        rgba(
+          0,
+          0,
+          0,
+          0.1
+        );
     }
+
 
     .section-title {
-      margin: 0 0 18px;
-      color: #1565c0;
-      font-size: 24px;
+      margin:
+        0 0 18px;
+
+      color:
+        #1565c0;
+
+      font-size:
+        24px;
     }
+
 
     .game-card {
-      display: grid;
-      grid-template-columns: 1fr repeat(3, 110px);
-      gap: 12px;
-      align-items: center;
-      padding: 17px 0;
-      border-bottom: 1px solid #eeeeee;
+      display:
+        grid;
+
+      grid-template-columns:
+        1fr
+        repeat(
+          3,
+          110px
+        );
+
+      gap:
+        12px;
+
+      align-items:
+        center;
+
+      padding:
+        17px 0;
+
+      border-bottom:
+        1px solid
+        #eeeeee;
     }
+
 
     .game-card:last-child {
-      border-bottom: none;
+      border-bottom:
+        none;
     }
+
 
     .game-title {
-      font-size: 18px;
-      font-weight: bold;
+      font-size:
+        18px;
+
+      font-weight:
+        bold;
     }
+
 
     .game-stat {
-      text-align: center;
+      text-align:
+        center;
     }
+
 
     .game-stat-value {
-      color: #f57c00;
-      font-size: 20px;
-      font-weight: bold;
+      color:
+        #f57c00;
+
+      font-size:
+        20px;
+
+      font-weight:
+        bold;
     }
+
 
     .game-stat-label {
-      margin-top: 3px;
-      color: #888;
-      font-size: 13px;
+      margin-top:
+        3px;
+
+      color:
+        #888;
+
+      font-size:
+        13px;
     }
+
+
+    /*
+    ==================================================
+    最近遊玩紀錄
+    ==================================================
+    */
 
     .history-card {
-      padding: 22px;
-      border-radius: 22px;
-      background: white;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      padding:
+        22px;
+
+      border-radius:
+        22px;
+
+      background:
+        white;
+
+      box-shadow:
+        0 10px 25px
+        rgba(
+          0,
+          0,
+          0,
+          0.1
+        );
     }
+
 
     .history-list {
-      margin: 0;
-      padding: 0;
-      list-style: none;
+      margin:
+        0;
+
+      padding:
+        0;
+
+      list-style:
+        none;
     }
+
 
     .history-item {
-      display: grid;
-      grid-template-columns: 1fr 100px;
-      gap: 12px;
-      align-items: center;
-      padding: 16px 4px;
-      border-bottom: 1px solid #eeeeee;
+      display:
+        grid;
+
+      grid-template-columns:
+        1fr
+        100px;
+
+      gap:
+        12px;
+
+      align-items:
+        center;
+
+      padding:
+        16px 4px;
+
+      border-bottom:
+        1px solid
+        #eeeeee;
     }
+
 
     .history-item:last-child {
-      border-bottom: none;
+      border-bottom:
+        none;
     }
+
 
     .history-game {
-      margin-bottom: 5px;
-      font-weight: bold;
+      margin-bottom:
+        5px;
+
+      font-weight:
+        bold;
     }
+
 
     .history-detail {
-      color: #777;
-      font-size: 14px;
-      line-height: 1.6;
+      color:
+        #777;
+
+      font-size:
+        14px;
+
+      line-height:
+        1.6;
     }
+
 
     .history-score {
-      text-align: right;
-      color: #f57c00;
-      font-size: 23px;
-      font-weight: bold;
+      text-align:
+        right;
+
+      color:
+        #f57c00;
+
+      font-size:
+        23px;
+
+      font-weight:
+        bold;
     }
+
 
     .history-score-label {
-      color: #888;
-      font-size: 13px;
-      font-weight: normal;
+      color:
+        #888;
+
+      font-size:
+        13px;
+
+      font-weight:
+        normal;
     }
+
+
+    /*
+    ==================================================
+    底部導覽
+    ==================================================
+    */
 
     .footer-actions {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 24px;
-      flex-wrap: wrap;
+      display:
+        flex;
+
+      justify-content:
+        center;
+
+      gap:
+        12px;
+
+      margin-top:
+        24px;
+
+      flex-wrap:
+        wrap;
     }
+
 
     .action-link {
-      display: inline-block;
-      padding: 12px 22px;
-      border-radius: 12px;
-      background: #1565c0;
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
+      display:
+        inline-block;
+
+      padding:
+        12px 22px;
+
+      border-radius:
+        12px;
+
+      background:
+        #1565c0;
+
+      color:
+        white;
+
+      text-decoration:
+        none;
+
+      font-weight:
+        bold;
+
+      touch-action:
+        manipulation;
+
+      user-select:
+        none;
+
+      -webkit-user-select:
+        none;
+
+      -webkit-tap-highlight-color:
+        transparent;
     }
+
 
     .action-link.secondary {
-      background: #607d8b;
+      background:
+        #607d8b;
     }
+
 
     .action-link.ranking {
-      background: #f57c00;
+      background:
+        #f57c00;
     }
+
 
     .action-link:hover {
-      opacity: 0.9;
+      opacity:
+        0.9;
     }
 
-    @media (max-width: 720px) {
+
+    /*
+    ==================================================
+    平板
+    ==================================================
+    */
+
+    @media (
+      max-width:
+        720px
+    ) {
+
       body {
-        padding: 12px;
+        padding:
+          12px;
       }
+
 
       h1 {
-        font-size: 30px;
+        font-size:
+          30px;
       }
+
 
       .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns:
+          repeat(
+            2,
+            1fr
+          );
       }
+
 
       .game-card {
-        grid-template-columns: 1fr 75px 75px 75px;
-        gap: 6px;
+        grid-template-columns:
+          1fr
+          75px
+          75px
+          75px;
+
+        gap:
+          6px;
       }
+
 
       .game-title {
-        font-size: 15px;
+        font-size:
+          15px;
       }
 
+
       .game-stat-value {
-        font-size: 17px;
+        font-size:
+          17px;
       }
     }
 
-    @media (max-width: 480px) {
-      .stats-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
+
+    /*
+    ==================================================
+    手機
+    ==================================================
+    */
+
+    @media (
+      max-width:
+        480px
+    ) {
+
+      .header {
+        padding:
+          22px 14px;
+
+        border-radius:
+          18px;
       }
+
+
+      h1 {
+        font-size:
+          28px;
+      }
+
+
+      .top-actions {
+        gap:
+          8px;
+
+        padding:
+          10px;
+
+        border-radius:
+          15px;
+      }
+
+
+      .top-action-link {
+        flex:
+          1 1
+          calc(
+            50% - 8px
+          );
+
+        min-width:
+          135px;
+
+        min-height:
+          44px;
+
+        padding:
+          10px 12px;
+
+        font-size:
+          15px;
+      }
+
+
+      .stats-grid {
+        grid-template-columns:
+          1fr
+          1fr;
+
+        gap:
+          10px;
+      }
+
 
       .stat-card {
-        min-height: 120px;
-        padding: 17px 8px;
+        min-height:
+          120px;
+
+        padding:
+          17px 8px;
       }
+
 
       .stat-value {
-        font-size: 25px;
+        font-size:
+          25px;
       }
+
 
       .game-card {
-        grid-template-columns: 1fr;
-        padding: 18px 0;
+        grid-template-columns:
+          1fr;
+
+        padding:
+          18px 0;
       }
+
 
       .game-stat {
-        display: flex;
-        justify-content: space-between;
-        text-align: left;
+        display:
+          flex;
+
+        justify-content:
+          space-between;
+
+        text-align:
+          left;
       }
 
+
       .history-item {
-        grid-template-columns: 1fr 75px;
+        grid-template-columns:
+          1fr
+          75px;
+      }
+
+
+      .footer-actions {
+        gap:
+          8px;
+      }
+
+
+      .action-link {
+        flex:
+          1 1
+          calc(
+            50% - 8px
+          );
+
+        text-align:
+          center;
       }
     }
   </style>
 </head>
 
+
 <body>
 
   <main class="container">
 
+    <!--
+    ==================================================
+    頁首
+    ==================================================
+    -->
+
     <header class="header">
 
-      <h1>👤 我的成績</h1>
+      <h1>
+        👤 我的成績
+      </h1>
+
 
       <p class="subtitle">
         查看自己的最高分、遊玩次數、答題表現與最近紀錄。
       </p>
 
-      <div id="userStatus" class="user-box">
+
+      <div
+        id="userStatus"
+        class="user-box"
+      >
         正在確認登入狀態……
       </div>
 
     </header>
 
-    <div id="loadingMessage" class="loading">
+
+    <!--
+    ==================================================
+    上方快速導覽
+
+    我的成績頁：
+    1. 回首頁
+    2. 排行榜
+    ==================================================
+    -->
+
+    <nav
+      class="top-actions"
+      aria-label="快速導覽"
+    >
+
+      <a
+        class="top-action-link home"
+        href="index.html"
+      >
+        🏠 回到首頁
+      </a>
+
+
+      <a
+        class="top-action-link ranking"
+        href="leaderboard.html"
+      >
+        🏆 排行榜
+      </a>
+
+    </nav>
+
+
+    <!--
+    ==================================================
+    載入狀態
+    ==================================================
+    -->
+
+    <div
+      id="loadingMessage"
+      class="loading"
+    >
       成績資料載入中……
     </div>
+
+
+    <!--
+    ==================================================
+    錯誤訊息
+    ==================================================
+    -->
 
     <div
       id="errorMessage"
@@ -349,68 +999,196 @@
       hidden
     ></div>
 
+
+    <!--
+    ==================================================
+    無成績
+    ==================================================
+    -->
+
     <div
       id="emptyMessage"
       class="empty-message"
       hidden
     >
-      目前還沒有任何遊戲成績。<br>
+      目前還沒有任何遊戲成績。
+      <br>
+
       完成一局遊戲後，成績就會出現在這裡。
     </div>
 
-    <section id="statsSection" class="stats-section">
+
+    <!--
+    ==================================================
+    我的成績
+    ==================================================
+    -->
+
+    <section
+      id="statsSection"
+      class="stats-section"
+    >
+
+      <!--
+      ================================================
+      六個統計卡片
+      ================================================
+      -->
 
       <div class="stats-grid">
 
         <article class="stat-card">
-          <div class="stat-icon">🎮</div>
-          <div id="totalGames" class="stat-value">0</div>
-          <div class="stat-label">累積遊玩次數</div>
+
+          <div class="stat-icon">
+            🎮
+          </div>
+
+          <div
+            id="totalGames"
+            class="stat-value"
+          >
+            0
+          </div>
+
+          <div class="stat-label">
+            累積遊玩次數
+          </div>
+
         </article>
 
-        <article class="stat-card">
-          <div class="stat-icon">🏆</div>
-          <div id="highestScore" class="stat-value">0</div>
-          <div class="stat-label">最高分</div>
-        </article>
 
         <article class="stat-card">
-          <div class="stat-icon">📊</div>
-          <div id="averageScore" class="stat-value">0</div>
-          <div class="stat-label">平均分數</div>
+
+          <div class="stat-icon">
+            🏆
+          </div>
+
+          <div
+            id="highestScore"
+            class="stat-value"
+          >
+            0
+          </div>
+
+          <div class="stat-label">
+            最高分
+          </div>
+
         </article>
 
-        <article class="stat-card">
-          <div class="stat-icon">🔥</div>
-          <div id="highestCombo" class="stat-value">0</div>
-          <div class="stat-label">最高連續答對</div>
-        </article>
 
         <article class="stat-card">
-          <div class="stat-icon">✅</div>
-          <div id="totalCorrect" class="stat-value">0</div>
-          <div class="stat-label">累積答對題數</div>
+
+          <div class="stat-icon">
+            📊
+          </div>
+
+          <div
+            id="averageScore"
+            class="stat-value"
+          >
+            0
+          </div>
+
+          <div class="stat-label">
+            平均分數
+          </div>
+
         </article>
 
+
         <article class="stat-card">
-          <div class="stat-icon">❌</div>
-          <div id="totalWrong" class="stat-value">0</div>
-          <div class="stat-label">累積答錯題數</div>
+
+          <div class="stat-icon">
+            🔥
+          </div>
+
+          <div
+            id="highestCombo"
+            class="stat-value"
+          >
+            0
+          </div>
+
+          <div class="stat-label">
+            最高連續答對
+          </div>
+
+        </article>
+
+
+        <article class="stat-card">
+
+          <div class="stat-icon">
+            ✅
+          </div>
+
+          <div
+            id="totalCorrect"
+            class="stat-value"
+          >
+            0
+          </div>
+
+          <div class="stat-label">
+            累積答對題數
+          </div>
+
+        </article>
+
+
+        <article class="stat-card">
+
+          <div class="stat-icon">
+            ❌
+          </div>
+
+          <div
+            id="totalWrong"
+            class="stat-value"
+          >
+            0
+          </div>
+
+          <div class="stat-label">
+            累積答錯題數
+          </div>
+
         </article>
 
       </div>
 
+
+      <!--
+      ================================================
+      各遊戲表現
+      ================================================
+      -->
+
       <section class="game-summary">
 
-        <h2 class="section-title">🎯 各遊戲表現</h2>
+        <h2 class="section-title">
+          🎯 各遊戲表現
+        </h2>
 
-        <div id="gameSummaryList"></div>
+        <div
+          id="gameSummaryList"
+        ></div>
 
       </section>
 
+
+      <!--
+      ================================================
+      最近遊玩紀錄
+      ================================================
+      -->
+
       <section class="history-card">
 
-        <h2 class="section-title">🕒 最近遊玩紀錄</h2>
+        <h2 class="section-title">
+          🕒 最近遊玩紀錄
+        </h2>
 
         <ol
           id="historyList"
@@ -421,14 +1199,23 @@
 
     </section>
 
+
+    <!--
+    ==================================================
+    底部導覽
+    保留原本設計
+    ==================================================
+    -->
+
     <div class="footer-actions">
 
       <a
-    class="action-link"
-    href="leaderboard.html"
->
-    🏆 查看排行榜
-</a>
+        class="action-link ranking"
+        href="leaderboard.html"
+      >
+        🏆 查看排行榜
+      </a>
+
 
       <a
         class="action-link secondary"
@@ -440,6 +1227,13 @@
     </div>
 
   </main>
+
+
+  <!--
+  ==================================================
+  我的成績 JavaScript
+  ==================================================
+  -->
 
   <script
     type="module"
