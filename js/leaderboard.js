@@ -3,29 +3,33 @@
 數學遊戲樂園：排行榜
 檔案位置：js/leaderboard.js
 
-版本：3.0
-單模式／多模式自動判斷正式版
+版本：3.1
+單模式／多模式自動判斷穩定版
 ==================================================
 
 排行榜規則：
 
 【單模式遊戲】
 1. 不顯示模式切換。
-2. 所有該遊戲成績合併排名。
+2. 該遊戲所有成績合併排名。
 3. 同一玩家只保留最佳成績。
 4. 分數高者優先。
 5. 同分時 playTime 較短者優先。
 6. 每榜前 20 名。
 
 【多模式遊戲】
-1. 完全依 game-config.js 的 modes 建立模式。
+1. 完全依 game-config.js 的 modes。
 2. 每個模式獨立排行榜。
 3. 每個模式各自前 20 名。
 4. 同一玩家同一模式只保留最佳紀錄。
 5. 分數高者優先。
 6. 同分時 playTime 較短者優先。
-7. Firestore 舊模式不建立「其他模式」。
+7. 不建立「其他模式」。
 
+重要：
+本版不再 import getGameModes /
+isMultiModeGame，
+降低模組版本不同步造成整頁停止的風險。
 ==================================================
 */
 
@@ -37,9 +41,7 @@ import {
 import {
   getFinishedGames,
   getGameConfig,
-  getGameName,
-  getGameModes,
-  isMultiModeGame
+  getGameName
 } from "./game-config.js";
 
 import {
@@ -185,7 +187,7 @@ function injectLeaderboardStyles() {
 
       border-radius: 12px;
 
-      background: #fff;
+      background: #ffffff;
       color: #475569;
 
       font: inherit;
@@ -195,17 +197,12 @@ function injectLeaderboardStyles() {
 
       cursor: pointer;
 
-      touch-action:
-        manipulation;
+      touch-action: manipulation;
 
-      user-select:
-        none;
+      user-select: none;
+      -webkit-user-select: none;
 
-      -webkit-user-select:
-        none;
-
-      -webkit-touch-callout:
-        none;
+      -webkit-touch-callout: none;
 
       -webkit-tap-highlight-color:
         transparent;
@@ -225,15 +222,14 @@ function injectLeaderboardStyles() {
     }
 
     .leaderboard-mode-tab:active {
-      transform:
-        scale(.98);
+      transform: scale(.98);
     }
 
     .leaderboard-mode-tab.active {
       border-color: #2563eb;
 
       background: #2563eb;
-      color: #fff;
+      color: #ffffff;
 
       box-shadow:
         0 5px 12px
@@ -250,13 +246,11 @@ function injectLeaderboardStyles() {
     }
 
     .leaderboard-mode-content[hidden] {
-      display:
-        none !important;
+      display: none !important;
     }
 
     .leaderboard-mode-heading {
-      margin:
-        0 0 10px;
+      margin: 0 0 10px;
 
       color: #334155;
 
@@ -267,88 +261,61 @@ function injectLeaderboardStyles() {
     }
 
     .leaderboard-mode-empty {
-      margin:
-        10px 0 18px;
+      margin: 10px 0 18px;
 
-      padding:
-        24px 16px;
+      padding: 24px 16px;
 
       border:
         2px dashed
         #cbd5e1;
 
-      border-radius:
-        14px;
+      border-radius: 14px;
 
-      background:
-        #f8fafc;
+      background: #f8fafc;
+      color: #64748b;
 
-      color:
-        #64748b;
+      font-size: 15px;
+      font-weight: 800;
 
-      font-size:
-        15px;
-
-      font-weight:
-        800;
-
-      text-align:
-        center;
+      text-align: center;
     }
 
     .leaderboard-ranking-list {
-      display:
-        grid;
+      display: grid;
 
-      gap:
-        10px;
+      gap: 10px;
 
-      margin:
-        0;
+      margin: 0;
 
-      padding:
-        0;
+      padding: 0;
 
-      list-style:
-        none;
+      list-style: none;
     }
 
     .leaderboard-ranking-list
     .leaderboard-item {
-      margin:
-        0;
+      margin: 0;
     }
 
     .leaderboard-play-duration {
-      margin-top:
-        3px;
+      margin-top: 3px;
 
-      color:
-        #0f766e;
+      color: #0f766e;
 
-      font-size:
-        13px;
-
-      font-weight:
-        800;
+      font-size: 13px;
+      font-weight: 800;
     }
 
-    @media (
-      max-width:
-        560px
-    ) {
+    @media (max-width: 560px) {
 
       .leaderboard-game-title {
-        padding:
-          10px 12px;
+        padding: 10px 12px;
 
-        font-size:
-          18px;
+        font-size: 18px;
       }
 
       .leaderboard-mode-tabs {
-        gap:
-          6px;
+        gap: 6px;
       }
 
       .leaderboard-mode-tab {
@@ -358,20 +325,16 @@ function injectLeaderboardStyles() {
             50% - 6px
           );
 
-        min-width:
-          120px;
+        min-width: 120px;
 
-        padding:
-          8px;
+        padding: 8px;
 
-        font-size:
-          13px;
+        font-size: 13px;
       }
 
       .leaderboard-mode-heading,
       .leaderboard-single-title {
-        font-size:
-          16px;
+        font-size: 16px;
       }
     }
   `;
@@ -382,6 +345,66 @@ function injectLeaderboardStyles() {
 }
 
 injectLeaderboardStyles();
+
+
+/*
+==================================================
+從 game-config 取得正式模式
+==================================================
+*/
+
+function getConfiguredModes(
+  gameId
+) {
+  const config =
+    getGameConfig(
+      gameId
+    );
+
+  if (
+    !config ||
+    !config.modes ||
+    typeof config.modes !==
+      "object"
+  ) {
+    return [];
+  }
+
+  return Object.entries(
+    config.modes
+  ).map(
+    (
+      [
+        id,
+        name
+      ]
+    ) => ({
+      id:
+        String(id),
+
+      name:
+        String(name)
+    })
+  );
+}
+
+
+/*
+==================================================
+是否為多模式遊戲
+==================================================
+*/
+
+function isMultiModeGameLocal(
+  gameId
+) {
+  return (
+    getConfiguredModes(
+      gameId
+    ).length >
+    1
+  );
+}
 
 
 /*
@@ -477,24 +500,42 @@ function renderFilterButtons() {
     })
   );
 
-  getFinishedGames()
-    .forEach(
-      (game) => {
-        filterBox.appendChild(
-          createFilterButton({
-            gameId:
-              game.id,
+  const finishedGames =
+    getFinishedGames();
 
-            label:
-              game.shortName ||
-              game.name
-          })
-        );
-      }
-    );
+  finishedGames.forEach(
+    (game) => {
+      filterBox.appendChild(
+        createFilterButton({
+          gameId:
+            game.id,
+
+          label:
+            game.shortName ||
+            game.name
+        })
+      );
+    }
+  );
 }
 
-renderFilterButtons();
+
+/*
+先建立遊戲按鈕
+*/
+
+try {
+  renderFilterButtons();
+} catch (error) {
+  console.error(
+    "排行榜篩選按鈕建立失敗：",
+    error
+  );
+
+  showError(
+    error
+  );
+}
 
 
 /*
@@ -531,6 +572,16 @@ onAuthStateChanged(
     }
 
     await loadLeaderboard();
+  },
+  (error) => {
+    console.error(
+      "登入狀態確認失敗：",
+      error
+    );
+
+    showError(
+      error
+    );
   }
 );
 
@@ -553,13 +604,6 @@ async function loadLeaderboard() {
 
     let leaderboardQuery;
 
-    /*
-    不在 Firestore 階段 limit(20)。
-
-    原因：
-    多模式遊戲需要
-    每個模式各自前 20 名。
-    */
 
     if (
       selectedGame ===
@@ -569,6 +613,7 @@ async function loadLeaderboard() {
         query(
           scoresReference
         );
+
     } else {
       leaderboardQuery =
         query(
@@ -582,10 +627,12 @@ async function loadLeaderboard() {
         );
     }
 
+
     const snapshot =
       await getDocs(
         leaderboardQuery
       );
+
 
     const records =
       snapshot.docs.map(
@@ -598,6 +645,7 @@ async function loadLeaderboard() {
           ...documentSnapshot.data()
         })
       );
+
 
     renderLeaderboard(
       records
@@ -627,7 +675,9 @@ function toSafeNumber(
   fallback = 0
 ) {
   const number =
-    Number(value);
+    Number(
+      value
+    );
 
   return Number.isFinite(
     number
@@ -660,20 +710,13 @@ function getPlayTime(
     return value;
   }
 
-  /*
-  舊資料沒有 playTime：
-
-  同分時排在
-  有時間資料的人後面。
-  */
-
   return Number.POSITIVE_INFINITY;
 }
 
 
 /*
 ==================================================
-達成時間
+達成日期轉毫秒
 ==================================================
 */
 
@@ -733,7 +776,12 @@ function getTimestampMilliseconds(
       return time;
     }
 
-  } catch (_) {}
+  } catch (error) {
+    console.warn(
+      "Timestamp 解析失敗：",
+      error
+    );
+  }
 
   return Number.POSITIVE_INFINITY;
 }
@@ -741,11 +789,11 @@ function getTimestampMilliseconds(
 
 /*
 ==================================================
-排行榜核心排序
+排序核心
 
 1. 分數高
-2. 時間短
-3. 較早達成
+2. 同分時間短
+3. 同分同時間較早達成
 ==================================================
 */
 
@@ -764,10 +812,6 @@ function compareScoreRecords(
     );
 
 
-  /*
-  分數高者優先
-  */
-
   if (
     scoreA !==
     scoreB
@@ -779,11 +823,6 @@ function compareScoreRecords(
   }
 
 
-  /*
-  同分：
-  完成時間短者優先
-  */
-
   const playTimeA =
     getPlayTime(
       recordA
@@ -793,6 +832,7 @@ function compareScoreRecords(
     getPlayTime(
       recordB
     );
+
 
   if (
     playTimeA !==
@@ -805,11 +845,6 @@ function compareScoreRecords(
   }
 
 
-  /*
-  分數、時間皆相同：
-  較早達成者優先
-  */
-
   const createdA =
     getTimestampMilliseconds(
       recordA.createdAt
@@ -819,6 +854,7 @@ function compareScoreRecords(
     getTimestampMilliseconds(
       recordB.createdAt
     );
+
 
   if (
     createdA !==
@@ -830,11 +866,6 @@ function compareScoreRecords(
     );
   }
 
-
-  /*
-  完全相同時，
-  用文件 ID 保持固定排序。
-  */
 
   return String(
     recordA.id ||
@@ -850,7 +881,7 @@ function compareScoreRecords(
 
 /*
 ==================================================
-判斷新紀錄是否較佳
+是否較佳
 ==================================================
 */
 
@@ -873,7 +904,7 @@ function isBetterRecord(
 
 /*
 ==================================================
-同一玩家只留最佳一次
+同一玩家只留下最佳成績
 ==================================================
 */
 
@@ -883,25 +914,21 @@ function keepBestRecordPerPlayer(
   const playerMap =
     new Map();
 
+
   records.forEach(
     (record) => {
-
-      /*
-      正常新資料用 uid。
-
-      舊資料如果沒有 uid，
-      用文件 ID 避免誤把不同玩家合併。
-      */
 
       const playerKey =
         record.uid
           ? `uid:${record.uid}`
           : `doc:${record.id}`;
 
+
       const existing =
         playerMap.get(
           playerKey
         );
+
 
       if (
         !existing ||
@@ -918,6 +945,7 @@ function keepBestRecordPerPlayer(
     }
   );
 
+
   return Array.from(
     playerMap.values()
   );
@@ -926,7 +954,7 @@ function keepBestRecordPerPlayer(
 
 /*
 ==================================================
-建立前 20 名
+前 20 名
 ==================================================
 */
 
@@ -951,37 +979,7 @@ function buildTopRecords(
 
 /*
 ==================================================
-正式模式清單
-==================================================
-*/
-
-function getConfiguredModes(
-  gameId
-) {
-  return Object.entries(
-    getGameModes(
-      gameId
-    )
-  ).map(
-    (
-      [
-        id,
-        name
-      ]
-    ) => ({
-      id:
-        String(id),
-
-      name:
-        String(name)
-    })
-  );
-}
-
-
-/*
-==================================================
-排行榜遊戲清單
+排行榜需要顯示的遊戲
 ==================================================
 */
 
@@ -1003,7 +1001,7 @@ function getGamesForLeaderboard(
   }
 
 
-  const recordGameIds =
+  const gameIdsWithScores =
     new Set(
       records.map(
         (record) =>
@@ -1015,7 +1013,7 @@ function getGamesForLeaderboard(
   return getFinishedGames()
     .filter(
       (game) =>
-        recordGameIds.has(
+        gameIdsWithScores.has(
           game.id
         )
     );
@@ -1046,6 +1044,7 @@ function renderLeaderboard(
       "";
   }
 
+
   if (!leaderboardList) {
     console.error(
       "找不到 leaderboardList。"
@@ -1056,7 +1055,8 @@ function renderLeaderboard(
 
 
   if (
-    records.length === 0
+    records.length ===
+    0
   ) {
     if (emptyMessage) {
       emptyMessage.hidden =
@@ -1080,7 +1080,8 @@ function renderLeaderboard(
 
 
   if (
-    games.length === 0
+    games.length ===
+    0
   ) {
     if (emptyMessage) {
       emptyMessage.hidden =
@@ -1100,6 +1101,7 @@ function renderLeaderboard(
             record.game ===
             game.id
         );
+
 
       renderGameLeaderboard(
         game,
@@ -1130,8 +1132,7 @@ function renderGameLeaderboard(
 
 
   /*
-  全部遊戲畫面：
-  顯示遊戲名稱。
+  全部遊戲時才顯示標題。
   */
 
   if (
@@ -1156,13 +1157,11 @@ function renderGameLeaderboard(
 
 
   /*
-  ================================================
   多模式
-  ================================================
   */
 
   if (
-    isMultiModeGame(
+    isMultiModeGameLocal(
       game.id
     )
   ) {
@@ -1174,18 +1173,7 @@ function renderGameLeaderboard(
   }
 
   /*
-  ================================================
   單模式
-  ================================================
-
-  重要：
-
-  單模式遊戲完全忽略
-  Firestore 裡過去留下來的 mode。
-
-  因此正負整數即使舊資料有：
-  1 / 2 / 3 / 4
-  仍全部併回同一張排行榜。
   */
 
   else {
@@ -1231,11 +1219,12 @@ function renderSingleModeLeaderboard(
 
 
   /*
-  所有 mode 全部合併。
+  單模式：
 
-  同一玩家最後只留下：
-  分數最高 →
-  同分最快
+  不看 record.mode。
+
+  過去的舊 mode 資料
+  也全部併入同一排行榜。
   */
 
   const topRecords =
@@ -1281,15 +1270,9 @@ function renderMultiModeLeaderboard(
     );
 
 
-  /*
-  多模式一定以
-  game-config.js 為唯一依據。
-
-  不再掃描 Firestore 建立未知模式。
-  */
-
   if (
-    modes.length <= 1
+    modes.length <=
+    1
   ) {
     renderSingleModeLeaderboard(
       parent,
@@ -1303,7 +1286,7 @@ function renderMultiModeLeaderboard(
 
   /*
   ================================================
-  模式按鈕
+  模式切換按鈕
   ================================================
   */
 
@@ -1323,7 +1306,7 @@ function renderMultiModeLeaderboard(
 
   /*
   ================================================
-  內容容器
+  模式內容
   ================================================
   */
 
@@ -1338,10 +1321,6 @@ function renderMultiModeLeaderboard(
 
   /*
   第一個有成績的正式模式
-  預設開啟。
-
-  若都沒有成績，
-  則開第一個模式。
   */
 
   let firstAvailableIndex =
@@ -1374,9 +1353,7 @@ function renderMultiModeLeaderboard(
     ) => {
 
       /*
-      ==============================================
       按鈕
-      ==============================================
       */
 
       const button =
@@ -1403,9 +1380,7 @@ function renderMultiModeLeaderboard(
 
 
       /*
-      ==============================================
-      模式內容
-      ==============================================
+      內容
       */
 
       const content =
@@ -1442,10 +1417,7 @@ function renderMultiModeLeaderboard(
 
 
       /*
-      只收這個正式模式。
-
-      其他未知 mode：
-      完全不建立排行榜。
+      僅使用正式模式。
       */
 
       const modeRecords =
@@ -1482,9 +1454,7 @@ function renderMultiModeLeaderboard(
 
 
       /*
-      ==============================================
       初始顯示
-      ==============================================
       */
 
       const initial =
@@ -1506,9 +1476,7 @@ function renderMultiModeLeaderboard(
 
 
       /*
-      ==============================================
-      點擊切換
-      ==============================================
+      切換模式
       */
 
       button.addEventListener(
@@ -1619,7 +1587,7 @@ function renderRankingList(
 
 /*
 ==================================================
-單筆排行榜
+排行榜單筆
 ==================================================
 */
 
@@ -1670,7 +1638,7 @@ function createLeaderboardItem(
 
 
   /*
-  玩家資訊
+  玩家資料
   */
 
   const playerInfo =
@@ -1715,7 +1683,7 @@ function createLeaderboardItem(
 
 
   /*
-  答題時間
+  完成時間
   */
 
   const playDuration =
@@ -1912,7 +1880,7 @@ function getRankDisplay(
 
 /*
 ==================================================
-答題時間
+完成時間格式
 ==================================================
 */
 
@@ -1970,7 +1938,7 @@ function formatPlayTime(
 
 /*
 ==================================================
-日期
+日期格式
 ==================================================
 */
 
@@ -2057,7 +2025,7 @@ function formatDate(
 
 /*
 ==================================================
-載入中
+載入狀態
 ==================================================
 */
 
@@ -2153,7 +2121,7 @@ function showError(
     "permission-denied"
   ) {
     errorMessage.textContent =
-      "排行榜讀取權限不足，請確認 Firestore Rules 是否已允許登入玩家讀取 scores。";
+      "排行榜讀取權限不足，請確認 Firestore Rules 是否允許登入玩家讀取 scores。";
 
     return;
   }
@@ -2171,7 +2139,7 @@ function showError(
 
 
   errorMessage.textContent =
-    `排行榜讀取失敗：${
+    `排行榜載入失敗：${
       error?.message ||
       "未知錯誤"
     }`;
