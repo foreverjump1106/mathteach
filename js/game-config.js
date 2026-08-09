@@ -3,7 +3,8 @@
 數學遊戲樂園：遊戲共用設定
 檔案位置：js/game-config.js
 
-版本：6.0
+版本：6.1
+模式代號同步版
 ==================================================
 
 功能：
@@ -42,6 +43,10 @@ modes: {}
 
 modes 有 2 個以上項目
 代表多模式
+
+注意：
+modes 的 key 必須與遊戲儲存進 Firestore
+的 mode 值完全一致。
 ==================================================
 */
 
@@ -78,10 +83,6 @@ export const GAME_CONFIG = {
 
     isNew: false,
 
-    /*
-    固定 60 秒挑戰
-    */
-
     ranking: {
       type: "timed"
     },
@@ -100,6 +101,19 @@ export const GAME_CONFIG = {
     }
   },
 
+
+  /*
+  ==================================================
+  數的大小比較王
+
+  compare.html 實際儲存：
+  easy
+  medium
+  hard
+
+  所以這裡必須使用完全相同的 key。
+  ==================================================
+  */
 
   compare: {
     id: "compare",
@@ -126,14 +140,33 @@ export const GAME_CONFIG = {
 
     isNew: false,
 
+    /*
+    compare.html 為固定 60 秒
+    */
+
     ranking: {
       type: "timed"
     },
 
+    /*
+    必須與 compare.html 的：
+
+    data-mode="easy"
+    data-mode="medium"
+    data-mode="hard"
+
+    完全一致
+    */
+
     modes: {
-      "1": "初級｜正整數與負整數",
-      "2": "中級｜整數與分數",
-      "3": "高級｜整數、分數與小數"
+      easy:
+        "初級｜整數比較",
+
+      medium:
+        "中級｜整數與分數",
+
+      hard:
+        "高級｜混合比較"
     },
 
     theme: {
@@ -175,8 +208,11 @@ export const GAME_CONFIG = {
     },
 
     modes: {
-      lcm: "最小公倍數複習",
-      fraction: "正負分數加減"
+      lcm:
+        "最小公倍數複習",
+
+      fraction:
+        "正負分數加減"
     },
 
     theme: {
@@ -218,11 +254,20 @@ export const GAME_CONFIG = {
     },
 
     modes: {
-      multiplication: "同底數相乘",
-      division: "同底數相除",
-      powerOfPower: "冪的乘方",
-      zeroExponent: "零次方",
-      mixed: "綜合指數律"
+      multiplication:
+        "同底數相乘",
+
+      division:
+        "同底數相除",
+
+      powerOfPower:
+        "冪的乘方",
+
+      zeroExponent:
+        "零次方",
+
+      mixed:
+        "綜合指數律"
     },
 
     theme: {
@@ -264,11 +309,20 @@ export const GAME_CONFIG = {
     },
 
     modes: {
-      muldiv: "正負數的乘除",
-      absolute: "絕對值運算",
-      power: "乘方計算",
-      mixed: "四則運算",
-      advanced: "四則運算進階挑戰"
+      muldiv:
+        "正負數的乘除",
+
+      absolute:
+        "絕對值運算",
+
+      power:
+        "乘方計算",
+
+      mixed:
+        "四則運算",
+
+      advanced:
+        "四則運算進階挑戰"
     },
 
     theme: {
@@ -283,8 +337,11 @@ export const GAME_CONFIG = {
   factor: {
     id: "factor",
 
-    name: "質因數分解、公因數公倍數大挑戰",
-    shortName: "質因數分解與公因數公倍數",
+    name:
+      "質因數分解、公因數公倍數大挑戰",
+
+    shortName:
+      "質因數分解與公因數公倍數",
 
     semester: "grade7-first",
     grade: 7,
@@ -310,10 +367,17 @@ export const GAME_CONFIG = {
     },
 
     modes: {
-      primeFactorization: "質因數分解",
-      gcd: "最大公因數",
-      lcm: "最小公倍數",
-      mixed: "綜合挑戰"
+      primeFactorization:
+        "質因數分解",
+
+      gcd:
+        "最大公因數",
+
+      lcm:
+        "最小公倍數",
+
+      mixed:
+        "綜合挑戰"
     },
 
     theme: {
@@ -355,10 +419,17 @@ export const GAME_CONFIG = {
     },
 
     modes: {
-      "1": "模式一",
-      "2": "模式二",
-      "3": "模式三",
-      "4": "模式四"
+      "1":
+        "模式一",
+
+      "2":
+        "模式二",
+
+      "3":
+        "模式三",
+
+      "4":
+        "模式四"
     },
 
     theme: {
@@ -379,8 +450,11 @@ export const GAME_CONFIG = {
   simultaneousEquation: {
     id: "simultaneousEquation",
 
-    name: "二元一次聯立方程式",
-    shortName: "二元一次聯立方程式",
+    name:
+      "二元一次聯立方程式",
+
+    shortName:
+      "二元一次聯立方程式",
 
     semester: "grade7-second",
     grade: 7,
@@ -388,7 +462,8 @@ export const GAME_CONFIG = {
 
     icon: "🔢",
 
-    file: "games/simultaneous-equation.html",
+    file:
+      "games/simultaneous-equation.html",
 
     description:
       "練習代入消去法與加減消去法，解出兩個未知數。",
@@ -419,8 +494,11 @@ export const GAME_CONFIG = {
   coordinate: {
     id: "coordinate",
 
-    name: "直角坐標與方程式圖形",
-    shortName: "直角坐標與方程式圖形",
+    name:
+      "直角坐標與方程式圖形",
+
+    shortName:
+      "直角坐標與方程式圖形",
 
     semester: "grade7-second",
     grade: 7,
@@ -428,7 +506,8 @@ export const GAME_CONFIG = {
 
     icon: "📍",
 
-    file: "games/coordinate.html",
+    file:
+      "games/coordinate.html",
 
     description:
       "認識坐標平面，練習描點與判讀二元一次方程式圖形。",
@@ -459,8 +538,11 @@ export const GAME_CONFIG = {
   ratio: {
     id: "ratio",
 
-    name: "比例式、正比與反比",
-    shortName: "比例式、正比與反比",
+    name:
+      "比例式、正比與反比",
+
+    shortName:
+      "比例式、正比與反比",
 
     semester: "grade7-second",
     grade: 7,
@@ -468,7 +550,8 @@ export const GAME_CONFIG = {
 
     icon: "📏",
 
-    file: "games/ratio.html",
+    file:
+      "games/ratio.html",
 
     description:
       "練習比例式、正比、反比與實際應用題。",
@@ -499,8 +582,11 @@ export const GAME_CONFIG = {
   statistics: {
     id: "statistics",
 
-    name: "統計圖表",
-    shortName: "統計圖表",
+    name:
+      "統計圖表",
+
+    shortName:
+      "統計圖表",
 
     semester: "grade7-second",
     grade: 7,
@@ -508,7 +594,8 @@ export const GAME_CONFIG = {
 
     icon: "📊",
 
-    file: "games/statistics.html",
+    file:
+      "games/statistics.html",
 
     description:
       "練習次數分配、統計圖表與資料判讀。",
@@ -547,7 +634,9 @@ export function getGameConfig(
   gameId
 ) {
   return (
-    GAME_CONFIG[gameId] ||
+    GAME_CONFIG[
+      gameId
+    ] ||
     null
   );
 }
@@ -563,10 +652,55 @@ export function getGameName(
   gameId
 ) {
   return (
-    GAME_CONFIG[gameId]?.name ||
+    GAME_CONFIG[
+      gameId
+    ]?.name ||
     gameId ||
     "數學遊戲"
   );
+}
+
+
+/*
+==================================================
+取得遊戲模式
+==================================================
+*/
+
+export function getGameModes(
+  gameId
+) {
+  const modes =
+    GAME_CONFIG[
+      gameId
+    ]?.modes;
+
+  if (
+    !modes ||
+    typeof modes !==
+      "object"
+  ) {
+    return {};
+  }
+
+  return modes;
+}
+
+
+/*
+==================================================
+取得遊戲模式數量
+==================================================
+*/
+
+export function getGameModeCount(
+  gameId
+) {
+  return Object.keys(
+    getGameModes(
+      gameId
+    )
+  ).length;
 }
 
 
@@ -589,11 +723,25 @@ export function getModeName(
   }
 
   const modeKey =
-    String(mode);
+    String(
+      mode
+    );
+
+  /*
+  若是正式設定內的 mode，
+  回傳正式中文名稱。
+
+  若是舊資料或未知 mode，
+  暫時回傳原始 mode，
+  避免歷史資料完全消失。
+  */
 
   return (
-    GAME_CONFIG[gameId]
-      ?.modes?.[modeKey] ||
+    GAME_CONFIG[
+      gameId
+    ]?.modes?.[
+      modeKey
+    ] ||
     modeKey
   );
 }
@@ -609,11 +757,21 @@ export function getGameTheme(
   gameId
 ) {
   return (
-    GAME_CONFIG[gameId]?.theme || {
-      primary: "#1976D2",
-      dark: "#125CA6",
-      light: "#E3F2FD",
-      border: "#90CAF9"
+    GAME_CONFIG[
+      gameId
+    ]?.theme ||
+    {
+      primary:
+        "#1976D2",
+
+      dark:
+        "#125CA6",
+
+      light:
+        "#E3F2FD",
+
+      border:
+        "#90CAF9"
     }
   );
 }
@@ -630,8 +788,9 @@ export function getGameDifficulty(
 ) {
   const difficulty =
     Number(
-      GAME_CONFIG[gameId]
-        ?.difficulty
+      GAME_CONFIG[
+        gameId
+      ]?.difficulty
     );
 
   if (
@@ -689,7 +848,10 @@ export function getGamesBySemester(
         semester
     )
     .sort(
-      (gameA, gameB) =>
+      (
+        gameA,
+        gameB
+      ) =>
         gameA.order -
         gameB.order
     );
@@ -712,7 +874,11 @@ export function getFinishedGames() {
         true
     )
     .sort(
-      (gameA, gameB) => {
+      (
+        gameA,
+        gameB
+      ) => {
+
         if (
           gameA.semester ===
           gameB.semester
@@ -750,7 +916,10 @@ export function getRecommendedGames() {
           true
     )
     .sort(
-      (gameA, gameB) =>
+      (
+        gameA,
+        gameB
+      ) =>
         gameA.order -
         gameB.order
     );
@@ -775,7 +944,10 @@ export function getNewGames() {
           true
     )
     .sort(
-      (gameA, gameB) =>
+      (
+        gameA,
+        gameB
+      ) =>
         gameA.order -
         gameB.order
     );
@@ -807,15 +979,17 @@ export function isGameFinished(
   gameId
 ) {
   return (
-    GAME_CONFIG[gameId]
-      ?.finished === true
+    GAME_CONFIG[
+      gameId
+    ]?.finished ===
+    true
   );
 }
 
 
 /*
 ==================================================
-排行榜類型
+取得排行榜類型
 ==================================================
 */
 
@@ -823,12 +997,34 @@ export function getGameRankingType(
   gameId
 ) {
   const type =
-    GAME_CONFIG[gameId]
-      ?.ranking?.type;
+    GAME_CONFIG[
+      gameId
+    ]?.ranking?.type;
 
-  return type === "timed"
-    ? "timed"
-    : "speed";
+  return (
+    type ===
+    "timed"
+      ? "timed"
+      : "speed"
+  );
+}
+
+
+/*
+==================================================
+是否為固定時間排行榜
+==================================================
+*/
+
+export function isTimedRankingGame(
+  gameId
+) {
+  return (
+    getGameRankingType(
+      gameId
+    ) ===
+    "timed"
+  );
 }
 
 
@@ -841,22 +1037,10 @@ export function getGameRankingType(
 export function isMultiModeGame(
   gameId
 ) {
-  const modes =
-    GAME_CONFIG[gameId]
-      ?.modes;
-
-  if (
-    !modes ||
-    typeof modes !==
-      "object"
-  ) {
-    return false;
-  }
-
   return (
-    Object.keys(
-      modes
-    ).length >
+    getGameModeCount(
+      gameId
+    ) >
     1
   );
 }
@@ -876,6 +1060,19 @@ export function getGameDisplayName(
     getGameName(
       gameId
     );
+
+  /*
+  單模式遊戲不顯示 mode。
+  即使 Firestore 舊資料還留有 mode。
+  */
+
+  if (
+    !isMultiModeGame(
+      gameId
+    )
+  ) {
+    return gameName;
+  }
 
   const modeName =
     getModeName(
