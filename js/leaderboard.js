@@ -3,39 +3,52 @@
 數學遊戲樂園：排行榜
 檔案位置：js/leaderboard.js
 
-版本：6.0
+版本：6.2
+統一排行榜排序規則版
 ==================================================
 
 功能：
 
-1. 單模式遊戲：
+1. 單模式遊戲
    直接顯示排行榜
 
-2. 多模式遊戲：
-   依 game-config.js 顯示模式分頁
+2. 多模式遊戲
+   依 game-config.js 顯示各模式排行榜
 
-3. timed 固定時間型：
-   分數 → 答對 → 答錯 → 連擊 → 達成時間
+3. timed 固定時間挑戰型
+   排序：
+   ① 分數高
+   ② 答對題數多
+   ③ 答錯題數少
+   ④ 最高連擊高
+   ⑤ 較早達成
 
-4. speed 完成型：
-   分數 → 完成時間 → 達成時間
+4. speed 固定題數／完成型
+   排序：
+   ① 分數高
+   ② 完成時間短
+   ③ 答對題數多
+   ④ 答錯題數少
+   ⑤ 最高連擊高
+   ⑥ 較早達成
 
-5. 同一玩家每一榜只保留最佳成績
+5. 同一玩家在「同一榜」
+   只保留最佳紀錄
 
-6. 每榜最多 20 名
+6. 每一榜最多顯示前 20 名
 ==================================================
 */
 
 import {
   auth,
   db
-} from "./firebase-config.js?v=6";
+} from "./firebase-config.js?v=6.2";
 
 import {
   getFinishedGames,
   getGameConfig,
   getGameName
-} from "./game-config.js?v=6";
+} from "./game-config.js?v=6.2";
 
 import {
   collection,
@@ -137,125 +150,292 @@ function injectLeaderboardStyles() {
     .leaderboard-game-title {
       margin: 0 0 14px;
       padding: 12px 16px;
+
       border-radius: 14px;
+
       background: #eff6ff;
+
       color: #1d4ed8;
+
       font-size: 21px;
       font-weight: 900;
+
       text-align: left;
     }
 
     .leaderboard-single-title {
       margin: 0 0 12px;
+
       color: #334155;
+
       font-size: 18px;
       font-weight: 900;
+
       text-align: left;
     }
 
     .leaderboard-mode-tabs {
       display: flex;
+
       flex-wrap: wrap;
+
       gap: 8px;
+
       margin: 0 0 14px;
+
       padding: 4px 0;
     }
 
     .leaderboard-mode-tab {
       min-height: 42px;
+
       padding: 9px 15px;
-      border: 2px solid #cbd5e1;
+
+      border:
+        2px solid
+        #cbd5e1;
+
       border-radius: 12px;
-      background: #ffffff;
-      color: #475569;
+
+      background:
+        #ffffff;
+
+      color:
+        #475569;
+
       font: inherit;
+
       font-size: 14px;
+
       font-weight: 900;
+
       cursor: pointer;
+
+      touch-action:
+        manipulation;
+
+      user-select:
+        none;
+
+      -webkit-user-select:
+        none;
+
+      -webkit-touch-callout:
+        none;
+
+      -webkit-tap-highlight-color:
+        transparent;
     }
 
     .leaderboard-mode-tab:hover {
-      border-color: #60a5fa;
-      background: #eff6ff;
-      color: #1d4ed8;
+      border-color:
+        #60a5fa;
+
+      background:
+        #eff6ff;
+
+      color:
+        #1d4ed8;
     }
 
     .leaderboard-mode-tab.active {
-      border-color: #2563eb;
-      background: #2563eb;
-      color: #ffffff;
+      border-color:
+        #2563eb;
+
+      background:
+        #2563eb;
+
+      color:
+        #ffffff;
+
       box-shadow:
         0 5px 12px
-        rgba(37, 99, 235, .22);
+        rgba(
+          37,
+          99,
+          235,
+          .22
+        );
     }
 
     .leaderboard-mode-content {
-      display: block;
+      display:
+        block;
     }
 
     .leaderboard-mode-content[hidden] {
-      display: none !important;
+      display:
+        none !important;
     }
 
     .leaderboard-mode-heading {
-      margin: 0 0 10px;
-      color: #334155;
-      font-size: 17px;
-      font-weight: 900;
-      text-align: left;
+      margin:
+        0 0 10px;
+
+      color:
+        #334155;
+
+      font-size:
+        17px;
+
+      font-weight:
+        900;
+
+      text-align:
+        left;
     }
 
     .leaderboard-mode-empty {
-      margin: 10px 0 18px;
-      padding: 24px 16px;
-      border: 2px dashed #cbd5e1;
-      border-radius: 14px;
-      background: #f8fafc;
-      color: #64748b;
-      font-size: 15px;
-      font-weight: 800;
-      text-align: center;
+      margin:
+        10px 0 18px;
+
+      padding:
+        24px 16px;
+
+      border:
+        2px dashed
+        #cbd5e1;
+
+      border-radius:
+        14px;
+
+      background:
+        #f8fafc;
+
+      color:
+        #64748b;
+
+      font-size:
+        15px;
+
+      font-weight:
+        800;
+
+      text-align:
+        center;
     }
 
     .leaderboard-ranking-list {
-      display: grid;
-      gap: 10px;
-      margin: 0;
-      padding: 0;
-      list-style: none;
+      display:
+        grid;
+
+      gap:
+        10px;
+
+      margin:
+        0;
+
+      padding:
+        0;
+
+      list-style:
+        none;
     }
+
+    /*
+    speed 遊戲完成時間
+    */
 
     .leaderboard-play-duration {
-      margin-top: 3px;
-      color: #0f766e;
-      font-size: 13px;
-      font-weight: 800;
+      margin-top:
+        3px;
+
+      color:
+        #0f766e;
+
+      font-size:
+        13px;
+
+      font-weight:
+        800;
     }
+
+    /*
+    timed 遊戲答題資訊
+    */
 
     .leaderboard-timed-detail {
-      margin-top: 3px;
-      color: #7c3aed;
-      font-size: 13px;
-      font-weight: 800;
+      margin-top:
+        3px;
+
+      color:
+        #7c3aed;
+
+      font-size:
+        13px;
+
+      font-weight:
+        800;
     }
 
-    @media (max-width: 560px) {
+    /*
+    speed 遊戲答題資訊
+    */
+
+    .leaderboard-speed-detail {
+      margin-top:
+        3px;
+
+      color:
+        #7c3aed;
+
+      font-size:
+        13px;
+
+      font-weight:
+        800;
+    }
+
+
+    @media (
+      max-width:
+        560px
+    ) {
 
       .leaderboard-game-title {
-        padding: 10px 12px;
-        font-size: 18px;
+        padding:
+          10px 12px;
+
+        font-size:
+          18px;
+      }
+
+      .leaderboard-mode-tabs {
+        gap:
+          6px;
       }
 
       .leaderboard-mode-tab {
-        flex: 1 1 calc(50% - 6px);
-        min-width: 120px;
-        padding: 8px;
-        font-size: 13px;
+        flex:
+          1 1
+          calc(
+            50% - 6px
+          );
+
+        min-width:
+          120px;
+
+        padding:
+          8px;
+
+        font-size:
+          13px;
       }
 
       .leaderboard-mode-heading,
       .leaderboard-single-title {
-        font-size: 16px;
+        font-size:
+          16px;
+      }
+
+      .leaderboard-play-duration,
+      .leaderboard-timed-detail,
+      .leaderboard-speed-detail {
+        font-size:
+          12px;
+
+        line-height:
+          1.5;
       }
     }
   `;
@@ -270,7 +450,7 @@ injectLeaderboardStyles();
 
 /*
 ==================================================
-取得模式
+取得遊戲模式
 ==================================================
 */
 
@@ -294,9 +474,17 @@ function getConfiguredModes(
   return Object.entries(
     config.modes
   ).map(
-    ([id, name]) => ({
-      id: String(id),
-      name: String(name)
+    (
+      [
+        id,
+        name
+      ]
+    ) => ({
+      id:
+        String(id),
+
+      name:
+        String(name)
     })
   );
 }
@@ -304,7 +492,7 @@ function getConfiguredModes(
 
 /*
 ==================================================
-是否多模式
+是否為多模式遊戲
 ==================================================
 */
 
@@ -337,7 +525,8 @@ function getRankingType(
     )?.ranking?.type;
 
   if (
-    type === "timed"
+    type ===
+    "timed"
   ) {
     return "timed";
   }
@@ -348,7 +537,7 @@ function getRankingType(
 
 /*
 ==================================================
-篩選按鈕
+建立遊戲篩選按鈕
 ==================================================
 */
 
@@ -375,20 +564,27 @@ function createFilterButton({
   button.textContent =
     label;
 
-  if (active) {
+
+  if (
+    active
+  ) {
     button.classList.add(
       "active"
     );
   }
+
 
   button.addEventListener(
     "click",
 
     async () => {
 
-      if (!currentUser) {
+      if (
+        !currentUser
+      ) {
         return;
       }
+
 
       filterBox
         ?.querySelectorAll(
@@ -403,37 +599,57 @@ function createFilterButton({
           }
         );
 
+
       button.classList.add(
         "active"
       );
 
+
       selectedGame =
         gameId;
+
 
       await loadLeaderboard();
     }
   );
 
+
   return button;
 }
 
 
+/*
+==================================================
+建立遊戲篩選列
+==================================================
+*/
+
 function renderFilterButtons() {
 
-  if (!filterBox) {
+  if (
+    !filterBox
+  ) {
     return;
   }
+
 
   filterBox.innerHTML =
     "";
 
+
   filterBox.appendChild(
     createFilterButton({
-      gameId: "all",
-      label: "全部遊戲",
-      active: true
+      gameId:
+        "all",
+
+      label:
+        "全部遊戲",
+
+      active:
+        true
     })
   );
+
 
   getFinishedGames()
     .forEach(
@@ -453,6 +669,7 @@ function renderFilterButtons() {
     );
 }
 
+
 renderFilterButtons();
 
 
@@ -471,23 +688,31 @@ onAuthStateChanged(
     currentUser =
       user;
 
-    if (!user) {
+
+    if (
+      !user
+    ) {
 
       showLoginRequiredMessage();
 
       return;
     }
 
+
     const playerName =
       user.displayName ||
       user.email ||
       "玩家";
 
-    if (userStatus) {
+
+    if (
+      userStatus
+    ) {
 
       userStatus.textContent =
         `目前登入：${playerName}`;
     }
+
 
     await loadLeaderboard();
   },
@@ -498,6 +723,7 @@ onAuthStateChanged(
       "登入狀態確認失敗：",
       error
     );
+
 
     showError(
       error
@@ -516,6 +742,7 @@ async function loadLeaderboard() {
 
   setLoadingState();
 
+
   try {
 
     const scoresReference =
@@ -524,7 +751,9 @@ async function loadLeaderboard() {
         "scores"
       );
 
+
     let leaderboardQuery;
+
 
     if (
       selectedGame ===
@@ -550,14 +779,18 @@ async function loadLeaderboard() {
         );
     }
 
+
     const snapshot =
       await getDocs(
         leaderboardQuery
       );
 
+
     const records =
       snapshot.docs.map(
-        (documentSnapshot) => ({
+        (
+          documentSnapshot
+        ) => ({
 
           id:
             documentSnapshot.id,
@@ -565,6 +798,7 @@ async function loadLeaderboard() {
           ...documentSnapshot.data()
         })
       );
+
 
     renderLeaderboard(
       records
@@ -576,6 +810,7 @@ async function loadLeaderboard() {
       "排行榜讀取失敗：",
       error
     );
+
 
     showError(
       error
@@ -600,6 +835,7 @@ function toSafeNumber(
       value
     );
 
+
   return Number.isFinite(
     number
   )
@@ -610,7 +846,7 @@ function toSafeNumber(
 
 /*
 ==================================================
-完成時間
+取得完成時間
 ==================================================
 */
 
@@ -623,14 +859,18 @@ function getPlayTime(
       record?.playTime
     );
 
+
   if (
     Number.isFinite(
       value
     ) &&
-    value >= 0
+    value >=
+    0
   ) {
+
     return value;
   }
+
 
   return Number.POSITIVE_INFINITY;
 }
@@ -638,7 +878,7 @@ function getPlayTime(
 
 /*
 ==================================================
-時間戳記
+取得時間戳
 ==================================================
 */
 
@@ -646,9 +886,13 @@ function getTimestampMilliseconds(
   timestamp
 ) {
 
-  if (!timestamp) {
+  if (
+    !timestamp
+  ) {
+
     return Number.POSITIVE_INFINITY;
   }
+
 
   try {
 
@@ -656,17 +900,21 @@ function getTimestampMilliseconds(
       typeof timestamp.toMillis ===
       "function"
     ) {
+
       return timestamp.toMillis();
     }
+
 
     if (
       typeof timestamp.toDate ===
       "function"
     ) {
+
       return timestamp
         .toDate()
         .getTime();
     }
+
 
     if (
       timestamp.seconds !==
@@ -681,10 +929,12 @@ function getTimestampMilliseconds(
       );
     }
 
+
     const date =
       new Date(
         timestamp
       );
+
 
     return Number.isFinite(
       date.getTime()
@@ -701,7 +951,17 @@ function getTimestampMilliseconds(
 
 /*
 ==================================================
-speed 排序
+speed 固定題數／完成型排行榜
+==================================================
+
+排序：
+
+1. 分數高
+2. 完成時間短
+3. 答對多
+4. 答錯少
+5. 最高連擊高
+6. 較早達成
 ==================================================
 */
 
@@ -709,6 +969,12 @@ function compareSpeedRecords(
   recordA,
   recordB
 ) {
+
+  /*
+  ==================================================
+  1. 分數高
+  ==================================================
+  */
 
   const scoreA =
     toSafeNumber(
@@ -719,6 +985,7 @@ function compareSpeedRecords(
     toSafeNumber(
       recordB.score
     );
+
 
   if (
     scoreA !==
@@ -731,6 +998,13 @@ function compareSpeedRecords(
     );
   }
 
+
+  /*
+  ==================================================
+  2. 完成時間短
+  ==================================================
+  */
+
   const timeA =
     getPlayTime(
       recordA
@@ -740,6 +1014,7 @@ function compareSpeedRecords(
     getPlayTime(
       recordB
     );
+
 
   if (
     timeA !==
@@ -752,56 +1027,11 @@ function compareSpeedRecords(
     );
   }
 
-  return (
-    getTimestampMilliseconds(
-      recordA.createdAt
-    ) -
-    getTimestampMilliseconds(
-      recordB.createdAt
-    )
-  );
-}
-
-
-/*
-==================================================
-timed 排序
-==================================================
-*/
-
-function compareTimedRecords(
-  recordA,
-  recordB
-) {
 
   /*
-  1. 分數高
-  */
-
-  const scoreA =
-    toSafeNumber(
-      recordA.score
-    );
-
-  const scoreB =
-    toSafeNumber(
-      recordB.score
-    );
-
-  if (
-    scoreA !==
-    scoreB
-  ) {
-
-    return (
-      scoreB -
-      scoreA
-    );
-  }
-
-
-  /*
-  2. 答對多
+  ==================================================
+  3. 答對題數多
+  ==================================================
   */
 
   const correctA =
@@ -813,6 +1043,7 @@ function compareTimedRecords(
     toSafeNumber(
       recordB.correctCount
     );
+
 
   if (
     correctA !==
@@ -827,7 +1058,9 @@ function compareTimedRecords(
 
 
   /*
-  3. 答錯少
+  ==================================================
+  4. 答錯題數少
+  ==================================================
   */
 
   const wrongA =
@@ -839,6 +1072,7 @@ function compareTimedRecords(
     toSafeNumber(
       recordB.wrongCount
     );
+
 
   if (
     wrongA !==
@@ -853,7 +1087,9 @@ function compareTimedRecords(
 
 
   /*
-  4. 連擊高
+  ==================================================
+  5. 最高連擊高
+  ==================================================
   */
 
   const comboA =
@@ -865,6 +1101,7 @@ function compareTimedRecords(
     toSafeNumber(
       recordB.maxCombo
     );
+
 
   if (
     comboA !==
@@ -879,7 +1116,9 @@ function compareTimedRecords(
 
 
   /*
-  5. 較早達成
+  ==================================================
+  6. 較早達成
+  ==================================================
   */
 
   return (
@@ -895,7 +1134,160 @@ function compareTimedRecords(
 
 /*
 ==================================================
-統一排序
+timed 固定時間型排行榜
+==================================================
+
+排序：
+
+1. 分數高
+2. 答對多
+3. 答錯少
+4. 最高連擊高
+5. 較早達成
+==================================================
+*/
+
+function compareTimedRecords(
+  recordA,
+  recordB
+) {
+
+  /*
+  ==================================================
+  1. 分數高
+  ==================================================
+  */
+
+  const scoreA =
+    toSafeNumber(
+      recordA.score
+    );
+
+  const scoreB =
+    toSafeNumber(
+      recordB.score
+    );
+
+
+  if (
+    scoreA !==
+    scoreB
+  ) {
+
+    return (
+      scoreB -
+      scoreA
+    );
+  }
+
+
+  /*
+  ==================================================
+  2. 答對題數多
+  ==================================================
+  */
+
+  const correctA =
+    toSafeNumber(
+      recordA.correctCount
+    );
+
+  const correctB =
+    toSafeNumber(
+      recordB.correctCount
+    );
+
+
+  if (
+    correctA !==
+    correctB
+  ) {
+
+    return (
+      correctB -
+      correctA
+    );
+  }
+
+
+  /*
+  ==================================================
+  3. 答錯題數少
+  ==================================================
+  */
+
+  const wrongA =
+    toSafeNumber(
+      recordA.wrongCount
+    );
+
+  const wrongB =
+    toSafeNumber(
+      recordB.wrongCount
+    );
+
+
+  if (
+    wrongA !==
+    wrongB
+  ) {
+
+    return (
+      wrongA -
+      wrongB
+    );
+  }
+
+
+  /*
+  ==================================================
+  4. 最高連擊高
+  ==================================================
+  */
+
+  const comboA =
+    toSafeNumber(
+      recordA.maxCombo
+    );
+
+  const comboB =
+    toSafeNumber(
+      recordB.maxCombo
+    );
+
+
+  if (
+    comboA !==
+    comboB
+  ) {
+
+    return (
+      comboB -
+      comboA
+    );
+  }
+
+
+  /*
+  ==================================================
+  5. 較早達成
+  ==================================================
+  */
+
+  return (
+    getTimestampMilliseconds(
+      recordA.createdAt
+    ) -
+    getTimestampMilliseconds(
+      recordB.createdAt
+    )
+  );
+}
+
+
+/*
+==================================================
+統一排行榜比較函式
 ==================================================
 */
 
@@ -908,6 +1300,7 @@ function compareScoreRecords(
     recordA.game ||
     recordB.game ||
     "";
+
 
   if (
     getRankingType(
@@ -922,6 +1315,7 @@ function compareScoreRecords(
     );
   }
 
+
   return compareSpeedRecords(
     recordA,
     recordB
@@ -931,7 +1325,7 @@ function compareScoreRecords(
 
 /*
 ==================================================
-每位玩家最佳紀錄
+同一玩家只保留最佳紀錄
 ==================================================
 */
 
@@ -942,6 +1336,7 @@ function keepBestRecordPerPlayer(
   const playerMap =
     new Map();
 
+
   records.forEach(
     (record) => {
 
@@ -950,17 +1345,20 @@ function keepBestRecordPerPlayer(
           ? `uid:${record.uid}`
           : `doc:${record.id}`;
 
+
       const existing =
         playerMap.get(
           playerKey
         );
+
 
       if (
         !existing ||
         compareScoreRecords(
           record,
           existing
-        ) < 0
+        ) <
+        0
       ) {
 
         playerMap.set(
@@ -971,6 +1369,7 @@ function keepBestRecordPerPlayer(
     }
   );
 
+
   return Array.from(
     playerMap.values()
   );
@@ -979,7 +1378,7 @@ function keepBestRecordPerPlayer(
 
 /*
 ==================================================
-前 20 名
+建立前 20 名
 ==================================================
 */
 
@@ -992,9 +1391,11 @@ function buildTopRecords(
       records
     );
 
+
   bestRecords.sort(
     compareScoreRecords
   );
+
 
   return bestRecords.slice(
     0,
@@ -1005,7 +1406,7 @@ function buildTopRecords(
 
 /*
 ==================================================
-取得顯示遊戲
+取得排行榜要顯示的遊戲
 ==================================================
 */
 
@@ -1023,10 +1424,12 @@ function getGamesForLeaderboard(
         selectedGame
       );
 
+
     return game
       ? [game]
       : [];
   }
+
 
   const ids =
     new Set(
@@ -1035,6 +1438,7 @@ function getGamesForLeaderboard(
           record.game
       )
     );
+
 
   return getFinishedGames()
     .filter(
@@ -1056,27 +1460,42 @@ function renderLeaderboard(
   records
 ) {
 
-  if (loadingMessage) {
+  if (
+    loadingMessage
+  ) {
+
     loadingMessage.hidden =
       true;
   }
 
-  if (errorMessage) {
+
+  if (
+    errorMessage
+  ) {
+
     errorMessage.hidden =
       true;
   }
 
-  if (leaderboardList) {
+
+  if (
+    leaderboardList
+  ) {
+
     leaderboardList.innerHTML =
       "";
   }
+
 
   if (
     records.length ===
     0
   ) {
 
-    if (emptyMessage) {
+    if (
+      emptyMessage
+    ) {
+
       emptyMessage.hidden =
         false;
     }
@@ -1084,15 +1503,21 @@ function renderLeaderboard(
     return;
   }
 
-  if (emptyMessage) {
+
+  if (
+    emptyMessage
+  ) {
+
     emptyMessage.hidden =
       true;
   }
+
 
   const games =
     getGamesForLeaderboard(
       records
     );
+
 
   games.forEach(
     (game) => {
@@ -1103,6 +1528,7 @@ function renderLeaderboard(
             record.game ===
             game.id
         );
+
 
       renderGameLeaderboard(
         game,
@@ -1115,7 +1541,7 @@ function renderLeaderboard(
 
 /*
 ==================================================
-單一遊戲
+顯示單一遊戲排行榜
 ==================================================
 */
 
@@ -1128,6 +1554,7 @@ function renderGameLeaderboard(
     document.createElement(
       "li"
     );
+
 
   section.className =
     "leaderboard-game-section";
@@ -1143,11 +1570,14 @@ function renderGameLeaderboard(
         "div"
       );
 
+
     title.className =
       "leaderboard-game-title";
 
+
     title.textContent =
       game.name;
+
 
     section.appendChild(
       title
@@ -1176,6 +1606,7 @@ function renderGameLeaderboard(
     );
   }
 
+
   leaderboardList.appendChild(
     section
   );
@@ -1199,20 +1630,25 @@ function renderSingleModeLeaderboard(
       "div"
     );
 
+
   title.className =
     "leaderboard-single-title";
 
+
   title.textContent =
     `前 ${LEADERBOARD_LIMIT} 名`;
+
 
   parent.appendChild(
     title
   );
 
+
   const topRecords =
     buildTopRecords(
       records
     );
+
 
   if (
     topRecords.length ===
@@ -1225,6 +1661,7 @@ function renderSingleModeLeaderboard(
 
     return;
   }
+
 
   renderRankingList(
     parent,
@@ -1250,19 +1687,26 @@ function renderMultiModeLeaderboard(
       game.id
     );
 
+
   const tabs =
     document.createElement(
       "div"
     );
 
+
   tabs.className =
     "leaderboard-mode-tabs";
+
 
   const contents =
     document.createElement(
       "div"
     );
 
+
+  /*
+  找第一個已有成績的模式
+  */
 
   let firstIndex =
     modes.findIndex(
@@ -1277,10 +1721,12 @@ function renderMultiModeLeaderboard(
         )
     );
 
+
   if (
     firstIndex <
     0
   ) {
+
     firstIndex =
       0;
   }
@@ -1292,51 +1738,80 @@ function renderMultiModeLeaderboard(
       index
     ) => {
 
+      /*
+      ================================================
+      模式按鈕
+      ================================================
+      */
+
       const button =
         document.createElement(
           "button"
         );
 
+
       button.type =
         "button";
+
 
       button.className =
         "leaderboard-mode-tab";
 
+
       button.textContent =
         mode.name;
+
 
       button.dataset.mode =
         mode.id;
 
+
+      /*
+      ================================================
+      模式內容
+      ================================================
+      */
 
       const content =
         document.createElement(
           "div"
         );
 
+
       content.className =
         "leaderboard-mode-content";
+
 
       content.dataset.mode =
         mode.id;
 
+
+      /*
+      模式標題
+      */
 
       const heading =
         document.createElement(
           "div"
         );
 
+
       heading.className =
         "leaderboard-mode-heading";
 
+
       heading.textContent =
         `${mode.name}｜前 ${LEADERBOARD_LIMIT} 名`;
+
 
       content.appendChild(
         heading
       );
 
+
+      /*
+      只抓這個模式
+      */
 
       const modeRecords =
         records.filter(
@@ -1374,18 +1849,28 @@ function renderMultiModeLeaderboard(
       }
 
 
+      /*
+      預設啟用模式
+      */
+
       const active =
         index ===
         firstIndex;
+
 
       button.classList.toggle(
         "active",
         active
       );
 
+
       content.hidden =
         !active;
 
+
+      /*
+      點模式切換排行榜
+      */
 
       button.addEventListener(
         "click",
@@ -1427,6 +1912,7 @@ function renderMultiModeLeaderboard(
         button
       );
 
+
       contents.appendChild(
         content
       );
@@ -1438,6 +1924,7 @@ function renderMultiModeLeaderboard(
     tabs
   );
 
+
   parent.appendChild(
     contents
   );
@@ -1446,7 +1933,7 @@ function renderMultiModeLeaderboard(
 
 /*
 ==================================================
-排行榜清單
+建立排行榜清單
 ==================================================
 */
 
@@ -1459,6 +1946,7 @@ function renderRankingList(
     document.createElement(
       "ol"
     );
+
 
   list.className =
     "leaderboard-ranking-list";
@@ -1488,7 +1976,7 @@ function renderRankingList(
 
 /*
 ==================================================
-建立排行榜單筆
+建立排行榜單筆資料
 ==================================================
 */
 
@@ -1502,9 +1990,14 @@ function createLeaderboardItem(
       "li"
     );
 
+
   item.className =
     "leaderboard-item";
 
+
+  /*
+  目前登入玩家高亮
+  */
 
   if (
     currentUser &&
@@ -1518,13 +2011,21 @@ function createLeaderboardItem(
   }
 
 
+  /*
+  ==================================================
+  名次
+  ==================================================
+  */
+
   const rankElement =
     document.createElement(
       "div"
     );
 
+
   rankElement.className =
     "rank";
+
 
   rankElement.textContent =
     getRankDisplay(
@@ -1532,10 +2033,17 @@ function createLeaderboardItem(
     );
 
 
+  /*
+  ==================================================
+  玩家資料
+  ==================================================
+  */
+
   const playerInfo =
     document.createElement(
       "div"
     );
+
 
   playerInfo.className =
     "player-info";
@@ -1546,8 +2054,10 @@ function createLeaderboardItem(
       "div"
     );
 
+
   playerName.className =
     "player-name";
+
 
   playerName.textContent =
     record.playerName ||
@@ -1560,8 +2070,10 @@ function createLeaderboardItem(
       "div"
     );
 
+
   gameName.className =
     "game-name";
+
 
   gameName.textContent =
     getGameName(
@@ -1573,6 +2085,7 @@ function createLeaderboardItem(
     playerName
   );
 
+
   playerInfo.appendChild(
     gameName
   );
@@ -1580,7 +2093,7 @@ function createLeaderboardItem(
 
   /*
   ==================================================
-  timed
+  timed 固定時間型
   ==================================================
   */
 
@@ -1596,19 +2109,24 @@ function createLeaderboardItem(
         "div"
       );
 
+
     detail.className =
       "leaderboard-timed-detail";
+
 
     detail.textContent =
       `✅ 答對 ${toSafeNumber(
         record.correctCount
       )} 題` +
+
       `｜❌ 答錯 ${toSafeNumber(
         record.wrongCount
       )} 題` +
+
       `｜🔥 最高連擊 ${toSafeNumber(
         record.maxCombo
       )}`;
+
 
     playerInfo.appendChild(
       detail
@@ -1618,7 +2136,8 @@ function createLeaderboardItem(
 
     /*
     ==================================================
-    speed
+    speed 固定題數型
+    第一行：完成時間
     ==================================================
     */
 
@@ -1627,13 +2146,16 @@ function createLeaderboardItem(
         "div"
       );
 
+
     duration.className =
       "leaderboard-play-duration";
+
 
     const playTime =
       getPlayTime(
         record
       );
+
 
     duration.textContent =
       Number.isFinite(
@@ -1644,34 +2166,87 @@ function createLeaderboardItem(
           )}`
         : "⏱ 完成時間：未記錄";
 
+
     playerInfo.appendChild(
       duration
     );
+
+
+    /*
+    ==================================================
+    speed 固定題數型
+    第二行：答對／答錯／連擊
+    ==================================================
+    */
+
+    const detail =
+      document.createElement(
+        "div"
+      );
+
+
+    detail.className =
+      "leaderboard-speed-detail";
+
+
+    detail.textContent =
+      `✅ 答對 ${toSafeNumber(
+        record.correctCount
+      )} 題` +
+
+      `｜❌ 答錯 ${toSafeNumber(
+        record.wrongCount
+      )} 題` +
+
+      `｜🔥 最高連擊 ${toSafeNumber(
+        record.maxCombo
+      )}`;
+
+
+    playerInfo.appendChild(
+      detail
+    );
   }
 
+
+  /*
+  ==================================================
+  達成日期
+  ==================================================
+  */
 
   const createdTime =
     document.createElement(
       "div"
     );
 
+
   createdTime.className =
     "play-time";
+
 
   createdTime.textContent =
     formatDate(
       record.createdAt
     );
 
+
   playerInfo.appendChild(
     createdTime
   );
 
 
+  /*
+  ==================================================
+  分數
+  ==================================================
+  */
+
   const scoreElement =
     document.createElement(
       "div"
     );
+
 
   scoreElement.className =
     "score";
@@ -1681,6 +2256,7 @@ function createLeaderboardItem(
     document.createElement(
       "div"
     );
+
 
   scoreNumber.textContent =
     toSafeNumber(
@@ -1693,8 +2269,10 @@ function createLeaderboardItem(
       "div"
     );
 
+
   scoreLabel.className =
     "score-label";
+
 
   scoreLabel.textContent =
     "分";
@@ -1704,18 +2282,27 @@ function createLeaderboardItem(
     scoreNumber
   );
 
+
   scoreElement.appendChild(
     scoreLabel
   );
 
 
+  /*
+  ==================================================
+  組合
+  ==================================================
+  */
+
   item.appendChild(
     rankElement
   );
 
+
   item.appendChild(
     playerInfo
   );
+
 
   item.appendChild(
     scoreElement
@@ -1728,7 +2315,7 @@ function createLeaderboardItem(
 
 /*
 ==================================================
-名次
+名次顯示
 ==================================================
 */
 
@@ -1736,17 +2323,32 @@ function getRankDisplay(
   rank
 ) {
 
-  if (rank === 1) {
+  if (
+    rank ===
+    1
+  ) {
+
     return "🥇";
   }
 
-  if (rank === 2) {
+
+  if (
+    rank ===
+    2
+  ) {
+
     return "🥈";
   }
 
-  if (rank === 3) {
+
+  if (
+    rank ===
+    3
+  ) {
+
     return "🥉";
   }
+
 
   return String(
     rank
@@ -1756,7 +2358,7 @@ function getRankDisplay(
 
 /*
 ==================================================
-遊戲時間格式
+遊戲完成時間格式
 ==================================================
 */
 
@@ -1767,6 +2369,7 @@ function formatPlayTime(
   const safe =
     Math.max(
       0,
+
       Math.round(
         toSafeNumber(
           seconds
@@ -1774,13 +2377,17 @@ function formatPlayTime(
       )
     );
 
+
   if (
     safe <
     60
   ) {
 
-    return `${safe} 秒`;
+    return (
+      `${safe} 秒`
+    );
   }
+
 
   const minutes =
     Math.floor(
@@ -1788,17 +2395,22 @@ function formatPlayTime(
       60
     );
 
+
   const remaining =
     safe %
     60;
+
 
   if (
     remaining ===
     0
   ) {
 
-    return `${minutes} 分`;
+    return (
+      `${minutes} 分`
+    );
   }
+
 
   return (
     `${minutes} 分 ` +
@@ -1817,13 +2429,18 @@ function formatDate(
   timestamp
 ) {
 
-  if (!timestamp) {
+  if (
+    !timestamp
+  ) {
+
     return "時間未記錄";
   }
+
 
   try {
 
     let date;
+
 
     if (
       typeof timestamp.toDate ===
@@ -1840,7 +2457,9 @@ function formatDate(
 
       date =
         new Date(
-          timestamp.seconds *
+          Number(
+            timestamp.seconds
+          ) *
           1000
         );
 
@@ -1852,6 +2471,7 @@ function formatDate(
         );
     }
 
+
     if (
       Number.isNaN(
         date.getTime()
@@ -1861,15 +2481,27 @@ function formatDate(
       return "時間格式錯誤";
     }
 
+
     return new Intl.DateTimeFormat(
       "zh-TW",
       {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false
+        year:
+          "numeric",
+
+        month:
+          "2-digit",
+
+        day:
+          "2-digit",
+
+        hour:
+          "2-digit",
+
+        minute:
+          "2-digit",
+
+        hour12:
+          false
       }
     ).format(
       date
@@ -1890,7 +2522,8 @@ function formatDate(
 
 function appendEmptyMessage(
   parent,
-  message = "目前尚無成績"
+  message =
+    "目前尚無成績"
 ) {
 
   const element =
@@ -1898,11 +2531,14 @@ function appendEmptyMessage(
       "div"
     );
 
+
   element.className =
     "leaderboard-mode-empty";
 
+
   element.textContent =
     message;
+
 
   parent.appendChild(
     element
@@ -1918,22 +2554,37 @@ function appendEmptyMessage(
 
 function setLoadingState() {
 
-  if (loadingMessage) {
+  if (
+    loadingMessage
+  ) {
+
     loadingMessage.hidden =
       false;
   }
 
-  if (errorMessage) {
+
+  if (
+    errorMessage
+  ) {
+
     errorMessage.hidden =
       true;
   }
 
-  if (emptyMessage) {
+
+  if (
+    emptyMessage
+  ) {
+
     emptyMessage.hidden =
       true;
   }
 
-  if (leaderboardList) {
+
+  if (
+    leaderboardList
+  ) {
+
     leaderboardList.innerHTML =
       "";
   }
@@ -1942,38 +2593,55 @@ function setLoadingState() {
 
 /*
 ==================================================
-未登入
+尚未登入
 ==================================================
 */
 
 function showLoginRequiredMessage() {
 
-  if (userStatus) {
+  if (
+    userStatus
+  ) {
 
     userStatus.textContent =
       "目前尚未登入，請先回到首頁登入。";
   }
 
-  if (loadingMessage) {
+
+  if (
+    loadingMessage
+  ) {
+
     loadingMessage.hidden =
       true;
   }
 
-  if (emptyMessage) {
+
+  if (
+    emptyMessage
+  ) {
+
     emptyMessage.hidden =
       true;
   }
 
-  if (leaderboardList) {
+
+  if (
+    leaderboardList
+  ) {
 
     leaderboardList.innerHTML =
       "";
   }
 
-  if (errorMessage) {
+
+  if (
+    errorMessage
+  ) {
 
     errorMessage.hidden =
       false;
+
 
     errorMessage.textContent =
       "請先登入 Google 帳號，才能查看排行榜。";
@@ -1991,28 +2659,44 @@ function showError(
   error
 ) {
 
-  if (loadingMessage) {
+  if (
+    loadingMessage
+  ) {
+
     loadingMessage.hidden =
       true;
   }
 
-  if (emptyMessage) {
+
+  if (
+    emptyMessage
+  ) {
+
     emptyMessage.hidden =
       true;
   }
 
-  if (leaderboardList) {
+
+  if (
+    leaderboardList
+  ) {
 
     leaderboardList.innerHTML =
       "";
   }
 
-  if (!errorMessage) {
+
+  if (
+    !errorMessage
+  ) {
+
     return;
   }
 
+
   errorMessage.hidden =
     false;
+
 
   if (
     error?.code ===
@@ -2024,6 +2708,7 @@ function showError(
 
     return;
   }
+
 
   errorMessage.textContent =
     `排行榜載入失敗：${
