@@ -54,49 +54,78 @@
       margin: 0 auto;
     }
 
+
+    /*
+    ==================================================
+    頁首
+    ==================================================
+    */
+
     .header {
       margin-bottom: 18px;
-      padding: 28px 20px;
 
-      border-radius: 24px;
+      padding:
+        28px 20px;
 
-      background: white;
+      border-radius:
+        24px;
 
-      text-align: center;
+      background:
+        white;
+
+      text-align:
+        center;
 
       box-shadow:
         0 12px 30px
-        rgba(0, 0, 0, 0.12);
+        rgba(
+          0,
+          0,
+          0,
+          0.12
+        );
     }
 
     h1 {
-      margin: 0 0 10px;
+      margin:
+        0 0 10px;
 
-      color: #1565c0;
+      color:
+        #1565c0;
 
-      font-size: 36px;
+      font-size:
+        36px;
     }
 
     .subtitle {
-      margin: 0;
+      margin:
+        0;
 
-      color: #666;
+      color:
+        #666;
 
-      line-height: 1.7;
+      line-height:
+        1.7;
     }
 
     .user-box {
-      margin-top: 18px;
+      margin-top:
+        18px;
 
-      padding: 12px;
+      padding:
+        12px;
 
-      border-radius: 12px;
+      border-radius:
+        12px;
 
-      background: #eef5ff;
+      background:
+        #eef5ff;
 
-      color: #174a7e;
+      color:
+        #174a7e;
 
-      font-weight: bold;
+      font-weight:
+        bold;
     }
 
 
@@ -107,22 +136,28 @@
     */
 
     .top-actions {
-      display: flex;
+      display:
+        flex;
 
-      justify-content: center;
+      justify-content:
+        center;
 
-      gap: 12px;
+      gap:
+        12px;
 
       margin:
         0 0 20px;
 
-      flex-wrap: wrap;
+      flex-wrap:
+        wrap;
     }
 
     .top-action-link {
-      display: inline-block;
+      display:
+        inline-block;
 
-      min-width: 135px;
+      min-width:
+        135px;
 
       padding:
         12px 20px;
@@ -130,17 +165,30 @@
       border-radius:
         12px;
 
-      color: white;
+      color:
+        white;
 
-      text-align: center;
+      text-align:
+        center;
 
-      text-decoration: none;
+      text-decoration:
+        none;
 
-      font-weight: bold;
+      font-weight:
+        bold;
 
       box-shadow:
         0 6px 14px
-        rgba(0, 0, 0, .12);
+        rgba(
+          0,
+          0,
+          0,
+          .12
+        );
+
+      transition:
+        opacity .15s ease,
+        transform .15s ease;
     }
 
     .top-action-link.home {
@@ -154,7 +202,16 @@
     }
 
     .top-action-link:hover {
-      opacity: .9;
+      opacity:
+        .9;
+
+      transform:
+        translateY(-2px);
+    }
+
+    .top-action-link:active {
+      transform:
+        translateY(1px);
     }
 
 
@@ -165,19 +222,25 @@
     */
 
     .filter-box {
-      display: flex;
+      display:
+        flex;
 
-      justify-content: center;
+      justify-content:
+        center;
 
-      gap: 10px;
+      gap:
+        10px;
 
-      margin-bottom: 20px;
+      margin-bottom:
+        20px;
 
-      flex-wrap: wrap;
+      flex-wrap:
+        wrap;
     }
 
     .filter-button {
-      min-height: 44px;
+      min-height:
+        44px;
 
       padding:
         10px 17px;
@@ -203,6 +266,11 @@
 
       cursor:
         pointer;
+
+      transition:
+        background .15s ease,
+        color .15s ease,
+        transform .15s ease;
     }
 
     .filter-button:hover {
@@ -211,6 +279,9 @@
 
       color:
         white;
+
+      transform:
+        translateY(-2px);
     }
 
     .filter-button.active {
@@ -229,7 +300,8 @@
     */
 
     .leaderboard-card {
-      overflow: hidden;
+      overflow:
+        hidden;
 
       padding:
         0;
@@ -242,7 +314,12 @@
 
       box-shadow:
         0 12px 30px
-        rgba(0, 0, 0, 0.12);
+        rgba(
+          0,
+          0,
+          0,
+          0.12
+        );
     }
 
     .loading,
@@ -277,7 +354,8 @@
     }
 
     .leaderboard-list {
-      margin: 0;
+      margin:
+        0;
 
       padding:
         20px;
@@ -287,7 +365,8 @@
     }
 
     .leaderboard-item {
-      display: grid;
+      display:
+        grid;
 
       grid-template-columns:
         70px 1fr 120px;
@@ -332,7 +411,8 @@
     }
 
     .player-info {
-      min-width: 0;
+      min-width:
+        0;
     }
 
     .player-name {
@@ -419,20 +499,25 @@
     */
 
     .footer-actions {
-      display: flex;
+      display:
+        flex;
 
-      justify-content: center;
+      justify-content:
+        center;
 
-      gap: 12px;
+      gap:
+        12px;
 
       margin-top:
         24px;
 
-      flex-wrap: wrap;
+      flex-wrap:
+        wrap;
     }
 
     .action-link {
-      display: inline-block;
+      display:
+        inline-block;
 
       padding:
         12px 22px;
@@ -451,6 +536,9 @@
 
       font-weight:
         bold;
+
+      transition:
+        opacity .15s ease;
     }
 
     .action-link.secondary {
@@ -466,7 +554,7 @@
 
     /*
     ==================================================
-    平板手機
+    平板
     ==================================================
     */
 
@@ -533,6 +621,12 @@
     }
 
 
+    /*
+    ==================================================
+    手機
+    ==================================================
+    */
+
     @media (
       max-width:
         480px
@@ -561,7 +655,10 @@
         grid-template-columns:
           repeat(
             2,
-            minmax(0, 1fr)
+            minmax(
+              0,
+              1fr
+            )
           );
       }
 
@@ -633,7 +730,11 @@
   <main class="container">
 
 
-    <!-- 標題 -->
+    <!--
+    ==================================================
+    頁首
+    ==================================================
+    -->
 
     <header class="header">
 
@@ -657,7 +758,11 @@
     </header>
 
 
-    <!-- 上方快捷按鈕 -->
+    <!--
+    ==================================================
+    上方快捷導覽
+    ==================================================
+    -->
 
     <nav
       class="top-actions"
@@ -681,7 +786,11 @@
     </nav>
 
 
-    <!-- 遊戲篩選 -->
+    <!--
+    ==================================================
+    遊戲篩選
+    ==================================================
+    -->
 
     <nav
       id="filterBox"
@@ -690,7 +799,11 @@
     ></nav>
 
 
-    <!-- 排行榜 -->
+    <!--
+    ==================================================
+    排行榜內容
+    ==================================================
+    -->
 
     <section
       class="leaderboard-card"
@@ -725,7 +838,11 @@
     </section>
 
 
-    <!-- 底部導覽 -->
+    <!--
+    ==================================================
+    底部導覽
+    ==================================================
+    -->
 
     <div
       class="footer-actions"
@@ -760,15 +877,17 @@
 
   <!--
   ==================================================
-  v6
-  修改版本號可避免 Safari / GitHub Pages
-  持續使用舊版 leaderboard.js
+  排行榜 JS
+
+  v=6.2：
+  強制瀏覽器重新抓取新版 leaderboard.js，
+  避免 Safari / iPad 使用舊快取。
   ==================================================
   -->
 
   <script
     type="module"
-    src="js/leaderboard.js?v=6"
+    src="js/leaderboard.js?v=6.2"
   ></script>
 
 </body>
