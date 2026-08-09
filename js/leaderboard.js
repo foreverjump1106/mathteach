@@ -3,33 +3,31 @@
 數學遊戲樂園：排行榜
 檔案位置：js/leaderboard.js
 
-版本：3.1
-單模式／多模式自動判斷穩定版
+版本：4.0
+單模式／多模式正式統一版
 ==================================================
 
 排行榜規則：
 
-【單模式遊戲】
-1. 不顯示模式切換。
-2. 該遊戲所有成績合併排名。
-3. 同一玩家只保留最佳成績。
-4. 分數高者優先。
-5. 同分時 playTime 較短者優先。
-6. 每榜前 20 名。
+【單模式】
+1. game-config.js 的 modes 為空物件 {}。
+2. 不出現模式切換按鈕。
+3. 該遊戲所有歷史成績合併。
+4. 即使舊資料曾存過 mode，也忽略。
+5. 同一玩家只保留最佳紀錄。
+6. 分數高者優先。
+7. 同分時 playTime 較短者優先。
+8. 再同分時較早達成者優先。
+9. 顯示前 20 名。
 
-【多模式遊戲】
+【多模式】
 1. 完全依 game-config.js 的 modes。
-2. 每個模式獨立排行榜。
-3. 每個模式各自前 20 名。
-4. 同一玩家同一模式只保留最佳紀錄。
+2. 每個正式模式獨立排行榜。
+3. 每模式各自前 20 名。
+4. 同一玩家在同一模式只留最佳紀錄。
 5. 分數高者優先。
 6. 同分時 playTime 較短者優先。
 7. 不建立「其他模式」。
-
-重要：
-本版不再 import getGameModes /
-isMultiModeGame，
-降低模組版本不同步造成整頁停止的風險。
 ==================================================
 */
 
@@ -197,12 +195,17 @@ function injectLeaderboardStyles() {
 
       cursor: pointer;
 
-      touch-action: manipulation;
+      touch-action:
+        manipulation;
 
-      user-select: none;
-      -webkit-user-select: none;
+      user-select:
+        none;
 
-      -webkit-touch-callout: none;
+      -webkit-user-select:
+        none;
+
+      -webkit-touch-callout:
+        none;
 
       -webkit-tap-highlight-color:
         transparent;
@@ -222,7 +225,8 @@ function injectLeaderboardStyles() {
     }
 
     .leaderboard-mode-tab:active {
-      transform: scale(.98);
+      transform:
+        scale(.98);
     }
 
     .leaderboard-mode-tab.active {
@@ -246,11 +250,13 @@ function injectLeaderboardStyles() {
     }
 
     .leaderboard-mode-content[hidden] {
-      display: none !important;
+      display:
+        none !important;
     }
 
     .leaderboard-mode-heading {
-      margin: 0 0 10px;
+      margin:
+        0 0 10px;
 
       color: #334155;
 
@@ -261,35 +267,50 @@ function injectLeaderboardStyles() {
     }
 
     .leaderboard-mode-empty {
-      margin: 10px 0 18px;
+      margin:
+        10px 0 18px;
 
-      padding: 24px 16px;
+      padding:
+        24px 16px;
 
       border:
         2px dashed
         #cbd5e1;
 
-      border-radius: 14px;
+      border-radius:
+        14px;
 
-      background: #f8fafc;
-      color: #64748b;
+      background:
+        #f8fafc;
 
-      font-size: 15px;
-      font-weight: 800;
+      color:
+        #64748b;
 
-      text-align: center;
+      font-size:
+        15px;
+
+      font-weight:
+        800;
+
+      text-align:
+        center;
     }
 
     .leaderboard-ranking-list {
-      display: grid;
+      display:
+        grid;
 
-      gap: 10px;
+      gap:
+        10px;
 
-      margin: 0;
+      margin:
+        0;
 
-      padding: 0;
+      padding:
+        0;
 
-      list-style: none;
+      list-style:
+        none;
     }
 
     .leaderboard-ranking-list
@@ -298,24 +319,35 @@ function injectLeaderboardStyles() {
     }
 
     .leaderboard-play-duration {
-      margin-top: 3px;
+      margin-top:
+        3px;
 
-      color: #0f766e;
+      color:
+        #0f766e;
 
-      font-size: 13px;
-      font-weight: 800;
+      font-size:
+        13px;
+
+      font-weight:
+        800;
     }
 
-    @media (max-width: 560px) {
+    @media (
+      max-width:
+        560px
+    ) {
 
       .leaderboard-game-title {
-        padding: 10px 12px;
+        padding:
+          10px 12px;
 
-        font-size: 18px;
+        font-size:
+          18px;
       }
 
       .leaderboard-mode-tabs {
-        gap: 6px;
+        gap:
+          6px;
       }
 
       .leaderboard-mode-tab {
@@ -325,16 +357,20 @@ function injectLeaderboardStyles() {
             50% - 6px
           );
 
-        min-width: 120px;
+        min-width:
+          120px;
 
-        padding: 8px;
+        padding:
+          8px;
 
-        font-size: 13px;
+        font-size:
+          13px;
       }
 
       .leaderboard-mode-heading,
       .leaderboard-single-title {
-        font-size: 16px;
+        font-size:
+          16px;
       }
     }
   `;
@@ -349,7 +385,7 @@ injectLeaderboardStyles();
 
 /*
 ==================================================
-從 game-config 取得正式模式
+取得正式模式
 ==================================================
 */
 
@@ -391,25 +427,24 @@ function getConfiguredModes(
 
 /*
 ==================================================
-是否為多模式遊戲
+判斷是否為多模式
 ==================================================
 */
 
-function isMultiModeGameLocal(
+function isMultiModeGame(
   gameId
 ) {
   return (
     getConfiguredModes(
       gameId
-    ).length >
-    1
+    ).length > 1
   );
 }
 
 
 /*
 ==================================================
-遊戲篩選按鈕
+建立遊戲篩選按鈕
 ==================================================
 */
 
@@ -475,6 +510,12 @@ function createFilterButton({
 }
 
 
+/*
+==================================================
+顯示遊戲篩選
+==================================================
+*/
+
 function renderFilterButtons() {
   if (!filterBox) {
     console.error(
@@ -500,35 +541,36 @@ function renderFilterButtons() {
     })
   );
 
-  const finishedGames =
-    getFinishedGames();
+  getFinishedGames()
+    .forEach(
+      (game) => {
+        filterBox.appendChild(
+          createFilterButton({
+            gameId:
+              game.id,
 
-  finishedGames.forEach(
-    (game) => {
-      filterBox.appendChild(
-        createFilterButton({
-          gameId:
-            game.id,
-
-          label:
-            game.shortName ||
-            game.name
-        })
-      );
-    }
-  );
+            label:
+              game.shortName ||
+              game.name
+          })
+        );
+      }
+    );
 }
 
 
 /*
-先建立遊戲按鈕
+==================================================
+先建立篩選按鈕
+==================================================
 */
 
 try {
   renderFilterButtons();
+
 } catch (error) {
   console.error(
-    "排行榜篩選按鈕建立失敗：",
+    "建立排行榜遊戲選單失敗：",
     error
   );
 
@@ -540,12 +582,13 @@ try {
 
 /*
 ==================================================
-登入
+登入狀態
 ==================================================
 */
 
 onAuthStateChanged(
   auth,
+
   async (user) => {
     currentUser =
       user;
@@ -573,9 +616,10 @@ onAuthStateChanged(
 
     await loadLeaderboard();
   },
+
   (error) => {
     console.error(
-      "登入狀態確認失敗：",
+      "確認登入狀態失敗：",
       error
     );
 
@@ -588,7 +632,7 @@ onAuthStateChanged(
 
 /*
 ==================================================
-讀取 Firestore
+讀取排行榜資料
 ==================================================
 */
 
@@ -604,6 +648,13 @@ async function loadLeaderboard() {
 
     let leaderboardQuery;
 
+
+    /*
+    不先 limit(20)。
+
+    因為多模式遊戲需要：
+    每一個模式各自算前 20 名。
+    */
 
     if (
       selectedGame ===
@@ -689,7 +740,7 @@ function toSafeNumber(
 
 /*
 ==================================================
-完成時間
+取得遊戲時間
 ==================================================
 */
 
@@ -710,13 +761,20 @@ function getPlayTime(
     return value;
   }
 
+  /*
+  舊資料若沒有時間：
+
+  同分時，
+  排在有時間紀錄的玩家後方。
+  */
+
   return Number.POSITIVE_INFINITY;
 }
 
 
 /*
 ==================================================
-達成日期轉毫秒
+Firestore Timestamp 轉毫秒
 ==================================================
 */
 
@@ -789,11 +847,12 @@ function getTimestampMilliseconds(
 
 /*
 ==================================================
-排序核心
+排行榜排序核心
+==================================================
 
 1. 分數高
-2. 同分時間短
-3. 同分同時間較早達成
+2. 同分 → 時間短
+3. 再同分 → 較早達成
 ==================================================
 */
 
@@ -812,6 +871,10 @@ function compareScoreRecords(
     );
 
 
+  /*
+  第一順位：分數
+  */
+
   if (
     scoreA !==
     scoreB
@@ -822,6 +885,10 @@ function compareScoreRecords(
     );
   }
 
+
+  /*
+  第二順位：完成時間
+  */
 
   const playTimeA =
     getPlayTime(
@@ -845,6 +912,10 @@ function compareScoreRecords(
   }
 
 
+  /*
+  第三順位：達成日期
+  */
+
   const createdA =
     getTimestampMilliseconds(
       recordA.createdAt
@@ -867,6 +938,11 @@ function compareScoreRecords(
   }
 
 
+  /*
+  最後用 Firestore 文件 ID
+  保持排序固定。
+  */
+
   return String(
     recordA.id ||
     ""
@@ -881,7 +957,7 @@ function compareScoreRecords(
 
 /*
 ==================================================
-是否較佳
+判斷新紀錄是否更好
 ==================================================
 */
 
@@ -904,7 +980,7 @@ function isBetterRecord(
 
 /*
 ==================================================
-同一玩家只留下最佳成績
+同一玩家只保留最佳紀錄
 ==================================================
 */
 
@@ -954,7 +1030,7 @@ function keepBestRecordPerPlayer(
 
 /*
 ==================================================
-前 20 名
+建立前 20 名
 ==================================================
 */
 
@@ -966,9 +1042,11 @@ function buildTopRecords(
       records
     );
 
+
   bestRecords.sort(
     compareScoreRecords
   );
+
 
   return bestRecords.slice(
     0,
@@ -979,13 +1057,17 @@ function buildTopRecords(
 
 /*
 ==================================================
-排行榜需要顯示的遊戲
+取得要顯示的遊戲
 ==================================================
 */
 
 function getGamesForLeaderboard(
   records
 ) {
+  /*
+  已選單一遊戲。
+  */
+
   if (
     selectedGame !==
     "all"
@@ -1001,7 +1083,13 @@ function getGamesForLeaderboard(
   }
 
 
-  const gameIdsWithScores =
+  /*
+  全部遊戲：
+  只顯示已完成，
+  且資料庫有成績的遊戲。
+  */
+
+  const gamesWithScores =
     new Set(
       records.map(
         (record) =>
@@ -1013,7 +1101,7 @@ function getGamesForLeaderboard(
   return getFinishedGames()
     .filter(
       (game) =>
-        gameIdsWithScores.has(
+        gamesWithScores.has(
           game.id
         )
     );
@@ -1022,7 +1110,7 @@ function getGamesForLeaderboard(
 
 /*
 ==================================================
-主畫面
+主排行榜顯示
 ==================================================
 */
 
@@ -1114,7 +1202,7 @@ function renderLeaderboard(
 
 /*
 ==================================================
-單一遊戲
+顯示單一遊戲
 ==================================================
 */
 
@@ -1132,7 +1220,7 @@ function renderGameLeaderboard(
 
 
   /*
-  全部遊戲時才顯示標題。
+  全部遊戲時顯示遊戲標題。
   */
 
   if (
@@ -1157,11 +1245,13 @@ function renderGameLeaderboard(
 
 
   /*
+  ================================================
   多模式
+  ================================================
   */
 
   if (
-    isMultiModeGameLocal(
+    isMultiModeGame(
       game.id
     )
   ) {
@@ -1172,8 +1262,11 @@ function renderGameLeaderboard(
     );
   }
 
+
   /*
+  ================================================
   單模式
+  ================================================
   */
 
   else {
@@ -1194,6 +1287,24 @@ function renderGameLeaderboard(
 /*
 ==================================================
 單模式排行榜
+==================================================
+
+非常重要：
+
+單模式完全不檢查 record.mode。
+
+例如正負整數以前 Firestore
+若存在：
+
+mode: ""
+mode: "1"
+mode: "2"
+mode: "3"
+mode: "4"
+
+全部視為同一款遊戲的成績。
+
+因此舊成績不會消失。
 ==================================================
 */
 
@@ -1217,15 +1328,6 @@ function renderSingleModeLeaderboard(
     title
   );
 
-
-  /*
-  單模式：
-
-  不看 record.mode。
-
-  過去的舊 mode 資料
-  也全部併入同一排行榜。
-  */
 
   const topRecords =
     buildTopRecords(
@@ -1270,6 +1372,12 @@ function renderMultiModeLeaderboard(
     );
 
 
+  /*
+  安全保護：
+  若設定最後只剩一個模式，
+  就改用單模式介面。
+  */
+
   if (
     modes.length <=
     1
@@ -1286,7 +1394,7 @@ function renderMultiModeLeaderboard(
 
   /*
   ================================================
-  模式切換按鈕
+  模式按鈕區
   ================================================
   */
 
@@ -1306,7 +1414,7 @@ function renderMultiModeLeaderboard(
 
   /*
   ================================================
-  模式內容
+  模式內容區
   ================================================
   */
 
@@ -1320,7 +1428,7 @@ function renderMultiModeLeaderboard(
 
 
   /*
-  第一個有成績的正式模式
+  預設開啟第一個有成績的正式模式。
   */
 
   let firstAvailableIndex =
@@ -1336,6 +1444,11 @@ function renderMultiModeLeaderboard(
         )
     );
 
+
+  /*
+  如果全部模式都沒成績，
+  就開啟第一模式。
+  */
 
   if (
     firstAvailableIndex <
@@ -1353,7 +1466,9 @@ function renderMultiModeLeaderboard(
     ) => {
 
       /*
-      按鈕
+      ==============================================
+      模式按鈕
+      ==============================================
       */
 
       const button =
@@ -1380,7 +1495,9 @@ function renderMultiModeLeaderboard(
 
 
       /*
-      內容
+      ==============================================
+      模式內容
+      ==============================================
       */
 
       const content =
@@ -1417,7 +1534,12 @@ function renderMultiModeLeaderboard(
 
 
       /*
-      僅使用正式模式。
+      ==============================================
+      僅讀取正式模式
+      ==============================================
+
+      Firestore 若存在已淘汰的 mode，
+      不建立「其他模式」。
       */
 
       const modeRecords =
@@ -1445,6 +1567,7 @@ function renderMultiModeLeaderboard(
           content,
           "目前這個模式尚無成績"
         );
+
       } else {
         renderRankingList(
           content,
@@ -1454,29 +1577,38 @@ function renderMultiModeLeaderboard(
 
 
       /*
+      ==============================================
       初始顯示
+      ==============================================
       */
 
       const initial =
         index ===
         firstAvailableIndex;
 
+
       button.classList.toggle(
         "active",
         initial
       );
 
+
       button.setAttribute(
         "aria-selected",
-        String(initial)
+        String(
+          initial
+        )
       );
+
 
       content.hidden =
         !initial;
 
 
       /*
-      切換模式
+      ==============================================
+      點擊切換
+      ==============================================
       */
 
       button.addEventListener(
@@ -1494,14 +1626,18 @@ function renderMultiModeLeaderboard(
                   tab ===
                   button;
 
+
                 tab.classList.toggle(
                   "active",
                   active
                 );
 
+
                 tab.setAttribute(
                   "aria-selected",
-                  String(active)
+                  String(
+                    active
+                  )
                 );
               }
             );
@@ -1527,6 +1663,7 @@ function renderMultiModeLeaderboard(
         button
       );
 
+
       contents.appendChild(
         content
       );
@@ -1538,6 +1675,7 @@ function renderMultiModeLeaderboard(
     tabs
   );
 
+
   parent.appendChild(
     contents
   );
@@ -1546,7 +1684,7 @@ function renderMultiModeLeaderboard(
 
 /*
 ==================================================
-排行榜清單
+建立排行榜清單
 ==================================================
 */
 
@@ -1587,7 +1725,7 @@ function renderRankingList(
 
 /*
 ==================================================
-排行榜單筆
+建立單一排行榜項目
 ==================================================
 */
 
@@ -1605,7 +1743,9 @@ function createLeaderboardItem(
 
 
   /*
-  自己
+  ================================================
+  目前登入玩家
+  ================================================
   */
 
   if (
@@ -1620,7 +1760,9 @@ function createLeaderboardItem(
 
 
   /*
+  ================================================
   名次
+  ================================================
   */
 
   const rankElement =
@@ -1638,7 +1780,9 @@ function createLeaderboardItem(
 
 
   /*
-  玩家資料
+  ================================================
+  玩家資訊
+  ================================================
   */
 
   const playerInfo =
@@ -1710,6 +1854,7 @@ function createLeaderboardItem(
       `⏱ 完成時間：${formatPlayTime(
         playTime
       )}`;
+
   } else {
     playDuration.textContent =
       "⏱ 完成時間：未記錄";
@@ -1717,7 +1862,7 @@ function createLeaderboardItem(
 
 
   /*
-  日期
+  達成日期
   */
 
   const createdTime =
@@ -1752,7 +1897,9 @@ function createLeaderboardItem(
 
 
   /*
+  ================================================
   分數
+  ================================================
   */
 
   const scoreElement =
@@ -1797,7 +1944,9 @@ function createLeaderboardItem(
 
 
   /*
+  ================================================
   組合
+  ================================================
   */
 
   listItem.appendChild(
@@ -1847,7 +1996,7 @@ function appendEmptyMessage(
 
 /*
 ==================================================
-名次
+名次顯示
 ==================================================
 */
 
@@ -1913,6 +2062,7 @@ function formatPlayTime(
       safeSeconds /
       60
     );
+
 
   const remainingSeconds =
     safeSeconds %
@@ -2111,6 +2261,7 @@ function showError(
   if (!errorMessage) {
     return;
   }
+
 
   errorMessage.hidden =
     false;
