@@ -690,7 +690,7 @@ select{
             </div>
 
             <div class="example">
-              例如：−2/3 + 5/6、3/4 − (−1/2)
+              同異分母的正負分數加減運算
             </div>
 
           </span>
@@ -792,71 +792,7 @@ select{
 
       <div class="answer-wrap">
 
-        <div
-          id="lcm-answer-card"
-          class="answer-card"
-        >
-
-          <div
-            id="lcm-input-box"
-            class="frac-input integer-input"
-          >
-
-            <input
-              id="lcm-answer"
-              inputmode="numeric"
-              autocomplete="off"
-              placeholder="答案"
-            >
-
-            <span class="frac-line"></span>
-
-            <input disabled>
-
-          </div>
-
-        </div>
-
-
-        <div
-          id="fraction-answer-card"
-          class="answer-card hidden"
-        >
-
-          <select
-            id="answer-sign"
-            class="sign-select"
-            aria-label="答案正負號"
-          >
-            <option value="1">＋</option>
-            <option value="-1">−</option>
-          </select>
-
-
-          <div
-            id="fraction-input-box"
-            class="frac-input"
-          >
-
-            <input
-              id="answer-num"
-              inputmode="numeric"
-              autocomplete="off"
-              placeholder="分子"
-            >
-
-            <span class="frac-line"></span>
-
-            <input
-              id="answer-den"
-              inputmode="numeric"
-              autocomplete="off"
-              placeholder="分母"
-            >
-
-          </div>
-
-        </div>
+        <div id="answerInputMount"></div>
 
 
         <div
@@ -1035,6 +971,7 @@ select{
 
 <script src="../js/scratchpad.js"></script>
 <script src="../js/scratchpad-template.js"></script>
+<script src="../js/answer-input.js"></script>
 
 
 <script type="module">
@@ -1099,6 +1036,28 @@ const GAME_ID =
 
 const TOTAL =
   10;
+
+
+/*
+==================================================
+共用答案輸入元件
+==================================================
+*/
+
+const answerInput =
+  window.MathAnswerInput.create({
+    mountId:
+      "answerInputMount",
+
+    requireSimplest:
+      true,
+
+    allowMixedNumber:
+      true,
+
+    allowImproperFraction:
+      true
+  });
 
 
 /*
@@ -2236,7 +2195,7 @@ function loadQuestion() {
   if (
     typeof window
       .resetGameScratchpad ===
-    "function"
+      "function"
   ) {
 
     window
@@ -2296,6 +2255,9 @@ function loadQuestion() {
   updateComboDisplay();
 
 
+  answerInput.reset();
+
+
   if (
     mode ===
     "lcm"
@@ -2312,36 +2274,13 @@ function loadQuestion() {
         `求 ${q.a} 與 ${q.b} 的最小公倍數`;
 
 
-    $("lcm-answer-card")
-      .classList
-      .remove(
-        "hidden"
-      );
-
-
-    $("fraction-answer-card")
-      .classList
-      .add(
-        "hidden"
-      );
-
-
-    $("lcm-answer")
-      .value =
-        "";
+    answerInput
+      .showInteger();
 
 
     $("answer-help")
       .textContent =
         "請輸入正整數答案。";
-
-
-    setTimeout(
-      () =>
-        $("lcm-answer")
-          .focus(),
-      0
-    );
 
   } else {
 
@@ -2370,46 +2309,29 @@ function loadQuestion() {
         )}`;
 
 
-    $("lcm-answer-card")
-      .classList
-      .add(
-        "hidden"
-      );
+    if (
+      q.ans.d ===
+      1
+    ) {
+
+      answerInput
+        .showInteger();
 
 
-    $("fraction-answer-card")
-      .classList
-      .remove(
-        "hidden"
-      );
+      $("answer-help")
+        .textContent =
+          "本題答案為整數，請直接輸入整數答案。";
+
+    } else {
+
+      answerInput
+        .showFraction();
 
 
-    $("answer-sign")
-      .value =
-        "1";
-
-
-    $("answer-num")
-      .value =
-        "";
-
-
-    $("answer-den")
-      .value =
-        "";
-
-
-    $("answer-help")
-      .textContent =
-        "先選正負號，上格填分子、下格填分母，答案必須化成最簡分數。";
-
-
-    setTimeout(
-      () =>
-        $("answer-num")
-          .focus(),
-      0
-    );
+      $("answer-help")
+        .textContent =
+          "可輸入最簡假分數，或等值的最簡帶分數；整數部分可留空。";
+    }
   }
 }
 
@@ -2420,129 +2342,76 @@ function loadQuestion() {
 ==================================================
 */
 
-function readAnswer() {
+function readAnswer(
+  showMessage = false
+) {
+
+  const result =
+    answerInput
+      .getValue({
+        showMessage
+      });
+
+
+  if (
+    !result.valid
+  ) {
+
+    return result;
+  }
+
 
   if (
     mode ===
     "lcm"
   ) {
 
-    const v =
-      $("lcm-answer")
-        .value
-        .trim();
-
-
     if (
-      !/^\d+$/.test(
-        v
-      ) ||
-      Number(v) <=
+      !result.isInteger ||
+      result.value <=
         0
     ) {
 
-      return null;
+      return {
+        valid:
+          false,
+
+        reason:
+          "invalid-lcm",
+
+        message:
+          "請輸入正整數答案。"
+      };
     }
 
 
     return {
-      value:
-        Number(v),
+      ...result,
 
       display:
         String(
-          Number(v)
+          result.value
         )
     };
   }
 
 
-  const ns =
-    $("answer-num")
-      .value
-      .trim();
-
-
-  const ds =
-    $("answer-den")
-      .value
-      .trim();
-
-
-  if (
-    !/^\d+$/.test(
-      ns
-    ) ||
-    !/^\d+$/.test(
-      ds
-    )
-  ) {
-
-    return null;
-  }
-
-
-  const n =
-    Number(
-      ns
-    );
-
-
-  const d =
-    Number(
-      ds
-    );
-
-
-  const sign =
-    Number(
-      $("answer-sign")
-        .value
-    );
-
-
-  if (
-    n <=
-      0 ||
-    d <=
-      0
-  ) {
-
-    return null;
-  }
-
-
   return {
-    n:
-      sign *
-      n,
+    ...result,
 
-    d,
+    normalized: {
+      n:
+        result.numerator,
 
-    simplest:
-      gcd(
-        n,
-        d
-      ) ===
-      1,
-
-    normalized:
-      simplify(
-        sign *
-        n,
-        d
-      ),
+      d:
+        result.denominator
+    },
 
     display:
-      `${
-        sign <
-        0
-          ? "−"
-          : ""
-      }${rawFracHTML(
-        n,
-        d
-      )}`
+      fracHTML(
+        result.numerator,
+        result.denominator
+      )
   };
 }
 
@@ -2556,12 +2425,14 @@ function readAnswer() {
 function updatePreview() {
 
   const a =
-    readAnswer();
+    readAnswer(
+      false
+    );
 
 
   $("answer-preview")
     .innerHTML =
-      a
+      a.valid
         ? `系統判讀：${a.display}`
         : "";
 }
@@ -2873,7 +2744,9 @@ function check() {
 
 
   const a =
-    readAnswer();
+    readAnswer(
+      true
+    );
 
 
   const q =
@@ -2883,26 +2756,15 @@ function check() {
 
 
   if (
-    !a
+    !a.valid
   ) {
 
     $("feedback")
       .innerHTML =
-        '<span style="color:#d97706">請完整輸入有效答案。</span>';
-
-    return;
-  }
-
-
-  if (
-    mode ===
-      "fraction" &&
-    !a.simplest
-  ) {
-
-    $("feedback")
-      .innerHTML =
-        '<span style="color:#d97706">答案尚未化成最簡分數，請繼續約分。</span>';
+        `<span style="color:#d97706">${
+          a.message ||
+          "請完整輸入有效答案。"
+        }</span>`;
 
     return;
   }
@@ -3544,27 +3406,14 @@ $("next-btn")
     next;
 
 
-$("lcm-answer")
+$("answerInputMount")
   .addEventListener(
     "input",
     updatePreview
   );
 
 
-[
-  "answer-num",
-  "answer-den"
-].forEach(
-  id =>
-    $(id)
-      .addEventListener(
-        "input",
-        updatePreview
-      )
-);
-
-
-$("answer-sign")
+$("answerInputMount")
   .addEventListener(
     "change",
     updatePreview
