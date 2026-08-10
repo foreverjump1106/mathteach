@@ -1287,6 +1287,60 @@ function gcd(
   );
 }
 
+/*
+==================================================
+分式題目最簡檢查
+
+用途：
+若題目顯示為
+
+(ax + b) / m
+
+則要求 a、b、m 沒有共同因數，
+避免出現：
+
+(4x − 6) / 12
+5x / 5
+4(3x − 5) / 8
+
+這類可以先約分的分式。
+==================================================
+*/
+
+function linearFractionIsSimplest(
+  a,
+  b,
+  denominator
+) {
+  const common =
+    gcd(
+      gcd(
+        Math.abs(a),
+        Math.abs(b)
+      ),
+      Math.abs(denominator)
+    );
+
+  return common === 1;
+}
+
+function factorizedFractionIsSimplest(
+  outsideCoefficient,
+  denominator
+) {
+  return (
+    gcd(
+      Math.abs(
+        outsideCoefficient
+      ),
+      Math.abs(
+        denominator
+      )
+    ) === 1
+  );
+}
+
+
 function rat(
   n,
   d = 1
@@ -2100,6 +2154,29 @@ function makeMode4Question(
         continue;
       }
 
+      /*
+      分子／分母必須已是最簡形式。
+
+      避免：
+      (4x − 6) / 12
+      5x / 5
+      */
+
+      if (
+        !linearFractionIsSimplest(
+          a,
+          b,
+          m
+        ) ||
+        !linearFractionIsSimplest(
+          c,
+          d.n,
+          n
+        )
+      ) {
+        continue;
+      }
+
       return {
         qStr:
           `${stackedFractionHTML(
@@ -2290,6 +2367,39 @@ function makeMode4Question(
     if (
       !ratIsInteger(
         f
+      )
+    ) {
+      continue;
+    }
+
+    /*
+    三個分式都必須先是最簡形式。
+
+    第一個：
+    a(x ± b) / m
+    只要 a 與 m 有公因數，就能先約分，
+    因此直接排除。
+
+    第二、三個：
+    (cx + d) / n
+    (ex + f) / r
+    要求分子所有係數與分母沒有共同因數。
+    */
+
+    if (
+      !factorizedFractionIsSimplest(
+        a,
+        m
+      ) ||
+      !linearFractionIsSimplest(
+        c,
+        d,
+        n
+      ) ||
+      !linearFractionIsSimplest(
+        e,
+        f.n,
+        r
       )
     ) {
       continue;
