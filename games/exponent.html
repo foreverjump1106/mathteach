@@ -265,6 +265,7 @@
 
     .game-button {
       min-width: 132px;
+      text-decoration: none;
       padding: 12px 20px;
       border: none;
       border-radius: 12px;
@@ -407,26 +408,34 @@
 
       <section id="start-screen" class="screen">
         <div class="mode-grid">
-          <button class="mode-card" type="button" data-mode="basic">
-            <h2>模式一｜指數律基礎</h2>
-            <p>
-              混合練習同底數相乘、同底數相除、冪的乘方、
-              同指數相乘／相除與零次方。
-            </p>
-            <div class="mode-note">
-              每題只使用一種主要規則，適合先建立熟練度。
-            </div>
+          <button class="mode-card" type="button" data-mode="multiplication">
+            <h2>模式一｜同底數相乘</h2>
+            <p>練習同底數冪相乘，將指數相加並化成最簡形式。</p>
+            <div class="mode-note">例如：2³ × 2⁴ ＝ 2⁷</div>
           </button>
 
-          <button class="mode-card" type="button" data-mode="advanced">
-            <h2>模式二｜綜合挑戰</h2>
-            <p>
-              每題至少需要連續使用兩種指數律，
-              並化簡到最簡形式。
-            </p>
-            <div class="mode-note">
-              例如：2⁵×5⁵÷10³＝10²
-            </div>
+          <button class="mode-card" type="button" data-mode="division">
+            <h2>模式二｜同底數相除</h2>
+            <p>練習同底數冪相除，將指數相減並化成最簡形式。</p>
+            <div class="mode-note">例如：5⁷ ÷ 5³ ＝ 5⁴</div>
+          </button>
+
+          <button class="mode-card" type="button" data-mode="powerOfPower">
+            <h2>模式三｜冪的乘方</h2>
+            <p>練習冪的乘方，將內外兩個指數相乘。</p>
+            <div class="mode-note">例如：(3²)⁴ ＝ 3⁸</div>
+          </button>
+
+          <button class="mode-card" type="button" data-mode="zeroExponent">
+            <h2>模式四｜零次方</h2>
+            <p>熟悉非零底數的零次方，並判斷正確的結果。</p>
+            <div class="mode-note">例如：7⁰ ＝ 1</div>
+          </button>
+
+          <button class="mode-card" type="button" data-mode="mixed">
+            <h2>模式五｜綜合指數律</h2>
+            <p>綜合運用同底數、同指數、冪的乘方與零次方等規則。</p>
+            <div class="mode-note">每題可能需要連續使用兩種以上的指數律。</div>
           </button>
         </div>
       </section>
@@ -532,6 +541,18 @@
           <button id="result-mode-button" class="game-button secondary" type="button">
             選擇模式
           </button>
+
+          <a class="game-button secondary" href="../leaderboard.html">
+            🏆 排行榜
+          </a>
+
+          <a class="game-button secondary" href="../my-scores.html">
+            📊 我的成績
+          </a>
+
+          <a class="game-button secondary" href="../index.html">
+            🏠 回首頁
+          </a>
         </div>
       </section>
 
@@ -570,13 +591,16 @@
     const TOTAL_QUESTIONS = 10;
 
     const MODE_NAMES = {
-      basic: "指數律基礎",
-      advanced: "綜合挑戰"
+      multiplication: "同底數相乘",
+      division: "同底數相除",
+      powerOfPower: "冪的乘方",
+      zeroExponent: "零次方",
+      mixed: "綜合指數律"
     };
 
     const $ = (id) => document.getElementById(id);
 
-    let mode = "basic";
+    let mode = "multiplication";
     let questions = [];
     let index = 0;
     let correct = 0;
@@ -735,6 +759,7 @@
       $("mode-badge").textContent =
         MODE_NAMES[mode];
 
+      playGameSound("playStart");
       setTimer();
       showOnly("quiz-screen");
       loadQuestion();
@@ -950,10 +975,19 @@
       ) {
         safety++;
 
-        const question =
-          selectedMode === "basic"
-            ? createBasicQuestion()
-            : createAdvancedQuestion();
+        let question;
+
+        if (selectedMode === "multiplication") {
+          question = createBasicQuestion("sameBaseMultiply");
+        } else if (selectedMode === "division") {
+          question = createBasicQuestion("sameBaseDivide");
+        } else if (selectedMode === "powerOfPower") {
+          question = createBasicQuestion("powerOfPower");
+        } else if (selectedMode === "zeroExponent") {
+          question = createBasicQuestion("zeroExponent");
+        } else {
+          question = createAdvancedQuestion();
+        }
 
         if (!question) {
           continue;
@@ -982,8 +1016,9 @@
       return generated;
     }
 
-    function createBasicQuestion() {
+    function createBasicQuestion(forcedType = "") {
       const type =
+        forcedType ||
         randomChoice([
           "sameBaseMultiply",
           "sameBaseDivide",
