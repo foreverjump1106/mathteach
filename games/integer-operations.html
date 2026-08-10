@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>正負數四則運算大挑戰</title>
 <link rel="stylesheet" href="../css/scratchpad.css">
+
 <style>
 :root{
   --blue:#2563eb;
@@ -16,11 +17,42 @@
   --muted:#64748b;
   --line:#dbe3ef;
 }
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;color:var(--ink)}
-body{background:linear-gradient(135deg,#eff6ff,#f8fafc);padding:8px}
-button,input,select{font:inherit}
-.hidden{display:none!important}
+
+*{
+  box-sizing:border-box
+}
+
+html,
+body{
+  margin:0;
+  min-height:100%;
+  font-family:
+    "Noto Sans TC",
+    "Microsoft JhengHei",
+    sans-serif;
+  color:var(--ink)
+}
+
+body{
+  background:
+    linear-gradient(
+      135deg,
+      #eff6ff,
+      #f8fafc
+    );
+  padding:8px
+}
+
+button,
+input,
+select{
+  font:inherit
+}
+
+.hidden{
+  display:none!important
+}
+
 .app{
   width:100%;
   max-width:1500px;
@@ -29,63 +61,259 @@ button,input,select{font:inherit}
   background:#fff;
   border:3px solid #bfdbfe;
   border-radius:24px;
-  box-shadow:0 18px 45px #1e3a8a22;
-  overflow:hidden;
+  box-shadow:
+    0 18px 45px
+    #1e3a8a22;
+  overflow:hidden
 }
-.progress{height:10px;background:#e5e7eb}
-.progress>div{height:100%;width:0;background:linear-gradient(90deg,#60a5fa,#2563eb);transition:width .25s}
-.inner{padding:24px}
-.title{text-align:center;color:var(--blue-dark);font-size:clamp(28px,4vw,42px);font-weight:900;margin:0 0 8px}
-.subtitle{text-align:center;color:var(--muted);margin:0 0 24px;line-height:1.7}
-.modes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-width:980px;margin:0 auto 24px}
-.mode-card input{position:absolute;opacity:0}
-.mode-card span{display:block;border:2px solid var(--line);border-radius:17px;padding:16px;cursor:pointer;background:#fff;transition:.2s;height:100%}
-.mode-card input:checked+span{border-color:#3b82f6;background:#eff6ff;box-shadow:0 0 0 4px #3b82f622}
-.mode-title{font-weight:900;color:var(--blue-dark);font-size:18px}
-.example{font-family:"Times New Roman",serif;font-size:18px;margin-top:7px;color:#475569}
-.btn{border:0;border-radius:14px;padding:13px 20px;font-weight:900;font-size:17px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;transition:.15s}
-.btn:active{transform:scale(.98)}
-.btn-primary{background:var(--blue);color:#fff}
-.btn-green{background:var(--green);color:#fff}
-.btn-light{background:#eff6ff;color:var(--blue-dark);border:2px solid #bfdbfe}
-.btn-danger-light{background:#fff1f2;color:#be123c;border:2px solid #fecdd3}
-.btn-neutral{background:#f1f5f9;color:#334155;border:2px solid #cbd5e1}
-.center{text-align:center}
-.topbar{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px}
-.pill{padding:9px 14px;border-radius:14px;font-size:15px;font-weight:900;box-shadow:0 4px 12px #0f172a10}
-.pill-blue{background:#dbeafe;color:var(--blue-dark)}
-.pill-amber{background:#fef3c7;color:#92400e}
-.pill-gray{background:#f1f5f9;color:#475569}
-#scratchpad-mobile-button{display:flex;align-items:center}
-#scratchpad-mobile-button .scratchpad-open-button{
+
+.progress{
+  height:10px;
+  background:#e5e7eb
+}
+
+.progress>div{
+  height:100%;
+  width:0;
+  background:
+    linear-gradient(
+      90deg,
+      #60a5fa,
+      #2563eb
+    );
+  transition:width .25s
+}
+
+.inner{
+  padding:24px
+}
+
+.title{
+  text-align:center;
+  color:var(--blue-dark);
+  font-size:
+    clamp(
+      28px,
+      4vw,
+      42px
+    );
+  font-weight:900;
+  margin:0 0 8px
+}
+
+.subtitle{
+  text-align:center;
+  color:var(--muted);
+  margin:0 0 24px;
+  line-height:1.7
+}
+
+.modes{
+  display:grid;
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(
+        0,
+        1fr
+      )
+    );
+  gap:14px;
+  max-width:980px;
+  margin:0 auto 24px
+}
+
+.mode-card input{
+  position:absolute;
+  opacity:0
+}
+
+.mode-card span{
+  display:block;
+  border:
+    2px solid
+    var(--line);
+  border-radius:17px;
+  padding:16px;
+  cursor:pointer;
+  background:#fff;
+  transition:.2s;
+  height:100%
+}
+
+.mode-card input:checked+span{
+  border-color:#3b82f6;
+  background:#eff6ff;
+  box-shadow:
+    0 0 0 4px
+    #3b82f622
+}
+
+.mode-title{
+  font-weight:900;
+  color:var(--blue-dark);
+  font-size:18px
+}
+
+.example{
+  font-family:
+    "Times New Roman",
+    serif;
+  font-size:18px;
+  margin-top:7px;
+  color:#475569
+}
+
+.btn{
+  border:0;
+  border-radius:14px;
+  padding:13px 20px;
+  font-weight:900;
+  font-size:17px;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  transition:.15s
+}
+
+.btn:active{
+  transform:scale(.98)
+}
+
+.btn-primary{
+  background:var(--blue);
+  color:#fff
+}
+
+.btn-green{
+  background:var(--green);
+  color:#fff
+}
+
+.btn-light{
+  background:#eff6ff;
+  color:var(--blue-dark);
+  border:
+    2px solid
+    #bfdbfe
+}
+
+.btn-danger-light{
+  background:#fff1f2;
+  color:#be123c;
+  border:
+    2px solid
+    #fecdd3
+}
+
+.btn-neutral{
+  background:#f1f5f9;
+  color:#334155;
+  border:
+    2px solid
+    #cbd5e1
+}
+
+.center{
+  text-align:center
+}
+
+.topbar{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:18px
+}
+
+.pill{
+  padding:9px 14px;
+  border-radius:14px;
+  font-size:15px;
+  font-weight:900;
+  box-shadow:
+    0 4px 12px
+    #0f172a10
+}
+
+.pill-blue{
+  background:#dbeafe;
+  color:var(--blue-dark)
+}
+
+.pill-amber{
+  background:#fef3c7;
+  color:#92400e
+}
+
+.pill-gray{
+  background:#f1f5f9;
+  color:#475569
+}
+
+#scratchpad-mobile-button{
+  display:flex;
+  align-items:center
+}
+
+#scratchpad-mobile-button
+.scratchpad-open-button{
   position:static!important;
   inset:auto!important;
   display:inline-flex!important;
   min-height:42px;
   padding:10px 16px;
-  border:2px solid #c7d2fe;
+  border:
+    2px solid
+    #c7d2fe;
   border-radius:14px;
-  background:linear-gradient(135deg,#4f46e5,#2563eb);
+  background:
+    linear-gradient(
+      135deg,
+      #4f46e5,
+      #2563eb
+    );
   color:#fff;
   font-size:16px;
   font-weight:900;
-  cursor:pointer;
+  cursor:pointer
 }
+
 .problem{
   background:#f8fafc;
-  border:2px solid #e2e8f0;
+  border:
+    2px solid
+    #e2e8f0;
   border-radius:20px;
   padding:28px 14px;
   text-align:center;
-  font-family:"Times New Roman",serif;
-  font-size:clamp(30px,5vw,52px);
+  font-family:
+    "Times New Roman",
+    serif;
+  font-size:
+    clamp(
+      30px,
+      5vw,
+      52px
+    );
   font-weight:700;
   margin-bottom:20px;
   white-space:nowrap;
-  overflow-x:auto;
+  overflow-x:auto
 }
-.problem sup{font-size:.62em}
-.answer-wrap{max-width:760px;margin:auto}
+
+.problem sup{
+  font-size:.62em
+}
+
+.answer-wrap{
+  max-width:760px;
+  margin:auto
+}
+
 .answer-card{
   display:flex;
   align-items:center;
@@ -93,68 +321,211 @@ button,input,select{font:inherit}
   gap:12px;
   min-height:118px;
   padding:14px;
-  border:2px solid #dbeafe;
+  border:
+    2px solid
+    #dbeafe;
   border-radius:18px;
-  background:#f8fbff;
+  background:#f8fbff
 }
+
 .answer-card input{
-  width:min(250px,72vw);
+  width:min(
+    250px,
+    72vw
+  );
   min-height:58px;
-  border:2px solid #cbd5e1;
+  border:
+    2px solid
+    #cbd5e1;
   border-radius:12px;
   text-align:center;
   font-size:28px;
   font-weight:900;
-  outline:none;
+  outline:none
 }
-.help{text-align:center;color:#64748b;font-size:13px;margin:9px 0 12px}
-.preview{min-height:26px;text-align:center;color:#64748b;margin:8px 0 14px}
-.actions{display:grid;gap:10px}
-.feedback{min-height:58px;margin-top:15px;text-align:center;font-size:19px;font-weight:900;line-height:1.55}
-.explanation-actions{display:flex;justify-content:center;margin-top:12px}
+
+.help{
+  text-align:center;
+  color:#64748b;
+  font-size:13px;
+  margin:9px 0 12px
+}
+
+.preview{
+  min-height:26px;
+  text-align:center;
+  color:#64748b;
+  margin:8px 0 14px
+}
+
+.actions{
+  display:grid;
+  gap:10px
+}
+
+.feedback{
+  min-height:58px;
+  margin-top:15px;
+  text-align:center;
+  font-size:19px;
+  font-weight:900;
+  line-height:1.55
+}
+
+.explanation-actions{
+  display:flex;
+  justify-content:center;
+  margin-top:12px
+}
+
 .explanation-toggle{
-  border:2px solid #93c5fd;
+  border:
+    2px solid
+    #93c5fd;
   background:#eff6ff;
   color:#1d4ed8;
   border-radius:12px;
   padding:10px 16px;
   font-size:15px;
   font-weight:900;
-  cursor:pointer;
+  cursor:pointer
 }
+
 .explanation-panel{
   margin-top:12px;
-  border:2px solid #bfdbfe;
+  border:
+    2px solid
+    #bfdbfe;
   border-radius:16px;
   background:#f8fbff;
   padding:16px;
   text-align:left;
   color:#334155;
-  line-height:1.7;
+  line-height:1.7
 }
-.explanation-title{text-align:center;font-size:19px;font-weight:900;color:#1d4ed8;margin-bottom:10px}
-.explanation-step{border-left:4px solid #60a5fa;background:#fff;border-radius:10px;padding:10px 12px;margin:9px 0}
-.explanation-step-label{display:block;color:#1e40af;font-weight:900;margin-bottom:5px}
-.explanation-math{text-align:center;font-family:"Times New Roman",serif;font-size:24px;font-weight:700;overflow-x:auto;white-space:nowrap;padding:4px 0}
-.explanation-final{border-color:#22c55e;background:#f0fdf4}
-.result-box{max-width:760px;margin:auto;text-align:center}
-.grade-card{background:linear-gradient(135deg,#eff6ff,#f8fafc);border:2px solid #bfdbfe;border-radius:22px;padding:24px;margin:18px 0}
-.grade-big{font-size:54px;font-weight:900;color:var(--blue-dark)}
-.stars{font-size:34px;letter-spacing:4px;margin:6px 0}
-.comment{font-size:20px;font-weight:900;color:#334155}
-.score-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
-.score-card{background:#f8fafc;border:2px solid #e2e8f0;border-radius:16px;padding:15px}
-.score-card b{display:block;font-size:26px;margin-top:5px}
-.result-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.save-status{min-height:24px;margin:10px 0 16px;font-size:15px;font-weight:900}
-@media(max-width:760px){
-  body{padding:4px}
-  .inner{padding:14px}
-  .modes{grid-template-columns:1fr}
-  .topbar{gap:8px}
-  .btn{padding:11px 13px;font-size:15px}
-  .score-grid,.result-actions{grid-template-columns:1fr}
-  .problem{font-size:clamp(28px,8vw,40px)}
+
+.explanation-title{
+  text-align:center;
+  font-size:19px;
+  font-weight:900;
+  color:#1d4ed8;
+  margin-bottom:10px
+}
+
+.explanation-step{
+  border-left:
+    4px solid
+    #60a5fa;
+  background:#fff;
+  border-radius:10px;
+  padding:10px 12px;
+  margin:9px 0
+}
+
+.explanation-step-label{
+  display:block;
+  color:#1e40af;
+  font-weight:900;
+  margin-bottom:5px
+}
+
+.explanation-math{
+  text-align:center;
+  font-family:
+    "Times New Roman",
+    serif;
+  font-size:24px;
+  font-weight:700;
+  overflow-x:auto;
+  white-space:nowrap;
+  padding:4px 0
+}
+
+.explanation-final{
+  border-color:#22c55e;
+  background:#f0fdf4
+}
+
+.result-box{
+  max-width:760px;
+  margin:auto;
+  text-align:center
+}
+
+.grade-card{
+  background:
+    linear-gradient(
+      135deg,
+      #eff6ff,
+      #f8fafc
+    );
+  border:
+    2px solid
+    #bfdbfe;
+  border-radius:22px;
+  padding:24px;
+  margin:18px 0
+}
+
+.grade-big{
+  font-size:54px;
+  font-weight:900;
+  color:var(--blue-dark)
+}
+
+.stars{
+  font-size:34px;
+  letter-spacing:4px;
+  margin:6px 0
+}
+
+.comment{
+  font-size:20px;
+  font-weight:900;
+  color:#334155
+}
+
+.score-grid{
+  display:grid;
+  grid-template-columns:
+    repeat(
+      3,
+      1fr
+    );
+  gap:12px;
+  margin:18px 0
+}
+
+.score-card{
+  background:#f8fafc;
+  border:
+    2px solid
+    #e2e8f0;
+  border-radius:16px;
+  padding:15px
+}
+
+.score-card b{
+  display:block;
+  font-size:26px;
+  margin-top:5px
+}
+
+.result-actions{
+  display:grid;
+  grid-template-columns:
+    repeat(
+      3,
+      1fr
+    );
+  gap:10px
+}
+
+.save-status{
+  min-height:24px;
+  margin:10px 0 16px;
+  font-size:15px;
+  font-weight:900
 }
 
 .math-frac{
@@ -166,56 +537,76 @@ button,input,select{font:inherit}
   margin:0 .08em;
   vertical-align:middle;
   text-align:center;
-  line-height:.95;
+  line-height:.95
 }
-.math-frac .top,.math-frac .bottom{
+
+.math-frac .top,
+.math-frac .bottom{
   display:block;
   padding:0 .12em;
   font-size:.68em;
-  line-height:1;
+  line-height:1
 }
+
 .math-frac .top{
   padding-bottom:.08em;
-  border-bottom:2px solid currentColor;
+  border-bottom:
+    2px solid
+    currentColor
 }
-.math-frac .bottom{padding-top:.08em}
+
+.math-frac .bottom{
+  padding-top:.08em
+}
+
 .sign-select{
   min-width:70px;
   height:52px;
   padding:0 8px;
-  border:2px solid #cbd5e1;
+  border:
+    2px solid
+    #cbd5e1;
   border-radius:10px;
   background:#fff;
   font-size:22px;
-  font-weight:900;
+  font-weight:900
 }
+
 .whole-input{
-  width:88px !important;
-  min-height:52px !important;
-  border:2px solid #cbd5e1;
+  width:88px!important;
+  min-height:52px!important;
+  border:
+    2px solid
+    #cbd5e1;
   border-radius:10px;
   text-align:center;
-  font-size:22px !important;
+  font-size:22px!important;
   font-weight:900;
-  outline:none;
+  outline:none
 }
 
 .fraction-input{
   position:relative;
   display:grid;
-  grid-template-rows:48px 48px;
+  grid-template-rows:
+    48px
+    48px;
   gap:9px;
-  width:92px;
+  width:92px
 }
+
 .fraction-input input{
   width:100%;
   height:48px;
-  border:2px solid #cbd5e1;
+  border:
+    2px solid
+    #cbd5e1;
   border-radius:10px;
   text-align:center;
   font-size:22px;
-  font-weight:900;
+  font-weight:900
 }
+
 .fraction-line{
   position:absolute;
   left:4px;
@@ -223,91 +614,275 @@ button,input,select{font:inherit}
   top:50%;
   height:2px;
   background:#1f2937;
-  transform:translateY(-1px);
-  pointer-events:none;
+  transform:
+    translateY(
+      -1px
+    );
+  pointer-events:none
 }
 
+@media(max-width:760px){
+  body{
+    padding:4px
+  }
+
+  .inner{
+    padding:14px
+  }
+
+  .modes{
+    grid-template-columns:1fr
+  }
+
+  .topbar{
+    gap:8px
+  }
+
+  .btn{
+    padding:11px 13px;
+    font-size:15px
+  }
+
+  .score-grid,
+  .result-actions{
+    grid-template-columns:1fr
+  }
+
+  .problem{
+    font-size:
+      clamp(
+        28px,
+        8vw,
+        40px
+      )
+  }
+}
 </style>
 </head>
+
 <body>
+
 <main class="app">
-  <div class="progress"><div id="progress-bar"></div></div>
+
+  <div class="progress">
+    <div id="progress-bar"></div>
+  </div>
+
   <div class="inner">
 
     <section id="start-screen">
-      <h1 class="title">正負數四則運算大挑戰</h1>
-      <p class="subtitle">練習正負整數與分數的乘除、絕對值、乘方，以及整數與分數混合的四則運算。</p>
+
+      <h1 class="title">
+        正負數四則運算大挑戰
+      </h1>
+
+      <p class="subtitle">
+        練習正負整數與分數的乘除、絕對值、乘方，以及整數與分數混合的四則運算。
+      </p>
 
       <div class="modes">
+
         <label class="mode-card">
-          <input type="radio" name="mode" value="muldiv" checked>
+          <input
+            type="radio"
+            name="mode"
+            value="muldiv"
+            checked
+          >
+
           <span>
-            <div class="mode-title">模式一｜正負數的乘除</div>
-            <div class="example">整數與分數的正負乘除運算</div>
+            <div class="mode-title">
+              模式一｜正負數的乘除
+            </div>
+
+            <div class="example">
+              整數與分數的正負乘除運算
+            </div>
           </span>
         </label>
 
+
         <label class="mode-card">
-          <input type="radio" name="mode" value="absolute">
+          <input
+            type="radio"
+            name="mode"
+            value="absolute"
+          >
+
           <span>
-            <div class="mode-title">模式二｜絕對值運算</div>
-            <div class="example">例如：|−5| − |−7| − (−5)</div>
+            <div class="mode-title">
+              模式二｜絕對值運算
+            </div>
+
+            <div class="example">
+              例如：|−5| − |−7| − (−5)
+            </div>
           </span>
         </label>
 
+
         <label class="mode-card">
-          <input type="radio" name="mode" value="power">
+          <input
+            type="radio"
+            name="mode"
+            value="power"
+          >
+
           <span>
-            <div class="mode-title">模式三｜乘方計算</div>
-            <div class="example">例如：−(−2)²</div>
+            <div class="mode-title">
+              模式三｜乘方計算
+            </div>
+
+            <div class="example">
+              例如：−(−2)²
+            </div>
           </span>
         </label>
 
+
         <label class="mode-card">
-          <input type="radio" name="mode" value="mixed">
+          <input
+            type="radio"
+            name="mode"
+            value="mixed"
+          >
+
           <span>
-            <div class="mode-title">模式四｜四則運算</div>
-            <div class="example">整數、絕對值與乘方的綜合運算</div>
+            <div class="mode-title">
+              模式四｜四則運算
+            </div>
+
+            <div class="example">
+              整數、絕對值與乘方的綜合運算
+            </div>
           </span>
         </label>
 
+
         <label class="mode-card">
-          <input type="radio" name="mode" value="advanced">
+          <input
+            type="radio"
+            name="mode"
+            value="advanced"
+          >
+
           <span>
-            <div class="mode-title">模式五｜四則運算進階挑戰</div>
-            <div class="example">整數與分數混合四則運算</div>
+            <div class="mode-title">
+              模式五｜四則運算進階挑戰
+            </div>
+
+            <div class="example">
+              整數與分數混合四則運算
+            </div>
           </span>
         </label>
+
       </div>
 
       <div class="center">
-        <button id="start-btn" class="btn btn-primary">開始挑戰</button>
+        <button
+          id="start-btn"
+          class="btn btn-primary"
+        >
+          開始挑戰
+        </button>
       </div>
+
     </section>
 
-    <section id="quiz-screen" class="hidden">
+
+    <section
+      id="quiz-screen"
+      class="hidden"
+    >
+
       <div class="topbar">
-        <button id="change-mode-btn" class="btn btn-light">← 重選模式</button>
-        <span id="question-number" class="pill pill-blue">第 1 / 10 題</span>
-        <span id="mode-badge" class="pill pill-amber">模式一</span>
-        <span id="time-display" class="pill pill-gray">⏳ 00:00</span>
-        <button id="reset-btn" class="btn btn-danger-light">重新測驗（目前模式）</button>
+
+        <button
+          id="change-mode-btn"
+          class="btn btn-light"
+        >
+          ← 重選模式
+        </button>
+
+        <span
+          id="question-number"
+          class="pill pill-blue"
+        >
+          第 1 / 10 題
+        </span>
+
+        <span
+          id="mode-badge"
+          class="pill pill-amber"
+        >
+          模式一
+        </span>
+
+        <span
+          id="time-display"
+          class="pill pill-gray"
+        >
+          ⏳ 00:00
+        </span>
+
+        <button
+          id="reset-btn"
+          class="btn btn-danger-light"
+        >
+          重新測驗（目前模式）
+        </button>
+
         <div id="scratchpad-mobile-button"></div>
+
       </div>
 
-      <div id="problem-text" class="problem"></div>
+
+      <div
+        id="problem-text"
+        class="problem"
+      ></div>
+
 
       <div class="answer-wrap">
-<div class="answer-card">
+
+        <div class="answer-card">
+
           <div id="integer-answer-box">
-            <input id="answer-input" inputmode="numeric" autocomplete="off" placeholder="輸入整數答案">
+
+            <input
+              id="answer-input"
+              inputmode="numeric"
+              autocomplete="off"
+              placeholder="輸入整數答案"
+            >
+
           </div>
 
-          <div id="fraction-answer-box" class="hidden" style="align-items:center;gap:12px">
-            <select id="answer-sign" class="sign-select" aria-label="答案正負號">
-              <option value="1">＋</option>
-              <option value="-1">−</option>
+
+          <div
+            id="fraction-answer-box"
+            class="hidden"
+            style="
+              align-items:center;
+              gap:12px
+            "
+          >
+
+            <select
+              id="answer-sign"
+              class="sign-select"
+              aria-label="答案正負號"
+            >
+              <option value="1">
+                ＋
+              </option>
+
+              <option value="-1">
+                −
+              </option>
             </select>
+
 
             <input
               id="answer-whole"
@@ -318,193 +893,415 @@ button,input,select{font:inherit}
               aria-label="帶分數整數部分"
             >
 
+
             <div class="fraction-input">
-              <input id="answer-num" inputmode="numeric" autocomplete="off" placeholder="分子">
+
+              <input
+                id="answer-num"
+                inputmode="numeric"
+                autocomplete="off"
+                placeholder="分子"
+              >
+
               <span class="fraction-line"></span>
-              <input id="answer-den" inputmode="numeric" autocomplete="off" placeholder="分母">
+
+              <input
+                id="answer-den"
+                inputmode="numeric"
+                autocomplete="off"
+                placeholder="分母"
+              >
+
             </div>
+
           </div>
+
         </div>
 
-        <div class="help">分數答案可填最簡假分數，或填成最簡帶分數；整數部分可留空。</div>
-        <div id="answer-preview" class="preview"></div>
+
+        <div class="help">
+          分數答案可填最簡假分數，或填成最簡帶分數；整數部分可留空。
+        </div>
+
+
+        <div
+          id="answer-preview"
+          class="preview"
+        ></div>
+
 
         <div class="actions">
-          <button id="submit-btn" class="btn btn-green">送出答案（Enter）</button>
-          <button id="next-btn" class="btn btn-primary hidden">下一題（Enter）</button>
+
+          <button
+            id="submit-btn"
+            class="btn btn-green"
+          >
+            送出答案（Enter）
+          </button>
+
+          <button
+            id="next-btn"
+            class="btn btn-primary hidden"
+          >
+            下一題（Enter）
+          </button>
+
         </div>
 
-        <div id="feedback" class="feedback" aria-live="polite"></div>
+
+        <div
+          id="feedback"
+          class="feedback"
+          aria-live="polite"
+        ></div>
+
       </div>
+
     </section>
 
-    <section id="result-screen" class="hidden result-box">
-      <h2 class="title">挑戰完成！</h2>
+
+    <section
+      id="result-screen"
+      class="hidden result-box"
+    >
+
+      <h2 class="title">
+        挑戰完成！
+      </h2>
+
 
       <div class="grade-card">
-        <div id="final-score" class="grade-big">0 分</div>
-        <div id="final-stars" class="stars">☆☆☆☆☆</div>
-        <div id="final-comment" class="comment"></div>
+
+        <div
+          id="final-score"
+          class="grade-big"
+        >
+          0 分
+        </div>
+
+        <div
+          id="final-stars"
+          class="stars"
+        >
+          ☆☆☆☆☆
+        </div>
+
+        <div
+          id="final-comment"
+          class="comment"
+        ></div>
+
       </div>
+
 
       <div class="score-grid">
-        <div class="score-card">答對<b id="final-correct">0</b></div>
-        <div class="score-card">答錯<b id="final-wrong">0</b></div>
-        <div class="score-card">總時間<b id="final-time">00:00</b></div>
+
+        <div class="score-card">
+          答對
+          <b id="final-correct">0</b>
+        </div>
+
+        <div class="score-card">
+          答錯
+          <b id="final-wrong">0</b>
+        </div>
+
+        <div class="score-card">
+          總時間
+          <b id="final-time">00:00</b>
+        </div>
+
       </div>
 
-      <p id="save-status" class="save-status"></p>
+
+      <p
+        id="save-status"
+        class="save-status"
+      ></p>
+
 
       <div class="result-actions">
-        <button id="again-btn" class="btn btn-primary">🔄 再玩一次</button>
-        <button id="result-change-mode-btn" class="btn btn-light">重選模式</button>
-        <a class="btn btn-neutral" href="../leaderboard.html">🏆 排行榜</a>
-        <a class="btn btn-neutral" href="../my-scores.html">📊 我的成績</a>
-        <a class="btn btn-light" href="../index.html">🏠 回首頁</a>
+
+        <button
+          id="again-btn"
+          class="btn btn-primary"
+        >
+          🔄 再玩一次
+        </button>
+
+        <button
+          id="result-change-mode-btn"
+          class="btn btn-light"
+        >
+          重選模式
+        </button>
+
+        <a
+          class="btn btn-neutral"
+          href="../leaderboard.html"
+        >
+          🏆 排行榜
+        </a>
+
+        <a
+          class="btn btn-neutral"
+          href="../my-scores.html"
+        >
+          📊 我的成績
+        </a>
+
+        <a
+          class="btn btn-light"
+          href="../index.html"
+        >
+          🏠 回首頁
+        </a>
+
       </div>
+
     </section>
 
   </div>
+
 </main>
+
 
 <script src="../js/scratchpad.js"></script>
 <script src="../js/scratchpad-template.js"></script>
 
+
 <script type="module">
-import { saveGameScore } from "../js/scores.js";
+
+import {
+  saveGameScore
+} from "../js/scores.js";
 
 "use strict";
 
-document.addEventListener("DOMContentLoaded",()=>{
-  const mount=document.getElementById("scratchpad-mobile-button");
-  const button=document.getElementById("scratchpadOpenButton");
-  if(mount&&button)mount.appendChild(button);
-});
 
-const $=id=>document.getElementById(id);
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
 
-const GAME_ID="integer-operations";
-const TOTAL=10;
+    const mount =
+      document.getElementById(
+        "scratchpad-mobile-button"
+      );
+
+    const button =
+      document.getElementById(
+        "scratchpadOpenButton"
+      );
+
+    if (
+      mount &&
+      button
+    ) {
+      mount.appendChild(
+        button
+      );
+    }
+  }
+);
+
+
+const $ =
+  id =>
+    document.getElementById(
+      id
+    );
+
+
+const GAME_ID =
+  "integer-operations";
+
+const TOTAL =
+  10;
+
 
 /*
-正負數四則運算大挑戰內建音效。
-不依賴其他音效檔案或額外元件。
+==================================================
+音效
+==================================================
 */
-let operationsAudioContext=null;
 
-function getOperationsAudioContext(){
-  const AudioContextClass=
-    window.AudioContext||
+let operationsAudioContext =
+  null;
+
+
+function getOperationsAudioContext() {
+
+  const AudioContextClass =
+    window.AudioContext ||
     window.webkitAudioContext;
 
-  if(!AudioContextClass){
+  if (
+    !AudioContextClass
+  ) {
     return null;
   }
 
-  if(!operationsAudioContext){
-    operationsAudioContext=
+  if (
+    !operationsAudioContext
+  ) {
+    operationsAudioContext =
       new AudioContextClass();
   }
 
   return operationsAudioContext;
 }
 
-async function ensureOperationsAudio(){
-  const context=
+
+async function ensureOperationsAudio() {
+
+  const context =
     getOperationsAudioContext();
 
-  if(!context){
+  if (
+    !context
+  ) {
     return null;
   }
 
-  if(context.state==="suspended"){
-    try{
+  if (
+    context.state ===
+    "suspended"
+  ) {
+    try {
       await context.resume();
-    }catch(error){
-      console.warn("音效系統無法啟用：",error);
+    } catch (error) {
+      console.warn(
+        "音效系統無法啟用：",
+        error
+      );
     }
   }
 
-  return context.state==="running"
-    ?context
-    :null;
+  return (
+    context.state ===
+    "running"
+      ? context
+      : null
+  );
 }
 
+
 async function playOperationsTone({
-  frequency=440,
-  duration=0.18,
-  type="sine",
-  volume=0.14,
-  delay=0
-}={}){
-  const context=
+  frequency = 440,
+  duration = 0.18,
+  type = "sine",
+  volume = 0.14,
+  delay = 0
+} = {}) {
+
+  const context =
     await ensureOperationsAudio();
 
-  if(!context){
+  if (
+    !context
+  ) {
     return;
   }
 
-  const startTime=
-    context.currentTime+
-    Math.max(0,delay);
+  const startTime =
+    context.currentTime +
+    Math.max(
+      0,
+      delay
+    );
 
-  const endTime=
-    startTime+
-    Math.max(0.05,duration);
+  const endTime =
+    startTime +
+    Math.max(
+      0.05,
+      duration
+    );
 
-  const oscillator=
+  const oscillator =
     context.createOscillator();
 
-  const gain=
+  const gain =
     context.createGain();
 
-  oscillator.type=type;
+  oscillator.type =
+    type;
 
-  oscillator.frequency.setValueAtTime(
-    frequency,
+  oscillator.frequency
+    .setValueAtTime(
+      frequency,
+      startTime
+    );
+
+  gain.gain
+    .setValueAtTime(
+      0.0001,
+      startTime
+    );
+
+  gain.gain
+    .exponentialRampToValueAtTime(
+      Math.max(
+        0.0001,
+        volume
+      ),
+      startTime + 0.02
+    );
+
+  gain.gain
+    .exponentialRampToValueAtTime(
+      0.0001,
+      endTime
+    );
+
+  oscillator.connect(
+    gain
+  );
+
+  gain.connect(
+    context.destination
+  );
+
+  oscillator.start(
     startTime
   );
 
-  gain.gain.setValueAtTime(
-    0.0001,
-    startTime
-  );
-
-  gain.gain.exponentialRampToValueAtTime(
-    Math.max(0.0001,volume),
-    startTime+0.02
-  );
-
-  gain.gain.exponentialRampToValueAtTime(
-    0.0001,
+  oscillator.stop(
     endTime
   );
 
-  oscillator.connect(gain);
-  gain.connect(context.destination);
-
-  oscillator.start(startTime);
-  oscillator.stop(endTime);
-
   oscillator.addEventListener(
     "ended",
-    ()=>{
+    () => {
+
       oscillator.disconnect();
+
       gain.disconnect();
     },
-    {once:true}
+    {
+      once:true
+    }
   );
 }
 
-function playGameSound(soundName){
-  try{
-    if(soundName==="playStart"){
+
+function playGameSound(
+  soundName
+) {
+
+  try {
+
+    if (
+      soundName ===
+      "playStart"
+    ) {
+
       Promise.all([
         playOperationsTone({
           frequency:392,
           duration:0.16,
           volume:0.12
         }),
+
         playOperationsTone({
           frequency:523.25,
           duration:0.22,
@@ -512,22 +1309,30 @@ function playGameSound(soundName){
           delay:0.12
         })
       ]);
+
       return;
     }
 
-    if(soundName==="playCorrect"){
+
+    if (
+      soundName ===
+      "playCorrect"
+    ) {
+
       Promise.all([
         playOperationsTone({
           frequency:523.25,
           duration:0.17,
           volume:0.14
         }),
+
         playOperationsTone({
           frequency:659.25,
           duration:0.20,
           volume:0.13,
           delay:0.10
         }),
+
         playOperationsTone({
           frequency:783.99,
           duration:0.25,
@@ -535,10 +1340,16 @@ function playGameSound(soundName){
           delay:0.20
         })
       ]);
+
       return;
     }
 
-    if(soundName==="playWrong"){
+
+    if (
+      soundName ===
+      "playWrong"
+    ) {
+
       Promise.all([
         playOperationsTone({
           frequency:329.63,
@@ -546,6 +1357,7 @@ function playGameSound(soundName){
           type:"triangle",
           volume:0.12
         }),
+
         playOperationsTone({
           frequency:261.63,
           duration:0.26,
@@ -554,28 +1366,37 @@ function playGameSound(soundName){
           delay:0.14
         })
       ]);
+
       return;
     }
 
-    if(soundName==="playComplete"){
+
+    if (
+      soundName ===
+      "playComplete"
+    ) {
+
       Promise.all([
         playOperationsTone({
           frequency:523.25,
           duration:0.18,
           volume:0.13
         }),
+
         playOperationsTone({
           frequency:659.25,
           duration:0.20,
           volume:0.13,
           delay:0.12
         }),
+
         playOperationsTone({
           frequency:783.99,
           duration:0.22,
           volume:0.13,
           delay:0.24
         }),
+
         playOperationsTone({
           frequency:1046.5,
           duration:0.34,
@@ -584,7 +1405,9 @@ function playGameSound(soundName){
         })
       ]);
     }
-  }catch(error){
+
+  } catch (error) {
+
     console.warn(
       `音效播放失敗：${soundName}`,
       error
@@ -592,813 +1415,4071 @@ function playGameSound(soundName){
   }
 }
 
-const MODE_NAMES={
-  muldiv:"模式一｜正負數的乘除",
-  absolute:"模式二｜絕對值運算",
-  power:"模式三｜乘方計算",
-  mixed:"模式四｜四則運算",
-  advanced:"模式五｜四則運算進階挑戰"
+
+/*
+==================================================
+模式
+==================================================
+*/
+
+const MODE_NAMES = {
+  muldiv:
+    "模式一｜正負數的乘除",
+
+  absolute:
+    "模式二｜絕對值運算",
+
+  power:
+    "模式三｜乘方計算",
+
+  mixed:
+    "模式四｜四則運算",
+
+  advanced:
+    "模式五｜四則運算進階挑戰"
 };
 
-let mode="muldiv";
-let questions=[];
-let index=0;
-let correct=0;
-let wrong=0;
-let locked=false;
-let nextReady=false;
-let startTime=0;
-let timer=null;
-let finalElapsed=0;
-let scoreSaved=false;
 
-function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min}
-function pick(arr){return arr[rand(0,arr.length-1)]}
-function shuffle(arr){
-  for(let i=arr.length-1;i>0;i--){
-    const j=rand(0,i);
-    [arr[i],arr[j]]=[arr[j],arr[i]];
+let mode =
+  "muldiv";
+
+let questions =
+  [];
+
+let index =
+  0;
+
+let correct =
+  0;
+
+let wrong =
+  0;
+
+let locked =
+  false;
+
+let nextReady =
+  false;
+
+let startTime =
+  0;
+
+let timer =
+  null;
+
+let finalElapsed =
+  0;
+
+let scoreSaved =
+  false;
+
+
+/*
+==================================================
+數學工具
+==================================================
+*/
+
+function rand(
+  min,
+  max
+) {
+  return (
+    Math.floor(
+      Math.random() *
+      (
+        max -
+        min +
+        1
+      )
+    ) +
+    min
+  );
+}
+
+
+function pick(
+  arr
+) {
+  return arr[
+    rand(
+      0,
+      arr.length - 1
+    )
+  ];
+}
+
+
+function shuffle(
+  arr
+) {
+
+  for (
+    let i =
+      arr.length - 1;
+
+    i > 0;
+
+    i--
+  ) {
+
+    const j =
+      rand(
+        0,
+        i
+      );
+
+    [
+      arr[i],
+      arr[j]
+    ] = [
+      arr[j],
+      arr[i]
+    ];
   }
+
   return arr;
 }
-function gcd(a,b){
-  a=Math.abs(a);b=Math.abs(b);
-  while(b){const t=a%b;a=b;b=t}
-  return a||1;
-}
-function simplify(n,d){
-  if(d===0)throw new Error("分母不可為 0");
-  if(d<0){n=-n;d=-d}
-  const g=gcd(n,d);
-  return{n:n/g,d:d/g};
-}
-function addR(a,b){return simplify(a.n*b.d+b.n*a.d,a.d*b.d)}
-function subR(a,b){return simplify(a.n*b.d-b.n*a.d,a.d*b.d)}
-function mulR(a,b){return simplify(a.n*b.n,a.d*b.d)}
-function divR(a,b){return simplify(a.n*b.d,a.d*b.n)}
-function intR(n){return{n,d:1}}
-function absR(a){return{n:Math.abs(a.n),d:a.d}}
-function eqR(a,b){return a.n===b.n&&a.d===b.d}
-function formatNumber(n){return String(n).replace("-","−")}
-function signedInteger(n){return n<0?`(${formatNumber(n)})`:String(n)}
-function power(base,exp){return Math.pow(base,exp)}
 
-function fracHTML(value,parens=false){
-  const r=simplify(value.n,value.d);
-  if(r.d===1){
-    const s=formatNumber(r.n);
-    return parens&&r.n<0?`(${s})`:s;
+
+function gcd(
+  a,
+  b
+) {
+
+  a =
+    Math.abs(
+      a
+    );
+
+  b =
+    Math.abs(
+      b
+    );
+
+  while (
+    b
+  ) {
+
+    const t =
+      a % b;
+
+    a =
+      b;
+
+    b =
+      t;
   }
-  const core=`${r.n<0?"−":""}<span class="math-frac"><span class="top">${Math.abs(r.n)}</span><span class="bottom">${r.d}</span></span>`;
-  return parens&&r.n<0?`(${core})`:core;
+
+  return (
+    a ||
+    1
+  );
 }
 
-function rationalText(value){
-  const r=simplify(value.n,value.d);
-  return r.d===1?formatNumber(r.n):`${r.n}/${r.d}`;
+
+function simplify(
+  n,
+  d
+) {
+
+  if (
+    d === 0
+  ) {
+    throw new Error(
+      "分母不可為 0"
+    );
+  }
+
+  if (
+    d < 0
+  ) {
+    n =
+      -n;
+
+    d =
+      -d;
+  }
+
+  const g =
+    gcd(
+      n,
+      d
+    );
+
+  return {
+    n:
+      n / g,
+
+    d:
+      d / g
+  };
 }
 
-function randomProperFraction({positiveOnly=false}={}){
-  let n,d;
-  do{
-    d=rand(2,12);
-    n=rand(1,d-1);
-  }while(gcd(n,d)!==1);
-  if(!positiveOnly&&Math.random()<.5)n=-n;
-  return{n,d};
+
+function addR(
+  a,
+  b
+) {
+  return simplify(
+    a.n * b.d +
+    b.n * a.d,
+
+    a.d * b.d
+  );
 }
 
-function randomNonZeroInteger(min=-12,max=12,positiveOnly=false){
+
+function subR(
+  a,
+  b
+) {
+  return simplify(
+    a.n * b.d -
+    b.n * a.d,
+
+    a.d * b.d
+  );
+}
+
+
+function mulR(
+  a,
+  b
+) {
+  return simplify(
+    a.n * b.n,
+    a.d * b.d
+  );
+}
+
+
+function divR(
+  a,
+  b
+) {
+  return simplify(
+    a.n * b.d,
+    a.d * b.n
+  );
+}
+
+
+function intR(
+  n
+) {
+  return {
+    n,
+    d:1
+  };
+}
+
+
+function absR(
+  a
+) {
+  return {
+    n:
+      Math.abs(
+        a.n
+      ),
+
+    d:
+      a.d
+  };
+}
+
+
+function eqR(
+  a,
+  b
+) {
+  return (
+    a.n === b.n &&
+    a.d === b.d
+  );
+}
+
+
+function formatNumber(
+  n
+) {
+  return String(
+    n
+  ).replace(
+    "-",
+    "−"
+  );
+}
+
+
+/*
+==================================================
+數學符號格式
+==================================================
+
+規則：
+
+1. 正整數：
+   5
+
+2. 負整數：
+   (−5)
+   當它是另一個運算元時加括號
+
+3. 減去負數：
+   5 − (−3)
+
+4. 乘以負數：
+   (−6) × (−1)
+
+5. 正整數乘方：
+   6²
+
+6. 負整數乘方：
+   (−6)²
+==================================================
+*/
+
+
+function signedInteger(
+  n
+) {
+
+  return (
+    n < 0
+      ? `(${formatNumber(
+          n
+        )})`
+      : String(
+          n
+        )
+  );
+}
+
+
+/*
+專門用於絕對值內的第二個加減運算元。
+
+例如：
+
+|−4 − (−3)|
+
+而不是：
+
+|−4 − −3|
+*/
+
+function signedInnerOperand(
+  n
+) {
+
+  return (
+    n < 0
+      ? `(${formatNumber(
+          n
+        )})`
+      : formatNumber(
+          n
+        )
+  );
+}
+
+
+/*
+乘法／除法的整數因數。
+
+負數一定加括號。
+*/
+
+function integerFactorHTML(
+  n
+) {
+
+  return (
+    n < 0
+      ? `(${formatNumber(
+          n
+        )})`
+      : String(
+          n
+        )
+  );
+}
+
+
+function powerBaseHTML(
+  base
+) {
+
+  return (
+    base < 0
+      ? `(${formatNumber(
+          base
+        )})`
+      : String(
+          base
+        )
+  );
+}
+
+
+function power(
+  base,
+  exp
+) {
+  return Math.pow(
+    base,
+    exp
+  );
+}
+
+
+/*
+==================================================
+分數格式
+==================================================
+*/
+
+function fracHTML(
+  value,
+  parens = false
+) {
+
+  const r =
+    simplify(
+      value.n,
+      value.d
+    );
+
+
+  if (
+    r.d === 1
+  ) {
+
+    const s =
+      formatNumber(
+        r.n
+      );
+
+    return (
+      parens &&
+      r.n < 0
+        ? `(${s})`
+        : s
+    );
+  }
+
+
+  const core =
+    `${
+      r.n < 0
+        ? "−"
+        : ""
+    }` +
+    `<span class="math-frac">` +
+      `<span class="top">` +
+        `${Math.abs(
+          r.n
+        )}` +
+      `</span>` +
+      `<span class="bottom">` +
+        `${r.d}` +
+      `</span>` +
+    `</span>`;
+
+
+  return (
+    parens &&
+    r.n < 0
+      ? `(${core})`
+      : core
+  );
+}
+
+
+/*
+乘法／除法中的分數。
+
+分數形式加括號；
+負整數也加括號；
+正整數不加括號。
+*/
+
+function factorHTML(
+  value
+) {
+
+  const r =
+    simplify(
+      value.n,
+      value.d
+    );
+
+
+  if (
+    r.d === 1
+  ) {
+
+    return integerFactorHTML(
+      r.n
+    );
+  }
+
+
+  const fraction =
+    fracHTML(
+      r,
+      false
+    );
+
+  return (
+    `(${fraction})`
+  );
+}
+
+
+function rationalText(
+  value
+) {
+
+  const r =
+    simplify(
+      value.n,
+      value.d
+    );
+
+  return (
+    r.d === 1
+      ? formatNumber(
+          r.n
+        )
+      : `${r.n}/${r.d}`
+  );
+}
+
+
+function randomProperFraction({
+  positiveOnly = false
+} = {}) {
+
   let n;
-  do{n=rand(min,max)}while(n===0);
-  if(positiveOnly)n=Math.abs(n);
+  let d;
+
+  do {
+
+    d =
+      rand(
+        2,
+        12
+      );
+
+    n =
+      rand(
+        1,
+        d - 1
+      );
+
+  } while (
+    gcd(
+      n,
+      d
+    ) !== 1
+  );
+
+
+  if (
+    !positiveOnly &&
+    Math.random() < .5
+  ) {
+    n =
+      -n;
+  }
+
+
+  return {
+    n,
+    d
+  };
+}
+
+
+function randomNonZeroInteger(
+  min = -12,
+  max = 12,
+  positiveOnly = false
+) {
+
+  let n;
+
+  do {
+
+    n =
+      rand(
+        min,
+        max
+      );
+
+  } while (
+    n === 0
+  );
+
+
+  if (
+    positiveOnly
+  ) {
+    n =
+      Math.abs(
+        n
+      );
+  }
+
+
   return n;
 }
 
-function makeMulDivQuestion(positivePositive=false){
-  const kind=pick(["ii","if","fi","ff"]);
-  const op=Math.random()<.5?"×":"÷";
-  let left,right,answer;
 
-  const makeSign=()=>{
-    if(positivePositive)return 1;
-    return Math.random()<.5?-1:1;
+/*
+==================================================
+模式一：乘除
+==================================================
+*/
+
+function makeMulDivQuestion(
+  positivePositive = false
+) {
+
+  const kind =
+    pick([
+      "ii",
+      "if",
+      "fi",
+      "ff"
+    ]);
+
+  const op =
+    Math.random() < .5
+      ? "×"
+      : "÷";
+
+  let left;
+  let right;
+  let answer;
+
+
+  const makeSign =
+    () => {
+
+      if (
+        positivePositive
+      ) {
+        return 1;
+      }
+
+      return (
+        Math.random() < .5
+          ? -1
+          : 1
+      );
+    };
+
+
+  if (
+    kind === "ii"
+  ) {
+
+    left =
+      intR(
+        randomNonZeroInteger(
+          2,
+          12,
+          true
+        ) *
+        makeSign()
+      );
+
+    right =
+      intR(
+        randomNonZeroInteger(
+          2,
+          12,
+          true
+        ) *
+        makeSign()
+      );
+
+  } else if (
+    kind === "if"
+  ) {
+
+    left =
+      intR(
+        randomNonZeroInteger(
+          2,
+          10,
+          true
+        ) *
+        makeSign()
+      );
+
+    right =
+      randomProperFraction({
+        positiveOnly:
+          positivePositive
+      });
+
+  } else if (
+    kind === "fi"
+  ) {
+
+    left =
+      randomProperFraction({
+        positiveOnly:
+          positivePositive
+      });
+
+    right =
+      intR(
+        randomNonZeroInteger(
+          2,
+          10,
+          true
+        ) *
+        makeSign()
+      );
+
+  } else {
+
+    left =
+      randomProperFraction({
+        positiveOnly:
+          positivePositive
+      });
+
+    right =
+      randomProperFraction({
+        positiveOnly:
+          positivePositive
+      });
+  }
+
+
+  if (
+    op === "÷" &&
+    right.n === 0
+  ) {
+
+    return makeMulDivQuestion(
+      positivePositive
+    );
+  }
+
+
+  answer =
+    op === "×"
+      ? mulR(
+          left,
+          right
+        )
+      : divR(
+          left,
+          right
+        );
+
+
+  if (
+    Math.abs(
+      answer.n
+    ) > 120 ||
+    answer.d > 60
+  ) {
+
+    return makeMulDivQuestion(
+      positivePositive
+    );
+  }
+
+
+  const steps =
+    [];
+
+
+  if (
+    op === "×"
+  ) {
+
+    steps.push([
+      "判斷正負號",
+
+      `${
+        left.n *
+        right.n <
+        0
+          ? "異號相乘，結果為負"
+          : "同號相乘，結果為正"
+      }。`
+    ]);
+
+
+    steps.push([
+      "分子乘分子、分母乘分母",
+
+      `${factorHTML(
+        left
+      )} × ${factorHTML(
+        right
+      )} = ${fracHTML({
+        n:
+          left.n *
+          right.n,
+
+        d:
+          left.d *
+          right.d
+      })}`
+    ]);
+
+  } else {
+
+    steps.push([
+      "除以一個數等於乘以它的倒數",
+
+      `${factorHTML(
+        left
+      )} ÷ ${factorHTML(
+        right
+      )} = ${factorHTML(
+        left
+      )} × ${factorHTML({
+        n:
+          right.d,
+
+        d:
+          right.n
+      })}`
+    ]);
+
+
+    steps.push([
+      "進行乘法",
+
+      `${factorHTML(
+        left
+      )} × ${factorHTML({
+        n:
+          right.d,
+
+        d:
+          right.n
+      })} = ${fracHTML(
+        answer
+      )}`
+    ]);
+  }
+
+
+  steps.push([
+    "化成最簡分數",
+
+    `${fracHTML(
+      answer
+    )}`
+  ]);
+
+
+  return {
+
+    html:
+      `${factorHTML(
+        left
+      )} ${op} ${factorHTML(
+        right
+      )}`,
+
+    answer,
+
+    steps
   };
+}
 
-  if(kind==="ii"){
-    left=intR(randomNonZeroInteger(2,12,true)*makeSign());
-    right=intR(randomNonZeroInteger(2,12,true)*makeSign());
-  }else if(kind==="if"){
-    left=intR(randomNonZeroInteger(2,10,true)*makeSign());
-    right=randomProperFraction({positiveOnly:positivePositive});
-  }else if(kind==="fi"){
-    left=randomProperFraction({positiveOnly:positivePositive});
-    right=intR(randomNonZeroInteger(2,10,true)*makeSign());
-  }else{
-    left=randomProperFraction({positiveOnly:positivePositive});
-    right=randomProperFraction({positiveOnly:positivePositive});
+
+/*
+==================================================
+模式二：絕對值
+==================================================
+*/
+
+function makeAbsoluteQuestion() {
+
+  const type =
+    rand(
+      1,
+      4
+    );
+
+  let html;
+  let answer;
+  let steps;
+
+
+  if (
+    type === 1
+  ) {
+
+    const a =
+      randomNonZeroInteger(
+        -20,
+        20
+      );
+
+    answer =
+      intR(
+        Math.abs(
+          a
+        )
+      );
+
+    html =
+      `|${formatNumber(
+        a
+      )}|`;
+
+    steps = [
+      [
+        "絕對值表示與 0 的距離",
+
+        `|${formatNumber(
+          a
+        )}| = ${Math.abs(
+          a
+        )}`
+      ]
+    ];
+
+
+  } else if (
+    type === 2
+  ) {
+
+    const a =
+      randomNonZeroInteger(
+        -15,
+        15
+      );
+
+    const b =
+      randomNonZeroInteger(
+        -12,
+        12
+      );
+
+    answer =
+      intR(
+        Math.abs(
+          a
+        ) -
+        b
+      );
+
+    html =
+      `|${formatNumber(
+        a
+      )}| − ${signedInteger(
+        b
+      )}`;
+
+    steps = [
+      [
+        "先算絕對值",
+
+        `|${formatNumber(
+          a
+        )}| = ${Math.abs(
+          a
+        )}`
+      ],
+
+      [
+        "再做減法",
+
+        `${Math.abs(
+          a
+        )} − ${signedInteger(
+          b
+        )} = ${formatNumber(
+          answer.n
+        )}`
+      ]
+    ];
+
+
+  } else if (
+    type === 3
+  ) {
+
+    const a =
+      randomNonZeroInteger(
+        -15,
+        15
+      );
+
+    const b =
+      randomNonZeroInteger(
+        -15,
+        15
+      );
+
+    answer =
+      intR(
+        Math.abs(
+          a
+        ) -
+        Math.abs(
+          b
+        )
+      );
+
+    html =
+      `|${formatNumber(
+        a
+      )}| − |${formatNumber(
+        b
+      )}|`;
+
+    steps = [
+      [
+        "先算兩個絕對值",
+
+        `|${formatNumber(
+          a
+        )}| = ${Math.abs(
+          a
+        )}，|${formatNumber(
+          b
+        )}| = ${Math.abs(
+          b
+        )}`
+      ],
+
+      [
+        "再做減法",
+
+        `${Math.abs(
+          a
+        )} − ${Math.abs(
+          b
+        )} = ${formatNumber(
+          answer.n
+        )}`
+      ]
+    ];
+
+
+  } else {
+
+    const a =
+      randomNonZeroInteger(
+        -12,
+        12
+      );
+
+    const b =
+      randomNonZeroInteger(
+        -12,
+        12
+      );
+
+    const c =
+      randomNonZeroInteger(
+        -10,
+        10
+      );
+
+    answer =
+      intR(
+        Math.abs(
+          a
+        ) -
+        Math.abs(
+          b
+        ) -
+        c
+      );
+
+    html =
+      `|${formatNumber(
+        a
+      )}| − |${formatNumber(
+        b
+      )}| − ${signedInteger(
+        c
+      )}`;
+
+    steps = [
+      [
+        "先算絕對值",
+
+        `|${formatNumber(
+          a
+        )}| = ${Math.abs(
+          a
+        )}，|${formatNumber(
+          b
+        )}| = ${Math.abs(
+          b
+        )}`
+      ],
+
+      [
+        "由左到右計算加減",
+
+        `${Math.abs(
+          a
+        )} − ${Math.abs(
+          b
+        )} − ${signedInteger(
+          c
+        )} = ${formatNumber(
+          answer.n
+        )}`
+      ]
+    ];
   }
 
-  if(op==="÷"&&right.n===0)return makeMulDivQuestion(positivePositive);
-  answer=op==="×"?mulR(left,right):divR(left,right);
 
-  if(Math.abs(answer.n)>120||answer.d>60){
-    return makeMulDivQuestion(positivePositive);
-  }
-
-  const steps=[];
-  if(op==="×"){
-    steps.push(["判斷正負號",`${left.n*right.n<0?"異號相乘，結果為負":"同號相乘，結果為正"}。`]);
-    steps.push(["分子乘分子、分母乘分母",`${fracHTML(left,true)} × ${fracHTML(right,true)} = ${fracHTML({n:left.n*right.n,d:left.d*right.d})}`]);
-  }else{
-    steps.push(["除以一個數等於乘以它的倒數",`${fracHTML(left,true)} ÷ ${fracHTML(right,true)} = ${fracHTML(left,true)} × ${fracHTML({n:right.d,d:right.n},true)}`]);
-    steps.push(["進行乘法",`${fracHTML(left,true)} × ${fracHTML({n:right.d,d:right.n},true)} = ${fracHTML(answer)}`]);
-  }
-  steps.push(["化成最簡分數",`${fracHTML(answer)}`]);
-
-  return{
-    html:`${fracHTML(left,true)} ${op} ${fracHTML(right,true)}`,
+  return {
+    html,
     answer,
     steps
   };
 }
 
-function makeAbsoluteQuestion(){
-  const type=rand(1,4);
-  let html,answer,steps;
 
-  if(type===1){
-    const a=randomNonZeroInteger(-20,20);
-    answer=intR(Math.abs(a));
-    html=`|${formatNumber(a)}|`;
-    steps=[
-      ["絕對值表示與 0 的距離",`|${formatNumber(a)}| = ${Math.abs(a)}`]
-    ];
-  }else if(type===2){
-    const a=randomNonZeroInteger(-15,15);
-    const b=randomNonZeroInteger(-12,12);
-    answer=intR(Math.abs(a)-b);
-    html=`|${formatNumber(a)}| − ${signedInteger(b)}`;
-    steps=[
-      ["先算絕對值",`|${formatNumber(a)}| = ${Math.abs(a)}`],
-      ["再做減法",`${Math.abs(a)} − ${signedInteger(b)} = ${formatNumber(answer.n)}`]
-    ];
-  }else if(type===3){
-    const a=randomNonZeroInteger(-15,15);
-    const b=randomNonZeroInteger(-15,15);
-    answer=intR(Math.abs(a)-Math.abs(b));
-    html=`|${formatNumber(a)}| − |${formatNumber(b)}|`;
-    steps=[
-      ["先算兩個絕對值",`|${formatNumber(a)}| = ${Math.abs(a)}，|${formatNumber(b)}| = ${Math.abs(b)}`],
-      ["再做減法",`${Math.abs(a)} − ${Math.abs(b)} = ${formatNumber(answer.n)}`]
-    ];
-  }else{
-    const a=randomNonZeroInteger(-12,12);
-    const b=randomNonZeroInteger(-12,12);
-    const c=randomNonZeroInteger(-10,10);
-    answer=intR(Math.abs(a)-Math.abs(b)-c);
-    html=`|${formatNumber(a)}| − |${formatNumber(b)}| − ${signedInteger(c)}`;
-    steps=[
-      ["先算絕對值",`|${formatNumber(a)}| = ${Math.abs(a)}，|${formatNumber(b)}| = ${Math.abs(b)}`],
-      ["由左到右計算加減",`${Math.abs(a)} − ${Math.abs(b)} − ${signedInteger(c)} = ${formatNumber(answer.n)}`]
-    ];
+/*
+==================================================
+模式三：乘方
+==================================================
+*/
+
+function randomPowerBase() {
+
+  if (
+    Math.random() <
+    0.65
+  ) {
+
+    return pick([
+      -4,
+      -3,
+      -2,
+      2,
+      3,
+      4
+    ]);
   }
 
-  return{html,answer,steps};
+
+  return pick([
+    -8,
+    -7,
+    -6,
+    -5,
+    5,
+    6,
+    7,
+    8
+  ]);
 }
 
-function randomPowerBase(){
-  if (Math.random() < 0.65) {
-    return pick([-4, -3, -2, 2, 3, 4]);
+
+function exponentForBase(
+  base
+) {
+
+  const absoluteBase =
+    Math.abs(
+      base
+    );
+
+
+  if (
+    absoluteBase ===
+    2
+  ) {
+    return rand(
+      2,
+      10
+    );
   }
 
-  return pick([-8, -7, -6, -5, 5, 6, 7, 8]);
+
+  if (
+    absoluteBase ===
+    3
+  ) {
+    return rand(
+      2,
+      6
+    );
+  }
+
+
+  if (
+    absoluteBase ===
+    4
+  ) {
+    return rand(
+      2,
+      5
+    );
+  }
+
+
+  return rand(
+    2,
+    3
+  );
 }
 
-function exponentForBase(base){
-  const absoluteBase = Math.abs(base);
 
-  if (absoluteBase === 2) {
-    return rand(2, 10);
-  }
+function makePowerQuestion(
+  forceConfusing =
+    Math.random() < .6
+) {
 
-  if (absoluteBase === 3) {
-    return rand(2, 6);
-  }
+  let base =
+    randomPowerBase();
 
-  if (absoluteBase === 4) {
-    return rand(2, 5);
-  }
+  let exp =
+    exponentForBase(
+      base
+    );
 
-  return rand(2, 3);
-}
+  let html;
+  let answer;
+  let steps;
 
-function makePowerQuestion(forceConfusing=Math.random()<.6){
-  let base=randomPowerBase();
-  let exp=exponentForBase(base);
-  let html,answer,steps;
 
-  if(forceConfusing){
-    const form=rand(1,4);
+  if (
+    forceConfusing
+  ) {
 
-    if(form===1){
-      const absBase=Math.abs(base);
-      answer=intR(-power(-absBase,exp));
-      html=`−(−${absBase})<sup>${exp}</sup>`;
-      steps=[
-        ["先算括號內的乘方",`(−${absBase})<sup>${exp}</sup> = ${formatNumber(power(-absBase,exp))}`],
-        ["再處理最前面的負號",`−(${formatNumber(power(-absBase,exp))}) = ${formatNumber(answer.n)}`]
+    const form =
+      rand(
+        1,
+        4
+      );
+
+
+    if (
+      form === 1
+    ) {
+
+      const absBase =
+        Math.abs(
+          base
+        );
+
+      answer =
+        intR(
+          -power(
+            -absBase,
+            exp
+          )
+        );
+
+      html =
+        `−(−${absBase})` +
+        `<sup>${exp}</sup>`;
+
+      steps = [
+        [
+          "先算括號內的乘方",
+
+          `(−${absBase})` +
+          `<sup>${exp}</sup>` +
+          ` = ${formatNumber(
+            power(
+              -absBase,
+              exp
+            )
+          )}`
+        ],
+
+        [
+          "再處理最前面的負號",
+
+          `−(${formatNumber(
+            power(
+              -absBase,
+              exp
+            )
+          )}) = ${formatNumber(
+            answer.n
+          )}`
+        ]
       ];
-    }else if(form===2){
-      base=-Math.abs(base);
-      answer=intR(power(base,exp));
-      html=`(${formatNumber(base)})<sup>${exp}</sup>`;
-      steps=[
-        ["辨認底數",`括號表示底數是 ${formatNumber(base)}。`],
-        ["判斷奇偶次方",`${exp} 是${exp%2===0?"偶":"奇"}數，因此答案為${answer.n<0?"負":"正"}。`],
-        ["計算",`${formatNumber(answer.n)}`]
+
+
+    } else if (
+      form === 2
+    ) {
+
+      base =
+        -Math.abs(
+          base
+        );
+
+      answer =
+        intR(
+          power(
+            base,
+            exp
+          )
+        );
+
+      html =
+        `${powerBaseHTML(
+          base
+        )}` +
+        `<sup>${exp}</sup>`;
+
+      steps = [
+        [
+          "辨認底數",
+
+          `括號表示底數是 ${formatNumber(
+            base
+          )}。`
+        ],
+
+        [
+          "判斷奇偶次方",
+
+          `${exp} 是${
+            exp % 2 === 0
+              ? "偶"
+              : "奇"
+          }數，因此答案為${
+            answer.n < 0
+              ? "負"
+              : "正"
+          }。`
+        ],
+
+        [
+          "計算",
+
+          `${formatNumber(
+            answer.n
+          )}`
+        ]
       ];
-    }else if(form===3){
-      const absBase=Math.max(5,Math.abs(base));
-      exp=rand(2,3);
-      answer=intR(-power(absBase,exp));
-      html=`−${absBase}<sup>${exp}</sup>`;
-      steps=[
-        ["先算乘方",`${absBase}<sup>${exp}</sup> = ${power(absBase,exp)}`],
-        ["負號不在括號內",`−${power(absBase,exp)} = ${formatNumber(answer.n)}`]
+
+
+    } else if (
+      form === 3
+    ) {
+
+      const absBase =
+        Math.max(
+          5,
+          Math.abs(
+            base
+          )
+        );
+
+      exp =
+        rand(
+          2,
+          3
+        );
+
+      answer =
+        intR(
+          -power(
+            absBase,
+            exp
+          )
+        );
+
+      html =
+        `−${absBase}` +
+        `<sup>${exp}</sup>`;
+
+      steps = [
+        [
+          "先算乘方",
+
+          `${absBase}` +
+          `<sup>${exp}</sup>` +
+          ` = ${power(
+            absBase,
+            exp
+          )}`
+        ],
+
+        [
+          "負號不在括號內",
+
+          `−${power(
+            absBase,
+            exp
+          )} = ${formatNumber(
+            answer.n
+          )}`
+        ]
       ];
-    }else{
-      const absBase=Math.max(5,Math.abs(base));
-      exp=rand(2,3);
-      answer=intR(power(-absBase,exp));
-      html=`(−${absBase})<sup>${exp}</sup>`;
-      steps=[
-        ["括號內整體是底數",`底數為 −${absBase}。`],
-        ["判斷奇偶次方",`${exp} 是${exp%2===0?"偶":"奇"}數，因此答案為${answer.n<0?"負":"正"}。`],
-        ["計算",`${formatNumber(answer.n)}`]
+
+
+    } else {
+
+      const absBase =
+        Math.max(
+          5,
+          Math.abs(
+            base
+          )
+        );
+
+      base =
+        -absBase;
+
+      exp =
+        rand(
+          2,
+          3
+        );
+
+      answer =
+        intR(
+          power(
+            base,
+            exp
+          )
+        );
+
+      html =
+        `${powerBaseHTML(
+          base
+        )}` +
+        `<sup>${exp}</sup>`;
+
+      steps = [
+        [
+          "括號內整體是底數",
+
+          `底數為 ${formatNumber(
+            base
+          )}。`
+        ],
+
+        [
+          "判斷奇偶次方",
+
+          `${exp} 是${
+            exp % 2 === 0
+              ? "偶"
+              : "奇"
+          }數，因此答案為${
+            answer.n < 0
+              ? "負"
+              : "正"
+          }。`
+        ],
+
+        [
+          "計算",
+
+          `${formatNumber(
+            answer.n
+          )}`
+        ]
       ];
     }
-  }else{
-    answer=intR(power(base,exp));
-    html=`${base<0?`(${formatNumber(base)})`:base}<sup>${exp}</sup>`;
-    steps=[
-      ["展開乘方",`${html} 表示 ${Array(exp).fill(base<0?`(${formatNumber(base)})`:String(base)).join(" × ")}`],
-      ["計算",`${formatNumber(answer.n)}`]
+
+
+  } else {
+
+    answer =
+      intR(
+        power(
+          base,
+          exp
+        )
+      );
+
+    html =
+      `${powerBaseHTML(
+        base
+      )}` +
+      `<sup>${exp}</sup>`;
+
+
+    steps = [
+      [
+        "展開乘方",
+
+        `${html} 表示 ` +
+        `${Array(
+          exp
+        ).fill(
+          integerFactorHTML(
+            base
+          )
+        ).join(
+          " × "
+        )}`
+      ],
+
+      [
+        "計算",
+
+        `${formatNumber(
+          answer.n
+        )}`
+      ]
     ];
   }
 
-  return{html,answer,steps};
-}
-
-function exponentForMixedModes(base){
-  return Math.abs(base) <= 3
-    ? rand(2, 3)
-    : 2;
-}
-
-function makeMixedModePower(){
-  const base = pick([
-    -8, -7, -6, -5, -4, -3, -2,
-     2,  3,  4,  5,  6,  7,  8
-  ]);
-
-  const exp = exponentForMixedModes(base);
 
   return {
-    base,
-    exp,
-    value: power(base, exp),
-    html: `(${formatNumber(base)})<sup>${exp}</sup>`
+    html,
+    answer,
+    steps
   };
 }
 
-function makeMixedQuestion(){
-  const type=rand(1,5);
-  let html,answer,steps;
 
-  if(type===1){
-    const a=randomNonZeroInteger(-8,8);
-    const b=randomNonZeroInteger(-8,8);
-    const p=makeMixedModePower();
-    answer=intR(Math.abs(a-b)-b*p.base+p.value);
-    html=`|${formatNumber(a)} − ${formatNumber(b)}| − ${signedInteger(b)} × ${signedInteger(p.base)} + ${p.html}`;
-    steps=[
-      ["先算絕對值內與乘方",`|${formatNumber(a-b)}| = ${Math.abs(a-b)}，${p.html} = ${formatNumber(p.value)}`],
-      ["再算乘法",`${signedInteger(b)} × ${signedInteger(p.base)} = ${formatNumber(b*p.base)}`],
-      ["最後由左到右做加減",`${Math.abs(a-b)} − ${signedInteger(b*p.base)} + ${formatNumber(p.value)} = ${formatNumber(answer.n)}`]
+/*
+==================================================
+模式四、模式五共用乘方
+==================================================
+*/
+
+function exponentForMixedModes(
+  base
+) {
+
+  return (
+    Math.abs(
+      base
+    ) <= 3
+      ? rand(
+          2,
+          3
+        )
+      : 2
+  );
+}
+
+
+function makeMixedModePower() {
+
+  const base =
+    pick([
+      -8,
+      -7,
+      -6,
+      -5,
+      -4,
+      -3,
+      -2,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ]);
+
+
+  const exp =
+    exponentForMixedModes(
+      base
+    );
+
+
+  return {
+
+    base,
+
+    exp,
+
+    value:
+      power(
+        base,
+        exp
+      ),
+
+    /*
+    關鍵修正：
+
+    正整數：
+    6²
+
+    負整數：
+    (−6)²
+    */
+
+    html:
+      `${powerBaseHTML(
+        base
+      )}` +
+      `<sup>${exp}</sup>`
+  };
+}
+
+
+/*
+==================================================
+模式四：四則運算
+==================================================
+*/
+
+function makeMixedQuestion() {
+
+  const type =
+    rand(
+      1,
+      5
+    );
+
+  let html;
+  let answer;
+  let steps;
+
+
+  if (
+    type === 1
+  ) {
+
+    const a =
+      randomNonZeroInteger(
+        -8,
+        8
+      );
+
+    const b =
+      randomNonZeroInteger(
+        -8,
+        8
+      );
+
+    const p =
+      makeMixedModePower();
+
+
+    answer =
+      intR(
+        Math.abs(
+          a - b
+        ) -
+        b *
+        p.base +
+        p.value
+      );
+
+
+    /*
+    關鍵修正：
+
+    |−4 − −3|
+
+    改成：
+
+    |−4 − (−3)|
+    */
+
+    html =
+      `|${formatNumber(
+        a
+      )} − ${signedInnerOperand(
+        b
+      )}|` +
+      ` − ${integerFactorHTML(
+        b
+      )}` +
+      ` × ${integerFactorHTML(
+        p.base
+      )}` +
+      ` + ${p.html}`;
+
+
+    steps = [
+      [
+        "先算絕對值內與乘方",
+
+        `|${formatNumber(
+          a
+        )} − ${signedInnerOperand(
+          b
+        )}|` +
+        ` = ${Math.abs(
+          a - b
+        )}，` +
+        `${p.html}` +
+        ` = ${formatNumber(
+          p.value
+        )}`
+      ],
+
+      [
+        "再算乘法",
+
+        `${integerFactorHTML(
+          b
+        )} × ${integerFactorHTML(
+          p.base
+        )}` +
+        ` = ${formatNumber(
+          b *
+          p.base
+        )}`
+      ],
+
+      [
+        "最後由左到右做加減",
+
+        `${Math.abs(
+          a - b
+        )}` +
+        ` − ${signedInteger(
+          b *
+          p.base
+        )}` +
+        ` + ${formatNumber(
+          p.value
+        )}` +
+        ` = ${formatNumber(
+          answer.n
+        )}`
+      ]
     ];
-  }else if(type===2){
-    const a=randomNonZeroInteger(-9,9);
-    const b=randomNonZeroInteger(-5,5);
-    const p=makeMixedModePower();
-    answer=intR(Math.abs(a)+b*p.base-p.value);
-    html=`|${formatNumber(a)}| + ${signedInteger(b)} × ${signedInteger(p.base)} − ${p.html}`;
-    steps=[
-      ["先算絕對值與乘方",`|${formatNumber(a)}| = ${Math.abs(a)}，${p.html} = ${formatNumber(p.value)}`],
-      ["再算乘法",`${signedInteger(b)} × ${signedInteger(p.base)} = ${formatNumber(b*p.base)}`],
-      ["最後做加減",`${Math.abs(a)} + ${signedInteger(b*p.base)} − ${formatNumber(p.value)} = ${formatNumber(answer.n)}`]
+
+
+  } else if (
+    type === 2
+  ) {
+
+    const a =
+      randomNonZeroInteger(
+        -9,
+        9
+      );
+
+    const b =
+      randomNonZeroInteger(
+        -5,
+        5
+      );
+
+    const p =
+      makeMixedModePower();
+
+
+    answer =
+      intR(
+        Math.abs(
+          a
+        ) +
+        b *
+        p.base -
+        p.value
+      );
+
+
+    html =
+      `|${formatNumber(
+        a
+      )}|` +
+      ` + ${integerFactorHTML(
+        b
+      )}` +
+      ` × ${integerFactorHTML(
+        p.base
+      )}` +
+      ` − ${p.html}`;
+
+
+    steps = [
+      [
+        "先算絕對值與乘方",
+
+        `|${formatNumber(
+          a
+        )}| = ${Math.abs(
+          a
+        )}，${p.html}` +
+        ` = ${formatNumber(
+          p.value
+        )}`
+      ],
+
+      [
+        "再算乘法",
+
+        `${integerFactorHTML(
+          b
+        )} × ${integerFactorHTML(
+          p.base
+        )}` +
+        ` = ${formatNumber(
+          b *
+          p.base
+        )}`
+      ],
+
+      [
+        "最後做加減",
+
+        `${Math.abs(
+          a
+        )}` +
+        ` + ${signedInteger(
+          b *
+          p.base
+        )}` +
+        ` − ${formatNumber(
+          p.value
+        )}` +
+        ` = ${formatNumber(
+          answer.n
+        )}`
+      ]
     ];
-  }else if(type===3){
-    const divisor=pick([-6,-5,-4,-3,3,4,5,6]);
-    const quotient=randomNonZeroInteger(-8,8);
-    const dividend=divisor*quotient;
-    const c=randomNonZeroInteger(-9,9);
-    answer=intR(quotient+Math.abs(c));
-    html=`${signedInteger(dividend)} ÷ ${signedInteger(divisor)} + |${formatNumber(c)}|`;
-    steps=[
-      ["先算除法與絕對值",`${signedInteger(dividend)} ÷ ${signedInteger(divisor)} = ${formatNumber(quotient)}，|${formatNumber(c)}| = ${Math.abs(c)}`],
-      ["再相加",`${formatNumber(quotient)} + ${Math.abs(c)} = ${formatNumber(answer.n)}`]
+
+
+  } else if (
+    type === 3
+  ) {
+
+    const divisor =
+      pick([
+        -6,
+        -5,
+        -4,
+        -3,
+        3,
+        4,
+        5,
+        6
+      ]);
+
+    const quotient =
+      randomNonZeroInteger(
+        -8,
+        8
+      );
+
+    const dividend =
+      divisor *
+      quotient;
+
+    const c =
+      randomNonZeroInteger(
+        -9,
+        9
+      );
+
+
+    answer =
+      intR(
+        quotient +
+        Math.abs(
+          c
+        )
+      );
+
+
+    html =
+      `${integerFactorHTML(
+        dividend
+      )}` +
+      ` ÷ ${integerFactorHTML(
+        divisor
+      )}` +
+      ` + |${formatNumber(
+        c
+      )}|`;
+
+
+    steps = [
+      [
+        "先算除法與絕對值",
+
+        `${integerFactorHTML(
+          dividend
+        )}` +
+        ` ÷ ${integerFactorHTML(
+          divisor
+        )}` +
+        ` = ${formatNumber(
+          quotient
+        )}，` +
+        `|${formatNumber(
+          c
+        )}| = ${Math.abs(
+          c
+        )}`
+      ],
+
+      [
+        "再相加",
+
+        `${formatNumber(
+          quotient
+        )}` +
+        ` + ${Math.abs(
+          c
+        )}` +
+        ` = ${formatNumber(
+          answer.n
+        )}`
+      ]
     ];
-  }else if(type===4){
-    const p=makeMixedModePower();
-    const b=randomNonZeroInteger(-6,6);
-    const c=randomNonZeroInteger(-5,5);
-    answer=intR(p.value+b*c);
-    html=`${p.html} + ${signedInteger(b)} × ${c}`;
-    steps=[
-      ["先算乘方",`${p.html} = ${formatNumber(p.value)}`],
-      ["再算乘法",`${signedInteger(b)} × ${c} = ${formatNumber(b*c)}`],
-      ["最後相加",`${formatNumber(p.value)} + ${signedInteger(b*c)} = ${formatNumber(answer.n)}`]
+
+
+  } else if (
+    type === 4
+  ) {
+
+    const p =
+      makeMixedModePower();
+
+    const b =
+      randomNonZeroInteger(
+        -6,
+        6
+      );
+
+    const c =
+      randomNonZeroInteger(
+        -5,
+        5
+      );
+
+
+    answer =
+      intR(
+        p.value +
+        b *
+        c
+      );
+
+
+    /*
+    關鍵修正：
+
+    (−6) × −1
+
+    改成：
+
+    (−6) × (−1)
+    */
+
+    html =
+      `${p.html}` +
+      ` + ${integerFactorHTML(
+        b
+      )}` +
+      ` × ${integerFactorHTML(
+        c
+      )}`;
+
+
+    steps = [
+      [
+        "先算乘方",
+
+        `${p.html}` +
+        ` = ${formatNumber(
+          p.value
+        )}`
+      ],
+
+      [
+        "再算乘法",
+
+        `${integerFactorHTML(
+          b
+        )}` +
+        ` × ${integerFactorHTML(
+          c
+        )}` +
+        ` = ${formatNumber(
+          b *
+          c
+        )}`
+      ],
+
+      [
+        "最後相加",
+
+        `${formatNumber(
+          p.value
+        )}` +
+        ` + ${signedInteger(
+          b *
+          c
+        )}` +
+        ` = ${formatNumber(
+          answer.n
+        )}`
+      ]
     ];
-  }else{
-    const a=randomNonZeroInteger(-10,10);
-    const b=randomNonZeroInteger(-8,8);
-    const c=randomNonZeroInteger(-6,6);
-    answer=intR(Math.abs(a+b)-c);
-    html=`|${formatNumber(a)} + ${signedInteger(b)}| − ${signedInteger(c)}`;
-    steps=[
-      ["先算絕對值內",`${formatNumber(a)} + ${signedInteger(b)} = ${formatNumber(a+b)}`],
-      ["取絕對值",`|${formatNumber(a+b)}| = ${Math.abs(a+b)}`],
-      ["再做減法",`${Math.abs(a+b)} − ${signedInteger(c)} = ${formatNumber(answer.n)}`]
+
+
+  } else {
+
+    const a =
+      randomNonZeroInteger(
+        -10,
+        10
+      );
+
+    const b =
+      randomNonZeroInteger(
+        -8,
+        8
+      );
+
+    const c =
+      randomNonZeroInteger(
+        -6,
+        6
+      );
+
+
+    answer =
+      intR(
+        Math.abs(
+          a + b
+        ) -
+        c
+      );
+
+
+    html =
+      `|${formatNumber(
+        a
+      )}` +
+      ` + ${signedInnerOperand(
+        b
+      )}|` +
+      ` − ${signedInteger(
+        c
+      )}`;
+
+
+    steps = [
+      [
+        "先算絕對值內",
+
+        `${formatNumber(
+          a
+        )}` +
+        ` + ${signedInnerOperand(
+          b
+        )}` +
+        ` = ${formatNumber(
+          a + b
+        )}`
+      ],
+
+      [
+        "取絕對值",
+
+        `|${formatNumber(
+          a + b
+        )}|` +
+        ` = ${Math.abs(
+          a + b
+        )}`
+      ],
+
+      [
+        "再做減法",
+
+        `${Math.abs(
+          a + b
+        )}` +
+        ` − ${signedInteger(
+          c
+        )}` +
+        ` = ${formatNumber(
+          answer.n
+        )}`
+      ]
     ];
   }
 
-  if(Math.abs(answer.n)>5000)return makeMixedQuestion();
-  return{html,answer,steps};
+
+  if (
+    Math.abs(
+      answer.n
+    ) > 5000
+  ) {
+
+    return makeMixedQuestion();
+  }
+
+
+  return {
+    html,
+    answer,
+    steps
+  };
 }
 
-function makeAdvancedQuestion(){
-  const type=rand(1,5);
-  const f1=randomProperFraction();
-  const f2=randomProperFraction();
-  const i=randomNonZeroInteger(-8,8);
-  let html,answer,steps;
 
-  if(type===1){
-    answer=addR(mulR(f1,intR(i)),f2);
-    html=`${fracHTML(f1,true)} × ${signedInteger(i)} + ${fracHTML(f2,true)}`;
-    steps=[
-      ["先算乘法",`${fracHTML(f1,true)} × ${signedInteger(i)} = ${fracHTML(mulR(f1,intR(i)))}`],
-      ["再做加法",`${fracHTML(mulR(f1,intR(i)))} + ${fracHTML(f2,true)} = ${fracHTML(answer)}`]
+/*
+==================================================
+模式五：進階
+==================================================
+*/
+
+function makeAdvancedQuestion() {
+
+  const type =
+    rand(
+      1,
+      5
+    );
+
+  const f1 =
+    randomProperFraction();
+
+  const f2 =
+    randomProperFraction();
+
+  const i =
+    randomNonZeroInteger(
+      -8,
+      8
+    );
+
+  let html;
+  let answer;
+  let steps;
+
+
+  if (
+    type === 1
+  ) {
+
+    answer =
+      addR(
+        mulR(
+          f1,
+          intR(
+            i
+          )
+        ),
+        f2
+      );
+
+
+    html =
+      `${factorHTML(
+        f1
+      )}` +
+      ` × ${integerFactorHTML(
+        i
+      )}` +
+      ` + ${fracHTML(
+        f2,
+        true
+      )}`;
+
+
+    steps = [
+      [
+        "先算乘法",
+
+        `${factorHTML(
+          f1
+        )}` +
+        ` × ${integerFactorHTML(
+          i
+        )}` +
+        ` = ${fracHTML(
+          mulR(
+            f1,
+            intR(
+              i
+            )
+          )
+        )}`
+      ],
+
+      [
+        "再做加法",
+
+        `${fracHTML(
+          mulR(
+            f1,
+            intR(
+              i
+            )
+          )
+        )}` +
+        ` + ${fracHTML(
+          f2,
+          true
+        )}` +
+        ` = ${fracHTML(
+          answer
+        )}`
+      ]
     ];
-  }else if(type===2){
-    answer=subR(divR(f1,f2),intR(i));
-    html=`${fracHTML(f1,true)} ÷ ${fracHTML(f2,true)} − ${signedInteger(i)}`;
-    steps=[
-      ["先算除法",`${fracHTML(f1,true)} ÷ ${fracHTML(f2,true)} = ${fracHTML(divR(f1,f2))}`],
-      ["再做減法",`${fracHTML(divR(f1,f2))} − ${signedInteger(i)} = ${fracHTML(answer)}`]
+
+
+  } else if (
+    type === 2
+  ) {
+
+    answer =
+      subR(
+        divR(
+          f1,
+          f2
+        ),
+        intR(
+          i
+        )
+      );
+
+
+    html =
+      `${factorHTML(
+        f1
+      )}` +
+      ` ÷ ${factorHTML(
+        f2
+      )}` +
+      ` − ${signedInteger(
+        i
+      )}`;
+
+
+    steps = [
+      [
+        "先算除法",
+
+        `${factorHTML(
+          f1
+        )}` +
+        ` ÷ ${factorHTML(
+          f2
+        )}` +
+        ` = ${fracHTML(
+          divR(
+            f1,
+            f2
+          )
+        )}`
+      ],
+
+      [
+        "再做減法",
+
+        `${fracHTML(
+          divR(
+            f1,
+            f2
+          )
+        )}` +
+        ` − ${signedInteger(
+          i
+        )}` +
+        ` = ${fracHTML(
+          answer
+        )}`
+      ]
     ];
-  }else if(type===3){
-    const absInt=Math.abs(i);
-    answer=addR(absR(f1),mulR(f2,intR(absInt)));
-    html=`|${fracHTML(f1)}| + ${fracHTML(f2,true)} × ${absInt}`;
-    steps=[
-      ["先算絕對值與乘法",`|${fracHTML(f1)}| = ${fracHTML(absR(f1))}，${fracHTML(f2,true)} × ${absInt} = ${fracHTML(mulR(f2,intR(absInt)))}`],
-      ["再相加",`${fracHTML(absR(f1))} + ${fracHTML(mulR(f2,intR(absInt)))} = ${fracHTML(answer)}`]
+
+
+  } else if (
+    type === 3
+  ) {
+
+    const absInt =
+      Math.abs(
+        i
+      );
+
+
+    answer =
+      addR(
+        absR(
+          f1
+        ),
+        mulR(
+          f2,
+          intR(
+            absInt
+          )
+        )
+      );
+
+
+    html =
+      `|${fracHTML(
+        f1
+      )}|` +
+      ` + ${factorHTML(
+        f2
+      )}` +
+      ` × ${absInt}`;
+
+
+    steps = [
+      [
+        "先算絕對值與乘法",
+
+        `|${fracHTML(
+          f1
+        )}|` +
+        ` = ${fracHTML(
+          absR(
+            f1
+          )
+        )}，` +
+        `${factorHTML(
+          f2
+        )}` +
+        ` × ${absInt}` +
+        ` = ${fracHTML(
+          mulR(
+            f2,
+            intR(
+              absInt
+            )
+          )
+        )}`
+      ],
+
+      [
+        "再相加",
+
+        `${fracHTML(
+          absR(
+            f1
+          )
+        )}` +
+        ` + ${fracHTML(
+          mulR(
+            f2,
+            intR(
+              absInt
+            )
+          )
+        )}` +
+        ` = ${fracHTML(
+          answer
+        )}`
+      ]
     ];
-  }else if(type===4){
-    const p=makeMixedModePower();
-    const powerValue=intR(p.value);
-    answer=addR(powerValue,f1);
-    html=`${p.html} + ${fracHTML(f1,true)}`;
-    steps=[
-      ["先算乘方",`${p.html} = ${formatNumber(p.value)}`],
-      ["再與分數相加",`${formatNumber(p.value)} + ${fracHTML(f1,true)} = ${fracHTML(answer)}`]
+
+
+  } else if (
+    type === 4
+  ) {
+
+    const p =
+      makeMixedModePower();
+
+    const powerValue =
+      intR(
+        p.value
+      );
+
+
+    answer =
+      addR(
+        powerValue,
+        f1
+      );
+
+
+    html =
+      `${p.html}` +
+      ` + ${fracHTML(
+        f1,
+        true
+      )}`;
+
+
+    steps = [
+      [
+        "先算乘方",
+
+        `${p.html}` +
+        ` = ${formatNumber(
+          p.value
+        )}`
+      ],
+
+      [
+        "再與分數相加",
+
+        `${formatNumber(
+          p.value
+        )}` +
+        ` + ${fracHTML(
+          f1,
+          true
+        )}` +
+        ` = ${fracHTML(
+          answer
+        )}`
+      ]
     ];
-  }else{
-    const f3=randomProperFraction();
-    answer=subR(addR(f1,mulR(f2,f3)),intR(i));
-    html=`${fracHTML(f1,true)} + ${fracHTML(f2,true)} × ${fracHTML(f3,true)} − ${signedInteger(i)}`;
-    steps=[
-      ["先算分數乘法",`${fracHTML(f2,true)} × ${fracHTML(f3,true)} = ${fracHTML(mulR(f2,f3))}`],
-      ["再由左到右做加減",`${fracHTML(f1,true)} + ${fracHTML(mulR(f2,f3))} − ${signedInteger(i)} = ${fracHTML(answer)}`]
+
+
+  } else {
+
+    const f3 =
+      randomProperFraction();
+
+
+    answer =
+      subR(
+        addR(
+          f1,
+          mulR(
+            f2,
+            f3
+          )
+        ),
+        intR(
+          i
+        )
+      );
+
+
+    html =
+      `${fracHTML(
+        f1,
+        true
+      )}` +
+      ` + ${factorHTML(
+        f2
+      )}` +
+      ` × ${factorHTML(
+        f3
+      )}` +
+      ` − ${signedInteger(
+        i
+      )}`;
+
+
+    steps = [
+      [
+        "先算分數乘法",
+
+        `${factorHTML(
+          f2
+        )}` +
+        ` × ${factorHTML(
+          f3
+        )}` +
+        ` = ${fracHTML(
+          mulR(
+            f2,
+            f3
+          )
+        )}`
+      ],
+
+      [
+        "再由左到右做加減",
+
+        `${fracHTML(
+          f1,
+          true
+        )}` +
+        ` + ${fracHTML(
+          mulR(
+            f2,
+            f3
+          )
+        )}` +
+        ` − ${signedInteger(
+          i
+        )}` +
+        ` = ${fracHTML(
+          answer
+        )}`
+      ]
     ];
   }
 
-  if(Math.abs(answer.n)>500||answer.d>120)return makeAdvancedQuestion();
-  return{html,answer,steps};
+
+  if (
+    Math.abs(
+      answer.n
+    ) > 500 ||
+    answer.d > 120
+  ) {
+
+    return makeAdvancedQuestion();
+  }
+
+
+  return {
+    html,
+    answer,
+    steps
+  };
 }
 
-function makeQuestionByMode(selectedMode,positivePositive=false){
-  if(selectedMode==="muldiv")return makeMulDivQuestion(positivePositive);
-  if(selectedMode==="absolute")return makeAbsoluteQuestion();
-  if(selectedMode==="power")return makePowerQuestion();
-  if(selectedMode==="mixed")return makeMixedQuestion();
+
+/*
+==================================================
+依模式產生題目
+==================================================
+*/
+
+function makeQuestionByMode(
+  selectedMode,
+  positivePositive = false
+) {
+
+  if (
+    selectedMode ===
+    "muldiv"
+  ) {
+
+    return makeMulDivQuestion(
+      positivePositive
+    );
+  }
+
+
+  if (
+    selectedMode ===
+    "absolute"
+  ) {
+
+    return makeAbsoluteQuestion();
+  }
+
+
+  if (
+    selectedMode ===
+    "power"
+  ) {
+
+    return makePowerQuestion();
+  }
+
+
+  if (
+    selectedMode ===
+    "mixed"
+  ) {
+
+    return makeMixedQuestion();
+  }
+
+
   return makeAdvancedQuestion();
 }
 
-function makeQuestions(){
-  const out=[];
-  const used=new Set();
 
-  if(mode==="muldiv"){
-    const positiveQuestion=makeMulDivQuestion(true);
-    out.push(positiveQuestion);
-    used.add(positiveQuestion.html.replace(/\s+/g," "));
+/*
+==================================================
+產生十題
+==================================================
+*/
 
-    while(out.length<TOTAL){
-      const q=makeMulDivQuestion(false);
-      const bothPositive=!q.html.includes("−");
-      if(bothPositive)continue;
-      const key=q.html.replace(/\s+/g," ");
-      if(used.has(key))continue;
-      used.add(key);
-      out.push(q);
+function makeQuestions() {
+
+  const out =
+    [];
+
+  const used =
+    new Set();
+
+
+  if (
+    mode ===
+    "muldiv"
+  ) {
+
+    const positiveQuestion =
+      makeMulDivQuestion(
+        true
+      );
+
+    out.push(
+      positiveQuestion
+    );
+
+    used.add(
+      positiveQuestion.html
+        .replace(
+          /\s+/g,
+          " "
+        )
+    );
+
+
+    while (
+      out.length <
+      TOTAL
+    ) {
+
+      const q =
+        makeMulDivQuestion(
+          false
+        );
+
+      const bothPositive =
+        !q.html.includes(
+          "−"
+        );
+
+      if (
+        bothPositive
+      ) {
+        continue;
+      }
+
+
+      const key =
+        q.html.replace(
+          /\s+/g,
+          " "
+        );
+
+
+      if (
+        used.has(
+          key
+        )
+      ) {
+        continue;
+      }
+
+
+      used.add(
+        key
+      );
+
+      out.push(
+        q
+      );
     }
-  }else if(mode==="power"){
-    const confusingCount=6;
-    for(let i=0;i<confusingCount;i++){
+
+
+  } else if (
+    mode ===
+    "power"
+  ) {
+
+    const confusingCount =
+      6;
+
+
+    for (
+      let i = 0;
+      i <
+      confusingCount;
+      i++
+    ) {
+
       let q;
-      do{q=makePowerQuestion(true)}while(used.has(q.html));
-      used.add(q.html);
-      out.push(q);
+
+      do {
+
+        q =
+          makePowerQuestion(
+            true
+          );
+
+      } while (
+        used.has(
+          q.html
+        )
+      );
+
+
+      used.add(
+        q.html
+      );
+
+      out.push(
+        q
+      );
     }
-    while(out.length<TOTAL){
-      const q=makePowerQuestion(false);
-      if(used.has(q.html))continue;
-      used.add(q.html);
-      out.push(q);
+
+
+    while (
+      out.length <
+      TOTAL
+    ) {
+
+      const q =
+        makePowerQuestion(
+          false
+        );
+
+
+      if (
+        used.has(
+          q.html
+        )
+      ) {
+        continue;
+      }
+
+
+      used.add(
+        q.html
+      );
+
+      out.push(
+        q
+      );
     }
-  }else{
-    while(out.length<TOTAL){
-      const q=makeQuestionByMode(mode);
-      const key=q.html.replace(/\s+/g," ");
-      if(used.has(key))continue;
-      used.add(key);
-      out.push(q);
+
+
+  } else {
+
+    while (
+      out.length <
+      TOTAL
+    ) {
+
+      const q =
+        makeQuestionByMode(
+          mode
+        );
+
+      const key =
+        q.html.replace(
+          /\s+/g,
+          " "
+        );
+
+
+      if (
+        used.has(
+          key
+        )
+      ) {
+        continue;
+      }
+
+
+      used.add(
+        key
+      );
+
+      out.push(
+        q
+      );
     }
   }
 
-  return shuffle(out);
+
+  return shuffle(
+    out
+  );
 }
 
-function configureAnswerInput(answer){
-  const isInteger = answer.d === 1;
 
-  $("integer-answer-box").classList.toggle("hidden", !isInteger);
-  $("fraction-answer-box").classList.toggle("hidden", isInteger);
-  $("fraction-answer-box").style.display = isInteger ? "none" : "flex";
+/*
+==================================================
+答案輸入
+==================================================
+*/
 
-  $("answer-input").value = "";
-  $("answer-whole").value = "";
-  $("answer-num").value = "";
-  $("answer-den").value = "";
-  $("answer-sign").value = "1";
-  $("answer-preview").innerHTML = "";
+function configureAnswerInput(
+  answer
+) {
 
-  setTimeout(() => {
-    if (isInteger) {
-      $("answer-input").focus();
-    } else {
-      $("answer-num").focus();
+  const isInteger =
+    answer.d ===
+    1;
+
+
+  $("integer-answer-box")
+    .classList
+    .toggle(
+      "hidden",
+      !isInteger
+    );
+
+
+  $("fraction-answer-box")
+    .classList
+    .toggle(
+      "hidden",
+      isInteger
+    );
+
+
+  $("fraction-answer-box")
+    .style
+    .display =
+      isInteger
+        ? "none"
+        : "flex";
+
+
+  $("answer-input").value =
+    "";
+
+  $("answer-whole").value =
+    "";
+
+  $("answer-num").value =
+    "";
+
+  $("answer-den").value =
+    "";
+
+  $("answer-sign").value =
+    "1";
+
+  $("answer-preview").innerHTML =
+    "";
+
+
+  setTimeout(
+    () => {
+
+      if (
+        isInteger
+      ) {
+
+        $("answer-input")
+          .focus();
+
+      } else {
+
+        $("answer-num")
+          .focus();
+      }
+
+    },
+    0
+  );
+}
+
+
+function showOnly(
+  id
+) {
+
+  [
+    "start-screen",
+    "quiz-screen",
+    "result-screen"
+  ].forEach(
+    section => {
+
+      $(section)
+        .classList
+        .toggle(
+          "hidden",
+          section !== id
+        );
     }
-  }, 0);
-}
-
-function showOnly(id){
-  ["start-screen","quiz-screen","result-screen"].forEach(section=>{
-    $(section).classList.toggle("hidden",section!==id);
-  });
+  );
 }
 
 
-function startGame(keepMode=false){
-  playGameSound("playStart");
+/*
+==================================================
+開始遊戲
+==================================================
+*/
 
-  if(!keepMode){
-    mode=document.querySelector('input[name="mode"]:checked').value;
+function startGame(
+  keepMode = false
+) {
+
+  playGameSound(
+    "playStart"
+  );
+
+
+  if (
+    !keepMode
+  ) {
+
+    mode =
+      document.querySelector(
+        'input[name="mode"]:checked'
+      ).value;
   }
 
-  questions=makeQuestions();
-  index=0;
-  correct=0;
-  wrong=0;
-  locked=false;
-  nextReady=false;
-  scoreSaved=false;
-  startTime=Date.now();
 
-  clearInterval(timer);
-  timer=setInterval(updateTimer,1000);
+  questions =
+    makeQuestions();
 
-  showOnly("quiz-screen");
-  $("mode-badge").textContent=MODE_NAMES[mode];
+  index =
+    0;
+
+  correct =
+    0;
+
+  wrong =
+    0;
+
+  locked =
+    false;
+
+  nextReady =
+    false;
+
+  scoreSaved =
+    false;
+
+  startTime =
+    Date.now();
+
+
+  clearInterval(
+    timer
+  );
+
+
+  timer =
+    setInterval(
+      updateTimer,
+      1000
+    );
+
+
+  showOnly(
+    "quiz-screen"
+  );
+
+
+  $("mode-badge").textContent =
+    MODE_NAMES[
+      mode
+    ];
+
+
   loadQuestion();
 }
 
-function updateTimer(){
-  const elapsed=Math.floor((Date.now()-startTime)/1000);
-  $("time-display").textContent=
-    `⏳ ${String(Math.floor(elapsed/60)).padStart(2,"0")}:${String(elapsed%60).padStart(2,"0")}`;
+
+/*
+==================================================
+計時
+==================================================
+*/
+
+function updateTimer() {
+
+  const elapsed =
+    Math.floor(
+      (
+        Date.now() -
+        startTime
+      ) /
+      1000
+    );
+
+
+  $("time-display").textContent =
+    `⏳ ${
+      String(
+        Math.floor(
+          elapsed /
+          60
+        )
+      ).padStart(
+        2,
+        "0"
+      )
+    }:${
+      String(
+        elapsed %
+        60
+      ).padStart(
+        2,
+        "0"
+      )
+    }`;
 }
 
-function loadQuestion(){
-  if(typeof window.resetGameScratchpad==="function"){
-    window.resetGameScratchpad();
+
+/*
+==================================================
+載入題目
+==================================================
+*/
+
+function loadQuestion() {
+
+  if (
+    typeof window
+      .resetGameScratchpad ===
+      "function"
+  ) {
+
+    window
+      .resetGameScratchpad();
   }
 
-  locked=false;
-  nextReady=false;
 
-  $("submit-btn").classList.remove("hidden");
-  $("next-btn").classList.add("hidden");
-  $("feedback").innerHTML="";
-  $("answer-preview").innerHTML="";
-  $("question-number").textContent=`第 ${index+1} / ${TOTAL} 題`;
-  $("progress-bar").style.width=`${index/TOTAL*100}%`;
-  $("problem-text").innerHTML=questions[index].html;
+  locked =
+    false;
 
-  configureAnswerInput(questions[index].answer);
+  nextReady =
+    false;
+
+
+  $("submit-btn")
+    .classList
+    .remove(
+      "hidden"
+    );
+
+
+  $("next-btn")
+    .classList
+    .add(
+      "hidden"
+    );
+
+
+  $("feedback").innerHTML =
+    "";
+
+  $("answer-preview").innerHTML =
+    "";
+
+
+  $("question-number").textContent =
+    `第 ${index + 1} / ${TOTAL} 題`;
+
+
+  $("progress-bar")
+    .style
+    .width =
+      `${
+        index /
+        TOTAL *
+        100
+      }%`;
+
+
+  $("problem-text").innerHTML =
+    questions[
+      index
+    ].html;
+
+
+  configureAnswerInput(
+    questions[
+      index
+    ].answer
+  );
 }
 
-function readAnswer(){
-  const correctAnswer = questions[index].answer;
-  const isInteger = correctAnswer.d === 1;
 
-  if(isInteger){
-    const raw = $("answer-input").value.trim();
+/*
+==================================================
+讀取答案
+==================================================
+*/
 
-    if(!/^-?\d+$/.test(raw)){
+function readAnswer() {
+
+  const correctAnswer =
+    questions[
+      index
+    ].answer;
+
+
+  const isInteger =
+    correctAnswer.d ===
+    1;
+
+
+  if (
+    isInteger
+  ) {
+
+    const raw =
+      $("answer-input")
+        .value
+        .trim();
+
+
+    if (
+      !/^-?\d+$/.test(
+        raw
+      )
+    ) {
       return null;
     }
 
-    return{
-      value:intR(Number(raw)),
-      simplest:true,
-      mixedValid:true
+
+    return {
+      value:
+        intR(
+          Number(
+            raw
+          )
+        ),
+
+      simplest:
+        true,
+
+      mixedValid:
+        true
     };
   }
 
-  const wholeText = $("answer-whole").value.trim();
-  const numeratorText = $("answer-num").value.trim();
-  const denominatorText = $("answer-den").value.trim();
 
-  if(
-    !/^\d*$/.test(wholeText) ||
-    !/^\d+$/.test(numeratorText) ||
-    !/^\d+$/.test(denominatorText)
-  ){
+  const wholeText =
+    $("answer-whole")
+      .value
+      .trim();
+
+
+  const numeratorText =
+    $("answer-num")
+      .value
+      .trim();
+
+
+  const denominatorText =
+    $("answer-den")
+      .value
+      .trim();
+
+
+  if (
+    !/^\d*$/.test(
+      wholeText
+    ) ||
+    !/^\d+$/.test(
+      numeratorText
+    ) ||
+    !/^\d+$/.test(
+      denominatorText
+    )
+  ) {
+
     return null;
   }
 
-  const whole = wholeText === "" ? 0 : Number(wholeText);
-  const numerator = Number(numeratorText);
-  const denominator = Number(denominatorText);
 
-  if(
+  const whole =
+    wholeText === ""
+      ? 0
+      : Number(
+          wholeText
+        );
+
+
+  const numerator =
+    Number(
+      numeratorText
+    );
+
+
+  const denominator =
+    Number(
+      denominatorText
+    );
+
+
+  if (
     whole < 0 ||
     numerator < 0 ||
     denominator <= 0
-  ){
+  ) {
+
     return null;
   }
 
-  const sign = Number($("answer-sign").value);
 
-  // 帶分數時，分子必須小於分母；假分數時 whole 為 0，可以大於分母。
+  const sign =
+    Number(
+      $("answer-sign")
+        .value
+    );
+
+
   const mixedValid =
     whole === 0 ||
-    numerator < denominator;
+    numerator <
+    denominator;
+
 
   const improperNumerator =
-    whole * denominator + numerator;
+    whole *
+    denominator +
+    numerator;
 
-  return{
-    value:simplify(
-      sign * improperNumerator,
-      denominator
-    ),
-    simplest:gcd(numerator,denominator) === 1,
+
+  return {
+
+    value:
+      simplify(
+        sign *
+        improperNumerator,
+
+        denominator
+      ),
+
+    simplest:
+      gcd(
+        numerator,
+        denominator
+      ) === 1,
+
     mixedValid
   };
 }
 
-function updatePreview(){
-  const answer=readAnswer();
 
-  if(!answer){
-    $("answer-preview").innerHTML="";
+/*
+==================================================
+答案預覽
+==================================================
+*/
+
+function updatePreview() {
+
+  const answer =
+    readAnswer();
+
+
+  if (
+    !answer
+  ) {
+
+    $("answer-preview")
+      .innerHTML =
+      "";
+
     return;
   }
 
-  const wholeText=$("answer-whole")?.value.trim() || "";
-  const numeratorText=$("answer-num")?.value.trim() || "";
-  const denominatorText=$("answer-den")?.value.trim() || "";
 
-  if(questions[index].answer.d !== 1){
-    const signText=$("answer-sign").value === "-1" ? "−" : "";
-    const wholePart=wholeText === "" ? "" : `${wholeText}`;
-    const fractionPart=`
-      <span class="math-frac">
-        <span class="top">${numeratorText}</span>
-        <span class="bottom">${denominatorText}</span>
+  const wholeText =
+    $("answer-whole")
+      ?.value
+      .trim() ||
+    "";
+
+
+  const numeratorText =
+    $("answer-num")
+      ?.value
+      .trim() ||
+    "";
+
+
+  const denominatorText =
+    $("answer-den")
+      ?.value
+      .trim() ||
+    "";
+
+
+  if (
+    questions[
+      index
+    ].answer.d !== 1
+  ) {
+
+    const signText =
+      $("answer-sign")
+        .value === "-1"
+        ? "−"
+        : "";
+
+
+    const wholePart =
+      wholeText === ""
+        ? ""
+        : `${wholeText}`;
+
+
+    const fractionPart =
+      `
+        <span class="math-frac">
+          <span class="top">
+            ${numeratorText}
+          </span>
+
+          <span class="bottom">
+            ${denominatorText}
+          </span>
+        </span>
+      `;
+
+
+    $("answer-preview")
+      .innerHTML =
+      `系統判讀：` +
+      `${signText}` +
+      `${wholePart}` +
+      `${fractionPart}`;
+
+
+  } else {
+
+
+    $("answer-preview")
+      .innerHTML =
+      `系統判讀：${
+        fracHTML(
+          answer.value
+        )
+      }`;
+  }
+}
+
+
+/*
+==================================================
+解析
+==================================================
+*/
+
+function explanationHTML(
+  q
+) {
+
+  const steps =
+    q.steps
+      .map(
+        (
+          step,
+          i
+        ) =>
+          `
+            <div class="explanation-step">
+
+              <span class="explanation-step-label">
+                步驟 ${i + 1}｜${step[0]}
+              </span>
+
+              <div class="explanation-math">
+                ${step[1]}
+              </div>
+
+            </div>
+          `
+      )
+      .join(
+        ""
+      );
+
+
+  return `
+    <div class="explanation-title">
+      逐步解題解析
+    </div>
+
+    ${steps}
+
+    <div
+      class="
+        explanation-step
+        explanation-final
+      "
+    >
+
+      <span class="explanation-step-label">
+        最後答案
       </span>
+
+      <div class="explanation-math">
+        ${fracHTML(
+          q.answer
+        )}
+      </div>
+
+    </div>
+  `;
+}
+
+
+/*
+==================================================
+判斷答案
+==================================================
+*/
+
+function checkAnswer() {
+
+  if (
+    locked
+  ) {
+    return;
+  }
+
+
+  const answer =
+    readAnswer();
+
+
+  if (
+    !answer
+  ) {
+
+    $("feedback")
+      .innerHTML =
+      '<span style="color:#d97706">請完整輸入有效答案。</span>';
+
+    return;
+  }
+
+
+  if (
+    questions[
+      index
+    ].answer.d !== 1 &&
+    !answer.mixedValid
+  ) {
+
+    $("feedback")
+      .innerHTML =
+      '<span style="color:#d97706">帶分數的分子必須小於分母。</span>';
+
+    return;
+  }
+
+
+  if (
+    questions[
+      index
+    ].answer.d !== 1 &&
+    !answer.simplest
+  ) {
+
+    $("feedback")
+      .innerHTML =
+      '<span style="color:#d97706">分數尚未化成最簡分數，請繼續約分。</span>';
+
+    return;
+  }
+
+
+  locked =
+    true;
+
+
+  const q =
+    questions[
+      index
+    ];
+
+
+  const isCorrect =
+    eqR(
+      answer.value,
+      q.answer
+    );
+
+
+  if (
+    isCorrect
+  ) {
+
+    correct++;
+
+    playGameSound(
+      "playCorrect"
+    );
+
+  } else {
+
+    wrong++;
+
+    playGameSound(
+      "playWrong"
+    );
+  }
+
+
+  $("feedback").innerHTML =
+    `
+      <span
+        style="
+          color:${
+            isCorrect
+              ? "#15803d"
+              : "#b91c1c"
+          }
+        "
+      >
+        ${
+          isCorrect
+            ? "✨ 正確！"
+            : "❌ 答案不正確"
+        }
+      </span>
+
+      <div class="explanation-actions">
+
+        <button
+          id="explanation-toggle"
+          class="explanation-toggle"
+        >
+          查看解析
+        </button>
+
+      </div>
+
+      <div
+        id="explanation-panel"
+        class="
+          explanation-panel
+          hidden
+        "
+      ></div>
     `;
 
-    $("answer-preview").innerHTML=
-      `系統判讀：${signText}${wholePart}${fractionPart}`;
-  }else{
-    $("answer-preview").innerHTML=
-      `系統判讀：${fracHTML(answer.value)}`;
-  }
+
+  $("explanation-toggle")
+    .onclick =
+    () => {
+
+      const panel =
+        $("explanation-panel");
+
+
+      const opening =
+        panel.classList
+          .contains(
+            "hidden"
+          );
+
+
+      panel.classList
+        .toggle(
+          "hidden",
+          !opening
+        );
+
+
+      $("explanation-toggle")
+        .textContent =
+        opening
+          ? "收起解析"
+          : "查看解析";
+
+
+      if (
+        opening
+      ) {
+
+        panel.innerHTML =
+          explanationHTML(
+            q
+          );
+      }
+    };
+
+
+  setTimeout(
+    () => {
+
+      $("submit-btn")
+        .classList
+        .add(
+          "hidden"
+        );
+
+
+      $("next-btn")
+        .classList
+        .remove(
+          "hidden"
+        );
+
+
+      $("next-btn")
+        .textContent =
+        index ===
+        TOTAL - 1
+          ? "查看測驗結果（Enter）"
+          : "下一題（Enter）";
+
+
+      nextReady =
+        true;
+
+
+      $("next-btn")
+        .focus();
+
+    },
+
+    isCorrect
+      ? 650
+      : 950
+  );
 }
 
-function explanationHTML(q){
-  const steps=q.steps.map((step,i)=>`
-    <div class="explanation-step">
-      <span class="explanation-step-label">步驟 ${i+1}｜${step[0]}</span>
-      <div class="explanation-math">${step[1]}</div>
-    </div>
-  `).join("");
 
-  return`
-    <div class="explanation-title">逐步解題解析</div>
-    ${steps}
-    <div class="explanation-step explanation-final">
-      <span class="explanation-step-label">最後答案</span>
-      <div class="explanation-math">${fracHTML(q.answer)}</div>
-    </div>
-  `;
-}
+/*
+==================================================
+下一題
+==================================================
+*/
 
-function checkAnswer(){
-  if(locked)return;
+function nextQuestion() {
 
-  const answer=readAnswer();
-  if(!answer){
-    $("feedback").innerHTML='<span style="color:#d97706">請完整輸入有效答案。</span>';
+  if (
+    !nextReady
+  ) {
     return;
   }
 
-  if(
-    questions[index].answer.d !== 1 &&
-    !answer.mixedValid
-  ){
-    $("feedback").innerHTML=
-      '<span style="color:#d97706">帶分數的分子必須小於分母。</span>';
-    return;
-  }
 
-  if(
-    questions[index].answer.d !== 1 &&
-    !answer.simplest
-  ){
-    $("feedback").innerHTML=
-      '<span style="color:#d97706">分數尚未化成最簡分數，請繼續約分。</span>';
-    return;
-  }
-
-  locked=true;
-  const q=questions[index];
-  const isCorrect=eqR(answer.value,q.answer);
-
-  if(isCorrect){
-    correct++;
-    playGameSound("playCorrect");
-  }else{
-    wrong++;
-    playGameSound("playWrong");
-  }
-
-  $("feedback").innerHTML=`
-    <span style="color:${isCorrect?"#15803d":"#b91c1c"}">
-      ${isCorrect?"✨ 正確！":"❌ 答案不正確"}
-    </span>
-    <div class="explanation-actions">
-      <button id="explanation-toggle" class="explanation-toggle">查看解析</button>
-    </div>
-    <div id="explanation-panel" class="explanation-panel hidden"></div>
-  `;
-
-  $("explanation-toggle").onclick=()=>{
-    const panel=$("explanation-panel");
-    const opening=panel.classList.contains("hidden");
-    panel.classList.toggle("hidden",!opening);
-    $("explanation-toggle").textContent=opening?"收起解析":"查看解析";
-    if(opening)panel.innerHTML=explanationHTML(q);
-  };
-
-  setTimeout(()=>{
-    $("submit-btn").classList.add("hidden");
-    $("next-btn").classList.remove("hidden");
-    $("next-btn").textContent=
-      index===TOTAL-1
-        ?"查看測驗結果（Enter）"
-        :"下一題（Enter）";
-    nextReady=true;
-    $("next-btn").focus();
-  },isCorrect?650:950);
-}
-
-function nextQuestion(){
-  if(!nextReady)return;
   index++;
-  if(index<TOTAL)loadQuestion();
-  else showResult();
-}
 
-function rating(score){
-  if(score>=90)return{stars:"★★★★★",comment:"太棒了！你已經熟練掌握正負數運算。"};
-  if(score>=80)return{stars:"★★★★☆",comment:"表現很好，再多練習幾次就更穩定。"};
-  if(score>=60)return{stars:"★★★☆☆",comment:"已掌握基本概念，繼續注意運算順序與正負號。"};
-  return{stars:"★★☆☆☆",comment:"先從個別模式練習，再挑戰進階四則運算。"};
-}
 
-async function saveCurrentScore(score){
-  if(scoreSaved)return;
-  scoreSaved=true;
+  if (
+    index <
+    TOTAL
+  ) {
 
-  const status=$("save-status");
-  status.textContent="☁️ 正在儲存本次成績……";
-  status.style.color="#1d4ed8";
+    loadQuestion();
 
-  try{
-    const result=await saveGameScore({
-      game:GAME_ID,
-      mode,
-      score,
-      correctCount:correct,
-      wrongCount:wrong,
-      maxCombo:0,
-      playTime:finalElapsed
-    });
+  } else {
 
-    if(result.success){
-      status.textContent="✅ 本次成績已儲存。";
-      status.style.color="#15803d";
-    }else if(result.reason==="not-logged-in"){
-      status.textContent="ℹ️ 尚未登入，因此本次成績沒有儲存。";
-      status.style.color="#b45309";
-    }else{
-      status.textContent="⚠️ 成績暫時無法儲存。";
-      status.style.color="#b91c1c";
-    }
-  }catch(error){
-    console.error(error);
-    status.textContent="⚠️ 成績暫時無法儲存。";
-    status.style.color="#b91c1c";
+    showResult();
   }
 }
 
-async function showResult(){
-  clearInterval(timer);
-  playGameSound("playComplete");
-  $("progress-bar").style.width="100%";
 
-  finalElapsed=Math.floor((Date.now()-startTime)/1000);
-  const score=Math.round(correct/TOTAL*100);
-  const result=rating(score);
+/*
+==================================================
+評語
+==================================================
+*/
 
-  showOnly("result-screen");
+function rating(
+  score
+) {
 
-  $("final-score").textContent=`${score} 分`;
-  $("final-stars").textContent=result.stars;
-  $("final-comment").textContent=result.comment;
-  $("final-correct").textContent=correct;
-  $("final-wrong").textContent=wrong;
-  $("final-time").textContent=
-    `${String(Math.floor(finalElapsed/60)).padStart(2,"0")}:${String(finalElapsed%60).padStart(2,"0")}`;
+  if (
+    score >= 90
+  ) {
 
-  await saveCurrentScore(score);
+    return {
+      stars:
+        "★★★★★",
+
+      comment:
+        "太棒了！你已經熟練掌握正負數運算。"
+    };
+  }
+
+
+  if (
+    score >= 80
+  ) {
+
+    return {
+      stars:
+        "★★★★☆",
+
+      comment:
+        "表現很好，再多練習幾次就更穩定。"
+    };
+  }
+
+
+  if (
+    score >= 60
+  ) {
+
+    return {
+      stars:
+        "★★★☆☆",
+
+      comment:
+        "已掌握基本概念，繼續注意運算順序與正負號。"
+    };
+  }
+
+
+  return {
+    stars:
+      "★★☆☆☆",
+
+    comment:
+      "先從個別模式練習，再挑戰進階四則運算。"
+  };
 }
 
-function showModeSelection(){
-  clearInterval(timer);
-  showOnly("start-screen");
-  $("progress-bar").style.width="0%";
+
+/*
+==================================================
+儲存成績
+==================================================
+*/
+
+async function saveCurrentScore(
+  score
+) {
+
+  if (
+    scoreSaved
+  ) {
+    return;
+  }
+
+
+  scoreSaved =
+    true;
+
+
+  const status =
+    $("save-status");
+
+
+  status.textContent =
+    "☁️ 正在儲存本次成績……";
+
+
+  status.style.color =
+    "#1d4ed8";
+
+
+  try {
+
+    const result =
+      await saveGameScore({
+
+        game:
+          GAME_ID,
+
+        mode,
+
+        score,
+
+        correctCount:
+          correct,
+
+        wrongCount:
+          wrong,
+
+        maxCombo:
+          0,
+
+        playTime:
+          finalElapsed
+      });
+
+
+    if (
+      result.success
+    ) {
+
+      status.textContent =
+        "✅ 本次成績已儲存。";
+
+      status.style.color =
+        "#15803d";
+
+
+    } else if (
+      result.reason ===
+      "not-logged-in"
+    ) {
+
+      status.textContent =
+        "ℹ️ 尚未登入，因此本次成績沒有儲存。";
+
+      status.style.color =
+        "#b45309";
+
+
+    } else {
+
+      status.textContent =
+        "⚠️ 成績暫時無法儲存。";
+
+      status.style.color =
+        "#b91c1c";
+    }
+
+
+  } catch (error) {
+
+    console.error(
+      error
+    );
+
+
+    status.textContent =
+      "⚠️ 成績暫時無法儲存。";
+
+
+    status.style.color =
+      "#b91c1c";
+  }
 }
 
-$("start-btn").onclick=()=>startGame(false);
-$("change-mode-btn").onclick=showModeSelection;
-$("result-change-mode-btn").onclick=showModeSelection;
-$("reset-btn").onclick=()=>startGame(true);
-$("again-btn").onclick=()=>startGame(true);
-$("submit-btn").onclick=checkAnswer;
-$("next-btn").onclick=nextQuestion;
 
-["answer-input","answer-whole","answer-num","answer-den"].forEach(id=>{
-  $(id).addEventListener("input",updatePreview);
-});
-$("answer-sign").addEventListener("change",updatePreview);
+/*
+==================================================
+結果
+==================================================
+*/
 
-document.addEventListener("keydown",event=>{
-  if(event.key!=="Enter"||$("quiz-screen").classList.contains("hidden"))return;
-  event.preventDefault();
+async function showResult() {
 
-  if(nextReady)nextQuestion();
-  else if(!locked)checkAnswer();
-});
+  clearInterval(
+    timer
+  );
+
+
+  playGameSound(
+    "playComplete"
+  );
+
+
+  $("progress-bar")
+    .style
+    .width =
+    "100%";
+
+
+  finalElapsed =
+    Math.floor(
+      (
+        Date.now() -
+        startTime
+      ) /
+      1000
+    );
+
+
+  const score =
+    Math.round(
+      correct /
+      TOTAL *
+      100
+    );
+
+
+  const result =
+    rating(
+      score
+    );
+
+
+  showOnly(
+    "result-screen"
+  );
+
+
+  $("final-score")
+    .textContent =
+    `${score} 分`;
+
+
+  $("final-stars")
+    .textContent =
+    result.stars;
+
+
+  $("final-comment")
+    .textContent =
+    result.comment;
+
+
+  $("final-correct")
+    .textContent =
+    correct;
+
+
+  $("final-wrong")
+    .textContent =
+    wrong;
+
+
+  $("final-time")
+    .textContent =
+    `${
+      String(
+        Math.floor(
+          finalElapsed /
+          60
+        )
+      ).padStart(
+        2,
+        "0"
+      )
+    }:${
+      String(
+        finalElapsed %
+        60
+      ).padStart(
+        2,
+        "0"
+      )
+    }`;
+
+
+  await saveCurrentScore(
+    score
+  );
+}
+
+
+/*
+==================================================
+回模式選擇
+==================================================
+*/
+
+function showModeSelection() {
+
+  clearInterval(
+    timer
+  );
+
+
+  showOnly(
+    "start-screen"
+  );
+
+
+  $("progress-bar")
+    .style
+    .width =
+    "0%";
+}
+
+
+/*
+==================================================
+事件
+==================================================
+*/
+
+$("start-btn")
+  .onclick =
+  () =>
+    startGame(
+      false
+    );
+
+
+$("change-mode-btn")
+  .onclick =
+  showModeSelection;
+
+
+$("result-change-mode-btn")
+  .onclick =
+  showModeSelection;
+
+
+$("reset-btn")
+  .onclick =
+  () =>
+    startGame(
+      true
+    );
+
+
+$("again-btn")
+  .onclick =
+  () =>
+    startGame(
+      true
+    );
+
+
+$("submit-btn")
+  .onclick =
+  checkAnswer;
+
+
+$("next-btn")
+  .onclick =
+  nextQuestion;
+
+
+[
+  "answer-input",
+  "answer-whole",
+  "answer-num",
+  "answer-den"
+].forEach(
+  id => {
+
+    $(id)
+      .addEventListener(
+        "input",
+        updatePreview
+      );
+  }
+);
+
+
+$("answer-sign")
+  .addEventListener(
+    "change",
+    updatePreview
+  );
+
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key !==
+        "Enter" ||
+      $("quiz-screen")
+        .classList
+        .contains(
+          "hidden"
+        )
+    ) {
+
+      return;
+    }
+
+
+    event.preventDefault();
+
+
+    if (
+      nextReady
+    ) {
+
+      nextQuestion();
+
+    } else if (
+      !locked
+    ) {
+
+      checkAnswer();
+    }
+  }
+);
+
 </script>
+
 <script src="../js/common-header.js"></script>
+
 </body>
 </html>
