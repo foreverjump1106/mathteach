@@ -3,8 +3,8 @@
 數學遊戲樂園：遊戲共用設定
 檔案位置：js/game-config.js
 
-版本：6.1
-模式代號同步版
+版本：6.2
+模式代號＋排行榜類型同步版
 ==================================================
 
 功能：
@@ -30,11 +30,14 @@ ranking.type = "timed"
 5. 較早達成
 
 ranking.type = "speed"
-完成速度型
+固定題數／完成型
 排序：
 1. 分數高
 2. 完成時間短
-3. 較早達成
+3. 答對多
+4. 答錯少
+5. 最高連擊高
+6. 較早達成
 
 模式：
 
@@ -87,10 +90,6 @@ export const GAME_CONFIG = {
       type: "timed"
     },
 
-    /*
-    單模式
-    */
-
     modes: {},
 
     theme: {
@@ -105,13 +104,6 @@ export const GAME_CONFIG = {
   /*
   ==================================================
   數的大小比較王
-
-  compare.html 實際儲存：
-  easy
-  medium
-  hard
-
-  所以這裡必須使用完全相同的 key。
   ==================================================
   */
 
@@ -140,23 +132,9 @@ export const GAME_CONFIG = {
 
     isNew: false,
 
-    /*
-    compare.html 為固定 60 秒
-    */
-
     ranking: {
       type: "timed"
     },
-
-    /*
-    必須與 compare.html 的：
-
-    data-mode="easy"
-    data-mode="medium"
-    data-mode="hard"
-
-    完全一致
-    */
 
     modes: {
       easy:
@@ -224,6 +202,22 @@ export const GAME_CONFIG = {
   },
 
 
+  /*
+  ==================================================
+  指數律大挑戰
+
+  exponent.html 使用固定 10 題完成型，
+  因此排行榜使用 speed。
+
+  exponent.html 儲存的 mode 必須為：
+  multiplication
+  division
+  powerOfPower
+  zeroExponent
+  mixed
+  ==================================================
+  */
+
   exponent: {
     id: "exponent",
 
@@ -241,16 +235,16 @@ export const GAME_CONFIG = {
     description:
       "練習同底數相乘、相除、冪的乘方、零次方與綜合指數律。",
 
-    finished: false,
+    finished: true,
 
     difficulty: 2,
 
     recommended: false,
 
-    isNew: false,
+    isNew: true,
 
     ranking: {
-      type: "timed"
+      type: "speed"
     },
 
     modes: {
@@ -506,8 +500,7 @@ export const GAME_CONFIG = {
 
     icon: "📍",
 
-    file:
-      "games/coordinate.html",
+    file: "games/coordinate.html",
 
     description:
       "認識坐標平面，練習描點與判讀二元一次方程式圖形。",
@@ -550,8 +543,7 @@ export const GAME_CONFIG = {
 
     icon: "📏",
 
-    file:
-      "games/ratio.html",
+    file: "games/ratio.html",
 
     description:
       "練習比例式、正比、反比與實際應用題。",
@@ -726,15 +718,6 @@ export function getModeName(
     String(
       mode
     );
-
-  /*
-  若是正式設定內的 mode，
-  回傳正式中文名稱。
-
-  若是舊資料或未知 mode，
-  暫時回傳原始 mode，
-  避免歷史資料完全消失。
-  */
 
   return (
     GAME_CONFIG[
@@ -1060,11 +1043,6 @@ export function getGameDisplayName(
     getGameName(
       gameId
     );
-
-  /*
-  單模式遊戲不顯示 mode。
-  即使 Firestore 舊資料還留有 mode。
-  */
 
   if (
     !isMultiModeGame(
