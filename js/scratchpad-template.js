@@ -2,138 +2,25 @@
 ==================================================
 數學遊戲樂園：共用計算紙畫面元件
 檔案：js/scratchpad-template.js
-版本：2.2 - 遊戲階段顯示控制版
+
+版本：3.0
 ==================================================
 
 功能：
-
-1. 自動建立「開啟計算紙」按鈕
-2. 自動建立計算紙浮動面板
-3. 建立畫筆、橡皮擦、顏色、粗細工具
-4. 建立復原、重做、清除、下載按鈕
-5. 呼叫 scratchpad.js 啟動計算紙
-6. 避免同一頁重複建立
-7. 模式選擇／尚未開始挑戰時，預設隱藏計算紙按鈕
-8. 正式開始遊戲後，由遊戲呼叫 showGameScratchpadButton()
-9. 回模式選擇／遊戲結束後，由遊戲呼叫 hideGameScratchpadButton()
-10. 隱藏按鈕時若計算紙正開啟，會自動關閉面板
-
-==================================================
-
-遊戲頁共用呼叫方式：
-
-正式開始挑戰：
-window.showGameScratchpadButton();
-
-回模式選擇：
-window.hideGameScratchpadButton();
-
-遊戲結束：
-window.hideGameScratchpadButton();
-
-新題目：
-window.resetGameScratchpad();
-
+1. 自動建立計算紙按鈕
+2. 自動建立浮動計算紙
+3. 畫筆、橡皮擦、顏色、粗細
+4. 復原、重做、清除、下載
+5. 呼叫 scratchpad.js
+6. 避免重複建立
+7. 模式選擇時隱藏計算紙按鈕
+8. 正式挑戰時顯示計算紙按鈕
+9. 結果畫面可再次隱藏
 ==================================================
 */
 
 (function () {
   "use strict";
-
-
-  /*
-  ==================================================
-  共用狀態
-  ==================================================
-  */
-
-  let scratchpadAvailable =
-    false;
-
-
-  /*
-  ==================================================
-  取得開啟按鈕
-  ==================================================
-  */
-
-  function getOpenButton() {
-    return document.getElementById(
-      "scratchpadOpenButton"
-    );
-  }
-
-
-  /*
-  ==================================================
-  強制隱藏開啟按鈕
-  ==================================================
-
-  使用 inline !important，
-  避免部分遊戲頁面本身有：
-
-  display:inline-flex!important;
-
-  導致 hidden 屬性失效。
-  ==================================================
-  */
-
-  function forceHideOpenButton() {
-    const button =
-      getOpenButton();
-
-    if (!button) {
-      return;
-    }
-
-    button.hidden =
-      true;
-
-    button.setAttribute(
-      "aria-hidden",
-      "true"
-    );
-
-    button.style.setProperty(
-      "display",
-      "none",
-      "important"
-    );
-  }
-
-
-  /*
-  ==================================================
-  顯示開啟按鈕
-  ==================================================
-  */
-
-  function forceShowOpenButton() {
-    const button =
-      getOpenButton();
-
-    if (!button) {
-      return;
-    }
-
-    button.hidden =
-      false;
-
-    button.removeAttribute(
-      "aria-hidden"
-    );
-
-    /*
-    移除我們自己設定的 inline display。
-
-    讓 scratchpad.css 或遊戲頁原本的樣式
-    自己決定按鈕最後的 display。
-    */
-
-    button.style.removeProperty(
-      "display"
-    );
-  }
 
 
   /*
@@ -145,7 +32,7 @@ window.resetGameScratchpad();
   function createScratchpadMarkup() {
 
     /*
-    避免同一頁重複建立。
+    避免重複建立
     */
 
     if (
@@ -157,10 +44,6 @@ window.resetGameScratchpad();
     }
 
 
-    /*
-    建立最外層容器。
-    */
-
     const wrapper =
       document.createElement(
         "div"
@@ -171,20 +54,17 @@ window.resetGameScratchpad();
 
 
     /*
-    建立開啟按鈕與浮動面板。
+    一開始整個元件存在，
+    但是「開啟計算紙」按鈕預設隱藏。
 
-    注意：
-    開啟按鈕一開始就加上 hidden。
+    等真正開始挑戰後，
+    再由遊戲呼叫：
+    showGameScratchpadButton()
     */
 
     wrapper.innerHTML = `
 
-      <!--
-      ================================================
-      開啟計算紙按鈕
-      預設隱藏
-      ================================================
-      -->
+      <!-- 開啟計算紙按鈕 -->
 
       <button
         type="button"
@@ -192,7 +72,6 @@ window.resetGameScratchpad();
         class="scratchpad-open-button"
         aria-controls="scratchpadPanel"
         aria-expanded="false"
-        aria-hidden="true"
         hidden
       >
 
@@ -210,11 +89,7 @@ window.resetGameScratchpad();
       </button>
 
 
-      <!--
-      ================================================
-      計算紙浮動面板
-      ================================================
-      -->
+      <!-- 計算紙浮動面板 -->
 
       <section
         id="scratchpadPanel"
@@ -225,18 +100,16 @@ window.resetGameScratchpad();
         hidden
       >
 
-        <!--
-        ==============================================
-        標題列
-        ==============================================
-        -->
+        <!-- 標題列 -->
 
         <header
           id="scratchpadHeader"
           class="scratchpad-header"
         >
 
-          <div class="scratchpad-header__title-area">
+          <div
+            class="scratchpad-header__title-area"
+          >
 
             <span
               class="scratchpad-header__icon"
@@ -244,7 +117,6 @@ window.resetGameScratchpad();
             >
               📝
             </span>
-
 
             <div>
 
@@ -255,8 +127,9 @@ window.resetGameScratchpad();
                 我的計算紙
               </h2>
 
-
-              <p class="scratchpad-header__subtitle">
+              <p
+                class="scratchpad-header__subtitle"
+              >
                 可以自由寫下計算過程
               </p>
 
@@ -278,20 +151,13 @@ window.resetGameScratchpad();
         </header>
 
 
-        <!--
-        ==============================================
-        計算紙主要內容
-        ==============================================
-        -->
+        <!-- 主要內容 -->
 
-        <div class="scratchpad-content">
+        <div
+          class="scratchpad-content"
+        >
 
-
-          <!--
-          ============================================
-          工具列
-          ============================================
-          -->
+          <!-- 工具列 -->
 
           <div
             class="scratchpad-toolbar"
@@ -300,13 +166,15 @@ window.resetGameScratchpad();
           >
 
 
-            <!--
-            畫筆與橡皮擦
-            -->
+            <!-- 工具 -->
 
-            <div class="scratchpad-tool-group">
+            <div
+              class="scratchpad-tool-group"
+            >
 
-              <span class="scratchpad-tool-group__label">
+              <span
+                class="scratchpad-tool-group__label"
+              >
                 工具
               </span>
 
@@ -330,7 +198,9 @@ window.resetGameScratchpad();
                   ✏️
                 </span>
 
-                <span class="scratchpad-tool-button__text">
+                <span
+                  class="scratchpad-tool-button__text"
+                >
                   畫筆
                 </span>
 
@@ -353,7 +223,9 @@ window.resetGameScratchpad();
                   🧽
                 </span>
 
-                <span class="scratchpad-tool-button__text">
+                <span
+                  class="scratchpad-tool-button__text"
+                >
                   橡皮擦
                 </span>
 
@@ -362,15 +234,15 @@ window.resetGameScratchpad();
             </div>
 
 
-            <!--
-            ============================================
-            畫筆顏色
-            ============================================
-            -->
+            <!-- 顏色 -->
 
-            <div class="scratchpad-tool-group">
+            <div
+              class="scratchpad-tool-group"
+            >
 
-              <span class="scratchpad-tool-group__label">
+              <span
+                class="scratchpad-tool-group__label"
+              >
                 顏色
               </span>
 
@@ -430,15 +302,15 @@ window.resetGameScratchpad();
             </div>
 
 
-            <!--
-            ============================================
-            畫筆粗細
-            ============================================
-            -->
+            <!-- 粗細 -->
 
-            <div class="scratchpad-tool-group">
+            <div
+              class="scratchpad-tool-group"
+            >
 
-              <span class="scratchpad-tool-group__label">
+              <span
+                class="scratchpad-tool-group__label"
+              >
                 粗細
               </span>
 
@@ -505,13 +377,11 @@ window.resetGameScratchpad();
             </div>
 
 
-            <!--
-            ============================================
-            復原與重做
-            ============================================
-            -->
+            <!-- 復原 / 重做 -->
 
-            <div class="scratchpad-tool-group">
+            <div
+              class="scratchpad-tool-group"
+            >
 
               <button
                 type="button"
@@ -532,7 +402,9 @@ window.resetGameScratchpad();
                   ↶
                 </span>
 
-                <span class="scratchpad-tool-button__text">
+                <span
+                  class="scratchpad-tool-button__text"
+                >
                   復原
                 </span>
 
@@ -558,7 +430,9 @@ window.resetGameScratchpad();
                   ↷
                 </span>
 
-                <span class="scratchpad-tool-button__text">
+                <span
+                  class="scratchpad-tool-button__text"
+                >
                   重做
                 </span>
 
@@ -567,13 +441,11 @@ window.resetGameScratchpad();
             </div>
 
 
-            <!--
-            ============================================
-            清除與下載
-            ============================================
-            -->
+            <!-- 清除 / 下載 -->
 
-            <div class="scratchpad-tool-group">
+            <div
+              class="scratchpad-tool-group"
+            >
 
               <button
                 type="button"
@@ -595,7 +467,9 @@ window.resetGameScratchpad();
                   🗑️
                 </span>
 
-                <span class="scratchpad-tool-button__text">
+                <span
+                  class="scratchpad-tool-button__text"
+                >
                   清除
                 </span>
 
@@ -622,7 +496,9 @@ window.resetGameScratchpad();
                   ⬇️
                 </span>
 
-                <span class="scratchpad-tool-button__text">
+                <span
+                  class="scratchpad-tool-button__text"
+                >
                   下載
                 </span>
 
@@ -633,13 +509,11 @@ window.resetGameScratchpad();
           </div>
 
 
-          <!--
-          ============================================
-          Canvas 畫布區域
-          ============================================
-          -->
+          <!-- Canvas -->
 
-          <div class="scratchpad-canvas-container">
+          <div
+            class="scratchpad-canvas-container"
+          >
 
             <div
               id="scratchpadCanvasHint"
@@ -666,70 +540,8 @@ window.resetGameScratchpad();
     `;
 
 
-    /*
-    將計算紙放到 body 最下面。
-    */
-
     document.body.appendChild(
       wrapper
-    );
-
-
-    /*
-    再做一次強制隱藏。
-
-    這可以避免遊戲頁本身有
-    display:inline-flex!important
-    導致 hidden 被蓋掉。
-    */
-
-    forceHideOpenButton();
-  }
-
-
-  /*
-  ==================================================
-  畫圖後隱藏提示文字
-  ==================================================
-  */
-
-  function bindCanvasHint() {
-
-    const canvas =
-      document.getElementById(
-        "scratchpadCanvas"
-      );
-
-
-    const hint =
-      document.getElementById(
-        "scratchpadCanvasHint"
-      );
-
-
-    if (
-      !canvas ||
-      !hint
-    ) {
-      return;
-    }
-
-
-    const hideHint =
-      function () {
-
-        hint.hidden =
-          true;
-      };
-
-
-    canvas.addEventListener(
-      "pointerdown",
-      hideHint,
-      {
-        once:
-          true
-      }
     );
   }
 
@@ -745,40 +557,26 @@ window.resetGameScratchpad();
     createScratchpadMarkup();
 
 
-    /*
-    確認 scratchpad.js 已載入。
-    */
-
     if (
       typeof window.createScratchpad !==
       "function"
     ) {
 
       console.error(
-        "找不到 createScratchpad()，請確認 scratchpad.js 已經正確載入。"
+        "找不到 createScratchpad()，請確認 scratchpad.js 已正確載入。"
       );
 
       return null;
     }
 
 
-    /*
-    避免重複初始化。
-    */
-
     if (
       window.mathScratchpad
     ) {
 
-      forceHideOpenButton();
-
       return window.mathScratchpad;
     }
 
-
-    /*
-    建立計算紙物件。
-    */
 
     window.mathScratchpad =
       window.createScratchpad({
@@ -824,25 +622,14 @@ window.resetGameScratchpad();
       });
 
 
-    /*
-    綁定提示文字。
-    */
-
     bindCanvasHint();
 
 
     /*
-    初始狀態：
-    尚未開始挑戰。
-
-    一律不顯示計算紙按鈕。
+    初始化後仍然隱藏按鈕。
     */
 
-    scratchpadAvailable =
-      false;
-
-
-    forceHideOpenButton();
+    hideScratchpadButton();
 
 
     return window.mathScratchpad;
@@ -851,12 +638,176 @@ window.resetGameScratchpad();
 
   /*
   ==================================================
-  新題目時清除計算紙
+  提示文字
   ==================================================
+  */
 
-  遊戲產生新題目時：
+  function bindCanvasHint() {
 
-  window.resetGameScratchpad();
+    const canvas =
+      document.getElementById(
+        "scratchpadCanvas"
+      );
+
+    const hint =
+      document.getElementById(
+        "scratchpadCanvasHint"
+      );
+
+
+    if (
+      !canvas ||
+      !hint
+    ) {
+
+      return;
+    }
+
+
+    const hideHint =
+      function () {
+
+        hint.hidden =
+          true;
+      };
+
+
+    canvas.addEventListener(
+      "pointerdown",
+      hideHint,
+      {
+        once: true
+      }
+    );
+  }
+
+
+  /*
+  ==================================================
+  計算紙按鈕顯示
+  ==================================================
+  */
+
+  function showScratchpadButton() {
+
+    const button =
+      document.getElementById(
+        "scratchpadOpenButton"
+      );
+
+
+    if (!button) {
+
+      return;
+    }
+
+
+    button.hidden =
+      false;
+
+
+    button.style.display =
+      "inline-flex";
+  }
+
+
+  /*
+  ==================================================
+  計算紙按鈕隱藏
+  ==================================================
+  */
+
+  function hideScratchpadButton() {
+
+    const button =
+      document.getElementById(
+        "scratchpadOpenButton"
+      );
+
+
+    if (!button) {
+
+      return;
+    }
+
+
+    /*
+    隱藏按鈕前，
+    順便關閉已經開啟的計算紙。
+    */
+
+    if (
+      window.mathScratchpad &&
+      typeof window.mathScratchpad
+        .close ===
+        "function"
+    ) {
+
+      window.mathScratchpad
+        .close();
+    }
+
+
+    button.hidden =
+      true;
+
+
+    button.style.display =
+      "none";
+  }
+
+
+  /*
+  ==================================================
+  統一設定顯示狀態
+  ==================================================
+  */
+
+  window.setGameScratchpadButtonVisible =
+    function (
+      visible
+    ) {
+
+      if (visible) {
+
+        showScratchpadButton();
+
+      } else {
+
+        hideScratchpadButton();
+      }
+    };
+
+
+  /*
+  ==================================================
+  正式挑戰開始
+  ==================================================
+  */
+
+  window.showGameScratchpadButton =
+    function () {
+
+      showScratchpadButton();
+    };
+
+
+  /*
+  ==================================================
+  離開正式挑戰
+  ==================================================
+  */
+
+  window.hideGameScratchpadButton =
+    function () {
+
+      hideScratchpadButton();
+    };
+
+
+  /*
+  ==================================================
+  新題目
   ==================================================
   */
 
@@ -881,9 +832,7 @@ window.resetGameScratchpad();
         );
 
 
-      if (
-        hint
-      ) {
+      if (hint) {
 
         hint.hidden =
           false;
@@ -896,144 +845,12 @@ window.resetGameScratchpad();
 
   /*
   ==================================================
-  顯示計算紙按鈕
-  ==================================================
-
-  正式開始挑戰時呼叫：
-
-  window.showGameScratchpadButton();
-  ==================================================
-  */
-
-  window.showGameScratchpadButton =
-    function () {
-
-      scratchpadAvailable =
-        true;
-
-
-      forceShowOpenButton();
-
-
-      return true;
-    };
-
-
-  /*
-  ==================================================
-  隱藏計算紙按鈕
-  ==================================================
-
-  模式選擇畫面、
-  遊戲結束畫面時呼叫：
-
-  window.hideGameScratchpadButton();
-  ==================================================
-  */
-
-  window.hideGameScratchpadButton =
-    function () {
-
-      scratchpadAvailable =
-        false;
-
-
-      /*
-      如果面板目前開著，
-      一起關閉。
-      */
-
-      if (
-        window.mathScratchpad &&
-        typeof window.mathScratchpad
-          .close ===
-          "function"
-      ) {
-
-        window.mathScratchpad
-          .close();
-      }
-
-
-      forceHideOpenButton();
-
-
-      return true;
-    };
-
-
-  /*
-  ==================================================
-  通用設定 API
-  ==================================================
-
-  true：
-  顯示計算紙按鈕
-
-  false：
-  隱藏計算紙按鈕
-
-  例如：
-
-  window.setGameScratchpadAvailable(true);
-  ==================================================
-  */
-
-  window.setGameScratchpadAvailable =
-    function (
-      available
-    ) {
-
-      if (
-        available
-      ) {
-
-        return window
-          .showGameScratchpadButton();
-      }
-
-
-      return window
-        .hideGameScratchpadButton();
-    };
-
-
-  /*
-  ==================================================
-  查詢目前是否允許使用計算紙
-  ==================================================
-  */
-
-  window.isGameScratchpadAvailable =
-    function () {
-
-      return Boolean(
-        scratchpadAvailable
-      );
-    };
-
-
-  /*
-  ==================================================
   開啟計算紙
   ==================================================
   */
 
   window.openGameScratchpad =
     function () {
-
-      /*
-      尚未正式進入遊戲時，
-      禁止程式誤開計算紙。
-      */
-
-      if (
-        !scratchpadAvailable
-      ) {
-
-        return false;
-      }
-
 
       if (
         window.mathScratchpad &&
@@ -1044,12 +861,7 @@ window.resetGameScratchpad();
 
         window.mathScratchpad
           .open();
-
-        return true;
       }
-
-
-      return false;
     };
 
 
@@ -1071,87 +883,15 @@ window.resetGameScratchpad();
 
         window.mathScratchpad
           .close();
-
-        return true;
       }
-
-
-      return false;
     };
 
 
   /*
   ==================================================
-  再次確認按鈕狀態
-  ==================================================
-
-  某些遊戲會在 DOMContentLoaded 後，
-  把按鈕移到自己的工具列。
-
-  因此監聽 DOM，
-  如果尚未開始遊戲，
-  按鈕被搬動後仍保持隱藏。
+  網頁載入後初始化
   ==================================================
   */
-
-  function watchScratchpadButtonPosition() {
-
-    if (
-      typeof MutationObserver ===
-      "undefined"
-    ) {
-      return;
-    }
-
-
-    const observer =
-      new MutationObserver(
-        () => {
-
-          if (
-            !scratchpadAvailable
-          ) {
-
-            forceHideOpenButton();
-          }
-        }
-      );
-
-
-    observer.observe(
-      document.body,
-      {
-        childList:
-          true,
-
-        subtree:
-          true
-      }
-    );
-  }
-
-
-  /*
-  ==================================================
-  網頁載入後自動啟動
-  ==================================================
-  */
-
-  function startComponent() {
-
-    initializeScratchpadComponent();
-
-    watchScratchpadButtonPosition();
-
-
-    /*
-    最後再確認一次：
-    模式首頁不顯示。
-    */
-
-    forceHideOpenButton();
-  }
-
 
   if (
     document.readyState ===
@@ -1160,12 +900,12 @@ window.resetGameScratchpad();
 
     document.addEventListener(
       "DOMContentLoaded",
-      startComponent
+      initializeScratchpadComponent
     );
 
   } else {
 
-    startComponent();
+    initializeScratchpadComponent();
   }
 
 })();
