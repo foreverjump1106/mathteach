@@ -285,6 +285,26 @@
       justify-content: center;
     }
 
+    /*
+    共用計算紙按鈕：
+    尚未掛載到正式作答畫面前先隱藏，
+    進入挑戰後固定顯示在題目下方。
+    */
+    #scratchpadOpenButton {
+      display: none !important;
+    }
+
+    #scratchpad-mobile-button
+    #scratchpadOpenButton {
+      position: static !important;
+      inset: auto !important;
+      display: inline-flex !important;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+    }
+
     .answer-panel {
       margin-top: 18px;
       padding: 20px;
@@ -1066,9 +1086,64 @@
 
     /*
     ==================================================
-    共用 Header
+    共用 Header＋計算紙按鈕
     ==================================================
     */
+
+    function mountScratchpadButton() {
+      const buttonMount =
+        $("scratchpad-mobile-button");
+
+      const openButton =
+        $("scratchpadOpenButton");
+
+      if (
+        !buttonMount ||
+        !openButton
+      ) {
+        return false;
+      }
+
+      if (
+        openButton.parentElement !==
+        buttonMount
+      ) {
+        buttonMount.appendChild(
+          openButton
+        );
+      }
+
+      return true;
+    }
+
+    function ensureScratchpadButtonMounted() {
+      if (
+        mountScratchpadButton()
+      ) {
+        return;
+      }
+
+      let attempts =
+        0;
+
+      const retryTimer =
+        window.setInterval(
+          () => {
+            attempts++;
+
+            if (
+              mountScratchpadButton() ||
+              attempts >=
+                40
+            ) {
+              window.clearInterval(
+                retryTimer
+              );
+            }
+          },
+          50
+        );
+    }
 
     window.addEventListener(
       "DOMContentLoaded",
@@ -1085,20 +1160,7 @@
           });
         }
 
-        const buttonMount =
-          $("scratchpad-mobile-button");
-
-        const openButton =
-          $("scratchpadOpenButton");
-
-        if (
-          buttonMount &&
-          openButton
-        ) {
-          buttonMount.appendChild(
-            openButton
-          );
-        }
+        ensureScratchpadButtonMounted();
       }
     );
 
@@ -1247,6 +1309,12 @@
       showOnly(
         "quiz-screen"
       );
+
+      /*
+      每次開始挑戰都再次確認
+      共用計算紙按鈕已掛載到正式作答畫面。
+      */
+      ensureScratchpadButtonMounted();
 
       loadQuestion();
     }
