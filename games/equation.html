@@ -1824,11 +1824,36 @@ function normalizeUnitBracketCoefficients(
     );
 }
 
+function normalizeSingleTermParentheses(
+  value
+) {
+  let result = String(value);
+
+  /*
+  單一正的 x 項不需要括號：
+  − (x)  → − x
+  + (x)  → + x
+  − (2x) → − 2x
+  + (2x) → + 2x
+
+  單一負的 x 項仍保留括號：
+  − (−x)、+ (−x)、− (−2x)。
+  */
+  result = result.replace(
+    /([+−])\s*\(\s*(x|[2-9]\d*x)\s*\)/g,
+    "$1 $2"
+  );
+
+  return result;
+}
+
 function questionHTML(q) {
   return (
     `<span class="math-expression">` +
-      `${normalizeUnitBracketCoefficients(
-        q.qStr
+      `${normalizeSingleTermParentheses(
+        normalizeUnitBracketCoefficients(
+          q.qStr
+        )
       )}` +
     `</span>`
   );
