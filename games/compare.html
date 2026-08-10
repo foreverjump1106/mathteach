@@ -105,7 +105,7 @@
       grid-template-columns:
         repeat(3, 1fr);
       gap: 14px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     .mode-button {
@@ -119,7 +119,8 @@
       transition:
         transform 0.15s ease,
         border-color 0.15s ease,
-        background 0.15s ease;
+        background 0.15s ease,
+        box-shadow 0.15s ease;
     }
 
     .mode-button:hover,
@@ -127,6 +128,14 @@
       border-color: var(--primary);
       background: var(--primary-light);
       transform: translateY(-3px);
+    }
+
+    .mode-button.selected {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      box-shadow:
+        0 0 0 3px
+        rgba(91, 91, 214, 0.12);
     }
 
     .mode-icon {
@@ -148,6 +157,41 @@
       color: var(--muted);
       font-size: 14px;
       line-height: 1.55;
+    }
+
+    .start-button {
+      width: 100%;
+      min-height: 58px;
+      margin: 2px 0 18px;
+      padding: 13px 20px;
+      border: none;
+      border-radius: 16px;
+      background: var(--primary);
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow:
+        0 6px 0
+        var(--primary-dark);
+      transition:
+        transform 0.12s ease,
+        opacity 0.12s ease;
+    }
+
+    .start-button:active {
+      transform: translateY(5px);
+      box-shadow:
+        0 1px 0
+        var(--primary-dark);
+    }
+
+    .selected-mode-text {
+      min-height: 25px;
+      margin: 0 0 10px;
+      color: var(--primary-dark);
+      font-size: 15px;
+      font-weight: bold;
     }
 
     .rule-box {
@@ -495,16 +539,13 @@
       color: var(--primary-dark);
     }
 
-    /*
-    計算紙預設隱藏。
-    只有遊戲正式開始後才顯示。
-    */
+    /* 計算紙預設隱藏 */
     #scratchpadComponent {
       display: none;
     }
 
-    body.game-started
-      #scratchpadComponent {
+    /* 只有正式進入遊戲才顯示 */
+    body.game-started #scratchpadComponent {
       display: block;
     }
 
@@ -596,10 +637,7 @@
 
   <main class="game-card">
 
-    <!-- ==========================================
-         模式選擇
-    =========================================== -->
-
+    <!-- 模式選擇 -->
     <section
       id="startScreen"
       class="screen active"
@@ -622,7 +660,7 @@
       <div class="mode-grid">
 
         <button
-          class="mode-button"
+          class="mode-button selected"
           type="button"
           data-mode="easy"
         >
@@ -680,6 +718,21 @@
 
       </div>
 
+      <div
+        id="selectedModeText"
+        class="selected-mode-text"
+      >
+        已選擇：🌱 初級
+      </div>
+
+      <button
+        id="startChallengeButton"
+        class="start-button"
+        type="button"
+      >
+        🚀 開始挑戰
+      </button>
+
       <div class="rule-box">
         💡 仔細觀察正負號；兩個都是負數時，
         越靠近0的數越大。
@@ -688,10 +741,7 @@
     </section>
 
 
-    <!-- ==========================================
-         遊戲畫面
-    =========================================== -->
-
+    <!-- 遊戲畫面 -->
     <section
       id="gameScreen"
       class="screen"
@@ -820,10 +870,7 @@
 
         <button
           id="restartCurrentButton"
-          class="
-            control-button
-            restart-control
-          "
+          class="control-button restart-control"
           type="button"
         >
           🔄 重新遊戲
@@ -831,10 +878,7 @@
 
         <button
           id="backToModeButton"
-          class="
-            control-button
-            mode-control
-          "
+          class="control-button mode-control"
           type="button"
         >
           ↩️ 回模式選擇
@@ -845,10 +889,7 @@
     </section>
 
 
-    <!-- ==========================================
-         結果畫面
-    =========================================== -->
-
+    <!-- 結果畫面 -->
     <section
       id="resultScreen"
       class="screen"
@@ -964,268 +1005,150 @@
   </main>
 
 
-  <!-- ==========================================
-       遊戲主程式
-  =========================================== -->
+  <!--
+    ==================================================
+    遊戲主程式
+    這裡故意不用 type="module"
+    避免 scores.js / Firebase 載入失敗時
+    連開始挑戰按鈕都不能使用
+    ==================================================
+  -->
+  <script>
 
-  <script type="module">
-
-    import {
-      saveGameScore
-    } from "../js/scores.js?v=7";
-
-
-    /*
-    ==============================================
-    基本設定
-    ==============================================
-    */
-
-    const GAME_ID =
-      "compare";
-
-    const GAME_TIME =
-      60;
-
-
-    /*
-    ==============================================
-    DOM
-    ==============================================
-    */
+    const GAME_ID = "compare";
+    const GAME_TIME = 60;
 
     const startScreen =
-      document.getElementById(
-        "startScreen"
-      );
+      document.getElementById("startScreen");
 
     const gameScreen =
-      document.getElementById(
-        "gameScreen"
-      );
+      document.getElementById("gameScreen");
 
     const resultScreen =
-      document.getElementById(
-        "resultScreen"
-      );
+      document.getElementById("resultScreen");
 
     const timeBox =
-      document.getElementById(
-        "timeBox"
-      );
+      document.getElementById("timeBox");
 
     const timeValue =
-      document.getElementById(
-        "timeValue"
-      );
+      document.getElementById("timeValue");
 
     const scoreValue =
-      document.getElementById(
-        "scoreValue"
-      );
+      document.getElementById("scoreValue");
 
     const comboValue =
-      document.getElementById(
-        "comboValue"
-      );
+      document.getElementById("comboValue");
 
     const correctValue =
-      document.getElementById(
-        "correctValue"
-      );
+      document.getElementById("correctValue");
 
     const modeLabel =
-      document.getElementById(
-        "modeLabel"
-      );
+      document.getElementById("modeLabel");
 
     const leftNumber =
-      document.getElementById(
-        "leftNumber"
-      );
+      document.getElementById("leftNumber");
 
     const rightNumber =
-      document.getElementById(
-        "rightNumber"
-      );
+      document.getElementById("rightNumber");
 
     const feedback =
-      document.getElementById(
-        "feedback"
-      );
+      document.getElementById("feedback");
 
     const gradeCircle =
-      document.getElementById(
-        "gradeCircle"
-      );
+      document.getElementById("gradeCircle");
 
     const stars =
-      document.getElementById(
-        "stars"
-      );
+      document.getElementById("stars");
 
     const finalScore =
-      document.getElementById(
-        "finalScore"
-      );
+      document.getElementById("finalScore");
 
     const finalCorrect =
-      document.getElementById(
-        "finalCorrect"
-      );
+      document.getElementById("finalCorrect");
 
     const finalAccuracy =
-      document.getElementById(
-        "finalAccuracy"
-      );
+      document.getElementById("finalAccuracy");
 
     const finalCombo =
-      document.getElementById(
-        "finalCombo"
-      );
+      document.getElementById("finalCombo");
 
     const resultMessage =
-      document.getElementById(
-        "resultMessage"
-      );
+      document.getElementById("resultMessage");
 
     const saveStatus =
-      document.getElementById(
-        "saveStatus"
-      );
+      document.getElementById("saveStatus");
 
     const restartButton =
-      document.getElementById(
-        "restartButton"
-      );
+      document.getElementById("restartButton");
 
     const changeModeButton =
-      document.getElementById(
-        "changeModeButton"
-      );
+      document.getElementById("changeModeButton");
 
     const restartCurrentButton =
-      document.getElementById(
-        "restartCurrentButton"
-      );
+      document.getElementById("restartCurrentButton");
 
     const backToModeButton =
-      document.getElementById(
-        "backToModeButton"
-      );
+      document.getElementById("backToModeButton");
+
+    const startChallengeButton =
+      document.getElementById("startChallengeButton");
+
+    const selectedModeText =
+      document.getElementById("selectedModeText");
 
     const modeButtons =
       Array.from(
-        document.querySelectorAll(
-          ".mode-button"
-        )
+        document.querySelectorAll(".mode-button")
       );
 
     const answerButtons =
       Array.from(
-        document.querySelectorAll(
-          ".answer-button"
-        )
+        document.querySelectorAll(".answer-button")
       );
 
 
-    /*
-    ==============================================
-    模式
-    ==============================================
-    */
-
     const modeNames = {
-      easy:
-        "🌱 初級：整數比較",
+      easy: "🌱 初級：整數比較",
+      medium: "🌿 中級：整數與分數",
+      hard: "🌳 高級：混合比較"
+    };
 
-      medium:
-        "🌿 中級：整數與分數",
-
-      hard:
-        "🌳 高級：混合比較"
+    const shortModeNames = {
+      easy: "🌱 初級",
+      medium: "🌿 中級",
+      hard: "🌳 高級"
     };
 
 
-    /*
-    ==============================================
-    遊戲狀態
-    ==============================================
-    */
+    let selectedMode = "easy";
+    let currentMode = "easy";
+    let currentQuestion = null;
 
-    let currentMode =
-      "easy";
+    let score = 0;
+    let combo = 0;
+    let highestCombo = 0;
+    let correctCount = 0;
+    let totalCount = 0;
 
-    let currentQuestion =
-      null;
+    let timeLeft = GAME_TIME;
+    let timer = null;
 
-    let score =
-      0;
+    let acceptingAnswer = false;
+    let gameOver = true;
+    let scoreSaved = false;
 
-    let combo =
-      0;
-
-    let highestCombo =
-      0;
-
-    let correctCount =
-      0;
-
-    let totalCount =
-      0;
-
-    let timeLeft =
-      GAME_TIME;
-
-    let timer =
-      null;
-
-    let acceptingAnswer =
-      false;
-
-    let gameOver =
-      true;
-
-    let scoreSaved =
-      false;
-
-    let audioContext =
-      null;
+    let audioContext = null;
 
 
-    /*
-    ==============================================
-    畫面
-    ==============================================
-    */
+    function showScreen(screen) {
 
-    function showScreen(
-      screen
-    ) {
+      startScreen.classList.remove("active");
+      gameScreen.classList.remove("active");
+      resultScreen.classList.remove("active");
 
-      startScreen.classList.remove(
-        "active"
-      );
-
-      gameScreen.classList.remove(
-        "active"
-      );
-
-      resultScreen.classList.remove(
-        "active"
-      );
-
-      screen.classList.add(
-        "active"
-      );
+      screen.classList.add("active");
     }
 
-
-    /*
-    ==============================================
-    計算紙顯示控制
-    ==============================================
-    */
 
     function showScratchpadButton() {
 
@@ -1283,24 +1206,11 @@
     }
 
 
-    /*
-    ==============================================
-    隨機整數
-    ==============================================
-    */
-
-    function randomInteger(
-      min,
-      max
-    ) {
+    function randomInteger(min, max) {
 
       return Math.floor(
         Math.random() *
-        (
-          max -
-          min +
-          1
-        )
+        (max - min + 1)
       ) + min;
     }
 
@@ -1315,10 +1225,7 @@
       do {
 
         value =
-          randomInteger(
-            min,
-            max
-          );
+          randomInteger(min, max);
 
       } while (
         value === 0
@@ -1328,26 +1235,15 @@
     }
 
 
-    /*
-    ==============================================
-    最大公因數
-    ==============================================
-    */
-
     function greatestCommonDivisor(
       a,
       b
     ) {
 
-      a =
-        Math.abs(a);
+      a = Math.abs(a);
+      b = Math.abs(b);
 
-      b =
-        Math.abs(b);
-
-      while (
-        b !== 0
-      ) {
+      while (b !== 0) {
 
         const remainder =
           a % b;
@@ -1360,20 +1256,12 @@
     }
 
 
-    /*
-    ==============================================
-    分數約分
-    ==============================================
-    */
-
     function simplifyFraction(
       numerator,
       denominator
     ) {
 
-      if (
-        denominator < 0
-      ) {
+      if (denominator < 0) {
 
         numerator *= -1;
         denominator *= -1;
@@ -1387,21 +1275,13 @@
 
       return {
         numerator:
-          numerator /
-          divisor,
+          numerator / divisor,
 
         denominator:
-          denominator /
-          divisor
+          denominator / divisor
       };
     }
 
-
-    /*
-    ==============================================
-    整數
-    ==============================================
-    */
 
     function createInteger() {
 
@@ -1412,72 +1292,39 @@
         );
 
       return {
-        type:
-          "integer",
-
+        type: "integer",
         value,
-
-        numerator:
-          value,
-
-        denominator:
-          1
+        numerator: value,
+        denominator: 1
       };
     }
 
 
-    /*
-    ==============================================
-    正規化
-    ==============================================
-    */
-
-    function normalizeNumber(
-      number
-    ) {
+    function normalizeNumber(number) {
 
       if (
-        number.type ===
-          "fraction" &&
-        number.denominator ===
-          1
+        number.type === "fraction" &&
+        number.denominator === 1
       ) {
 
         return {
-          type:
-            "integer",
-
-          value:
-            number.numerator,
-
-          numerator:
-            number.numerator,
-
-          denominator:
-            1
+          type: "integer",
+          value: number.numerator,
+          numerator: number.numerator,
+          denominator: 1
         };
       }
 
       if (
-        number.type ===
-          "decimal" &&
-        Number.isInteger(
-          number.value
-        )
+        number.type === "decimal" &&
+        Number.isInteger(number.value)
       ) {
 
         return {
-          type:
-            "integer",
-
-          value:
-            number.value,
-
-          numerator:
-            number.value,
-
-          denominator:
-            1
+          type: "integer",
+          value: number.value,
+          numerator: number.value,
+          denominator: 1
         };
       }
 
@@ -1485,19 +1332,10 @@
     }
 
 
-    /*
-    ==============================================
-    分數
-    ==============================================
-    */
-
     function createFraction() {
 
       let denominator =
-        randomInteger(
-          2,
-          12
-        );
+        randomInteger(2, 12);
 
       let numerator =
         randomInteger(
@@ -1505,10 +1343,7 @@
           denominator * 2
         );
 
-      if (
-        Math.random() <
-        0.5
-      ) {
+      if (Math.random() < 0.5) {
 
         numerator *= -1;
       }
@@ -1521,8 +1356,7 @@
 
       if (
         simplified.numerator %
-        simplified.denominator ===
-        0
+        simplified.denominator === 0
       ) {
 
         numerator +=
@@ -1538,8 +1372,7 @@
       }
 
       return normalizeNumber({
-        type:
-          "fraction",
+        type: "fraction",
 
         numerator:
           simplified.numerator,
@@ -1554,23 +1387,15 @@
     }
 
 
-    /*
-    ==============================================
-    小數
-    ==============================================
-    */
-
     function createDecimal() {
 
       const decimalPlaces =
-        Math.random() <
-        0.5
+        Math.random() < 0.5
           ? 1
           : 2;
 
       const scale =
-        10 **
-        decimalPlaces;
+        10 ** decimalPlaces;
 
       const scaledValue =
         randomNonZeroInteger(
@@ -1579,18 +1404,13 @@
         );
 
       return normalizeNumber({
-        type:
-          "decimal",
-
+        type: "decimal",
         scaledValue,
-
         scale,
-
         decimalPlaces,
 
         value:
-          scaledValue /
-          scale,
+          scaledValue / scale,
 
         numerator:
           scaledValue,
@@ -1601,15 +1421,7 @@
     }
 
 
-    /*
-    ==============================================
-    複製數值
-    ==============================================
-    */
-
-    function cloneNumber(
-      number
-    ) {
+    function cloneNumber(number) {
 
       return {
         ...number
@@ -1617,34 +1429,21 @@
     }
 
 
-    /*
-    ==============================================
-    建立相等數
-    ==============================================
-    */
-
-    function createEqualVersion(
-      number
-    ) {
+    function createEqualVersion(number) {
 
       if (
-        number.type ===
-        "integer"
+        number.type === "integer"
       ) {
 
-        return cloneNumber(
-          number
-        );
+        return cloneNumber(number);
       }
 
       if (
-        number.type ===
-        "fraction"
+        number.type === "fraction"
       ) {
 
         if (
-          currentMode ===
-          "hard"
+          currentMode === "hard"
         ) {
 
           const decimalValue =
@@ -1653,58 +1452,37 @@
 
           const rounded =
             Math.round(
-              decimalValue *
-              100
+              decimalValue * 100
             );
 
           if (
             Math.abs(
               decimalValue -
-              rounded /
-              100
-            ) <
-            0.000001
+              rounded / 100
+            ) < 0.000001
           ) {
 
             return normalizeNumber({
-              type:
-                "decimal",
-
-              scaledValue:
-                rounded,
-
-              scale:
-                100,
-
-              decimalPlaces:
-                2,
-
-              value:
-                rounded /
-                100,
-
-              numerator:
-                rounded,
-
-              denominator:
-                100
+              type: "decimal",
+              scaledValue: rounded,
+              scale: 100,
+              decimalPlaces: 2,
+              value: rounded / 100,
+              numerator: rounded,
+              denominator: 100
             });
           }
         }
 
-        return cloneNumber(
-          number
-        );
+        return cloneNumber(number);
       }
 
       if (
-        number.type ===
-        "decimal"
+        number.type === "decimal"
       ) {
 
         if (
-          currentMode ===
-          "hard"
+          currentMode === "hard"
         ) {
 
           const fraction =
@@ -1714,8 +1492,7 @@
             );
 
           return normalizeNumber({
-            type:
-              "fraction",
+            type: "fraction",
 
             numerator:
               fraction.numerator,
@@ -1729,22 +1506,12 @@
           });
         }
 
-        return cloneNumber(
-          number
-        );
+        return cloneNumber(number);
       }
 
-      return cloneNumber(
-        number
-      );
+      return cloneNumber(number);
     }
 
-
-    /*
-    ==============================================
-    題型
-    ==============================================
-    */
 
     function selectNumberType() {
 
@@ -1752,16 +1519,14 @@
         Math.random();
 
       if (
-        currentMode ===
-        "easy"
+        currentMode === "easy"
       ) {
 
         return "integer";
       }
 
       if (
-        currentMode ===
-        "medium"
+        currentMode === "medium"
       ) {
 
         return (
@@ -1771,18 +1536,12 @@
         );
       }
 
-      if (
-        random <
-        0.28
-      ) {
+      if (random < 0.28) {
 
         return "integer";
       }
 
-      if (
-        random <
-        0.64
-      ) {
+      if (random < 0.64) {
 
         return "fraction";
       }
@@ -1791,22 +1550,14 @@
     }
 
 
-    function createNumberByType(
-      type
-    ) {
+    function createNumberByType(type) {
 
-      if (
-        type ===
-        "fraction"
-      ) {
+      if (type === "fraction") {
 
         return createFraction();
       }
 
-      if (
-        type ===
-        "decimal"
-      ) {
+      if (type === "decimal") {
 
         return createDecimal();
       }
@@ -1815,26 +1566,19 @@
     }
 
 
-    function makeNegative(
-      number
-    ) {
+    function makeNegative(number) {
 
       const copy = {
         ...number
       };
 
-      if (
-        copy.value >
-        0
-      ) {
+      if (copy.value > 0) {
 
         copy.value *= -1;
-
         copy.numerator *= -1;
 
         if (
-          copy.type ===
-            "decimal" &&
+          copy.type === "decimal" &&
           typeof copy.scaledValue ===
             "number"
         ) {
@@ -1852,18 +1596,10 @@
     ) {
 
       return makeNegative(
-        createNumberByType(
-          type
-        )
+        createNumberByType(type)
       );
     }
 
-
-    /*
-    ==============================================
-    精確比較
-    ==============================================
-    */
 
     function compareExactly(
       first,
@@ -1879,16 +1615,14 @@
         first.denominator;
 
       if (
-        leftProduct <
-        rightProduct
+        leftProduct < rightProduct
       ) {
 
         return -1;
       }
 
       if (
-        leftProduct >
-        rightProduct
+        leftProduct > rightProduct
       ) {
 
         return 1;
@@ -1898,17 +1632,14 @@
     }
 
 
-    /*
-    ==============================================
-    建立題目
-    ==============================================
-    */
-
     function createComparisonQuestion() {
 
+      /*
+        保留原設定：
+        負數 vs 負數約 65%
+      */
       const negativePairQuestion =
-        Math.random() <
-        0.65;
+        Math.random() < 0.65;
 
       const leftType =
         selectNumberType();
@@ -1916,11 +1647,12 @@
       let rightType =
         selectNumberType();
 
+      /*
+        高級模式保留混合型態設定
+      */
       if (
-        currentMode ===
-          "hard" &&
-        Math.random() <
-          0.55
+        currentMode === "hard" &&
+        Math.random() < 0.55
       ) {
 
         const types = [
@@ -1932,16 +1664,14 @@
         const otherTypes =
           types.filter(
             type =>
-              type !==
-              leftType
+              type !== leftType
           );
 
         rightType =
           otherTypes[
             randomInteger(
               0,
-              otherTypes.length -
-              1
+              otherTypes.length - 1
             )
           ];
       }
@@ -1957,15 +1687,15 @@
 
       let right;
 
+      /*
+        保留約 15% 相等題
+      */
       if (
-        Math.random() <
-        0.15
+        Math.random() < 0.15
       ) {
 
         right =
-          createEqualVersion(
-            left
-          );
+          createEqualVersion(left);
 
       } else {
 
@@ -1978,8 +1708,7 @@
                 rightType
               );
 
-        let attempts =
-          0;
+        let attempts = 0;
 
         while (
           compareExactly(
@@ -1998,20 +1727,15 @@
                   rightType
                 );
 
-          attempts +=
-            1;
+          attempts += 1;
         }
       }
 
       left =
-        normalizeNumber(
-          left
-        );
+        normalizeNumber(left);
 
       right =
-        normalizeNumber(
-          right
-        );
+        normalizeNumber(right);
 
       const comparison =
         compareExactly(
@@ -2019,24 +1743,17 @@
           right
         );
 
-      let answer =
-        "=";
+      let answer = "=";
 
-      if (
-        comparison <
-        0
-      ) {
+      if (comparison < 0) {
 
-        answer =
-          "<";
+        answer = "<";
 
       } else if (
-        comparison >
-        0
+        comparison > 0
       ) {
 
-        answer =
-          ">";
+        answer = ">";
       }
 
       return {
@@ -2047,19 +1764,10 @@
     }
 
 
-    /*
-    ==============================================
-    顯示分數
-    ==============================================
-    */
-
-    function renderFraction(
-      number
-    ) {
+    function renderFraction(number) {
 
       const isNegative =
-        number.numerator <
-        0;
+        number.numerator < 0;
 
       const absoluteNumerator =
         Math.abs(
@@ -2096,23 +1804,17 @@
     }
 
 
-    function renderNumber(
-      number
-    ) {
+    function renderNumber(number) {
 
       if (
-        number.type ===
-        "fraction"
+        number.type === "fraction"
       ) {
 
-        return renderFraction(
-          number
-        );
+        return renderFraction(number);
       }
 
       if (
-        number.type ===
-        "decimal"
+        number.type === "decimal"
       ) {
 
         if (
@@ -2131,19 +1833,14 @@
         );
       }
 
-      return String(
-        number.value
-      );
+      return String(number.value);
     }
 
 
-    function numberToText(
-      number
-    ) {
+    function numberToText(number) {
 
       if (
-        number.type ===
-        "fraction"
+        number.type === "fraction"
       ) {
 
         return (
@@ -2153,8 +1850,7 @@
       }
 
       if (
-        number.type ===
-        "decimal"
+        number.type === "decimal"
       ) {
 
         if (
@@ -2173,21 +1869,11 @@
         );
       }
 
-      return String(
-        number.value
-      );
+      return String(number.value);
     }
 
 
-    /*
-    ==============================================
-    提示
-    ==============================================
-    */
-
-    function createHint(
-      question
-    ) {
+    function createHint(question) {
 
       const left =
         question.left;
@@ -2196,8 +1882,7 @@
         question.right;
 
       if (
-        question.answer ===
-        "="
+        question.answer === "="
       ) {
 
         return (
@@ -2234,10 +1919,8 @@
       }
 
       if (
-        left.type ===
-          "fraction" &&
-        right.type ===
-          "fraction"
+        left.type === "fraction" &&
+        right.type === "fraction"
       ) {
 
         if (
@@ -2258,10 +1941,8 @@
       }
 
       if (
-        left.type ===
-          "decimal" &&
-        right.type ===
-          "decimal"
+        left.type === "decimal" &&
+        right.type === "decimal"
       ) {
 
         return (
@@ -2277,17 +1958,9 @@
     }
 
 
-    /*
-    ==============================================
-    顯示新題目
-    ==============================================
-    */
-
     function displayQuestion() {
 
-      if (
-        gameOver
-      ) {
+      if (gameOver) {
         return;
       }
 
@@ -2304,17 +1977,14 @@
           currentQuestion.right
         );
 
-      feedback.textContent =
-        "";
-
+      feedback.textContent = "";
       feedback.className =
         "feedback";
 
       answerButtons.forEach(
         button => {
 
-          button.disabled =
-            false;
+          button.disabled = false;
 
           button.classList.remove(
             "selected-correct",
@@ -2323,22 +1993,11 @@
         }
       );
 
-      acceptingAnswer =
-        true;
-
-      /*
-      新題目清除上一題計算紙。
-      */
+      acceptingAnswer = true;
 
       resetScratchpadForQuestion();
     }
 
-
-    /*
-    ==============================================
-    音效
-    ==============================================
-    */
 
     function prepareAudio() {
 
@@ -2346,15 +2005,11 @@
         window.AudioContext ||
         window.webkitAudioContext;
 
-      if (
-        !AudioContextClass
-      ) {
+      if (!AudioContextClass) {
         return;
       }
 
-      if (
-        !audioContext
-      ) {
+      if (!audioContext) {
 
         audioContext =
           new AudioContextClass();
@@ -2367,9 +2022,7 @@
 
         audioContext
           .resume()
-          .catch(
-            () => {}
-          );
+          .catch(() => {});
       }
     }
 
@@ -2384,9 +2037,7 @@
 
       prepareAudio();
 
-      if (
-        !audioContext
-      ) {
+      if (!audioContext) {
         return;
       }
 
@@ -2400,8 +2051,7 @@
       const gain =
         audioContext.createGain();
 
-      oscillator.type =
-        type;
+      oscillator.type = type;
 
       oscillator.frequency
         .setValueAtTime(
@@ -2427,17 +2077,13 @@
           start + duration
         );
 
-      oscillator.connect(
-        gain
-      );
+      oscillator.connect(gain);
 
       gain.connect(
         audioContext.destination
       );
 
-      oscillator.start(
-        start
-      );
+      oscillator.start(start);
 
       oscillator.stop(
         start +
@@ -2450,42 +2096,23 @@
     function playCorrectSound() {
 
       playTone({
-        frequency:
-          523.25,
-
-        duration:
-          0.2,
-
-        volume:
-          0.065
+        frequency: 523.25,
+        duration: 0.2,
+        volume: 0.065
       });
 
       playTone({
-        frequency:
-          659.25,
-
-        duration:
-          0.23,
-
-        volume:
-          0.055,
-
-        delay:
-          0.1
+        frequency: 659.25,
+        duration: 0.23,
+        volume: 0.055,
+        delay: 0.1
       });
 
       playTone({
-        frequency:
-          783.99,
-
-        duration:
-          0.27,
-
-        volume:
-          0.05,
-
-        delay:
-          0.2
+        frequency: 783.99,
+        duration: 0.27,
+        volume: 0.05,
+        delay: 0.2
       });
     }
 
@@ -2493,34 +2120,18 @@
     function playWrongSound() {
 
       playTone({
-        frequency:
-          392,
-
-        duration:
-          0.23,
-
-        volume:
-          0.05,
-
-        type:
-          "triangle"
+        frequency: 392,
+        duration: 0.23,
+        volume: 0.05,
+        type: "triangle"
       });
 
       playTone({
-        frequency:
-          329.63,
-
-        duration:
-          0.28,
-
-        volume:
-          0.045,
-
-        delay:
-          0.14,
-
-        type:
-          "triangle"
+        frequency: 329.63,
+        duration: 0.28,
+        volume: 0.045,
+        delay: 0.14,
+        type: "triangle"
       });
     }
 
@@ -2543,8 +2154,7 @@
             ? 0.085
             : 0.055,
 
-        type:
-          "square"
+        type: "square"
       });
     }
 
@@ -2552,51 +2162,26 @@
     function playEndSound() {
 
       playTone({
-        frequency:
-          523.25,
-
-        duration:
-          0.2,
-
-        volume:
-          0.06
+        frequency: 523.25,
+        duration: 0.2,
+        volume: 0.06
       });
 
       playTone({
-        frequency:
-          659.25,
-
-        duration:
-          0.2,
-
-        volume:
-          0.055,
-
-        delay:
-          0.14
+        frequency: 659.25,
+        duration: 0.2,
+        volume: 0.055,
+        delay: 0.14
       });
 
       playTone({
-        frequency:
-          783.99,
-
-        duration:
-          0.35,
-
-        volume:
-          0.05,
-
-        delay:
-          0.28
+        frequency: 783.99,
+        duration: 0.35,
+        volume: 0.05,
+        delay: 0.28
       });
     }
 
-
-    /*
-    ==============================================
-    狀態
-    ==============================================
-    */
 
     function updateStatus() {
 
@@ -2614,51 +2199,30 @@
     }
 
 
-    /*
-    ==============================================
-    計時
-    ==============================================
-    */
-
     function startTimer() {
 
-      if (
-        timer
-      ) {
+      if (timer) {
 
-        clearInterval(
-          timer
-        );
+        clearInterval(timer);
       }
 
       timer =
         setInterval(
           () => {
 
-            if (
-              gameOver
-            ) {
+            if (gameOver) {
 
-              clearInterval(
-                timer
-              );
-
-              timer =
-                null;
+              clearInterval(timer);
+              timer = null;
 
               return;
             }
 
-            timeLeft -=
-              1;
+            timeLeft -= 1;
 
-            if (
-              timeLeft <
-              0
-            ) {
+            if (timeLeft < 0) {
 
-              timeLeft =
-                0;
+              timeLeft = 0;
             }
 
             updateStatus();
@@ -2675,9 +2239,7 @@
               playCountdownSound();
             }
 
-            if (
-              timeLeft <= 0
-            ) {
+            if (timeLeft <= 0) {
 
               endGame();
             }
@@ -2687,75 +2249,72 @@
     }
 
 
-    /*
-    ==============================================
-    回模式選擇
-    ==============================================
-    */
+    function selectMode(mode) {
+
+      if (!modeNames[mode]) {
+        return;
+      }
+
+      selectedMode = mode;
+
+      modeButtons.forEach(
+        button => {
+
+          const isSelected =
+            button.dataset.mode ===
+            selectedMode;
+
+          button.classList.toggle(
+            "selected",
+            isSelected
+          );
+        }
+      );
+
+      selectedModeText.textContent =
+        `已選擇：${shortModeNames[selectedMode]}`;
+    }
+
 
     function returnToModeSelection() {
 
-      if (
-        timer
-      ) {
+      if (timer) {
 
-        clearInterval(
-          timer
-        );
-
-        timer =
-          null;
+        clearInterval(timer);
+        timer = null;
       }
 
-      gameOver =
-        true;
-
-      acceptingAnswer =
-        false;
+      gameOver = true;
+      acceptingAnswer = false;
 
       timeBox.classList.remove(
         "danger-time"
       );
 
-      feedback.textContent =
-        "";
-
+      feedback.textContent = "";
       feedback.className =
         "feedback";
 
-      saveStatus.textContent =
-        "";
+      saveStatus.textContent = "";
+      saveStatus.style.color = "";
 
-      saveStatus.style.color =
-        "";
+      /*
+        回模式畫面時保留剛才選的模式。
+      */
+      selectedMode =
+        currentMode;
+
+      selectMode(selectedMode);
 
       hideScratchpadButton();
 
-      showScreen(
-        startScreen
-      );
+      showScreen(startScreen);
     }
 
 
-    /*
-    ==============================================
-    開始遊戲
-    ==============================================
-    */
+    function startGame(mode) {
 
-    function startGame(
-      mode
-    ) {
-
-      /*
-      防止不存在的 mode。
-      */
-
-      if (
-        !modeNames[
-          mode
-        ]
-      ) {
+      if (!modeNames[mode]) {
 
         console.error(
           "無效的遊戲模式：",
@@ -2765,104 +2324,54 @@
         return;
       }
 
-      /*
-      先停止舊計時器。
-      */
+      if (timer) {
 
-      if (
-        timer
-      ) {
-
-        clearInterval(
-          timer
-        );
-
-        timer =
-          null;
+        clearInterval(timer);
+        timer = null;
       }
 
       prepareAudio();
 
-      currentMode =
-        mode;
+      currentMode = mode;
+      selectedMode = mode;
 
-      score =
-        0;
+      score = 0;
+      combo = 0;
+      highestCombo = 0;
+      correctCount = 0;
+      totalCount = 0;
 
-      combo =
-        0;
+      timeLeft = GAME_TIME;
 
-      highestCombo =
-        0;
+      gameOver = false;
+      acceptingAnswer = false;
+      scoreSaved = false;
 
-      correctCount =
-        0;
-
-      totalCount =
-        0;
-
-      timeLeft =
-        GAME_TIME;
-
-      gameOver =
-        false;
-
-      acceptingAnswer =
-        false;
-
-      scoreSaved =
-        false;
-
-      saveStatus.textContent =
-        "";
-
-      saveStatus.style.color =
-        "";
+      saveStatus.textContent = "";
+      saveStatus.style.color = "";
 
       timeBox.classList.remove(
         "danger-time"
       );
 
       modeLabel.textContent =
-        modeNames[
-          currentMode
-        ];
+        modeNames[currentMode];
 
       updateStatus();
 
-      /*
-      先切換遊戲畫面。
-      */
-
-      showScreen(
-        gameScreen
-      );
+      showScreen(gameScreen);
 
       /*
-      正式開始後才顯示計算紙。
+        只有正式開始遊戲後
+        才顯示計算紙。
       */
-
       showScratchpadButton();
 
-      /*
-      建立第一題。
-      */
-
       displayQuestion();
-
-      /*
-      開始倒數。
-      */
 
       startTimer();
     }
 
-
-    /*
-    ==============================================
-    檢查答案
-    ==============================================
-    */
 
     function checkAnswer(
       selectedAnswer,
@@ -2880,17 +2389,14 @@
 
       prepareAudio();
 
-      acceptingAnswer =
-        false;
+      acceptingAnswer = false;
 
-      totalCount +=
-        1;
+      totalCount += 1;
 
       answerButtons.forEach(
         button => {
 
-          button.disabled =
-            true;
+          button.disabled = true;
         }
       );
 
@@ -2905,58 +2411,47 @@
             currentQuestion.answer
         );
 
-      if (
-        isCorrect
-      ) {
+      if (isCorrect) {
 
-        combo +=
-          1;
-
-        correctCount +=
-          1;
+        combo += 1;
+        correctCount += 1;
 
         if (
-          combo >
-          highestCombo
+          combo > highestCombo
         ) {
 
-          highestCombo =
-            combo;
+          highestCombo = combo;
         }
 
-        let gainedScore =
-          10;
+        let gainedScore = 10;
 
-        if (
-          combo >= 10
-        ) {
+        if (combo >= 10) {
 
-          gainedScore =
-            25;
+          gainedScore = 25;
 
         } else if (
           combo >= 5
         ) {
 
-          gainedScore =
-            20;
+          gainedScore = 20;
 
         } else if (
           combo >= 3
         ) {
 
-          gainedScore =
-            15;
+          gainedScore = 15;
         }
 
-        score +=
-          gainedScore;
+        score += gainedScore;
 
-        selectedButton
-          ?.classList
-          .add(
-            "selected-correct"
-          );
+        if (selectedButton) {
+
+          selectedButton
+            .classList
+            .add(
+              "selected-correct"
+            );
+        }
 
         feedback.className =
           "feedback correct";
@@ -2971,20 +2466,25 @@
 
       } else {
 
-        combo =
-          0;
+        combo = 0;
 
-        selectedButton
-          ?.classList
-          .add(
-            "selected-wrong"
-          );
+        if (selectedButton) {
 
-        correctButton
-          ?.classList
-          .add(
-            "selected-correct"
-          );
+          selectedButton
+            .classList
+            .add(
+              "selected-wrong"
+            );
+        }
+
+        if (correctButton) {
+
+          correctButton
+            .classList
+            .add(
+              "selected-correct"
+            );
+        }
 
         const answerText =
           `${numberToText(
@@ -3022,9 +2522,7 @@
       window.setTimeout(
         () => {
 
-          if (
-            !gameOver
-          ) {
+          if (!gameOver) {
 
             displayQuestion();
           }
@@ -3036,12 +2534,6 @@
     }
 
 
-    /*
-    ==============================================
-    評級
-    ==============================================
-    */
-
     function calculateGrade(
       accuracy
     ) {
@@ -3052,56 +2544,36 @@
       ) {
 
         return {
-          grade:
-            "S",
-
-          stars:
-            "★★★★★",
-
+          grade: "S",
+          stars: "★★★★★",
           message:
             "太厲害了！你已經是數的大小比較王！"
         };
       }
 
-      if (
-        accuracy >= 85
-      ) {
+      if (accuracy >= 85) {
 
         return {
-          grade:
-            "A",
-
-          stars:
-            "★★★★☆",
-
+          grade: "A",
+          stars: "★★★★☆",
           message:
             "表現非常棒，數的大小觀念很熟練！"
         };
       }
 
-      if (
-        accuracy >= 70
-      ) {
+      if (accuracy >= 70) {
 
         return {
-          grade:
-            "B",
-
-          stars:
-            "★★★☆☆",
-
+          grade: "B",
+          stars: "★★★☆☆",
           message:
             "表現不錯，再多練習負數與分數比較！"
         };
       }
 
       return {
-        grade:
-          "C",
-
-        stars:
-          "★★☆☆☆",
-
+        grade: "C",
+        stars: "★★☆☆☆",
         message:
           "別灰心，仔細判斷正負號，再挑戰一次！"
       };
@@ -3109,21 +2581,26 @@
 
 
     /*
-    ==============================================
-    儲存成績
-    ==============================================
-    */
+      ==========================================
+      儲存成績
 
+      重要：
+      scores.js 改成遊戲結束時才載入。
+
+      這樣就算 scores.js 或 Firebase
+      發生錯誤，也不會影響：
+      1. 模式選擇
+      2. 開始挑戰
+      3. 遊戲答題
+      ==========================================
+    */
     async function saveCurrentScore() {
 
-      if (
-        scoreSaved
-      ) {
+      if (scoreSaved) {
         return;
       }
 
-      scoreSaved =
-        true;
+      scoreSaved = true;
 
       saveStatus.textContent =
         "☁️ 正在儲存本次成績……";
@@ -3140,29 +2617,35 @@
 
       try {
 
+        const scoreModule =
+          await import(
+            "../js/scores.js?v=8"
+          );
+
+        if (
+          typeof scoreModule.saveGameScore !==
+          "function"
+        ) {
+
+          throw new Error(
+            "scores.js 找不到 saveGameScore"
+          );
+        }
+
         const result =
-          await saveGameScore({
-            game:
-              GAME_ID,
-
+          await scoreModule.saveGameScore({
+            game: GAME_ID,
             score,
-
             correctCount,
-
             wrongCount,
-
-            maxCombo:
-              highestCombo,
-
-            playTime:
-              GAME_TIME,
-
-            mode:
-              currentMode
+            maxCombo: highestCombo,
+            playTime: GAME_TIME,
+            mode: currentMode
           });
 
         if (
-          result?.success
+          result &&
+          result.success
         ) {
 
           saveStatus.textContent =
@@ -3175,8 +2658,9 @@
         }
 
         if (
-          result?.reason ===
-          "not-logged-in"
+          result &&
+          result.reason ===
+            "not-logged-in"
         ) {
 
           saveStatus.textContent =
@@ -3194,9 +2678,7 @@
         saveStatus.style.color =
           "#c62828";
 
-      } catch (
-        error
-      ) {
+      } catch (error) {
 
         console.error(
           "大小比較遊戲成績儲存失敗：",
@@ -3204,7 +2686,7 @@
         );
 
         saveStatus.textContent =
-          "⚠️ 成績暫時無法儲存，請稍後再試。";
+          "⚠️ 成績暫時無法儲存，但不影響遊戲功能。";
 
         saveStatus.style.color =
           "#c62828";
@@ -3212,40 +2694,22 @@
     }
 
 
-    /*
-    ==============================================
-    結束遊戲
-    ==============================================
-    */
-
     async function endGame() {
 
-      if (
-        gameOver
-      ) {
+      if (gameOver) {
         return;
       }
 
-      gameOver =
-        true;
+      gameOver = true;
+      acceptingAnswer = false;
 
-      acceptingAnswer =
-        false;
+      if (timer) {
 
-      if (
-        timer
-      ) {
-
-        clearInterval(
-          timer
-        );
-
-        timer =
-          null;
+        clearInterval(timer);
+        timer = null;
       }
 
-      timeLeft =
-        0;
+      timeLeft = 0;
 
       updateStatus();
 
@@ -3256,8 +2720,7 @@
       answerButtons.forEach(
         button => {
 
-          button.disabled =
-            true;
+          button.disabled = true;
         }
       );
 
@@ -3296,28 +2759,28 @@
       resultMessage.textContent =
         gradeResult.message;
 
-      /*
-      結束後關閉並隱藏計算紙。
-      */
-
       hideScratchpadButton();
 
-      showScreen(
-        resultScreen
-      );
+      showScreen(resultScreen);
 
       playEndSound();
 
-      await saveCurrentScore();
+      /*
+        不等待 Firebase，
+        結果畫面先正常顯示。
+      */
+      saveCurrentScore();
     }
 
 
     /*
-    ==============================================
-    模式按鈕
-    ==============================================
-    */
+      ==========================================
+      模式按鈕
 
+      現在只選模式，
+      不會直接開始遊戲。
+      ==========================================
+    */
     modeButtons.forEach(
       button => {
 
@@ -3327,11 +2790,8 @@
 
             event.preventDefault();
 
-            const mode =
-              button.dataset.mode;
-
-            startGame(
-              mode
+            selectMode(
+              button.dataset.mode
             );
           }
         );
@@ -3340,11 +2800,31 @@
 
 
     /*
-    ==============================================
-    答案按鈕
-    ==============================================
-    */
+      ==========================================
+      開始挑戰按鈕
 
+      只有這顆按鈕會正式開始遊戲。
+      ==========================================
+    */
+    startChallengeButton
+      .addEventListener(
+        "click",
+        event => {
+
+          event.preventDefault();
+
+          startGame(
+            selectedMode
+          );
+        }
+      );
+
+
+    /*
+      ==========================================
+      答案按鈕
+      ==========================================
+    */
     answerButtons.forEach(
       button => {
 
@@ -3365,11 +2845,10 @@
 
 
     /*
-    ==============================================
-    再玩一次
-    ==============================================
+      ==========================================
+      結果頁：再玩一次
+      ==========================================
     */
-
     restartButton.addEventListener(
       "click",
       () => {
@@ -3382,11 +2861,10 @@
 
 
     /*
-    ==============================================
-    遊戲中重新開始
-    ==============================================
+      ==========================================
+      遊戲中：重新遊戲
+      ==========================================
     */
-
     restartCurrentButton
       .addEventListener(
         "click",
@@ -3400,11 +2878,10 @@
 
 
     /*
-    ==============================================
-    回模式選擇
-    ==============================================
+      ==========================================
+      回模式選擇
+      ==========================================
     */
-
     backToModeButton
       .addEventListener(
         "click",
@@ -3426,20 +2903,17 @@
 
 
     /*
-    ==============================================
-    鍵盤操作
-    ==============================================
+      ==========================================
+      鍵盤操作
+      ==========================================
     */
-
     document.addEventListener(
       "keydown",
       event => {
 
         if (
           !gameScreen.classList
-            .contains(
-              "active"
-            ) ||
+            .contains("active") ||
           !acceptingAnswer ||
           gameOver
         ) {
@@ -3447,45 +2921,33 @@
           return;
         }
 
-        let answer =
-          null;
+        let answer = null;
 
         if (
-          event.key ===
-            "<" ||
-          event.key ===
-            "ArrowLeft"
+          event.key === "<" ||
+          event.key === "ArrowLeft"
         ) {
 
-          answer =
-            "<";
+          answer = "<";
         }
 
         if (
-          event.key ===
-            "=" ||
-          event.key ===
-            "ArrowDown"
+          event.key === "=" ||
+          event.key === "ArrowDown"
         ) {
 
-          answer =
-            "=";
+          answer = "=";
         }
 
         if (
-          event.key ===
-            ">" ||
-          event.key ===
-            "ArrowRight"
+          event.key === ">" ||
+          event.key === "ArrowRight"
         ) {
 
-          answer =
-            ">";
+          answer = ">";
         }
 
-        if (
-          answer
-        ) {
+        if (answer) {
 
           event.preventDefault();
 
@@ -3496,9 +2958,7 @@
                 answer
             );
 
-          if (
-            button
-          ) {
+          if (button) {
 
             checkAnswer(
               answer,
@@ -3511,30 +2971,25 @@
 
 
     /*
-    ==============================================
-    初始狀態
-    ==============================================
+      ==========================================
+      初始狀態
+      ==========================================
     */
+
+    selectMode("easy");
 
     hideScratchpadButton();
 
-    showScreen(
-      startScreen
-    );
+    showScreen(startScreen);
 
     console.log(
-      "數的大小比較王 compare.html v7 已載入"
+      "數的大小比較王 compare.html v8 已載入"
     );
 
   </script>
 
 
-  <!-- ==========================================
-       共用元件
-       注意順序：
-       scratchpad.js 必須先於 template
-  =========================================== -->
-
+  <!-- 共用元件 -->
   <script
     src="../js/scratchpad.js?v=3"
   ></script>
