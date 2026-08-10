@@ -60,89 +60,6 @@
       padding: 32px 28px 60px;
     }
 
-    .hero-card {
-      padding: 34px 28px;
-      border-radius: 28px;
-      background: rgba(255, 255, 255, 0.96);
-      text-align: center;
-      box-shadow:
-        0 14px 36px rgba(31, 41, 55, 0.13);
-    }
-
-    .hero-card h1 {
-      margin: 0 0 12px;
-      color: #174f8f;
-      font-size: 42px;
-    }
-
-    .hero-subtitle {
-      margin: 0;
-      color: var(--muted);
-      font-size: 18px;
-      line-height: 1.7;
-    }
-
-    .login-section {
-      margin-top: 24px;
-    }
-
-    .user-section {
-      display: none;
-      margin-top: 20px;
-    }
-
-    .user-card {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      width: min(100%, 480px);
-      margin: 0 auto 18px;
-      padding: 14px 18px;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: #f3f8ff;
-    }
-
-    .user-photo {
-      display: none;
-      width: 54px;
-      height: 54px;
-      flex-shrink: 0;
-      border: 3px solid white;
-      border-radius: 50%;
-      background: white;
-      object-fit: cover;
-      box-shadow:
-        0 4px 12px rgba(31, 41, 55, 0.16);
-    }
-
-    .user-information {
-      text-align: left;
-    }
-
-    .welcome-text {
-      margin: 0 0 4px;
-      color: #174f8f;
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    .user-email {
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
-      overflow-wrap: anywhere;
-    }
-
-    .login-message {
-      min-height: 24px;
-      margin: 14px 0 0;
-      color: #c62828;
-      font-size: 15px;
-      line-height: 1.6;
-    }
-
     .button {
       display: inline-block;
       min-width: 132px;
@@ -178,77 +95,6 @@
     .button:disabled {
       cursor: wait;
       opacity: 0.7;
-    }
-
-    .logout-button {
-      background: var(--danger);
-      box-shadow:
-        0 5px 0 var(--danger-dark);
-    }
-
-    .logout-button:hover {
-      background: #c62828;
-    }
-
-    .quick-actions {
-      display: grid;
-      grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-      gap: 20px;
-      margin-top: 26px;
-    }
-
-    .quick-card {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      min-height: 145px;
-      padding: 24px;
-      border-radius: 22px;
-      background: white;
-      color: var(--text);
-      text-align: left;
-      text-decoration: none;
-      box-shadow:
-        0 10px 28px rgba(31, 41, 55, 0.11);
-      transition:
-        transform 0.18s ease,
-        box-shadow 0.18s ease;
-    }
-
-    .quick-card:hover {
-      transform: translateY(-4px);
-      box-shadow:
-        0 15px 35px rgba(31, 41, 55, 0.16);
-    }
-
-    .quick-icon {
-      display: flex;
-      width: 70px;
-      height: 70px;
-      flex-shrink: 0;
-      align-items: center;
-      justify-content: center;
-      border-radius: 20px;
-      background: #fff3e0;
-      font-size: 38px;
-    }
-
-    .quick-card.score-card .quick-icon {
-      background: #e8f5e9;
-    }
-
-    .quick-content h2 {
-      margin: 0 0 8px;
-      color: #174f8f;
-      font-size: 23px;
-    }
-
-    .quick-content p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 16px;
-      line-height: 1.6;
     }
 
     .section {
@@ -355,7 +201,6 @@
       line-height: 1.65;
     }
 
-
     .game-meta {
       display: flex;
       min-height: 31px;
@@ -419,17 +264,6 @@
       background: #7b8794;
     }
 
-    .login-required-note {
-      display: none;
-      margin-top: 14px;
-      padding: 12px 16px;
-      border-radius: 12px;
-      background: #fff8e1;
-      color: #8a5a00;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
     .page-footer {
       margin-top: 42px;
       padding: 20px 10px 0;
@@ -437,7 +271,6 @@
       font-size: 14px;
       text-align: center;
     }
-
 
     .semester-control {
       display: flex;
@@ -449,7 +282,8 @@
       border: 1px solid var(--border);
       border-radius: 18px;
       background: rgba(255,255,255,0.78);
-      box-shadow: 0 8px 22px rgba(31,41,55,0.08);
+      box-shadow:
+        0 8px 22px rgba(31,41,55,0.08);
     }
 
     .semester-control label {
@@ -473,7 +307,8 @@
 
     .semester-select:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(25,118,210,0.14);
+      box-shadow:
+        0 0 0 4px rgba(25,118,210,0.14);
     }
 
     .semester-panel {
@@ -500,26 +335,23 @@
       font-weight: 900;
     }
 
-    .status-open {
-      background: #dcfce7;
-      color: #166534;
-    }
-
     .status-soon {
       background: #f1f5f9;
       color: #64748b;
     }
 
-
     .dashboard {
       display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      grid-template-columns:
+        minmax(0, 1.05fr)
+        minmax(320px, 0.95fr);
       gap: 18px;
       margin-bottom: 22px;
       padding: 20px;
       border-radius: 24px;
       background: rgba(255,255,255,0.92);
-      box-shadow: 0 12px 30px rgba(15,23,42,0.10);
+      box-shadow:
+        0 12px 30px rgba(15,23,42,0.10);
     }
 
     .dashboard-brand {
@@ -544,7 +376,8 @@
     .dashboard-title {
       margin: 0;
       color: #174f8f;
-      font-size: clamp(28px, 3vw, 38px);
+      font-size:
+        clamp(28px, 3vw, 38px);
       font-weight: 900;
       letter-spacing: 1px;
     }
@@ -616,7 +449,8 @@
       font-size: 15px;
       font-weight: 900;
       cursor: pointer;
-      box-shadow: 0 4px 0 rgba(0,0,0,0.16);
+      box-shadow:
+        0 4px 0 rgba(0,0,0,0.16);
     }
 
     .compact-login-button {
@@ -629,13 +463,15 @@
 
     .dashboard-links {
       display: grid;
-      grid-template-rows: repeat(2, minmax(0, 1fr));
+      grid-template-rows:
+        repeat(2, minmax(0, 1fr));
       gap: 12px;
     }
 
     .dashboard-link-card {
       display: grid;
-      grid-template-columns: 58px 1fr;
+      grid-template-columns:
+        58px 1fr;
       gap: 12px;
       align-items: center;
       min-height: 82px;
@@ -645,12 +481,15 @@
       color: inherit;
       text-decoration: none;
       border: 1px solid #e2e8f0;
-      transition: transform .15s ease, box-shadow .15s ease;
+      transition:
+        transform .15s ease,
+        box-shadow .15s ease;
     }
 
     .dashboard-link-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 20px rgba(15,23,42,0.08);
+      box-shadow:
+        0 10px 20px rgba(15,23,42,0.08);
     }
 
     .dashboard-link-icon {
@@ -685,6 +524,7 @@
     }
 
     @media (max-width: 760px) {
+
       .dashboard {
         grid-template-columns: 1fr;
         padding: 16px;
@@ -695,12 +535,17 @@
       }
 
       .dashboard-links {
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: none;
+        grid-template-columns:
+          1fr 1fr;
+
+        grid-template-rows:
+          none;
       }
 
       .dashboard-link-card {
-        grid-template-columns: 46px 1fr;
+        grid-template-columns:
+          46px 1fr;
+
         min-height: 74px;
         padding: 12px;
       }
@@ -718,27 +563,7 @@
       .dashboard-link-text {
         font-size: 12px;
       }
-    }
 
-    @media (max-width: 520px) {
-      .dashboard-title-row {
-        justify-content: center;
-      }
-
-      .dashboard-title {
-        font-size: 28px;
-      }
-
-      .dashboard-subtitle {
-        text-align: center;
-      }
-
-      .dashboard-links {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 760px) {
       .page-container {
         padding: 18px 14px 45px;
       }
@@ -755,48 +580,6 @@
       .semester-select {
         width: 100%;
         min-width: 0;
-      }
-
-      .hero-card {
-        padding: 28px 17px;
-        border-radius: 22px;
-      }
-
-      .hero-card h1 {
-        font-size: 31px;
-      }
-
-      .hero-subtitle {
-        font-size: 16px;
-      }
-
-      .user-card {
-        align-items: center;
-        padding: 13px;
-      }
-
-      .user-information {
-        min-width: 0;
-      }
-
-      .quick-actions {
-        grid-template-columns: 1fr;
-        gap: 15px;
-      }
-
-      .quick-card {
-        min-height: 125px;
-        padding: 20px;
-      }
-
-      .quick-icon {
-        width: 60px;
-        height: 60px;
-        font-size: 32px;
-      }
-
-      .quick-content h2 {
-        font-size: 21px;
       }
 
       .section-header {
@@ -831,32 +614,22 @@
       }
     }
 
-    @media (max-width: 430px) {
-      .user-card {
-        flex-direction: column;
+    @media (max-width: 520px) {
+
+      .dashboard-title-row {
+        justify-content: center;
       }
 
-      .user-information {
-        text-align: center;
-      }
-
-      .quick-card {
-        align-items: flex-start;
-      }
-
-      .quick-icon {
-        width: 52px;
-        height: 52px;
-        border-radius: 16px;
+      .dashboard-title {
         font-size: 28px;
       }
 
-      .quick-content h2 {
-        font-size: 19px;
+      .dashboard-subtitle {
+        text-align: center;
       }
 
-      .quick-content p {
-        font-size: 14px;
+      .dashboard-links {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -866,28 +639,54 @@
 
   <main class="page-container">
 
-    <section class="dashboard" aria-label="網站資訊與快捷功能">
+    <section
+      class="dashboard"
+      aria-label="網站資訊與快捷功能"
+    >
 
       <div class="dashboard-brand">
+
         <div class="dashboard-title-row">
-          <div class="dashboard-logo">🎮</div>
-          <h1 class="dashboard-title">數學遊戲樂園</h1>
+
+          <div class="dashboard-logo">
+            🎮
+          </div>
+
+          <h1 class="dashboard-title">
+            數學遊戲樂園
+          </h1>
+
         </div>
 
         <p class="dashboard-subtitle">
           透過遊戲練習數學觀念，一起挑戰更高分！
         </p>
 
-        <div id="compactUserBox" class="compact-user-box">
+        <div
+          id="compactUserBox"
+          class="compact-user-box"
+        >
+
           <div class="compact-user-text">
-            <div id="compactUserName" class="compact-user-name">
+
+            <div
+              id="compactUserName"
+              class="compact-user-name"
+            >
               正在確認登入狀態……
             </div>
-            <div id="compactUserEmail" class="compact-user-email"></div>
+
+            <div
+              id="compactUserEmail"
+              class="compact-user-email"
+            ></div>
+
           </div>
+
         </div>
 
         <div class="compact-auth-actions">
+
           <button
             id="compactLoginButton"
             class="compact-auth-button compact-login-button"
@@ -904,34 +703,66 @@
           >
             登出
           </button>
+
         </div>
+
       </div>
 
       <div class="dashboard-links">
-        <a class="dashboard-link-card" href="leaderboard.html">
-          <div class="dashboard-link-icon rank">🏆</div>
+
+        <a
+          class="dashboard-link-card"
+          href="leaderboard.html"
+        >
+
+          <div class="dashboard-link-icon rank">
+            🏆
+          </div>
+
           <div>
-            <div class="dashboard-link-title">排行榜</div>
+
+            <div class="dashboard-link-title">
+              排行榜
+            </div>
+
             <div class="dashboard-link-text">
               查看各遊戲高手排行，挑戰更高名次。
             </div>
+
           </div>
+
         </a>
 
-        <a id="myScoresLink" class="dashboard-link-card" href="my-scores.html">
-          <div class="dashboard-link-icon scores">📊</div>
+        <a
+          id="myScoresLink"
+          class="dashboard-link-card"
+          href="my-scores.html"
+        >
+
+          <div class="dashboard-link-icon scores">
+            📊
+          </div>
+
           <div>
-            <div class="dashboard-link-title">我的成績</div>
+
+            <div class="dashboard-link-title">
+              我的成績
+            </div>
+
             <div class="dashboard-link-text">
               查看最高分、平均分數、答題紀錄與遊玩次數。
             </div>
+
           </div>
+
         </a>
+
       </div>
 
     </section>
 
-<section class="section">
+
+    <section class="section">
 
       <div class="section-header">
 
@@ -945,31 +776,87 @@
 
       </div>
 
+
       <div class="semester-control">
-        <label for="semesterSelect">請選擇學期</label>
-        <select id="semesterSelect" class="semester-select">
-          <option value="grade7-first">七年級上學期</option>
-          <option value="grade7-second">七年級下學期</option>
+
+        <label for="semesterSelect">
+          請選擇學期
+        </label>
+
+        <select
+          id="semesterSelect"
+          class="semester-select"
+        >
+
+          <option value="grade7-first">
+            七年級上學期
+          </option>
+
+          <option value="grade7-second">
+            七年級下學期
+          </option>
+
+          <option value="grade8-first">
+            八年級上學期
+          </option>
+
         </select>
+
       </div>
 
-      <div id="grade7-first" class="semester-panel active">
-        <h3 class="semester-title">七年級上學期</h3>
+
+      <div
+        id="grade7-first"
+        class="semester-panel active"
+      >
+
+        <h3 class="semester-title">
+          七年級上學期
+        </h3>
+
         <div
           id="grade7FirstGames"
           class="games-grid"
         ></div>
+
       </div>
 
-      <div id="grade7-second" class="semester-panel">
-        <h3 class="semester-title">七年級下學期</h3>
+
+      <div
+        id="grade7-second"
+        class="semester-panel"
+      >
+
+        <h3 class="semester-title">
+          七年級下學期
+        </h3>
+
         <div
           id="grade7SecondGames"
           class="games-grid"
         ></div>
+
+      </div>
+
+
+      <div
+        id="grade8-first"
+        class="semester-panel"
+      >
+
+        <h3 class="semester-title">
+          八年級上學期
+        </h3>
+
+        <div
+          id="grade8FirstGames"
+          class="games-grid"
+        ></div>
+
       </div>
 
     </section>
+
 
     <footer class="page-footer">
       數學有解，生活也有解。
@@ -977,45 +864,69 @@
 
   </main>
 
+
   <script type="module">
+
     import {
       login,
       logout
     } from "./js/auth.js";
 
+
     import {
       auth
     } from "./js/firebase-config.js";
+
 
     import {
       createOrUpdatePlayer
     } from "./js/firestore.js";
 
+
     import {
       getGamesBySemester
-    } from "./js/game-config.js";
+    } from "./js/game-config.js?v=6.4";
+
 
     import {
       onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+
     const compactUserBox =
-      document.getElementById("compactUserBox");
+      document.getElementById(
+        "compactUserBox"
+      );
+
 
     const compactLoginButton =
-      document.getElementById("compactLoginButton");
+      document.getElementById(
+        "compactLoginButton"
+      );
+
 
     const compactLogoutButton =
-      document.getElementById("compactLogoutButton");
+      document.getElementById(
+        "compactLogoutButton"
+      );
+
 
     const myScoresLink =
-      document.getElementById("myScoresLink");
+      document.getElementById(
+        "myScoresLink"
+      );
+
 
     const semesterSelect =
-      document.getElementById("semesterSelect");
+      document.getElementById(
+        "semesterSelect"
+      );
+
 
     const semesterPanels =
-      document.querySelectorAll(".semester-panel");
+      document.querySelectorAll(
+        ".semester-panel"
+      );
 
 
     const grade7FirstGames =
@@ -1023,10 +934,18 @@
         "grade7FirstGames"
       );
 
+
     const grade7SecondGames =
       document.getElementById(
         "grade7SecondGames"
       );
+
+
+    const grade8FirstGames =
+      document.getElementById(
+        "grade8FirstGames"
+      );
+
 
     /*
     ==================================================
@@ -1034,17 +953,23 @@
     ==================================================
     */
 
-    function createGameCard(game) {
+    function createGameCard(
+      game
+    ) {
+
       const card =
         document.createElement(
           "article"
         );
 
+
       card.className =
         "game-card";
 
+
       const theme =
         game.theme || {};
+
 
       card.style.setProperty(
         "--game-primary",
@@ -1052,11 +977,13 @@
         "#1976D2"
       );
 
+
       card.style.setProperty(
         "--game-dark",
         theme.dark ||
         "#125CA6"
       );
+
 
       card.style.setProperty(
         "--game-light",
@@ -1064,332 +991,528 @@
         "#E3F2FD"
       );
 
+
       card.style.setProperty(
         "--game-border",
         theme.border ||
         "#90CAF9"
       );
 
-      if (!game.finished) {
+
+      if (
+        !game.finished
+      ) {
+
         const badge =
           document.createElement(
             "span"
           );
 
+
         badge.className =
           "status-badge status-soon";
 
+
         badge.textContent =
           "開發中";
+
 
         card.appendChild(
           badge
         );
       }
 
+
       const heading =
         document.createElement(
           "div"
         );
 
+
       heading.className =
         "game-heading";
+
 
       const icon =
         document.createElement(
           "div"
         );
 
+
       icon.className =
         "game-icon";
 
+
       icon.textContent =
-        game.icon || "🎮";
+        game.icon ||
+        "🎮";
+
 
       const title =
         document.createElement(
           "h2"
         );
 
+
       title.textContent =
         game.name ||
         "數學遊戲";
+
 
       heading.appendChild(
         icon
       );
 
+
       heading.appendChild(
         title
       );
+
 
       const description =
         document.createElement(
           "p"
         );
 
+
       description.textContent =
-        game.description || "";
+        game.description ||
+        "";
+
 
       const meta =
         document.createElement(
           "div"
         );
 
+
       meta.className =
         "game-meta";
+
 
       const difficulty =
         Math.min(
           3,
           Math.max(
             1,
-            Number(game.difficulty) || 1
+            Number(
+              game.difficulty
+            ) || 1
           )
         );
+
 
       const difficultyBadge =
         document.createElement(
           "span"
         );
 
+
       difficultyBadge.className =
         "game-meta-badge difficulty";
 
+
       difficultyBadge.textContent =
-        "⭐".repeat(difficulty);
+        "⭐".repeat(
+          difficulty
+        );
+
 
       difficultyBadge.title =
         `難度 ${difficulty} 星`;
+
 
       meta.appendChild(
         difficultyBadge
       );
 
-      if (game.recommended) {
+
+      if (
+        game.recommended
+      ) {
+
         const recommendedBadge =
           document.createElement(
             "span"
           );
 
+
         recommendedBadge.className =
           "game-meta-badge recommended";
 
+
         recommendedBadge.textContent =
           "🔥 推薦";
+
 
         meta.appendChild(
           recommendedBadge
         );
       }
 
-      if (game.isNew) {
+
+      if (
+        game.isNew
+      ) {
+
         const newBadge =
           document.createElement(
             "span"
           );
 
+
         newBadge.className =
           "game-meta-badge new";
 
+
         newBadge.textContent =
           "🆕 NEW";
+
 
         meta.appendChild(
           newBadge
         );
       }
 
+
       card.appendChild(
         heading
       );
+
 
       card.appendChild(
         description
       );
 
+
       card.appendChild(
         meta
       );
 
-      if (game.finished) {
+
+      if (
+        game.finished
+      ) {
+
         const startLink =
           document.createElement(
             "a"
           );
 
+
         startLink.className =
           "button start-button";
+
 
         startLink.href =
           game.file;
 
+
         startLink.textContent =
           "開始挑戰";
+
 
         card.appendChild(
           startLink
         );
+
       } else {
+
         const waitingButton =
           document.createElement(
             "button"
           );
 
+
         waitingButton.className =
           "button waiting-button";
+
 
         waitingButton.type =
           "button";
 
+
         waitingButton.disabled =
           true;
 
+
         waitingButton.textContent =
           "敬請期待";
+
 
         card.appendChild(
           waitingButton
         );
       }
 
+
       return card;
     }
+
 
     function renderSemesterGames(
       semester,
       container
     ) {
-      if (!container) {
+
+      if (
+        !container
+      ) {
         return;
       }
 
+
       container.innerHTML =
         "";
+
 
       const games =
         getGamesBySemester(
           semester
         );
 
-      games.forEach((game) => {
-        container.appendChild(
-          createGameCard(game)
-        );
-      });
+
+      games.forEach(
+        (game) => {
+
+          container.appendChild(
+            createGameCard(
+              game
+            )
+          );
+        }
+      );
     }
 
+
     function renderAllGameCards() {
+
       renderSemesterGames(
         "grade7-first",
         grade7FirstGames
       );
 
+
       renderSemesterGames(
         "grade7-second",
         grade7SecondGames
       );
+
+
+      renderSemesterGames(
+        "grade8-first",
+        grade8FirstGames
+      );
     }
+
 
     renderAllGameCards();
 
+
     semesterSelect.addEventListener(
       "change",
+
       () => {
-        semesterPanels.forEach((panel) => {
-          panel.classList.toggle(
-            "active",
-            panel.id === semesterSelect.value
-          );
-        });
+
+        semesterPanels.forEach(
+          (panel) => {
+
+            panel.classList.toggle(
+              "active",
+              panel.id ===
+                semesterSelect.value
+            );
+          }
+        );
       }
     );
+
 
     compactLoginButton.addEventListener(
       "click",
+
       async () => {
-        compactLoginButton.disabled = true;
-        compactLoginButton.textContent = "登入中……";
+
+        compactLoginButton.disabled =
+          true;
+
+
+        compactLoginButton.textContent =
+          "登入中……";
+
 
         try {
+
           await login();
+
         } catch (error) {
-          console.error("登入失敗：", error);
-          alert("登入沒有完成，請稍後再試一次。");
+
+          console.error(
+            "登入失敗：",
+            error
+          );
+
+
+          alert(
+            "登入沒有完成，請稍後再試一次。"
+          );
+
         } finally {
-          compactLoginButton.disabled = false;
-          compactLoginButton.textContent = "Google 登入";
+
+          compactLoginButton.disabled =
+            false;
+
+
+          compactLoginButton.textContent =
+            "Google 登入";
         }
       }
     );
+
 
     compactLogoutButton.addEventListener(
       "click",
+
       async () => {
-        compactLogoutButton.disabled = true;
-        compactLogoutButton.textContent = "登出中……";
+
+        compactLogoutButton.disabled =
+          true;
+
+
+        compactLogoutButton.textContent =
+          "登出中……";
+
 
         try {
+
           await logout();
+
         } catch (error) {
-          console.error("登出失敗：", error);
-          alert("登出失敗，請稍後再試一次。");
+
+          console.error(
+            "登出失敗：",
+            error
+          );
+
+
+          alert(
+            "登出失敗，請稍後再試一次。"
+          );
+
         } finally {
-          compactLogoutButton.disabled = false;
-          compactLogoutButton.textContent = "登出";
+
+          compactLogoutButton.disabled =
+            false;
+
+
+          compactLogoutButton.textContent =
+            "登出";
         }
       }
     );
+
 
     myScoresLink.addEventListener(
       "click",
+
       (event) => {
-        if (!auth.currentUser) {
+
+        if (
+          !auth.currentUser
+        ) {
+
           event.preventDefault();
-          alert("請先登入 Google 帳號，才能查看自己的成績。");
+
+
+          alert(
+            "請先登入 Google 帳號，才能查看自己的成績。"
+          );
         }
       }
     );
 
+
     function renderLoggedOut() {
+
       compactUserBox.innerHTML = `
         <div class="compact-user-text">
-          <div class="compact-user-name">尚未登入</div>
+
+          <div class="compact-user-name">
+            尚未登入
+          </div>
+
           <div class="compact-user-email">
             登入後即可儲存成績與查看個人紀錄。
           </div>
+
         </div>
       `;
 
-      compactLoginButton.hidden = false;
-      compactLogoutButton.hidden = true;
+
+      compactLoginButton.hidden =
+        false;
+
+
+      compactLogoutButton.hidden =
+        true;
     }
 
-    function renderLoggedIn(user) {
-      compactUserBox.innerHTML = "";
 
-      if (user.photoURL) {
+    function renderLoggedIn(
+      user
+    ) {
+
+      compactUserBox.innerHTML =
+        "";
+
+
+      if (
+        user.photoURL
+      ) {
+
         const photo =
-          document.createElement("img");
+          document.createElement(
+            "img"
+          );
 
-        photo.className = "user-photo";
-        photo.src = user.photoURL;
-        photo.alt = "玩家頭像";
 
-        compactUserBox.appendChild(photo);
+        photo.className =
+          "user-photo";
+
+
+        photo.src =
+          user.photoURL;
+
+
+        photo.alt =
+          "玩家頭像";
+
+
+        compactUserBox.appendChild(
+          photo
+        );
       }
 
+
       const textBox =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
+
 
       textBox.className =
         "compact-user-text";
 
+
       const name =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
+
 
       name.className =
         "compact-user-name";
+
 
       name.textContent =
         `👋 歡迎回來，${
@@ -1398,36 +1521,76 @@
           "玩家"
         }！`;
 
+
       const email =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
+
 
       email.className =
         "compact-user-email";
 
+
       email.textContent =
-        user.email || "";
+        user.email ||
+        "";
 
-      textBox.appendChild(name);
-      textBox.appendChild(email);
-      compactUserBox.appendChild(textBox);
 
-      compactLoginButton.hidden = true;
-      compactLogoutButton.hidden = false;
+      textBox.appendChild(
+        name
+      );
+
+
+      textBox.appendChild(
+        email
+      );
+
+
+      compactUserBox.appendChild(
+        textBox
+      );
+
+
+      compactLoginButton.hidden =
+        true;
+
+
+      compactLogoutButton.hidden =
+        false;
     }
+
 
     onAuthStateChanged(
       auth,
-      async (user) => {
-        if (!user) {
+
+      async (
+        user
+      ) => {
+
+        if (
+          !user
+        ) {
+
           renderLoggedOut();
+
           return;
         }
 
-        renderLoggedIn(user);
+
+        renderLoggedIn(
+          user
+        );
+
 
         try {
-          await createOrUpdatePlayer(user);
+
+          await createOrUpdatePlayer(
+            user
+          );
+
         } catch (error) {
+
           console.error(
             "玩家資料建立或更新失敗：",
             error
@@ -1435,6 +1598,7 @@
         }
       }
     );
+
   </script>
 
 </body>

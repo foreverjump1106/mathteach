@@ -3,8 +3,8 @@
 數學遊戲樂園：遊戲共用設定
 檔案位置：js/game-config.js
 
-版本：6.2
-模式代號＋排行榜類型同步版
+版本：6.4
+八年級上學期遊戲卡牌預建版
 ==================================================
 
 功能：
@@ -101,12 +101,6 @@ export const GAME_CONFIG = {
   },
 
 
-  /*
-  ==================================================
-  數的大小比較王
-  ==================================================
-  */
-
   compare: {
     id: "compare",
 
@@ -201,22 +195,6 @@ export const GAME_CONFIG = {
     }
   },
 
-
-  /*
-  ==================================================
-  指數律大挑戰
-
-  exponent.html 使用固定 10 題完成型，
-  因此排行榜使用 speed。
-
-  exponent.html 儲存的 mode 必須為：
-  multiplication
-  division
-  powerOfPower
-  zeroExponent
-  mixed
-  ==================================================
-  */
 
   exponent: {
     id: "exponent",
@@ -500,7 +478,8 @@ export const GAME_CONFIG = {
 
     icon: "📍",
 
-    file: "games/coordinate.html",
+    file:
+      "games/coordinate.html",
 
     description:
       "認識坐標平面，練習描點與判讀二元一次方程式圖形。",
@@ -611,6 +590,397 @@ export const GAME_CONFIG = {
       dark: "#006064",
       light: "#E0F7FA",
       border: "#80DEEA"
+    }
+  },
+
+
+  /*
+  ==================================================
+  八年級上學期
+  ==================================================
+  */
+
+
+  multiplicationFormula: {
+    id: "multiplicationFormula",
+
+    name: "乘法公式大挑戰",
+    shortName: "乘法公式",
+
+    semester: "grade8-first",
+    grade: 8,
+    order: 1,
+
+    icon: "🧩",
+
+    file:
+      "games/multiplication-formula.html",
+
+    description:
+      "練習平方公式、平方差公式，以及乘法公式的展開與判讀。",
+
+    finished: false,
+
+    difficulty: 2,
+
+    recommended: false,
+
+    isNew: true,
+
+    ranking: {
+      type: "speed"
+    },
+
+    modes: {},
+
+    theme: {
+      primary: "#3F51B5",
+      dark: "#303F9F",
+      light: "#E8EAF6",
+      border: "#9FA8DA"
+    }
+  },
+
+
+  polynomialAddSubtract: {
+    id: "polynomialAddSubtract",
+
+    name: "多項式加減大挑戰",
+    shortName: "多項式加減",
+
+    semester: "grade8-first",
+    grade: 8,
+    order: 2,
+
+    icon: "➕",
+
+    file:
+      "games/polynomial-add-subtract.html",
+
+    description:
+      "練習同類項合併、去括號，以及多項式的加法與減法。",
+
+    finished: false,
+
+    difficulty: 2,
+
+    recommended: false,
+
+    isNew: true,
+
+    ranking: {
+      type: "speed"
+    },
+
+    modes: {},
+
+    theme: {
+      primary: "#00897B",
+      dark: "#00695C",
+      light: "#E0F2F1",
+      border: "#80CBC4"
+    }
+  },
+
+
+  polynomialMultiplyDivide: {
+    id: "polynomialMultiplyDivide",
+
+    name: "多項式乘除大挑戰",
+    shortName: "多項式乘除",
+
+    semester: "grade8-first",
+    grade: 8,
+    order: 3,
+
+    icon: "✖️",
+
+    file:
+      "games/polynomial-multiply-divide.html",
+
+    description:
+      "練習單項式乘多項式、多項式乘法，以及多項式除法。",
+
+    finished: false,
+
+    difficulty: 3,
+
+    recommended: false,
+
+    isNew: true,
+
+    ranking: {
+      type: "speed"
+    },
+
+    modes: {},
+
+    theme: {
+      primary: "#7B1FA2",
+      dark: "#6A1B9A",
+      light: "#F3E5F5",
+      border: "#CE93D8"
+    }
+  },
+
+
+  squareRoot: {
+    id: "squareRoot",
+
+    name: "平方根概念大挑戰",
+    shortName: "平方根",
+
+    semester: "grade8-first",
+    grade: 8,
+    order: 4,
+
+    icon: "√",
+
+    file:
+      "games/square-root.html",
+
+    description:
+      "認識平方根、根號表示，以及平方與平方根之間的關係。",
+
+    finished: false,
+
+    difficulty: 2,
+
+    recommended: false,
+
+    isNew: true,
+
+    ranking: {
+      type: "speed"
+    },
+
+    modes: {},
+
+    theme: {
+      primary: "#0288D1",
+      dark: "#0277BD",
+      light: "#E1F5FE",
+      border: "#81D4FA"
+    }
+  },
+
+
+  radicalOperation: {
+    id: "radicalOperation",
+
+    name: "根式運算大挑戰",
+    shortName: "根式運算",
+
+    semester: "grade8-first",
+    grade: 8,
+    order: 5,
+
+    icon: "🌱",
+
+    file:
+      "games/radical-operation.html",
+
+    description:
+      "練習根式化簡、根式乘除，以及同類方根的加減運算。",
+
+    finished: false,
+
+    difficulty: 3,
+
+    recommended: false,
+
+    isNew: true,
+
+    ranking: {
+      type: "speed"
+    },
+
+    modes: {},
+
+    theme: {
+      primary: "#43A047",
+      dark: "#2E7D32",
+      light: "#E8F5E9",
+      border: "#A5D6A7"
+    }
+  },
+
+
+  pythagorean: {
+    id: "pythagorean",
+
+    name: "畢氏定理大挑戰",
+    shortName: "畢氏定理",
+
+    semester: "grade8-first",
+    grade: 8,
+    order: 6,
+
+    icon: "📐",
+
+    file:
+      "games/pythagorean.html",
+
+    description:
+      "利用畢氏定理求邊長，並挑戰直角三角形與生活應用題。",
+
+    finished: false,
+
+    difficulty: 2,
+
+    recommended: false,
+
+    isNew: true,
+
+    ranking: {
+      type: "speed"
+    },
+
+    modes: {},
+
+    theme: {
+      primary: "#F57C00",
+      dark: "#E65100",
+      light: "#FFF3E0",
+      border: "#FFCC80"
+    }
+  },
+
+
+  factorization: {
+    id: "factorization",
+
+    name: "因式分解大挑戰",
+    shortName: "因式分解",
+
+    semester: "grade8-first",
+    grade: 8,
+    order: 7,
+
+    icon: "🧩",
+
+    file:
+      "games/factorization.html",
+
+    description:
+      "練習提公因式，以及利用乘法公式進行因式分解。",
+
+    finished: false,
+
+    difficulty: 3,
+
+    recommended: false,
+
+    isNew: true,
+
+    ranking: {
+      type: "speed"
+    },
+
+    modes: {},
+
+    theme: {
+      primary: "#00897B",
+      dark: "#00695C",
+      light: "#E0F2F1",
+      border: "#80CBC4"
+    }
+  },
+
+
+  crossMultiplication: {
+    id: "crossMultiplication",
+
+    name: "十字交乘大挑戰",
+    shortName: "十字交乘",
+
+    semester: "grade8-first",
+    grade: 8,
+    order: 8,
+
+    icon: "❎",
+
+    file:
+      "games/cross-multiplication.html",
+
+    description:
+      "利用十字交乘法，挑戰二次三項式的因式分解。",
+
+    finished: false,
+
+    difficulty: 3,
+
+    recommended: false,
+
+    isNew: true,
+
+    ranking: {
+      type: "speed"
+    },
+
+    modes: {},
+
+    theme: {
+      primary: "#D81B60",
+      dark: "#AD1457",
+      light: "#FCE4EC",
+      border: "#F48FB1"
+    }
+  },
+
+
+  quadraticEquation: {
+    id: "quadraticEquation",
+
+    name: "一元二次方程式大挑戰",
+    shortName: "一元二次方程式",
+
+    semester: "grade8-first",
+    grade: 8,
+    order: 9,
+
+    icon: "🎯",
+
+    file:
+      "games/quadratic-equation.html",
+
+    description:
+      "練習因式分解法、配方法、公式解，以及一元二次方程式應用題。",
+
+    finished: false,
+
+    difficulty: 3,
+
+    recommended: false,
+
+    isNew: true,
+
+    ranking: {
+      type: "speed"
+    },
+
+    modes: {
+      factorization:
+        "因式分解法",
+
+      completingSquare:
+        "配方法",
+
+      formula:
+        "公式解",
+
+      mixed:
+        "混合挑戰",
+
+      application:
+        "應用問題"
+    },
+
+    theme: {
+      primary: "#E53935",
+      dark: "#C62828",
+      light: "#FFEBEE",
+      border: "#EF9A9A"
     }
   }
 };
@@ -1058,7 +1428,9 @@ export function getGameDisplayName(
       mode
     );
 
-  if (!modeName) {
+  if (
+    !modeName
+  ) {
     return gameName;
   }
 
