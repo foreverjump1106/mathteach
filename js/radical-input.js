@@ -1,35 +1,30 @@
 /*
 ==================================================
-數學遊戲樂園｜RadicalInput 共用根式輸入元件
-版本：1.0
+數學遊戲樂園｜RadicalInput
+檔案：js/radical-input.js
+版本：2.0
 ==================================================
 
-支援：
+功能：
 
 1. signedNumber
-   +7
-   -7
+   ＋7
+   －7
    ±7
 
 2. radical
    √2
    3√2
-   -3√5
+   −3√5
 
-3. 最簡根式驗證
+3. 根號上方橫線使用 CSS 繪製
 
-例如：
+4. 最簡根式檢查
+   例如：
+   3√8
+   不會自動化成 6√2
 
-3√8
-
-不會自動變成：
-
-6√2
-
-而是提示：
-
-「√8 還可以繼續化簡，
-請整理成最簡根式後再提交。」
+   而是提醒學生自行化簡。
 
 ==================================================
 */
@@ -41,7 +36,7 @@
 
   /*
   ==================================================
-  預設設定
+  預設
   ==================================================
   */
 
@@ -62,14 +57,14 @@
     allowPlusMinus:
       false,
 
-    requireSimplifiedRadical:
-      true,
-
     allowZero:
       true,
 
+    requireSimplifiedRadical:
+      true,
+
     maxRadicand:
-      999,
+      99999,
 
     theme: {
 
@@ -178,7 +173,57 @@
 
   /*
   ==================================================
-  判斷完全平方數
+  最大公因數
+  ==================================================
+  */
+
+  function gcd(
+    a,
+    b
+  ) {
+
+    a =
+      Math.abs(
+        Number(
+          a
+        )
+      );
+
+
+    b =
+      Math.abs(
+        Number(
+          b
+        )
+      );
+
+
+    while (
+      b !==
+      0
+    ) {
+
+      const temp =
+        b;
+
+
+      b =
+        a %
+        b;
+
+
+      a =
+        temp;
+    }
+
+
+    return a || 1;
+  }
+
+
+  /*
+  ==================================================
+  完全平方
   ==================================================
   */
 
@@ -204,21 +249,17 @@
     }
 
 
-    const root =
+    return Number.isInteger(
       Math.sqrt(
         value
-      );
-
-
-    return Number.isInteger(
-      root
+      )
     );
   }
 
 
   /*
   ==================================================
-  找根號內最大的平方因數
+  最大平方因數
   ==================================================
   */
 
@@ -246,7 +287,7 @@
     }
 
 
-    const limit =
+    const maxRoot =
       Math.floor(
         Math.sqrt(
           value
@@ -256,7 +297,7 @@
 
     for (
       let root =
-        limit;
+        maxRoot;
 
       root >=
         2;
@@ -323,10 +364,11 @@
 
   /*
   ==================================================
-  正規化根式
-  僅供系統答案計算使用
+  系統用化簡
 
-  不會用來偷偷修改學生輸入
+  注意：
+  只供系統建立標準答案，
+  不會拿來修改學生輸入。
   ==================================================
   */
 
@@ -467,9 +509,36 @@
 
   /*
   ==================================================
-  根式顯示
+  ★ 根號 HTML
+
+  不再直接顯示 √99
+  改成：
+  √ + CSS border-top
+
+  這樣根號上方橫線不會消失。
   ==================================================
   */
+
+  function sqrtHTML(
+    content
+  ) {
+
+    return `
+
+      <span class="math-sqrt">
+
+        <span class="math-sqrt__symbol">
+          √
+        </span>
+
+        <span class="math-sqrt__radicand">
+          ${content}
+        </span>
+
+      </span>
+    `;
+  }
+
 
   function radicalToHTML(
     coefficient,
@@ -490,7 +559,7 @@
 
     if (
       coefficient ===
-        0
+      0
     ) {
 
       return "0";
@@ -499,16 +568,20 @@
 
     if (
       radicand ===
-        1
+      1
     ) {
 
       return String(
         coefficient
-      );
+      )
+        .replace(
+          "-",
+          "−"
+        );
     }
 
 
-    let prefix =
+    let coefficientHTML =
       "";
 
 
@@ -517,7 +590,7 @@
       -1
     ) {
 
-      prefix =
+      coefficientHTML =
         "−";
 
     } else if (
@@ -525,7 +598,7 @@
       1
     ) {
 
-      prefix =
+      coefficientHTML =
         String(
           coefficient
         )
@@ -537,14 +610,17 @@
 
 
     return (
-      `${prefix}√${radicand}`
+      coefficientHTML +
+      sqrtHTML(
+        radicand
+      )
     );
   }
 
 
   /*
   ==================================================
-  主元件
+  元件
   ==================================================
   */
 
@@ -588,7 +664,7 @@
 
     /*
     ==================================================
-    建立介面
+    Render
     ==================================================
     */
 
@@ -629,6 +705,12 @@
       this.root.innerHTML = `
 
         <style>
+
+          /*
+          ==============================================
+          RadicalInput
+          ==============================================
+          */
 
           .radical-input {
 
@@ -748,7 +830,7 @@
           }
 
 
-          .radical-input__symbol {
+          .radical-input__sqrt-symbol {
 
             min-height:
               48px;
@@ -760,23 +842,98 @@
               center;
 
             padding-bottom:
-              3px;
+              2px;
 
             color:
               #0f172a;
 
+            font-family:
+              "Times New Roman",
+              serif;
+
             font-size:
-              32px;
+              36px;
 
             font-weight:
               900;
           }
 
 
+          /*
+          ==============================================
+          ★ 根號
+          ==============================================
+          */
+
+          .radical-input .math-sqrt {
+
+            display:
+              inline-flex;
+
+            align-items:
+              flex-start;
+
+            vertical-align:
+              middle;
+
+            white-space:
+              nowrap;
+          }
+
+
+          .radical-input
+          .math-sqrt__symbol {
+
+            position:
+              relative;
+
+            top:
+              .07em;
+
+            margin-right:
+              -.06em;
+
+            font-family:
+              "Times New Roman",
+              "Cambria Math",
+              serif;
+
+            font-size:
+              1.18em;
+
+            line-height:
+              1;
+          }
+
+
+          .radical-input
+          .math-sqrt__radicand {
+
+            display:
+              inline-block;
+
+            min-width:
+              .6em;
+
+            margin-top:
+              .07em;
+
+            padding:
+              .04em .10em 0 .08em;
+
+            border-top:
+              .085em solid
+              currentColor;
+
+            line-height:
+              1;
+          }
+
+
           .radical-input__message {
 
             min-height:
-              26px;
+              27px;
 
             margin-top:
               12px;
@@ -856,22 +1013,24 @@
 
 
         <div
-          class="radical-input__editor"
           id="radical-editor"
+          class="radical-input__editor"
         ></div>
 
 
         <div
-          class="radical-input__message"
           id="radical-message"
+          class="radical-input__message"
         ></div>
 
 
         <div
-          class="radical-input__preview"
           id="radical-preview"
+          class="radical-input__preview"
         >
-          尚未輸入答案
+
+          目前尚未完成答案。
+
         </div>
       `;
 
@@ -918,7 +1077,7 @@
 
     /*
     ==================================================
-    Signed Number
+    ± Number
     ==================================================
     */
 
@@ -982,7 +1141,7 @@
 
         signs.push(
           [
-            1,
+            "1",
             "＋"
           ]
         );
@@ -995,7 +1154,7 @@
 
         signs.push(
           [
-            -1,
+            "-1",
             "－"
           ]
         );
@@ -1035,30 +1194,37 @@
           .join("");
 
 
-      this.signInput
-        .addEventListener(
-          "change",
-          () => {
+      [
+        this.signInput,
+        this.valueInput
+      ]
+        .forEach(
+          element => {
 
-            this.clearMessage();
+            element.addEventListener(
+              "input",
+              () => {
 
-            this.updatePreview();
+                this.clearMessage();
 
-            this.emitChange();
-          }
-        );
+                this.updatePreview();
+
+                this.emitChange();
+              }
+            );
 
 
-      this.valueInput
-        .addEventListener(
-          "input",
-          () => {
+            element.addEventListener(
+              "change",
+              () => {
 
-            this.clearMessage();
+                this.clearMessage();
 
-            this.updatePreview();
+                this.updatePreview();
 
-            this.emitChange();
+                this.emitChange();
+              }
+            );
           }
         );
     }
@@ -1118,7 +1284,7 @@
         </div>
 
 
-        <div class="radical-input__symbol">
+        <div class="radical-input__sqrt-symbol">
           √
         </div>
 
@@ -1168,32 +1334,30 @@
         .forEach(
           element => {
 
-            element
-              .addEventListener(
-                "input",
-                () => {
+            element.addEventListener(
+              "input",
+              () => {
 
-                  this.clearMessage();
+                this.clearMessage();
 
-                  this.updatePreview();
+                this.updatePreview();
 
-                  this.emitChange();
-                }
-              );
+                this.emitChange();
+              }
+            );
 
 
-            element
-              .addEventListener(
-                "change",
-                () => {
+            element.addEventListener(
+              "change",
+              () => {
 
-                  this.clearMessage();
+                this.clearMessage();
 
-                  this.updatePreview();
+                this.updatePreview();
 
-                  this.emitChange();
-                }
-              );
+                this.emitChange();
+              }
+            );
           }
         );
     }
@@ -1201,7 +1365,7 @@
 
     /*
     ==================================================
-    Get value
+    讀值
     ==================================================
     */
 
@@ -1217,12 +1381,6 @@
             ?.value
             .trim() ||
           "";
-
-
-        const sign =
-          this.signInput
-            ?.value ||
-          "1";
 
 
         if (
@@ -1249,6 +1407,12 @@
           );
 
 
+        const sign =
+          this.signInput
+            ?.value ||
+          "1";
+
+
         return {
 
           valid:
@@ -1262,6 +1426,7 @@
           number,
 
           display:
+
             sign ===
             "pm"
 
@@ -1272,7 +1437,9 @@
 
                 ? `−${number}`
 
-                : `${number}`
+                : String(
+                    number
+                  )
         };
       }
 
@@ -1313,7 +1480,7 @@
       }
 
 
-      const coefficient =
+      const absoluteCoefficient =
         Number(
           coefficientRaw
         );
@@ -1333,6 +1500,11 @@
         );
 
 
+      const coefficient =
+        sign *
+        absoluteCoefficient;
+
+
       return {
 
         valid:
@@ -1341,12 +1513,9 @@
         mode:
           "radical",
 
-        coefficient:
-          sign *
-          coefficient,
+        coefficient,
 
-        absoluteCoefficient:
-          coefficient,
+        absoluteCoefficient,
 
         radicand,
 
@@ -1354,7 +1523,6 @@
 
         display:
           radicalToHTML(
-            sign *
             coefficient,
             radicand
           )
@@ -1364,7 +1532,7 @@
 
     /*
     ==================================================
-    Validate
+    驗證
     ==================================================
     */
 
@@ -1455,7 +1623,7 @@
 
       /*
       --------------------------------------------------
-      Radical
+      根式
       --------------------------------------------------
       */
 
@@ -1465,7 +1633,7 @@
       ) {
 
         const message =
-          "⚠️ 係數為 0 時答案應整理成 0，請重新整理答案。";
+          "⚠️ 係數為 0 時應直接整理成 0。";
 
 
         this.showMessage(
@@ -1547,11 +1715,9 @@
 
 
       /*
-      ==================================================
-      ★ 最簡根式
-
-      不自動修改學生答案
-      ==================================================
+      --------------------------------------------------
+      最簡根式
+      --------------------------------------------------
       */
 
       if (
@@ -1565,7 +1731,7 @@
         ) {
 
           const message =
-            "⚠️ √1 可以直接化成整數，請將答案整理成最簡形式。";
+            "⚠️ √1 可以直接化成整數，請整理成最簡形式。";
 
 
           this.showMessage(
@@ -1675,7 +1841,7 @@
 
     /*
     ==================================================
-    公開操作
+    Public
     ==================================================
     */
 
@@ -1698,14 +1864,12 @@
         );
 
 
-      this.root
-        .classList
-        .toggle(
-          "disabled",
-          Boolean(
-            disabled
-          )
-        );
+      this.root.classList.toggle(
+        "disabled",
+        Boolean(
+          disabled
+        )
+      );
     }
 
 
@@ -1780,7 +1944,7 @@
 
   /*
   ==================================================
-  對外
+  公開
   ==================================================
   */
 
@@ -1790,6 +1954,8 @@
 
   window.RadicalInputUtils = {
 
+    gcd,
+
     isPerfectSquare,
 
     getLargestSquareFactor,
@@ -1797,6 +1963,8 @@
     isSimplifiedRadicand,
 
     simplifyRadical,
+
+    sqrtHTML,
 
     radicalToHTML
   };
