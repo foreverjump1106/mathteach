@@ -1,0 +1,5307 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    多項式乘除大挑戰｜數學遊戲樂園
+  </title>
+
+
+  <link
+    rel="stylesheet"
+    href="../css/scratchpad.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="../css/expression-input.css?v=5"
+  >
+
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    :root {
+
+      --primary:
+        #7b1fa2;
+
+      --primary-dark:
+        #4a148c;
+
+      --primary-light:
+        #f3e5f5;
+
+      --primary-border:
+        #ce93d8;
+
+      --text:
+        #1f2937;
+
+      --muted:
+        #64748b;
+
+      --success:
+        #15803d;
+
+      --danger:
+        #b91c1c;
+
+      --warning:
+        #b45309;
+    }
+
+
+    body {
+
+      margin: 0;
+
+      min-height: 100vh;
+
+      padding: 16px;
+
+      font-family:
+        "Microsoft JhengHei",
+        "Noto Sans TC",
+        sans-serif;
+
+      color:
+        var(--text);
+
+      background:
+        linear-gradient(
+          135deg,
+          #f3e5f5,
+          #fff8e8
+        );
+    }
+
+
+    button,
+    input {
+
+      font-family:
+        inherit;
+    }
+
+
+    .hidden {
+
+      display:
+        none !important;
+    }
+
+
+    .page-shell {
+
+      width:
+        min(
+          100%,
+          960px
+        );
+
+      margin:
+        0 auto;
+    }
+
+
+    #commonHeaderMount {
+
+      margin-bottom:
+        14px;
+    }
+
+
+    .game-card {
+
+      overflow:
+        hidden;
+
+      border:
+        1px solid
+        #eadcf0;
+
+      border-top:
+        8px solid
+        var(--primary);
+
+      border-radius:
+        26px;
+
+      background:
+        white;
+
+      box-shadow:
+        0 14px 34px
+        rgba(15,23,42,.13);
+    }
+
+
+    /*
+    ==================================================
+    Header
+    ==================================================
+    */
+
+    .game-header {
+
+      padding:
+        24px 20px 18px;
+
+      text-align:
+        center;
+
+      background:
+        linear-gradient(
+          180deg,
+          var(--primary-light),
+          #fff
+        );
+    }
+
+
+    .game-title {
+
+      margin:
+        0;
+
+      color:
+        var(--primary-dark);
+
+      font-size:
+        clamp(
+          28px,
+          5vw,
+          40px
+        );
+    }
+
+
+    .game-subtitle {
+
+      margin:
+        10px 0 0;
+
+      color:
+        var(--muted);
+
+      line-height:
+        1.7;
+    }
+
+
+    .concept-strip {
+
+      display:
+        flex;
+
+      justify-content:
+        center;
+
+      gap:
+        8px;
+
+      margin-top:
+        16px;
+
+      flex-wrap:
+        wrap;
+    }
+
+
+    .concept-chip {
+
+      padding:
+        7px 11px;
+
+      border:
+        1px solid
+        var(--primary-border);
+
+      border-radius:
+        999px;
+
+      background:
+        white;
+
+      color:
+        var(--primary-dark);
+
+      font-size:
+        14px;
+
+      font-weight:
+        900;
+    }
+
+
+    .screen {
+
+      padding:
+        22px;
+    }
+
+
+    /*
+    ==================================================
+    Mode
+    ==================================================
+    */
+
+    .mode-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(0,1fr)
+        );
+
+      gap:
+        16px;
+    }
+
+
+    .mode-card {
+
+      min-height:
+        190px;
+
+      padding:
+        21px;
+
+      border:
+        2px solid
+        var(--primary-border);
+
+      border-radius:
+        20px;
+
+      background:
+        linear-gradient(
+          180deg,
+          var(--primary-light),
+          #fff
+        );
+
+      text-align:
+        left;
+
+      cursor:
+        pointer;
+
+      transition:
+        .15s ease;
+    }
+
+
+    .mode-card:hover {
+
+      transform:
+        translateY(-3px);
+
+      box-shadow:
+        0 10px 24px
+        rgba(15,23,42,.11);
+    }
+
+
+    .mode-tag {
+
+      display:
+        inline-block;
+
+      margin-bottom:
+        10px;
+
+      padding:
+        4px 9px;
+
+      border-radius:
+        999px;
+
+      background:
+        white;
+
+      color:
+        var(--primary-dark);
+
+      font-size:
+        12px;
+
+      font-weight:
+        900;
+    }
+
+
+    .mode-card h2 {
+
+      margin:
+        0 0 9px;
+
+      color:
+        var(--primary-dark);
+
+      font-size:
+        21px;
+    }
+
+
+    .mode-card p {
+
+      margin: 0;
+
+      color:
+        var(--muted);
+
+      line-height:
+        1.7;
+    }
+
+
+    .mode-example {
+
+      margin-top:
+        10px;
+
+      color:
+        #475569;
+
+      font-size:
+        14px;
+
+      font-weight:
+        900;
+
+      line-height:
+        1.6;
+    }
+
+
+    /*
+    ==================================================
+    Top bar
+    ==================================================
+    */
+
+    .quiz-topbar {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(
+          5,
+          minmax(0,1fr)
+        );
+
+      gap:
+        10px;
+
+      margin-bottom:
+        12px;
+    }
+
+
+    .status-box {
+
+      min-height:
+        64px;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      justify-content:
+        center;
+
+      padding:
+        8px;
+
+      border-radius:
+        14px;
+
+      background:
+        var(--primary-light);
+
+      color:
+        var(--primary-dark);
+
+      text-align:
+        center;
+
+      font-weight:
+        900;
+    }
+
+
+    .status-value {
+
+      margin-top:
+        3px;
+
+      font-size:
+        18px;
+    }
+
+
+    .timer-box {
+
+      background:
+        #fff7ed;
+
+      color:
+        #c2410c;
+    }
+
+
+    /*
+    ==================================================
+    Scratchpad
+    ==================================================
+    */
+
+    .scratchpad-row {
+
+      display:
+        flex;
+
+      justify-content:
+        center;
+
+      min-height:
+        46px;
+
+      margin:
+        4px 0 12px;
+    }
+
+
+    #scratchpad-mobile-button {
+
+      display:
+        flex;
+
+      justify-content:
+        center;
+
+      width:
+        100%;
+    }
+
+
+    #scratchpad-mobile-button
+    #scratchpadOpenButton,
+
+    #scratchpad-mobile-button
+    .scratchpad-open-button {
+
+      position:
+        static !important;
+
+      inset:
+        auto !important;
+
+      transform:
+        none !important;
+
+      margin:
+        0 !important;
+    }
+
+
+    /*
+    ==================================================
+    Progress
+    ==================================================
+    */
+
+    .progress-shell {
+
+      height:
+        10px;
+
+      margin-bottom:
+        16px;
+
+      overflow:
+        hidden;
+
+      border-radius:
+        999px;
+
+      background:
+        #e2e8f0;
+    }
+
+
+    .progress-bar {
+
+      width:
+        0%;
+
+      height:
+        100%;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--primary),
+          #ab47bc
+        );
+
+      transition:
+        width .2s ease;
+    }
+
+
+    /*
+    ==================================================
+    Question
+    ==================================================
+    */
+
+    .question-card {
+
+      padding:
+        22px 18px;
+
+      border:
+        2px solid
+        var(--primary-border);
+
+      border-radius:
+        20px;
+
+      background:
+        white;
+
+      text-align:
+        center;
+    }
+
+
+    .question-label {
+
+      margin-bottom:
+        10px;
+
+      color:
+        var(--muted);
+
+      font-weight:
+        900;
+    }
+
+
+    .question-content {
+
+      min-height:
+        120px;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      overflow-x:
+        auto;
+
+      color:
+        #0f172a;
+
+      font-size:
+        clamp(
+          24px,
+          5vw,
+          40px
+        );
+
+      font-weight:
+        900;
+
+      line-height:
+        1.9;
+    }
+
+
+    .question-content sup,
+    .explanation sup,
+    .review-question sup {
+
+      position:
+        relative;
+
+      top:
+        -.55em;
+
+      font-size:
+        .55em;
+
+      vertical-align:
+        baseline;
+    }
+
+
+    /*
+    ==================================================
+    Fractions
+    ==================================================
+    */
+
+    .math-fraction,
+    .expression-input__inline-fraction {
+
+      display:
+        inline-flex;
+
+      flex-direction:
+        column;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      margin:
+        0 4px;
+
+      vertical-align:
+        middle;
+
+      line-height:
+        1.08;
+    }
+
+
+    .math-fraction
+    > span:first-child,
+
+    .expression-input__inline-fraction
+    > span:first-child {
+
+      min-width:
+        22px;
+
+      padding:
+        0 4px 2px;
+
+      border-bottom:
+        2px solid currentColor;
+
+      text-align:
+        center;
+    }
+
+
+    .math-fraction
+    > span:last-child,
+
+    .expression-input__inline-fraction
+    > span:last-child {
+
+      padding-top:
+        2px;
+
+      text-align:
+        center;
+    }
+
+
+    /*
+    ==================================================
+    Answer
+    ==================================================
+    */
+
+    .answer-panel {
+
+      margin-top:
+        16px;
+
+      padding:
+        18px;
+
+      border-radius:
+        18px;
+
+      background:
+        #f8fafc;
+    }
+
+
+    .answer-title {
+
+      margin-bottom:
+        10px;
+
+      color:
+        var(--primary-dark);
+
+      text-align:
+        center;
+
+      font-weight:
+        900;
+    }
+
+
+    .answer-help {
+
+      margin:
+        0 0 12px;
+
+      color:
+        #64748b;
+
+      text-align:
+        center;
+
+      font-size:
+        14px;
+
+      font-weight:
+        800;
+
+      line-height:
+        1.65;
+    }
+
+
+    .monomial-answer {
+
+      display:
+        flex;
+
+      justify-content:
+        center;
+
+      align-items:
+        end;
+
+      gap:
+        9px;
+
+      flex-wrap:
+        wrap;
+    }
+
+
+    .monomial-field {
+
+      text-align:
+        center;
+    }
+
+
+    .monomial-field label {
+
+      display:
+        block;
+
+      margin-bottom:
+        5px;
+
+      color:
+        #64748b;
+
+      font-size:
+        13px;
+
+      font-weight:
+        900;
+    }
+
+
+    .monomial-field input {
+
+      width:
+        80px;
+
+      padding:
+        10px 6px;
+
+      border:
+        2px solid
+        #cbd5e1;
+
+      border-radius:
+        10px;
+
+      font-size:
+        21px;
+
+      font-weight:
+        900;
+
+      text-align:
+        center;
+    }
+
+
+    .monomial-symbol {
+
+      padding-bottom:
+        11px;
+
+      font-size:
+        27px;
+
+      font-weight:
+        900;
+    }
+
+
+    .polynomial-answer-shell {
+
+      width:
+        min(
+          100%,
+          820px
+        );
+
+      margin:
+        0 auto;
+    }
+
+
+    /*
+    ==================================================
+    Choice
+    ==================================================
+    */
+
+    .choice-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(0,1fr)
+        );
+
+      gap:
+        10px;
+    }
+
+
+    .choice-button {
+
+      min-height:
+        64px;
+
+      padding:
+        11px;
+
+      border:
+        2px solid
+        var(--primary-border);
+
+      border-radius:
+        13px;
+
+      background:
+        white;
+
+      font-size:
+        16px;
+
+      font-weight:
+        900;
+
+      line-height:
+        1.6;
+
+      cursor:
+        pointer;
+    }
+
+
+    .choice-button.selected {
+
+      border-color:
+        var(--primary);
+
+      background:
+        var(--primary-light);
+
+      color:
+        var(--primary-dark);
+    }
+
+
+    /*
+    ==================================================
+    Buttons
+    ==================================================
+    */
+
+    .button-row {
+
+      display:
+        flex;
+
+      justify-content:
+        center;
+
+      gap:
+        10px;
+
+      margin-top:
+        16px;
+
+      flex-wrap:
+        wrap;
+    }
+
+
+    .game-button {
+
+      min-width:
+        132px;
+
+      padding:
+        12px 20px;
+
+      border:
+        none;
+
+      border-radius:
+        12px;
+
+      background:
+        var(--primary);
+
+      color:
+        white;
+
+      font-size:
+        16px;
+
+      font-weight:
+        900;
+
+      cursor:
+        pointer;
+
+      box-shadow:
+        0 5px 0
+        var(--primary-dark);
+    }
+
+
+    .game-button.secondary {
+
+      background:
+        #607d8b;
+
+      box-shadow:
+        0 5px 0
+        #455a64;
+    }
+
+
+    .game-button.orange {
+
+      background:
+        #f57c00;
+
+      box-shadow:
+        0 5px 0
+        #d86600;
+    }
+
+
+    .game-button.restart {
+
+      background:
+        #00897b;
+
+      box-shadow:
+        0 5px 0
+        #00695c;
+    }
+
+
+    /*
+    ==================================================
+    Feedback
+    ==================================================
+    */
+
+    .feedback {
+
+      min-height:
+        48px;
+
+      margin-top:
+        14px;
+
+      text-align:
+        center;
+
+      font-size:
+        18px;
+
+      font-weight:
+        900;
+
+      line-height:
+        1.7;
+    }
+
+
+    .feedback.correct {
+
+      color:
+        var(--success);
+    }
+
+
+    .feedback.wrong {
+
+      color:
+        var(--danger);
+    }
+
+
+    .feedback.warning {
+
+      color:
+        var(--warning);
+    }
+
+
+    .explanation {
+
+      margin-top:
+        12px;
+
+      padding:
+        16px;
+
+      border-radius:
+        14px;
+
+      background:
+        #f5ecf8;
+
+      color:
+        #334155;
+
+      line-height:
+        1.95;
+    }
+
+
+    .explanation-step {
+
+      margin:
+        7px 0;
+    }
+
+
+    /*
+    ==================================================
+    Result
+    ==================================================
+    */
+
+    .result-panel {
+
+      text-align:
+        center;
+    }
+
+
+    .result-score {
+
+      margin:
+        16px 0;
+
+      color:
+        #f57c00;
+
+      font-size:
+        56px;
+
+      font-weight:
+        900;
+    }
+
+
+    .result-stars {
+
+      margin-bottom:
+        10px;
+
+      font-size:
+        31px;
+    }
+
+
+    .result-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(
+          4,
+          minmax(0,1fr)
+        );
+
+      gap:
+        12px;
+
+      margin:
+        20px 0;
+    }
+
+
+    .result-stat {
+
+      padding:
+        16px 10px;
+
+      border-radius:
+        16px;
+
+      background:
+        var(--primary-light);
+
+      color:
+        var(--primary-dark);
+
+      font-weight:
+        900;
+    }
+
+
+    .save-status {
+
+      min-height:
+        28px;
+
+      margin:
+        14px 0 0;
+
+      font-weight:
+        900;
+    }
+
+
+    /*
+    ==================================================
+    Review
+    ==================================================
+    */
+
+    .review-list {
+
+      display:
+        grid;
+
+      gap:
+        14px;
+    }
+
+
+    .review-card {
+
+      padding:
+        18px;
+
+      border:
+        1px solid
+        #e2e8f0;
+
+      border-radius:
+        16px;
+
+      background:
+        white;
+    }
+
+
+    .review-title {
+
+      color:
+        var(--danger);
+
+      font-weight:
+        900;
+    }
+
+
+    .review-question {
+
+      margin:
+        8px 0;
+
+      font-size:
+        20px;
+
+      font-weight:
+        900;
+
+      line-height:
+        1.8;
+    }
+
+
+    .review-answer {
+
+      color:
+        #475569;
+
+      line-height:
+        1.9;
+    }
+
+
+    @media(
+      max-width:760px
+    ){
+
+      body {
+
+        padding:
+          8px;
+      }
+
+
+      .screen {
+
+        padding:
+          18px 12px;
+      }
+
+
+      .mode-grid {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .quiz-topbar {
+
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(0,1fr)
+          );
+      }
+
+
+      .timer-box {
+
+        grid-column:
+          1 / -1;
+      }
+
+
+      .choice-grid {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .result-grid {
+
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(0,1fr)
+          );
+      }
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<div class="page-shell">
+
+
+  <div id="commonHeaderMount"></div>
+
+
+  <main class="game-card">
+
+
+    <header class="game-header">
+
+      <h1 class="game-title">
+        ✖️➗ 多項式乘除大挑戰
+      </h1>
+
+      <p class="game-subtitle">
+        從單項式乘除開始，逐步挑戰多項式乘法、多項式除法與綜合題。
+      </p>
+
+      <div class="concept-strip">
+
+        <span class="concept-chip">
+          係數相乘除
+        </span>
+
+        <span class="concept-chip">
+          指數加減
+        </span>
+
+        <span class="concept-chip">
+          分配律
+        </span>
+
+        <span class="concept-chip">
+          多項式除以單項式
+        </span>
+
+        <span class="concept-chip">
+          最簡分數
+        </span>
+
+      </div>
+
+    </header>
+
+
+    <!--
+    ==================================================
+    模式
+    ==================================================
+    -->
+
+    <section
+      id="start-screen"
+      class="screen"
+    >
+
+      <div class="mode-grid">
+
+
+        <button
+          class="mode-card"
+          type="button"
+          data-mode="monomial"
+        >
+
+          <span class="mode-tag">
+            基礎
+          </span>
+
+          <h2>
+            模式一｜單項式乘除
+          </h2>
+
+          <p>
+            練習係數的乘除，以及同底數次方的指數加減。
+          </p>
+
+          <div class="mode-example">
+            例如：3x² × 4x³、12x⁵ ÷ 3x²
+          </div>
+
+        </button>
+
+
+        <button
+          class="mode-card"
+          type="button"
+          data-mode="multiply"
+        >
+
+          <span class="mode-tag">
+            乘法
+          </span>
+
+          <h2>
+            模式二｜多項式乘法
+          </h2>
+
+          <p>
+            單項式乘多項式，以及兩個一次多項式相乘。
+          </p>
+
+          <div class="mode-example">
+            例如：3x(2x－5)、(x＋2)(x－3)
+          </div>
+
+        </button>
+
+
+        <button
+          class="mode-card"
+          type="button"
+          data-mode="divide"
+        >
+
+          <span class="mode-tag">
+            除法
+          </span>
+
+          <h2>
+            模式三｜多項式除法
+          </h2>
+
+          <p>
+            將多項式的每一項分別除以單項式，商可能含分數。
+          </p>
+
+          <div class="mode-example">
+            分數答案必須由學生自行化成最簡分數。
+          </div>
+
+        </button>
+
+
+        <button
+          class="mode-card"
+          type="button"
+          data-mode="mixed"
+        >
+
+          <span class="mode-tag">
+            綜合
+          </span>
+
+          <h2>
+            模式四｜乘除綜合挑戰
+          </h2>
+
+          <p>
+            單項式、多項式乘法、多項式除法、分數與觀念判讀混合。
+          </p>
+
+          <div class="mode-example">
+            不另外提示題型，自己判斷計算方法。
+          </div>
+
+        </button>
+
+
+      </div>
+
+    </section>
+
+
+    <!--
+    ==================================================
+    Quiz
+    ==================================================
+    -->
+
+    <section
+      id="quiz-screen"
+      class="screen hidden"
+    >
+
+      <div class="quiz-topbar">
+
+        <div class="status-box">
+
+          模式
+
+          <span
+            id="mode-name"
+            class="status-value"
+          >
+            —
+          </span>
+
+        </div>
+
+
+        <div class="status-box">
+
+          進度
+
+          <span
+            id="question-number"
+            class="status-value"
+          >
+            1 / 10
+          </span>
+
+        </div>
+
+
+        <div class="status-box">
+
+          答對
+
+          <span
+            id="correct-count"
+            class="status-value"
+          >
+            0
+          </span>
+
+        </div>
+
+
+        <div class="status-box">
+
+          最高連擊
+
+          <span
+            id="combo-count"
+            class="status-value"
+          >
+            0
+          </span>
+
+        </div>
+
+
+        <div class="status-box timer-box">
+
+          測驗時間
+
+          <span
+            id="timer-display"
+            class="status-value"
+          >
+            00:00
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="scratchpad-row">
+
+        <div
+          id="scratchpad-mobile-button"
+        ></div>
+
+      </div>
+
+
+      <div class="progress-shell">
+
+        <div
+          id="progress-bar"
+          class="progress-bar"
+        ></div>
+
+      </div>
+
+
+      <div class="question-card">
+
+        <div
+          id="question-label"
+          class="question-label"
+        ></div>
+
+        <div
+          id="question-content"
+          class="question-content"
+        ></div>
+
+      </div>
+
+
+      <div
+        id="answer-panel"
+        class="answer-panel"
+      ></div>
+
+
+      <div class="button-row">
+
+        <button
+          id="submit-button"
+          class="game-button"
+          type="button"
+        >
+          提交答案（Enter）
+        </button>
+
+
+        <button
+          id="next-button"
+          class="game-button hidden"
+          type="button"
+        >
+          下一題（Enter）
+        </button>
+
+
+        <button
+          id="restart-button"
+          class="game-button restart"
+          type="button"
+        >
+          🔄 重新測驗
+        </button>
+
+
+        <button
+          id="mode-button"
+          class="game-button secondary"
+          type="button"
+        >
+          選擇模式
+        </button>
+
+      </div>
+
+
+      <div
+        id="feedback"
+        class="feedback"
+      ></div>
+
+
+      <div
+        id="explanation"
+        class="explanation hidden"
+      ></div>
+
+    </section>
+
+
+    <!--
+    ==================================================
+    Result
+    ==================================================
+    -->
+
+    <section
+      id="result-screen"
+      class="screen hidden result-panel"
+    >
+
+      <h2>
+        🎉 挑戰完成
+      </h2>
+
+
+      <div
+        id="final-score"
+        class="result-score"
+      >
+        0 分
+      </div>
+
+
+      <div
+        id="final-stars"
+        class="result-stars"
+      >
+        ★★★☆☆
+      </div>
+
+
+      <p id="final-comment"></p>
+
+
+      <div class="result-grid">
+
+        <div class="result-stat">
+
+          答對
+          <br>
+
+          <span id="final-correct">
+            0
+          </span>
+
+          題
+
+        </div>
+
+
+        <div class="result-stat">
+
+          答錯
+          <br>
+
+          <span id="final-wrong">
+            0
+          </span>
+
+          題
+
+        </div>
+
+
+        <div class="result-stat">
+
+          最高連擊
+          <br>
+
+          <span id="final-combo">
+            0
+          </span>
+
+        </div>
+
+
+        <div class="result-stat">
+
+          測驗時間
+          <br>
+
+          <span id="final-time">
+            00:00
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="save-status"
+        class="save-status"
+      ></div>
+
+
+      <div class="button-row">
+
+        <button
+          id="again-button"
+          class="game-button restart"
+          type="button"
+        >
+          🔄 重新測驗
+        </button>
+
+
+        <button
+          id="review-button"
+          class="game-button orange"
+          type="button"
+        >
+          錯題回顧
+        </button>
+
+
+        <button
+          id="result-mode-button"
+          class="game-button secondary"
+          type="button"
+        >
+          選擇模式
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!--
+    ==================================================
+    Review
+    ==================================================
+    -->
+
+    <section
+      id="review-screen"
+      class="screen hidden"
+    >
+
+      <h2>
+        📝 錯題回顧
+      </h2>
+
+
+      <div
+        id="review-list"
+        class="review-list"
+      ></div>
+
+
+      <div class="button-row">
+
+        <button
+          id="review-again-button"
+          class="game-button restart"
+          type="button"
+        >
+          🔄 重新測驗
+        </button>
+
+
+        <button
+          id="review-result-button"
+          class="game-button secondary"
+          type="button"
+        >
+          回到測驗結果
+        </button>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+</div>
+
+
+<!-- 共用元件 -->
+
+<script src="../js/common-header.js"></script>
+
+<script src="../js/scratchpad.js"></script>
+
+<script src="../js/scratchpad-template.js"></script>
+
+<script src="../js/sound-manager.js?v=1"></script>
+
+<script src="../js/expression-input.js?v=5"></script>
+
+
+<script type="module">
+
+
+import {
+  saveGameScore
+} from "../js/scores.js";
+
+
+"use strict";
+
+
+/*
+==================================================
+設定
+==================================================
+*/
+
+const GAME_ID =
+  "polynomialMultiplyDivide";
+
+
+const TOTAL_QUESTIONS =
+  10;
+
+
+const MODE_NAMES = {
+
+  monomial:
+    "單項式乘除",
+
+  multiply:
+    "多項式乘法",
+
+  divide:
+    "多項式除法",
+
+  mixed:
+    "乘除綜合挑戰"
+};
+
+
+const $ =
+  id =>
+    document.getElementById(
+      id
+    );
+
+
+const U =
+  () =>
+    window.ExpressionInputUtils;
+
+
+let mode =
+  "monomial";
+
+
+let questions =
+  [];
+
+
+let index =
+  0;
+
+
+let correct =
+  0;
+
+
+let wrong =
+  0;
+
+
+let combo =
+  0;
+
+
+let maxCombo =
+  0;
+
+
+let records =
+  [];
+
+
+let answered =
+  false;
+
+
+let selectedChoice =
+  null;
+
+
+let answerInput =
+  null;
+
+
+let startTime =
+  0;
+
+
+let elapsed =
+  0;
+
+
+let timerId =
+  null;
+
+
+let scoreSaved =
+  false;
+
+
+/*
+==================================================
+工具
+==================================================
+*/
+
+function rand(
+  min,
+  max
+) {
+
+  return (
+    Math.floor(
+      Math.random() *
+      (
+        max -
+        min +
+        1
+      )
+    ) +
+    min
+  );
+}
+
+
+function nonZeroRand(
+  min,
+  max
+) {
+
+  let value =
+    0;
+
+
+  while (
+    value === 0
+  ) {
+
+    value =
+      rand(
+        min,
+        max
+      );
+  }
+
+
+  return value;
+}
+
+
+function pick(
+  array
+) {
+
+  return array[
+    Math.floor(
+      Math.random() *
+      array.length
+    )
+  ];
+}
+
+
+function shuffle(
+  array
+) {
+
+  const result =
+    [...array];
+
+
+  for (
+    let i =
+      result.length - 1;
+
+    i > 0;
+
+    i--
+  ) {
+
+    const j =
+      Math.floor(
+        Math.random() *
+        (
+          i + 1
+        )
+      );
+
+
+    [
+      result[i],
+      result[j]
+    ] = [
+      result[j],
+      result[i]
+    ];
+  }
+
+
+  return result;
+}
+
+
+/*
+==================================================
+音效
+==================================================
+*/
+
+function playGameSound(
+  method
+) {
+
+  try {
+
+    const sound =
+      window.GameSound ||
+      window.MathGameSound;
+
+
+    sound?.[
+      method
+    ]?.();
+
+  } catch (
+    error
+  ) {
+
+    console.warn(
+      "音效播放失敗",
+      error
+    );
+  }
+}
+
+
+/*
+==================================================
+計時
+==================================================
+*/
+
+function formatTime(
+  seconds
+) {
+
+  const minutes =
+    Math.floor(
+      seconds / 60
+    );
+
+
+  const remain =
+    seconds % 60;
+
+
+  return (
+    `${String(minutes).padStart(2,"0")}:` +
+    `${String(remain).padStart(2,"0")}`
+  );
+}
+
+
+function startTimer() {
+
+  stopTimer();
+
+
+  startTime =
+    Date.now();
+
+
+  elapsed =
+    0;
+
+
+  $("timer-display")
+    .textContent =
+      "00:00";
+
+
+  timerId =
+    setInterval(
+      () => {
+
+        elapsed =
+          Math.floor(
+            (
+              Date.now() -
+              startTime
+            ) /
+            1000
+          );
+
+
+        $("timer-display")
+          .textContent =
+            formatTime(
+              elapsed
+            );
+
+      },
+      500
+    );
+}
+
+
+function stopTimer() {
+
+  if (
+    timerId !== null
+  ) {
+
+    clearInterval(
+      timerId
+    );
+
+
+    timerId =
+      null;
+  }
+
+
+  if (
+    startTime
+  ) {
+
+    elapsed =
+      Math.floor(
+        (
+          Date.now() -
+          startTime
+        ) /
+        1000
+      );
+  }
+}
+
+
+/*
+==================================================
+Scratchpad
+==================================================
+*/
+
+function moveScratchpadButtonToTop() {
+
+  const mount =
+    $("scratchpad-mobile-button");
+
+
+  const button =
+    $("scratchpadOpenButton");
+
+
+  if (
+    mount &&
+    button &&
+    !mount.contains(
+      button
+    )
+  ) {
+
+    mount.appendChild(
+      button
+    );
+  }
+}
+
+
+/*
+==================================================
+畫面
+==================================================
+*/
+
+function showOnly(
+  screenId
+) {
+
+  [
+    "start-screen",
+    "quiz-screen",
+    "result-screen",
+    "review-screen"
+  ]
+    .forEach(
+      id => {
+
+        $(id)
+          .classList
+          .toggle(
+            "hidden",
+            id !== screenId
+          );
+      }
+    );
+
+
+  if (
+    screenId ===
+    "quiz-screen"
+  ) {
+
+    moveScratchpadButtonToTop();
+
+    window
+      .showGameScratchpadButton
+      ?.();
+
+  } else {
+
+    window
+      .hideGameScratchpadButton
+      ?.();
+  }
+}
+
+
+/*
+==================================================
+Fraction
+==================================================
+*/
+
+function F(
+  numerator,
+  denominator = 1
+) {
+
+  return U()
+    .normalizeFraction(
+      numerator,
+      denominator
+    );
+}
+
+
+function fractionHTML(
+  fraction
+) {
+
+  const value =
+    F(
+      Math.abs(
+        fraction.numerator
+      ),
+      fraction.denominator
+    );
+
+
+  if (
+    value.denominator === 1
+  ) {
+
+    return String(
+      value.numerator
+    );
+  }
+
+
+  return `
+
+    <span class="math-fraction">
+
+      <span>
+        ${value.numerator}
+      </span>
+
+      <span>
+        ${value.denominator}
+      </span>
+
+    </span>
+  `;
+}
+
+
+/*
+==================================================
+Polynomial
+==================================================
+*/
+
+function normalize(
+  terms
+) {
+
+  return U()
+    .normalizePolynomialTermsAsFractions(
+      terms
+    );
+}
+
+
+function polynomialHTML(
+  terms
+) {
+
+  return U()
+    .polynomialTermsToHtml(
+
+      terms,
+      "x",
+
+      {
+        omitCoefficientOne:
+          true
+      }
+    );
+}
+
+
+function multiplyPolynomialByMonomial(
+  polynomial,
+  coefficient,
+  exponent
+) {
+
+  const factor =
+    F(
+      coefficient
+    );
+
+
+  return normalize(
+
+    polynomial.map(
+      term => ({
+
+        exponent:
+          term.exponent +
+          exponent,
+
+        coefficient:
+          U().multiplyFractions(
+
+            term.coefficient,
+            factor
+          )
+      })
+    )
+  );
+}
+
+
+function multiplyTwoPolynomials(
+  first,
+  second
+) {
+
+  const raw =
+    [];
+
+
+  first.forEach(
+    a => {
+
+      second.forEach(
+        b => {
+
+          raw.push(
+            {
+
+              exponent:
+                a.exponent +
+                b.exponent,
+
+              coefficient:
+                U().multiplyFractions(
+
+                  a.coefficient,
+                  b.coefficient
+                )
+            }
+          );
+        }
+      );
+    }
+  );
+
+
+  return normalize(
+    raw
+  );
+}
+
+
+function dividePolynomialByMonomial(
+  polynomial,
+  coefficient,
+  exponent
+) {
+
+  const divisor =
+    F(
+      coefficient
+    );
+
+
+  return normalize(
+
+    polynomial.map(
+      term => ({
+
+        exponent:
+          term.exponent -
+          exponent,
+
+        coefficient:
+          U().divideFractions(
+
+            term.coefficient,
+            divisor
+          )
+      })
+    )
+  );
+}
+
+
+function randomPolynomial(
+  minDegree = 0,
+  maxDegree = 2,
+  minTerms = 2,
+  maxTerms = 3
+) {
+
+  const powers =
+    shuffle(
+
+      Array.from(
+        {
+          length:
+            maxDegree -
+            minDegree +
+            1
+        },
+
+        (
+          _,
+          index
+        ) =>
+          minDegree +
+          index
+      )
+    )
+
+
+      .slice(
+        0,
+        rand(
+          minTerms,
+          Math.min(
+            maxTerms,
+            maxDegree -
+            minDegree +
+            1
+          )
+        )
+      );
+
+
+  return normalize(
+
+    powers.map(
+      exponent => ({
+
+        exponent,
+
+        coefficient:
+          F(
+            nonZeroRand(
+              -7,
+              7
+            )
+          )
+      })
+    )
+  );
+}
+
+
+/*
+==================================================
+Question object
+==================================================
+*/
+
+function monomialQuestion(
+  html,
+  coefficient,
+  exponent,
+  explanation,
+  label,
+  fraction = false
+) {
+
+  return {
+
+    type:
+      "monomial",
+
+    html,
+
+    coefficient:
+      F(
+        coefficient.numerator ??
+        coefficient,
+
+        coefficient.denominator ??
+        1
+      ),
+
+    exponent,
+
+    explanation,
+
+    label,
+
+    fraction
+  };
+}
+
+
+function polynomialQuestion(
+  html,
+  answer,
+  explanation,
+  label,
+  fraction = false
+) {
+
+  return {
+
+    type:
+      "polynomial",
+
+    html,
+
+    answer:
+      normalize(
+        answer
+      ),
+
+    explanation,
+
+    label,
+
+    fraction
+  };
+}
+
+
+function choiceQuestion(
+  html,
+  choices,
+  answer,
+  explanation,
+  label
+) {
+
+  return {
+
+    type:
+      "choice",
+
+    html,
+
+    choices,
+
+    answer,
+
+    explanation,
+
+    label
+  };
+}
+
+
+/*
+==================================================
+模式一
+==================================================
+*/
+
+function makeMonomialMultiply() {
+
+  const a =
+    nonZeroRand(
+      -6,
+      6
+    );
+
+
+  const b =
+    nonZeroRand(
+      -6,
+      6
+    );
+
+
+  const m =
+    rand(
+      1,
+      5
+    );
+
+
+  const n =
+    rand(
+      1,
+      5
+    );
+
+
+  const coefficient =
+    F(
+      a * b
+    );
+
+
+  const exponent =
+    m + n;
+
+
+  return monomialQuestion(
+
+    `${a}x<sup>${m}</sup>
+     ×
+     ${b}x<sup>${n}</sup>`,
+
+    coefficient,
+
+    exponent,
+
+    [
+
+      `係數：
+       ${a} × ${b}
+       ＝
+       ${coefficient.numerator}`,
+
+      `同底數相乘，指數相加：
+       ${m}＋${n}
+       ＝
+       ${exponent}`,
+
+      `答案：
+       ${coefficient.numerator}x<sup>${exponent}</sup>`
+    ],
+
+    "請計算單項式的乘積"
+  );
+}
+
+
+function makeMonomialDivide(
+  allowFraction = false
+) {
+
+  const denominatorCoefficient =
+    rand(
+      2,
+      6
+    );
+
+
+  let numeratorCoefficient;
+
+
+  if (
+    allowFraction
+  ) {
+
+    numeratorCoefficient =
+      nonZeroRand(
+        -9,
+        9
+      );
+
+  } else {
+
+    numeratorCoefficient =
+      denominatorCoefficient *
+      nonZeroRand(
+        -5,
+        5
+      );
+  }
+
+
+  const divisorExponent =
+    rand(
+      1,
+      3
+    );
+
+
+  const quotientExponent =
+    rand(
+      1,
+      4
+    );
+
+
+  const numeratorExponent =
+    divisorExponent +
+    quotientExponent;
+
+
+  const coefficient =
+    F(
+      numeratorCoefficient,
+      denominatorCoefficient
+    );
+
+
+  return monomialQuestion(
+
+    `${numeratorCoefficient}x<sup>${numeratorExponent}</sup>
+     ÷
+     ${denominatorCoefficient}x<sup>${divisorExponent}</sup>`,
+
+    coefficient,
+
+    quotientExponent,
+
+    [
+
+      `係數相除：
+       ${numeratorCoefficient} ÷ ${denominatorCoefficient}
+       ＝
+       ${fractionHTML(coefficient)}`,
+
+      `同底數相除，指數相減：
+       ${numeratorExponent}－${divisorExponent}
+       ＝
+       ${quotientExponent}`,
+
+      `答案：
+       ${fractionHTML(coefficient)}x<sup>${quotientExponent}</sup>`
+    ],
+
+    "請計算單項式的商",
+
+    coefficient.denominator !== 1
+  );
+}
+
+
+function makeMode1() {
+
+  return shuffle(
+    [
+
+      makeMonomialMultiply(),
+      makeMonomialMultiply(),
+      makeMonomialMultiply(),
+      makeMonomialMultiply(),
+
+      makeMonomialDivide(false),
+      makeMonomialDivide(false),
+      makeMonomialDivide(false),
+
+      makeMonomialDivide(true),
+      makeMonomialDivide(true),
+      makeMonomialDivide(true)
+    ]
+  );
+}
+
+
+/*
+==================================================
+模式二
+==================================================
+*/
+
+function makeMonomialTimesPolynomial() {
+
+  const coefficient =
+    nonZeroRand(
+      -5,
+      5
+    );
+
+
+  const exponent =
+    rand(
+      1,
+      2
+    );
+
+
+  const polynomial =
+    randomPolynomial(
+      0,
+      2,
+      2,
+      3
+    );
+
+
+  const answer =
+    multiplyPolynomialByMonomial(
+
+      polynomial,
+      coefficient,
+      exponent
+    );
+
+
+  return polynomialQuestion(
+
+    `${coefficient}x<sup>${exponent}</sup>
+     (${polynomialHTML(polynomial)})`,
+
+    answer,
+
+    [
+
+      "利用分配律，單項式要乘上括號內的每一項。",
+
+      "係數相乘；同底數相乘時指數相加。",
+
+      `整理後：
+       ${polynomialHTML(answer)}`
+    ],
+
+    "請展開並整理多項式"
+  );
+}
+
+
+function makeBinomialProduct() {
+
+  const a =
+    nonZeroRand(
+      -6,
+      6
+    );
+
+
+  const b =
+    nonZeroRand(
+      -6,
+      6
+    );
+
+
+  const first = [
+
+    {
+      exponent:
+        1,
+
+      coefficient:
+        F(1)
+    },
+
+    {
+      exponent:
+        0,
+
+      coefficient:
+        F(a)
+    }
+  ];
+
+
+  const second = [
+
+    {
+      exponent:
+        1,
+
+      coefficient:
+        F(1)
+    },
+
+    {
+      exponent:
+        0,
+
+      coefficient:
+        F(b)
+    }
+  ];
+
+
+  const answer =
+    multiplyTwoPolynomials(
+
+      first,
+      second
+    );
+
+
+  return polynomialQuestion(
+
+    `(${polynomialHTML(first)})
+     (${polynomialHTML(second)})`,
+
+    answer,
+
+    [
+
+      "第一個括號的每一項，都要乘上第二個括號的每一項。",
+
+      "乘完後再合併同類項。",
+
+      `答案：
+       ${polynomialHTML(answer)}`
+    ],
+
+    "請展開並整理多項式"
+  );
+}
+
+
+function makeMode2() {
+
+  return shuffle(
+    [
+
+      makeMonomialTimesPolynomial(),
+      makeMonomialTimesPolynomial(),
+      makeMonomialTimesPolynomial(),
+      makeMonomialTimesPolynomial(),
+      makeMonomialTimesPolynomial(),
+
+      makeBinomialProduct(),
+      makeBinomialProduct(),
+      makeBinomialProduct(),
+      makeBinomialProduct(),
+      makeBinomialProduct()
+    ]
+  );
+}
+
+
+/*
+==================================================
+模式三
+==================================================
+*/
+
+function makePolynomialDivision(
+  fractionMode = false
+) {
+
+  /*
+  先製造「商」，
+  再乘回除式，
+  可確保題目合法。
+  */
+
+  const divisorCoefficient =
+    rand(
+      2,
+      6
+    );
+
+
+  const divisorExponent =
+    rand(
+      1,
+      2
+    );
+
+
+  let quotient;
+
+
+  if (
+    fractionMode
+  ) {
+
+    const denominators =
+      [
+        2,
+        3,
+        4,
+        5
+      ];
+
+
+    quotient = [
+
+      {
+        exponent:
+          rand(
+            1,
+            2
+          ),
+
+        coefficient:
+          F(
+            pick(
+              [-1,1]
+            ) *
+            rand(
+              1,
+              4
+            ),
+
+            pick(
+              denominators
+            )
+          )
+      },
+
+      {
+        exponent:
+          0,
+
+        coefficient:
+          F(
+            pick(
+              [-1,1]
+            ) *
+            rand(
+              1,
+              4
+            ),
+
+            pick(
+              denominators
+            )
+          )
+      }
+    ];
+
+
+    quotient =
+      normalize(
+        quotient
+      );
+
+
+    if (
+      !quotient.some(
+        term =>
+          term.coefficient.denominator !==
+          1
+      )
+    ) {
+
+      return makePolynomialDivision(
+        true
+      );
+    }
+
+  } else {
+
+    quotient =
+      randomPolynomial(
+        0,
+        2,
+        2,
+        3
+      );
+  }
+
+
+  const dividend =
+    multiplyPolynomialByMonomial(
+
+      quotient,
+      divisorCoefficient,
+      divisorExponent
+    );
+
+
+  return polynomialQuestion(
+
+    `(${polynomialHTML(dividend)})
+     ÷
+     ${divisorCoefficient}x<sup>${divisorExponent}</sup>`,
+
+    quotient,
+
+    [
+
+      "多項式除以單項式，要將多項式的每一項分別除以這個單項式。",
+
+      "係數相除，同底數相除時指數相減。",
+
+      fractionMode
+        ? "若係數出現分數，最後必須由自己化成最簡分數。"
+        : "完成每一項後，再依降冪排列。",
+
+      `答案：
+       ${polynomialHTML(quotient)}`
+    ],
+
+    fractionMode
+      ? "請計算多項式的商，分數必須化成最簡分數"
+      : "請計算多項式的商",
+
+    fractionMode
+  );
+}
+
+
+function makeDivisionChoice() {
+
+  const numeratorExponent =
+    rand(
+      4,
+      7
+    );
+
+
+  const divisorExponent =
+    rand(
+      1,
+      numeratorExponent -
+      1
+    );
+
+
+  const answerExponent =
+    numeratorExponent -
+    divisorExponent;
+
+
+  return choiceQuestion(
+
+    `x<sup>${numeratorExponent}</sup>
+     ÷
+     x<sup>${divisorExponent}</sup>
+     ＝？`,
+
+    shuffle(
+      [
+
+        {
+          value:
+            "correct",
+
+          text:
+            `x<sup>${answerExponent}</sup>`
+        },
+
+        {
+          value:
+            "add",
+
+          text:
+            `x<sup>${numeratorExponent + divisorExponent}</sup>`
+        },
+
+        {
+          value:
+            "multiply",
+
+          text:
+            `x<sup>${numeratorExponent * divisorExponent}</sup>`
+        },
+
+        {
+          value:
+            "same",
+
+          text:
+            `x<sup>${numeratorExponent}</sup>`
+        }
+      ]
+    ),
+
+    "correct",
+
+    [
+
+      "同底數相除，底數不變，指數相減。",
+
+      `${numeratorExponent}－${divisorExponent}
+       ＝
+       ${answerExponent}`
+    ],
+
+    "請選出正確答案"
+  );
+}
+
+
+function makeMode3() {
+
+  return shuffle(
+    [
+
+      makePolynomialDivision(false),
+      makePolynomialDivision(false),
+      makePolynomialDivision(false),
+      makePolynomialDivision(false),
+
+      makePolynomialDivision(true),
+      makePolynomialDivision(true),
+      makePolynomialDivision(true),
+
+      makePolynomialDivision(true),
+
+      makeDivisionChoice(),
+      makeDivisionChoice()
+    ]
+  );
+}
+
+
+/*
+==================================================
+模式四
+==================================================
+*/
+
+function makeMode4() {
+
+  return shuffle(
+    [
+
+      makeMonomialMultiply(),
+
+      makeMonomialDivide(true),
+
+      makeMonomialTimesPolynomial(),
+
+      makeMonomialTimesPolynomial(),
+
+      makeBinomialProduct(),
+
+      makeBinomialProduct(),
+
+      makePolynomialDivision(false),
+
+      makePolynomialDivision(true),
+
+      makePolynomialDivision(true),
+
+      makeDivisionChoice()
+    ]
+  );
+}
+
+
+/*
+==================================================
+建立題組
+==================================================
+*/
+
+function createQuestions() {
+
+  if (
+    mode ===
+    "monomial"
+  ) {
+
+    return makeMode1();
+  }
+
+
+  if (
+    mode ===
+    "multiply"
+  ) {
+
+    return makeMode2();
+  }
+
+
+  if (
+    mode ===
+    "divide"
+  ) {
+
+    return makeMode3();
+  }
+
+
+  return makeMode4();
+}
+
+
+/*
+==================================================
+Answer UI
+==================================================
+*/
+
+function renderAnswer(
+  question
+) {
+
+  selectedChoice =
+    null;
+
+
+  answerInput =
+    null;
+
+
+  const panel =
+    $("answer-panel");
+
+
+  /*
+  ==================================================
+  單項式
+  ==================================================
+  */
+
+  if (
+    question.type ===
+    "monomial"
+  ) {
+
+    if (
+      question.fraction
+    ) {
+
+      panel.innerHTML = `
+
+        <div class="answer-title">
+          ${question.label}
+        </div>
+
+        <p class="answer-help">
+          分數係數請自己化成最簡分數後再提交。
+        </p>
+
+        <div class="monomial-answer">
+
+          <div class="monomial-field">
+
+            <label>
+              正負
+            </label>
+
+            <select
+              id="mono-sign"
+              style="
+                padding:10px;
+                border:2px solid #cbd5e1;
+                border-radius:10px;
+                font-size:19px;
+                font-weight:900;
+              "
+            >
+
+              <option value="1">
+                ＋
+              </option>
+
+              <option value="-1">
+                －
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="monomial-field">
+
+            <label>
+              分子
+            </label>
+
+            <input
+              id="mono-num"
+              type="text"
+              inputmode="numeric"
+            >
+
+          </div>
+
+
+          <div class="monomial-field">
+
+            <label>
+              分母
+            </label>
+
+            <input
+              id="mono-den"
+              type="text"
+              inputmode="numeric"
+              value="1"
+            >
+
+          </div>
+
+
+          <div class="monomial-symbol">
+            x
+          </div>
+
+
+          <div class="monomial-field">
+
+            <label>
+              次方
+            </label>
+
+            <input
+              id="mono-exp"
+              type="text"
+              inputmode="numeric"
+            >
+
+          </div>
+
+        </div>
+      `;
+
+    } else {
+
+      panel.innerHTML = `
+
+        <div class="answer-title">
+          ${question.label}
+        </div>
+
+        <div class="monomial-answer">
+
+          <div class="monomial-field">
+
+            <label>
+              係數
+            </label>
+
+            <input
+              id="mono-coefficient"
+              type="text"
+              inputmode="numeric"
+            >
+
+          </div>
+
+
+          <div class="monomial-symbol">
+            x
+          </div>
+
+
+          <div class="monomial-field">
+
+            <label>
+              次方
+            </label>
+
+            <input
+              id="mono-exp"
+              type="text"
+              inputmode="numeric"
+            >
+
+          </div>
+
+        </div>
+      `;
+    }
+
+
+    setTimeout(
+      () => {
+
+        (
+          $("mono-coefficient") ||
+          $("mono-num")
+        )
+          ?.focus();
+
+      },
+      0
+    );
+
+
+    return;
+  }
+
+
+  /*
+  ==================================================
+  Polynomial
+  ==================================================
+  */
+
+  if (
+    question.type ===
+    "polynomial"
+  ) {
+
+    panel.innerHTML = `
+
+      <div class="answer-title">
+        ${question.label}
+      </div>
+
+      <p class="answer-help">
+
+        請將最後答案整理成降冪排列。
+
+        ${
+          question.fraction
+
+            ? "<br>分數係數必須由你自己化成最簡分數。"
+
+            : ""
+        }
+
+      </p>
+
+      <div class="polynomial-answer-shell">
+
+        <div
+          id="polynomial-answer-mount"
+        ></div>
+
+      </div>
+    `;
+
+
+    answerInput =
+      new window.ExpressionInput(
+        {
+
+          mountId:
+            "polynomial-answer-mount",
+
+          allowNumber:
+            false,
+
+          allowExpression:
+            false,
+
+          allowPolynomial:
+            true,
+
+          defaultMode:
+            "polynomial",
+
+          polynomialVariable:
+            "x",
+
+          polynomialExponentOptions:
+            [
+              4,
+              3,
+              2,
+              1,
+              0
+            ],
+
+          maxPolynomialTerms:
+            5,
+
+          allowNegativePolynomialCoefficient:
+            true,
+
+          allowZeroPolynomialCoefficient:
+            false,
+
+          /*
+          ★ 分數題才打開
+          */
+
+          allowFractionPolynomialCoefficient:
+            Boolean(
+              question.fraction
+            ),
+
+          /*
+          ★ 本遊戲要求自己約分
+          */
+
+          requireSimplifiedFraction:
+            Boolean(
+              question.fraction
+            ),
+
+          requireDescendingPowers:
+            true,
+
+          disallowDuplicatePowers:
+            true,
+
+          omitPolynomialCoefficientOne:
+            true,
+
+          theme: {
+
+            primary:
+              "#7b1fa2",
+
+            light:
+              "#f3e5f5",
+
+            border:
+              "#ce93d8"
+          },
+
+          labels: {
+
+            polynomialLabel:
+              question.fraction
+
+                ? "請輸入最簡分數形式的多項式"
+
+                : "請輸入整理後的多項式",
+
+            polynomialCoefficientLabel:
+              question.fraction
+
+                ? "輸入這一項的分數係數"
+
+                : "輸入這一項的係數"
+          }
+        }
+      );
+
+
+    setTimeout(
+      () =>
+        answerInput
+          ?.focus(),
+      0
+    );
+
+
+    return;
+  }
+
+
+  /*
+  ==================================================
+  Choice
+  ==================================================
+  */
+
+  panel.innerHTML = `
+
+    <div class="answer-title">
+      ${question.label}
+    </div>
+
+    <div class="choice-grid">
+
+      ${
+        question.choices
+          .map(
+            choice => `
+
+              <button
+                class="choice-button"
+                type="button"
+                data-choice="${choice.value}"
+              >
+
+                ${choice.text}
+
+              </button>
+            `
+          )
+          .join("")
+      }
+
+    </div>
+  `;
+
+
+  panel
+    .querySelectorAll(
+      ".choice-button"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            selectedChoice =
+              button.dataset.choice;
+
+
+            panel
+              .querySelectorAll(
+                ".choice-button"
+              )
+              .forEach(
+                item =>
+                  item.classList.remove(
+                    "selected"
+                  )
+              );
+
+
+            button.classList.add(
+              "selected"
+            );
+          }
+        );
+      }
+    );
+}
+
+
+/*
+==================================================
+Display question
+==================================================
+*/
+
+function displayQuestion() {
+
+  answered =
+    false;
+
+
+  const question =
+    questions[
+      index
+    ];
+
+
+  $("mode-name")
+    .textContent =
+      MODE_NAMES[
+        mode
+      ];
+
+
+  $("question-number")
+    .textContent =
+      `${index + 1} / ${TOTAL_QUESTIONS}`;
+
+
+  $("correct-count")
+    .textContent =
+      correct;
+
+
+  $("combo-count")
+    .textContent =
+      maxCombo;
+
+
+  $("progress-bar")
+    .style
+    .width =
+      `${
+        index /
+        TOTAL_QUESTIONS *
+        100
+      }%`;
+
+
+  $("question-label")
+    .textContent =
+      question.label;
+
+
+  $("question-content")
+    .innerHTML =
+      question.html;
+
+
+  $("feedback")
+    .className =
+      "feedback";
+
+
+  $("feedback")
+    .textContent =
+      "";
+
+
+  $("explanation")
+    .innerHTML =
+      "";
+
+
+  $("explanation")
+    .classList
+    .add(
+      "hidden"
+    );
+
+
+  $("submit-button")
+    .classList
+    .remove(
+      "hidden"
+    );
+
+
+  $("next-button")
+    .classList
+    .add(
+      "hidden"
+    );
+
+
+  renderAnswer(
+    question
+  );
+
+
+  window
+    .resetGameScratchpad
+    ?.();
+}
+
+
+/*
+==================================================
+Read
+==================================================
+*/
+
+function readAnswer(
+  question
+) {
+
+  /*
+  Monomial
+  */
+
+  if (
+    question.type ===
+    "monomial"
+  ) {
+
+    const exponentRaw =
+      $("mono-exp")
+        ?.value
+        .trim() ||
+      "";
+
+
+    if (
+      !/^\d+$/
+        .test(
+          exponentRaw
+        )
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "請輸入完整的 x 次方。"
+      };
+    }
+
+
+    const exponent =
+      Number(
+        exponentRaw
+      );
+
+
+    if (
+      question.fraction
+    ) {
+
+      const numeratorRaw =
+        $("mono-num")
+          ?.value
+          .trim() ||
+        "";
+
+
+      const denominatorRaw =
+        $("mono-den")
+          ?.value
+          .trim() ||
+        "";
+
+
+      if (
+        !/^\d+$/
+          .test(
+            numeratorRaw
+          ) ||
+        !/^\d+$/
+          .test(
+            denominatorRaw
+          )
+      ) {
+
+        return {
+
+          valid:
+            false,
+
+          message:
+            "請完整輸入分子與分母。"
+        };
+      }
+
+
+      const numerator =
+        Number(
+          numeratorRaw
+        );
+
+
+      const denominator =
+        Number(
+          denominatorRaw
+        );
+
+
+      if (
+        denominator === 0
+      ) {
+
+        return {
+
+          valid:
+            false,
+
+          message:
+            "⚠️ 分母不能是 0。"
+        };
+      }
+
+
+      /*
+      ★ 不自動約分
+      */
+
+      if (
+        denominator !== 1 &&
+        !U().isSimplifiedFraction(
+          numerator,
+          denominator
+        )
+      ) {
+
+        return {
+
+          valid:
+            false,
+
+          reason:
+            "fraction-not-simplified",
+
+          message:
+            `⚠️ ${numerator}/${denominator} 還不是最簡分數，請先約分後再提交。`
+        };
+      }
+
+
+      const sign =
+        Number(
+          $("mono-sign")
+            ?.value ||
+          1
+        );
+
+
+      return {
+
+        valid:
+          true,
+
+        coefficient:
+          F(
+            sign *
+            numerator,
+            denominator
+          ),
+
+        exponent,
+
+        display:
+
+          `${
+            sign < 0
+              ? "－"
+              : ""
+          }${numerator}/${denominator}x^${exponent}`
+      };
+    }
+
+
+    const coefficientRaw =
+      $("mono-coefficient")
+        ?.value
+        .trim() ||
+      "";
+
+
+    if (
+      !/^-?\d+$/
+        .test(
+          coefficientRaw
+        )
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "請輸入完整係數。"
+      };
+    }
+
+
+    return {
+
+      valid:
+        true,
+
+      coefficient:
+        F(
+          Number(
+            coefficientRaw
+          )
+        ),
+
+      exponent,
+
+      display:
+        `${coefficientRaw}x^${exponent}`
+    };
+  }
+
+
+  /*
+  Polynomial
+  */
+
+  if (
+    question.type ===
+    "polynomial"
+  ) {
+
+    const result =
+      answerInput
+        ?.validate();
+
+
+    if (
+      !result?.valid
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        reason:
+          result?.reason,
+
+        message:
+          result?.message ||
+          "請把多項式答案輸入完整。"
+      };
+    }
+
+
+    return {
+
+      valid:
+        true,
+
+      value:
+        result.value
+          .fractionTerms,
+
+      display:
+        result.value
+          .html
+    };
+  }
+
+
+  /*
+  Choice
+  */
+
+  if (
+    !selectedChoice
+  ) {
+
+    return {
+
+      valid:
+        false,
+
+      message:
+        "請先選擇一個答案。"
+    };
+  }
+
+
+  const choice =
+    question.choices.find(
+      item =>
+        item.value ===
+        selectedChoice
+    );
+
+
+  return {
+
+    valid:
+      true,
+
+    value:
+      selectedChoice,
+
+    display:
+      choice?.text ||
+      selectedChoice
+  };
+}
+
+
+/*
+==================================================
+Correct
+==================================================
+*/
+
+function checkCorrect(
+  question,
+  answer
+) {
+
+  if (
+    question.type ===
+    "monomial"
+  ) {
+
+    return (
+
+      answer.coefficient.numerator ===
+        question.coefficient.numerator &&
+
+      answer.coefficient.denominator ===
+        question.coefficient.denominator &&
+
+      answer.exponent ===
+        question.exponent
+    );
+  }
+
+
+  if (
+    question.type ===
+    "polynomial"
+  ) {
+
+    return U()
+      .arePolynomialsEqual(
+
+        answer.value,
+        question.answer
+      );
+  }
+
+
+  return (
+    answer.value ===
+    question.answer
+  );
+}
+
+
+/*
+==================================================
+Correct answer display
+==================================================
+*/
+
+function correctAnswerText(
+  question
+) {
+
+  if (
+    question.type ===
+    "monomial"
+  ) {
+
+    const coefficient =
+      question.coefficient;
+
+
+    const sign =
+      coefficient.numerator < 0
+        ? "－"
+        : "";
+
+
+    const absolute =
+      F(
+
+        Math.abs(
+          coefficient.numerator
+        ),
+
+        coefficient.denominator
+      );
+
+
+    const coefficientHtml =
+
+      absolute.denominator === 1
+
+        ? (
+            absolute.numerator === 1
+
+              ? ""
+
+              : String(
+                  absolute.numerator
+                )
+          )
+
+        : fractionHTML(
+            absolute
+          );
+
+
+    return (
+
+      sign +
+
+      coefficientHtml +
+
+      "x" +
+
+      (
+        question.exponent === 1
+
+          ? ""
+
+          : `<sup>${question.exponent}</sup>`
+      )
+    );
+  }
+
+
+  if (
+    question.type ===
+    "polynomial"
+  ) {
+
+    return polynomialHTML(
+      question.answer
+    );
+  }
+
+
+  return (
+    question.choices.find(
+      item =>
+        item.value ===
+        question.answer
+    )?.text ||
+    question.answer
+  );
+}
+
+
+/*
+==================================================
+Explanation
+==================================================
+*/
+
+function explanationHTML(
+  question
+) {
+
+  return question.explanation
+
+    .map(
+      (
+        step,
+        i
+      ) => `
+
+        <div class="explanation-step">
+
+          <strong>
+            步驟 ${i + 1}｜
+          </strong>
+
+          ${step}
+
+        </div>
+      `
+    )
+
+    .join("");
+}
+
+
+/*
+==================================================
+Submit
+==================================================
+*/
+
+function submitAnswer() {
+
+  if (
+    answered
+  ) {
+
+    return;
+  }
+
+
+  const question =
+    questions[
+      index
+    ];
+
+
+  const answer =
+    readAnswer(
+      question
+    );
+
+
+  /*
+  ==================================================
+  ★ 驗證失敗
+
+  包含最簡分數提醒。
+
+  不 answered=true
+  不 wrong++
+  不播放錯誤音效
+  ==================================================
+  */
+
+  if (
+    !answer.valid
+  ) {
+
+    $("feedback")
+      .className =
+        "feedback warning";
+
+
+    $("feedback")
+      .textContent =
+        answer.message;
+
+
+    return;
+  }
+
+
+  answered =
+    true;
+
+
+  answerInput
+    ?.setDisabled(
+      true
+    );
+
+
+  const isCorrect =
+    checkCorrect(
+      question,
+      answer
+    );
+
+
+  if (
+    isCorrect
+  ) {
+
+    correct++;
+
+    combo++;
+
+    maxCombo =
+      Math.max(
+
+        maxCombo,
+        combo
+      );
+
+
+    $("feedback")
+      .className =
+        "feedback correct";
+
+
+    $("feedback")
+      .textContent =
+        "✨ 回答正確！";
+
+
+    playGameSound(
+      "playCorrect"
+    );
+
+  } else {
+
+    wrong++;
+
+    combo =
+      0;
+
+
+    $("feedback")
+      .className =
+        "feedback wrong";
+
+
+    $("feedback")
+      .innerHTML =
+
+        `❌ 答案不正確。正確答案：<strong>${
+          correctAnswerText(
+            question
+          )
+        }</strong>`;
+
+
+    playGameSound(
+      "playWrong"
+    );
+  }
+
+
+  $("correct-count")
+    .textContent =
+      correct;
+
+
+  $("combo-count")
+    .textContent =
+      maxCombo;
+
+
+  $("explanation")
+    .innerHTML =
+      explanationHTML(
+        question
+      );
+
+
+  $("explanation")
+    .classList
+    .remove(
+      "hidden"
+    );
+
+
+  records.push(
+    {
+
+      number:
+        index + 1,
+
+      question,
+
+      userAnswer:
+        answer.display,
+
+      correct:
+        isCorrect
+    }
+  );
+
+
+  $("submit-button")
+    .classList
+    .add(
+      "hidden"
+    );
+
+
+  $("next-button")
+    .classList
+    .remove(
+      "hidden"
+    );
+
+
+  $("next-button")
+    .textContent =
+
+      index ===
+        TOTAL_QUESTIONS -
+        1
+
+        ? "查看測驗結果（Enter）"
+
+        : "下一題（Enter）";
+
+
+  $("next-button")
+    .focus();
+}
+
+
+/*
+==================================================
+Next
+==================================================
+*/
+
+function nextQuestion() {
+
+  if (
+    !answered
+  ) {
+
+    return;
+  }
+
+
+  index++;
+
+
+  if (
+    index <
+    TOTAL_QUESTIONS
+  ) {
+
+    displayQuestion();
+
+  } else {
+
+    showResult();
+  }
+}
+
+
+/*
+==================================================
+Start
+==================================================
+*/
+
+function startGame(
+  selectedMode
+) {
+
+  stopTimer();
+
+
+  mode =
+    selectedMode;
+
+
+  questions =
+    createQuestions();
+
+
+  index =
+    0;
+
+
+  correct =
+    0;
+
+
+  wrong =
+    0;
+
+
+  combo =
+    0;
+
+
+  maxCombo =
+    0;
+
+
+  records =
+    [];
+
+
+  answered =
+    false;
+
+
+  selectedChoice =
+    null;
+
+
+  answerInput =
+    null;
+
+
+  scoreSaved =
+    false;
+
+
+  elapsed =
+    0;
+
+
+  $("save-status")
+    .textContent =
+      "";
+
+
+  $("timer-display")
+    .textContent =
+      "00:00";
+
+
+  showOnly(
+    "quiz-screen"
+  );
+
+
+  window
+    .resetGameScratchpad
+    ?.();
+
+
+  playGameSound(
+    "playStart"
+  );
+
+
+  displayQuestion();
+
+
+  startTimer();
+}
+
+
+/*
+==================================================
+Rating
+==================================================
+*/
+
+function rating(
+  score
+) {
+
+  if (
+    score >= 90
+  ) {
+
+    return {
+
+      stars:
+        "★★★★★",
+
+      comment:
+        "太棒了！你已經能熟練運用多項式乘除規則。"
+    };
+  }
+
+
+  if (
+    score >= 80
+  ) {
+
+    return {
+
+      stars:
+        "★★★★☆",
+
+      comment:
+        "表現很好，再注意指數規則與分數係數。"
+    };
+  }
+
+
+  if (
+    score >= 60
+  ) {
+
+    return {
+
+      stars:
+        "★★★☆☆",
+
+      comment:
+        "已掌握基本方法，再多練習分配律與除法。"
+    };
+  }
+
+
+  return {
+
+    stars:
+      "★★☆☆☆",
+
+    comment:
+      "建議先從模式一熟悉係數與指數的乘除規則。"
+  };
+}
+
+
+/*
+==================================================
+Result
+==================================================
+*/
+
+async function showResult() {
+
+  stopTimer();
+
+
+  const score =
+    Math.round(
+
+      correct /
+      TOTAL_QUESTIONS *
+      100
+    );
+
+
+  const result =
+    rating(
+      score
+    );
+
+
+  showOnly(
+    "result-screen"
+  );
+
+
+  playGameSound(
+    "playComplete"
+  );
+
+
+  $("final-score")
+    .textContent =
+      `${score} 分`;
+
+
+  $("final-stars")
+    .textContent =
+      result.stars;
+
+
+  $("final-comment")
+    .textContent =
+      result.comment;
+
+
+  $("final-correct")
+    .textContent =
+      correct;
+
+
+  $("final-wrong")
+    .textContent =
+      wrong;
+
+
+  $("final-combo")
+    .textContent =
+      maxCombo;
+
+
+  $("final-time")
+    .textContent =
+      formatTime(
+        elapsed
+      );
+
+
+  $("review-button")
+    .disabled =
+      wrong === 0;
+
+
+  $("review-button")
+    .textContent =
+
+      wrong === 0
+
+        ? "全部答對，無錯題"
+
+        : "錯題回顧";
+
+
+  await saveCurrentScore(
+    score
+  );
+}
+
+
+/*
+==================================================
+Firebase
+==================================================
+*/
+
+async function saveCurrentScore(
+  score
+) {
+
+  if (
+    scoreSaved
+  ) {
+
+    return;
+  }
+
+
+  scoreSaved =
+    true;
+
+
+  const status =
+    $("save-status");
+
+
+  status.textContent =
+    "☁️ 正在儲存本次成績……";
+
+
+  status.style.color =
+    "#1d4ed8";
+
+
+  try {
+
+    const result =
+      await saveGameScore(
+        {
+
+          game:
+            GAME_ID,
+
+          mode,
+
+          score,
+
+          correctCount:
+            correct,
+
+          wrongCount:
+            wrong,
+
+          maxCombo,
+
+          playTime:
+            elapsed
+        }
+      );
+
+
+    if (
+      result.success
+    ) {
+
+      status.textContent =
+        `✅ 本次成績已儲存（${formatTime(elapsed)}）。`;
+
+
+      status.style.color =
+        "#15803d";
+
+
+      return;
+    }
+
+
+    if (
+      result.reason ===
+      "not-logged-in"
+    ) {
+
+      status.textContent =
+        "ℹ️ 尚未登入，因此本次成績沒有儲存。";
+
+
+      status.style.color =
+        "#b45309";
+
+
+      return;
+    }
+
+
+    status.textContent =
+      "⚠️ 成績暫時無法儲存。";
+
+
+    status.style.color =
+      "#b91c1c";
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      "多項式乘除成績儲存失敗",
+      error
+    );
+
+
+    status.textContent =
+      "⚠️ 成績暫時無法儲存。";
+
+
+    status.style.color =
+      "#b91c1c";
+  }
+}
+
+
+/*
+==================================================
+Review
+==================================================
+*/
+
+function showReview() {
+
+  const wrongRecords =
+    records.filter(
+      record =>
+        !record.correct
+    );
+
+
+  const list =
+    $("review-list");
+
+
+  if (
+    !wrongRecords.length
+  ) {
+
+    list.innerHTML = `
+
+      <div class="review-card">
+        全部答對，沒有需要回顧的錯題！
+      </div>
+    `;
+
+  } else {
+
+    list.innerHTML =
+
+      wrongRecords
+
+        .map(
+          record => `
+
+            <article class="review-card">
+
+              <div class="review-title">
+                第 ${record.number} 題 ❌
+              </div>
+
+              <div class="review-question">
+                ${record.question.html}
+              </div>
+
+              <div class="review-answer">
+
+                你的答案：
+
+                <strong>
+                  ${record.userAnswer}
+                </strong>
+
+                <br>
+
+                正確答案：
+
+                <strong>
+                  ${correctAnswerText(record.question)}
+                </strong>
+
+              </div>
+
+              <div class="explanation">
+                ${explanationHTML(record.question)}
+              </div>
+
+            </article>
+          `
+        )
+
+        .join("");
+  }
+
+
+  showOnly(
+    "review-screen"
+  );
+}
+
+
+/*
+==================================================
+Events
+==================================================
+*/
+
+document
+  .querySelectorAll(
+    "[data-mode]"
+  )
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          startGame(
+            button.dataset.mode
+          );
+        }
+      );
+    }
+  );
+
+
+$("submit-button")
+  .addEventListener(
+    "click",
+    submitAnswer
+  );
+
+
+$("next-button")
+  .addEventListener(
+    "click",
+    nextQuestion
+  );
+
+
+$("restart-button")
+  .addEventListener(
+    "click",
+    () =>
+      startGame(
+        mode
+      )
+  );
+
+
+$("mode-button")
+  .addEventListener(
+    "click",
+    () => {
+
+      stopTimer();
+
+      showOnly(
+        "start-screen"
+      );
+    }
+  );
+
+
+$("again-button")
+  .addEventListener(
+    "click",
+    () =>
+      startGame(
+        mode
+      )
+  );
+
+
+$("result-mode-button")
+  .addEventListener(
+    "click",
+    () =>
+      showOnly(
+        "start-screen"
+      )
+  );
+
+
+$("review-button")
+  .addEventListener(
+    "click",
+    showReview
+  );
+
+
+$("review-again-button")
+  .addEventListener(
+    "click",
+    () =>
+      startGame(
+        mode
+      )
+  );
+
+
+$("review-result-button")
+  .addEventListener(
+    "click",
+    () =>
+      showOnly(
+        "result-screen"
+      )
+  );
+
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key !==
+      "Enter"
+    ) {
+
+      return;
+    }
+
+
+    if (
+      $("quiz-screen")
+        .classList
+        .contains(
+          "hidden"
+        )
+    ) {
+
+      return;
+    }
+
+
+    if (
+      event.target
+        ?.tagName ===
+        "BUTTON" &&
+
+      event.target
+        ?.closest(
+          ".expression-input"
+        )
+    ) {
+
+      return;
+    }
+
+
+    event.preventDefault();
+
+
+    if (
+      answered
+    ) {
+
+      nextQuestion();
+
+    } else {
+
+      submitAnswer();
+    }
+  }
+);
+
+
+window.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    moveScratchpadButtonToTop();
+
+    setTimeout(
+      moveScratchpadButtonToTop,
+      100
+    );
+  }
+);
+
+
+showOnly(
+  "start-screen"
+);
+
+
+</script>
+
+
+</body>
+</html>
