@@ -1,44 +1,25 @@
 /*
 ==================================================
-數學遊戲樂園：通用數學答案輸入器
-檔案位置：js/expression-input.js
+數學遊戲樂園｜共用 ExpressionInput
+檔案：js/expression-input.js
+版本：4.0
 
-版本：2.0
-==================================================
-
-原有功能完整保留：
+支援：
 1. number
-   一般數字答案
-
 2. expression
-   指數式／標準分解式
-   例如：
-   2² × 3³
-
-新增功能：
 3. polynomial
-   多項式答案
-   例如：
-   4x² + 12x + 9
+4. 多項式整數係數
+5. 多項式分數係數
+6. 分數自動約分
+7. 整數／分數多項式等價判定
 
-設計原則：
-- 舊遊戲不需要修改
-- 舊 API 保持相容
-- polynomial 為新增功能
-- 可取得結構化答案
-- 可進行多項式等價比較
-
-適用：
-- 質因數分解
-- 指數律
-- 乘法公式
-- 多項式加減
-- 多項式乘除
-- 後續因式分解等遊戲
+重點：
+舊遊戲原本的功能維持相容。
 ==================================================
 */
 
 (function () {
+
   "use strict";
 
 
@@ -50,7 +31,9 @@
 
   const DEFAULT_OPTIONS = {
 
-    mountId: "",
+    mountId:
+      "",
+
 
     /*
     --------------------------------------------------
@@ -90,35 +73,37 @@
     --------------------------------------------------
     */
 
-    baseOptions: [
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12,
-      13
-    ],
+    baseOptions:
+      [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
 
-    exponentOptions: [
-      0,
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10
-    ],
+    exponentOptions:
+      [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
 
     allowCustomBase:
       true,
@@ -154,11 +139,12 @@
     polynomialVariable:
       "x",
 
-    polynomialExponentOptions: [
-      2,
-      1,
-      0
-    ],
+    polynomialExponentOptions:
+      [
+        2,
+        1,
+        0
+      ],
 
     maxPolynomialTerms:
       5,
@@ -167,6 +153,26 @@
       true,
 
     allowZeroPolynomialCoefficient:
+      false,
+
+    /*
+    true 時：
+    係數使用分子／分母輸入。
+
+    false 時：
+    維持原本整數係數輸入。
+    */
+    allowFractionPolynomialCoefficient:
+      false,
+
+    /*
+    false：
+    2/4 也接受，系統會化成 1/2 後判定。
+
+    true：
+    要求學生自己先約成最簡分數。
+    */
+    requireSimplifiedFraction:
       false,
 
     requireDescendingPowers:
@@ -181,7 +187,7 @@
 
     /*
     --------------------------------------------------
-    主題
+    顏色
     --------------------------------------------------
     */
 
@@ -200,14 +206,14 @@
 
     /*
     --------------------------------------------------
-    文字
+    顯示文字
     --------------------------------------------------
     */
 
     labels: {
 
       numberMode:
-        "答案乘開",
+        "一般答案",
 
       expressionMode:
         "標準形式",
@@ -216,10 +222,10 @@
         "多項式",
 
       numberLabel:
-        "請輸入乘開後的答案",
+        "請輸入答案",
 
       expressionLabel:
-        "請輸入指數式",
+        "請輸入標準形式",
 
       polynomialLabel:
         "請輸入完整多項式",
@@ -237,21 +243,21 @@
         "輸入係數",
 
       polynomialExponentLabel:
-        "選擇次方",
+        "選擇這一項",
 
       polynomialSignLabel:
         "正負號",
 
       polynomialEditLabel:
-        "編輯多項式"
+        "編輯多項式",
+
+      numeratorLabel:
+        "分子",
+
+      denominatorLabel:
+        "分母"
     },
 
-
-    /*
-    --------------------------------------------------
-    回呼
-    --------------------------------------------------
-    */
 
     onChange:
       null,
@@ -263,7 +269,7 @@
 
   /*
   ==================================================
-  ExpressionInput
+  主元件
   ==================================================
   */
 
@@ -303,7 +309,7 @@
       ) {
 
         throw new Error(
-          "ExpressionInput 至少必須啟用一種作答模式。"
+          "ExpressionInput 至少必須開啟一種輸入模式。"
         );
       }
 
@@ -314,15 +320,16 @@
       --------------------------------------------------
       */
 
-      this.terms = [
-        {
-          base:
-            null,
+      this.terms =
+        [
+          {
+            base:
+              null,
 
-          exponent:
-            1
-        }
-      ];
+            exponent:
+              1
+          }
+        ];
 
 
       this.activeTermIndex =
@@ -335,20 +342,28 @@
       --------------------------------------------------
       */
 
-      this.polynomialTerms = [
-        this.createEmptyPolynomialTerm()
-      ];
+      this.polynomialTerms =
+        [
+          this.createEmptyPolynomialTerm()
+        ];
 
 
       this.activePolynomialTermIndex =
         0;
 
 
+      /*
+      --------------------------------------------------
+      模式
+      --------------------------------------------------
+      */
+
       this.mode =
         this.resolveInitialMode();
 
 
       this.render();
+
 
       this.emitChange();
     }
@@ -414,7 +429,7 @@
 
     /*
     ==================================================
-    建立
+    建立整個介面
     ==================================================
     */
 
@@ -475,7 +490,7 @@
 
     /*
     ==================================================
-    模式按鈕
+    模式切換
     ==================================================
     */
 
@@ -563,7 +578,7 @@
 
     getEnabledModes() {
 
-      const modes =
+      const result =
         [];
 
 
@@ -571,7 +586,7 @@
         this.options.allowNumber
       ) {
 
-        modes.push(
+        result.push(
           "number"
         );
       }
@@ -581,7 +596,7 @@
         this.options.allowExpression
       ) {
 
-        modes.push(
+        result.push(
           "expression"
         );
       }
@@ -591,13 +606,13 @@
         this.options.allowPolynomial
       ) {
 
-        modes.push(
+        result.push(
           "polynomial"
         );
       }
 
 
-      return modes;
+      return result;
     }
 
 
@@ -641,7 +656,7 @@
 
     /*
     ==================================================
-    一般數字 Panel
+    一般數字
     ==================================================
     */
 
@@ -710,12 +725,8 @@
       );
 
 
-      this.numberPanel.appendChild(
-        label
-      );
-
-
-      this.numberPanel.appendChild(
+      this.numberPanel.append(
+        label,
         this.numberInput
       );
 
@@ -728,7 +739,7 @@
 
     /*
     ==================================================
-    指數式 Panel
+    指數式
     ==================================================
     */
 
@@ -778,12 +789,8 @@
         "expression-input__controls";
 
 
-      this.expressionPanel.appendChild(
-        label
-      );
-
-
-      this.expressionPanel.appendChild(
+      this.expressionPanel.append(
+        label,
         this.expressionDisplay
       );
 
@@ -809,12 +816,6 @@
     }
 
 
-    /*
-    ==================================================
-    指數式：底數
-    ==================================================
-    */
-
     renderBaseControls() {
 
       const group =
@@ -830,18 +831,13 @@
 
 
       this.options.baseOptions.forEach(
-        (
-          base
-        ) => {
+        (base) => {
 
           row.appendChild(
-
             this.createKeyButton(
-
               String(
                 base
               ),
-
               () => {
 
                 this.setActiveBase(
@@ -925,12 +921,6 @@
     }
 
 
-    /*
-    ==================================================
-    指數式：指數
-    ==================================================
-    */
-
     renderExponentControls() {
 
       const group =
@@ -946,27 +936,21 @@
 
 
       this.options.exponentOptions.forEach(
-        (
-          exponent
-        ) => {
+        (exponent) => {
 
           const label =
-            exponent === 1 &&
+            exponent ===
+              1 &&
             this.options.omitExponentOne
-
               ? "1（省略）"
-
               : toSuperscript(
                   exponent
                 );
 
 
           row.appendChild(
-
             this.createKeyButton(
-
               label,
-
               () => {
 
                 this.setActiveExponent(
@@ -987,12 +971,6 @@
     }
 
 
-    /*
-    ==================================================
-    指數式：編輯
-    ==================================================
-    */
-
     renderEditControls() {
 
       const group =
@@ -1008,48 +986,36 @@
 
 
       row.appendChild(
-
         this.createKeyButton(
-
           "＋ 新增一項",
-
           () => {
 
             this.addTerm();
           },
-
           "action"
         )
       );
 
 
       row.appendChild(
-
         this.createKeyButton(
-
           "⌫ 刪除",
-
           () => {
 
             this.deleteActiveTerm();
           },
-
           "action"
         )
       );
 
 
       row.appendChild(
-
         this.createKeyButton(
-
           "清除",
-
           () => {
 
             this.resetExpression();
           },
-
           "danger"
         )
       );
@@ -1063,7 +1029,7 @@
 
     /*
     ==================================================
-    多項式 Panel
+    多項式
     ==================================================
     */
 
@@ -1113,12 +1079,8 @@
         "expression-input__controls";
 
 
-      this.polynomialPanel.appendChild(
-        label
-      );
-
-
-      this.polynomialPanel.appendChild(
+      this.polynomialPanel.append(
+        label,
         this.polynomialDisplay
       );
 
@@ -1148,14 +1110,14 @@
 
     /*
     ==================================================
-    多項式：正負號
+    多項式正負號
     ==================================================
     */
 
     renderPolynomialSignControls() {
 
       const group =
-        this.createPolynomialControlGroup(
+        this.createControlGroup(
           this.options.labels.polynomialSignLabel
         );
 
@@ -1167,36 +1129,28 @@
 
 
       row.appendChild(
-
         this.createKeyButton(
-
           "＋",
-
           () => {
 
             this.setPolynomialSign(
               1
             );
           },
-
           "sign-key"
         )
       );
 
 
       row.appendChild(
-
         this.createKeyButton(
-
           "－",
-
           () => {
 
             this.setPolynomialSign(
               -1
             );
           },
-
           "sign-key"
         )
       );
@@ -1210,14 +1164,14 @@
 
     /*
     ==================================================
-    多項式：係數
+    多項式係數
     ==================================================
     */
 
     renderPolynomialCoefficientControls() {
 
       const group =
-        this.createPolynomialControlGroup(
+        this.createControlGroup(
           this.options.labels.polynomialCoefficientLabel
         );
 
@@ -1228,45 +1182,223 @@
         );
 
 
-      this.polynomialCoefficientInput =
-        document.createElement(
-          "input"
+      /*
+      --------------------------------------------------
+      分數係數
+      --------------------------------------------------
+      */
+
+      if (
+        this.options.allowFractionPolynomialCoefficient
+      ) {
+
+        const box =
+          document.createElement(
+            "div"
+          );
+
+
+        box.className =
+          "expression-input__fraction-coefficient";
+
+
+        const numeratorWrapper =
+          document.createElement(
+            "label"
+          );
+
+
+        numeratorWrapper.className =
+          "expression-input__fraction-field";
+
+
+        const numeratorLabel =
+          document.createElement(
+            "span"
+          );
+
+
+        numeratorLabel.textContent =
+          this.options.labels.numeratorLabel;
+
+
+        this.polynomialNumeratorInput =
+          document.createElement(
+            "input"
+          );
+
+
+        this.polynomialNumeratorInput.type =
+          "text";
+
+
+        this.polynomialNumeratorInput.inputMode =
+          "numeric";
+
+
+        this.polynomialNumeratorInput.autocomplete =
+          "off";
+
+
+        this.polynomialNumeratorInput.placeholder =
+          "分子";
+
+
+        numeratorWrapper.append(
+          numeratorLabel,
+          this.polynomialNumeratorInput
         );
 
 
-      this.polynomialCoefficientInput.type =
-        "text";
+        const slash =
+          document.createElement(
+            "span"
+          );
 
 
-      this.polynomialCoefficientInput.inputMode =
-        "numeric";
+        slash.className =
+          "expression-input__fraction-slash";
 
 
-      this.polynomialCoefficientInput.autocomplete =
-        "off";
+        slash.textContent =
+          "/";
 
 
-      this.polynomialCoefficientInput.className =
-        "expression-input__coefficient-input";
+        const denominatorWrapper =
+          document.createElement(
+            "label"
+          );
 
 
-      this.polynomialCoefficientInput.placeholder =
-        "係數";
+        denominatorWrapper.className =
+          "expression-input__fraction-field";
 
 
-      this.polynomialCoefficientInput.addEventListener(
-        "input",
-        () => {
-
-          this.readPolynomialCoefficientInput();
-        }
-      );
+        const denominatorLabel =
+          document.createElement(
+            "span"
+          );
 
 
-      row.appendChild(
-        this.polynomialCoefficientInput
-      );
+        denominatorLabel.textContent =
+          this.options.labels.denominatorLabel;
 
+
+        this.polynomialDenominatorInput =
+          document.createElement(
+            "input"
+          );
+
+
+        this.polynomialDenominatorInput.type =
+          "text";
+
+
+        this.polynomialDenominatorInput.inputMode =
+          "numeric";
+
+
+        this.polynomialDenominatorInput.autocomplete =
+          "off";
+
+
+        this.polynomialDenominatorInput.placeholder =
+          "分母";
+
+
+        this.polynomialDenominatorInput.value =
+          "1";
+
+
+        denominatorWrapper.append(
+          denominatorLabel,
+          this.polynomialDenominatorInput
+        );
+
+
+        box.append(
+          numeratorWrapper,
+          slash,
+          denominatorWrapper
+        );
+
+
+        row.appendChild(
+          box
+        );
+
+
+        this.polynomialNumeratorInput.addEventListener(
+          "input",
+          () => {
+
+            this.readPolynomialFractionInputs();
+          }
+        );
+
+
+        this.polynomialDenominatorInput.addEventListener(
+          "input",
+          () => {
+
+            this.readPolynomialFractionInputs();
+          }
+        );
+
+      } else {
+
+        /*
+        --------------------------------------------------
+        整數係數
+        --------------------------------------------------
+        */
+
+        this.polynomialCoefficientInput =
+          document.createElement(
+            "input"
+          );
+
+
+        this.polynomialCoefficientInput.type =
+          "text";
+
+
+        this.polynomialCoefficientInput.inputMode =
+          "numeric";
+
+
+        this.polynomialCoefficientInput.autocomplete =
+          "off";
+
+
+        this.polynomialCoefficientInput.className =
+          "expression-input__coefficient-input";
+
+
+        this.polynomialCoefficientInput.placeholder =
+          "係數";
+
+
+        this.polynomialCoefficientInput.addEventListener(
+          "input",
+          () => {
+
+            this.readPolynomialIntegerInput();
+          }
+        );
+
+
+        row.appendChild(
+          this.polynomialCoefficientInput
+        );
+      }
+
+
+      /*
+      --------------------------------------------------
+      快速係數鍵
+      --------------------------------------------------
+      */
 
       [
         1,
@@ -1279,22 +1411,17 @@
         8,
         9
       ].forEach(
-        (
-          coefficient
-        ) => {
+        (value) => {
 
           row.appendChild(
-
             this.createKeyButton(
-
               String(
-                coefficient
+                value
               ),
-
               () => {
 
                 this.setPolynomialCoefficient(
-                  coefficient
+                  value
                 );
               }
             )
@@ -1311,14 +1438,14 @@
 
     /*
     ==================================================
-    多項式：次方
+    多項式次方
     ==================================================
     */
 
     renderPolynomialExponentControls() {
 
       const group =
-        this.createPolynomialControlGroup(
+        this.createControlGroup(
           this.options.labels.polynomialExponentLabel
         );
 
@@ -1332,11 +1459,9 @@
       this.options
         .polynomialExponentOptions
         .forEach(
-          (
-            exponent
-          ) => {
+          (exponent) => {
 
-            let label;
+            let text;
 
 
             if (
@@ -1344,7 +1469,7 @@
               0
             ) {
 
-              label =
+              text =
                 "常數";
 
             } else if (
@@ -1352,36 +1477,26 @@
               1
             ) {
 
-              label =
-                this.options
-                  .polynomialVariable;
+              text =
+                this.options.polynomialVariable;
 
             } else {
 
-              label =
-                (
-                  this.options
-                    .polynomialVariable +
-
-                  toSuperscript(
-                    exponent
-                  )
+              text =
+                this.options.polynomialVariable +
+                toSuperscript(
+                  exponent
                 );
             }
 
 
             row.appendChild(
-
               this.createKeyButton(
-
-                label,
-
+                text,
                 () => {
 
                   this.setPolynomialExponent(
-                    Number(
-                      exponent
-                    )
+                    exponent
                   );
                 }
               )
@@ -1398,14 +1513,14 @@
 
     /*
     ==================================================
-    多項式：編輯
+    多項式編輯
     ==================================================
     */
 
     renderPolynomialEditControls() {
 
       const group =
-        this.createPolynomialControlGroup(
+        this.createControlGroup(
           this.options.labels.polynomialEditLabel
         );
 
@@ -1417,48 +1532,36 @@
 
 
       row.appendChild(
-
         this.createKeyButton(
-
           "＋ 新增一項",
-
           () => {
 
             this.addPolynomialTerm();
           },
-
           "action"
         )
       );
 
 
       row.appendChild(
-
         this.createKeyButton(
-
           "⌫ 刪除",
-
           () => {
 
             this.deleteActivePolynomialTerm();
           },
-
           "action"
         )
       );
 
 
       row.appendChild(
-
         this.createKeyButton(
-
           "清除",
-
           () => {
 
             this.resetPolynomial();
           },
-
           "danger"
         )
       );
@@ -1472,7 +1575,7 @@
 
     /*
     ==================================================
-    共用控制群組
+    共用控制 UI
     ==================================================
     */
 
@@ -1514,32 +1617,9 @@
         "expression-input__button-row";
 
 
-      group.appendChild(
-        heading
-      );
-
-
-      group.appendChild(
+      group.append(
+        heading,
         row
-      );
-
-
-      return group;
-    }
-
-
-    createPolynomialControlGroup(
-      title
-    ) {
-
-      const group =
-        this.createControlGroup(
-          title
-        );
-
-
-      group.classList.add(
-        "expression-input__polynomial-control-group"
       );
 
 
@@ -1550,7 +1630,8 @@
     createKeyButton(
       label,
       callback,
-      extraClass = ""
+      extraClass =
+        ""
     ) {
 
       const button =
@@ -1564,8 +1645,7 @@
 
 
       button.className =
-        `expression-input__key ${extraClass}`
-          .trim();
+        `expression-input__key ${extraClass}`.trim();
 
 
       button.textContent =
@@ -1633,68 +1713,9 @@
     }
 
 
-    renderPreviewContent() {
-
-      if (
-        !this.previewElement
-      ) {
-
-        return;
-      }
-
-
-      const value =
-        this.getValue();
-
-
-      if (
-        this.mode ===
-        "number"
-      ) {
-
-        this.previewElement.innerHTML =
-          value.valid
-
-            ? `目前答案：<strong>${escapeHtml(
-                value.raw
-              )}</strong>`
-
-            : "目前尚未輸入答案。";
-
-
-        return;
-      }
-
-
-      if (
-        this.mode ===
-        "expression"
-      ) {
-
-        this.previewElement.innerHTML =
-          value.valid
-
-            ? `目前答案：<strong>${value.html}</strong>`
-
-            : "目前尚未完成指數式。";
-
-
-        return;
-      }
-
-
-      this.previewElement.innerHTML =
-        value.valid
-
-          ? `目前答案：<strong>${value.html}</strong>`
-
-          : "目前尚未完成多項式。";
-    }
-
-
     /*
     ==================================================
-    模式
+    模式操作
     ==================================================
     */
 
@@ -1732,20 +1753,6 @@
       }
 
 
-      if (
-        ![
-          "number",
-          "expression",
-          "polynomial"
-        ].includes(
-          mode
-        )
-      ) {
-
-        return;
-      }
-
-
       this.mode =
         mode;
 
@@ -1754,7 +1761,7 @@
 
       this.syncPanels();
 
-      this.syncPolynomialCoefficientField();
+      this.syncPolynomialCoefficientFields();
 
       this.renderPreviewContent();
 
@@ -1799,46 +1806,31 @@
         );
 
 
-      if (
-        this.numberModeButton
-      ) {
-
-        this.numberModeButton
-          .classList
-          .toggle(
-            "active",
-            this.mode ===
-              "number"
-          );
-      }
+      this.numberModeButton
+        ?.classList
+        .toggle(
+          "active",
+          this.mode ===
+            "number"
+        );
 
 
-      if (
-        this.expressionModeButton
-      ) {
-
-        this.expressionModeButton
-          .classList
-          .toggle(
-            "active",
-            this.mode ===
-              "expression"
-          );
-      }
+      this.expressionModeButton
+        ?.classList
+        .toggle(
+          "active",
+          this.mode ===
+            "expression"
+        );
 
 
-      if (
-        this.polynomialModeButton
-      ) {
-
-        this.polynomialModeButton
-          .classList
-          .toggle(
-            "active",
-            this.mode ===
-              "polynomial"
-          );
-      }
+      this.polynomialModeButton
+        ?.classList
+        .toggle(
+          "active",
+          this.mode ===
+            "polynomial"
+        );
     }
 
 
@@ -1895,8 +1887,7 @@
 
 
       if (
-        this.options
-          .disallowDuplicateBases
+        this.options.disallowDuplicateBases
       ) {
 
         const duplicate =
@@ -1904,15 +1895,11 @@
             (
               term,
               index
-            ) => {
-
-              return (
-                index !==
-                  this.activeTermIndex &&
-                term.base ===
-                  base
-              );
-            }
+            ) =>
+              index !==
+                this.activeTermIndex &&
+              term.base ===
+                base
           );
 
 
@@ -1921,7 +1908,7 @@
         ) {
 
           this.showMessage(
-            "相同底數不可重複，請調整原本那一項的指數。"
+            "相同底數不可重複。"
           );
 
           return;
@@ -1930,8 +1917,7 @@
 
 
       if (
-        this.options
-          .requireAscendingBases &&
+        this.options.requireAscendingBases &&
         !this.canPlaceBaseAscending(
           base
         )
@@ -2000,26 +1986,22 @@
     getPreviousBase() {
 
       for (
-        let index =
+        let i =
           this.activeTermIndex -
           1;
 
-        index >=
-          0;
+        i >=
+        0;
 
-        index--
+        i--
       ) {
 
         if (
-          this.terms[
-            index
-          ].base !==
+          this.terms[i].base !==
           null
         ) {
 
-          return this.terms[
-            index
-          ].base;
+          return this.terms[i].base;
         }
       }
 
@@ -2031,26 +2013,22 @@
     getNextBase() {
 
       for (
-        let index =
+        let i =
           this.activeTermIndex +
           1;
 
-        index <
-          this.terms.length;
+        i <
+        this.terms.length;
 
-        index++
+        i++
       ) {
 
         if (
-          this.terms[
-            index
-          ].base !==
+          this.terms[i].base !==
           null
         ) {
 
-          return this.terms[
-            index
-          ].base;
+          return this.terms[i].base;
         }
       }
 
@@ -2106,13 +2084,15 @@
       }
 
 
-      this.terms.push({
-        base:
-          null,
+      this.terms.push(
+        {
+          base:
+            null,
 
-        exponent:
-          1
-      });
+          exponent:
+            1
+        }
+      );
 
 
       this.activeTermIndex =
@@ -2135,16 +2115,14 @@
         1
       ) {
 
-        this.terms[
-          0
-        ] = {
+        this.terms[0] =
+          {
+            base:
+              null,
 
-          base:
-            null,
-
-          exponent:
-            1
-        };
+            exponent:
+              1
+          };
 
 
         this.activeTermIndex =
@@ -2177,15 +2155,16 @@
 
     resetExpression() {
 
-      this.terms = [
-        {
-          base:
-            null,
+      this.terms =
+        [
+          {
+            base:
+              null,
 
-          exponent:
-            1
-        }
-      ];
+            exponent:
+              1
+          }
+        ];
 
 
       this.activeTermIndex =
@@ -2239,39 +2218,34 @@
               this.options.operator;
 
 
-            this.expressionDisplay
-              .appendChild(
-                operator
-              );
+            this.expressionDisplay.appendChild(
+              operator
+            );
           }
 
 
-          const termButton =
+          const button =
             document.createElement(
               "button"
             );
 
 
-          termButton.type =
+          button.type =
             "button";
 
 
-          termButton.className =
+          button.className =
             "expression-input__term";
 
 
-          if (
+          button.classList.toggle(
+            "active",
             index ===
-            this.activeTermIndex
-          ) {
-
-            termButton.classList.add(
-              "active"
-            );
-          }
+              this.activeTermIndex
+          );
 
 
-          termButton.addEventListener(
+          button.addEventListener(
             "click",
             () => {
 
@@ -2305,28 +2279,28 @@
               "選底數";
 
 
-            termButton.appendChild(
+            button.appendChild(
               placeholder
             );
 
           } else {
 
-            const baseElement =
+            const base =
               document.createElement(
                 "span"
               );
 
 
-            baseElement.className =
+            base.className =
               "expression-input__base";
 
 
-            baseElement.textContent =
+            base.textContent =
               term.base;
 
 
-            termButton.appendChild(
-              baseElement
+            button.appendChild(
+              base
             );
 
 
@@ -2334,38 +2308,36 @@
               !(
                 term.exponent ===
                   1 &&
-                this.options
-                  .omitExponentOne
+                this.options.omitExponentOne
               )
             ) {
 
-              const exponentElement =
+              const exponent =
                 document.createElement(
                   "span"
                 );
 
 
-              exponentElement.className =
+              exponent.className =
                 "expression-input__exponent";
 
 
-              exponentElement.textContent =
+              exponent.textContent =
                 toSuperscript(
                   term.exponent
                 );
 
 
-              termButton.appendChild(
-                exponentElement
+              button.appendChild(
+                exponent
               );
             }
           }
 
 
-          this.expressionDisplay
-            .appendChild(
-              termButton
-            );
+          this.expressionDisplay.appendChild(
+            button
+          );
         }
       );
 
@@ -2376,7 +2348,7 @@
 
     /*
     ==================================================
-    多項式操作
+    多項式資料
     ==================================================
     */
 
@@ -2388,15 +2360,23 @@
           1,
 
         coefficient:
-          null,
+          {
+            numerator:
+              null,
+
+            denominator:
+              1
+          },
 
         variable:
           this.options
-            ? this.options
-                .polynomialVariable
-            : "x",
+            ?.polynomialVariable ||
+          "x",
 
         exponent:
+          this.options
+            ?.polynomialExponentOptions
+            ?.[0] ??
           2
       };
     }
@@ -2406,19 +2386,15 @@
       sign
     ) {
 
-      const normalizedSign =
+      this.polynomialTerms[
+        this.activePolynomialTermIndex
+      ].sign =
         Number(
           sign
         ) <
         0
           ? -1
           : 1;
-
-
-      this.polynomialTerms[
-        this.activePolynomialTermIndex
-      ].sign =
-        normalizedSign;
 
 
       this.clearMessage();
@@ -2428,6 +2404,12 @@
       this.emitChange();
     }
 
+
+    /*
+    ==================================================
+    快速整數係數
+    ==================================================
+    */
 
     setPolynomialCoefficient(
       coefficient
@@ -2445,72 +2427,52 @@
         )
       ) {
 
+        return;
+      }
+
+
+      if (
+        value ===
+          0 &&
+        !this.options.allowZeroPolynomialCoefficient
+      ) {
+
         this.showMessage(
-          "係數必須是整數。"
+          "係數不可為 0。"
         );
 
         return;
       }
 
 
-      if (
+      const term =
+        this.polynomialTerms[
+          this.activePolynomialTermIndex
+        ];
+
+
+      term.sign =
         value <
-          0
-      ) {
-
-        if (
-          !this.options
-            .allowNegativePolynomialCoefficient
-        ) {
-
-          this.showMessage(
-            "此題型不允許負係數。"
-          );
-
-          return;
-        }
+        0
+          ? -1
+          : term.sign;
 
 
-        this.polynomialTerms[
-          this.activePolynomialTermIndex
-        ].sign =
-          -1;
+      term.coefficient =
+        {
+          numerator:
+            Math.abs(
+              value
+            ),
 
-
-        this.polynomialTerms[
-          this.activePolynomialTermIndex
-        ].coefficient =
-          Math.abs(
-            value
-          );
-
-      } else {
-
-        if (
-          value ===
-            0 &&
-          !this.options
-            .allowZeroPolynomialCoefficient
-        ) {
-
-          this.showMessage(
-            "係數不可為 0。"
-          );
-
-          return;
-        }
-
-
-        this.polynomialTerms[
-          this.activePolynomialTermIndex
-        ].coefficient =
-          value;
-      }
+          denominator:
+            1
+        };
 
 
       this.clearMessage();
 
-      this.syncPolynomialCoefficientField();
+      this.syncPolynomialCoefficientFields();
 
       this.renderPolynomialTerms();
 
@@ -2518,20 +2480,25 @@
     }
 
 
-    readPolynomialCoefficientInput() {
+    /*
+    ==================================================
+    整數係數輸入
+    ==================================================
+    */
 
-      if (
-        !this.polynomialCoefficientInput
-      ) {
-
-        return;
-      }
-
+    readPolynomialIntegerInput() {
 
       const raw =
         this.polynomialCoefficientInput
-          .value
-          .trim();
+          ?.value
+          .trim() ||
+        "";
+
+
+      const term =
+        this.polynomialTerms[
+          this.activePolynomialTermIndex
+        ];
 
 
       if (
@@ -2539,13 +2506,15 @@
         ""
       ) {
 
-        this.polynomialTerms[
-          this.activePolynomialTermIndex
-        ].coefficient =
-          null;
+        term.coefficient =
+          {
+            numerator:
+              null,
 
+            denominator:
+              1
+          };
 
-        this.clearMessage();
 
         this.renderPolynomialTerms();
 
@@ -2575,8 +2544,7 @@
       if (
         value ===
           0 &&
-        !this.options
-          .allowZeroPolynomialCoefficient
+        !this.options.allowZeroPolynomialCoefficient
       ) {
 
         return;
@@ -2585,38 +2553,31 @@
 
       if (
         value <
-          0
+          0 &&
+        !this.options.allowNegativePolynomialCoefficient
       ) {
 
-        if (
-          !this.options
-            .allowNegativePolynomialCoefficient
-        ) {
-
-          return;
-        }
-
-
-        this.polynomialTerms[
-          this.activePolynomialTermIndex
-        ].sign =
-          -1;
-
-
-        this.polynomialTerms[
-          this.activePolynomialTermIndex
-        ].coefficient =
-          Math.abs(
-            value
-          );
-
-      } else {
-
-        this.polynomialTerms[
-          this.activePolynomialTermIndex
-        ].coefficient =
-          value;
+        return;
       }
+
+
+      term.sign =
+        value <
+        0
+          ? -1
+          : 1;
+
+
+      term.coefficient =
+        {
+          numerator:
+            Math.abs(
+              value
+            ),
+
+          denominator:
+            1
+        };
 
 
       this.clearMessage();
@@ -2626,6 +2587,173 @@
       this.emitChange();
     }
 
+
+    /*
+    ==================================================
+    分數係數輸入
+    ==================================================
+    */
+
+    readPolynomialFractionInputs() {
+
+      const numeratorRaw =
+        this.polynomialNumeratorInput
+          ?.value
+          .trim() ||
+        "";
+
+
+      const denominatorRaw =
+        this.polynomialDenominatorInput
+          ?.value
+          .trim() ||
+        "";
+
+
+      const term =
+        this.polynomialTerms[
+          this.activePolynomialTermIndex
+        ];
+
+
+      if (
+        numeratorRaw ===
+        ""
+      ) {
+
+        term.coefficient =
+          {
+            numerator:
+              null,
+
+            denominator:
+              1
+          };
+
+
+        this.clearMessage();
+
+        this.renderPolynomialTerms();
+
+        this.emitChange();
+
+        return;
+      }
+
+
+      if (
+        !/^-?\d+$/
+          .test(
+            numeratorRaw
+          )
+      ) {
+
+        return;
+      }
+
+
+      const denominatorText =
+        denominatorRaw ===
+          ""
+          ? "1"
+          : denominatorRaw;
+
+
+      if (
+        !/^-?\d+$/
+          .test(
+            denominatorText
+          )
+      ) {
+
+        return;
+      }
+
+
+      const numerator =
+        Number(
+          numeratorRaw
+        );
+
+
+      const denominator =
+        Number(
+          denominatorText
+        );
+
+
+      if (
+        denominator ===
+        0
+      ) {
+
+        this.showMessage(
+          "分母不可為 0。"
+        );
+
+        return;
+      }
+
+
+      if (
+        numerator ===
+          0 &&
+        !this.options.allowZeroPolynomialCoefficient
+      ) {
+
+        return;
+      }
+
+
+      const value =
+        normalizeFraction(
+          numerator,
+          denominator
+        );
+
+
+      if (
+        value.numerator <
+          0 &&
+        !this.options.allowNegativePolynomialCoefficient
+      ) {
+
+        return;
+      }
+
+
+      term.sign =
+        value.numerator <
+        0
+          ? -1
+          : 1;
+
+
+      term.coefficient =
+        {
+          numerator:
+            Math.abs(
+              value.numerator
+            ),
+
+          denominator:
+            value.denominator
+        };
+
+
+      this.clearMessage();
+
+      this.renderPolynomialTerms();
+
+      this.emitChange();
+    }
+
+
+    /*
+    ==================================================
+    多項式次方
+    ==================================================
+    */
 
     setPolynomialExponent(
       exponent
@@ -2645,37 +2773,28 @@
           0
       ) {
 
-        this.showMessage(
-          "次方必須是 0 以上的整數。"
-        );
-
         return;
       }
 
 
       if (
-        this.options
-          .disallowDuplicatePowers
+        this.options.disallowDuplicatePowers
       ) {
 
         const duplicate =
-          this.polynomialTerms
-            .some(
-              (
-                term,
-                index
-              ) => {
-
-                return (
-                  index !==
-                    this.activePolynomialTermIndex &&
-                  term.coefficient !==
-                    null &&
-                  term.exponent ===
-                    value
-                );
-              }
-            );
+          this.polynomialTerms.some(
+            (
+              term,
+              index
+            ) =>
+              index !==
+                this.activePolynomialTermIndex &&
+              !isCoefficientEmpty(
+                term.coefficient
+              ) &&
+              term.exponent ===
+                value
+          );
 
 
         if (
@@ -2692,8 +2811,7 @@
 
 
       if (
-        this.options
-          .requireDescendingPowers &&
+        this.options.requireDescendingPowers &&
         !this.canPlacePolynomialExponentDescending(
           value
         )
@@ -2762,28 +2880,25 @@
     getPreviousPolynomialExponent() {
 
       for (
-        let index =
+        let i =
           this.activePolynomialTermIndex -
           1;
 
-        index >=
-          0;
+        i >=
+        0;
 
-        index--
+        i--
       ) {
 
-        const term =
-          this.polynomialTerms[
-            index
-          ];
-
-
         if (
-          term.coefficient !==
-          null
+          !isCoefficientEmpty(
+            this.polynomialTerms[i]
+              .coefficient
+          )
         ) {
 
-          return term.exponent;
+          return this.polynomialTerms[i]
+            .exponent;
         }
       }
 
@@ -2795,28 +2910,25 @@
     getNextPolynomialExponent() {
 
       for (
-        let index =
+        let i =
           this.activePolynomialTermIndex +
           1;
 
-        index <
-          this.polynomialTerms.length;
+        i <
+        this.polynomialTerms.length;
 
-        index++
+        i++
       ) {
 
-        const term =
-          this.polynomialTerms[
-            index
-          ];
-
-
         if (
-          term.coefficient !==
-          null
+          !isCoefficientEmpty(
+            this.polynomialTerms[i]
+              .coefficient
+          )
         ) {
 
-          return term.exponent;
+          return this.polynomialTerms[i]
+            .exponent;
         }
       }
 
@@ -2825,12 +2937,17 @@
     }
 
 
+    /*
+    ==================================================
+    多項式新增／刪除
+    ==================================================
+    */
+
     addPolynomialTerm() {
 
       if (
         this.polynomialTerms.length >=
-        this.options
-          .maxPolynomialTerms
+        this.options.maxPolynomialTerms
       ) {
 
         this.showMessage(
@@ -2853,7 +2970,7 @@
 
       this.clearMessage();
 
-      this.syncPolynomialCoefficientField();
+      this.syncPolynomialCoefficientFields();
 
       this.renderPolynomialTerms();
 
@@ -2868,9 +2985,7 @@
         1
       ) {
 
-        this.polynomialTerms[
-          0
-        ] =
+        this.polynomialTerms[0] =
           this.createEmptyPolynomialTerm();
 
 
@@ -2896,7 +3011,7 @@
 
       this.clearMessage();
 
-      this.syncPolynomialCoefficientField();
+      this.syncPolynomialCoefficientFields();
 
       this.renderPolynomialTerms();
 
@@ -2906,9 +3021,10 @@
 
     resetPolynomial() {
 
-      this.polynomialTerms = [
-        this.createEmptyPolynomialTerm()
-      ];
+      this.polynomialTerms =
+        [
+          this.createEmptyPolynomialTerm()
+        ];
 
 
       this.activePolynomialTermIndex =
@@ -2917,7 +3033,7 @@
 
       this.clearMessage();
 
-      this.syncPolynomialCoefficientField();
+      this.syncPolynomialCoefficientFields();
 
       this.renderPolynomialTerms();
 
@@ -2925,7 +3041,67 @@
     }
 
 
-    syncPolynomialCoefficientField() {
+    /*
+    ==================================================
+    係數輸入欄同步
+    ==================================================
+    */
+
+    syncPolynomialCoefficientFields() {
+
+      const term =
+        this.polynomialTerms[
+          this.activePolynomialTermIndex
+        ];
+
+
+      if (
+        !term
+      ) {
+
+        return;
+      }
+
+
+      const coefficient =
+        coefficientToFraction(
+          term.coefficient
+        );
+
+
+      if (
+        this.options.allowFractionPolynomialCoefficient
+      ) {
+
+        if (
+          this.polynomialNumeratorInput
+        ) {
+
+          this.polynomialNumeratorInput.value =
+            coefficient
+              ? String(
+                  coefficient.numerator
+                )
+              : "";
+        }
+
+
+        if (
+          this.polynomialDenominatorInput
+        ) {
+
+          this.polynomialDenominatorInput.value =
+            coefficient
+              ? String(
+                  coefficient.denominator
+                )
+              : "1";
+        }
+
+
+        return;
+      }
+
 
       if (
         !this.polynomialCoefficientInput
@@ -2935,16 +3111,8 @@
       }
 
 
-      const term =
-        this.polynomialTerms[
-          this.activePolynomialTermIndex
-        ];
-
-
       if (
-        !term ||
-        term.coefficient ===
-          null
+        !coefficient
       ) {
 
         this.polynomialCoefficientInput.value =
@@ -2955,11 +3123,20 @@
 
 
       this.polynomialCoefficientInput.value =
-        String(
-          term.coefficient
-        );
+        coefficient.denominator ===
+          1
+          ? String(
+              coefficient.numerator
+            )
+          : "";
     }
 
+
+    /*
+    ==================================================
+    顯示多項式
+    ==================================================
+    */
 
     renderPolynomialTerms() {
 
@@ -2998,44 +3175,39 @@
 
             operator.textContent =
               term.sign <
-                0
+              0
                 ? "−"
                 : "+";
 
 
-            this.polynomialDisplay
-              .appendChild(
-                operator
-              );
+            this.polynomialDisplay.appendChild(
+              operator
+            );
           }
 
 
-          const termButton =
+          const button =
             document.createElement(
               "button"
             );
 
 
-          termButton.type =
+          button.type =
             "button";
 
 
-          termButton.className =
+          button.className =
             "expression-input__polynomial-term";
 
 
-          if (
+          button.classList.toggle(
+            "active",
             index ===
-            this.activePolynomialTermIndex
-          ) {
-
-            termButton.classList.add(
-              "active"
-            );
-          }
+              this.activePolynomialTermIndex
+          );
 
 
-          termButton.addEventListener(
+          button.addEventListener(
             "click",
             () => {
 
@@ -3045,7 +3217,7 @@
 
               this.clearMessage();
 
-              this.syncPolynomialCoefficientField();
+              this.syncPolynomialCoefficientFields();
 
               this.renderPolynomialTerms();
             }
@@ -3053,8 +3225,9 @@
 
 
           if (
-            term.coefficient ===
-            null
+            isCoefficientEmpty(
+              term.coefficient
+            )
           ) {
 
             const placeholder =
@@ -3071,34 +3244,31 @@
               "輸入一項";
 
 
-            termButton.appendChild(
+            button.appendChild(
               placeholder
             );
 
           } else {
 
-            termButton.innerHTML =
+            button.innerHTML =
               polynomialTermToHtml(
                 term,
-                this.options
-                  .polynomialVariable,
+                this.options.polynomialVariable,
                 {
                   isFirst:
                     index ===
                     0,
 
                   omitCoefficientOne:
-                    this.options
-                      .omitPolynomialCoefficientOne
+                    this.options.omitPolynomialCoefficientOne
                 }
               );
           }
 
 
-          this.polynomialDisplay
-            .appendChild(
-              termButton
-            );
+          this.polynomialDisplay.appendChild(
+            button
+          );
         }
       );
 
@@ -3109,7 +3279,7 @@
 
     /*
     ==================================================
-    取得一般數字
+    取得 number
     ==================================================
     */
 
@@ -3167,7 +3337,7 @@
 
     /*
     ==================================================
-    取得指數式
+    取得 expression
     ==================================================
     */
 
@@ -3175,9 +3345,7 @@
 
       const incomplete =
         this.terms.some(
-          (
-            term
-          ) =>
+          (term) =>
             term.base ===
             null
         );
@@ -3233,8 +3401,7 @@
           termsToHtml(
             this.terms,
             this.options.operator,
-            this.options
-              .omitExponentOne
+            this.options.omitExponentOne
           ),
 
         plain:
@@ -3250,21 +3417,19 @@
 
     /*
     ==================================================
-    取得多項式
+    取得 polynomial
     ==================================================
     */
 
     getPolynomialValue() {
 
       const incomplete =
-        this.polynomialTerms
-          .some(
-            (
-              term
-            ) =>
-              term.coefficient ===
-              null
-          );
+        this.polynomialTerms.some(
+          (term) =>
+            isCoefficientEmpty(
+              term.coefficient
+            )
+        );
 
 
       if (
@@ -3280,13 +3445,15 @@
             false,
 
           variable:
-            this.options
-              .polynomialVariable,
+            this.options.polynomialVariable,
 
           terms:
             this.clonePolynomialTerms(),
 
           normalizedTerms:
+            [],
+
+          fractionTerms:
             [],
 
           html:
@@ -3298,9 +3465,24 @@
       }
 
 
-      const normalizedTerms =
-        normalizePolynomialTerms(
+      const fractionTerms =
+        normalizePolynomialTermsAsFractions(
           this.polynomialTerms
+        );
+
+
+      const normalizedTerms =
+        fractionTerms.map(
+          (term) => ({
+
+            exponent:
+              term.exponent,
+
+            coefficient:
+              fractionToCompatibleCoefficient(
+                term.coefficient
+              )
+          })
         );
 
 
@@ -3310,45 +3492,45 @@
           "polynomial",
 
         valid:
-          normalizedTerms.length >
+          fractionTerms.length >
           0,
 
         variable:
-          this.options
-            .polynomialVariable,
+          this.options.polynomialVariable,
 
         terms:
           this.clonePolynomialTerms(),
 
+        /*
+        舊遊戲使用這個。
+        整數仍回傳 number。
+        分數才回傳 object。
+        */
         normalizedTerms,
+
+        /*
+        新遊戲可直接使用統一分數格式。
+        */
+        fractionTerms,
 
         html:
           polynomialTermsToHtml(
-            normalizedTerms,
-            this.options
-              .polynomialVariable,
+            fractionTerms,
+            this.options.polynomialVariable,
             {
               omitCoefficientOne:
-                this.options
-                  .omitPolynomialCoefficientOne
+                this.options.omitPolynomialCoefficientOne
             }
           ),
 
         plain:
           polynomialTermsToPlain(
-            normalizedTerms,
-            this.options
-              .polynomialVariable
+            fractionTerms,
+            this.options.polynomialVariable
           )
       };
     }
 
-
-    /*
-    ==================================================
-    getValue
-    ==================================================
-    */
 
     getValue() {
 
@@ -3376,7 +3558,7 @@
 
     /*
     ==================================================
-    validate
+    驗證
     ==================================================
     */
 
@@ -3396,7 +3578,7 @@
         ) {
 
           this.showMessage(
-            "請輸入有效的一般數字答案。"
+            "請輸入有效答案。"
           );
 
         } else if (
@@ -3429,32 +3611,22 @@
       if (
         this.mode ===
           "polynomial" &&
-        this.options
-          .requireDescendingPowers
+        this.options.requireDescendingPowers
       ) {
 
-        const terms =
-          value.terms;
-
-
         for (
-          let index =
+          let i =
             1;
 
-          index <
-            terms.length;
+          i <
+            value.terms.length;
 
-          index++
+          i++
         ) {
 
           if (
-            terms[
-              index
-            ].exponent >=
-            terms[
-              index -
-              1
-            ].exponent
+            value.terms[i].exponent >=
+            value.terms[i - 1].exponent
           ) {
 
             this.showMessage(
@@ -3477,15 +3649,12 @@
       if (
         this.mode ===
           "polynomial" &&
-        this.options
-          .disallowDuplicatePowers
+        this.options.disallowDuplicatePowers
       ) {
 
         const powers =
           value.terms.map(
-            (
-              term
-            ) =>
+            (term) =>
               term.exponent
           );
 
@@ -3528,7 +3697,7 @@
 
     /*
     ==================================================
-    設定一般數字
+    設定 number
     ==================================================
     */
 
@@ -3541,9 +3710,7 @@
           null ||
         value ===
           undefined
-
           ? ""
-
           : String(
               value
             );
@@ -3559,7 +3726,7 @@
 
     /*
     ==================================================
-    設定指數式
+    設定 expression
     ==================================================
     */
 
@@ -3581,11 +3748,9 @@
       }
 
 
-      const normalized =
+      this.terms =
         terms.map(
-          (
-            term
-          ) => ({
+          (term) => ({
 
             base:
               Number(
@@ -3598,49 +3763,6 @@
               )
           })
         );
-
-
-      const invalid =
-        normalized.some(
-          (
-            term
-          ) =>
-            !Number.isInteger(
-              term.base
-            ) ||
-            !Number.isInteger(
-              term.exponent
-            )
-        );
-
-
-      if (
-        invalid
-      ) {
-
-        this.showMessage(
-          "指數式資料格式錯誤。"
-        );
-
-        return;
-      }
-
-
-      if (
-        normalized.length >
-        this.options.maxTerms
-      ) {
-
-        this.showMessage(
-          `最多可輸入 ${this.options.maxTerms} 項。`
-        );
-
-        return;
-      }
-
-
-      this.terms =
-        normalized;
 
 
       this.activeTermIndex =
@@ -3657,7 +3779,7 @@
 
     /*
     ==================================================
-    設定多項式
+    設定 polynomial
     ==================================================
     */
 
@@ -3679,21 +3801,7 @@
       }
 
 
-      if (
-        terms.length >
-        this.options
-          .maxPolynomialTerms
-      ) {
-
-        this.showMessage(
-          `最多可輸入 ${this.options.maxPolynomialTerms} 項。`
-        );
-
-        return;
-      }
-
-
-      const normalized =
+      const result =
         [];
 
 
@@ -3702,99 +3810,65 @@
         terms
       ) {
 
-        let coefficient;
+        const fraction =
+          coefficientToFraction(
+            term.coefficient,
+            term.sign
+          );
 
 
         if (
-          term.coefficient ===
-            null ||
-          term.coefficient ===
-            undefined
+          !fraction
         ) {
 
-          this.showMessage(
-            "多項式資料格式錯誤。"
-          );
-
-          return;
+          continue;
         }
 
 
-        coefficient =
-          Number(
-            term.coefficient
-          );
+        result.push(
+          {
 
+            sign:
+              fraction.numerator <
+              0
+                ? -1
+                : 1,
 
-        let sign =
-          term.sign ===
-            undefined
+            coefficient:
+              {
+                numerator:
+                  Math.abs(
+                    fraction.numerator
+                  ),
 
-            ? (
-                coefficient <
-                0
-                  ? -1
-                  : 1
+                denominator:
+                  fraction.denominator
+              },
+
+            variable:
+              this.options.polynomialVariable,
+
+            exponent:
+              Number(
+                term.exponent
               )
-
-            : (
-                Number(
-                  term.sign
-                ) <
-                0
-                  ? -1
-                  : 1
-              );
+          }
+        );
+      }
 
 
-        coefficient =
-          Math.abs(
-            coefficient
-          );
+      if (
+        !result.length
+      ) {
 
+        this.resetPolynomial();
 
-        const exponent =
-          Number(
-            term.exponent
-          );
-
-
-        if (
-          !Number.isInteger(
-            coefficient
-          ) ||
-          !Number.isInteger(
-            exponent
-          ) ||
-          exponent <
-            0
-        ) {
-
-          this.showMessage(
-            "多項式資料格式錯誤。"
-          );
-
-          return;
-        }
-
-
-        normalized.push({
-
-          sign,
-
-          coefficient,
-
-          variable:
-            this.options
-              .polynomialVariable,
-
-          exponent
-        });
+        return;
       }
 
 
       this.polynomialTerms =
-        normalized;
+        result;
 
 
       this.activePolynomialTermIndex =
@@ -3803,7 +3877,7 @@
 
       this.clearMessage();
 
-      this.syncPolynomialCoefficientField();
+      this.syncPolynomialCoefficientFields();
 
       this.renderPolynomialTerms();
 
@@ -3813,173 +3887,19 @@
 
     /*
     ==================================================
-    舊功能：整數轉標準分解式
-    ==================================================
-    */
-
-    setExpressionFromNumber(
-      value
-    ) {
-
-      const number =
-        Number(
-          value
-        );
-
-
-      if (
-        !Number.isInteger(
-          number
-        ) ||
-        number <=
-          0
-      ) {
-
-        this.showMessage(
-          "只能將正整數轉成標準分解式。"
-        );
-
-        return false;
-      }
-
-
-      const terms =
-        numberToPrimeFactorTerms(
-          number
-        );
-
-
-      if (
-        terms.length >
-        this.options.maxTerms
-      ) {
-
-        this.showMessage(
-          "轉換後的項目過多。"
-        );
-
-        return false;
-      }
-
-
-      this.setExpressionTerms(
-        terms
-      );
-
-
-      return true;
-    }
-
-
-    syncNumberToExpression() {
-
-      const value =
-        this.getNumberValue();
-
-
-      if (
-        !value.valid ||
-        !Number.isInteger(
-          value.number
-        ) ||
-        value.number <=
-          0
-      ) {
-
-        this.showMessage(
-          "請先輸入正整數。"
-        );
-
-        return false;
-      }
-
-
-      return this.setExpressionFromNumber(
-        value.number
-      );
-    }
-
-
-    syncExpressionToNumber() {
-
-      const value =
-        this.getExpressionValue();
-
-
-      if (
-        !value.valid
-      ) {
-
-        this.showMessage(
-          "請先完成指數式。"
-        );
-
-        return false;
-      }
-
-
-      if (
-        !Number.isSafeInteger(
-          value.number
-        )
-      ) {
-
-        this.showMessage(
-          "乘開後的數字太大，建議保留標準形式。"
-        );
-
-        return false;
-      }
-
-
-      this.numberInput.value =
-        String(
-          value.number
-        );
-
-
-      this.clearMessage();
-
-      this.renderPreviewContent();
-
-      this.emitChange();
-
-
-      return true;
-    }
-
-
-    /*
-    ==================================================
-    指數式整理
+    排序
     ==================================================
     */
 
     sortTermsAscending() {
 
-      const value =
-        this.getExpressionValue();
-
-
-      if (
-        !value.valid
-      ) {
-
-        this.showMessage(
-          "請先完成所有底數。"
-        );
-
-        return false;
-      }
-
-
       this.terms.sort(
         (
-          first,
-          second
+          a,
+          b
         ) =>
-          first.base -
-          second.base
+          a.base -
+          b.base
       );
 
 
@@ -3997,22 +3917,6 @@
 
 
     mergeDuplicateBases() {
-
-      const value =
-        this.getExpressionValue();
-
-
-      if (
-        !value.valid
-      ) {
-
-        this.showMessage(
-          "請先完成所有底數。"
-        );
-
-        return false;
-      }
-
 
       this.terms =
         mergeTermsByBase(
@@ -4033,37 +3937,15 @@
     }
 
 
-    /*
-    ==================================================
-    多項式整理
-    ==================================================
-    */
-
     sortPolynomialDescending() {
-
-      const value =
-        this.getPolynomialValue();
-
-
-      if (
-        !value.valid
-      ) {
-
-        this.showMessage(
-          "請先完成多項式。"
-        );
-
-        return false;
-      }
-
 
       this.polynomialTerms.sort(
         (
-          first,
-          second
+          a,
+          b
         ) =>
-          second.exponent -
-          first.exponent
+          b.exponent -
+          a.exponent
       );
 
 
@@ -4071,7 +3953,7 @@
         0;
 
 
-      this.syncPolynomialCoefficientField();
+      this.syncPolynomialCoefficientFields();
 
       this.renderPolynomialTerms();
 
@@ -4084,48 +3966,35 @@
 
     mergePolynomialLikeTerms() {
 
-      const value =
-        this.getPolynomialValue();
-
-
-      if (
-        !value.valid
-      ) {
-
-        this.showMessage(
-          "請先完成多項式。"
-        );
-
-        return false;
-      }
-
-
       const normalized =
-        normalizePolynomialTerms(
+        normalizePolynomialTermsAsFractions(
           this.polynomialTerms
         );
 
 
       this.polynomialTerms =
         normalized.map(
-          (
-            term
-          ) => ({
+          (term) => ({
 
             sign:
-              term.coefficient <
-                0
+              term.coefficient.numerator <
+              0
                 ? -1
                 : 1,
 
             coefficient:
-              Math.abs(
-                term.coefficient
-              ),
+              {
+                numerator:
+                  Math.abs(
+                    term.coefficient.numerator
+                  ),
+
+                denominator:
+                  term.coefficient.denominator
+              },
 
             variable:
-              this.options
-                .polynomialVariable,
+              this.options.polynomialVariable,
 
             exponent:
               term.exponent
@@ -4133,35 +4002,11 @@
         );
 
 
-      if (
-        this.polynomialTerms.length ===
-        0
-      ) {
-
-        this.polynomialTerms = [
-          {
-            sign:
-              1,
-
-            coefficient:
-              0,
-
-            variable:
-              this.options
-                .polynomialVariable,
-
-            exponent:
-              0
-          }
-        ];
-      }
-
-
       this.activePolynomialTermIndex =
         0;
 
 
-      this.syncPolynomialCoefficientField();
+      this.syncPolynomialCoefficientFields();
 
       this.renderPolynomialTerms();
 
@@ -4184,24 +4029,26 @@
         "";
 
 
-      this.terms = [
-        {
-          base:
-            null,
+      this.terms =
+        [
+          {
+            base:
+              null,
 
-          exponent:
-            1
-        }
-      ];
+            exponent:
+              1
+          }
+        ];
 
 
       this.activeTermIndex =
         0;
 
 
-      this.polynomialTerms = [
-        this.createEmptyPolynomialTerm()
-      ];
+      this.polynomialTerms =
+        [
+          this.createEmptyPolynomialTerm()
+        ];
 
 
       this.activePolynomialTermIndex =
@@ -4218,13 +4065,11 @@
 
       this.renderPolynomialTerms();
 
-      this.syncPolynomialCoefficientField();
+      this.syncPolynomialCoefficientFields();
 
       this.syncPanels();
 
       this.renderPreviewContent();
-
-      this.emitModeChange();
 
       this.emitChange();
     }
@@ -4232,7 +4077,7 @@
 
     /*
     ==================================================
-    Disabled / Visible / Focus
+    Disabled
     ==================================================
     */
 
@@ -4245,9 +4090,7 @@
           "button, input"
         )
         .forEach(
-          (
-            element
-          ) => {
+          (element) => {
 
             element.disabled =
               Boolean(
@@ -4292,33 +4135,28 @@
 
       if (
         this.mode ===
-        "expression"
+        "polynomial"
       ) {
 
-        const terms =
-          this.expressionDisplay
-            .querySelectorAll(
-              ".expression-input__term"
-            );
+        if (
+          this.options.allowFractionPolynomialCoefficient
+        ) {
 
+          this.polynomialNumeratorInput
+            ?.focus();
 
-        terms[
-          this.activeTermIndex
-        ]?.focus();
+        } else {
 
-
-        return;
+          this.polynomialCoefficientInput
+            ?.focus();
+        }
       }
-
-
-      this.polynomialCoefficientInput
-        ?.focus();
     }
 
 
     /*
     ==================================================
-    Message
+    訊息
     ==================================================
     */
 
@@ -4360,9 +4198,7 @@
     cloneTerms() {
 
       return this.terms.map(
-        (
-          term
-        ) => ({
+        (term) => ({
 
           base:
             term.base,
@@ -4377,19 +4213,18 @@
     clonePolynomialTerms() {
 
       return this.polynomialTerms.map(
-        (
-          term
-        ) => ({
+        (term) => ({
 
           sign:
             term.sign,
 
           coefficient:
-            term.coefficient,
+            cloneCoefficient(
+              term.coefficient
+            ),
 
           variable:
-            this.options
-              .polynomialVariable,
+            this.options.polynomialVariable,
 
           exponent:
             term.exponent
@@ -4400,15 +4235,71 @@
 
     /*
     ==================================================
-    Event
+    Preview
+    ==================================================
+    */
+
+    renderPreviewContent() {
+
+      if (
+        !this.previewElement
+      ) {
+
+        return;
+      }
+
+
+      const value =
+        this.getValue();
+
+
+      if (
+        this.mode ===
+        "number"
+      ) {
+
+        this.previewElement.innerHTML =
+          value.valid
+            ? `目前答案：<strong>${escapeHtml(value.raw)}</strong>`
+            : "目前尚未輸入答案。";
+
+
+        return;
+      }
+
+
+      if (
+        this.mode ===
+        "expression"
+      ) {
+
+        this.previewElement.innerHTML =
+          value.valid
+            ? `目前答案：<strong>${value.html}</strong>`
+            : "目前尚未完成標準形式。";
+
+
+        return;
+      }
+
+
+      this.previewElement.innerHTML =
+        value.valid
+          ? `目前答案：<strong>${value.html}</strong>`
+          : "目前尚未完成多項式。";
+    }
+
+
+    /*
+    ==================================================
+    Events
     ==================================================
     */
 
     emitChange() {
 
       if (
-        typeof
-          this.options.onChange ===
+        typeof this.options.onChange ===
         "function"
       ) {
 
@@ -4423,9 +4314,7 @@
     emitModeChange() {
 
       if (
-        typeof
-          this.options
-            .onModeChange ===
+        typeof this.options.onModeChange ===
         "function"
       ) {
 
@@ -4455,7 +4344,6 @@
 
       ...options,
 
-
       theme: {
 
         ...defaults.theme,
@@ -4465,7 +4353,6 @@
           {}
         )
       },
-
 
       labels: {
 
@@ -4477,50 +4364,973 @@
         )
       },
 
-
       baseOptions:
         Array.isArray(
           options.baseOptions
         )
-
           ? [
               ...options.baseOptions
             ]
-
           : [
               ...defaults.baseOptions
             ],
-
 
       exponentOptions:
         Array.isArray(
           options.exponentOptions
         )
-
           ? [
               ...options.exponentOptions
             ]
-
           : [
               ...defaults.exponentOptions
             ],
-
 
       polynomialExponentOptions:
         Array.isArray(
           options.polynomialExponentOptions
         )
-
           ? [
-              ...options
-                .polynomialExponentOptions
+              ...options.polynomialExponentOptions
             ]
-
           : [
-              ...defaults
-                .polynomialExponentOptions
+              ...defaults.polynomialExponentOptions
             ]
     };
+  }
+
+
+  /*
+  ==================================================
+  分數
+  ==================================================
+  */
+
+  function gcd(
+    a,
+    b
+  ) {
+
+    a =
+      Math.abs(
+        Number(
+          a
+        )
+      );
+
+
+    b =
+      Math.abs(
+        Number(
+          b
+        )
+      );
+
+
+    while (
+      b !==
+      0
+    ) {
+
+      const temp =
+        b;
+
+
+      b =
+        a %
+        b;
+
+
+      a =
+        temp;
+    }
+
+
+    return (
+      a ||
+      1
+    );
+  }
+
+
+  function normalizeFraction(
+    numerator,
+    denominator =
+      1
+  ) {
+
+    numerator =
+      Number(
+        numerator
+      );
+
+
+    denominator =
+      Number(
+        denominator
+      );
+
+
+    if (
+      denominator ===
+      0
+    ) {
+
+      return {
+
+        numerator,
+
+        denominator:
+          0
+      };
+    }
+
+
+    if (
+      numerator ===
+      0
+    ) {
+
+      return {
+
+        numerator:
+          0,
+
+        denominator:
+          1
+      };
+    }
+
+
+    if (
+      denominator <
+      0
+    ) {
+
+      numerator =
+        -numerator;
+
+
+      denominator =
+        -denominator;
+    }
+
+
+    const divisor =
+      gcd(
+        numerator,
+        denominator
+      );
+
+
+    return {
+
+      numerator:
+        numerator /
+        divisor,
+
+      denominator:
+        denominator /
+        divisor
+    };
+  }
+
+
+  function addFractions(
+    first,
+    second
+  ) {
+
+    return normalizeFraction(
+
+      first.numerator *
+        second.denominator +
+      second.numerator *
+        first.denominator,
+
+      first.denominator *
+        second.denominator
+    );
+  }
+
+
+  function multiplyFraction(
+    fraction,
+    multiplier
+  ) {
+
+    return normalizeFraction(
+
+      fraction.numerator *
+        multiplier,
+
+      fraction.denominator
+    );
+  }
+
+
+  function coefficientToFraction(
+    coefficient,
+    sign
+  ) {
+
+    if (
+      coefficient ===
+        null ||
+      coefficient ===
+        undefined
+    ) {
+
+      return null;
+    }
+
+
+    if (
+      typeof coefficient ===
+      "number"
+    ) {
+
+      let value =
+        normalizeFraction(
+          coefficient,
+          1
+        );
+
+
+      if (
+        sign !==
+        undefined
+      ) {
+
+        value =
+          normalizeFraction(
+            Math.abs(
+              value.numerator
+            ) *
+            (
+              Number(
+                sign
+              ) <
+              0
+                ? -1
+                : 1
+            ),
+            value.denominator
+          );
+      }
+
+
+      return value;
+    }
+
+
+    if (
+      typeof coefficient ===
+      "object"
+    ) {
+
+      if (
+        coefficient.numerator ===
+          null ||
+        coefficient.numerator ===
+          undefined ||
+        coefficient.numerator ===
+          ""
+      ) {
+
+        return null;
+      }
+
+
+      let value =
+        normalizeFraction(
+          Number(
+            coefficient.numerator
+          ),
+          coefficient.denominator ===
+            null ||
+          coefficient.denominator ===
+            undefined ||
+          coefficient.denominator ===
+            ""
+            ? 1
+            : Number(
+                coefficient.denominator
+              )
+        );
+
+
+      if (
+        sign !==
+        undefined
+      ) {
+
+        value =
+          normalizeFraction(
+            Math.abs(
+              value.numerator
+            ) *
+            (
+              Number(
+                sign
+              ) <
+              0
+                ? -1
+                : 1
+            ),
+            value.denominator
+          );
+      }
+
+
+      return value;
+    }
+
+
+    return null;
+  }
+
+
+  function fractionToCompatibleCoefficient(
+    fraction
+  ) {
+
+    const value =
+      normalizeFraction(
+        fraction.numerator,
+        fraction.denominator
+      );
+
+
+    if (
+      value.denominator ===
+      1
+    ) {
+
+      return value.numerator;
+    }
+
+
+    return {
+
+      numerator:
+        value.numerator,
+
+      denominator:
+        value.denominator
+    };
+  }
+
+
+  function cloneCoefficient(
+    coefficient
+  ) {
+
+    if (
+      coefficient &&
+      typeof coefficient ===
+      "object"
+    ) {
+
+      return {
+
+        numerator:
+          coefficient.numerator,
+
+        denominator:
+          coefficient.denominator
+      };
+    }
+
+
+    return coefficient;
+  }
+
+
+  function isCoefficientEmpty(
+    coefficient
+  ) {
+
+    if (
+      coefficient ===
+        null ||
+      coefficient ===
+        undefined
+    ) {
+
+      return true;
+    }
+
+
+    if (
+      typeof coefficient ===
+      "object"
+    ) {
+
+      return (
+        coefficient.numerator ===
+          null ||
+        coefficient.numerator ===
+          undefined ||
+        coefficient.numerator ===
+          ""
+      );
+    }
+
+
+    return false;
+  }
+
+
+  /*
+  ==================================================
+  多項式標準化
+  ==================================================
+  */
+
+  function normalizePolynomialTermsAsFractions(
+    terms
+  ) {
+
+    if (
+      !Array.isArray(
+        terms
+      )
+    ) {
+
+      return [];
+    }
+
+
+    const map =
+      new Map();
+
+
+    terms.forEach(
+      (term) => {
+
+        if (
+          isCoefficientEmpty(
+            term.coefficient
+          )
+        ) {
+
+          return;
+        }
+
+
+        const exponent =
+          Number(
+            term.exponent
+          );
+
+
+        const coefficient =
+          coefficientToFraction(
+            term.coefficient,
+            term.sign
+          );
+
+
+        if (
+          !coefficient ||
+          coefficient.denominator ===
+            0
+        ) {
+
+          return;
+        }
+
+
+        const previous =
+          map.get(
+            exponent
+          ) ||
+          {
+            numerator:
+              0,
+
+            denominator:
+              1
+          };
+
+
+        map.set(
+          exponent,
+          addFractions(
+            previous,
+            coefficient
+          )
+        );
+      }
+    );
+
+
+    return Array
+      .from(
+        map.entries()
+      )
+      .map(
+        (
+          [
+            exponent,
+            coefficient
+          ]
+        ) => ({
+
+          exponent:
+            Number(
+              exponent
+            ),
+
+          coefficient:
+            normalizeFraction(
+              coefficient.numerator,
+              coefficient.denominator
+            )
+        })
+      )
+      .filter(
+        (term) =>
+          term.coefficient.numerator !==
+          0
+      )
+      .sort(
+        (
+          a,
+          b
+        ) =>
+          b.exponent -
+          a.exponent
+      );
+  }
+
+
+  function normalizePolynomialTerms(
+    terms
+  ) {
+
+    return normalizePolynomialTermsAsFractions(
+      terms
+    )
+      .map(
+        (term) => ({
+
+          exponent:
+            term.exponent,
+
+          coefficient:
+            fractionToCompatibleCoefficient(
+              term.coefficient
+            )
+        })
+      );
+  }
+
+
+  /*
+  ==================================================
+  多項式 HTML
+  ==================================================
+  */
+
+  function fractionToHtml(
+    fraction
+  ) {
+
+    const value =
+      normalizeFraction(
+        Math.abs(
+          fraction.numerator
+        ),
+        fraction.denominator
+      );
+
+
+    if (
+      value.denominator ===
+      1
+    ) {
+
+      return String(
+        value.numerator
+      );
+    }
+
+
+    return (
+      `<span class="expression-input__inline-fraction">` +
+        `<span>${value.numerator}</span>` +
+        `<span>${value.denominator}</span>` +
+      `</span>`
+    );
+  }
+
+
+  function polynomialTermToHtml(
+    term,
+    variable =
+      "x",
+    options =
+      {}
+  ) {
+
+    const coefficient =
+      coefficientToFraction(
+        term.coefficient,
+        term.sign
+      );
+
+
+    if (
+      !coefficient
+    ) {
+
+      return "";
+    }
+
+
+    const negative =
+      coefficient.numerator <
+      0;
+
+
+    const absolute =
+      normalizeFraction(
+        Math.abs(
+          coefficient.numerator
+        ),
+        coefficient.denominator
+      );
+
+
+    const exponent =
+      Number(
+        term.exponent
+      );
+
+
+    const prefix =
+      options.isFirst &&
+      negative
+        ? "−"
+        : "";
+
+
+    if (
+      exponent ===
+      0
+    ) {
+
+      return (
+        prefix +
+        fractionToHtml(
+          absolute
+        )
+      );
+    }
+
+
+    const isOne =
+      absolute.numerator ===
+        1 &&
+      absolute.denominator ===
+        1;
+
+
+    const coefficientHtml =
+      isOne &&
+      options.omitCoefficientOne !==
+        false
+        ? ""
+        : fractionToHtml(
+            absolute
+          );
+
+
+    const exponentHtml =
+      exponent ===
+        1
+        ? ""
+        : `<sup>${exponent}</sup>`;
+
+
+    return (
+      prefix +
+      coefficientHtml +
+      escapeHtml(
+        variable
+      ) +
+      exponentHtml
+    );
+  }
+
+
+  function polynomialTermsToHtml(
+    terms,
+    variable =
+      "x",
+    options =
+      {}
+  ) {
+
+    const normalized =
+      normalizePolynomialTermsAsFractions(
+        terms
+      );
+
+
+    if (
+      !normalized.length
+    ) {
+
+      return "0";
+    }
+
+
+    return normalized
+      .map(
+        (
+          term,
+          index
+        ) => {
+
+          const negative =
+            term.coefficient.numerator <
+            0;
+
+
+          const sign =
+            index ===
+            0
+              ? (
+                  negative
+                    ? "−"
+                    : ""
+                )
+              : (
+                  negative
+                    ? " − "
+                    : " ＋ "
+                );
+
+
+          const absolute =
+            normalizeFraction(
+              Math.abs(
+                term.coefficient.numerator
+              ),
+              term.coefficient.denominator
+            );
+
+
+          if (
+            term.exponent ===
+            0
+          ) {
+
+            return (
+              sign +
+              fractionToHtml(
+                absolute
+              )
+            );
+          }
+
+
+          const isOne =
+            absolute.numerator ===
+              1 &&
+            absolute.denominator ===
+              1;
+
+
+          const coefficientHtml =
+            isOne &&
+            options.omitCoefficientOne !==
+              false
+              ? ""
+              : fractionToHtml(
+                  absolute
+                );
+
+
+          return (
+            sign +
+            coefficientHtml +
+            variable +
+            (
+              term.exponent ===
+              1
+                ? ""
+                : `<sup>${term.exponent}</sup>`
+            )
+          );
+        }
+      )
+      .join(
+        ""
+      );
+  }
+
+
+  function polynomialTermsToPlain(
+    terms,
+    variable =
+      "x"
+  ) {
+
+    const normalized =
+      normalizePolynomialTermsAsFractions(
+        terms
+      );
+
+
+    if (
+      !normalized.length
+    ) {
+
+      return "0";
+    }
+
+
+    return normalized
+      .map(
+        (
+          term,
+          index
+        ) => {
+
+          const negative =
+            term.coefficient.numerator <
+            0;
+
+
+          const sign =
+            index ===
+            0
+              ? (
+                  negative
+                    ? "-"
+                    : ""
+                )
+              : (
+                  negative
+                    ? "-"
+                    : "+"
+                );
+
+
+          const absolute =
+            normalizeFraction(
+              Math.abs(
+                term.coefficient.numerator
+              ),
+              term.coefficient.denominator
+            );
+
+
+          const coefficient =
+            absolute.denominator ===
+              1
+              ? String(
+                  absolute.numerator
+                )
+              : `${absolute.numerator}/${absolute.denominator}`;
+
+
+          if (
+            term.exponent ===
+            0
+          ) {
+
+            return (
+              sign +
+              coefficient
+            );
+          }
+
+
+          const omitOne =
+            absolute.numerator ===
+              1 &&
+            absolute.denominator ===
+              1;
+
+
+          return (
+            sign +
+            (
+              omitOne
+                ? ""
+                : coefficient
+            ) +
+            variable +
+            (
+              term.exponent ===
+              1
+                ? ""
+                : `^${term.exponent}`
+            )
+          );
+        }
+      )
+      .join(
+        ""
+      );
+  }
+
+
+  /*
+  ==================================================
+  比較多項式
+  ==================================================
+  */
+
+  function arePolynomialsEqual(
+    first,
+    second
+  ) {
+
+    const a =
+      normalizePolynomialTermsAsFractions(
+        first
+      );
+
+
+    const b =
+      normalizePolynomialTermsAsFractions(
+        second
+      );
+
+
+    if (
+      a.length !==
+      b.length
+    ) {
+
+      return false;
+    }
+
+
+    return a.every(
+      (
+        term,
+        index
+      ) => {
+
+        return (
+          term.exponent ===
+            b[index].exponent &&
+
+          term.coefficient.numerator ===
+            b[index].coefficient.numerator &&
+
+          term.coefficient.denominator ===
+            b[index].coefficient.denominator
+        );
+      }
+    );
   }
 
 
@@ -4534,7 +5344,7 @@
     value
   ) {
 
-    const digits = {
+    const map = {
 
       "-":
         "⁻",
@@ -4578,10 +5388,8 @@
         ""
       )
       .map(
-        (
-          character
-        ) =>
-          digits[
+        (character) =>
+          map[
             character
           ] ||
           character
@@ -4602,74 +5410,7 @@
 
     return terms
       .map(
-        (
-          term
-        ) => {
-
-          const base =
-            escapeHtml(
-              term.base
-            );
-
-
-          if (
-            term.exponent ===
-              1 &&
-            omitExponentOne
-          ) {
-
-            return base;
-          }
-
-
-          return (
-            `${base}` +
-            `<sup>${escapeHtml(
-              term.exponent
-            )}</sup>`
-          );
-        }
-      )
-      .join(
-        ` ${escapeHtml(
-          operator
-        )} `
-      );
-  }
-
-
-  function termsToPlain(
-    terms,
-    operator =
-      "×"
-  ) {
-
-    return terms
-      .map(
-        (
-          term
-        ) =>
-          `${term.base}^${term.exponent}`
-      )
-      .join(
-        operator
-      );
-  }
-
-
-  function termsToSuperscriptText(
-    terms,
-    operator =
-      "×",
-    omitExponentOne =
-      true
-  ) {
-
-    return terms
-      .map(
-        (
-          term
-        ) => {
+        (term) => {
 
           if (
             term.exponent ===
@@ -4684,12 +5425,7 @@
 
 
           return (
-            String(
-              term.base
-            ) +
-            toSuperscript(
-              term.exponent
-            )
+            `${term.base}<sup>${term.exponent}</sup>`
           );
         }
       )
@@ -4699,174 +5435,19 @@
   }
 
 
-  /*
-  ==================================================
-  質因數工具
-  ==================================================
-  */
-
-  function primeFactorize(
-    value
+  function termsToPlain(
+    terms,
+    operator =
+      "×"
   ) {
 
-    let number =
-      Number(
-        value
-      );
-
-
-    if (
-      !Number.isInteger(
-        number
-      ) ||
-      number <=
-        0
-    ) {
-
-      return {};
-    }
-
-
-    const factorMap =
-      {};
-
-
-    let divisor =
-      2;
-
-
-    while (
-      divisor *
-        divisor <=
-      number
-    ) {
-
-      while (
-        number %
-          divisor ===
-        0
-      ) {
-
-        factorMap[
-          divisor
-        ] =
-          (
-            factorMap[
-              divisor
-            ] ||
-            0
-          ) +
-          1;
-
-
-        number /=
-          divisor;
-      }
-
-
-      divisor =
-        divisor ===
-          2
-
-          ? 3
-
-          : divisor +
-            2;
-    }
-
-
-    if (
-      number >
-      1
-    ) {
-
-      factorMap[
-        number
-      ] =
-        (
-          factorMap[
-            number
-          ] ||
-          0
-        ) +
-        1;
-    }
-
-
-    return factorMap;
-  }
-
-
-  function numberToPrimeFactorTerms(
-    value
-  ) {
-
-    const number =
-      Number(
-        value
-      );
-
-
-    if (
-      !Number.isInteger(
-        number
-      ) ||
-      number <=
-        0
-    ) {
-
-      return [];
-    }
-
-
-    if (
-      number ===
-      1
-    ) {
-
-      return [
-        {
-          base:
-            1,
-
-          exponent:
-            1
-        }
-      ];
-    }
-
-
-    return Object.entries(
-      primeFactorize(
-        number
-      )
-    )
+    return terms
       .map(
-        (
-          [
-            base,
-            exponent
-          ]
-        ) => ({
-
-          base:
-            Number(
-              base
-            ),
-
-          exponent:
-            Number(
-              exponent
-            )
-        })
+        (term) =>
+          `${term.base}^${term.exponent}`
       )
-      .sort(
-        (
-          first,
-          second
-        ) =>
-          first.base -
-          second.base
+      .join(
+        operator
       );
   }
 
@@ -4903,16 +5484,12 @@
 
 
     terms.forEach(
-      (
-        term
-      ) => {
+      (term) => {
 
         map.set(
-
           Number(
             term.base
           ),
-
           (
             map.get(
               Number(
@@ -4929,9 +5506,10 @@
     );
 
 
-    return Array.from(
-      map.entries()
-    )
+    return Array
+      .from(
+        map.entries()
+      )
       .map(
         (
           [
@@ -4947,858 +5525,18 @@
       )
       .sort(
         (
-          first,
-          second
-        ) =>
-          first.base -
-          second.base
-      );
-  }
-
-
-  function isPrime(
-    value
-  ) {
-
-    const number =
-      Number(
-        value
-      );
-
-
-    if (
-      !Number.isInteger(
-        number
-      ) ||
-      number <
-        2
-    ) {
-
-      return false;
-    }
-
-
-    if (
-      number ===
-      2
-    ) {
-
-      return true;
-    }
-
-
-    if (
-      number %
-        2 ===
-      0
-    ) {
-
-      return false;
-    }
-
-
-    for (
-      let divisor =
-        3;
-
-      divisor *
-        divisor <=
-        number;
-
-      divisor +=
-        2
-    ) {
-
-      if (
-        number %
-          divisor ===
-        0
-      ) {
-
-        return false;
-      }
-    }
-
-
-    return true;
-  }
-
-
-  function isStandardPrimeFactorization(
-    terms
-  ) {
-
-    if (
-      !Array.isArray(
-        terms
-      ) ||
-      terms.length ===
-        0
-    ) {
-
-      return false;
-    }
-
-
-    let previousBase =
-      0;
-
-
-    for (
-      const term of
-      terms
-    ) {
-
-      if (
-        !Number.isInteger(
-          term.base
-        ) ||
-        !Number.isInteger(
-          term.exponent
-        ) ||
-        term.exponent <
-          1 ||
-        !isPrime(
-          term.base
-        ) ||
-        term.base <=
-          previousBase
-      ) {
-
-        return false;
-      }
-
-
-      previousBase =
-        term.base;
-    }
-
-
-    return true;
-  }
-
-
-  function areTermsEqual(
-    firstTerms,
-    secondTerms,
-    options = {}
-  ) {
-
-    let first =
-      Array.isArray(
-        firstTerms
-      )
-        ? firstTerms.map(
-            (
-              term
-            ) => ({
-
-              base:
-                Number(
-                  term.base
-                ),
-
-              exponent:
-                Number(
-                  term.exponent
-                )
-            })
-          )
-        : [];
-
-
-    let second =
-      Array.isArray(
-        secondTerms
-      )
-        ? secondTerms.map(
-            (
-              term
-            ) => ({
-
-              base:
-                Number(
-                  term.base
-                ),
-
-              exponent:
-                Number(
-                  term.exponent
-                )
-            })
-          )
-        : [];
-
-
-    if (
-      options.mergeDuplicates
-    ) {
-
-      first =
-        mergeTermsByBase(
-          first
-        );
-
-
-      second =
-        mergeTermsByBase(
-          second
-        );
-    }
-
-
-    if (
-      options.ignoreOrder
-    ) {
-
-      first.sort(
-        (
           a,
           b
         ) =>
           a.base -
           b.base
       );
-
-
-      second.sort(
-        (
-          a,
-          b
-        ) =>
-          a.base -
-          b.base
-      );
-    }
-
-
-    if (
-      first.length !==
-      second.length
-    ) {
-
-      return false;
-    }
-
-
-    return first.every(
-      (
-        term,
-        index
-      ) =>
-        term.base ===
-          second[
-            index
-          ].base &&
-        term.exponent ===
-          second[
-            index
-          ].exponent
-    );
-  }
-
-
-  function areExpressionValuesEqual(
-    firstTerms,
-    secondTerms
-  ) {
-
-    return (
-      evaluateTerms(
-        firstTerms
-      ) ===
-      evaluateTerms(
-        secondTerms
-      )
-    );
-  }
-
-
-  function termsToFactorMap(
-    terms
-  ) {
-
-    const result =
-      {};
-
-
-    terms.forEach(
-      (
-        term
-      ) => {
-
-        result[
-          term.base
-        ] =
-          (
-            result[
-              term.base
-            ] ||
-            0
-          ) +
-          Number(
-            term.exponent
-          );
-      }
-    );
-
-
-    return result;
   }
 
 
   /*
   ==================================================
-  多項式工具
-  ==================================================
-  */
-
-  function normalizePolynomialTerm(
-    term
-  ) {
-
-    let coefficient =
-      Number(
-        term.coefficient
-      );
-
-
-    const exponent =
-      Number(
-        term.exponent
-      );
-
-
-    if (
-      !Number.isFinite(
-        coefficient
-      ) ||
-      !Number.isInteger(
-        exponent
-      ) ||
-      exponent <
-        0
-    ) {
-
-      return null;
-    }
-
-
-    if (
-      term.sign !==
-        undefined
-    ) {
-
-      coefficient =
-        Math.abs(
-          coefficient
-        ) *
-        (
-          Number(
-            term.sign
-          ) <
-          0
-            ? -1
-            : 1
-        );
-    }
-
-
-    return {
-
-      coefficient,
-
-      exponent
-    };
-  }
-
-
-  function normalizePolynomialTerms(
-    terms
-  ) {
-
-    if (
-      !Array.isArray(
-        terms
-      )
-    ) {
-
-      return [];
-    }
-
-
-    const map =
-      new Map();
-
-
-    for (
-      const sourceTerm of
-      terms
-    ) {
-
-      const term =
-        normalizePolynomialTerm(
-          sourceTerm
-        );
-
-
-      if (
-        !term
-      ) {
-
-        continue;
-      }
-
-
-      map.set(
-
-        term.exponent,
-
-        (
-          map.get(
-            term.exponent
-          ) ||
-          0
-        ) +
-        term.coefficient
-      );
-    }
-
-
-    return Array.from(
-      map.entries()
-    )
-      .map(
-        (
-          [
-            exponent,
-            coefficient
-          ]
-        ) => ({
-
-          coefficient,
-
-          exponent:
-            Number(
-              exponent
-            )
-        })
-      )
-      .filter(
-        (
-          term
-        ) =>
-          term.coefficient !==
-          0
-      )
-      .sort(
-        (
-          first,
-          second
-        ) =>
-          second.exponent -
-          first.exponent
-      );
-  }
-
-
-  function polynomialTermToHtml(
-    term,
-    variable =
-      "x",
-    options = {}
-  ) {
-
-    const coefficient =
-      Math.abs(
-        Number(
-          term.coefficient
-        )
-      );
-
-
-    const sign =
-      Number(
-        term.sign
-      ) <
-      0
-        ? -1
-        : 1;
-
-
-    const exponent =
-      Number(
-        term.exponent
-      );
-
-
-    const isFirst =
-      options.isFirst ===
-      true;
-
-
-    const omitCoefficientOne =
-      options.omitCoefficientOne !==
-      false;
-
-
-    let prefix =
-      "";
-
-
-    if (
-      isFirst &&
-      sign <
-        0
-    ) {
-
-      prefix =
-        "−";
-    }
-
-
-    if (
-      exponent ===
-      0
-    ) {
-
-      return (
-        prefix +
-        escapeHtml(
-          coefficient
-        )
-      );
-    }
-
-
-    const coefficientText =
-      coefficient ===
-        1 &&
-      omitCoefficientOne
-
-        ? ""
-
-        : escapeHtml(
-            coefficient
-          );
-
-
-    const variableText =
-      escapeHtml(
-        variable
-      );
-
-
-    const exponentText =
-      exponent ===
-        1
-
-        ? ""
-
-        : `<sup>${escapeHtml(
-            exponent
-          )}</sup>`;
-
-
-    return (
-      prefix +
-      coefficientText +
-      variableText +
-      exponentText
-    );
-  }
-
-
-  function polynomialTermsToHtml(
-    terms,
-    variable =
-      "x",
-    options = {}
-  ) {
-
-    const normalized =
-      normalizePolynomialTerms(
-        terms
-      );
-
-
-    if (
-      normalized.length ===
-      0
-    ) {
-
-      return "0";
-    }
-
-
-    return normalized
-      .map(
-        (
-          term,
-          index
-        ) => {
-
-          const negative =
-            term.coefficient <
-            0;
-
-
-          const sign =
-            index ===
-              0
-
-              ? (
-                  negative
-                    ? "−"
-                    : ""
-                )
-
-              : (
-                  negative
-                    ? " − "
-                    : " ＋ "
-                );
-
-
-          const coefficient =
-            Math.abs(
-              term.coefficient
-            );
-
-
-          if (
-            term.exponent ===
-            0
-          ) {
-
-            return (
-              sign +
-              escapeHtml(
-                coefficient
-              )
-            );
-          }
-
-
-          const coefficientText =
-            coefficient ===
-              1 &&
-            options
-              .omitCoefficientOne !==
-              false
-
-              ? ""
-
-              : escapeHtml(
-                  coefficient
-                );
-
-
-          const exponentText =
-            term.exponent ===
-              1
-
-              ? ""
-
-              : `<sup>${escapeHtml(
-                  term.exponent
-                )}</sup>`;
-
-
-          return (
-            sign +
-            coefficientText +
-            escapeHtml(
-              variable
-            ) +
-            exponentText
-          );
-        }
-      )
-      .join(
-        ""
-      );
-  }
-
-
-  function polynomialTermsToPlain(
-    terms,
-    variable =
-      "x"
-  ) {
-
-    const normalized =
-      normalizePolynomialTerms(
-        terms
-      );
-
-
-    if (
-      normalized.length ===
-      0
-    ) {
-
-      return "0";
-    }
-
-
-    return normalized
-      .map(
-        (
-          term,
-          index
-        ) => {
-
-          const coefficient =
-            term.coefficient;
-
-
-          const absolute =
-            Math.abs(
-              coefficient
-            );
-
-
-          const sign =
-            index ===
-              0
-
-              ? (
-                  coefficient <
-                    0
-                    ? "-"
-                    : ""
-                )
-
-              : (
-                  coefficient <
-                    0
-                    ? "-"
-                    : "+"
-                );
-
-
-          if (
-            term.exponent ===
-            0
-          ) {
-
-            return (
-              sign +
-              absolute
-            );
-          }
-
-
-          const coefficientText =
-            absolute ===
-              1
-              ? ""
-              : String(
-                  absolute
-                );
-
-
-          const exponentText =
-            term.exponent ===
-              1
-
-              ? ""
-
-              : `^${term.exponent}`;
-
-
-          return (
-            sign +
-            coefficientText +
-            variable +
-            exponentText
-          );
-        }
-      )
-      .join(
-        ""
-      );
-  }
-
-
-  function polynomialTermsToCoefficientMap(
-    terms
-  ) {
-
-    const result =
-      {};
-
-
-    normalizePolynomialTerms(
-      terms
-    ).forEach(
-      (
-        term
-      ) => {
-
-        result[
-          term.exponent
-        ] =
-          term.coefficient;
-      }
-    );
-
-
-    return result;
-  }
-
-
-  function arePolynomialsEqual(
-    firstTerms,
-    secondTerms
-  ) {
-
-    const first =
-      normalizePolynomialTerms(
-        firstTerms
-      );
-
-
-    const second =
-      normalizePolynomialTerms(
-        secondTerms
-      );
-
-
-    if (
-      first.length !==
-      second.length
-    ) {
-
-      return false;
-    }
-
-
-    return first.every(
-      (
-        term,
-        index
-      ) => {
-
-        return (
-          term.exponent ===
-            second[
-              index
-            ].exponent &&
-          term.coefficient ===
-            second[
-              index
-            ].coefficient
-        );
-      }
-    );
-  }
-
-
-  /*
-  ==================================================
-  HTML
+  HTML escape
   ==================================================
   */
 
@@ -5834,7 +5572,7 @@
 
   /*
   ==================================================
-  對外
+  對外公開
   ==================================================
   */
 
@@ -5844,44 +5582,19 @@
 
   window.ExpressionInputUtils = {
 
-    /*
-    舊功能
-    */
+    gcd,
 
-    primeFactorize,
+    normalizeFraction,
 
-    numberToPrimeFactorTerms,
+    addFractions,
 
-    evaluateTerms,
+    multiplyFraction,
 
-    mergeTermsByBase,
-
-    termsToHtml,
-
-    termsToPlain,
-
-    termsToSuperscriptText,
-
-    toSuperscript,
-
-    isPrime,
-
-    isStandardPrimeFactorization,
-
-    areTermsEqual,
-
-    areExpressionValuesEqual,
-
-    termsToFactorMap,
-
-
-    /*
-    新增多項式功能
-    */
-
-    normalizePolynomialTerm,
+    coefficientToFraction,
 
     normalizePolynomialTerms,
+
+    normalizePolynomialTermsAsFractions,
 
     polynomialTermToHtml,
 
@@ -5889,9 +5602,17 @@
 
     polynomialTermsToPlain,
 
-    polynomialTermsToCoefficientMap,
+    arePolynomialsEqual,
 
-    arePolynomialsEqual
+    toSuperscript,
+
+    termsToHtml,
+
+    termsToPlain,
+
+    evaluateTerms,
+
+    mergeTermsByBase
   };
 
 })();
