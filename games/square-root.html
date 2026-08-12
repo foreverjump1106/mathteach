@@ -1,0 +1,4575 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    平方根大挑戰｜數學遊戲樂園
+  </title>
+
+
+  <link
+    rel="stylesheet"
+    href="../css/scratchpad.css"
+  >
+
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    :root {
+
+      --primary:
+        #0288d1;
+
+      --primary-dark:
+        #01579b;
+
+      --primary-light:
+        #e1f5fe;
+
+      --primary-border:
+        #81d4fa;
+
+      --text:
+        #1f2937;
+
+      --muted:
+        #64748b;
+
+      --success:
+        #15803d;
+
+      --danger:
+        #b91c1c;
+
+      --warning:
+        #b45309;
+    }
+
+
+    body {
+
+      margin:
+        0;
+
+      min-height:
+        100vh;
+
+      padding:
+        16px;
+
+      font-family:
+        "Microsoft JhengHei",
+        "Noto Sans TC",
+        sans-serif;
+
+      color:
+        var(--text);
+
+      background:
+        linear-gradient(
+          135deg,
+          #e1f5fe,
+          #fff8e1
+        );
+    }
+
+
+    button,
+    input,
+    select {
+
+      font-family:
+        inherit;
+    }
+
+
+    .hidden {
+
+      display:
+        none !important;
+    }
+
+
+    .page-shell {
+
+      width:
+        min(
+          100%,
+          960px
+        );
+
+      margin:
+        0 auto;
+    }
+
+
+    #commonHeaderMount {
+
+      margin-bottom:
+        14px;
+    }
+
+
+    .game-card {
+
+      overflow:
+        hidden;
+
+      border:
+        1px solid
+        #d5edf9;
+
+      border-top:
+        8px solid
+        var(--primary);
+
+      border-radius:
+        26px;
+
+      background:
+        white;
+
+      box-shadow:
+        0 14px 34px
+        rgba(
+          15,
+          23,
+          42,
+          .13
+        );
+    }
+
+
+    /*
+    ==================================================
+    Header
+    ==================================================
+    */
+
+    .game-header {
+
+      padding:
+        24px 20px 18px;
+
+      text-align:
+        center;
+
+      background:
+        linear-gradient(
+          180deg,
+          var(--primary-light),
+          white
+        );
+    }
+
+
+    .game-title {
+
+      margin:
+        0;
+
+      color:
+        var(--primary-dark);
+
+      font-size:
+        clamp(
+          28px,
+          5vw,
+          40px
+        );
+    }
+
+
+    .game-subtitle {
+
+      margin:
+        10px 0 0;
+
+      color:
+        var(--muted);
+
+      line-height:
+        1.7;
+    }
+
+
+    .concept-strip {
+
+      display:
+        flex;
+
+      justify-content:
+        center;
+
+      gap:
+        8px;
+
+      margin-top:
+        16px;
+
+      flex-wrap:
+        wrap;
+    }
+
+
+    .concept-chip {
+
+      padding:
+        7px 11px;
+
+      border:
+        1px solid
+        var(--primary-border);
+
+      border-radius:
+        999px;
+
+      background:
+        white;
+
+      color:
+        var(--primary-dark);
+
+      font-size:
+        14px;
+
+      font-weight:
+        900;
+    }
+
+
+    .screen {
+
+      padding:
+        22px;
+    }
+
+
+    /*
+    ==================================================
+    Mode
+    ==================================================
+    */
+
+    .mode-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(
+            0,
+            1fr
+          )
+        );
+
+      gap:
+        16px;
+    }
+
+
+    .mode-card {
+
+      min-height:
+        190px;
+
+      padding:
+        21px;
+
+      border:
+        2px solid
+        var(--primary-border);
+
+      border-radius:
+        20px;
+
+      background:
+        linear-gradient(
+          180deg,
+          var(--primary-light),
+          white
+        );
+
+      text-align:
+        left;
+
+      cursor:
+        pointer;
+
+      transition:
+        .15s ease;
+    }
+
+
+    .mode-card:hover {
+
+      transform:
+        translateY(
+          -3px
+        );
+
+      box-shadow:
+        0 10px 24px
+        rgba(
+          15,
+          23,
+          42,
+          .11
+        );
+    }
+
+
+    .mode-tag {
+
+      display:
+        inline-block;
+
+      margin-bottom:
+        10px;
+
+      padding:
+        4px 9px;
+
+      border-radius:
+        999px;
+
+      background:
+        white;
+
+      color:
+        var(--primary-dark);
+
+      font-size:
+        12px;
+
+      font-weight:
+        900;
+    }
+
+
+    .mode-card h2 {
+
+      margin:
+        0 0 9px;
+
+      color:
+        var(--primary-dark);
+
+      font-size:
+        21px;
+    }
+
+
+    .mode-card p {
+
+      margin:
+        0;
+
+      color:
+        var(--muted);
+
+      line-height:
+        1.7;
+    }
+
+
+    .mode-example {
+
+      margin-top:
+        10px;
+
+      color:
+        #475569;
+
+      font-size:
+        14px;
+
+      font-weight:
+        900;
+
+      line-height:
+        1.6;
+    }
+
+
+    /*
+    ==================================================
+    Status
+    ==================================================
+    */
+
+    .quiz-topbar {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(
+          5,
+          minmax(
+            0,
+            1fr
+          )
+        );
+
+      gap:
+        10px;
+
+      margin-bottom:
+        12px;
+    }
+
+
+    .status-box {
+
+      min-height:
+        64px;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      justify-content:
+        center;
+
+      padding:
+        8px;
+
+      border-radius:
+        14px;
+
+      background:
+        var(--primary-light);
+
+      color:
+        var(--primary-dark);
+
+      text-align:
+        center;
+
+      font-weight:
+        900;
+    }
+
+
+    .status-value {
+
+      margin-top:
+        3px;
+
+      font-size:
+        18px;
+    }
+
+
+    .timer-box {
+
+      background:
+        #fff7ed;
+
+      color:
+        #c2410c;
+    }
+
+
+    /*
+    ==================================================
+    Scratchpad
+    ==================================================
+    */
+
+    .scratchpad-row {
+
+      display:
+        flex;
+
+      justify-content:
+        center;
+
+      min-height:
+        46px;
+
+      margin:
+        4px 0 12px;
+    }
+
+
+    #scratchpad-mobile-button {
+
+      display:
+        flex;
+
+      justify-content:
+        center;
+
+      width:
+        100%;
+    }
+
+
+    #scratchpad-mobile-button
+    #scratchpadOpenButton,
+
+    #scratchpad-mobile-button
+    .scratchpad-open-button {
+
+      position:
+        static !important;
+
+      inset:
+        auto !important;
+
+      transform:
+        none !important;
+
+      margin:
+        0 !important;
+    }
+
+
+    /*
+    ==================================================
+    Progress
+    ==================================================
+    */
+
+    .progress-shell {
+
+      height:
+        10px;
+
+      margin-bottom:
+        16px;
+
+      overflow:
+        hidden;
+
+      border-radius:
+        999px;
+
+      background:
+        #e2e8f0;
+    }
+
+
+    .progress-bar {
+
+      width:
+        0%;
+
+      height:
+        100%;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--primary),
+          #29b6f6
+        );
+
+      transition:
+        width .2s ease;
+    }
+
+
+    /*
+    ==================================================
+    Question
+    ==================================================
+    */
+
+    .question-card {
+
+      padding:
+        22px 18px;
+
+      border:
+        2px solid
+        var(--primary-border);
+
+      border-radius:
+        20px;
+
+      background:
+        white;
+
+      text-align:
+        center;
+    }
+
+
+    .question-label {
+
+      margin-bottom:
+        10px;
+
+      color:
+        var(--muted);
+
+      font-weight:
+        900;
+    }
+
+
+    .question-content {
+
+      min-height:
+        120px;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      color:
+        #0f172a;
+
+      font-size:
+        clamp(
+          28px,
+          6vw,
+          46px
+        );
+
+      font-weight:
+        900;
+
+      line-height:
+        1.8;
+    }
+
+
+    .question-content sup,
+    .explanation sup,
+    .review-question sup {
+
+      position:
+        relative;
+
+      top:
+        -.55em;
+
+      font-size:
+        .55em;
+
+      vertical-align:
+        baseline;
+    }
+
+
+    /*
+    ==================================================
+    Answer
+    ==================================================
+    */
+
+    .answer-panel {
+
+      margin-top:
+        16px;
+
+      padding:
+        18px;
+
+      border-radius:
+        18px;
+
+      background:
+        #f8fafc;
+    }
+
+
+    .answer-title {
+
+      margin-bottom:
+        10px;
+
+      color:
+        var(--primary-dark);
+
+      text-align:
+        center;
+
+      font-weight:
+        900;
+    }
+
+
+    .answer-help {
+
+      margin:
+        0 0 12px;
+
+      color:
+        #64748b;
+
+      text-align:
+        center;
+
+      font-size:
+        14px;
+
+      font-weight:
+        800;
+
+      line-height:
+        1.65;
+    }
+
+
+    .number-answer {
+
+      display:
+        flex;
+
+      justify-content:
+        center;
+    }
+
+
+    .number-answer input {
+
+      width:
+        min(
+          240px,
+          100%
+        );
+
+      padding:
+        13px;
+
+      border:
+        2px solid
+        #cbd5e1;
+
+      border-radius:
+        12px;
+
+      font-size:
+        24px;
+
+      font-weight:
+        900;
+
+      text-align:
+        center;
+    }
+
+
+    /*
+    ==================================================
+    Choice
+    ==================================================
+    */
+
+    .choice-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(
+            0,
+            1fr
+          )
+        );
+
+      gap:
+        10px;
+    }
+
+
+    .choice-button {
+
+      min-height:
+        62px;
+
+      padding:
+        11px;
+
+      border:
+        2px solid
+        var(--primary-border);
+
+      border-radius:
+        13px;
+
+      background:
+        white;
+
+      color:
+        #263238;
+
+      font-size:
+        16px;
+
+      font-weight:
+        900;
+
+      line-height:
+        1.6;
+
+      cursor:
+        pointer;
+    }
+
+
+    .choice-button.selected {
+
+      border-color:
+        var(--primary);
+
+      background:
+        var(--primary-light);
+
+      color:
+        var(--primary-dark);
+    }
+
+
+    /*
+    ==================================================
+    Buttons
+    ==================================================
+    */
+
+    .button-row {
+
+      display:
+        flex;
+
+      justify-content:
+        center;
+
+      gap:
+        10px;
+
+      margin-top:
+        16px;
+
+      flex-wrap:
+        wrap;
+    }
+
+
+    .game-button {
+
+      min-width:
+        132px;
+
+      padding:
+        12px 20px;
+
+      border:
+        none;
+
+      border-radius:
+        12px;
+
+      background:
+        var(--primary);
+
+      color:
+        white;
+
+      font-size:
+        16px;
+
+      font-weight:
+        900;
+
+      cursor:
+        pointer;
+
+      box-shadow:
+        0 5px 0
+        var(--primary-dark);
+    }
+
+
+    .game-button.secondary {
+
+      background:
+        #607d8b;
+
+      box-shadow:
+        0 5px 0
+        #455a64;
+    }
+
+
+    .game-button.orange {
+
+      background:
+        #f57c00;
+
+      box-shadow:
+        0 5px 0
+        #d86600;
+    }
+
+
+    .game-button.restart {
+
+      background:
+        #00897b;
+
+      box-shadow:
+        0 5px 0
+        #00695c;
+    }
+
+
+    /*
+    ==================================================
+    Feedback
+    ==================================================
+    */
+
+    .feedback {
+
+      min-height:
+        48px;
+
+      margin-top:
+        14px;
+
+      text-align:
+        center;
+
+      font-size:
+        18px;
+
+      font-weight:
+        900;
+
+      line-height:
+        1.7;
+    }
+
+
+    .feedback.correct {
+
+      color:
+        var(--success);
+    }
+
+
+    .feedback.wrong {
+
+      color:
+        var(--danger);
+    }
+
+
+    .feedback.warning {
+
+      color:
+        var(--warning);
+    }
+
+
+    .explanation {
+
+      margin-top:
+        12px;
+
+      padding:
+        16px;
+
+      border-radius:
+        14px;
+
+      background:
+        #eaf8fe;
+
+      color:
+        #334155;
+
+      line-height:
+        1.95;
+    }
+
+
+    .explanation-step {
+
+      margin:
+        7px 0;
+    }
+
+
+    /*
+    ==================================================
+    Result
+    ==================================================
+    */
+
+    .result-panel {
+
+      text-align:
+        center;
+    }
+
+
+    .result-score {
+
+      margin:
+        16px 0;
+
+      color:
+        #f57c00;
+
+      font-size:
+        56px;
+
+      font-weight:
+        900;
+    }
+
+
+    .result-stars {
+
+      margin-bottom:
+        10px;
+
+      font-size:
+        31px;
+    }
+
+
+    .result-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(
+          4,
+          minmax(
+            0,
+            1fr
+          )
+        );
+
+      gap:
+        12px;
+
+      margin:
+        20px 0;
+    }
+
+
+    .result-stat {
+
+      padding:
+        16px 10px;
+
+      border-radius:
+        16px;
+
+      background:
+        var(--primary-light);
+
+      color:
+        var(--primary-dark);
+
+      font-weight:
+        900;
+    }
+
+
+    .save-status {
+
+      min-height:
+        28px;
+
+      margin:
+        14px 0 0;
+
+      font-weight:
+        900;
+    }
+
+
+    /*
+    ==================================================
+    Review
+    ==================================================
+    */
+
+    .review-list {
+
+      display:
+        grid;
+
+      gap:
+        14px;
+    }
+
+
+    .review-card {
+
+      padding:
+        18px;
+
+      border:
+        1px solid
+        #e2e8f0;
+
+      border-radius:
+        16px;
+
+      background:
+        white;
+    }
+
+
+    .review-title {
+
+      color:
+        var(--danger);
+
+      font-weight:
+        900;
+    }
+
+
+    .review-question {
+
+      margin:
+        8px 0;
+
+      font-size:
+        20px;
+
+      font-weight:
+        900;
+
+      line-height:
+        1.8;
+    }
+
+
+    .review-answer {
+
+      color:
+        #475569;
+
+      line-height:
+        1.9;
+    }
+
+
+    @media(
+      max-width:760px
+    ) {
+
+      body {
+
+        padding:
+          8px;
+      }
+
+
+      .screen {
+
+        padding:
+          18px 12px;
+      }
+
+
+      .mode-grid {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .quiz-topbar {
+
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(
+              0,
+              1fr
+            )
+          );
+      }
+
+
+      .timer-box {
+
+        grid-column:
+          1 / -1;
+      }
+
+
+      .choice-grid {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .result-grid {
+
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(
+              0,
+              1fr
+            )
+          );
+      }
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<div class="page-shell">
+
+
+  <div id="commonHeaderMount"></div>
+
+
+  <main class="game-card">
+
+
+    <header class="game-header">
+
+      <h1 class="game-title">
+        🌱 平方根大挑戰
+      </h1>
+
+      <p class="game-subtitle">
+        從算術平方根開始，逐步挑戰正負平方根、根式化簡與平方根估算。
+      </p>
+
+
+      <div class="concept-strip">
+
+        <span class="concept-chip">
+          算術平方根
+        </span>
+
+        <span class="concept-chip">
+          正負平方根
+        </span>
+
+        <span class="concept-chip">
+          最簡根式
+        </span>
+
+        <span class="concept-chip">
+          平方根估算
+        </span>
+
+      </div>
+
+    </header>
+
+
+    <!-- 模式 -->
+
+    <section
+      id="start-screen"
+      class="screen"
+    >
+
+      <div class="mode-grid">
+
+
+        <button
+          class="mode-card"
+          type="button"
+          data-mode="basic"
+        >
+
+          <span class="mode-tag">
+            基礎
+          </span>
+
+          <h2>
+            模式一｜平方根基礎
+          </h2>
+
+          <p>
+            熟悉完全平方數與算術平方根。
+          </p>
+
+          <div class="mode-example">
+            例如：√81、√144
+          </div>
+
+        </button>
+
+
+        <button
+          class="mode-card"
+          type="button"
+          data-mode="signed"
+        >
+
+          <span class="mode-tag">
+            觀念
+          </span>
+
+          <h2>
+            模式二｜平方根與正負判讀
+          </h2>
+
+          <p>
+            分辨算術平方根、平方根與 x²＝a 的解。
+          </p>
+
+          <div class="mode-example">
+            √49＝7，但 49 的平方根是 ±7。
+          </div>
+
+        </button>
+
+
+        <button
+          class="mode-card"
+          type="button"
+          data-mode="simplify"
+        >
+
+          <span class="mode-tag">
+            化簡
+          </span>
+
+          <h2>
+            模式三｜根號化簡與估算
+          </h2>
+
+          <p>
+            將根式整理成最簡形式，並判斷平方根的大小範圍。
+          </p>
+
+          <div class="mode-example">
+            √72＝6√2
+          </div>
+
+        </button>
+
+
+        <button
+          class="mode-card"
+          type="button"
+          data-mode="mixed"
+        >
+
+          <span class="mode-tag">
+            綜合
+          </span>
+
+          <h2>
+            模式四｜平方根綜合挑戰
+          </h2>
+
+          <p>
+            將前三種題型混合，不提示使用哪一種方法。
+          </p>
+
+          <div class="mode-example">
+            基礎、±、化簡、估算全部混合。
+          </div>
+
+        </button>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- Quiz -->
+
+    <section
+      id="quiz-screen"
+      class="screen hidden"
+    >
+
+      <div class="quiz-topbar">
+
+
+        <div class="status-box">
+
+          模式
+
+          <span
+            id="mode-name"
+            class="status-value"
+          >
+            —
+          </span>
+
+        </div>
+
+
+        <div class="status-box">
+
+          進度
+
+          <span
+            id="question-number"
+            class="status-value"
+          >
+            1 / 10
+          </span>
+
+        </div>
+
+
+        <div class="status-box">
+
+          答對
+
+          <span
+            id="correct-count"
+            class="status-value"
+          >
+            0
+          </span>
+
+        </div>
+
+
+        <div class="status-box">
+
+          最高連擊
+
+          <span
+            id="combo-count"
+            class="status-value"
+          >
+            0
+          </span>
+
+        </div>
+
+
+        <div class="status-box timer-box">
+
+          測驗時間
+
+          <span
+            id="timer-display"
+            class="status-value"
+          >
+            00:00
+          </span>
+
+        </div>
+
+
+      </div>
+
+
+      <div class="scratchpad-row">
+
+        <div
+          id="scratchpad-mobile-button"
+        ></div>
+
+      </div>
+
+
+      <div class="progress-shell">
+
+        <div
+          id="progress-bar"
+          class="progress-bar"
+        ></div>
+
+      </div>
+
+
+      <div class="question-card">
+
+        <div
+          id="question-label"
+          class="question-label"
+        ></div>
+
+        <div
+          id="question-content"
+          class="question-content"
+        ></div>
+
+      </div>
+
+
+      <div
+        id="answer-panel"
+        class="answer-panel"
+      ></div>
+
+
+      <div class="button-row">
+
+        <button
+          id="submit-button"
+          class="game-button"
+          type="button"
+        >
+          提交答案（Enter）
+        </button>
+
+
+        <button
+          id="next-button"
+          class="game-button hidden"
+          type="button"
+        >
+          下一題（Enter）
+        </button>
+
+
+        <button
+          id="restart-button"
+          class="game-button restart"
+          type="button"
+        >
+          🔄 重新測驗
+        </button>
+
+
+        <button
+          id="mode-button"
+          class="game-button secondary"
+          type="button"
+        >
+          選擇模式
+        </button>
+
+      </div>
+
+
+      <div
+        id="feedback"
+        class="feedback"
+      ></div>
+
+
+      <div
+        id="explanation"
+        class="explanation hidden"
+      ></div>
+
+    </section>
+
+
+    <!-- Result -->
+
+    <section
+      id="result-screen"
+      class="screen hidden result-panel"
+    >
+
+      <h2>
+        🎉 挑戰完成
+      </h2>
+
+
+      <div
+        id="final-score"
+        class="result-score"
+      >
+        0 分
+      </div>
+
+
+      <div
+        id="final-stars"
+        class="result-stars"
+      >
+        ★★★☆☆
+      </div>
+
+
+      <p id="final-comment"></p>
+
+
+      <div class="result-grid">
+
+
+        <div class="result-stat">
+
+          答對
+          <br>
+
+          <span id="final-correct">
+            0
+          </span>
+
+          題
+
+        </div>
+
+
+        <div class="result-stat">
+
+          答錯
+          <br>
+
+          <span id="final-wrong">
+            0
+          </span>
+
+          題
+
+        </div>
+
+
+        <div class="result-stat">
+
+          最高連擊
+          <br>
+
+          <span id="final-combo">
+            0
+          </span>
+
+        </div>
+
+
+        <div class="result-stat">
+
+          測驗時間
+          <br>
+
+          <span id="final-time">
+            00:00
+          </span>
+
+        </div>
+
+
+      </div>
+
+
+      <div
+        id="save-status"
+        class="save-status"
+      ></div>
+
+
+      <div class="button-row">
+
+        <button
+          id="again-button"
+          class="game-button restart"
+          type="button"
+        >
+          🔄 重新測驗
+        </button>
+
+
+        <button
+          id="review-button"
+          class="game-button orange"
+          type="button"
+        >
+          錯題回顧
+        </button>
+
+
+        <button
+          id="result-mode-button"
+          class="game-button secondary"
+          type="button"
+        >
+          選擇模式
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- Review -->
+
+    <section
+      id="review-screen"
+      class="screen hidden"
+    >
+
+      <h2>
+        📝 錯題回顧
+      </h2>
+
+
+      <div
+        id="review-list"
+        class="review-list"
+      ></div>
+
+
+      <div class="button-row">
+
+        <button
+          id="review-again-button"
+          class="game-button restart"
+          type="button"
+        >
+          🔄 重新測驗
+        </button>
+
+
+        <button
+          id="review-result-button"
+          class="game-button secondary"
+          type="button"
+        >
+          回到測驗結果
+        </button>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+</div>
+
+
+<!-- 共用 -->
+
+<script src="../js/common-header.js"></script>
+
+<script src="../js/scratchpad.js"></script>
+
+<script src="../js/scratchpad-template.js"></script>
+
+<script src="../js/sound-manager.js?v=1"></script>
+
+<script src="../js/radical-input.js?v=1"></script>
+
+
+<script type="module">
+
+
+import {
+  saveGameScore
+} from "../js/scores.js";
+
+
+"use strict";
+
+
+/*
+==================================================
+設定
+==================================================
+*/
+
+const GAME_ID =
+  "squareRoot";
+
+
+const TOTAL_QUESTIONS =
+  10;
+
+
+const MODE_NAMES = {
+
+  basic:
+    "平方根基礎",
+
+  signed:
+    "平方根與正負判讀",
+
+  simplify:
+    "根號化簡與估算",
+
+  mixed:
+    "平方根綜合挑戰"
+};
+
+
+const $ =
+  id =>
+    document.getElementById(
+      id
+    );
+
+
+const RU =
+  () =>
+    window.RadicalInputUtils;
+
+
+let mode =
+  "basic";
+
+
+let questions =
+  [];
+
+
+let index =
+  0;
+
+
+let correct =
+  0;
+
+
+let wrong =
+  0;
+
+
+let combo =
+  0;
+
+
+let maxCombo =
+  0;
+
+
+let records =
+  [];
+
+
+let answered =
+  false;
+
+
+let selectedChoice =
+  null;
+
+
+let radicalInput =
+  null;
+
+
+let startTime =
+  0;
+
+
+let elapsed =
+  0;
+
+
+let timerId =
+  null;
+
+
+let scoreSaved =
+  false;
+
+
+/*
+==================================================
+工具
+==================================================
+*/
+
+function rand(
+  min,
+  max
+) {
+
+  return (
+    Math.floor(
+      Math.random() *
+      (
+        max -
+        min +
+        1
+      )
+    ) +
+    min
+  );
+}
+
+
+function pick(
+  array
+) {
+
+  return array[
+    Math.floor(
+      Math.random() *
+      array.length
+    )
+  ];
+}
+
+
+function shuffle(
+  array
+) {
+
+  const result =
+    [...array];
+
+
+  for (
+    let i =
+      result.length -
+      1;
+
+    i >
+      0;
+
+    i--
+  ) {
+
+    const j =
+      Math.floor(
+        Math.random() *
+        (
+          i +
+          1
+        )
+      );
+
+
+    [
+      result[i],
+      result[j]
+    ] = [
+      result[j],
+      result[i]
+    ];
+  }
+
+
+  return result;
+}
+
+
+/*
+==================================================
+音效
+==================================================
+*/
+
+function playGameSound(
+  method
+) {
+
+  try {
+
+    const sound =
+      window.GameSound ||
+      window.MathGameSound;
+
+
+    sound?.[
+      method
+    ]?.();
+
+  } catch (
+    error
+  ) {
+
+    console.warn(
+      "音效播放失敗：",
+      error
+    );
+  }
+}
+
+
+/*
+==================================================
+Timer
+==================================================
+*/
+
+function formatTime(
+  seconds
+) {
+
+  const minutes =
+    Math.floor(
+      seconds /
+      60
+    );
+
+
+  const remain =
+    seconds %
+    60;
+
+
+  return (
+    `${String(minutes).padStart(2,"0")}:` +
+    `${String(remain).padStart(2,"0")}`
+  );
+}
+
+
+function startTimer() {
+
+  stopTimer();
+
+
+  startTime =
+    Date.now();
+
+
+  elapsed =
+    0;
+
+
+  $("timer-display")
+    .textContent =
+      "00:00";
+
+
+  timerId =
+    setInterval(
+      () => {
+
+        elapsed =
+          Math.floor(
+            (
+              Date.now() -
+              startTime
+            ) /
+            1000
+          );
+
+
+        $("timer-display")
+          .textContent =
+            formatTime(
+              elapsed
+            );
+
+      },
+      500
+    );
+}
+
+
+function stopTimer() {
+
+  if (
+    timerId !==
+    null
+  ) {
+
+    clearInterval(
+      timerId
+    );
+
+
+    timerId =
+      null;
+  }
+
+
+  if (
+    startTime
+  ) {
+
+    elapsed =
+      Math.floor(
+        (
+          Date.now() -
+          startTime
+        ) /
+        1000
+      );
+  }
+}
+
+
+/*
+==================================================
+Scratchpad
+==================================================
+*/
+
+function moveScratchpadButtonToTop() {
+
+  const mount =
+    $("scratchpad-mobile-button");
+
+
+  const button =
+    $("scratchpadOpenButton");
+
+
+  if (
+    mount &&
+    button &&
+    !mount.contains(
+      button
+    )
+  ) {
+
+    mount.appendChild(
+      button
+    );
+  }
+}
+
+
+/*
+==================================================
+畫面
+==================================================
+*/
+
+function showOnly(
+  screenId
+) {
+
+  [
+    "start-screen",
+    "quiz-screen",
+    "result-screen",
+    "review-screen"
+  ]
+    .forEach(
+      id => {
+
+        $(id)
+          .classList
+          .toggle(
+            "hidden",
+            id !==
+              screenId
+          );
+      }
+    );
+
+
+  if (
+    screenId ===
+    "quiz-screen"
+  ) {
+
+    moveScratchpadButtonToTop();
+
+
+    window
+      .showGameScratchpadButton
+      ?.();
+
+  } else {
+
+    window
+      .hideGameScratchpadButton
+      ?.();
+  }
+}
+
+
+/*
+==================================================
+題目物件
+==================================================
+*/
+
+function numberQuestion(
+  html,
+  answer,
+  explanation,
+  label
+) {
+
+  return {
+
+    type:
+      "number",
+
+    html,
+
+    answer,
+
+    explanation,
+
+    label
+  };
+}
+
+
+function signedQuestion(
+  html,
+  sign,
+  number,
+  explanation,
+  label
+) {
+
+  return {
+
+    type:
+      "signedNumber",
+
+    html,
+
+    sign,
+
+    number,
+
+    explanation,
+
+    label
+  };
+}
+
+
+function radicalQuestion(
+  html,
+  coefficient,
+  radicand,
+  explanation,
+  label
+) {
+
+  return {
+
+    type:
+      "radical",
+
+    html,
+
+    coefficient,
+
+    radicand,
+
+    explanation,
+
+    label
+  };
+}
+
+
+function choiceQuestion(
+  html,
+  choices,
+  answer,
+  explanation,
+  label
+) {
+
+  return {
+
+    type:
+      "choice",
+
+    html,
+
+    choices,
+
+    answer,
+
+    explanation,
+
+    label
+  };
+}
+
+
+/*
+==================================================
+模式一
+==================================================
+*/
+
+function makeBasicQuestion() {
+
+  const root =
+    rand(
+      2,
+      15
+    );
+
+
+  const square =
+    root *
+    root;
+
+
+  return numberQuestion(
+
+    `√${square}`,
+
+    root,
+
+    [
+
+      `${root}<sup>2</sup>
+       ＝
+       ${square}`,
+
+      `所以
+       √${square}
+       ＝
+       ${root}`,
+
+      "根號 √ 表示算術平方根，因此答案取非負值。"
+    ],
+
+    "請求出算術平方根"
+  );
+}
+
+
+function makeSquareToRootQuestion() {
+
+  const root =
+    rand(
+      2,
+      15
+    );
+
+
+  const square =
+    root *
+    root;
+
+
+  return numberQuestion(
+
+    `若 a ＞ 0，且 a<sup>2</sup>＝${square}，則 a＝？`,
+
+    root,
+
+    [
+
+      `${root}<sup>2</sup>
+       ＝
+       ${square}`,
+
+      "題目已知 a ＞ 0。",
+
+      `所以 a＝${root}`
+    ],
+
+    "請輸入正確數值"
+  );
+}
+
+
+function makeMode1() {
+
+  return shuffle(
+    [
+
+      makeBasicQuestion(),
+      makeBasicQuestion(),
+      makeBasicQuestion(),
+      makeBasicQuestion(),
+      makeBasicQuestion(),
+      makeBasicQuestion(),
+      makeBasicQuestion(),
+
+      makeSquareToRootQuestion(),
+      makeSquareToRootQuestion(),
+      makeSquareToRootQuestion()
+    ]
+  );
+}
+
+
+/*
+==================================================
+模式二
+==================================================
+*/
+
+function makeEquationQuestion() {
+
+  const root =
+    rand(
+      2,
+      14
+    );
+
+
+  const square =
+    root *
+    root;
+
+
+  return signedQuestion(
+
+    `x<sup>2</sup>
+     ＝
+     ${square}`,
+
+    "pm",
+
+    root,
+
+    [
+
+      `${root}<sup>2</sup>
+       ＝
+       ${square}`,
+
+      `而
+       (−${root})<sup>2</sup>
+       ＝
+       ${square}`,
+
+      `所以 x＝±${root}`
+    ],
+
+    "請輸入方程式的兩個解"
+  );
+}
+
+
+function makeSquareRootsQuestion() {
+
+  const root =
+    rand(
+      2,
+      14
+    );
+
+
+  const square =
+    root *
+    root;
+
+
+  return signedQuestion(
+
+    `${square} 的平方根是多少？`,
+
+    "pm",
+
+    root,
+
+    [
+
+      `${root}<sup>2</sup>
+       ＝
+       ${square}`,
+
+      `(−${root})<sup>2</sup>
+       也等於
+       ${square}`,
+
+      `因此 ${square} 的平方根為 ±${root}`
+    ],
+
+    "請輸入這個數的平方根"
+  );
+}
+
+
+function makeConceptQuestion() {
+
+  const root =
+    rand(
+      2,
+      12
+    );
+
+
+  const square =
+    root *
+    root;
+
+
+  const type =
+    pick(
+      [
+        "arithmetic",
+        "negativeRoot",
+        "equation"
+      ]
+    );
+
+
+  if (
+    type ===
+    "arithmetic"
+  ) {
+
+    return choiceQuestion(
+
+      `√${square}
+       的值是哪一個？`,
+
+      shuffle(
+        [
+
+          {
+            value:
+              "correct",
+
+            text:
+              `${root}`
+          },
+
+          {
+            value:
+              "pm",
+
+            text:
+              `±${root}`
+          },
+
+          {
+            value:
+              "negative",
+
+            text:
+              `−${root}`
+          },
+
+          {
+            value:
+              "square",
+
+            text:
+              `${square}`
+          }
+        ]
+      ),
+
+      "correct",
+
+      [
+
+        "√a 表示 a 的算術平方根。",
+
+        "算術平方根取非負值。",
+
+        `所以 √${square}＝${root}`
+      ],
+
+      "請選出正確答案"
+    );
+  }
+
+
+  if (
+    type ===
+    "negativeRoot"
+  ) {
+
+    return choiceQuestion(
+
+      `−${root} 是 ${square} 的平方根嗎？`,
+
+      [
+
+        {
+          value:
+            "yes",
+
+          text:
+            "是"
+        },
+
+        {
+          value:
+            "no",
+
+          text:
+            "不是"
+        }
+      ],
+
+      "yes",
+
+      [
+
+        `(−${root})<sup>2</sup>
+         ＝
+         ${square}`,
+
+        `因此 −${root} 確實是 ${square} 的平方根之一。`
+      ],
+
+      "請判斷敘述是否正確"
+    );
+  }
+
+
+  return choiceQuestion(
+
+    `x<sup>2</sup>＝${square}
+     的解是哪一個？`,
+
+    shuffle(
+      [
+
+        {
+          value:
+            "correct",
+
+          text:
+            `x＝±${root}`
+        },
+
+        {
+          value:
+            "positive",
+
+          text:
+            `x＝${root}`
+        },
+
+        {
+          value:
+            "negative",
+
+          text:
+            `x＝−${root}`
+        },
+
+        {
+          value:
+            "square",
+
+          text:
+            `x＝${square}`
+        }
+      ]
+    ),
+
+    "correct",
+
+    [
+
+      `正數 ${square} 有兩個平方根。`,
+
+      `所以 x＝±${root}`
+    ],
+
+    "請選出正確答案"
+  );
+}
+
+
+function makeMode2() {
+
+  return shuffle(
+    [
+
+      makeEquationQuestion(),
+      makeEquationQuestion(),
+      makeEquationQuestion(),
+      makeEquationQuestion(),
+
+      makeSquareRootsQuestion(),
+      makeSquareRootsQuestion(),
+      makeSquareRootsQuestion(),
+
+      makeConceptQuestion(),
+      makeConceptQuestion(),
+      makeConceptQuestion()
+    ]
+  );
+}
+
+
+/*
+==================================================
+模式三｜根式化簡
+==================================================
+*/
+
+function makeSimplifyQuestion() {
+
+  const outside =
+    rand(
+      2,
+      7
+    );
+
+
+  const simpleRadicand =
+    pick(
+      [
+        2,
+        3,
+        5,
+        6,
+        7,
+        10,
+        11,
+        13
+      ]
+    );
+
+
+  const original =
+    outside *
+    outside *
+    simpleRadicand;
+
+
+  return radicalQuestion(
+
+    `√${original}`,
+
+    outside,
+
+    simpleRadicand,
+
+    [
+
+      `${original}
+       ＝
+       ${outside * outside}
+       ×
+       ${simpleRadicand}`,
+
+      `√${original}
+       ＝
+       √${outside * outside}
+       ×
+       √${simpleRadicand}`,
+
+      `＝
+       ${outside}√${simpleRadicand}`
+    ],
+
+    "請化成最簡根式"
+  );
+}
+
+
+/*
+==================================================
+模式三｜估算
+==================================================
+*/
+
+function makeEstimateQuestion() {
+
+  const lower =
+    rand(
+      2,
+      12
+    );
+
+
+  const lowerSquare =
+    lower *
+    lower;
+
+
+  const upperSquare =
+    (
+      lower +
+      1
+    ) *
+    (
+      lower +
+      1
+    );
+
+
+  const number =
+    rand(
+      lowerSquare +
+      1,
+      upperSquare -
+      1
+    );
+
+
+  const correctText =
+    `${lower}＜√${number}＜${lower + 1}`;
+
+
+  const choices =
+    [
+
+      {
+        value:
+          "correct",
+
+        text:
+          correctText
+      },
+
+      {
+        value:
+          "oneLess",
+
+        text:
+          `${lower - 1}＜√${number}＜${lower}`
+      },
+
+      {
+        value:
+          "oneMore",
+
+        text:
+          `${lower + 1}＜√${number}＜${lower + 2}`
+      },
+
+      {
+        value:
+          "wrong",
+
+        text:
+          `${lower}＜√${number}＜${lower + 2}`
+      }
+    ];
+
+
+  return choiceQuestion(
+
+    `√${number}
+     介於哪兩個連續整數之間？`,
+
+    shuffle(
+      choices
+    ),
+
+    "correct",
+
+    [
+
+      `${lower}<sup>2</sup>
+       ＝
+       ${lowerSquare}`,
+
+      `${lower + 1}<sup>2</sup>
+       ＝
+       ${upperSquare}`,
+
+      `${lowerSquare}
+       ＜
+       ${number}
+       ＜
+       ${upperSquare}`,
+
+      `所以
+       ${lower}
+       ＜
+       √${number}
+       ＜
+       ${lower + 1}`
+    ],
+
+    "請選出正確範圍"
+  );
+}
+
+
+function makeMode3() {
+
+  return shuffle(
+    [
+
+      makeSimplifyQuestion(),
+      makeSimplifyQuestion(),
+      makeSimplifyQuestion(),
+      makeSimplifyQuestion(),
+      makeSimplifyQuestion(),
+      makeSimplifyQuestion(),
+
+      makeEstimateQuestion(),
+      makeEstimateQuestion(),
+      makeEstimateQuestion(),
+      makeEstimateQuestion()
+    ]
+  );
+}
+
+
+/*
+==================================================
+模式四
+==================================================
+*/
+
+function makeMode4() {
+
+  return shuffle(
+    [
+
+      makeBasicQuestion(),
+
+      makeBasicQuestion(),
+
+      makeEquationQuestion(),
+
+      makeSquareRootsQuestion(),
+
+      makeConceptQuestion(),
+
+      makeSimplifyQuestion(),
+
+      makeSimplifyQuestion(),
+
+      makeSimplifyQuestion(),
+
+      makeEstimateQuestion(),
+
+      makeEstimateQuestion()
+    ]
+  );
+}
+
+
+/*
+==================================================
+建立題目
+==================================================
+*/
+
+function createQuestions() {
+
+  if (
+    mode ===
+    "basic"
+  ) {
+
+    return makeMode1();
+  }
+
+
+  if (
+    mode ===
+    "signed"
+  ) {
+
+    return makeMode2();
+  }
+
+
+  if (
+    mode ===
+    "simplify"
+  ) {
+
+    return makeMode3();
+  }
+
+
+  return makeMode4();
+}
+
+
+/*
+==================================================
+作答介面
+==================================================
+*/
+
+function renderAnswer(
+  question
+) {
+
+  selectedChoice =
+    null;
+
+
+  radicalInput =
+    null;
+
+
+  const panel =
+    $("answer-panel");
+
+
+  /*
+  Number
+  */
+
+  if (
+    question.type ===
+    "number"
+  ) {
+
+    panel.innerHTML = `
+
+      <div class="answer-title">
+        ${question.label}
+      </div>
+
+      <div class="number-answer">
+
+        <input
+          id="number-answer"
+          type="text"
+          inputmode="numeric"
+          autocomplete="off"
+          placeholder="輸入答案"
+        >
+
+      </div>
+    `;
+
+
+    setTimeout(
+      () =>
+        $("number-answer")
+          ?.focus(),
+      0
+    );
+
+
+    return;
+  }
+
+
+  /*
+  Signed number
+  */
+
+  if (
+    question.type ===
+    "signedNumber"
+  ) {
+
+    panel.innerHTML = `
+
+      <div class="answer-title">
+        ${question.label}
+      </div>
+
+      <p class="answer-help">
+        請選擇正確的正負符號，再輸入數值。
+      </p>
+
+      <div
+        id="radical-answer-mount"
+      ></div>
+    `;
+
+
+    radicalInput =
+      new window.RadicalInput(
+        {
+
+          mountId:
+            "radical-answer-mount",
+
+          mode:
+            "signedNumber",
+
+          allowPositive:
+            true,
+
+          allowNegative:
+            true,
+
+          allowPlusMinus:
+            true,
+
+          theme: {
+
+            primary:
+              "#0288d1",
+
+            light:
+              "#e1f5fe",
+
+            border:
+              "#81d4fa"
+          }
+        }
+      );
+
+
+    setTimeout(
+      () =>
+        radicalInput
+          ?.focus(),
+      0
+    );
+
+
+    return;
+  }
+
+
+  /*
+  Radical
+  */
+
+  if (
+    question.type ===
+    "radical"
+  ) {
+
+    panel.innerHTML = `
+
+      <div class="answer-title">
+        ${question.label}
+      </div>
+
+      <p class="answer-help">
+
+        根號外係數為 1 時可以保留 1 輸入。<br>
+
+        若根號內還能化簡，
+        系統只會提醒，不會替你自動化簡。
+
+      </p>
+
+      <div
+        id="radical-answer-mount"
+      ></div>
+    `;
+
+
+    radicalInput =
+      new window.RadicalInput(
+        {
+
+          mountId:
+            "radical-answer-mount",
+
+          mode:
+            "radical",
+
+          requireSimplifiedRadical:
+            true,
+
+          theme: {
+
+            primary:
+              "#0288d1",
+
+            light:
+              "#e1f5fe",
+
+            border:
+              "#81d4fa"
+          }
+        }
+      );
+
+
+    setTimeout(
+      () =>
+        radicalInput
+          ?.focus(),
+      0
+    );
+
+
+    return;
+  }
+
+
+  /*
+  Choice
+  */
+
+  panel.innerHTML = `
+
+    <div class="answer-title">
+      ${question.label}
+    </div>
+
+    <div class="choice-grid">
+
+      ${
+        question.choices
+          .map(
+            choice => `
+
+              <button
+                type="button"
+                class="choice-button"
+                data-choice="${choice.value}"
+              >
+                ${choice.text}
+              </button>
+            `
+          )
+          .join("")
+      }
+
+    </div>
+  `;
+
+
+  panel
+    .querySelectorAll(
+      ".choice-button"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            selectedChoice =
+              button.dataset.choice;
+
+
+            panel
+              .querySelectorAll(
+                ".choice-button"
+              )
+              .forEach(
+                item =>
+                  item.classList.remove(
+                    "selected"
+                  )
+              );
+
+
+            button.classList.add(
+              "selected"
+            );
+          }
+        );
+      }
+    );
+}
+
+
+/*
+==================================================
+Display
+==================================================
+*/
+
+function displayQuestion() {
+
+  answered =
+    false;
+
+
+  const question =
+    questions[
+      index
+    ];
+
+
+  $("mode-name")
+    .textContent =
+      MODE_NAMES[
+        mode
+      ];
+
+
+  $("question-number")
+    .textContent =
+      `${index + 1} / ${TOTAL_QUESTIONS}`;
+
+
+  $("correct-count")
+    .textContent =
+      correct;
+
+
+  $("combo-count")
+    .textContent =
+      maxCombo;
+
+
+  $("progress-bar")
+    .style
+    .width =
+      `${
+        index /
+        TOTAL_QUESTIONS *
+        100
+      }%`;
+
+
+  $("question-label")
+    .textContent =
+      question.label;
+
+
+  $("question-content")
+    .innerHTML =
+      question.html;
+
+
+  $("feedback")
+    .className =
+      "feedback";
+
+
+  $("feedback")
+    .textContent =
+      "";
+
+
+  $("explanation")
+    .classList
+    .add(
+      "hidden"
+    );
+
+
+  $("explanation")
+    .innerHTML =
+      "";
+
+
+  $("submit-button")
+    .classList
+    .remove(
+      "hidden"
+    );
+
+
+  $("next-button")
+    .classList
+    .add(
+      "hidden"
+    );
+
+
+  renderAnswer(
+    question
+  );
+
+
+  window
+    .resetGameScratchpad
+    ?.();
+}
+
+
+/*
+==================================================
+Read
+==================================================
+*/
+
+function readAnswer(
+  question
+) {
+
+  if (
+    question.type ===
+    "number"
+  ) {
+
+    const raw =
+      $("number-answer")
+        ?.value
+        .trim() ||
+      "";
+
+
+    if (
+      !/^-?\d+$/
+        .test(
+          raw
+        )
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "請輸入完整的整數答案。"
+      };
+    }
+
+
+    return {
+
+      valid:
+        true,
+
+      value:
+        Number(
+          raw
+        ),
+
+      display:
+        raw
+    };
+  }
+
+
+  if (
+    question.type ===
+      "signedNumber" ||
+    question.type ===
+      "radical"
+  ) {
+
+    const result =
+      radicalInput
+        ?.validate();
+
+
+    if (
+      !result?.valid
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        reason:
+          result?.reason,
+
+        message:
+          result?.message ||
+          "請把答案輸入完整。"
+      };
+    }
+
+
+    return {
+
+      valid:
+        true,
+
+      value:
+        result.value,
+
+      display:
+        result.value.display
+    };
+  }
+
+
+  if (
+    !selectedChoice
+  ) {
+
+    return {
+
+      valid:
+        false,
+
+      message:
+        "請先選擇一個答案。"
+    };
+  }
+
+
+  const choice =
+    question.choices.find(
+      item =>
+        item.value ===
+        selectedChoice
+    );
+
+
+  return {
+
+    valid:
+      true,
+
+    value:
+      selectedChoice,
+
+    display:
+      choice?.text ||
+      selectedChoice
+  };
+}
+
+
+/*
+==================================================
+Correct
+==================================================
+*/
+
+function checkCorrect(
+  question,
+  answer
+) {
+
+  if (
+    question.type ===
+    "number"
+  ) {
+
+    return (
+      answer.value ===
+      question.answer
+    );
+  }
+
+
+  if (
+    question.type ===
+    "signedNumber"
+  ) {
+
+    return (
+
+      String(
+        answer.value.sign
+      ) ===
+        String(
+          question.sign
+        ) &&
+
+      answer.value.number ===
+        question.number
+    );
+  }
+
+
+  if (
+    question.type ===
+    "radical"
+  ) {
+
+    return (
+
+      answer.value.coefficient ===
+        question.coefficient &&
+
+      answer.value.radicand ===
+        question.radicand
+    );
+  }
+
+
+  return (
+    answer.value ===
+    question.answer
+  );
+}
+
+
+/*
+==================================================
+正確答案
+==================================================
+*/
+
+function correctAnswerText(
+  question
+) {
+
+  if (
+    question.type ===
+    "number"
+  ) {
+
+    return String(
+      question.answer
+    );
+  }
+
+
+  if (
+    question.type ===
+    "signedNumber"
+  ) {
+
+    if (
+      question.sign ===
+      "pm"
+    ) {
+
+      return (
+        `±${question.number}`
+      );
+    }
+
+
+    if (
+      String(
+        question.sign
+      ) ===
+      "-1"
+    ) {
+
+      return (
+        `−${question.number}`
+      );
+    }
+
+
+    return String(
+      question.number
+    );
+  }
+
+
+  if (
+    question.type ===
+    "radical"
+  ) {
+
+    return RU()
+      .radicalToHTML(
+        question.coefficient,
+        question.radicand
+      );
+  }
+
+
+  return (
+    question.choices.find(
+      item =>
+        item.value ===
+        question.answer
+    )?.text ||
+    question.answer
+  );
+}
+
+
+/*
+==================================================
+Explanation
+==================================================
+*/
+
+function explanationHTML(
+  question
+) {
+
+  return question.explanation
+
+    .map(
+      (
+        step,
+        i
+      ) => `
+
+        <div class="explanation-step">
+
+          <strong>
+            步驟 ${i + 1}｜
+          </strong>
+
+          ${step}
+
+        </div>
+      `
+    )
+
+    .join("");
+}
+
+
+/*
+==================================================
+Submit
+==================================================
+*/
+
+function submitAnswer() {
+
+  if (
+    answered
+  ) {
+
+    return;
+  }
+
+
+  const question =
+    questions[
+      index
+    ];
+
+
+  const answer =
+    readAnswer(
+      question
+    );
+
+
+  /*
+  ★ 最簡根式提醒也會走這裡
+
+  不判錯
+  不扣分
+  不播放錯誤音效
+  */
+
+  if (
+    !answer.valid
+  ) {
+
+    $("feedback")
+      .className =
+        "feedback warning";
+
+
+    $("feedback")
+      .textContent =
+        answer.message;
+
+
+    return;
+  }
+
+
+  answered =
+    true;
+
+
+  radicalInput
+    ?.setDisabled(
+      true
+    );
+
+
+  const isCorrect =
+    checkCorrect(
+      question,
+      answer
+    );
+
+
+  if (
+    isCorrect
+  ) {
+
+    correct++;
+
+    combo++;
+
+    maxCombo =
+      Math.max(
+        maxCombo,
+        combo
+      );
+
+
+    $("feedback")
+      .className =
+        "feedback correct";
+
+
+    $("feedback")
+      .textContent =
+        "✨ 回答正確！";
+
+
+    playGameSound(
+      "playCorrect"
+    );
+
+  } else {
+
+    wrong++;
+
+    combo =
+      0;
+
+
+    $("feedback")
+      .className =
+        "feedback wrong";
+
+
+    $("feedback")
+      .innerHTML =
+        `❌ 答案不正確。正確答案：<strong>${
+          correctAnswerText(
+            question
+          )
+        }</strong>`;
+
+
+    playGameSound(
+      "playWrong"
+    );
+  }
+
+
+  $("correct-count")
+    .textContent =
+      correct;
+
+
+  $("combo-count")
+    .textContent =
+      maxCombo;
+
+
+  $("explanation")
+    .innerHTML =
+      explanationHTML(
+        question
+      );
+
+
+  $("explanation")
+    .classList
+    .remove(
+      "hidden"
+    );
+
+
+  records.push(
+    {
+
+      number:
+        index +
+        1,
+
+      question,
+
+      userAnswer:
+        answer.display,
+
+      correct:
+        isCorrect
+    }
+  );
+
+
+  $("submit-button")
+    .classList
+    .add(
+      "hidden"
+    );
+
+
+  $("next-button")
+    .classList
+    .remove(
+      "hidden"
+    );
+
+
+  $("next-button")
+    .textContent =
+
+      index ===
+        TOTAL_QUESTIONS -
+        1
+
+        ? "查看測驗結果（Enter）"
+
+        : "下一題（Enter）";
+
+
+  $("next-button")
+    .focus();
+}
+
+
+/*
+==================================================
+Next
+==================================================
+*/
+
+function nextQuestion() {
+
+  if (
+    !answered
+  ) {
+
+    return;
+  }
+
+
+  index++;
+
+
+  if (
+    index <
+    TOTAL_QUESTIONS
+  ) {
+
+    displayQuestion();
+
+  } else {
+
+    showResult();
+  }
+}
+
+
+/*
+==================================================
+Start
+==================================================
+*/
+
+function startGame(
+  selectedMode
+) {
+
+  stopTimer();
+
+
+  mode =
+    selectedMode;
+
+
+  questions =
+    createQuestions();
+
+
+  index =
+    0;
+
+
+  correct =
+    0;
+
+
+  wrong =
+    0;
+
+
+  combo =
+    0;
+
+
+  maxCombo =
+    0;
+
+
+  records =
+    [];
+
+
+  answered =
+    false;
+
+
+  selectedChoice =
+    null;
+
+
+  radicalInput =
+    null;
+
+
+  elapsed =
+    0;
+
+
+  scoreSaved =
+    false;
+
+
+  $("save-status")
+    .textContent =
+      "";
+
+
+  $("timer-display")
+    .textContent =
+      "00:00";
+
+
+  showOnly(
+    "quiz-screen"
+  );
+
+
+  window
+    .resetGameScratchpad
+    ?.();
+
+
+  playGameSound(
+    "playStart"
+  );
+
+
+  displayQuestion();
+
+
+  startTimer();
+}
+
+
+/*
+==================================================
+Rating
+==================================================
+*/
+
+function rating(
+  score
+) {
+
+  if (
+    score >=
+    90
+  ) {
+
+    return {
+
+      stars:
+        "★★★★★",
+
+      comment:
+        "太棒了！你已經能靈活判斷平方根與最簡根式。"
+    };
+  }
+
+
+  if (
+    score >=
+    80
+  ) {
+
+    return {
+
+      stars:
+        "★★★★☆",
+
+      comment:
+        "表現很好，再注意平方根與算術平方根的差別。"
+    };
+  }
+
+
+  if (
+    score >=
+    60
+  ) {
+
+    return {
+
+      stars:
+        "★★★☆☆",
+
+      comment:
+        "基本觀念已掌握，再多練習根式化簡與估算。"
+    };
+  }
+
+
+  return {
+
+    stars:
+      "★★☆☆☆",
+
+    comment:
+      "建議先從模式一熟悉完全平方數與算術平方根。"
+  };
+}
+
+
+/*
+==================================================
+Result
+==================================================
+*/
+
+async function showResult() {
+
+  stopTimer();
+
+
+  const score =
+    Math.round(
+      correct /
+      TOTAL_QUESTIONS *
+      100
+    );
+
+
+  const result =
+    rating(
+      score
+    );
+
+
+  showOnly(
+    "result-screen"
+  );
+
+
+  playGameSound(
+    "playComplete"
+  );
+
+
+  $("final-score")
+    .textContent =
+      `${score} 分`;
+
+
+  $("final-stars")
+    .textContent =
+      result.stars;
+
+
+  $("final-comment")
+    .textContent =
+      result.comment;
+
+
+  $("final-correct")
+    .textContent =
+      correct;
+
+
+  $("final-wrong")
+    .textContent =
+      wrong;
+
+
+  $("final-combo")
+    .textContent =
+      maxCombo;
+
+
+  $("final-time")
+    .textContent =
+      formatTime(
+        elapsed
+      );
+
+
+  $("review-button")
+    .disabled =
+      wrong ===
+      0;
+
+
+  $("review-button")
+    .textContent =
+
+      wrong ===
+        0
+
+        ? "全部答對，無錯題"
+
+        : "錯題回顧";
+
+
+  await saveCurrentScore(
+    score
+  );
+}
+
+
+/*
+==================================================
+Firebase
+==================================================
+*/
+
+async function saveCurrentScore(
+  score
+) {
+
+  if (
+    scoreSaved
+  ) {
+
+    return;
+  }
+
+
+  scoreSaved =
+    true;
+
+
+  const status =
+    $("save-status");
+
+
+  status.textContent =
+    "☁️ 正在儲存本次成績……";
+
+
+  status.style.color =
+    "#1d4ed8";
+
+
+  try {
+
+    const result =
+      await saveGameScore(
+        {
+
+          game:
+            GAME_ID,
+
+          mode,
+
+          score,
+
+          correctCount:
+            correct,
+
+          wrongCount:
+            wrong,
+
+          maxCombo,
+
+          playTime:
+            elapsed
+        }
+      );
+
+
+    if (
+      result.success
+    ) {
+
+      status.textContent =
+        `✅ 本次成績已儲存（${formatTime(elapsed)}）。`;
+
+
+      status.style.color =
+        "#15803d";
+
+
+      return;
+    }
+
+
+    if (
+      result.reason ===
+      "not-logged-in"
+    ) {
+
+      status.textContent =
+        "ℹ️ 尚未登入，因此本次成績沒有儲存。";
+
+
+      status.style.color =
+        "#b45309";
+
+
+      return;
+    }
+
+
+    status.textContent =
+      "⚠️ 成績暫時無法儲存。";
+
+
+    status.style.color =
+      "#b91c1c";
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      "平方根成績儲存失敗：",
+      error
+    );
+
+
+    status.textContent =
+      "⚠️ 成績暫時無法儲存。";
+
+
+    status.style.color =
+      "#b91c1c";
+  }
+}
+
+
+/*
+==================================================
+Review
+==================================================
+*/
+
+function showReview() {
+
+  const wrongRecords =
+    records.filter(
+      record =>
+        !record.correct
+    );
+
+
+  const list =
+    $("review-list");
+
+
+  if (
+    !wrongRecords.length
+  ) {
+
+    list.innerHTML = `
+
+      <div class="review-card">
+        全部答對，沒有需要回顧的錯題！
+      </div>
+    `;
+
+  } else {
+
+    list.innerHTML =
+
+      wrongRecords
+
+        .map(
+          record => `
+
+            <article class="review-card">
+
+              <div class="review-title">
+                第 ${record.number} 題 ❌
+              </div>
+
+
+              <div class="review-question">
+                ${record.question.html}
+              </div>
+
+
+              <div class="review-answer">
+
+                你的答案：
+
+                <strong>
+                  ${record.userAnswer}
+                </strong>
+
+                <br>
+
+                正確答案：
+
+                <strong>
+                  ${correctAnswerText(
+                    record.question
+                  )}
+                </strong>
+
+              </div>
+
+
+              <div class="explanation">
+
+                ${explanationHTML(
+                  record.question
+                )}
+
+              </div>
+
+            </article>
+          `
+        )
+
+        .join("");
+  }
+
+
+  showOnly(
+    "review-screen"
+  );
+}
+
+
+/*
+==================================================
+Events
+==================================================
+*/
+
+document
+  .querySelectorAll(
+    "[data-mode]"
+  )
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          startGame(
+            button.dataset.mode
+          );
+        }
+      );
+    }
+  );
+
+
+$("submit-button")
+  .addEventListener(
+    "click",
+    submitAnswer
+  );
+
+
+$("next-button")
+  .addEventListener(
+    "click",
+    nextQuestion
+  );
+
+
+$("restart-button")
+  .addEventListener(
+    "click",
+    () =>
+      startGame(
+        mode
+      )
+  );
+
+
+$("mode-button")
+  .addEventListener(
+    "click",
+    () => {
+
+      stopTimer();
+
+      showOnly(
+        "start-screen"
+      );
+    }
+  );
+
+
+$("again-button")
+  .addEventListener(
+    "click",
+    () =>
+      startGame(
+        mode
+      )
+  );
+
+
+$("result-mode-button")
+  .addEventListener(
+    "click",
+    () =>
+      showOnly(
+        "start-screen"
+      )
+  );
+
+
+$("review-button")
+  .addEventListener(
+    "click",
+    showReview
+  );
+
+
+$("review-again-button")
+  .addEventListener(
+    "click",
+    () =>
+      startGame(
+        mode
+      )
+  );
+
+
+$("review-result-button")
+  .addEventListener(
+    "click",
+    () =>
+      showOnly(
+        "result-screen"
+      )
+  );
+
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key !==
+      "Enter"
+    ) {
+
+      return;
+    }
+
+
+    if (
+      $("quiz-screen")
+        .classList
+        .contains(
+          "hidden"
+        )
+    ) {
+
+      return;
+    }
+
+
+    event.preventDefault();
+
+
+    if (
+      answered
+    ) {
+
+      nextQuestion();
+
+    } else {
+
+      submitAnswer();
+    }
+  }
+);
+
+
+window.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    moveScratchpadButtonToTop();
+
+
+    setTimeout(
+      moveScratchpadButtonToTop,
+      100
+    );
+  }
+);
+
+
+showOnly(
+  "start-screen"
+);
+
+
+</script>
+
+
+</body>
+
+</html>
