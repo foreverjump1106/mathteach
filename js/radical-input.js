@@ -2,7 +2,7 @@
 ==================================================
 數學遊戲樂園｜RadicalInput
 檔案：js/radical-input.js
-版本：2.0
+版本：3.0
 ==================================================
 
 功能：
@@ -17,14 +17,26 @@
    3√2
    −3√5
 
-3. 根號上方橫線使用 CSS 繪製
+3. 所有根號顯示改用 MathML
+   不再使用 CSS 拼接根號。
 
-4. 最簡根式檢查
-   例如：
-   3√8
-   不會自動化成 6√2
+4. 支援：
+   √99
+   √(4/9)
+   √(2 × 3³ × 5)
+   √((-7)²)
 
-   而是提醒學生自行化簡。
+5. 最簡根式檢查
+
+例如學生輸入：
+
+3√8
+
+系統不會幫學生自動化成：
+
+6√2
+
+而是提醒學生自行化簡。
 
 ==================================================
 */
@@ -36,7 +48,7 @@
 
   /*
   ==================================================
-  預設
+  預設設定
   ==================================================
   */
 
@@ -115,27 +127,18 @@
     return {
 
       ...defaults,
-
       ...options,
 
       theme: {
 
         ...defaults.theme,
-
-        ...(
-          options.theme ||
-          {}
-        )
+        ...(options.theme || {})
       },
 
       labels: {
 
         ...defaults.labels,
-
-        ...(
-          options.labels ||
-          {}
-        )
+        ...(options.labels || {})
       }
     };
   }
@@ -184,17 +187,13 @@
 
     a =
       Math.abs(
-        Number(
-          a
-        )
+        Number(a)
       );
 
 
     b =
       Math.abs(
-        Number(
-          b
-        )
+        Number(b)
       );
 
 
@@ -206,11 +205,8 @@
       const temp =
         b;
 
-
       b =
-        a %
-        b;
-
+        a % b;
 
       a =
         temp;
@@ -223,7 +219,7 @@
 
   /*
   ==================================================
-  完全平方
+  完全平方數
   ==================================================
   */
 
@@ -259,7 +255,7 @@
 
   /*
   ==================================================
-  最大平方因數
+  最大完全平方因數
   ==================================================
   */
 
@@ -287,7 +283,7 @@
     }
 
 
-    const maxRoot =
+    const maximumRoot =
       Math.floor(
         Math.sqrt(
           value
@@ -297,7 +293,7 @@
 
     for (
       let root =
-        maxRoot;
+        maximumRoot;
 
       root >=
         2;
@@ -364,11 +360,8 @@
 
   /*
   ==================================================
-  系統用化簡
-
-  注意：
-  只供系統建立標準答案，
-  不會拿來修改學生輸入。
+  系統用根式化簡
+  不修改學生輸入
   ==================================================
   */
 
@@ -509,36 +502,155 @@
 
   /*
   ==================================================
-  ★ 根號 HTML
-
-  不再直接顯示 √99
-  改成：
-  √ + CSS border-top
-
-  這樣根號上方橫線不會消失。
+  MathML
   ==================================================
   */
 
-  function sqrtHTML(
-    content
+  function mathWrap(
+    content,
+    className =
+      "math-expression"
   ) {
 
     return `
 
-      <span class="math-sqrt">
-
-        <span class="math-sqrt__symbol">
-          √
-        </span>
-
-        <span class="math-sqrt__radicand">
-          ${content}
-        </span>
-
-      </span>
+      <math
+        xmlns="http://www.w3.org/1998/Math/MathML"
+        class="${className}"
+      >
+        ${content}
+      </math>
     `;
   }
 
+
+  /*
+  --------------------------------------------------
+  √整數 / √小數
+  --------------------------------------------------
+  */
+
+  function sqrtNumberHTML(
+    value
+  ) {
+
+    return mathWrap(
+      `
+        <msqrt>
+          <mn>${escapeHtml(value)}</mn>
+        </msqrt>
+      `,
+      "math-radical"
+    );
+  }
+
+
+  /*
+  --------------------------------------------------
+  √(分數)
+  --------------------------------------------------
+  */
+
+  function sqrtFractionHTML(
+    numerator,
+    denominator
+  ) {
+
+    return mathWrap(
+      `
+        <msqrt>
+
+          <mfrac>
+
+            <mn>
+              ${escapeHtml(numerator)}
+            </mn>
+
+            <mn>
+              ${escapeHtml(denominator)}
+            </mn>
+
+          </mfrac>
+
+        </msqrt>
+      `,
+      "math-radical"
+    );
+  }
+
+
+  /*
+  --------------------------------------------------
+  √(a²)
+  --------------------------------------------------
+  */
+
+  function sqrtSquareHTML(
+    value
+  ) {
+
+    const number =
+      Number(
+        value
+      );
+
+
+    const base =
+
+      number <
+      0
+
+        ? `
+            <mrow>
+              <mo>(</mo>
+              <mn>${Math.abs(number)}</mn>
+              <mo>)</mo>
+            </mrow>
+          `
+
+        : `
+            <mn>${number}</mn>
+          `;
+
+
+    const signedBase =
+
+      number < 0
+
+        ? `
+            <mrow>
+              <mo>−</mo>
+              ${base}
+            </mrow>
+          `
+
+        : base;
+
+
+    return mathWrap(
+      `
+        <msqrt>
+
+          <msup>
+
+            ${signedBase}
+
+            <mn>2</mn>
+
+          </msup>
+
+        </msqrt>
+      `,
+      "math-radical"
+    );
+  }
+
+
+  /*
+  --------------------------------------------------
+  一般根式
+  --------------------------------------------------
+  */
 
   function radicalToHTML(
     coefficient,
@@ -581,7 +693,7 @@
     }
 
 
-    let coefficientHTML =
+    let coefficientMathML =
       "";
 
 
@@ -590,30 +702,48 @@
       -1
     ) {
 
-      coefficientHTML =
-        "−";
+      coefficientMathML =
+        "<mo>−</mo>";
 
     } else if (
       coefficient !==
       1
     ) {
 
-      coefficientHTML =
-        String(
-          coefficient
-        )
-          .replace(
-            "-",
-            "−"
-          );
+      coefficientMathML =
+
+        coefficient <
+        0
+
+          ? `
+              <mo>−</mo>
+              <mn>${Math.abs(coefficient)}</mn>
+            `
+
+          : `
+              <mn>${coefficient}</mn>
+            `;
     }
 
 
-    return (
-      coefficientHTML +
-      sqrtHTML(
-        radicand
-      )
+    return mathWrap(
+      `
+
+        <mrow>
+
+          ${coefficientMathML}
+
+          <msqrt>
+
+            <mn>
+              ${radicand}
+            </mn>
+
+          </msqrt>
+
+        </mrow>
+      `,
+      "math-radical"
     );
   }
 
@@ -705,12 +835,6 @@
       this.root.innerHTML = `
 
         <style>
-
-          /*
-          ==============================================
-          RadicalInput
-          ==============================================
-          */
 
           .radical-input {
 
@@ -842,91 +966,18 @@
               center;
 
             padding-bottom:
-              2px;
+              3px;
 
             color:
               #0f172a;
 
             font-family:
+              "Cambria Math",
               "Times New Roman",
               serif;
 
             font-size:
               36px;
-
-            font-weight:
-              900;
-          }
-
-
-          /*
-          ==============================================
-          ★ 根號
-          ==============================================
-          */
-
-          .radical-input .math-sqrt {
-
-            display:
-              inline-flex;
-
-            align-items:
-              flex-start;
-
-            vertical-align:
-              middle;
-
-            white-space:
-              nowrap;
-          }
-
-
-          .radical-input
-          .math-sqrt__symbol {
-
-            position:
-              relative;
-
-            top:
-              .07em;
-
-            margin-right:
-              -.06em;
-
-            font-family:
-              "Times New Roman",
-              "Cambria Math",
-              serif;
-
-            font-size:
-              1.18em;
-
-            line-height:
-              1;
-          }
-
-
-          .radical-input
-          .math-sqrt__radicand {
-
-            display:
-              inline-block;
-
-            min-width:
-              .6em;
-
-            margin-top:
-              .07em;
-
-            padding:
-              .04em .10em 0 .08em;
-
-            border-top:
-              .085em solid
-              currentColor;
-
-            line-height:
-              1;
           }
 
 
@@ -990,6 +1041,12 @@
 
           .radical-input__preview strong {
 
+            display:
+              inline-flex;
+
+            align-items:
+              center;
+
             margin-left:
               6px;
 
@@ -999,7 +1056,14 @@
               );
 
             font-size:
-              25px;
+              26px;
+          }
+
+
+          .radical-input__preview math {
+
+            font-size:
+              1.15em;
           }
 
 
@@ -1077,7 +1141,7 @@
 
     /*
     ==================================================
-    ± Number
+    Signed number
     ==================================================
     */
 
@@ -1365,7 +1429,7 @@
 
     /*
     ==================================================
-    讀值
+    Value
     ==================================================
     */
 
@@ -1532,7 +1596,7 @@
 
     /*
     ==================================================
-    驗證
+    Validate
     ==================================================
     */
 
@@ -1944,7 +2008,7 @@
 
   /*
   ==================================================
-  公開
+  對外
   ==================================================
   */
 
@@ -1964,7 +2028,13 @@
 
     simplifyRadical,
 
-    sqrtHTML,
+    mathWrap,
+
+    sqrtNumberHTML,
+
+    sqrtFractionHTML,
+
+    sqrtSquareHTML,
 
     radicalToHTML
   };
