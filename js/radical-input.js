@@ -2,10 +2,10 @@
 ==================================================
 數學遊戲樂園｜RadicalInput
 檔案：js/radical-input.js
-版本：3.0
+版本：4.0
 ==================================================
 
-功能：
+主要功能：
 
 1. signedNumber
    ＋7
@@ -17,14 +17,10 @@
    3√2
    −3√5
 
-3. 所有根號顯示改用 MathML
-   不再使用 CSS 拼接根號。
+3. 題目與答案預覽使用 MathML 顯示根號
 
-4. 支援：
-   √99
-   √(4/9)
-   √(2 × 3³ × 5)
-   √((-7)²)
+4. 學生填答區改成紙本根號樣式：
+   根號橫線會真正延伸到「根號內輸入格」上方
 
 5. 最簡根式檢查
 
@@ -32,11 +28,11 @@
 
 3√8
 
-系統不會幫學生自動化成：
+系統不會自動變成：
 
 6√2
 
-而是提醒學生自行化簡。
+而是提醒學生自行整理。
 
 ==================================================
 */
@@ -48,7 +44,7 @@
 
   /*
   ==================================================
-  預設設定
+  預設
   ==================================================
   */
 
@@ -132,13 +128,21 @@
       theme: {
 
         ...defaults.theme,
-        ...(options.theme || {})
+
+        ...(
+          options.theme ||
+          {}
+        )
       },
 
       labels: {
 
         ...defaults.labels,
-        ...(options.labels || {})
+
+        ...(
+          options.labels ||
+          {}
+        )
       }
     };
   }
@@ -187,13 +191,17 @@
 
     a =
       Math.abs(
-        Number(a)
+        Number(
+          a
+        )
       );
 
 
     b =
       Math.abs(
-        Number(b)
+        Number(
+          b
+        )
       );
 
 
@@ -205,8 +213,11 @@
       const temp =
         b;
 
+
       b =
-        a % b;
+        a %
+        b;
+
 
       a =
         temp;
@@ -323,7 +334,7 @@
 
   /*
   ==================================================
-  是否最簡根式
+  是否為最簡根式
   ==================================================
   */
 
@@ -360,8 +371,8 @@
 
   /*
   ==================================================
-  系統用根式化簡
-  不修改學生輸入
+  系統用化簡
+  不修改學生答案
   ==================================================
   */
 
@@ -518,16 +529,18 @@
         xmlns="http://www.w3.org/1998/Math/MathML"
         class="${className}"
       >
+
         ${content}
+
       </math>
     `;
   }
 
 
   /*
-  --------------------------------------------------
-  √整數 / √小數
-  --------------------------------------------------
+  ==================================================
+  √數字
+  ==================================================
   */
 
   function sqrtNumberHTML(
@@ -535,20 +548,28 @@
   ) {
 
     return mathWrap(
+
       `
+
         <msqrt>
-          <mn>${escapeHtml(value)}</mn>
+
+          <mn>
+            ${escapeHtml(value)}
+          </mn>
+
         </msqrt>
+
       `,
+
       "math-radical"
     );
   }
 
 
   /*
-  --------------------------------------------------
-  √(分數)
-  --------------------------------------------------
+  ==================================================
+  √分數
+  ==================================================
   */
 
   function sqrtFractionHTML(
@@ -557,7 +578,9 @@
   ) {
 
     return mathWrap(
+
       `
+
         <msqrt>
 
           <mfrac>
@@ -573,16 +596,51 @@
           </mfrac>
 
         </msqrt>
+
       `,
+
       "math-radical"
     );
   }
 
 
   /*
-  --------------------------------------------------
+  ==================================================
   √(a²)
-  --------------------------------------------------
+
+  ★ a² 完整放入根號內
+  ==================================================
+  */
+
+  function sqrtASquaredHTML() {
+
+    return mathWrap(
+
+      `
+
+        <msqrt>
+
+          <msup>
+
+            <mi>a</mi>
+
+            <mn>2</mn>
+
+          </msup>
+
+        </msqrt>
+
+      `,
+
+      "math-radical"
+    );
+  }
+
+
+  /*
+  ==================================================
+  √(指定數字)²
+  ==================================================
   */
 
   function sqrtSquareHTML(
@@ -601,55 +659,59 @@
       0
 
         ? `
+
             <mrow>
+
               <mo>(</mo>
-              <mn>${Math.abs(number)}</mn>
+
+              <mo>−</mo>
+
+              <mn>
+                ${Math.abs(number)}
+              </mn>
+
               <mo>)</mo>
+
             </mrow>
+
           `
 
         : `
-            <mn>${number}</mn>
+
+            <mn>
+              ${number}
+            </mn>
+
           `;
 
 
-    const signedBase =
-
-      number < 0
-
-        ? `
-            <mrow>
-              <mo>−</mo>
-              ${base}
-            </mrow>
-          `
-
-        : base;
-
-
     return mathWrap(
+
       `
+
         <msqrt>
 
           <msup>
 
-            ${signedBase}
+            ${base}
 
             <mn>2</mn>
 
           </msup>
 
         </msqrt>
+
       `,
+
       "math-radical"
     );
   }
 
 
   /*
-  --------------------------------------------------
+  ==================================================
   一般根式
-  --------------------------------------------------
+  ==================================================
   */
 
   function radicalToHTML(
@@ -716,17 +778,27 @@
         0
 
           ? `
+
               <mo>−</mo>
-              <mn>${Math.abs(coefficient)}</mn>
+
+              <mn>
+                ${Math.abs(coefficient)}
+              </mn>
+
             `
 
           : `
-              <mn>${coefficient}</mn>
+
+              <mn>
+                ${coefficient}
+              </mn>
+
             `;
     }
 
 
     return mathWrap(
+
       `
 
         <mrow>
@@ -742,7 +814,9 @@
           </msqrt>
 
         </mrow>
+
       `,
+
       "math-radical"
     );
   }
@@ -750,7 +824,7 @@
 
   /*
   ==================================================
-  元件
+  RadicalInput
   ==================================================
   */
 
@@ -841,13 +915,19 @@
             width:
               min(
                 100%,
-                720px
+                760px
               );
 
             margin:
               0 auto;
           }
 
+
+          /*
+          ==============================================
+          Editor
+          ==============================================
+          */
 
           .radical-input__editor {
 
@@ -858,10 +938,10 @@
               center;
 
             align-items:
-              end;
+              flex-end;
 
             gap:
-              10px;
+              12px;
 
             flex-wrap:
               wrap;
@@ -881,7 +961,7 @@
               block;
 
             margin-bottom:
-              5px;
+              6px;
 
             color:
               #64748b;
@@ -897,14 +977,11 @@
           .radical-input__field input,
           .radical-input__field select {
 
-            min-width:
-              82px;
-
             height:
-              48px;
+              54px;
 
             padding:
-              8px;
+              8px 10px;
 
             border:
               2px solid
@@ -922,7 +999,7 @@
               #1f2937;
 
             font-size:
-              21px;
+              22px;
 
             font-weight:
               900;
@@ -932,6 +1009,20 @@
 
             outline:
               none;
+          }
+
+
+          .radical-input__field select {
+
+            min-width:
+              92px;
+          }
+
+
+          .radical-input__coefficient {
+
+            width:
+              150px;
           }
 
 
@@ -954,40 +1045,205 @@
           }
 
 
-          .radical-input__sqrt-symbol {
+          /*
+          ==============================================
+          ★ 根號內答案框
 
-            min-height:
-              48px;
+          紙本樣式：
+
+             ___________
+            √ [答案輸入]
+
+          橫線真正涵蓋輸入格
+          ==============================================
+          */
+
+          .radical-input__radicand-group {
+
+            text-align:
+              center;
+          }
+
+
+          .radical-input__radicand-label {
 
             display:
-              flex;
+              block;
+
+            margin-bottom:
+              6px;
+
+            color:
+              #64748b;
+
+            font-size:
+              13px;
+
+            font-weight:
+              900;
+          }
+
+
+          .radical-input__sqrt-entry {
+
+            display:
+              inline-flex;
 
             align-items:
-              center;
+              flex-end;
 
-            padding-bottom:
-              3px;
+            position:
+              relative;
+
+            padding-left:
+              29px;
+
+            padding-top:
+              10px;
+          }
+
+
+          /*
+          根號符號
+          */
+
+          .radical-input__sqrt-entry::before {
+
+            content:
+              "√";
+
+            position:
+              absolute;
+
+            left:
+              0;
+
+            bottom:
+              2px;
 
             color:
               #0f172a;
 
             font-family:
               "Cambria Math",
+              "STIX Two Math",
               "Times New Roman",
               serif;
 
             font-size:
-              36px;
+              53px;
+
+            font-weight:
+              400;
+
+            line-height:
+              1;
           }
 
+
+          /*
+          根號上方橫線
+          */
+
+          .radical-input__sqrt-entry::after {
+
+            content:
+              "";
+
+            position:
+              absolute;
+
+            left:
+              27px;
+
+            right:
+              1px;
+
+            top:
+              8px;
+
+            height:
+              3px;
+
+            border-radius:
+              2px;
+
+            background:
+              #0f172a;
+          }
+
+
+          .radical-input__radicand-input {
+
+            width:
+              180px;
+
+            height:
+              54px;
+
+            padding:
+              8px 10px;
+
+            border:
+              2px solid
+              var(
+                --radical-border
+              );
+
+            border-radius:
+              9px;
+
+            background:
+              white;
+
+            color:
+              #1f2937;
+
+            font-size:
+              22px;
+
+            font-weight:
+              900;
+
+            text-align:
+              center;
+
+            outline:
+              none;
+          }
+
+
+          .radical-input__radicand-input:focus {
+
+            border-color:
+              var(
+                --radical-primary
+              );
+
+            box-shadow:
+              0 0 0 4px
+              rgba(
+                2,
+                136,
+                209,
+                .12
+              );
+          }
+
+
+          /*
+          ==============================================
+          Message
+          ==============================================
+          */
 
           .radical-input__message {
 
             min-height:
-              27px;
+              28px;
 
             margin-top:
-              12px;
+              14px;
 
             color:
               #b45309;
@@ -999,17 +1255,23 @@
               900;
 
             line-height:
-              1.6;
+              1.65;
           }
 
+
+          /*
+          ==============================================
+          Preview
+          ==============================================
+          */
 
           .radical-input__preview {
 
             margin-top:
-              12px;
+              14px;
 
             padding:
-              12px;
+              13px;
 
             border:
               2px solid
@@ -1056,14 +1318,14 @@
               );
 
             font-size:
-              26px;
+              27px;
           }
 
 
           .radical-input__preview math {
 
             font-size:
-              1.15em;
+              1.18em;
           }
 
 
@@ -1071,6 +1333,33 @@
 
             opacity:
               .65;
+          }
+
+
+          @media(
+            max-width:600px
+          ) {
+
+            .radical-input__editor {
+
+              gap:
+                8px;
+            }
+
+
+            .radical-input__coefficient {
+
+              width:
+                112px;
+            }
+
+
+            .radical-input__radicand-input {
+
+              width:
+                130px;
+            }
+
           }
 
         </style>
@@ -1141,7 +1430,7 @@
 
     /*
     ==================================================
-    Signed number
+    Signed Number
     ==================================================
     */
 
@@ -1297,6 +1586,8 @@
     /*
     ==================================================
     Radical
+
+    ★ 根號橫線包住輸入框
     ==================================================
     */
 
@@ -1339,6 +1630,7 @@
 
           <input
             id="radical-coefficient"
+            class="radical-input__coefficient"
             type="text"
             inputmode="numeric"
             autocomplete="off"
@@ -1348,25 +1640,29 @@
         </div>
 
 
-        <div class="radical-input__sqrt-symbol">
-          √
-        </div>
+        <div class="radical-input__radicand-group">
 
-
-        <div class="radical-input__field">
-
-          <label>
+          <label
+            class="radical-input__radicand-label"
+            for="radical-radicand"
+          >
             ${escapeHtml(
               this.options.labels.radicand
             )}
           </label>
 
-          <input
-            id="radical-radicand"
-            type="text"
-            inputmode="numeric"
-            autocomplete="off"
-          >
+
+          <div class="radical-input__sqrt-entry">
+
+            <input
+              id="radical-radicand"
+              class="radical-input__radicand-input"
+              type="text"
+              inputmode="numeric"
+              autocomplete="off"
+            >
+
+          </div>
 
         </div>
       `;
@@ -1429,7 +1725,7 @@
 
     /*
     ==================================================
-    Value
+    Get value
     ==================================================
     */
 
@@ -1687,7 +1983,7 @@
 
       /*
       --------------------------------------------------
-      根式
+      Radical
       --------------------------------------------------
       */
 
@@ -1928,12 +2224,14 @@
         );
 
 
-      this.root.classList.toggle(
-        "disabled",
-        Boolean(
-          disabled
-        )
-      );
+      this.root
+        .classList
+        .toggle(
+          "disabled",
+          Boolean(
+            disabled
+          )
+        );
     }
 
 
@@ -2033,6 +2331,8 @@
     sqrtNumberHTML,
 
     sqrtFractionHTML,
+
+    sqrtASquaredHTML,
 
     sqrtSquareHTML,
 
