@@ -30,34 +30,53 @@
 
     :root {
 
-      --primary: #0288d1;
-      --primary-dark: #01579b;
-      --primary-light: #e1f5fe;
-      --primary-border: #81d4fa;
+      --primary:
+        #0288d1;
 
-      --text: #1f2937;
-      --muted: #64748b;
+      --primary-dark:
+        #01579b;
 
-      --success: #15803d;
-      --danger: #b91c1c;
-      --warning: #b45309;
+      --primary-light:
+        #e1f5fe;
+
+      --primary-border:
+        #81d4fa;
+
+      --text:
+        #1f2937;
+
+      --muted:
+        #64748b;
+
+      --success:
+        #15803d;
+
+      --danger:
+        #b91c1c;
+
+      --warning:
+        #b45309;
     }
 
 
     body {
 
-      margin: 0;
+      margin:
+        0;
 
-      min-height: 100vh;
+      min-height:
+        100vh;
 
-      padding: 16px;
+      padding:
+        16px;
 
       font-family:
         "Microsoft JhengHei",
         "Noto Sans TC",
         sans-serif;
 
-      color: var(--text);
+      color:
+        var(--text);
 
       background:
         linear-gradient(
@@ -72,13 +91,15 @@
     input,
     select {
 
-      font-family: inherit;
+      font-family:
+        inherit;
     }
 
 
     .hidden {
 
-      display: none !important;
+      display:
+        none !important;
     }
 
 
@@ -97,13 +118,15 @@
 
     #commonHeaderMount {
 
-      margin-bottom: 14px;
+      margin-bottom:
+        14px;
     }
 
 
     .game-card {
 
-      overflow: hidden;
+      overflow:
+        hidden;
 
       border:
         1px solid
@@ -113,13 +136,20 @@
         8px solid
         var(--primary);
 
-      border-radius: 26px;
+      border-radius:
+        26px;
 
-      background: white;
+      background:
+        white;
 
       box-shadow:
         0 14px 34px
-        rgba(15,23,42,.13);
+        rgba(
+          15,
+          23,
+          42,
+          .13
+        );
     }
 
 
@@ -137,20 +167,23 @@
         "Times New Roman",
         serif;
 
-      font-size: 1em;
+      font-size:
+        1em;
     }
 
 
     .question-content math {
 
-      font-size: 1.18em;
+      font-size:
+        1.2em;
     }
 
 
     .explanation math,
     .review-question math {
 
-      font-size: 1.05em;
+      font-size:
+        1.05em;
     }
 
 
@@ -165,20 +198,22 @@
       padding:
         24px 20px 18px;
 
-      text-align: center;
+      text-align:
+        center;
 
       background:
         linear-gradient(
           180deg,
           var(--primary-light),
-          #ffffff
+          white
         );
     }
 
 
     .game-title {
 
-      margin: 0;
+      margin:
+        0;
 
       color:
         var(--primary-dark);
@@ -200,28 +235,49 @@
       color:
         var(--muted);
 
-      line-height: 1.7;
+      line-height:
+        1.7;
     }
 
 
     .concept-strip {
 
-      display: flex;
+      display:
+        flex;
 
-      justify-content: center;
+      justify-content:
+        center;
 
-      gap: 8px;
+      align-items:
+        center;
 
-      margin-top: 16px;
+      gap:
+        8px;
 
-      flex-wrap: wrap;
+      margin-top:
+        16px;
+
+      flex-wrap:
+        wrap;
     }
 
 
     .concept-chip {
 
+      min-height:
+        38px;
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
       padding:
-        7px 11px;
+        6px 12px;
 
       border:
         1px solid
@@ -236,15 +292,29 @@
       color:
         var(--primary-dark);
 
-      font-size: 14px;
+      font-size:
+        14px;
 
-      font-weight: 900;
+      font-weight:
+        900;
+    }
+
+
+    /*
+    ★ 上方小根號
+    */
+
+    .concept-chip math {
+
+      font-size:
+        1.15em;
     }
 
 
     .screen {
 
-      padding: 22px;
+      padding:
+        22px;
     }
 
 
@@ -256,40 +326,50 @@
 
     .mode-grid {
 
-      display: grid;
+      display:
+        grid;
 
       grid-template-columns:
         repeat(
           2,
-          minmax(0,1fr)
+          minmax(
+            0,
+            1fr
+          )
         );
 
-      gap: 16px;
+      gap:
+        16px;
     }
 
 
     .mode-card {
 
-      min-height: 205px;
+      min-height:
+        205px;
 
-      padding: 21px;
+      padding:
+        21px;
 
       border:
         2px solid
         var(--primary-border);
 
-      border-radius: 20px;
+      border-radius:
+        20px;
 
       background:
         linear-gradient(
           180deg,
           var(--primary-light),
-          #ffffff
+          white
         );
 
-      text-align: left;
+      text-align:
+        left;
 
-      cursor: pointer;
+      cursor:
+        pointer;
 
       transition:
         .15s ease;
@@ -299,11 +379,18 @@
     .mode-card:hover {
 
       transform:
-        translateY(-3px);
+        translateY(
+          -3px
+        );
 
       box-shadow:
         0 10px 24px
-        rgba(15,23,42,.11);
+        rgba(
+          15,
+          23,
+          42,
+          .11
+        );
     }
 
 
@@ -321,7 +408,8 @@
       border-radius:
         999px;
 
-      background: white;
+      background:
+        white;
 
       color:
         var(--primary-dark);
@@ -329,7 +417,8 @@
       font-size:
         12px;
 
-      font-weight: 900;
+      font-weight:
+        900;
     }
 
 
@@ -348,27 +437,33 @@
 
     .mode-card p {
 
-      margin: 0;
+      margin:
+        0;
 
       color:
         var(--muted);
 
-      line-height: 1.7;
+      line-height:
+        1.7;
     }
 
 
     .mode-example {
 
-      margin-top: 10px;
+      margin-top:
+        10px;
 
       color:
         #475569;
 
-      font-size: 14px;
+      font-size:
+        14px;
 
-      font-weight: 900;
+      font-weight:
+        900;
 
-      line-height: 1.6;
+      line-height:
+        1.6;
     }
 
 
@@ -380,33 +475,45 @@
 
     .quiz-topbar {
 
-      display: grid;
+      display:
+        grid;
 
       grid-template-columns:
         repeat(
           5,
-          minmax(0,1fr)
+          minmax(
+            0,
+            1fr
+          )
         );
 
-      gap: 10px;
+      gap:
+        10px;
 
-      margin-bottom: 12px;
+      margin-bottom:
+        12px;
     }
 
 
     .status-box {
 
-      min-height: 64px;
+      min-height:
+        64px;
 
-      display: flex;
+      display:
+        flex;
 
-      flex-direction: column;
+      flex-direction:
+        column;
 
-      justify-content: center;
+      justify-content:
+        center;
 
-      padding: 8px;
+      padding:
+        8px;
 
-      border-radius: 14px;
+      border-radius:
+        14px;
 
       background:
         var(--primary-light);
@@ -414,17 +521,21 @@
       color:
         var(--primary-dark);
 
-      text-align: center;
+      text-align:
+        center;
 
-      font-weight: 900;
+      font-weight:
+        900;
     }
 
 
     .status-value {
 
-      margin-top: 3px;
+      margin-top:
+        3px;
 
-      font-size: 18px;
+      font-size:
+        18px;
     }
 
 
@@ -446,11 +557,14 @@
 
     .scratchpad-row {
 
-      display: flex;
+      display:
+        flex;
 
-      justify-content: center;
+      justify-content:
+        center;
 
-      min-height: 46px;
+      min-height:
+        46px;
 
       margin:
         4px 0 12px;
@@ -459,11 +573,14 @@
 
     #scratchpad-mobile-button {
 
-      display: flex;
+      display:
+        flex;
 
-      justify-content: center;
+      justify-content:
+        center;
 
-      width: 100%;
+      width:
+        100%;
     }
 
 
@@ -495,11 +612,14 @@
 
     .progress-shell {
 
-      height: 10px;
+      height:
+        10px;
 
-      margin-bottom: 16px;
+      margin-bottom:
+        16px;
 
-      overflow: hidden;
+      overflow:
+        hidden;
 
       border-radius:
         999px;
@@ -511,9 +631,11 @@
 
     .progress-bar {
 
-      width: 0%;
+      width:
+        0%;
 
-      height: 100%;
+      height:
+        100%;
 
       background:
         linear-gradient(
@@ -542,36 +664,46 @@
         2px solid
         var(--primary-border);
 
-      border-radius: 20px;
+      border-radius:
+        20px;
 
-      background: white;
+      background:
+        white;
 
-      text-align: center;
+      text-align:
+        center;
     }
 
 
     .question-label {
 
-      margin-bottom: 10px;
+      margin-bottom:
+        10px;
 
       color:
         var(--muted);
 
-      font-weight: 900;
+      font-weight:
+        900;
     }
 
 
     .question-content {
 
-      min-height: 130px;
+      min-height:
+        130px;
 
-      display: flex;
+      display:
+        flex;
 
-      align-items: center;
+      align-items:
+        center;
 
-      justify-content: center;
+      justify-content:
+        center;
 
-      overflow-x: auto;
+      overflow-x:
+        auto;
 
       color:
         #0f172a;
@@ -583,9 +715,11 @@
           45px
         );
 
-      font-weight: 900;
+      font-weight:
+        900;
 
-      line-height: 1.8;
+      line-height:
+        1.8;
     }
 
 
@@ -597,11 +731,14 @@
 
     .answer-panel {
 
-      margin-top: 16px;
+      margin-top:
+        16px;
 
-      padding: 18px;
+      padding:
+        18px;
 
-      border-radius: 18px;
+      border-radius:
+        18px;
 
       background:
         #f8fafc;
@@ -610,14 +747,17 @@
 
     .answer-title {
 
-      margin-bottom: 10px;
+      margin-bottom:
+        10px;
 
       color:
         var(--primary-dark);
 
-      text-align: center;
+      text-align:
+        center;
 
-      font-weight: 900;
+      font-weight:
+        900;
     }
 
 
@@ -629,21 +769,27 @@
       color:
         #64748b;
 
-      text-align: center;
+      text-align:
+        center;
 
-      font-size: 14px;
+      font-size:
+        14px;
 
-      font-weight: 800;
+      font-weight:
+        800;
 
-      line-height: 1.65;
+      line-height:
+        1.65;
     }
 
 
     .number-answer {
 
-      display: flex;
+      display:
+        flex;
 
-      justify-content: center;
+      justify-content:
+        center;
     }
 
 
@@ -655,21 +801,27 @@
           100%
         );
 
-      padding: 13px;
+      padding:
+        13px;
 
       border:
         2px solid
         #cbd5e1;
 
-      border-radius: 12px;
+      border-radius:
+        12px;
 
-      font-size: 24px;
+      font-size:
+        24px;
 
-      font-weight: 900;
+      font-weight:
+        900;
 
-      text-align: center;
+      text-align:
+        center;
 
-      outline: none;
+      outline:
+        none;
     }
 
 
@@ -680,43 +832,57 @@
 
       box-shadow:
         0 0 0 4px
-        rgba(2,136,209,.11);
+        rgba(
+          2,
+          136,
+          209,
+          .11
+        );
     }
 
 
     /*
     ==================================================
-    Fraction answer
+    Fraction
     ==================================================
     */
 
     .fraction-answer {
 
-      display: flex;
+      display:
+        flex;
 
-      justify-content: center;
+      justify-content:
+        center;
 
-      align-items: center;
+      align-items:
+        center;
 
-      gap: 12px;
+      gap:
+        12px;
     }
 
 
     .fraction-input {
 
-      display: flex;
+      display:
+        flex;
 
-      flex-direction: column;
+      flex-direction:
+        column;
 
-      width: 100px;
+      width:
+        100px;
     }
 
 
     .fraction-input input {
 
-      width: 100%;
+      width:
+        100%;
 
-      padding: 9px;
+      padding:
+        9px;
 
       border:
         2px solid
@@ -725,13 +891,17 @@
       background:
         white;
 
-      font-size: 20px;
+      font-size:
+        20px;
 
-      font-weight: 900;
+      font-weight:
+        900;
 
-      text-align: center;
+      text-align:
+        center;
 
-      outline: none;
+      outline:
+        none;
     }
 
 
@@ -753,7 +923,8 @@
       border-radius:
         0 0 10px 10px;
 
-      border-top: 0;
+      border-top:
+        0;
     }
 
 
@@ -765,29 +936,37 @@
 
     .choice-grid {
 
-      display: grid;
+      display:
+        grid;
 
       grid-template-columns:
         repeat(
           2,
-          minmax(0,1fr)
+          minmax(
+            0,
+            1fr
+          )
         );
 
-      gap: 10px;
+      gap:
+        10px;
     }
 
 
     .choice-button {
 
-      min-height: 62px;
+      min-height:
+        62px;
 
-      padding: 11px;
+      padding:
+        11px;
 
       border:
         2px solid
         var(--primary-border);
 
-      border-radius: 13px;
+      border-radius:
+        13px;
 
       background:
         white;
@@ -795,13 +974,17 @@
       color:
         #263238;
 
-      font-size: 16px;
+      font-size:
+        16px;
 
-      font-weight: 900;
+      font-weight:
+        900;
 
-      line-height: 1.6;
+      line-height:
+        1.6;
 
-      cursor: pointer;
+      cursor:
+        pointer;
     }
 
 
@@ -826,39 +1009,51 @@
 
     .button-row {
 
-      display: flex;
+      display:
+        flex;
 
-      justify-content: center;
+      justify-content:
+        center;
 
-      gap: 10px;
+      gap:
+        10px;
 
-      margin-top: 16px;
+      margin-top:
+        16px;
 
-      flex-wrap: wrap;
+      flex-wrap:
+        wrap;
     }
 
 
     .game-button {
 
-      min-width: 132px;
+      min-width:
+        132px;
 
       padding:
         12px 20px;
 
-      border: none;
+      border:
+        none;
 
-      border-radius: 12px;
+      border-radius:
+        12px;
 
       background:
         var(--primary);
 
-      color: white;
+      color:
+        white;
 
-      font-size: 16px;
+      font-size:
+        16px;
 
-      font-weight: 900;
+      font-weight:
+        900;
 
-      cursor: pointer;
+      cursor:
+        pointer;
 
       box-shadow:
         0 5px 0
@@ -907,17 +1102,23 @@
 
     .feedback {
 
-      min-height: 48px;
+      min-height:
+        48px;
 
-      margin-top: 14px;
+      margin-top:
+        14px;
 
-      text-align: center;
+      text-align:
+        center;
 
-      font-size: 18px;
+      font-size:
+        18px;
 
-      font-weight: 900;
+      font-weight:
+        900;
 
-      line-height: 1.7;
+      line-height:
+        1.7;
     }
 
 
@@ -944,11 +1145,14 @@
 
     .explanation {
 
-      margin-top: 12px;
+      margin-top:
+        12px;
 
-      padding: 16px;
+      padding:
+        16px;
 
-      border-radius: 14px;
+      border-radius:
+        14px;
 
       background:
         #eaf8fe;
@@ -956,7 +1160,8 @@
       color:
         #334155;
 
-      line-height: 1.95;
+      line-height:
+        1.95;
     }
 
 
@@ -975,7 +1180,8 @@
 
     .result-panel {
 
-      text-align: center;
+      text-align:
+        center;
     }
 
 
@@ -987,31 +1193,40 @@
       color:
         #f57c00;
 
-      font-size: 56px;
+      font-size:
+        56px;
 
-      font-weight: 900;
+      font-weight:
+        900;
     }
 
 
     .result-stars {
 
-      margin-bottom: 10px;
+      margin-bottom:
+        10px;
 
-      font-size: 31px;
+      font-size:
+        31px;
     }
 
 
     .result-grid {
 
-      display: grid;
+      display:
+        grid;
 
       grid-template-columns:
         repeat(
           4,
-          minmax(0,1fr)
+          minmax(
+            0,
+            1fr
+          )
         );
 
-      gap: 12px;
+      gap:
+        12px;
 
       margin:
         20px 0;
@@ -1023,7 +1238,8 @@
       padding:
         16px 10px;
 
-      border-radius: 16px;
+      border-radius:
+        16px;
 
       background:
         var(--primary-light);
@@ -1031,18 +1247,21 @@
       color:
         var(--primary-dark);
 
-      font-weight: 900;
+      font-weight:
+        900;
     }
 
 
     .save-status {
 
-      min-height: 28px;
+      min-height:
+        28px;
 
       margin:
         14px 0 0;
 
-      font-weight: 900;
+      font-weight:
+        900;
     }
 
 
@@ -1054,23 +1273,28 @@
 
     .review-list {
 
-      display: grid;
+      display:
+        grid;
 
-      gap: 14px;
+      gap:
+        14px;
     }
 
 
     .review-card {
 
-      padding: 18px;
+      padding:
+        18px;
 
       border:
         1px solid
         #e2e8f0;
 
-      border-radius: 16px;
+      border-radius:
+        16px;
 
-      background: white;
+      background:
+        white;
     }
 
 
@@ -1079,7 +1303,8 @@
       color:
         var(--danger);
 
-      font-weight: 900;
+      font-weight:
+        900;
     }
 
 
@@ -1088,11 +1313,14 @@
       margin:
         8px 0;
 
-      font-size: 20px;
+      font-size:
+        20px;
 
-      font-weight: 900;
+      font-weight:
+        900;
 
-      line-height: 1.8;
+      line-height:
+        1.8;
     }
 
 
@@ -1101,16 +1329,25 @@
       color:
         #475569;
 
-      line-height: 1.9;
+      line-height:
+        1.9;
     }
 
+
+    /*
+    ==================================================
+    Mobile
+    ==================================================
+    */
 
     @media(
       max-width:760px
     ) {
 
       body {
-        padding: 8px;
+
+        padding:
+          8px;
       }
 
 
@@ -1133,7 +1370,10 @@
         grid-template-columns:
           repeat(
             2,
-            minmax(0,1fr)
+            minmax(
+              0,
+              1fr
+            )
           );
       }
 
@@ -1157,10 +1397,12 @@
         grid-template-columns:
           repeat(
             2,
-            minmax(0,1fr)
+            minmax(
+              0,
+              1fr
+            )
           );
       }
-
     }
 
   </style>
@@ -1188,6 +1430,7 @@
         🌱 平方根大挑戰
       </h1>
 
+
       <p class="game-subtitle">
         熟練平方數，再進入根式化簡、十分逼近與平方根的意義。
       </p>
@@ -1199,17 +1442,26 @@
           平方數
         </span>
 
-        <span class="concept-chip">
-          √a²
-        </span>
+
+        <!--
+        ★ a² 完整放在根號內
+        -->
+
+        <span
+          id="concept-sqrt-a2"
+          class="concept-chip"
+        ></span>
+
 
         <span class="concept-chip">
           質因數分解
         </span>
 
+
         <span class="concept-chip">
           十分逼近
         </span>
+
 
         <span class="concept-chip">
           平方根的意義
@@ -1270,11 +1522,11 @@
           </h2>
 
           <p>
-            練習 √a²，以及利用質因數標準分解式化簡根式。
+            練習根號內平方，以及利用質因數標準分解式化簡根式。
           </p>
 
           <div class="mode-example">
-            質因數固定由小到大排列，一次方省略不寫。
+            每個質因數至少出現 2 次，底數固定由小排到大。
           </div>
 
         </button>
@@ -1299,7 +1551,7 @@
           </p>
 
           <div class="mode-example">
-            √2.25、√(9/16)、√19≈？
+            √2.25、根號分數、√19≈？
           </div>
 
         </button>
@@ -1545,30 +1797,56 @@
 
       <div class="result-grid">
 
+
         <div class="result-stat">
+
           答對
           <br>
-          <span id="final-correct">0</span>
+
+          <span id="final-correct">
+            0
+          </span>
+
           題
+
         </div>
 
+
         <div class="result-stat">
+
           答錯
           <br>
-          <span id="final-wrong">0</span>
+
+          <span id="final-wrong">
+            0
+          </span>
+
           題
+
         </div>
 
+
         <div class="result-stat">
+
           最高連擊
           <br>
-          <span id="final-combo">0</span>
+
+          <span id="final-combo">
+            0
+          </span>
+
         </div>
 
+
         <div class="result-stat">
+
           測驗時間
           <br>
-          <span id="final-time">00:00</span>
+
+          <span id="final-time">
+            00:00
+          </span>
+
         </div>
 
       </div>
@@ -1660,6 +1938,8 @@
 </div>
 
 
+<!-- 共用 -->
+
 <script src="../js/common-header.js"></script>
 
 <script src="../js/scratchpad.js"></script>
@@ -1668,7 +1948,7 @@
 
 <script src="../js/sound-manager.js?v=1"></script>
 
-<script src="../js/radical-input.js?v=3"></script>
+<script src="../js/radical-input.js?v=4"></script>
 
 
 <script type="module">
@@ -1902,7 +2182,9 @@ function mathWrap(
     <math
       xmlns="http://www.w3.org/1998/Math/MathML"
     >
+
       ${content}
+
     </math>
   `;
 }
@@ -1935,8 +2217,6 @@ function sqrtFractionHTML(
 /*
 ==================================================
 √(a²)
-
-負數會顯示成 √((-7)²)
 ==================================================
 */
 
@@ -1944,62 +2224,16 @@ function sqrtSquareValueHTML(
   value
 ) {
 
-  const number =
-    Number(
+  return RU()
+    .sqrtSquareHTML(
       value
     );
-
-
-  const base =
-
-    number <
-    0
-
-      ? `
-          <mrow>
-
-            <mo>(</mo>
-
-            <mo>−</mo>
-
-            <mn>
-              ${Math.abs(number)}
-            </mn>
-
-            <mo>)</mo>
-
-          </mrow>
-        `
-
-      : `
-          <mn>
-            ${number}
-          </mn>
-        `;
-
-
-  return mathWrap(
-    `
-
-      <msqrt>
-
-        <msup>
-
-          ${base}
-
-          <mn>2</mn>
-
-        </msup>
-
-      </msqrt>
-    `
-  );
 }
 
 
 /*
 ==================================================
-一般分數顯示
+分數
 ==================================================
 */
 
@@ -2009,6 +2243,7 @@ function fractionHTML(
 ) {
 
   return mathWrap(
+
     `
 
       <mfrac>
@@ -2022,6 +2257,7 @@ function fractionHTML(
         </mn>
 
       </mfrac>
+
     `
   );
 }
@@ -2029,18 +2265,14 @@ function fractionHTML(
 
 /*
 ==================================================
-質因數標準分解式 MathML
+質因數 MathML
 
-重要規則：
+規則：
 
-2¹ × 3³ × 5¹
-
-顯示成：
-
-2 × 3³ × 5
-
-而且底數一定：
-2 → 3 → 5 → 7
+1. 底數由小到大
+2. exponent = 1 時省略
+   雖然新版題目不會出現一次方，
+   仍保留共用能力
 ==================================================
 */
 
@@ -2064,10 +2296,6 @@ function primeFactorMathML(
     .map(
       factor => {
 
-        /*
-        次方 1 省略
-        */
-
         if (
           factor.exponent ===
           1
@@ -2078,6 +2306,7 @@ function primeFactorMathML(
             <mn>
               ${factor.prime}
             </mn>
+
           `;
         }
 
@@ -2095,12 +2324,16 @@ function primeFactorMathML(
             </mn>
 
           </msup>
+
         `;
       }
     )
     .join(
+
       `
+
         <mo>×</mo>
+
       `
     );
 }
@@ -2117,6 +2350,7 @@ function sqrtPrimeFactorHTML(
 ) {
 
   return mathWrap(
+
     `
 
       <msqrt>
@@ -2130,6 +2364,7 @@ function sqrtPrimeFactorHTML(
         </mrow>
 
       </msqrt>
+
     `
   );
 }
@@ -2137,8 +2372,7 @@ function sqrtPrimeFactorHTML(
 
 /*
 ==================================================
-質因數文字版
-解析使用
+文字版
 ==================================================
 */
 
@@ -2422,7 +2656,7 @@ function showOnly(
 
 /*
 ==================================================
-題目物件
+題目
 ==================================================
 */
 
@@ -2537,9 +2771,8 @@ function choiceQuestion(
 /*
 ==================================================
 模式一
-平方數熟練場
-11²～32²
-12 題不重複
+11² ～ 32²
+12 題
 ==================================================
 */
 
@@ -2579,7 +2812,9 @@ function makeMode1() {
       return numberQuestion(
 
         mathWrap(
+
           `
+
             <msup>
 
               <mn>
@@ -2595,6 +2830,7 @@ function makeMode1() {
             <mo>=</mo>
 
             <mo>?</mo>
+
           `
         ),
 
@@ -2646,29 +2882,9 @@ function makeRootOfSquareQuestion() {
 
     [
 
-      mathWrap(
-        `
-          <msqrt>
-
-            <msup>
-
-              <mi>a</mi>
-
-              <mn>2</mn>
-
-            </msup>
-
-          </msqrt>
-
-          <mo>=</mo>
-
-          <mrow>
-            <mo>|</mo>
-            <mi>a</mi>
-            <mo>|</mo>
-          </mrow>
-        `
-      ),
+      `${RU().sqrtASquaredHTML()}
+       ＝
+       |a|`,
 
       `本題 a＝${a}。`,
 
@@ -2683,10 +2899,20 @@ function makeRootOfSquareQuestion() {
 /*
 ==================================================
 模式二 B
-建立質因數標準分解資料
+建立質因數標準分解
 
-★ 底數由小到大
-★ 一次方顯示時省略
+★ 新規則：
+每個質因數的次方至少為 2
+
+不會再產生：
+
+2 × 3 × 7
+
+可能產生：
+
+2² × 3³ × 7²
+2⁴ × 5³
+3² × 5⁵ × 7⁴
 ==================================================
 */
 
@@ -2711,7 +2937,7 @@ function createPrimeFactorData(
 
 
   /*
-  隨機挑選後立即排序
+  抽取後由小到大
   */
 
   const primes =
@@ -2754,8 +2980,11 @@ function createPrimeFactorData(
 
 
       /*
-      全部為偶數次方
-      → 化簡後為整數
+      --------------------------------------------------
+      整數答案型
+
+      全部偶次方
+      --------------------------------------------------
       */
 
       if (
@@ -2773,8 +3002,14 @@ function createPrimeFactorData(
       } else {
 
         /*
-        第一個質因數一定使用奇數次方，
-        確保至少有東西留在根號內。
+        --------------------------------------------------
+        根式答案型
+
+        所有次方至少 2
+
+        第一個一定奇次方，
+        確保最後根號內至少會留下質因數。
+        --------------------------------------------------
         */
 
         if (
@@ -2785,7 +3020,6 @@ function createPrimeFactorData(
           exponent =
             pick(
               [
-                1,
                 3,
                 5
               ]
@@ -2796,10 +3030,10 @@ function createPrimeFactorData(
           exponent =
             pick(
               [
-                1,
                 2,
                 3,
-                4
+                4,
+                5
               ]
             );
         }
@@ -2816,6 +3050,10 @@ function createPrimeFactorData(
       );
 
 
+      /*
+      每兩個提出一個
+      */
+
       outside *=
         Math.pow(
           prime,
@@ -2825,6 +3063,10 @@ function createPrimeFactorData(
           )
         );
 
+
+      /*
+      奇次方會剩下一個
+      */
 
       if (
         exponent %
@@ -2838,10 +3080,6 @@ function createPrimeFactorData(
     }
   );
 
-
-  /*
-  再排序一次保險
-  */
 
   factors.sort(
     (
@@ -2867,7 +3105,6 @@ function createPrimeFactorData(
 /*
 ==================================================
 模式二 B
-質因數標準分解式化簡
 ==================================================
 */
 
@@ -2881,10 +3118,6 @@ function makePrimeSimplifyQuestion(
       forceInteger
     );
 
-
-  /*
-  全部可以提出
-  */
 
   if (
     data.inside ===
@@ -2905,9 +3138,11 @@ function makePrimeSimplifyQuestion(
           data.factors
         )}`,
 
-        "相同質因數每兩個可以提出根號外一個。",
+        "每兩個相同的質因數，可以提出根號外一個。",
 
-        `所有質因數都能成對提出，所以答案＝${data.outside}。`
+        `所有質因數都能完全提出。`,
+
+        `所以答案＝${data.outside}。`
       ],
 
       "請利用質因數標準分解式化簡"
@@ -2931,7 +3166,7 @@ function makePrimeSimplifyQuestion(
         data.factors
       )}`,
 
-      "相同質因數每兩個可以提出根號外一個。",
+      "每兩個相同的質因數，可以提出根號外一個。",
 
       `根號外係數＝${data.outside}`,
 
@@ -2981,7 +3216,7 @@ function makeMode2() {
 /*
 ==================================================
 模式三 A
-整數平方根
+整數
 ==================================================
 */
 
@@ -3022,7 +3257,7 @@ function makeExactIntegerRoot() {
 /*
 ==================================================
 模式三 B
-有限小數
+小數
 ==================================================
 */
 
@@ -3070,6 +3305,7 @@ function makeExactDecimalRoot() {
     "請求出根號的值",
 
     {
+
       decimal:
         true
     }
@@ -3080,14 +3316,7 @@ function makeExactDecimalRoot() {
 /*
 ==================================================
 模式三 C
-分數平方根
-
-MathML 會真正顯示：
-
-     ______
-    √ 4/9
-
-整個分數都在根號內。
+分數
 ==================================================
 */
 
@@ -3255,7 +3484,9 @@ function makeTenthApproximation() {
   return numberQuestion(
 
     mathWrap(
+
       `
+
         <msqrt>
 
           <mn>
@@ -3267,6 +3498,7 @@ function makeTenthApproximation() {
         <mo>≈</mo>
 
         <mo>?</mo>
+
       `
     ),
 
@@ -3280,7 +3512,7 @@ function makeTenthApproximation() {
 
       `${lowerSquare}＜${number}＜${upperSquare}`,
 
-      `所以 √${number} 介於 ${lowerTenth} 與 ${upperTenth} 之間。`,
+      `所以根號值介於 ${lowerTenth} 與 ${upperTenth} 之間。`,
 
       `取到小數第一位約為 ${answer}。`
     ],
@@ -3288,6 +3520,7 @@ function makeTenthApproximation() {
     "利用十分逼近法，求到小數第一位",
 
     {
+
       decimal:
         true
     }
@@ -3561,7 +3794,7 @@ function makeMeaningChoice() {
 
       [
 
-        "√ 表示算術平方根。",
+        "根號符號表示算術平方根。",
 
         "算術平方根取非負值。",
 
@@ -3742,6 +3975,12 @@ function makeMeaningChoice() {
 }
 
 
+/*
+==================================================
+模式四
+==================================================
+*/
+
 function makeMode4() {
 
   return shuffle(
@@ -3807,7 +4046,7 @@ function createQuestions() {
 
 /*
 ==================================================
-作答介面
+作答
 ==================================================
 */
 
@@ -3826,6 +4065,12 @@ function renderAnswer(
   const panel =
     $("answer-panel");
 
+
+  /*
+  --------------------------------------------------
+  Number
+  --------------------------------------------------
+  */
 
   if (
     question.type ===
@@ -3872,6 +4117,12 @@ function renderAnswer(
     return;
   }
 
+
+  /*
+  --------------------------------------------------
+  Fraction
+  --------------------------------------------------
+  */
 
   if (
     question.type ===
@@ -3928,6 +4179,12 @@ function renderAnswer(
   }
 
 
+  /*
+  --------------------------------------------------
+  Radical
+  --------------------------------------------------
+  */
+
   if (
     question.type ===
     "radical"
@@ -3944,8 +4201,8 @@ function renderAnswer(
 
         根號外係數為 1 時可以保留 1。<br>
 
-        根號內若還可以化簡，
-        系統只提醒，不會替你化簡。
+        根號內若還可以繼續化簡，
+        系統只會提醒，不會替你自動化簡。
 
       </p>
 
@@ -3996,6 +4253,12 @@ function renderAnswer(
   }
 
 
+  /*
+  --------------------------------------------------
+  Choice
+  --------------------------------------------------
+  */
+
   panel.innerHTML = `
 
     <div class="answer-title">
@@ -4019,6 +4282,7 @@ function renderAnswer(
                 ${choice.text}
 
               </button>
+
             `
           )
           .join("")
@@ -4067,7 +4331,7 @@ function renderAnswer(
 
 /*
 ==================================================
-顯示題目
+顯示
 ==================================================
 */
 
@@ -4513,7 +4777,7 @@ function checkCorrect(
 
 /*
 ==================================================
-正解顯示
+正確答案
 ==================================================
 */
 
@@ -4594,6 +4858,7 @@ function explanationHTML(
           ${step}
 
         </div>
+
       `
     )
     .join("");
@@ -4795,7 +5060,7 @@ function submitAnswer() {
 
 /*
 ==================================================
-下一題
+Next
 ==================================================
 */
 
@@ -4828,7 +5093,7 @@ function nextQuestion() {
 
 /*
 ==================================================
-開始遊戲
+Start
 ==================================================
 */
 
@@ -4941,7 +5206,7 @@ function startGame(
 
 /*
 ==================================================
-評語
+Rating
 ==================================================
 */
 
@@ -5010,7 +5275,7 @@ function rating(
 
 /*
 ==================================================
-結果
+Result
 ==================================================
 */
 
@@ -5241,7 +5506,7 @@ async function saveCurrentScore(
 
 /*
 ==================================================
-錯題
+Review
 ==================================================
 */
 
@@ -5269,6 +5534,7 @@ function showReview() {
         全部答對，沒有需要回顧的錯題！
 
       </div>
+
     `;
 
   } else {
@@ -5322,6 +5588,7 @@ function showReview() {
               </div>
 
             </article>
+
           `
         )
 
@@ -5337,7 +5604,7 @@ function showReview() {
 
 /*
 ==================================================
-事件
+Events
 ==================================================
 */
 
@@ -5489,9 +5756,33 @@ document.addEventListener(
 );
 
 
+/*
+==================================================
+初始化
+==================================================
+*/
+
+function initializeMathLabels() {
+
+  /*
+  ★ 上方小標籤
+
+  a² 完整在根號內
+  */
+
+  $("concept-sqrt-a2")
+    .innerHTML =
+      RU()
+        .sqrtASquaredHTML();
+}
+
+
 window.addEventListener(
   "DOMContentLoaded",
   () => {
+
+    initializeMathLabels();
+
 
     moveScratchpadButtonToTop();
 
@@ -5502,6 +5793,9 @@ window.addEventListener(
     );
   }
 );
+
+
+initializeMathLabels();
 
 
 showOnly(
