@@ -2,15 +2,22 @@
 ==================================================
 數學遊戲樂園｜RadicalInput
 檔案：js/radical-input.js
-版本：6.0
-==================================================
+版本：7.0
 
-修正：
-1. 根號斜線與橫線連接
-2. 根號橫線加粗
-3. 橫線完整包住根號內輸入框
-4. 即時顯示目前答案
-5. 不自動替學生化簡
+★ v7 重大修正
+--------------------------------------------------
+不再使用：
+「√ 字元 + CSS ::after 橫線」
+
+改成：
+SVG 一筆畫根號
+
+優點：
+1. 根號斜線與上橫線真正連成同一條線
+2. 不受 iPad Safari 字型基線影響
+3. 線條粗細完全一致
+4. 根號高度會與答案框配合
+5. 手機、平板、電腦顯示較一致
 ==================================================
 */
 
@@ -723,16 +730,24 @@
 
           /*
           ==================================================
-          根號輸入
+          ★ v7 根號答案框
           ==================================================
 
-                   ━━━━━━━━━━━━━
-                  √  [答案]
+          這一版完全不用字型的 √。
 
-          重點：
-          1. 橫線加粗
-          2. 橫線往左延伸
-          3. 與根號斜線重疊
+          SVG path：
+          左勾
+            ↓
+          谷底
+            ↗
+          根號斜線
+            ↗
+          轉折
+            →
+          上橫線
+
+          全部是一條 path，
+          所以不可能再出現「接不起來」。
           ==================================================
           */
 
@@ -767,125 +782,109 @@
             position:
               relative;
 
-            display:
-              inline-flex;
+            width:
+              238px;
 
-            align-items:
-              flex-end;
-
-            /*
-            上方留空間給根號橫線
-            */
-
-            padding:
-              13px 2px 0 35px;
-
-            min-height:
-              69px;
+            height:
+              67px;
           }
 
 
           /*
-          根號本體
+          SVG 根號
           */
 
-          .ri-sqrt-entry::before {
-
-            content:
-              "√";
-
-            position:
-              absolute;
-
-            /*
-            往右一點，
-            讓斜線頂端與橫線重疊
-            */
-
-            left:
-              2px;
-
-            bottom:
-              -1px;
-
-            z-index:
-              2;
-
-            color:
-              #0f172a;
-
-            font-family:
-              "Cambria Math",
-              "STIX Two Math",
-              "Times New Roman",
-              serif;
-
-            font-size:
-              61px;
-
-            font-weight:
-              500;
-
-            line-height:
-              1;
-          }
-
-
-          /*
-          根號橫線
-
-          ★ 4px
-          ★ 往左延伸到根號頂端
-          ★ 避免中間斷掉
-          */
-
-          .ri-sqrt-entry::after {
-
-            content:
-              "";
+          .ri-sqrt-svg {
 
             position:
               absolute;
 
             left:
-              28px;
-
-            right:
               0;
 
             top:
-              8px;
+              0;
+
+            width:
+              238px;
+
+            height:
+              67px;
 
             z-index:
               3;
 
-            height:
-              4px;
+            overflow:
+              visible;
 
-            border-radius:
-              2px 2px 0 0;
-
-            background:
-              #0f172a;
+            pointer-events:
+              none;
           }
 
+
+          .ri-sqrt-path {
+
+            fill:
+              none;
+
+            stroke:
+              #0f172a;
+
+            /*
+            ★ 統一粗細
+            */
+
+            stroke-width:
+              4;
+
+            /*
+            ★ 接點採圓角
+            避免轉折出現尖刺
+            */
+
+            stroke-linejoin:
+              round;
+
+            stroke-linecap:
+              round;
+
+            vector-effect:
+              non-scaling-stroke;
+          }
+
+
+          /*
+          根號內輸入框
+
+          左邊 47px：
+          留給根號的勾與斜線。
+
+          top 11px：
+          讓輸入框位於根號橫線下方。
+          */
 
           .ri-radicand {
 
             position:
-              relative;
+              absolute;
+
+            left:
+              47px;
+
+            top:
+              11px;
 
             z-index:
-              1;
+              2;
 
             width:
-              180px;
+              188px;
 
             height:
               56px;
 
             padding:
-              8px;
+              8px 12px;
 
             border:
               2px solid
@@ -1029,6 +1028,12 @@
           }
 
 
+          /*
+          ==================================================
+          Mobile
+          ==================================================
+          */
+
           @media(
             max-width:600px
           ) {
@@ -1047,17 +1052,24 @@
             }
 
 
-            .ri-radicand {
+            .ri-sqrt-entry {
 
               width:
-                130px;
+                188px;
             }
 
 
-            .ri-sqrt-entry {
+            .ri-sqrt-svg {
 
-              padding-left:
-                34px;
+              width:
+                188px;
+            }
+
+
+            .ri-radicand {
+
+              width:
+                138px;
             }
 
           }
@@ -1067,6 +1079,8 @@
 
         <div class="ri-editor">
 
+
+          <!-- 正負號 -->
 
           <div class="ri-field">
 
@@ -1092,6 +1106,8 @@
           </div>
 
 
+          <!-- 根號外係數 -->
+
           <div class="ri-field">
 
             <label>
@@ -1110,6 +1126,8 @@
           </div>
 
 
+          <!-- 根號內 -->
+
           <div class="ri-radicand-block">
 
             <label class="ri-radicand-label">
@@ -1119,6 +1137,56 @@
 
             <div class="ri-sqrt-entry">
 
+
+              <!--
+              ==========================================
+              ★ 一體式 SVG 根號
+
+              viewBox：
+              0 0 238 67
+
+              path：
+              M 3 39
+                  起點：左側小勾
+
+              L 12 39
+                  小水平段
+
+              L 21 60
+                  向下形成根號谷底
+
+              L 38 8
+                  向右上形成主斜線
+
+              L 235 8
+                  同一條 path 直接畫上橫線
+
+              因此：
+              主斜線與橫線一定連續。
+              ==========================================
+              -->
+
+              <svg
+                class="ri-sqrt-svg"
+                viewBox="0 0 238 67"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+
+                <path
+                  class="ri-sqrt-path"
+                  d="
+                    M 3 39
+                    L 12 39
+                    L 21 60
+                    L 38 8
+                    L 235 8
+                  "
+                />
+
+              </svg>
+
+
               <input
                 id="ri-radicand"
                 class="ri-radicand"
@@ -1127,6 +1195,7 @@
                 autocomplete="off"
                 placeholder="輸入"
               >
+
 
             </div>
 
