@@ -4871,17 +4871,66 @@ function makeMode4E() {
 
     [
 
-      `原式分母為 √${a}＋√${b}，所以分子、分母同乘共軛式 √${a}－√${b}。`,
+      `原式分母為 ${sqrtDisplay(a)}＋${sqrtDisplay(b)}，所以分子、分母同乘它的共軛式 ${sqrtDisplay(a)}－${sqrtDisplay(b)}。`,
 
-      `分子：√${n}(√${a}－√${b})＝√${n * a}－√${n * b}。`,
+      `${fractionDisplay(
+        sqrtDisplay(n),
+        `<span class="math-expression">${sqrtDisplay(a)}<span>＋</span>${sqrtDisplay(b)}</span>`
+      )}
+      ×
+      ${fractionDisplay(
+        `<span class="math-expression">${sqrtDisplay(a)}<span>－</span>${sqrtDisplay(b)}</span>`,
+        `<span class="math-expression">${sqrtDisplay(a)}<span>－</span>${sqrtDisplay(b)}</span>`
+      )}`,
 
-      `再分別把 √${n * a} 與 √${n * b} 化成最簡根式。`,
+      `先算分子：${sqrtDisplay(n)}(${sqrtDisplay(a)}－${sqrtDisplay(b)})
+      ＝${sqrtDisplay(n)}×${sqrtDisplay(a)}－${sqrtDisplay(n)}×${sqrtDisplay(b)}
+      ＝${sqrtDisplay(n * a)}－${sqrtDisplay(n * b)}。`,
 
-      `分母：(√${a}＋√${b})(√${a}－√${b})＝(√${a})²－(√${b})²。`,
+      (() => {
+        const firstText = first.type === "number"
+          ? `${sqrtDisplay(n * a)}＝${first.value}`
+          : (
+              first.coefficient === 1
+                ? `${sqrtDisplay(n * a)} 已經是最簡根式。`
+                : `${sqrtDisplay(n * a)}＝${sqrtDisplay(`${first.coefficient * first.coefficient}×${first.radicand}`)}＝${first.coefficient}${sqrtDisplay(first.radicand)}`
+            );
 
-      `分母＝${a}－${b}＝${denominator}。`,
+        const secondAbs = second.type === "number"
+          ? { type: "number", value: Math.abs(second.value) }
+          : { type: "radical", coefficient: Math.abs(second.coefficient), radicand: second.radicand };
 
-      `最後將化簡後的分子除以 ${denominator}，並合併、約分成最簡形式。`
+        const secondText = secondAbs.type === "number"
+          ? `${sqrtDisplay(n * b)}＝${secondAbs.value}`
+          : (
+              secondAbs.coefficient === 1
+                ? `${sqrtDisplay(n * b)} 已經是最簡根式。`
+                : `${sqrtDisplay(n * b)}＝${sqrtDisplay(`${secondAbs.coefficient * secondAbs.coefficient}×${secondAbs.radicand}`)}＝${secondAbs.coefficient}${sqrtDisplay(secondAbs.radicand)}`
+            );
+
+        return `化簡分子中的根式：${firstText}；${secondText}`;
+      })(),
+
+      `因此分子整理為 ${expressionDisplay(
+        0,
+        [
+          first.type === "radical" ? { coefficient: first.coefficient, radicand: first.radicand } : null,
+          second.type === "radical" ? { coefficient: second.coefficient, radicand: second.radicand } : null
+        ].filter(Boolean)
+      )}${
+        first.type === "number" || second.type === "number"
+          ? `（若有整數項再一起整理）`
+          : ""
+      }。`,
+
+      `再算分母：(${sqrtDisplay(a)}＋${sqrtDisplay(b)})(${sqrtDisplay(a)}－${sqrtDisplay(b)})
+      ＝(${sqrtDisplay(a)})²－(${sqrtDisplay(b)})²
+      ＝${a}－${b}
+      ＝${denominator}。`,
+
+      denominator === 1
+        ? `分母已化為 1，所以最後答案就是化簡後的分子：${expressionDisplay(constant, radicals)}。`
+        : `最後將化簡後的分子除以 ${denominator}，再約分成最簡形式。`
     ],
 
     "請利用平方差公式有理化分母"
@@ -6840,7 +6889,7 @@ function formatExplanationMath(step) {
     .trim();
 
   escaped = escaped.replace(
-    /√\s*\(?\s*(\d+)\s*\)?/g,
+    /√\s*(\d+)/g,
     (_, n) => sqrtDisplay(String(n))
   );
 
