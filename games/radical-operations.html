@@ -93,19 +93,22 @@
           980px
         );
 
-      margin: 0 auto;
+      margin:
+        0 auto;
     }
 
 
     #commonHeaderMount {
 
-      margin-bottom: 14px;
+      margin-bottom:
+        14px;
     }
 
 
     .game-card {
 
-      overflow: hidden;
+      overflow:
+        hidden;
 
       border:
         1px solid
@@ -134,36 +137,6 @@
 
     /*
     ==================================================
-    Math
-    ==================================================
-    */
-
-    math {
-
-      font-family:
-        "Cambria Math",
-        "STIX Two Math",
-        "Times New Roman",
-        serif;
-    }
-
-
-    .question-content math {
-
-      font-size: 1.15em;
-    }
-
-
-    .answer-preview math,
-    .explanation math,
-    .review-card math {
-
-      font-size: 1.05em;
-    }
-
-
-    /*
-    ==================================================
     Header
     ==================================================
     */
@@ -173,7 +146,8 @@
       padding:
         24px 20px 18px;
 
-      text-align: center;
+      text-align:
+        center;
 
       background:
         linear-gradient(
@@ -263,6 +237,210 @@
     .screen {
 
       padding: 22px;
+    }
+
+
+    /*
+    ==================================================
+    ★ 統一的題目根號
+    Safari 不再使用 MathML msqrt
+    ==================================================
+    */
+
+    .math-expression {
+
+      display:
+        inline-flex;
+
+      justify-content:
+        center;
+
+      align-items:
+        center;
+
+      flex-wrap:
+        wrap;
+
+      gap: .12em;
+
+      font-family:
+        "Cambria Math",
+        "Times New Roman",
+        serif;
+    }
+
+
+    .display-radical {
+
+      position: relative;
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      min-height:
+        1.55em;
+
+      padding:
+        .14em .08em 0 .72em;
+
+      margin:
+        0 .08em;
+
+      vertical-align:
+        middle;
+    }
+
+
+    .display-radical-svg {
+
+      position:
+        absolute;
+
+      inset:
+        0;
+
+      width:
+        100%;
+
+      height:
+        100%;
+
+      overflow:
+        visible;
+
+      pointer-events:
+        none;
+    }
+
+
+    .display-radical-path {
+
+      fill: none;
+
+      stroke:
+        currentColor;
+
+      stroke-width:
+        3.4;
+
+      stroke-linejoin:
+        round;
+
+      stroke-linecap:
+        round;
+
+      vector-effect:
+        non-scaling-stroke;
+    }
+
+
+    .display-radicand {
+
+      position: relative;
+
+      z-index: 2;
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      white-space:
+        nowrap;
+
+      padding:
+        0 .10em .02em .02em;
+    }
+
+
+    .display-radicand sup {
+
+      position:
+        relative;
+
+      top:
+        -.48em;
+
+      margin-left:
+        1px;
+
+      font-size:
+        .58em;
+
+      line-height: 1;
+    }
+
+
+    .math-times,
+    .math-plus,
+    .math-minus,
+    .math-divide {
+
+      display:
+        inline-block;
+
+      margin:
+        0 .13em;
+    }
+
+
+    /*
+    ==================================================
+    CSS Fraction
+    ==================================================
+    */
+
+    .display-fraction {
+
+      display:
+        inline-flex;
+
+      flex-direction:
+        column;
+
+      justify-content:
+        center;
+
+      align-items:
+        stretch;
+
+      min-width:
+        1.8em;
+
+      margin:
+        0 .12em;
+
+      vertical-align:
+        middle;
+    }
+
+
+    .display-fraction-top,
+    .display-fraction-bottom {
+
+      display:
+        flex;
+
+      justify-content:
+        center;
+
+      align-items:
+        center;
+
+      padding:
+        .08em .16em;
+    }
+
+
+    .display-fraction-top {
+
+      border-bottom:
+        2.5px solid
+        currentColor;
     }
 
 
@@ -579,7 +757,7 @@
 
     .question-label {
 
-      margin-bottom: 10px;
+      margin-bottom: 12px;
 
       color:
         var(--muted);
@@ -590,7 +768,7 @@
 
     .question-content {
 
-      min-height: 135px;
+      min-height: 145px;
 
       display: flex;
 
@@ -603,14 +781,14 @@
 
       font-size:
         clamp(
-          27px,
+          28px,
           5vw,
-          43px
+          44px
         );
 
-      font-weight: 900;
+      font-weight: 500;
 
-      line-height: 1.8;
+      line-height: 1.7;
 
       overflow-x: auto;
     }
@@ -668,7 +846,7 @@
 
     /*
     ==================================================
-    Integer
+    Number
     ==================================================
     */
 
@@ -706,25 +884,9 @@
     }
 
 
-    .number-answer input:focus {
-
-      border-color:
-        var(--primary);
-
-      box-shadow:
-        0 0 0 4px
-        rgba(
-          123,
-          31,
-          162,
-          .11
-        );
-    }
-
-
     /*
     ==================================================
-    Fraction
+    一般 Fraction
     ==================================================
     */
 
@@ -742,7 +904,7 @@
 
       flex-direction: column;
 
-      width: 112px;
+      width: 120px;
     }
 
 
@@ -775,7 +937,7 @@
         10px 10px 0 0;
 
       border-bottom:
-        2px solid
+        2.5px solid
         #334155;
     }
 
@@ -792,40 +954,44 @@
 
     /*
     ==================================================
-    Radical Fraction
+    ★ 有理化根式分數
+    真正上下排列
     ==================================================
     */
 
-    .radical-fraction-editor {
+    .radical-fraction-stack {
 
-      display: flex;
+      width:
+        min(
+          100%,
+          560px
+        );
 
-      justify-content: center;
-
-      align-items: center;
-
-      gap: 12px;
-
-      flex-wrap: wrap;
+      margin:
+        0 auto;
     }
 
 
-    .rf-sign-box,
-    .rf-coefficient-box,
-    .rf-denominator-box {
+    .rf-numerator {
 
-      text-align: center;
+      padding:
+        8px 10px 14px;
+
+      border-bottom:
+        3px solid
+        #334155;
     }
 
 
-    .rf-label {
+    .rf-numerator-title,
+    .rf-denominator-title {
 
-      display: block;
-
-      margin-bottom: 6px;
+      margin-bottom: 7px;
 
       color:
         var(--muted);
+
+      text-align: center;
 
       font-size: 13px;
 
@@ -833,9 +999,44 @@
     }
 
 
+    .rf-numerator-editor {
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: flex-end;
+
+      gap: 10px;
+
+      flex-wrap: wrap;
+    }
+
+
+    .rf-field {
+
+      text-align: center;
+    }
+
+
+    .rf-field label {
+
+      display: block;
+
+      margin-bottom: 5px;
+
+      color:
+        var(--muted);
+
+      font-size: 12px;
+
+      font-weight: 900;
+    }
+
+
     .rf-sign {
 
-      width: 82px;
+      width: 78px;
 
       height: 52px;
 
@@ -847,18 +1048,15 @@
 
       background: white;
 
-      font-size: 22px;
+      font-size: 21px;
 
       font-weight: 900;
-
-      text-align: center;
     }
 
 
-    .rf-coefficient,
-    .rf-denominator {
+    .rf-coefficient {
 
-      width: 105px;
+      width: 100px;
 
       height: 52px;
 
@@ -872,51 +1070,45 @@
 
       background: white;
 
-      font-size: 22px;
+      font-size: 21px;
 
       font-weight: 900;
 
       text-align: center;
-
-      outline: none;
     }
 
 
-    .rf-radical-box {
+    /*
+    SVG answer radical
+    */
 
-      text-align: center;
-    }
-
-
-    .rf-radical-entry {
+    .answer-svg-radical {
 
       position: relative;
 
-      width: 180px;
+      width: 185px;
 
       height: 63px;
     }
 
 
-    .rf-radical-svg {
+    .answer-svg-radical svg {
 
       position: absolute;
 
       inset: 0;
 
-      width: 180px;
+      width: 100%;
 
-      height: 63px;
-
-      pointer-events: none;
+      height: 100%;
 
       overflow: visible;
 
-      z-index: 3;
+      pointer-events: none;
     }
 
 
-    .rf-radical-path {
+    .answer-svg-radical path {
 
       fill: none;
 
@@ -936,17 +1128,15 @@
     }
 
 
-    .rf-radicand {
+    .answer-svg-radical input {
 
       position: absolute;
 
-      left: 42px;
+      left: 43px;
 
       top: 10px;
 
-      z-index: 2;
-
-      width: 135px;
+      width: 138px;
 
       height: 52px;
 
@@ -960,6 +1150,45 @@
 
       background: white;
 
+      font-size: 21px;
+
+      font-weight: 900;
+
+      text-align: center;
+
+      outline: none;
+    }
+
+
+    .rf-denominator {
+
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: center;
+
+      padding:
+        13px 10px 4px;
+    }
+
+
+    .rf-denominator input {
+
+      width: 130px;
+
+      height: 52px;
+
+      padding: 8px;
+
+      border:
+        2px solid
+        var(--primary-border);
+
+      border-radius: 10px;
+
+      background: white;
+
       font-size: 22px;
 
       font-weight: 900;
@@ -967,6 +1196,221 @@
       text-align: center;
 
       outline: none;
+    }
+
+
+    /*
+    ==================================================
+    ★ 多項根式答案
+    ==================================================
+    */
+
+    .multi-radical-editor {
+
+      width:
+        min(
+          100%,
+          760px
+        );
+
+      margin:
+        0 auto;
+
+      display: grid;
+
+      gap: 12px;
+    }
+
+
+    .multi-radical-row {
+
+      display: grid;
+
+      grid-template-columns:
+        90px 145px minmax(190px, 1fr);
+
+      align-items: end;
+
+      gap: 10px;
+
+      padding:
+        10px;
+
+      border:
+        1px solid
+        #e5e7eb;
+
+      border-radius: 14px;
+
+      background: white;
+    }
+
+
+    .multi-radical-row-title {
+
+      grid-column:
+        1 / -1;
+
+      color:
+        var(--primary-dark);
+
+      font-size: 13px;
+
+      font-weight: 900;
+
+      text-align: left;
+    }
+
+
+    .mr-field {
+
+      text-align: center;
+    }
+
+
+    .mr-field label {
+
+      display: block;
+
+      margin-bottom: 5px;
+
+      color:
+        var(--muted);
+
+      font-size: 12px;
+
+      font-weight: 900;
+    }
+
+
+    .mr-sign {
+
+      width: 100%;
+
+      height: 50px;
+
+      border:
+        2px solid
+        var(--primary-border);
+
+      border-radius: 9px;
+
+      background: white;
+
+      font-size: 20px;
+
+      font-weight: 900;
+    }
+
+
+    .mr-coefficient {
+
+      width: 100%;
+
+      height: 50px;
+
+      padding: 8px;
+
+      border:
+        2px solid
+        var(--primary-border);
+
+      border-radius: 9px;
+
+      font-size: 20px;
+
+      font-weight: 900;
+
+      text-align: center;
+    }
+
+
+    .mr-root-wrap {
+
+      display: flex;
+
+      justify-content: center;
+    }
+
+
+    .mr-root {
+
+      position: relative;
+
+      width:
+        min(
+          100%,
+          220px
+        );
+
+      height: 61px;
+    }
+
+
+    .mr-root svg {
+
+      position: absolute;
+
+      inset: 0;
+
+      width: 100%;
+
+      height: 100%;
+
+      overflow: visible;
+
+      pointer-events: none;
+    }
+
+
+    .mr-root path {
+
+      fill: none;
+
+      stroke:
+        #0f172a;
+
+      stroke-width: 4;
+
+      stroke-linejoin:
+        round;
+
+      stroke-linecap:
+        round;
+
+      vector-effect:
+        non-scaling-stroke;
+    }
+
+
+    .mr-radicand {
+
+      position: absolute;
+
+      left: 43px;
+
+      top: 9px;
+
+      width:
+        calc(
+          100% - 47px
+        );
+
+      height: 51px;
+
+      padding: 8px;
+
+      border:
+        2px solid
+        var(--primary-border);
+
+      border-radius: 8px;
+
+      font-size: 20px;
+
+      font-weight: 900;
+
+      text-align: center;
     }
 
 
@@ -983,7 +1427,17 @@
 
       padding: 13px;
 
-      max-width: 700px;
+      max-width: 720px;
+
+      min-height: 58px;
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      flex-wrap: wrap;
 
       border:
         2px solid
@@ -1010,6 +1464,8 @@
       display:
         inline-flex;
 
+      justify-content: center;
+
       align-items: center;
 
       margin-left: 7px;
@@ -1017,68 +1473,7 @@
       color:
         var(--primary);
 
-      font-size: 26px;
-    }
-
-
-    /*
-    ==================================================
-    Choice
-    ==================================================
-    */
-
-    .choice-grid {
-
-      display: grid;
-
-      grid-template-columns:
-        repeat(
-          2,
-          minmax(
-            0,
-            1fr
-          )
-        );
-
-      gap: 10px;
-    }
-
-
-    .choice-button {
-
-      min-height: 62px;
-
-      padding: 11px;
-
-      border:
-        2px solid
-        var(--primary-border);
-
-      border-radius: 13px;
-
-      background: white;
-
-      color:
-        #263238;
-
-      font-size: 16px;
-
-      font-weight: 900;
-
-      cursor: pointer;
-    }
-
-
-    .choice-button.selected {
-
-      border-color:
-        var(--primary);
-
-      background:
-        var(--primary-light);
-
-      color:
-        var(--primary-dark);
+      font-size: 25px;
     }
 
 
@@ -1160,14 +1555,6 @@
       box-shadow:
         0 5px 0
         #00695c;
-    }
-
-
-    .game-button:disabled {
-
-      opacity: .55;
-
-      cursor: not-allowed;
     }
 
 
@@ -1358,11 +1745,11 @@
     .review-question {
 
       margin:
-        10px 0;
+        12px 0;
 
-      font-size: 20px;
+      font-size: 24px;
 
-      font-weight: 900;
+      text-align: center;
     }
 
 
@@ -1416,13 +1803,6 @@
       }
 
 
-      .choice-grid {
-
-        grid-template-columns:
-          1fr;
-      }
-
-
       .result-grid {
 
         grid-template-columns:
@@ -1436,9 +1816,18 @@
       }
 
 
-      .radical-fraction-editor {
+      .multi-radical-row {
 
-        gap: 7px;
+        grid-template-columns:
+          74px 100px minmax(145px, 1fr);
+
+        gap: 6px;
+      }
+
+
+      .mr-root {
+
+        width: 100%;
       }
 
     }
@@ -1460,8 +1849,6 @@
   <main class="game-card">
 
 
-    <!-- Header -->
-
     <header class="game-header">
 
 
@@ -1477,31 +1864,25 @@
 
       <div class="concept-strip">
 
-
         <span class="concept-chip">
           根式乘法
         </span>
-
 
         <span class="concept-chip">
           根式除法
         </span>
 
-
         <span class="concept-chip">
           分母有理化
         </span>
-
 
         <span class="concept-chip">
           根式加減
         </span>
 
-
         <span class="concept-chip">
           四則運算
         </span>
-
 
       </div>
 
@@ -1509,7 +1890,7 @@
     </header>
 
 
-    <!-- Mode -->
+    <!-- 模式 -->
 
     <section
       id="start-screen"
@@ -1530,19 +1911,16 @@
             10 題
           </span>
 
-
           <h2>
             模式一｜根式乘法訓練
           </h2>
-
 
           <p>
             練習基本根式乘法、含係數根式及相同根式相乘。
           </p>
 
-
           <div class="mode-example">
-            題目會控制為乘完即可得到最簡根式，不另外考二次化簡。
+            原式均控制為乘完後不需再做額外根式化簡。
           </div>
 
         </button>
@@ -1558,19 +1936,16 @@
             10 題
           </span>
 
-
           <h2>
             模式二｜除法與有理化
           </h2>
-
 
           <p>
             根式除法、含係數除法，以及分母有理化。
           </p>
 
-
           <div class="mode-example">
-            這個模式可能出現原題不是最簡根式的情況。
+            有理化後若為分數，使用上下分子、分母格式作答。
           </div>
 
         </button>
@@ -1586,19 +1961,16 @@
             10 題
           </span>
 
-
           <h2>
             模式三｜根式加減訓練
           </h2>
 
-
           <p>
-            同類根式加減、多項根式，以及先化簡再合併。
+            同類根式、多項根式及先化簡再合併。
           </p>
 
-
           <div class="mode-example">
-            重點是先判斷同類根式，再正確合併係數。
+            答案可能同時含有兩個或三個不同類根式。
           </div>
 
         </button>
@@ -1614,19 +1986,16 @@
             10 題
           </span>
 
-
           <h2>
             模式四｜根式四則綜合
           </h2>
-
 
           <p>
             乘、除、加減、括號與乘法公式綜合挑戰。
           </p>
 
-
           <div class="mode-example">
-            需要自行判斷運算順序並整理成最簡答案。
+            最終答案可能包含多個不同類根式。
           </div>
 
         </button>
@@ -1638,7 +2007,7 @@
     </section>
 
 
-    <!-- Quiz -->
+    <!-- 遊戲 -->
 
     <section
       id="quiz-screen"
@@ -1822,7 +2191,7 @@
     </section>
 
 
-    <!-- Result -->
+    <!-- 結果 -->
 
     <section
       id="result-screen"
@@ -1865,7 +2234,6 @@
           <span id="final-correct">
             0
           </span>
-
           題
 
         </div>
@@ -1879,7 +2247,6 @@
           <span id="final-wrong">
             0
           </span>
-
           題
 
         </div>
@@ -1954,7 +2321,7 @@
     </section>
 
 
-    <!-- Review -->
+    <!-- 錯題 -->
 
     <section
       id="review-screen"
@@ -2006,8 +2373,6 @@
 </div>
 
 
-<!-- 共用元件 -->
-
 <script src="../js/common-header.js"></script>
 
 <script src="../js/scratchpad.js"></script>
@@ -2032,7 +2397,7 @@ import {
 
 /*
 ==================================================
-基本設定
+設定
 ==================================================
 */
 
@@ -2112,10 +2477,6 @@ let radicalInput =
   null;
 
 
-let selectedChoice =
-  null;
-
-
 let startTime =
   0;
 
@@ -2134,7 +2495,7 @@ let scoreSaved =
 
 /*
 ==================================================
-一般工具
+工具
 ==================================================
 */
 
@@ -2224,28 +2585,51 @@ function gcd(
 
 /*
 ==================================================
-MathML
+★ 題目根號 SVG
 ==================================================
 */
 
-function mathWrap(
+function sqrtDisplay(
   content
 ) {
 
   return `
 
-    <math
-      xmlns="http://www.w3.org/1998/Math/MathML"
-    >
+    <span class="display-radical">
 
-      ${content}
+      <svg
+        class="display-radical-svg"
+        viewBox="0 0 100 62"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
 
-    </math>
+        <path
+          class="display-radical-path"
+          d="
+            M 1 36
+            L 7 36
+            L 13 56
+            L 25 7
+            L 99 7
+          "
+        />
+
+      </svg>
+
+
+      <span class="display-radicand">
+
+        ${content}
+
+      </span>
+
+    </span>
   `;
 }
 
 
-function radicalMath(
+function radicalDisplay(
   coefficient,
   radicand
 ) {
@@ -2260,259 +2644,290 @@ function radicalMath(
     radicand === 1
   ) {
 
-    return `
-
-      <mn>
-        ${coefficient}
-      </mn>
-
-    `;
+    return String(
+      coefficient
+    );
   }
 
 
-  let coefficientPart =
+  let prefix =
     "";
 
 
   if (
-    coefficient === -1
+    coefficient ===
+    -1
   ) {
 
-    coefficientPart =
-      "<mo>−</mo>";
+    prefix =
+      "−";
 
   } else if (
-    coefficient !== 1
+    coefficient !==
+    1
   ) {
 
-    coefficientPart =
-
-      coefficient < 0
-
-        ? `
-
-            <mo>−</mo>
-
-            <mn>
-              ${Math.abs(
-                coefficient
-              )}
-            </mn>
-
-          `
-
-        : `
-
-            <mn>
-              ${coefficient}
-            </mn>
-
-          `;
+    prefix =
+      String(
+        coefficient
+      )
+        .replace(
+          "-",
+          "−"
+        );
   }
 
 
   return `
 
-    <mrow>
+    <span class="math-expression">
 
-      ${coefficientPart}
+      ${prefix}
 
-      <msqrt>
+      ${sqrtDisplay(
+        String(
+          radicand
+        )
+      )}
 
-        <mn>
-          ${radicand}
-        </mn>
-
-      </msqrt>
-
-    </mrow>
+    </span>
   `;
 }
 
 
-function radicalHTML(
+function radicalFactorDisplay(
   coefficient,
   radicand
 ) {
 
-  return mathWrap(
+  return radicalDisplay(
+    coefficient,
+    radicand
+  );
+}
 
-    radicalMath(
-      coefficient,
-      radicand
+
+function multiplyDisplay(
+  c1,
+  r1,
+  c2,
+  r2
+) {
+
+  return `
+
+    <span class="math-expression">
+
+      ${radicalFactorDisplay(
+        c1,
+        r1
+      )}
+
+      <span class="math-times">
+        ×
+      </span>
+
+      ${radicalFactorDisplay(
+        c2,
+        r2
+      )}
+
+    </span>
+  `;
+}
+
+
+function rootFractionDisplay(
+  numeratorHTML,
+  denominatorHTML
+) {
+
+  return `
+
+    <span class="display-fraction">
+
+      <span class="display-fraction-top">
+
+        ${numeratorHTML}
+
+      </span>
+
+      <span class="display-fraction-bottom">
+
+        ${denominatorHTML}
+
+      </span>
+
+    </span>
+  `;
+}
+
+
+function divideDisplay(
+  c1,
+  r1,
+  c2,
+  r2
+) {
+
+  return rootFractionDisplay(
+
+    radicalDisplay(
+      c1,
+      r1
+    ),
+
+    radicalDisplay(
+      c2,
+      r2
     )
   );
 }
 
 
-function multiplicationHTML(
-  c1,
-  r1,
-  c2,
-  r2
-) {
-
-  return mathWrap(
-
-    `
-
-      ${radicalMath(
-        c1,
-        r1
-      )}
-
-      <mo>×</mo>
-
-      ${radicalMath(
-        c2,
-        r2
-      )}
-
-    `
-  );
-}
-
-
-function divisionHTML(
-  c1,
-  r1,
-  c2,
-  r2
-) {
-
-  return mathWrap(
-
-    `
-
-      <mfrac>
-
-        ${radicalMath(
-          c1,
-          r1
-        )}
-
-        ${radicalMath(
-          c2,
-          r2
-        )}
-
-      </mfrac>
-
-    `
-  );
-}
-
-
-function fractionHTML(
-  numerator,
-  denominator
-) {
-
-  return mathWrap(
-
-    `
-
-      <mfrac>
-
-        <mn>
-          ${numerator}
-        </mn>
-
-        <mn>
-          ${denominator}
-        </mn>
-
-      </mfrac>
-
-    `
-  );
-}
-
-
-function radicalFractionHTML(
+function radicalFractionDisplay(
   coefficient,
   radicand,
   denominator
 ) {
 
-  return mathWrap(
+  return rootFractionDisplay(
 
-    `
+    radicalDisplay(
+      coefficient,
+      radicand
+    ),
 
-      <mfrac>
+    String(
+      denominator
+    )
+  );
+}
 
-        ${radicalMath(
-          coefficient,
-          radicand
-        )}
 
-        <mn>
-          ${denominator}
-        </mn>
+function plainFractionDisplay(
+  numerator,
+  denominator
+) {
 
-      </mfrac>
-
-    `
+  return rootFractionDisplay(
+    String(
+      numerator
+    ),
+    String(
+      denominator
+    )
   );
 }
 
 
 /*
 ==================================================
-化簡根式
+多項根式顯示
 ==================================================
 */
 
-function simplifyRadicalData(
-  coefficient,
-  radicand
+function normalizeTerms(
+  terms
 ) {
 
-  const result =
-    RU()
-      .simplifyRadical(
-        coefficient,
-        radicand
-      );
+  return terms
 
+    .filter(
+      term =>
+        term.coefficient !==
+        0
+    )
 
-  if (
-    !result
-  ) {
-
-    throw new Error(
-      "根式化簡失敗"
+    .sort(
+      (
+        a,
+        b
+      ) =>
+        a.radicand -
+        b.radicand
     );
-  }
+}
+
+
+function multiRadicalDisplay(
+  terms
+) {
+
+  const normalized =
+    normalizeTerms(
+      terms
+    );
 
 
   if (
-    result.type ===
-    "number"
+    !normalized.length
   ) {
 
-    return {
-
-      type:
-        "number",
-
-      value:
-        result.value
-    };
+    return "0";
   }
 
 
-  return {
+  return `
 
-    type:
-      "radical",
+    <span class="math-expression">
 
-    coefficient:
-      result.coefficient,
+      ${
+        normalized
+          .map(
+            (
+              term,
+              i
+            ) => {
 
-    radicand:
-      result.radicand
-  };
+              const coefficient =
+                term.coefficient;
+
+
+              const sign =
+
+                coefficient <
+                0
+
+                  ? "−"
+
+                  : (
+                      i === 0
+                        ? ""
+                        : "＋"
+                    );
+
+
+              const absolute =
+                Math.abs(
+                  coefficient
+                );
+
+
+              const radical =
+                radicalDisplay(
+                  absolute,
+                  term.radicand
+                );
+
+
+              return `
+
+                <span>
+
+                  ${sign}
+
+                  ${radical}
+
+                </span>
+              `;
+            }
+          )
+          .join("")
+      }
+
+    </span>
+  `;
 }
 
 
@@ -2571,63 +2986,6 @@ function radicalQuestion(
 }
 
 
-function fractionQuestion(
-  html,
-  numerator,
-  denominator,
-  explanation,
-  label
-) {
-
-  const divisor =
-    gcd(
-      Math.abs(
-        numerator
-      ),
-      Math.abs(
-        denominator
-      )
-    );
-
-
-  numerator /=
-    divisor;
-
-
-  denominator /=
-    divisor;
-
-
-  if (
-    denominator < 0
-  ) {
-
-    numerator *=
-      -1;
-
-    denominator *=
-      -1;
-  }
-
-
-  return {
-
-    type:
-      "fraction",
-
-    html,
-
-    numerator,
-
-    denominator,
-
-    explanation,
-
-    label
-  };
-}
-
-
 function radicalFractionQuestion(
   html,
   coefficient,
@@ -2637,35 +2995,20 @@ function radicalFractionQuestion(
   label
 ) {
 
-  let divisor =
+  const divisor =
     gcd(
       Math.abs(
         coefficient
       ),
-      Math.abs(
-        denominator
-      )
+      denominator
     );
 
 
   coefficient /=
     divisor;
 
-
   denominator /=
     divisor;
-
-
-  if (
-    denominator < 0
-  ) {
-
-    coefficient *=
-      -1;
-
-    denominator *=
-      -1;
-  }
 
 
   return {
@@ -2688,47 +3031,67 @@ function radicalFractionQuestion(
 }
 
 
+function multiRadicalQuestion(
+  html,
+  terms,
+  explanation,
+  label
+) {
+
+  return {
+
+    type:
+      "multiRadical",
+
+    html,
+
+    terms:
+      normalizeTerms(
+        terms
+      ),
+
+    explanation,
+
+    label
+  };
+}
+
+
 /*
 ==================================================
 模式一
-根式乘法
 40 / 40 / 20
 ==================================================
 */
 
 function makeMultiplyBasic() {
 
-  const pairs =
-    [
-
-      [2, 3],
-      [2, 5],
-      [2, 7],
-      [3, 5],
-      [3, 7],
-      [5, 7],
-      [2, 11],
-      [3, 11],
-      [5, 11]
-    ];
+  const pair =
+    pick(
+      [
+        [2,3],
+        [2,5],
+        [2,7],
+        [2,11],
+        [3,5],
+        [3,7],
+        [3,11],
+        [5,7],
+        [5,11]
+      ]
+    );
 
 
   const [
     a,
     b
   ] =
-    pick(
-      pairs
-    );
-
-
-  const radicand =
-    a * b;
+    pair;
 
 
   return radicalQuestion(
 
-    multiplicationHTML(
+    multiplyDisplay(
       1,
       a,
       1,
@@ -2737,42 +3100,38 @@ function makeMultiplyBasic() {
 
     1,
 
-    radicand,
+    a * b,
 
     [
 
-      `√${a} × √${b}
-       ＝
-       √(${a}×${b})`,
+      `根號內直接相乘：${a}×${b}＝${a * b}`,
 
-      `＝√${radicand}`
+      `答案＝${radicalDisplay(
+        1,
+        a * b
+      )}`
     ],
 
-    "請計算並寫成最簡根式"
+    "請計算"
   );
 }
 
 
 function makeMultiplyCoefficient() {
 
-  const pairs =
-    [
-
-      [2, 3],
-      [2, 5],
-      [2, 7],
-      [3, 5],
-      [3, 7],
-      [5, 7]
-    ];
-
-
   const [
     a,
     b
   ] =
     pick(
-      pairs
+      [
+        [2,3],
+        [2,5],
+        [2,7],
+        [3,5],
+        [3,7],
+        [5,7]
+      ]
     );
 
 
@@ -2792,7 +3151,7 @@ function makeMultiplyCoefficient() {
 
   return radicalQuestion(
 
-    multiplicationHTML(
+    multiplyDisplay(
       c1,
       a,
       c2,
@@ -2805,30 +3164,22 @@ function makeMultiplyCoefficient() {
 
     [
 
-      `根號外係數：
-       ${c1}×${c2}
-       ＝
-       ${c1 * c2}`,
+      `根號外：${c1}×${c2}＝${c1 * c2}`,
 
-      `根號內：
-       ${a}×${b}
-       ＝
-       ${a * b}`,
+      `根號內：${a}×${b}＝${a * b}`,
 
-      `答案＝${
-        radicalHTML(
-          c1 * c2,
-          a * b
-        )
-      }`
+      `答案＝${radicalDisplay(
+        c1 * c2,
+        a * b
+      )}`
     ],
 
-    "請計算並寫成最簡根式"
+    "請計算"
   );
 }
 
 
-function makeMultiplySameRadical() {
+function makeMultiplySame() {
 
   const r =
     pick(
@@ -2859,32 +3210,24 @@ function makeMultiplySameRadical() {
     );
 
 
-  const answer =
-    c1 *
-    c2 *
-    r;
-
-
   return numberQuestion(
 
-    multiplicationHTML(
+    multiplyDisplay(
       c1,
       r,
       c2,
       r
     ),
 
-    answer,
+    c1 *
+    c2 *
+    r,
 
     [
 
-      `√${r}×√${r}
-       ＝
-       ${r}`,
+      `√${r}×√${r}＝${r}`,
 
-      `${c1}×${c2}×${r}
-       ＝
-       ${answer}`
+      `答案＝${c1 * c2 * r}`
     ],
 
     "請計算"
@@ -2907,8 +3250,8 @@ function makeMode1() {
       makeMultiplyCoefficient(),
       makeMultiplyCoefficient(),
 
-      makeMultiplySameRadical(),
-      makeMultiplySameRadical()
+      makeMultiplySame(),
+      makeMultiplySame()
     ]
   );
 }
@@ -2917,14 +3260,13 @@ function makeMode1() {
 /*
 ==================================================
 模式二
-除法＋有理化
-20 / 20 / 20 / 30 / 10
+除法與有理化
 ==================================================
 */
 
 function makeDivideBasic() {
 
-  const denominatorRadicand =
+  const denominator =
     pick(
       [
         2,
@@ -2935,7 +3277,7 @@ function makeDivideBasic() {
     );
 
 
-  const answerRadicand =
+  const answerRoot =
     pick(
       [
         2,
@@ -2947,40 +3289,32 @@ function makeDivideBasic() {
     );
 
 
-  const numeratorRadicand =
-    denominatorRadicand *
-    answerRadicand;
-
-
-  const simplified =
-    simplifyRadicalData(
-      1,
-      answerRadicand
-    );
+  const numerator =
+    denominator *
+    answerRoot;
 
 
   return radicalQuestion(
 
-    divisionHTML(
+    divideDisplay(
       1,
-      numeratorRadicand,
+      numerator,
       1,
-      denominatorRadicand
+      denominator
     ),
 
-    simplified.coefficient,
+    1,
 
-    simplified.radicand,
+    answerRoot,
 
     [
 
-      `√${numeratorRadicand}
-       ÷
-       √${denominatorRadicand}`,
+      `${numerator}÷${denominator}＝${answerRoot}`,
 
-      `＝√(${numeratorRadicand}÷${denominatorRadicand})`,
-
-      `＝√${answerRadicand}`
+      `答案＝${radicalDisplay(
+        1,
+        answerRoot
+      )}`
     ],
 
     "請計算並化成最簡根式"
@@ -2990,7 +3324,7 @@ function makeDivideBasic() {
 
 function makeDivideCoefficient() {
 
-  const denominatorRadicand =
+  const denominatorRoot =
     pick(
       [
         2,
@@ -3000,7 +3334,7 @@ function makeDivideCoefficient() {
     );
 
 
-  const answerRadicand =
+  const answerRoot =
     pick(
       [
         2,
@@ -3011,9 +3345,11 @@ function makeDivideCoefficient() {
     );
 
 
-  const numeratorRadicand =
-    denominatorRadicand *
-    answerRadicand;
+  const denominatorCoefficient =
+    rand(
+      2,
+      4
+    );
 
 
   const answerCoefficient =
@@ -3023,230 +3359,46 @@ function makeDivideCoefficient() {
     );
 
 
-  const denominatorCoefficient =
-    rand(
-      2,
-      4
-    );
-
-
   const numeratorCoefficient =
-    answerCoefficient *
-    denominatorCoefficient;
+    denominatorCoefficient *
+    answerCoefficient;
+
+
+  const numeratorRoot =
+    denominatorRoot *
+    answerRoot;
 
 
   return radicalQuestion(
 
-    divisionHTML(
+    divideDisplay(
       numeratorCoefficient,
-      numeratorRadicand,
+      numeratorRoot,
       denominatorCoefficient,
-      denominatorRadicand
+      denominatorRoot
     ),
 
     answerCoefficient,
 
-    answerRadicand,
+    answerRoot,
 
     [
 
       `係數：
-       ${numeratorCoefficient}
-       ÷
-       ${denominatorCoefficient}
-       ＝
-       ${answerCoefficient}`,
+       ${numeratorCoefficient}÷${denominatorCoefficient}
+       ＝${answerCoefficient}`,
 
       `根號內：
-       ${numeratorRadicand}
-       ÷
-       ${denominatorRadicand}
-       ＝
-       ${answerRadicand}`,
+       ${numeratorRoot}÷${denominatorRoot}
+       ＝${answerRoot}`,
 
-      `答案＝${
-        radicalHTML(
-          answerCoefficient,
-          answerRadicand
-        )
-      }`
+      `答案＝${radicalDisplay(
+        answerCoefficient,
+        answerRoot
+      )}`
     ],
 
-    "請計算並寫成最簡根式"
-  );
-}
-
-
-function makeDivideNeedSimplify() {
-
-  const base =
-    pick(
-      [
-        2,
-        3,
-        5,
-        6
-      ]
-    );
-
-
-  const square =
-    pick(
-      [
-        4,
-        9,
-        16
-      ]
-    );
-
-
-  const numeratorRadicand =
-    base *
-    square;
-
-
-  const denominatorRadicand =
-    pick(
-      [
-        1,
-        base
-      ]
-    );
-
-
-  if (
-    denominatorRadicand ===
-    1
-  ) {
-
-    const result =
-      simplifyRadicalData(
-        1,
-        numeratorRadicand
-      );
-
-
-    if (
-      result.type ===
-      "number"
-    ) {
-
-      return numberQuestion(
-
-        RU()
-          .sqrtNumberHTML(
-            numeratorRadicand
-          ),
-
-        result.value,
-
-        [
-
-          `先化簡 √${numeratorRadicand}。`,
-
-          `答案＝${result.value}`
-        ],
-
-        "請化成最簡根式"
-      );
-    }
-
-
-    return radicalQuestion(
-
-      RU()
-        .sqrtNumberHTML(
-          numeratorRadicand
-        ),
-
-      result.coefficient,
-
-      result.radicand,
-
-      [
-
-        `√${numeratorRadicand}
-         還可以提出平方因數。`,
-
-        `答案＝${
-          radicalHTML(
-            result.coefficient,
-            result.radicand
-          )
-        }`
-      ],
-
-      "請化成最簡根式"
-    );
-  }
-
-
-  const quotient =
-    numeratorRadicand /
-    denominatorRadicand;
-
-
-  const result =
-    simplifyRadicalData(
-      1,
-      quotient
-    );
-
-
-  if (
-    result.type ===
-    "number"
-  ) {
-
-    return numberQuestion(
-
-      divisionHTML(
-        1,
-        numeratorRadicand,
-        1,
-        denominatorRadicand
-      ),
-
-      result.value,
-
-      [
-
-        `＝√${quotient}`,
-
-        `＝${result.value}`
-      ],
-
-      "請計算並化成最簡形式"
-    );
-  }
-
-
-  return radicalQuestion(
-
-    divisionHTML(
-      1,
-      numeratorRadicand,
-      1,
-      denominatorRadicand
-    ),
-
-    result.coefficient,
-
-    result.radicand,
-
-    [
-
-      `＝√${quotient}`,
-
-      `＝${
-        radicalHTML(
-          result.coefficient,
-          result.radicand
-        )
-      }`
-    ],
-
-    "請計算並化成最簡形式"
+    "請計算並化成最簡根式"
   );
 }
 
@@ -3269,39 +3421,23 @@ function makeRationalizeBasic() {
   const numerator =
     rand(
       1,
-      6
+      8
     );
 
 
-  /*
-  n / √r
-  =
-  n√r / r
-  */
-
   return radicalFractionQuestion(
 
-    mathWrap(
+    rootFractionDisplay(
 
-      `
+      String(
+        numerator
+      ),
 
-        <mfrac>
-
-          <mn>
-            ${numerator}
-          </mn>
-
-          <msqrt>
-
-            <mn>
-              ${r}
-            </mn>
-
-          </msqrt>
-
-        </mfrac>
-
-      `
+      sqrtDisplay(
+        String(
+          r
+        )
+      )
     ),
 
     numerator,
@@ -3312,14 +3448,11 @@ function makeRationalizeBasic() {
 
     [
 
-      `分子、分母同乘 √${r}。`,
+      `分子、分母同乘 √${r}`,
 
-      `＝
-       ${numerator}√${r}
-       /
-       ${r}`,
+      `得到 ${numerator}√${r}/${r}`,
 
-      "最後再檢查分子係數與分母是否可以約分。"
+      "最後將係數與分母約成最簡形式。"
     ],
 
     "請將分母有理化並寫成最簡形式"
@@ -3355,62 +3488,35 @@ function makeRationalizeCoefficient() {
     );
 
 
-  const denominator =
-    denominatorCoefficient *
-    r;
-
-
   return radicalFractionQuestion(
 
-    mathWrap(
+    rootFractionDisplay(
 
-      `
+      String(
+        numerator
+      ),
 
-        <mfrac>
-
-          <mn>
-            ${numerator}
-          </mn>
-
-          <mrow>
-
-            <mn>
-              ${denominatorCoefficient}
-            </mn>
-
-            <msqrt>
-
-              <mn>
-                ${r}
-              </mn>
-
-            </msqrt>
-
-          </mrow>
-
-        </mfrac>
-
-      `
+      radicalDisplay(
+        denominatorCoefficient,
+        r
+      )
     ),
 
     numerator,
 
     r,
 
-    denominator,
+    denominatorCoefficient *
+    r,
 
     [
 
-      `分子、分母同乘 √${r}。`,
+      `分子、分母同乘 √${r}`,
 
-      `分母：
-       ${denominatorCoefficient}
-       ×
-       ${r}
-       ＝
-       ${denominator}`,
+      `分母＝${denominatorCoefficient}×${r}
+       ＝${denominatorCoefficient * r}`,
 
-      "最後再約分成最簡形式。"
+      "再約成最簡形式。"
     ],
 
     "請將分母有理化並寫成最簡形式"
@@ -3425,12 +3531,11 @@ function makeMode2() {
 
       makeDivideBasic(),
       makeDivideBasic(),
+      makeDivideBasic(),
 
       makeDivideCoefficient(),
       makeDivideCoefficient(),
-
-      makeDivideNeedSimplify(),
-      makeDivideNeedSimplify(),
+      makeDivideCoefficient(),
 
       makeRationalizeBasic(),
       makeRationalizeBasic(),
@@ -3445,14 +3550,11 @@ function makeMode2() {
 /*
 ==================================================
 模式三
-根式加減
-30 / 20 / 30 / 20
-
-目前控制答案為單一根式或整數
+新增不同類根式
 ==================================================
 */
 
-function makeSameRadicalAddition() {
+function makeSameRadicalAdd() {
 
   const r =
     pick(
@@ -3460,9 +3562,7 @@ function makeSameRadicalAddition() {
         2,
         3,
         5,
-        6,
         7,
-        10,
         11
       ]
     );
@@ -3470,7 +3570,7 @@ function makeSameRadicalAddition() {
 
   const a =
     rand(
-      1,
+      2,
       7
     );
 
@@ -3478,128 +3578,47 @@ function makeSameRadicalAddition() {
   const b =
     rand(
       1,
-      7
+      6
     );
-
-
-  const plus =
-    Math.random() <
-    .65;
-
-
-  const coefficient =
-
-    plus
-      ? a + b
-      : Math.max(
-          a,
-          b
-        ) -
-        Math.min(
-          a,
-          b
-        );
-
-
-  const left =
-    plus
-      ? a
-      : Math.max(
-          a,
-          b
-        );
-
-
-  const right =
-    plus
-      ? b
-      : Math.min(
-          a,
-          b
-        );
-
-
-  if (
-    coefficient === 0
-  ) {
-
-    return numberQuestion(
-
-      mathWrap(
-
-        `
-
-          ${radicalMath(
-            left,
-            r
-          )}
-
-          <mo>−</mo>
-
-          ${radicalMath(
-            right,
-            r
-          )}
-
-        `
-      ),
-
-      0,
-
-      [
-        "同類根式可直接合併係數。",
-
-        `${left}－${right}＝0`
-      ],
-
-      "請合併同類根式"
-    );
-  }
 
 
   return radicalQuestion(
 
-    mathWrap(
+    `
 
-      `
+      <span class="math-expression">
 
-        ${radicalMath(
-          left,
+        ${radicalDisplay(
+          a,
           r
         )}
 
-        <mo>
-          ${plus ? "＋" : "−"}
-        </mo>
+        <span class="math-plus">
+          ＋
+        </span>
 
-        ${radicalMath(
-          right,
+        ${radicalDisplay(
+          b,
           r
         )}
 
-      `
-    ),
+      </span>
+    `,
 
-    coefficient,
+    a + b,
 
     r,
 
     [
 
-      "根號內相同，是同類根式。",
+      "兩項為同類根式。",
 
-      `${left}
-       ${plus ? "＋" : "－"}
-       ${right}
-       ＝
-       ${coefficient}`,
+      `${a}＋${b}＝${a + b}`,
 
-      `答案＝${
-        radicalHTML(
-          coefficient,
-          r
-        )
-      }`
+      `答案＝${radicalDisplay(
+        a + b,
+        r
+      )}`
     ],
 
     "請合併同類根式"
@@ -3607,16 +3626,26 @@ function makeSameRadicalAddition() {
 }
 
 
-function makeThreeTermSameRadical() {
+/*
+3√2 + 4√3 - √2
+=
+2√2 + 4√3
+*/
 
-  const r =
+function makeTwoDifferentTerms() {
+
+  const [
+    r1,
+    r2
+  ] =
     pick(
       [
-        2,
-        3,
-        5,
-        7,
-        11
+        [2,3],
+        [2,5],
+        [2,7],
+        [3,5],
+        [3,7],
+        [5,7]
       ]
     );
 
@@ -3624,183 +3653,252 @@ function makeThreeTermSameRadical() {
   const a =
     rand(
       2,
-      7
+      6
     );
 
 
   const b =
     rand(
       2,
-      7
+      6
     );
 
 
   const c =
     rand(
       1,
-      Math.min(
-        a + b - 1,
-        6
-      )
+      a - 1
     );
 
 
-  const coefficient =
-    a +
-    b -
-    c;
+  return multiRadicalQuestion(
 
+    `
 
-  return radicalQuestion(
+      <span class="math-expression">
 
-    mathWrap(
-
-      `
-
-        ${radicalMath(
+        ${radicalDisplay(
           a,
-          r
+          r1
         )}
 
-        <mo>＋</mo>
+        <span>
+          ＋
+        </span>
 
-        ${radicalMath(
+        ${radicalDisplay(
           b,
-          r
+          r2
         )}
 
-        <mo>−</mo>
+        <span>
+          −
+        </span>
 
-        ${radicalMath(
+        ${radicalDisplay(
           c,
-          r
+          r1
         )}
 
-      `
-    ),
-
-    coefficient,
-
-    r,
+      </span>
+    `,
 
     [
 
-      "三項都是同類根式。",
+      {
+        coefficient:
+          a - c,
 
-      `${a}＋${b}－${c}
-       ＝
-       ${coefficient}`,
+        radicand:
+          r1
+      },
 
-      `答案＝${
-        radicalHTML(
-          coefficient,
-          r
-        )
-      }`
+      {
+        coefficient:
+          b,
+
+        radicand:
+          r2
+      }
     ],
 
-    "請合併同類根式"
+    [
+
+      `${radicalDisplay(
+        a,
+        r1
+      )} 與 ${radicalDisplay(
+        c,
+        r1
+      )} 為同類根式。`,
+
+      `${a}－${c}＝${a - c}`,
+
+      `答案＝${multiRadicalDisplay(
+        [
+          {
+            coefficient:
+              a - c,
+
+            radicand:
+              r1
+          },
+
+          {
+            coefficient:
+              b,
+
+            radicand:
+              r2
+          }
+        ]
+      )}`
+    ],
+
+    "請合併可以合併的同類根式"
   );
 }
 
 
-function makeSimplifyThenCombine() {
+/*
+√8 + √12 + √18
 
-  const base =
+=
+2√2 + 2√3 + 3√2
+=
+5√2 + 2√3
+*/
+
+function makeSimplifyTwoKinds() {
+
+  const [
+    r1,
+    r2
+  ] =
     pick(
       [
-        2,
-        3,
-        5,
-        7
+        [2,3],
+        [2,5],
+        [3,5],
+        [3,7]
       ]
     );
 
 
   const k1 =
-    pick(
-      [
-        2,
-        3,
-        4
-      ]
+    rand(
+      2,
+      4
     );
 
 
   const k2 =
-    pick(
-      [
-        2,
-        3,
-        4,
-        5
-      ]
+    rand(
+      2,
+      4
     );
 
 
-  const r1 =
-    base *
+  const k3 =
+    rand(
+      2,
+      4
+    );
+
+
+  const n1 =
+    r1 *
     k1 *
     k1;
 
 
-  const r2 =
-    base *
+  const n2 =
+    r2 *
     k2 *
     k2;
 
 
-  const coefficient =
-    k1 +
-    k2;
+  const n3 =
+    r1 *
+    k3 *
+    k3;
 
 
-  return radicalQuestion(
+  return multiRadicalQuestion(
 
-    mathWrap(
+    `
 
-      `
+      <span class="math-expression">
 
-        <msqrt>
+        ${sqrtDisplay(
+          n1
+        )}
 
-          <mn>
-            ${r1}
-          </mn>
+        <span>
+          ＋
+        </span>
 
-        </msqrt>
+        ${sqrtDisplay(
+          n2
+        )}
 
-        <mo>＋</mo>
+        <span>
+          ＋
+        </span>
 
-        <msqrt>
+        ${sqrtDisplay(
+          n3
+        )}
 
-          <mn>
-            ${r2}
-          </mn>
-
-        </msqrt>
-
-      `
-    ),
-
-    coefficient,
-
-    base,
+      </span>
+    `,
 
     [
 
-      `√${r1}
-       ＝
-       ${k1}√${base}`,
+      {
+        coefficient:
+          k1 + k3,
 
-      `√${r2}
-       ＝
-       ${k2}√${base}`,
+        radicand:
+          r1
+      },
 
-      `${k1}√${base}
-       ＋
-       ${k2}√${base}
-       ＝
-       ${coefficient}√${base}`
+      {
+        coefficient:
+          k2,
+
+        radicand:
+          r2
+      }
+    ],
+
+    [
+
+      `√${n1}＝${k1}√${r1}`,
+
+      `√${n2}＝${k2}√${r2}`,
+
+      `√${n3}＝${k3}√${r1}`,
+
+      `答案＝${multiRadicalDisplay(
+        [
+          {
+            coefficient:
+              k1 + k3,
+
+            radicand:
+              r1
+          },
+
+          {
+            coefficient:
+              k2,
+
+            radicand:
+              r2
+          }
+        ]
+      )}`
     ],
 
     "請先化簡，再合併同類根式"
@@ -3808,104 +3906,149 @@ function makeSimplifyThenCombine() {
 }
 
 
-function makeSimplifyThenSubtract() {
+/*
+三個不同根式
+*/
 
-  const base =
-    pick(
+function makeThreeDifferentTerms() {
+
+  const roots =
+    shuffle(
       [
         2,
         3,
         5,
         7
       ]
-    );
-
-
-  const large =
-    pick(
-      [
-        4,
-        5,
-        6
-      ]
-    );
-
-
-  const small =
-    pick(
-      [
-        2,
+    )
+      .slice(
+        0,
         3
-      ]
+      )
+      .sort(
+        (
+          a,
+          b
+        ) =>
+          a -
+          b
+      );
+
+
+  const a =
+    rand(
+      1,
+      4
     );
 
 
-  const r1 =
-    base *
-    large *
-    large;
+  const b =
+    rand(
+      1,
+      4
+    );
 
 
-  const r2 =
-    base *
-    small *
-    small;
+  const c =
+    rand(
+      1,
+      4
+    );
 
 
-  const coefficient =
-    large -
-    small;
+  return multiRadicalQuestion(
 
+    `
 
-  return radicalQuestion(
+      <span class="math-expression">
 
-    mathWrap(
+        ${radicalDisplay(
+          a,
+          roots[0]
+        )}
 
-      `
+        <span>
+          ＋
+        </span>
 
-        <msqrt>
+        ${radicalDisplay(
+          b,
+          roots[1]
+        )}
 
-          <mn>
-            ${r1}
-          </mn>
+        <span>
+          −
+        </span>
 
-        </msqrt>
+        ${radicalDisplay(
+          c,
+          roots[2]
+        )}
 
-        <mo>−</mo>
-
-        <msqrt>
-
-          <mn>
-            ${r2}
-          </mn>
-
-        </msqrt>
-
-      `
-    ),
-
-    coefficient,
-
-    base,
+      </span>
+    `,
 
     [
 
-      `√${r1}
-       ＝
-       ${large}√${base}`,
+      {
+        coefficient:
+          a,
 
-      `√${r2}
-       ＝
-       ${small}√${base}`,
+        radicand:
+          roots[0]
+      },
 
-      `${large}√${base}
-       －
-       ${small}√${base}
-       ＝
-       ${coefficient}√${base}`
+      {
+        coefficient:
+          b,
+
+        radicand:
+          roots[1]
+      },
+
+      {
+        coefficient:
+          -c,
+
+        radicand:
+          roots[2]
+      }
     ],
 
-    "請先化簡，再合併同類根式"
+    [
+
+      "三個根式的根號內皆不同，因此不能互相合併。",
+
+      `答案保持為 ${multiRadicalDisplay(
+        [
+          {
+            coefficient:
+              a,
+
+            radicand:
+              roots[0]
+          },
+
+          {
+            coefficient:
+              b,
+
+            radicand:
+              roots[1]
+          },
+
+          {
+            coefficient:
+              -c,
+
+            radicand:
+              roots[2]
+          }
+        ]
+      )}`
+    ],
+
+    "請整理成最簡形式"
   );
 }
 
@@ -3915,19 +4058,19 @@ function makeMode3() {
   return shuffle(
     [
 
-      makeSameRadicalAddition(),
-      makeSameRadicalAddition(),
-      makeSameRadicalAddition(),
+      makeSameRadicalAdd(),
+      makeSameRadicalAdd(),
+      makeSameRadicalAdd(),
 
-      makeThreeTermSameRadical(),
-      makeThreeTermSameRadical(),
+      makeTwoDifferentTerms(),
+      makeTwoDifferentTerms(),
 
-      makeSimplifyThenCombine(),
-      makeSimplifyThenCombine(),
-      makeSimplifyThenCombine(),
+      makeSimplifyTwoKinds(),
+      makeSimplifyTwoKinds(),
+      makeSimplifyTwoKinds(),
 
-      makeSimplifyThenSubtract(),
-      makeSimplifyThenSubtract()
+      makeThreeDifferentTerms(),
+      makeThreeDifferentTerms()
     ]
   );
 }
@@ -3936,138 +4079,30 @@ function makeMode3() {
 /*
 ==================================================
 模式四
-根式四則
-A～E 各 2
 ==================================================
 */
 
-function makeMixedMultiplyAdd() {
+/*
+√2×√3 + 2√5
+=
+√6 + 2√5
+*/
 
-  const r =
-    pick(
-      [
-        2,
-        3,
-        5
-      ]
-    );
-
-
-  const multiplier =
-    rand(
-      2,
-      5
-    );
-
-
-  /*
-  √r × √r + k√r
-  會產生整數 + 根式，
-  不適合目前輸入。
-
-  改成：
-  √a × √b + k√(ab)
-  最終單一根式。
-  */
-
-  const pair =
-    pick(
-      [
-        [2,3],
-        [2,5],
-        [3,5],
-        [2,7],
-        [3,7]
-      ]
-    );
-
+function makeMultiplyPlusDifferent() {
 
   const [
     a,
-    b
+    b,
+    c
   ] =
-    pair;
-
-
-  const product =
-    a *
-    b;
-
-
-  return radicalQuestion(
-
-    mathWrap(
-
-      `
-
-        <msqrt>
-          <mn>${a}</mn>
-        </msqrt>
-
-        <mo>×</mo>
-
-        <msqrt>
-          <mn>${b}</mn>
-        </msqrt>
-
-        <mo>＋</mo>
-
-        ${radicalMath(
-          multiplier,
-          product
-        )}
-
-      `
-    ),
-
-    multiplier + 1,
-
-    product,
-
-    [
-
-      `√${a}×√${b}
-       ＝
-       √${product}`,
-
-      `√${product}
-       ＋
-       ${multiplier}√${product}`,
-
-      `＝
-       ${multiplier + 1}√${product}`
-    ],
-
-    "請依運算順序計算"
-  );
-}
-
-
-function makeMixedDivideAdd() {
-
-  const base =
     pick(
       [
-        2,
-        3,
-        5
+        [2,3,5],
+        [2,5,3],
+        [3,5,7],
+        [2,7,3]
       ]
     );
-
-
-  const divisor =
-    pick(
-      [
-        2,
-        3,
-        5
-      ]
-    );
-
-
-  const numeratorRadicand =
-    base *
-    divisor;
 
 
   const extra =
@@ -4077,60 +4112,83 @@ function makeMixedDivideAdd() {
     );
 
 
-  return radicalQuestion(
+  return multiRadicalQuestion(
 
-    mathWrap(
+    `
 
-      `
+      <span class="math-expression">
 
-        <mfrac>
-
-          <msqrt>
-
-            <mn>
-              ${numeratorRadicand}
-            </mn>
-
-          </msqrt>
-
-          <msqrt>
-
-            <mn>
-              ${divisor}
-            </mn>
-
-          </msqrt>
-
-        </mfrac>
-
-        <mo>＋</mo>
-
-        ${radicalMath(
-          extra,
-          base
+        ${sqrtDisplay(
+          a
         )}
 
-      `
-    ),
+        <span>
+          ×
+        </span>
 
-    extra + 1,
+        ${sqrtDisplay(
+          b
+        )}
 
-    base,
+        <span>
+          ＋
+        </span>
+
+        ${radicalDisplay(
+          extra,
+          c
+        )}
+
+      </span>
+    `,
 
     [
 
-      `√${numeratorRadicand}
-       ÷
-       √${divisor}
-       ＝
-       √${base}`,
+      {
+        coefficient:
+          1,
 
-      `√${base}
-       ＋
-       ${extra}√${base}`,
+        radicand:
+          a * b
+      },
 
-      `＝
-       ${extra + 1}√${base}`
+      {
+        coefficient:
+          extra,
+
+        radicand:
+          c
+      }
+    ],
+
+    [
+
+      `√${a}×√${b}＝√${a * b}`,
+
+      `與 ${radicalDisplay(
+        extra,
+        c
+      )} 不是同類根式，因此不能合併。`,
+
+      `答案＝${multiRadicalDisplay(
+        [
+          {
+            coefficient:
+              1,
+
+            radicand:
+              a * b
+          },
+
+          {
+            coefficient:
+              extra,
+
+            radicand:
+              c
+          }
+        ]
+      )}`
     ],
 
     "請依運算順序計算"
@@ -4138,7 +4196,13 @@ function makeMixedDivideAdd() {
 }
 
 
-function makeBracketDistribution() {
+/*
+√2(√3 + √5)
+=
+√6 + √10
+*/
+
+function makeDistributionDifferent() {
 
   const outside =
     pick(
@@ -4150,103 +4214,130 @@ function makeBracketDistribution() {
     );
 
 
-  const inside1 =
-    outside;
-
-
-  const another =
-    pick(
+  const others =
+    shuffle(
       [
         2,
         3,
         5,
         7
-      ].filter(
-        value =>
-          value !== outside
-      )
-    );
+      ]
+        .filter(
+          value =>
+            value !== outside
+        )
+    )
+      .slice(
+        0,
+        2
+      );
 
 
-  /*
-  √a(√a + √b)
-  = a + √ab
-  不是單項。
+  const r1 =
+    outside *
+    others[0];
 
-  因此設成：
-  √a(√b + 2√b)
-  = 3√ab
-  */
 
-  return radicalQuestion(
+  const r2 =
+    outside *
+    others[1];
 
-    mathWrap(
 
-      `
+  return multiRadicalQuestion(
 
-        <msqrt>
+    `
 
-          <mn>
-            ${outside}
-          </mn>
+      <span class="math-expression">
 
-        </msqrt>
-
-        <mo>(</mo>
-
-        <msqrt>
-
-          <mn>
-            ${another}
-          </mn>
-
-        </msqrt>
-
-        <mo>＋</mo>
-
-        ${radicalMath(
-          2,
-          another
+        ${sqrtDisplay(
+          outside
         )}
 
-        <mo>)</mo>
+        <span>
+          (
+        </span>
 
-      `
-    ),
+        ${sqrtDisplay(
+          others[0]
+        )}
 
-    3,
+        <span>
+          ＋
+        </span>
 
-    outside * another,
+        ${sqrtDisplay(
+          others[1]
+        )}
+
+        <span>
+          )
+        </span>
+
+      </span>
+    `,
 
     [
 
-      "先合併括號內的同類根式。",
+      {
+        coefficient:
+          1,
 
-      `√${another}
-       ＋
-       2√${another}
-       ＝
-       3√${another}`,
+        radicand:
+          r1
+      },
 
-      `√${outside}
-       ×
-       3√${another}
-       ＝
-       3√${outside * another}`
+      {
+        coefficient:
+          1,
+
+        radicand:
+          r2
+      }
     ],
 
-    "請先處理括號，再進行乘法"
+    [
+
+      `√${outside}×√${others[0]}
+       ＝√${r1}`,
+
+      `√${outside}×√${others[1]}
+       ＝√${r2}`,
+
+      `答案＝${multiRadicalDisplay(
+        [
+          {
+            coefficient:
+              1,
+
+            radicand:
+              r1
+          },
+
+          {
+            coefficient:
+              1,
+
+            radicand:
+              r2
+          }
+        ]
+      )}`
+    ],
+
+    "請使用分配律展開"
   );
 }
 
 
-function makeConjugateProduct() {
+/*
+(√a+√b)(√a−√b)
+*/
+
+function makeConjugate() {
 
   const a =
     pick(
       [
-        2,
-        3,
         5,
         6,
         7,
@@ -4261,92 +4352,75 @@ function makeConjugateProduct() {
       [
         2,
         3,
-        5,
-        6,
-        7,
-        10,
-        11
-      ].filter(
-        value =>
-          value !== a
-      )
+        5
+      ]
+        .filter(
+          value =>
+            value !== a
+        )
     );
-
-
-  const answer =
-    a -
-    b;
 
 
   return numberQuestion(
 
-    mathWrap(
+    `
 
-      `
+      <span class="math-expression">
 
-        <mo>(</mo>
+        <span>
+          (
+        </span>
 
-        <msqrt>
+        ${sqrtDisplay(
+          a
+        )}
 
-          <mn>
-            ${a}
-          </mn>
+        <span>
+          ＋
+        </span>
 
-        </msqrt>
+        ${sqrtDisplay(
+          b
+        )}
 
-        <mo>＋</mo>
+        <span>
+          )
+        </span>
 
-        <msqrt>
+        <span>
+          (
+        </span>
 
-          <mn>
-            ${b}
-          </mn>
+        ${sqrtDisplay(
+          a
+        )}
 
-        </msqrt>
+        <span>
+          −
+        </span>
 
-        <mo>)</mo>
+        ${sqrtDisplay(
+          b
+        )}
 
-        <mo>(</mo>
+        <span>
+          )
+        </span>
 
-        <msqrt>
+      </span>
+    `,
 
-          <mn>
-            ${a}
-          </mn>
-
-        </msqrt>
-
-        <mo>−</mo>
-
-        <msqrt>
-
-          <mn>
-            ${b}
-          </mn>
-
-        </msqrt>
-
-        <mo>)</mo>
-
-      `
-    ),
-
-    answer,
+    a - b,
 
     [
 
       "利用平方差公式。",
 
-      `(√${a})²
-       －
-       (√${b})²`,
+      `(√${a})²－(√${b})²`,
 
-      `＝
-       ${a}
-       －
-       ${b}`,
+      `＝${a}－${b}`,
 
-      `＝${answer}`
+      `＝${a - b}`
     ],
 
     "請利用乘法公式計算"
@@ -4354,9 +4428,15 @@ function makeConjugateProduct() {
 }
 
 
-function makeMixedAll() {
+/*
+2√3 × √2 − √8 + √5
+=
+2√6 − 2√2 + √5
+*/
 
-  const base =
+function makeThreeTermMixed() {
+
+  const a =
     pick(
       [
         2,
@@ -4366,7 +4446,7 @@ function makeMixedAll() {
     );
 
 
-  const factor =
+  const b =
     pick(
       [
         2,
@@ -4374,86 +4454,146 @@ function makeMixedAll() {
         5,
         7
       ]
+        .filter(
+          value =>
+            value !== a
+        )
     );
 
 
-  const a =
+  const third =
+    pick(
+      [
+        3,
+        5,
+        7,
+        11
+      ]
+        .filter(
+          value =>
+            value !== a &&
+            value !== b &&
+            value !== a * b
+        )
+    );
+
+
+  const coefficient =
     rand(
       2,
-      5
+      4
     );
 
 
-  /*
-  a√base × √factor ÷ √factor + √base
-  = a√base + √base
-  */
+  return multiRadicalQuestion(
 
-  return radicalQuestion(
+    `
 
-    mathWrap(
+      <span class="math-expression">
 
-      `
-
-        ${radicalMath(
-          a,
-          base
+        ${radicalDisplay(
+          coefficient,
+          a
         )}
 
-        <mo>×</mo>
+        <span>
+          ×
+        </span>
 
-        <msqrt>
+        ${sqrtDisplay(
+          b
+        )}
 
-          <mn>
-            ${factor}
-          </mn>
+        <span>
+          −
+        </span>
 
-        </msqrt>
+        ${sqrtDisplay(
+          4 * a
+        )}
 
-        <mo>÷</mo>
+        <span>
+          ＋
+        </span>
 
-        <msqrt>
+        ${sqrtDisplay(
+          third
+        )}
 
-          <mn>
-            ${factor}
-          </mn>
-
-        </msqrt>
-
-        <mo>＋</mo>
-
-        <msqrt>
-
-          <mn>
-            ${base}
-          </mn>
-
-        </msqrt>
-
-      `
-    ),
-
-    a + 1,
-
-    base,
+      </span>
+    `,
 
     [
 
-      `√${factor}
-       ÷
-       √${factor}
-       ＝
-       1`,
+      {
+        coefficient,
 
-      `${a}√${base}
-       ＋
-       √${base}`,
+        radicand:
+          a * b
+      },
 
-      `＝
-       ${a + 1}√${base}`
+      {
+        coefficient:
+          -2,
+
+        radicand:
+          a
+      },
+
+      {
+        coefficient:
+          1,
+
+        radicand:
+          third
+      }
     ],
 
-    "請依四則運算順序計算"
+    [
+
+      `${radicalDisplay(
+        coefficient,
+        a
+      )}×√${b}
+       ＝
+       ${radicalDisplay(
+         coefficient,
+         a * b
+       )}`,
+
+      `√${4 * a}
+       ＝
+       2√${a}`,
+
+      `答案＝${multiRadicalDisplay(
+        [
+          {
+            coefficient,
+
+            radicand:
+              a * b
+          },
+
+          {
+            coefficient:
+              -2,
+
+            radicand:
+              a
+          },
+
+          {
+            coefficient:
+              1,
+
+            radicand:
+              third
+          }
+        ]
+      )}`
+    ],
+
+    "請依四則運算順序計算並化簡"
   );
 }
 
@@ -4463,20 +4603,19 @@ function makeMode4() {
   return shuffle(
     [
 
-      makeMixedMultiplyAdd(),
-      makeMixedMultiplyAdd(),
+      makeMultiplyPlusDifferent(),
+      makeMultiplyPlusDifferent(),
 
-      makeMixedDivideAdd(),
-      makeMixedDivideAdd(),
+      makeDistributionDifferent(),
+      makeDistributionDifferent(),
 
-      makeBracketDistribution(),
-      makeBracketDistribution(),
+      makeConjugate(),
+      makeConjugate(),
 
-      makeConjugateProduct(),
-      makeConjugateProduct(),
-
-      makeMixedAll(),
-      makeMixedAll()
+      makeThreeTermMixed(),
+      makeThreeTermMixed(),
+      makeThreeTermMixed(),
+      makeThreeTermMixed()
     ]
   );
 }
@@ -4484,7 +4623,7 @@ function makeMode4() {
 
 /*
 ==================================================
-題組
+建立題目
 ==================================================
 */
 
@@ -4563,7 +4702,6 @@ function stopTimer(
     clearInterval(
       timerId
     );
-
 
     timerId =
       null;
@@ -4659,7 +4797,6 @@ function playGameSound(
   ) {
 
     console.warn(
-      "音效播放失敗：",
       error
     );
   }
@@ -4668,7 +4805,7 @@ function playGameSound(
 
 /*
 ==================================================
-計算紙
+Scratchpad
 ==================================================
 */
 
@@ -4733,7 +4870,6 @@ function showOnly(
 
     moveScratchpadButtonToTop();
 
-
     window
       .showGameScratchpadButton
       ?.();
@@ -4749,7 +4885,145 @@ function showOnly(
 
 /*
 ==================================================
-一般預覽
+多根式輸入 UI
+==================================================
+*/
+
+function answerRadicalSVG() {
+
+  return `
+
+    <svg
+      viewBox="0 0 220 61"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+
+      <path
+        d="
+          M 3 36
+          L 11 36
+          L 19 55
+          L 35 7
+          L 217 7
+        "
+      />
+
+    </svg>
+  `;
+}
+
+
+function multiRadicalRowHTML(
+  i
+) {
+
+  return `
+
+    <div class="multi-radical-row">
+
+
+      <div class="multi-radical-row-title">
+
+        第 ${i + 1} 項
+        ${
+          i === 0
+            ? ""
+            : "（不需要可留白）"
+        }
+
+      </div>
+
+
+      <div class="mr-field">
+
+        <label>
+          正負號
+        </label>
+
+        <select
+          id="mr-sign-${i}"
+          class="mr-sign"
+        >
+
+          <option value="1">
+            ＋
+          </option>
+
+          <option value="-1">
+            －
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="mr-field">
+
+        <label>
+          根號外係數
+        </label>
+
+        <input
+          id="mr-coefficient-${i}"
+          class="mr-coefficient"
+          type="text"
+          inputmode="numeric"
+          autocomplete="off"
+          placeholder="${
+            i === 0
+              ? "1"
+              : "留白"
+          }"
+        >
+
+      </div>
+
+
+      <div class="mr-field">
+
+        <label>
+          根號內
+        </label>
+
+
+        <div class="mr-root-wrap">
+
+
+          <div class="mr-root">
+
+            ${answerRadicalSVG()}
+
+            <input
+              id="mr-radicand-${i}"
+              class="mr-radicand"
+              type="text"
+              inputmode="numeric"
+              autocomplete="off"
+              placeholder="${
+                i === 0
+                  ? "輸入"
+                  : "留白"
+              }"
+            >
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+
+    </div>
+  `;
+}
+
+
+/*
+==================================================
+Preview
 ==================================================
 */
 
@@ -4767,84 +5041,16 @@ function updateNumberPreview() {
 
       value
 
-        ? `
-
-            目前答案：
-
-            <span class="answer-preview-value">
-
-              ${value}
-
-            </span>
-
-          `
+        ? `目前答案：
+           <span class="answer-preview-value">
+             ${value}
+           </span>`
 
         : "目前尚未完成答案。";
 }
 
 
-function updateFractionPreview() {
-
-  const numerator =
-    $("fraction-numerator")
-      ?.value
-      .trim() ||
-    "";
-
-
-  const denominator =
-    $("fraction-denominator")
-      ?.value
-      .trim() ||
-    "";
-
-
-  if (
-    !numerator ||
-    !denominator
-  ) {
-
-    $("answer-preview")
-      .innerHTML =
-        "目前尚未完成答案。";
-
-
-    return;
-  }
-
-
-  $("answer-preview")
-    .innerHTML = `
-
-      目前答案：
-
-      <span class="answer-preview-value">
-
-        ${fractionHTML(
-          numerator,
-          denominator
-        )}
-
-      </span>
-    `;
-}
-
-
-/*
-==================================================
-根式分數預覽
-==================================================
-*/
-
 function updateRadicalFractionPreview() {
-
-  const sign =
-    Number(
-      $("rf-sign")
-        ?.value ||
-      1
-    );
-
 
   const coefficientRaw =
     $("rf-coefficient")
@@ -4882,6 +5088,13 @@ function updateRadicalFractionPreview() {
   }
 
 
+  const sign =
+    Number(
+      $("rf-sign")
+        .value
+    );
+
+
   const coefficient =
     sign *
     Number(
@@ -4896,14 +5109,150 @@ function updateRadicalFractionPreview() {
 
       <span class="answer-preview-value">
 
-        ${radicalFractionHTML(
+        ${radicalFractionDisplay(
           coefficient,
-          radicandRaw,
-          denominatorRaw
+          Number(
+            radicandRaw
+          ),
+          Number(
+            denominatorRaw
+          )
         )}
 
       </span>
-    `;
+  `;
+}
+
+
+function readMultiRawTerms() {
+
+  const terms =
+    [];
+
+
+  for (
+    let i = 0;
+    i < 3;
+    i++
+  ) {
+
+    const coefficientRaw =
+      $(
+        `mr-coefficient-${i}`
+      )
+        ?.value
+        .trim() ||
+      "";
+
+
+    const radicandRaw =
+      $(
+        `mr-radicand-${i}`
+      )
+        ?.value
+        .trim() ||
+      "";
+
+
+    /*
+    整列留白
+    */
+
+    if (
+      !coefficientRaw &&
+      !radicandRaw
+    ) {
+
+      continue;
+    }
+
+
+    if (
+      !/^\d+$/.test(
+        coefficientRaw
+      ) ||
+      !/^\d+$/.test(
+        radicandRaw
+      )
+    ) {
+
+      return {
+
+        valid:
+          false
+      };
+    }
+
+
+    const sign =
+      Number(
+        $(
+          `mr-sign-${i}`
+        ).value
+      );
+
+
+    terms.push(
+      {
+
+        coefficient:
+          sign *
+          Number(
+            coefficientRaw
+          ),
+
+        radicand:
+          Number(
+            radicandRaw
+          )
+      }
+    );
+  }
+
+
+  return {
+
+    valid:
+      true,
+
+    terms
+  };
+}
+
+
+function updateMultiPreview() {
+
+  const result =
+    readMultiRawTerms();
+
+
+  if (
+    !result.valid ||
+    !result.terms.length
+  ) {
+
+    $("answer-preview")
+      .innerHTML =
+        "目前尚未完成答案。";
+
+
+    return;
+  }
+
+
+  $("answer-preview")
+    .innerHTML = `
+
+      目前答案：
+
+      <span class="answer-preview-value">
+
+        ${multiRadicalDisplay(
+          result.terms
+        )}
+
+      </span>
+  `;
 }
 
 
@@ -4921,18 +5270,12 @@ function renderAnswer(
     null;
 
 
-  selectedChoice =
-    null;
-
-
   const panel =
     $("answer-panel");
 
 
   /*
-  --------------------------------------------------
-  number
-  --------------------------------------------------
+  Number
   */
 
   if (
@@ -4943,9 +5286,7 @@ function renderAnswer(
     panel.innerHTML = `
 
       <div class="answer-title">
-
         ${question.label}
-
       </div>
 
 
@@ -4980,12 +5321,8 @@ function renderAnswer(
       );
 
 
-    setTimeout(
-      () =>
-        $("number-answer")
-          ?.focus(),
-      0
-    );
+    $("number-answer")
+      .focus();
 
 
     return;
@@ -4993,102 +5330,7 @@ function renderAnswer(
 
 
   /*
-  --------------------------------------------------
-  fraction
-  --------------------------------------------------
-  */
-
-  if (
-    question.type ===
-    "fraction"
-  ) {
-
-    panel.innerHTML = `
-
-      <div class="answer-title">
-
-        ${question.label}
-
-      </div>
-
-
-      <p class="answer-help">
-
-        若答案還可以約分，
-        系統會提醒你自行整理，
-        不會自動替你約分。
-
-      </p>
-
-
-      <div class="fraction-answer">
-
-
-        <div class="fraction-input">
-
-          <input
-            id="fraction-numerator"
-            type="text"
-            inputmode="numeric"
-            autocomplete="off"
-            placeholder="分子"
-          >
-
-          <input
-            id="fraction-denominator"
-            type="text"
-            inputmode="numeric"
-            autocomplete="off"
-            placeholder="分母"
-          >
-
-        </div>
-
-
-      </div>
-
-
-      <div
-        id="answer-preview"
-        class="answer-preview"
-      >
-
-        目前尚未完成答案。
-
-      </div>
-    `;
-
-
-    $("fraction-numerator")
-      .addEventListener(
-        "input",
-        updateFractionPreview
-      );
-
-
-    $("fraction-denominator")
-      .addEventListener(
-        "input",
-        updateFractionPreview
-      );
-
-
-    setTimeout(
-      () =>
-        $("fraction-numerator")
-          ?.focus(),
-      0
-    );
-
-
-    return;
-  }
-
-
-  /*
-  --------------------------------------------------
-  radical
-  --------------------------------------------------
+  Radical
   */
 
   if (
@@ -5099,17 +5341,14 @@ function renderAnswer(
     panel.innerHTML = `
 
       <div class="answer-title">
-
         ${question.label}
-
       </div>
 
 
       <p class="answer-help">
 
         根號內若還可以化簡，
-        系統只會提醒，
-        不會替你自動化簡。
+        系統只提醒，不會替你自動化簡。
 
       </p>
 
@@ -5145,12 +5384,8 @@ function renderAnswer(
       );
 
 
-    setTimeout(
-      () =>
-        radicalInput
-          ?.focus(),
-      0
-    );
+    radicalInput
+      .focus();
 
 
     return;
@@ -5158,9 +5393,7 @@ function renderAnswer(
 
 
   /*
-  --------------------------------------------------
-  radicalFraction
-  --------------------------------------------------
+  Radical Fraction
   */
 
   if (
@@ -5181,117 +5414,114 @@ function renderAnswer(
 
         分母不可含根號。<br>
 
-        根式與分數都必須整理成最簡形式；
-        系統不會自動替你約分或化簡。
+        答案需化成最簡根式及最簡分數。
 
       </p>
 
 
-      <div class="radical-fraction-editor">
+      <div class="radical-fraction-stack">
 
 
-        <div class="rf-sign-box">
-
-          <label class="rf-label">
-            正負號
-          </label>
-
-          <select
-            id="rf-sign"
-            class="rf-sign"
-          >
-
-            <option value="1">
-              ＋
-            </option>
-
-            <option value="-1">
-              －
-            </option>
-
-          </select>
-
-        </div>
+        <div class="rf-numerator">
 
 
-        <div class="rf-coefficient-box">
+          <div class="rf-numerator-title">
 
-          <label class="rf-label">
-            根號外係數
-          </label>
+            分子
 
-          <input
-            id="rf-coefficient"
-            class="rf-coefficient"
-            type="text"
-            inputmode="numeric"
-            autocomplete="off"
-            value="1"
-          >
-
-        </div>
+          </div>
 
 
-        <div class="rf-radical-box">
-
-          <label class="rf-label">
-            根號內
-          </label>
+          <div class="rf-numerator-editor">
 
 
-          <div class="rf-radical-entry">
+            <div class="rf-field">
+
+              <label>
+                正負號
+              </label>
+
+              <select
+                id="rf-sign"
+                class="rf-sign"
+              >
+
+                <option value="1">
+                  ＋
+                </option>
+
+                <option value="-1">
+                  －
+                </option>
+
+              </select>
+
+            </div>
 
 
-            <svg
-              class="rf-radical-svg"
-              viewBox="0 0 180 63"
-              preserveAspectRatio="none"
-              aria-hidden="true"
-            >
+            <div class="rf-field">
 
-              <path
-                class="rf-radical-path"
-                d="
-                  M 3 37
-                  L 11 37
-                  L 19 57
-                  L 34 8
-                  L 177 8
-                "
-              />
+              <label>
+                根號外係數
+              </label>
 
-            </svg>
+              <input
+                id="rf-coefficient"
+                class="rf-coefficient"
+                type="text"
+                inputmode="numeric"
+                value="1"
+              >
+
+            </div>
 
 
-            <input
-              id="rf-radicand"
-              class="rf-radicand"
-              type="text"
-              inputmode="numeric"
-              autocomplete="off"
-              placeholder="輸入"
-            >
+            <div class="rf-field">
+
+              <label>
+                根號內
+              </label>
+
+
+              <div class="answer-svg-radical">
+
+                ${answerRadicalSVG()}
+
+                <input
+                  id="rf-radicand"
+                  type="text"
+                  inputmode="numeric"
+                  placeholder="輸入"
+                >
+
+              </div>
+
+            </div>
 
 
           </div>
 
+
         </div>
 
 
-        <div class="rf-denominator-box">
+        <div class="rf-denominator">
 
-          <label class="rf-label">
+
+          <div class="rf-denominator-title">
+
             分母
-          </label>
+
+          </div>
+
 
           <input
             id="rf-denominator"
-            class="rf-denominator"
             type="text"
             inputmode="numeric"
-            autocomplete="off"
-            placeholder="分母"
+            placeholder="輸入分母"
           >
+
 
         </div>
 
@@ -5335,13 +5565,92 @@ function renderAnswer(
       );
 
 
-    setTimeout(
-      () =>
-        $("rf-radicand")
-          ?.focus(),
-      0
-    );
+    $("rf-radicand")
+      .focus();
+
+
+    return;
   }
+
+
+  /*
+  ★ Multi Radical
+  */
+
+  panel.innerHTML = `
+
+    <div class="answer-title">
+
+      ${question.label}
+
+    </div>
+
+
+    <p class="answer-help">
+
+      請將每一個不同類根式分開填寫。<br>
+
+      同類根式必須先自行合併；
+      不需要的項目請留白。
+
+    </p>
+
+
+    <div class="multi-radical-editor">
+
+      ${multiRadicalRowHTML(0)}
+
+      ${multiRadicalRowHTML(1)}
+
+      ${multiRadicalRowHTML(2)}
+
+    </div>
+
+
+    <div
+      id="answer-preview"
+      class="answer-preview"
+    >
+
+      目前尚未完成答案。
+
+    </div>
+  `;
+
+
+  for (
+    let i = 0;
+    i < 3;
+    i++
+  ) {
+
+    [
+      `mr-sign-${i}`,
+      `mr-coefficient-${i}`,
+      `mr-radicand-${i}`
+    ]
+      .forEach(
+        id => {
+
+          $(id)
+            .addEventListener(
+              "input",
+              updateMultiPreview
+            );
+
+
+          $(id)
+            .addEventListener(
+              "change",
+              updateMultiPreview
+            );
+        }
+      );
+  }
+
+
+  $("mr-coefficient-0")
+    .focus();
 }
 
 
@@ -5454,6 +5763,141 @@ function displayQuestion() {
 
 /*
 ==================================================
+多根式驗證
+==================================================
+*/
+
+function validateMultiTerms() {
+
+  const result =
+    readMultiRawTerms();
+
+
+  if (
+    !result.valid ||
+    !result.terms.length
+  ) {
+
+    return {
+
+      valid:
+        false,
+
+      message:
+        "請至少完整填寫一個根式項目。"
+    };
+  }
+
+
+  /*
+  radicand 檢查
+  */
+
+  for (
+    const term of result.terms
+  ) {
+
+    if (
+      term.coefficient ===
+      0
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "根號外係數不可填 0；若沒有這一項請直接留白。"
+      };
+    }
+
+
+    if (
+      term.radicand <=
+      1
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "根號內請填大於 1 的正整數。"
+      };
+    }
+
+
+    if (
+      RU()
+        .getLargestSquareFactor(
+          term.radicand
+        ) >
+      1
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          `⚠️ √${term.radicand} 還可以繼續化簡，請先化成最簡根式。`
+      };
+    }
+  }
+
+
+  /*
+  不能出現相同 radicand 兩次
+  */
+
+  const roots =
+    result.terms.map(
+      term =>
+        term.radicand
+    );
+
+
+  if (
+    new Set(
+      roots
+    ).size !==
+    roots.length
+  ) {
+
+    return {
+
+      valid:
+        false,
+
+      message:
+        "⚠️ 仍有同類根式尚未合併，請先自行合併後再提交。"
+    };
+  }
+
+
+  return {
+
+    valid:
+      true,
+
+    terms:
+      normalizeTerms(
+        result.terms
+      ),
+
+    display:
+      multiRadicalDisplay(
+        result.terms
+      )
+  };
+}
+
+
+/*
+==================================================
 讀取答案
 ==================================================
 */
@@ -5463,9 +5907,7 @@ function readAnswer(
 ) {
 
   /*
-  --------------------------------------------------
   number
-  --------------------------------------------------
   */
 
   if (
@@ -5493,7 +5935,7 @@ function readAnswer(
           false,
 
         message:
-          "請輸入完整的整數答案。"
+          "請輸入完整整數答案。"
       };
     }
 
@@ -5515,133 +5957,7 @@ function readAnswer(
 
 
   /*
-  --------------------------------------------------
-  fraction
-  --------------------------------------------------
-  */
-
-  if (
-    question.type ===
-    "fraction"
-  ) {
-
-    const numeratorRaw =
-      $("fraction-numerator")
-        ?.value
-        .trim() ||
-      "";
-
-
-    const denominatorRaw =
-      $("fraction-denominator")
-        ?.value
-        .trim() ||
-      "";
-
-
-    if (
-      !/^-?\d+$/
-        .test(
-          numeratorRaw
-        ) ||
-      !/^-?\d+$/
-        .test(
-          denominatorRaw
-        )
-    ) {
-
-      return {
-
-        valid:
-          false,
-
-        message:
-          "請把分子與分母填寫完整。"
-      };
-    }
-
-
-    let numerator =
-      Number(
-        numeratorRaw
-      );
-
-
-    let denominator =
-      Number(
-        denominatorRaw
-      );
-
-
-    if (
-      denominator === 0
-    ) {
-
-      return {
-
-        valid:
-          false,
-
-        message:
-          "⚠️ 分母不能是 0。"
-      };
-    }
-
-
-    if (
-      denominator < 0
-    ) {
-
-      numerator *=
-        -1;
-
-      denominator *=
-        -1;
-    }
-
-
-    if (
-      gcd(
-        Math.abs(
-          numerator
-        ),
-        denominator
-      ) !== 1
-    ) {
-
-      return {
-
-        valid:
-          false,
-
-        message:
-          "⚠️ 目前答案還不是最簡分數，請先自行約分。"
-      };
-    }
-
-
-    return {
-
-      valid:
-        true,
-
-      numerator,
-
-      denominator,
-
-      display:
-        fractionHTML(
-          numerator,
-          denominator
-        )
-    };
-  }
-
-
-  /*
-  --------------------------------------------------
   radical
-  --------------------------------------------------
   */
 
   if (
@@ -5665,7 +5981,7 @@ function readAnswer(
 
         message:
           result?.message ||
-          "請把根式答案輸入完整。"
+          "請把答案填寫完整。"
       };
     }
 
@@ -5685,169 +6001,182 @@ function readAnswer(
 
 
   /*
-  --------------------------------------------------
   radicalFraction
-  --------------------------------------------------
   */
 
-  const sign =
-    Number(
-      $("rf-sign")
-        ?.value ||
-      1
-    );
-
-
-  const coefficientRaw =
-    $("rf-coefficient")
-      ?.value
-      .trim() ||
-    "";
-
-
-  const radicandRaw =
-    $("rf-radicand")
-      ?.value
-      .trim() ||
-    "";
-
-
-  const denominatorRaw =
-    $("rf-denominator")
-      ?.value
-      .trim() ||
-    "";
-
-
   if (
-    !/^\d+$/.test(
-      coefficientRaw
-    ) ||
-    !/^\d+$/.test(
-      radicandRaw
-    ) ||
-    !/^\d+$/.test(
-      denominatorRaw
-    )
+    question.type ===
+    "radicalFraction"
   ) {
 
-    return {
-
-      valid:
-        false,
-
-      message:
-        "請把根式分數答案填寫完整。"
-    };
-  }
+    const coefficientRaw =
+      $("rf-coefficient")
+        ?.value
+        .trim() ||
+      "";
 
 
-  const coefficient =
-    sign *
-    Number(
-      coefficientRaw
-    );
+    const radicandRaw =
+      $("rf-radicand")
+        ?.value
+        .trim() ||
+      "";
 
 
-  const radicand =
-    Number(
-      radicandRaw
-    );
+    const denominatorRaw =
+      $("rf-denominator")
+        ?.value
+        .trim() ||
+      "";
 
 
-  const denominator =
-    Number(
-      denominatorRaw
-    );
-
-
-  if (
-    denominator === 0
-  ) {
-
-    return {
-
-      valid:
-        false,
-
-      message:
-        "⚠️ 分母不能是 0。"
-    };
-  }
-
-
-  if (
-    radicand <= 1
-  ) {
-
-    return {
-
-      valid:
-        false,
-
-      message:
-        "⚠️ 根號內必須為大於 1 的正整數。"
-    };
-  }
-
-
-  if (
-    RU()
-      .getLargestSquareFactor(
-        radicand
-      ) >
-    1
-  ) {
-
-    return {
-
-      valid:
-        false,
-
-      message:
-        `⚠️ √${radicand} 還可以繼續化簡，請先整理成最簡根式。`
-    };
-  }
-
-
-  if (
-    gcd(
-      Math.abs(
-        coefficient
-      ),
-      denominator
-    ) !== 1
-  ) {
-
-    return {
-
-      valid:
-        false,
-
-      message:
-        "⚠️ 根號外係數與分母還可以約分，請整理成最簡形式。"
-    };
-  }
-
-
-  return {
-
-    valid:
-      true,
-
-    coefficient,
-
-    radicand,
-
-    denominator,
-
-    display:
-      radicalFractionHTML(
-        coefficient,
-        radicand,
-        denominator
+    if (
+      !/^\d+$/.test(
+        coefficientRaw
+      ) ||
+      !/^\d+$/.test(
+        radicandRaw
+      ) ||
+      !/^\d+$/.test(
+        denominatorRaw
       )
-  };
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "請把分子根式與分母填寫完整。"
+      };
+    }
+
+
+    const sign =
+      Number(
+        $("rf-sign")
+          .value
+      );
+
+
+    const coefficient =
+      sign *
+      Number(
+        coefficientRaw
+      );
+
+
+    const radicand =
+      Number(
+        radicandRaw
+      );
+
+
+    const denominator =
+      Number(
+        denominatorRaw
+      );
+
+
+    if (
+      denominator ===
+      0
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "分母不能是 0。"
+      };
+    }
+
+
+    if (
+      radicand <=
+      1
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "根號內請填大於 1 的正整數。"
+      };
+    }
+
+
+    if (
+      RU()
+        .getLargestSquareFactor(
+          radicand
+        ) >
+      1
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          `⚠️ √${radicand} 還不是最簡根式，請自行化簡。`
+      };
+    }
+
+
+    if (
+      gcd(
+        Math.abs(
+          coefficient
+        ),
+        denominator
+      ) !==
+      1
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "⚠️ 分子係數與分母還可以約分，請先化成最簡分數。"
+      };
+    }
+
+
+    return {
+
+      valid:
+        true,
+
+      coefficient,
+
+      radicand,
+
+      denominator,
+
+      display:
+        radicalFractionDisplay(
+          coefficient,
+          radicand,
+          denominator
+        )
+    };
+  }
+
+
+  /*
+  multi
+  */
+
+  return validateMultiTerms();
 }
 
 
@@ -5876,22 +6205,6 @@ function checkCorrect(
 
   if (
     question.type ===
-    "fraction"
-  ) {
-
-    return (
-
-      answer.numerator ===
-        question.numerator &&
-
-      answer.denominator ===
-        question.denominator
-    );
-  }
-
-
-  if (
-    question.type ===
     "radical"
   ) {
 
@@ -5906,23 +6219,56 @@ function checkCorrect(
   }
 
 
-  return (
+  if (
+    question.type ===
+    "radicalFraction"
+  ) {
 
-    answer.coefficient ===
-      question.coefficient &&
+    return (
 
-    answer.radicand ===
-      question.radicand &&
+      answer.coefficient ===
+        question.coefficient &&
 
-    answer.denominator ===
-      question.denominator
+      answer.radicand ===
+        question.radicand &&
+
+      answer.denominator ===
+        question.denominator
+    );
+  }
+
+
+  /*
+  Multi
+  */
+
+  if (
+    answer.terms.length !==
+    question.terms.length
+  ) {
+
+    return false;
+  }
+
+
+  return answer.terms.every(
+    (
+      term,
+      i
+    ) =>
+
+      term.coefficient ===
+        question.terms[i].coefficient &&
+
+      term.radicand ===
+        question.terms[i].radicand
   );
 }
 
 
 /*
 ==================================================
-正確答案文字
+正確答案
 ==================================================
 */
 
@@ -5943,33 +6289,31 @@ function correctAnswerText(
 
   if (
     question.type ===
-    "fraction"
+    "radical"
   ) {
 
-    return fractionHTML(
-      question.numerator,
-      question.denominator
+    return radicalDisplay(
+      question.coefficient,
+      question.radicand
     );
   }
 
 
   if (
     question.type ===
-    "radical"
+    "radicalFraction"
   ) {
 
-    return RU()
-      .radicalToHTML(
-        question.coefficient,
-        question.radicand
-      );
+    return radicalFractionDisplay(
+      question.coefficient,
+      question.radicand,
+      question.denominator
+    );
   }
 
 
-  return radicalFractionHTML(
-    question.coefficient,
-    question.radicand,
-    question.denominator
+  return multiRadicalDisplay(
+    question.terms
   );
 }
 
@@ -6116,12 +6460,18 @@ function submitAnswer() {
 
 
     $("feedback")
-      .innerHTML =
-        `❌ 答案不正確。正確答案：<strong>${
-          correctAnswerText(
+      .innerHTML = `
+
+        ❌ 答案不正確。正確答案：
+
+        <strong>
+
+          ${correctAnswerText(
             question
-          )
-        }</strong>`;
+          )}
+
+        </strong>
+      `;
 
 
     playGameSound(
@@ -6189,7 +6539,7 @@ function submitAnswer() {
     .textContent =
 
       index ===
-        questions.length - 1
+      questions.length - 1
 
         ? "查看測驗結果（Enter）"
 
@@ -6264,7 +6614,7 @@ function startGame(
 
 
     alert(
-      "題目建立失敗，請重新整理頁面後再試一次。"
+      "題目建立失敗，請重新整理後再試一次。"
     );
 
 
@@ -6350,7 +6700,8 @@ function rating(
 ) {
 
   if (
-    score >= 90
+    score >=
+    90
   ) {
 
     return {
@@ -6365,7 +6716,8 @@ function rating(
 
 
   if (
-    score >= 80
+    score >=
+    80
   ) {
 
     return {
@@ -6374,13 +6726,14 @@ function rating(
         "★★★★☆",
 
       comment:
-        "表現很好，再注意有理化與化簡細節就更完整了。"
+        "表現很好，再注意有理化與不同類根式的整理。"
     };
   }
 
 
   if (
-    score >= 60
+    score >=
+    60
   ) {
 
     return {
@@ -6389,7 +6742,7 @@ function rating(
         "★★★☆☆",
 
       comment:
-        "基本運算已掌握，再加強根式整理與運算順序。"
+        "基本運算已掌握，再加強化簡與同類根式判斷。"
     };
   }
 
@@ -6400,7 +6753,7 @@ function rating(
       "★★☆☆☆",
 
     comment:
-      "建議從根式乘法開始，再逐步進入除法、加減與綜合題。"
+      "建議先從根式乘法與加減開始，再進入綜合題。"
   };
 }
 
@@ -6474,13 +6827,15 @@ async function showResult() {
 
   $("review-button")
     .disabled =
-      wrong === 0;
+      wrong ===
+      0;
 
 
   $("review-button")
     .textContent =
 
-      wrong === 0
+      wrong ===
+      0
 
         ? "全部答對，無錯題"
 
@@ -6521,10 +6876,6 @@ async function saveCurrentScore(
 
   status.textContent =
     "☁️ 正在儲存本次成績……";
-
-
-  status.style.color =
-    "#1d4ed8";
 
 
   try {
@@ -6594,32 +6945,24 @@ async function saveCurrentScore(
       "⚠️ 成績暫時無法儲存。";
 
 
-    status.style.color =
-      "#b91c1c";
-
   } catch (
     error
   ) {
 
     console.error(
-      "根式運算成績儲存失敗：",
       error
     );
 
 
     status.textContent =
       "⚠️ 成績暫時無法儲存。";
-
-
-    status.style.color =
-      "#b91c1c";
   }
 }
 
 
 /*
 ==================================================
-錯題回顧
+錯題
 ==================================================
 */
 
@@ -6632,95 +6975,83 @@ function showReview() {
     );
 
 
-  const list =
-    $("review-list");
+  $("review-list")
+    .innerHTML =
+
+      wrongRecords.length
+
+        ? wrongRecords
+            .map(
+              record => `
+
+                <article class="review-card">
 
 
-  if (
-    !wrongRecords.length
-  ) {
+                  <div class="review-title">
 
-    list.innerHTML = `
+                    第 ${record.number} 題 ❌
 
-      <div class="review-card">
-
-        全部答對，沒有需要回顧的錯題！
-
-      </div>
-
-    `;
-
-  } else {
-
-    list.innerHTML =
-      wrongRecords
-        .map(
-          record => `
-
-            <article class="review-card">
+                  </div>
 
 
-              <div class="review-title">
+                  <div class="review-question">
 
-                第 ${record.number} 題 ❌
+                    ${record.question.html}
 
-              </div>
-
-
-              <div class="review-question">
-
-                ${record.question.html}
-
-              </div>
+                  </div>
 
 
-              <div>
+                  <p>
 
-                你的答案：
+                    你的答案：
 
-                <strong>
+                    <strong>
 
-                  ${record.userAnswer}
+                      ${record.userAnswer}
 
-                </strong>
+                    </strong>
 
-              </div>
+                  </p>
 
 
-              <div>
+                  <p>
 
-                正確答案：
+                    正確答案：
 
-                <strong>
+                    <strong>
 
-                  ${
-                    correctAnswerText(
+                      ${correctAnswerText(
+                        record.question
+                      )}
+
+                    </strong>
+
+                  </p>
+
+
+                  <div class="explanation">
+
+                    ${explanationHTML(
                       record.question
-                    )
-                  }
+                    )}
 
-                </strong>
-
-              </div>
+                  </div>
 
 
-              <div class="explanation">
+                </article>
 
-                ${
-                  explanationHTML(
-                    record.question
-                  )
-                }
+              `
+            )
+            .join("")
 
-              </div>
+        : `
 
+            <div class="review-card">
 
-            </article>
+              全部答對！
 
-          `
-        )
-        .join("");
-  }
+            </div>
+          `;
 
 
   showOnly(
@@ -6744,12 +7075,10 @@ document
 
       button.addEventListener(
         "click",
-        () => {
-
+        () =>
           startGame(
             button.dataset.mode
-          );
-        }
+          )
       );
     }
   );
@@ -6779,21 +7108,6 @@ $("restart-button")
   );
 
 
-$("mode-button")
-  .addEventListener(
-    "click",
-    () => {
-
-      stopTimer();
-
-
-      showOnly(
-        "start-screen"
-      );
-    }
-  );
-
-
 $("again-button")
   .addEventListener(
     "click",
@@ -6801,6 +7115,20 @@ $("again-button")
       startGame(
         mode
       )
+  );
+
+
+$("mode-button")
+  .addEventListener(
+    "click",
+    () => {
+
+      stopTimer();
+
+      showOnly(
+        "start-screen"
+      );
+    }
   );
 
 
@@ -6913,5 +7241,4 @@ showOnly(
 
 
 </body>
-
 </html>
