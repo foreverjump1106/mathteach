@@ -1,0 +1,6917 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    根式運算大挑戰｜數學遊戲樂園
+  </title>
+
+
+  <link
+    rel="stylesheet"
+    href="../css/scratchpad.css"
+  >
+
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    :root {
+
+      --primary: #7b1fa2;
+      --primary-dark: #4a148c;
+      --primary-light: #f3e5f5;
+      --primary-border: #ce93d8;
+
+      --text: #1f2937;
+      --muted: #64748b;
+
+      --success: #15803d;
+      --danger: #b91c1c;
+      --warning: #b45309;
+
+      --restart: #00897b;
+    }
+
+
+    body {
+
+      margin: 0;
+
+      min-height: 100vh;
+
+      padding: 16px;
+
+      font-family:
+        "Microsoft JhengHei",
+        "Noto Sans TC",
+        sans-serif;
+
+      color:
+        var(--text);
+
+      background:
+        linear-gradient(
+          135deg,
+          #f3e5f5,
+          #fff8e1
+        );
+    }
+
+
+    button,
+    input,
+    select {
+
+      font-family: inherit;
+    }
+
+
+    .hidden {
+
+      display: none !important;
+    }
+
+
+    .page-shell {
+
+      width:
+        min(
+          100%,
+          980px
+        );
+
+      margin: 0 auto;
+    }
+
+
+    #commonHeaderMount {
+
+      margin-bottom: 14px;
+    }
+
+
+    .game-card {
+
+      overflow: hidden;
+
+      border:
+        1px solid
+        #eadcf0;
+
+      border-top:
+        8px solid
+        var(--primary);
+
+      border-radius:
+        26px;
+
+      background:
+        white;
+
+      box-shadow:
+        0 14px 34px
+        rgba(
+          15,
+          23,
+          42,
+          .13
+        );
+    }
+
+
+    /*
+    ==================================================
+    Math
+    ==================================================
+    */
+
+    math {
+
+      font-family:
+        "Cambria Math",
+        "STIX Two Math",
+        "Times New Roman",
+        serif;
+    }
+
+
+    .question-content math {
+
+      font-size: 1.15em;
+    }
+
+
+    .answer-preview math,
+    .explanation math,
+    .review-card math {
+
+      font-size: 1.05em;
+    }
+
+
+    /*
+    ==================================================
+    Header
+    ==================================================
+    */
+
+    .game-header {
+
+      padding:
+        24px 20px 18px;
+
+      text-align: center;
+
+      background:
+        linear-gradient(
+          180deg,
+          var(--primary-light),
+          white
+        );
+    }
+
+
+    .game-title {
+
+      margin: 0;
+
+      color:
+        var(--primary-dark);
+
+      font-size:
+        clamp(
+          28px,
+          5vw,
+          40px
+        );
+    }
+
+
+    .game-subtitle {
+
+      margin:
+        10px 0 0;
+
+      color:
+        var(--muted);
+
+      line-height: 1.7;
+    }
+
+
+    .concept-strip {
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      gap: 8px;
+
+      margin-top: 16px;
+
+      flex-wrap: wrap;
+    }
+
+
+    .concept-chip {
+
+      min-height: 38px;
+
+      display:
+        inline-flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      padding:
+        6px 12px;
+
+      border:
+        1px solid
+        var(--primary-border);
+
+      border-radius:
+        999px;
+
+      background: white;
+
+      color:
+        var(--primary-dark);
+
+      font-size: 14px;
+
+      font-weight: 900;
+    }
+
+
+    .screen {
+
+      padding: 22px;
+    }
+
+
+    /*
+    ==================================================
+    Modes
+    ==================================================
+    */
+
+    .mode-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(
+            0,
+            1fr
+          )
+        );
+
+      gap: 16px;
+    }
+
+
+    .mode-card {
+
+      min-height: 215px;
+
+      padding: 21px;
+
+      border:
+        2px solid
+        var(--primary-border);
+
+      border-radius: 20px;
+
+      background:
+        linear-gradient(
+          180deg,
+          var(--primary-light),
+          white
+        );
+
+      text-align: left;
+
+      cursor: pointer;
+
+      transition:
+        transform .15s ease,
+        box-shadow .15s ease;
+    }
+
+
+    .mode-card:hover {
+
+      transform:
+        translateY(-3px);
+
+      box-shadow:
+        0 10px 24px
+        rgba(
+          15,
+          23,
+          42,
+          .11
+        );
+    }
+
+
+    .mode-tag {
+
+      display:
+        inline-block;
+
+      margin-bottom: 10px;
+
+      padding:
+        4px 9px;
+
+      border-radius:
+        999px;
+
+      background: white;
+
+      color:
+        var(--primary-dark);
+
+      font-size: 12px;
+
+      font-weight: 900;
+    }
+
+
+    .mode-card h2 {
+
+      margin:
+        0 0 9px;
+
+      color:
+        var(--primary-dark);
+
+      font-size: 21px;
+    }
+
+
+    .mode-card p {
+
+      margin: 0;
+
+      color:
+        var(--muted);
+
+      line-height: 1.7;
+    }
+
+
+    .mode-example {
+
+      margin-top: 10px;
+
+      color:
+        #475569;
+
+      font-size: 14px;
+
+      font-weight: 900;
+
+      line-height: 1.65;
+    }
+
+
+    /*
+    ==================================================
+    Status
+    ==================================================
+    */
+
+    .quiz-topbar {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          5,
+          minmax(
+            0,
+            1fr
+          )
+        );
+
+      gap: 10px;
+
+      margin-bottom: 12px;
+    }
+
+
+    .status-box {
+
+      min-height: 66px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      justify-content: center;
+
+      padding: 8px;
+
+      border-radius: 14px;
+
+      background:
+        var(--primary-light);
+
+      color:
+        var(--primary-dark);
+
+      text-align: center;
+
+      font-weight: 900;
+    }
+
+
+    .status-value {
+
+      margin-top: 3px;
+
+      font-size: 18px;
+    }
+
+
+    .timer-box {
+
+      background:
+        #fff7ed;
+
+      color:
+        #c2410c;
+    }
+
+
+    /*
+    ==================================================
+    Scratchpad
+    ==================================================
+    */
+
+    .scratchpad-row {
+
+      display: flex;
+
+      justify-content: center;
+
+      min-height: 46px;
+
+      margin:
+        4px 0 12px;
+    }
+
+
+    #scratchpad-mobile-button {
+
+      display: flex;
+
+      justify-content: center;
+
+      width: 100%;
+    }
+
+
+    #scratchpad-mobile-button
+    #scratchpadOpenButton,
+
+    #scratchpad-mobile-button
+    .scratchpad-open-button {
+
+      position:
+        static !important;
+
+      inset:
+        auto !important;
+
+      transform:
+        none !important;
+
+      margin:
+        0 !important;
+    }
+
+
+    /*
+    ==================================================
+    Progress
+    ==================================================
+    */
+
+    .progress-shell {
+
+      height: 10px;
+
+      margin-bottom: 16px;
+
+      overflow: hidden;
+
+      border-radius:
+        999px;
+
+      background:
+        #e2e8f0;
+    }
+
+
+    .progress-bar {
+
+      width: 0%;
+
+      height: 100%;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--primary),
+          #ba68c8
+        );
+
+      transition:
+        width .2s ease;
+    }
+
+
+    /*
+    ==================================================
+    Question
+    ==================================================
+    */
+
+    .question-card {
+
+      padding:
+        22px 18px;
+
+      border:
+        2px solid
+        var(--primary-border);
+
+      border-radius: 20px;
+
+      background: white;
+
+      text-align: center;
+    }
+
+
+    .question-label {
+
+      margin-bottom: 10px;
+
+      color:
+        var(--muted);
+
+      font-weight: 900;
+    }
+
+
+    .question-content {
+
+      min-height: 135px;
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      color:
+        #0f172a;
+
+      font-size:
+        clamp(
+          27px,
+          5vw,
+          43px
+        );
+
+      font-weight: 900;
+
+      line-height: 1.8;
+
+      overflow-x: auto;
+    }
+
+
+    /*
+    ==================================================
+    Answer
+    ==================================================
+    */
+
+    .answer-panel {
+
+      margin-top: 16px;
+
+      padding: 18px;
+
+      border-radius: 18px;
+
+      background:
+        #f8fafc;
+    }
+
+
+    .answer-title {
+
+      margin-bottom: 10px;
+
+      color:
+        var(--primary-dark);
+
+      text-align: center;
+
+      font-weight: 900;
+    }
+
+
+    .answer-help {
+
+      margin:
+        0 0 12px;
+
+      color:
+        #64748b;
+
+      text-align: center;
+
+      font-size: 14px;
+
+      font-weight: 800;
+
+      line-height: 1.65;
+    }
+
+
+    /*
+    ==================================================
+    Integer
+    ==================================================
+    */
+
+    .number-answer {
+
+      display: flex;
+
+      justify-content: center;
+    }
+
+
+    .number-answer input {
+
+      width:
+        min(
+          250px,
+          100%
+        );
+
+      padding: 13px;
+
+      border:
+        2px solid
+        #cbd5e1;
+
+      border-radius: 12px;
+
+      font-size: 24px;
+
+      font-weight: 900;
+
+      text-align: center;
+
+      outline: none;
+    }
+
+
+    .number-answer input:focus {
+
+      border-color:
+        var(--primary);
+
+      box-shadow:
+        0 0 0 4px
+        rgba(
+          123,
+          31,
+          162,
+          .11
+        );
+    }
+
+
+    /*
+    ==================================================
+    Fraction
+    ==================================================
+    */
+
+    .fraction-answer {
+
+      display: flex;
+
+      justify-content: center;
+    }
+
+
+    .fraction-input {
+
+      display: flex;
+
+      flex-direction: column;
+
+      width: 112px;
+    }
+
+
+    .fraction-input input {
+
+      width: 100%;
+
+      padding: 10px;
+
+      border:
+        2px solid
+        #cbd5e1;
+
+      background: white;
+
+      font-size: 21px;
+
+      font-weight: 900;
+
+      text-align: center;
+
+      outline: none;
+    }
+
+
+    .fraction-input
+    input:first-child {
+
+      border-radius:
+        10px 10px 0 0;
+
+      border-bottom:
+        2px solid
+        #334155;
+    }
+
+
+    .fraction-input
+    input:last-child {
+
+      border-radius:
+        0 0 10px 10px;
+
+      border-top: 0;
+    }
+
+
+    /*
+    ==================================================
+    Radical Fraction
+    ==================================================
+    */
+
+    .radical-fraction-editor {
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      gap: 12px;
+
+      flex-wrap: wrap;
+    }
+
+
+    .rf-sign-box,
+    .rf-coefficient-box,
+    .rf-denominator-box {
+
+      text-align: center;
+    }
+
+
+    .rf-label {
+
+      display: block;
+
+      margin-bottom: 6px;
+
+      color:
+        var(--muted);
+
+      font-size: 13px;
+
+      font-weight: 900;
+    }
+
+
+    .rf-sign {
+
+      width: 82px;
+
+      height: 52px;
+
+      border:
+        2px solid
+        var(--primary-border);
+
+      border-radius: 10px;
+
+      background: white;
+
+      font-size: 22px;
+
+      font-weight: 900;
+
+      text-align: center;
+    }
+
+
+    .rf-coefficient,
+    .rf-denominator {
+
+      width: 105px;
+
+      height: 52px;
+
+      padding: 8px;
+
+      border:
+        2px solid
+        var(--primary-border);
+
+      border-radius: 10px;
+
+      background: white;
+
+      font-size: 22px;
+
+      font-weight: 900;
+
+      text-align: center;
+
+      outline: none;
+    }
+
+
+    .rf-radical-box {
+
+      text-align: center;
+    }
+
+
+    .rf-radical-entry {
+
+      position: relative;
+
+      width: 180px;
+
+      height: 63px;
+    }
+
+
+    .rf-radical-svg {
+
+      position: absolute;
+
+      inset: 0;
+
+      width: 180px;
+
+      height: 63px;
+
+      pointer-events: none;
+
+      overflow: visible;
+
+      z-index: 3;
+    }
+
+
+    .rf-radical-path {
+
+      fill: none;
+
+      stroke:
+        #0f172a;
+
+      stroke-width: 4;
+
+      stroke-linejoin:
+        round;
+
+      stroke-linecap:
+        round;
+
+      vector-effect:
+        non-scaling-stroke;
+    }
+
+
+    .rf-radicand {
+
+      position: absolute;
+
+      left: 42px;
+
+      top: 10px;
+
+      z-index: 2;
+
+      width: 135px;
+
+      height: 52px;
+
+      padding: 8px;
+
+      border:
+        2px solid
+        var(--primary-border);
+
+      border-radius: 8px;
+
+      background: white;
+
+      font-size: 22px;
+
+      font-weight: 900;
+
+      text-align: center;
+
+      outline: none;
+    }
+
+
+    /*
+    ==================================================
+    Preview
+    ==================================================
+    */
+
+    .answer-preview {
+
+      margin:
+        14px auto 0;
+
+      padding: 13px;
+
+      max-width: 700px;
+
+      border:
+        2px solid
+        var(--primary-border);
+
+      border-radius: 13px;
+
+      background:
+        var(--primary-light);
+
+      color:
+        #334155;
+
+      text-align: center;
+
+      font-size: 18px;
+
+      font-weight: 900;
+    }
+
+
+    .answer-preview-value {
+
+      display:
+        inline-flex;
+
+      align-items: center;
+
+      margin-left: 7px;
+
+      color:
+        var(--primary);
+
+      font-size: 26px;
+    }
+
+
+    /*
+    ==================================================
+    Choice
+    ==================================================
+    */
+
+    .choice-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(
+            0,
+            1fr
+          )
+        );
+
+      gap: 10px;
+    }
+
+
+    .choice-button {
+
+      min-height: 62px;
+
+      padding: 11px;
+
+      border:
+        2px solid
+        var(--primary-border);
+
+      border-radius: 13px;
+
+      background: white;
+
+      color:
+        #263238;
+
+      font-size: 16px;
+
+      font-weight: 900;
+
+      cursor: pointer;
+    }
+
+
+    .choice-button.selected {
+
+      border-color:
+        var(--primary);
+
+      background:
+        var(--primary-light);
+
+      color:
+        var(--primary-dark);
+    }
+
+
+    /*
+    ==================================================
+    Buttons
+    ==================================================
+    */
+
+    .button-row {
+
+      display: flex;
+
+      justify-content: center;
+
+      gap: 10px;
+
+      margin-top: 16px;
+
+      flex-wrap: wrap;
+    }
+
+
+    .game-button {
+
+      min-width: 132px;
+
+      padding:
+        12px 20px;
+
+      border: none;
+
+      border-radius: 12px;
+
+      background:
+        var(--primary);
+
+      color: white;
+
+      font-size: 16px;
+
+      font-weight: 900;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 5px 0
+        var(--primary-dark);
+    }
+
+
+    .game-button.secondary {
+
+      background:
+        #607d8b;
+
+      box-shadow:
+        0 5px 0
+        #455a64;
+    }
+
+
+    .game-button.orange {
+
+      background:
+        #f57c00;
+
+      box-shadow:
+        0 5px 0
+        #d86600;
+    }
+
+
+    .game-button.restart {
+
+      background:
+        var(--restart);
+
+      box-shadow:
+        0 5px 0
+        #00695c;
+    }
+
+
+    .game-button:disabled {
+
+      opacity: .55;
+
+      cursor: not-allowed;
+    }
+
+
+    /*
+    ==================================================
+    Feedback
+    ==================================================
+    */
+
+    .feedback {
+
+      min-height: 48px;
+
+      margin-top: 14px;
+
+      text-align: center;
+
+      font-size: 18px;
+
+      font-weight: 900;
+
+      line-height: 1.7;
+    }
+
+
+    .feedback.correct {
+
+      color:
+        var(--success);
+    }
+
+
+    .feedback.wrong {
+
+      color:
+        var(--danger);
+    }
+
+
+    .feedback.warning {
+
+      color:
+        var(--warning);
+    }
+
+
+    .explanation {
+
+      margin-top: 12px;
+
+      padding: 16px;
+
+      border-radius: 14px;
+
+      background:
+        #faf1fc;
+
+      color:
+        #334155;
+
+      line-height: 1.95;
+    }
+
+
+    .explanation-step {
+
+      margin:
+        7px 0;
+    }
+
+
+    /*
+    ==================================================
+    Result
+    ==================================================
+    */
+
+    .result-panel {
+
+      text-align: center;
+    }
+
+
+    .result-score {
+
+      margin:
+        16px 0;
+
+      color:
+        #f57c00;
+
+      font-size: 56px;
+
+      font-weight: 900;
+    }
+
+
+    .result-stars {
+
+      font-size: 31px;
+    }
+
+
+    .result-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          4,
+          minmax(
+            0,
+            1fr
+          )
+        );
+
+      gap: 12px;
+
+      margin:
+        20px 0;
+    }
+
+
+    .result-stat {
+
+      padding:
+        16px;
+
+      border-radius: 16px;
+
+      background:
+        var(--primary-light);
+
+      color:
+        var(--primary-dark);
+
+      font-weight: 900;
+    }
+
+
+    .save-status {
+
+      min-height: 28px;
+
+      margin-top: 14px;
+
+      font-weight: 900;
+    }
+
+
+    /*
+    ==================================================
+    Review
+    ==================================================
+    */
+
+    .review-list {
+
+      display: grid;
+
+      gap: 14px;
+    }
+
+
+    .review-card {
+
+      padding: 18px;
+
+      border:
+        1px solid
+        #e2e8f0;
+
+      border-radius: 16px;
+
+      background: white;
+    }
+
+
+    .review-title {
+
+      color:
+        var(--danger);
+
+      font-weight: 900;
+    }
+
+
+    .review-question {
+
+      margin:
+        10px 0;
+
+      font-size: 20px;
+
+      font-weight: 900;
+    }
+
+
+    /*
+    ==================================================
+    Mobile
+    ==================================================
+    */
+
+    @media(
+      max-width:760px
+    ) {
+
+      body {
+
+        padding: 8px;
+      }
+
+
+      .screen {
+
+        padding:
+          18px 12px;
+      }
+
+
+      .mode-grid {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .quiz-topbar {
+
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(
+              0,
+              1fr
+            )
+          );
+      }
+
+
+      .timer-box {
+
+        grid-column:
+          1 / -1;
+      }
+
+
+      .choice-grid {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .result-grid {
+
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(
+              0,
+              1fr
+            )
+          );
+      }
+
+
+      .radical-fraction-editor {
+
+        gap: 7px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<div class="page-shell">
+
+
+  <div id="commonHeaderMount"></div>
+
+
+  <main class="game-card">
+
+
+    <!-- Header -->
+
+    <header class="game-header">
+
+
+      <h1 class="game-title">
+        ⚡ 根式運算大挑戰
+      </h1>
+
+
+      <p class="game-subtitle">
+        從根式乘法開始，逐步挑戰除法、有理化、加減與四則綜合運算。
+      </p>
+
+
+      <div class="concept-strip">
+
+
+        <span class="concept-chip">
+          根式乘法
+        </span>
+
+
+        <span class="concept-chip">
+          根式除法
+        </span>
+
+
+        <span class="concept-chip">
+          分母有理化
+        </span>
+
+
+        <span class="concept-chip">
+          根式加減
+        </span>
+
+
+        <span class="concept-chip">
+          四則運算
+        </span>
+
+
+      </div>
+
+
+    </header>
+
+
+    <!-- Mode -->
+
+    <section
+      id="start-screen"
+      class="screen"
+    >
+
+
+      <div class="mode-grid">
+
+
+        <button
+          class="mode-card"
+          type="button"
+          data-mode="multiply"
+        >
+
+          <span class="mode-tag">
+            10 題
+          </span>
+
+
+          <h2>
+            模式一｜根式乘法訓練
+          </h2>
+
+
+          <p>
+            練習基本根式乘法、含係數根式及相同根式相乘。
+          </p>
+
+
+          <div class="mode-example">
+            題目會控制為乘完即可得到最簡根式，不另外考二次化簡。
+          </div>
+
+        </button>
+
+
+        <button
+          class="mode-card"
+          type="button"
+          data-mode="divide"
+        >
+
+          <span class="mode-tag">
+            10 題
+          </span>
+
+
+          <h2>
+            模式二｜除法與有理化
+          </h2>
+
+
+          <p>
+            根式除法、含係數除法，以及分母有理化。
+          </p>
+
+
+          <div class="mode-example">
+            這個模式可能出現原題不是最簡根式的情況。
+          </div>
+
+        </button>
+
+
+        <button
+          class="mode-card"
+          type="button"
+          data-mode="addSubtract"
+        >
+
+          <span class="mode-tag">
+            10 題
+          </span>
+
+
+          <h2>
+            模式三｜根式加減訓練
+          </h2>
+
+
+          <p>
+            同類根式加減、多項根式，以及先化簡再合併。
+          </p>
+
+
+          <div class="mode-example">
+            重點是先判斷同類根式，再正確合併係數。
+          </div>
+
+        </button>
+
+
+        <button
+          class="mode-card"
+          type="button"
+          data-mode="mixed"
+        >
+
+          <span class="mode-tag">
+            10 題
+          </span>
+
+
+          <h2>
+            模式四｜根式四則綜合
+          </h2>
+
+
+          <p>
+            乘、除、加減、括號與乘法公式綜合挑戰。
+          </p>
+
+
+          <div class="mode-example">
+            需要自行判斷運算順序並整理成最簡答案。
+          </div>
+
+        </button>
+
+
+      </div>
+
+
+    </section>
+
+
+    <!-- Quiz -->
+
+    <section
+      id="quiz-screen"
+      class="screen hidden"
+    >
+
+
+      <div class="quiz-topbar">
+
+
+        <div class="status-box">
+
+          模式
+
+          <span
+            id="mode-name"
+            class="status-value"
+          >
+            —
+          </span>
+
+        </div>
+
+
+        <div class="status-box">
+
+          進度
+
+          <span
+            id="question-number"
+            class="status-value"
+          >
+            1 / 10
+          </span>
+
+        </div>
+
+
+        <div class="status-box">
+
+          答對
+
+          <span
+            id="correct-count"
+            class="status-value"
+          >
+            0
+          </span>
+
+        </div>
+
+
+        <div class="status-box">
+
+          最高連擊
+
+          <span
+            id="combo-count"
+            class="status-value"
+          >
+            0
+          </span>
+
+        </div>
+
+
+        <div class="status-box timer-box">
+
+          測驗時間
+
+          <span
+            id="timer-display"
+            class="status-value"
+          >
+            00:00
+          </span>
+
+        </div>
+
+
+      </div>
+
+
+      <div class="scratchpad-row">
+
+        <div
+          id="scratchpad-mobile-button"
+        ></div>
+
+      </div>
+
+
+      <div class="progress-shell">
+
+        <div
+          id="progress-bar"
+          class="progress-bar"
+        ></div>
+
+      </div>
+
+
+      <div class="question-card">
+
+
+        <div
+          id="question-label"
+          class="question-label"
+        ></div>
+
+
+        <div
+          id="question-content"
+          class="question-content"
+        ></div>
+
+
+      </div>
+
+
+      <div
+        id="answer-panel"
+        class="answer-panel"
+      ></div>
+
+
+      <div class="button-row">
+
+
+        <button
+          id="submit-button"
+          class="game-button"
+          type="button"
+        >
+          提交答案（Enter）
+        </button>
+
+
+        <button
+          id="next-button"
+          class="game-button hidden"
+          type="button"
+        >
+          下一題（Enter）
+        </button>
+
+
+        <button
+          id="restart-button"
+          class="game-button restart"
+          type="button"
+        >
+          🔄 重新測驗
+        </button>
+
+
+        <button
+          id="mode-button"
+          class="game-button secondary"
+          type="button"
+        >
+          選擇模式
+        </button>
+
+
+      </div>
+
+
+      <div
+        id="feedback"
+        class="feedback"
+      ></div>
+
+
+      <div
+        id="explanation"
+        class="explanation hidden"
+      ></div>
+
+
+    </section>
+
+
+    <!-- Result -->
+
+    <section
+      id="result-screen"
+      class="screen hidden result-panel"
+    >
+
+
+      <h2>
+        🎉 挑戰完成
+      </h2>
+
+
+      <div
+        id="final-score"
+        class="result-score"
+      >
+        0 分
+      </div>
+
+
+      <div
+        id="final-stars"
+        class="result-stars"
+      >
+        ★★★☆☆
+      </div>
+
+
+      <p id="final-comment"></p>
+
+
+      <div class="result-grid">
+
+
+        <div class="result-stat">
+
+          答對
+          <br>
+
+          <span id="final-correct">
+            0
+          </span>
+
+          題
+
+        </div>
+
+
+        <div class="result-stat">
+
+          答錯
+          <br>
+
+          <span id="final-wrong">
+            0
+          </span>
+
+          題
+
+        </div>
+
+
+        <div class="result-stat">
+
+          最高連擊
+          <br>
+
+          <span id="final-combo">
+            0
+          </span>
+
+        </div>
+
+
+        <div class="result-stat">
+
+          測驗時間
+          <br>
+
+          <span id="final-time">
+            00:00
+          </span>
+
+        </div>
+
+
+      </div>
+
+
+      <div
+        id="save-status"
+        class="save-status"
+      ></div>
+
+
+      <div class="button-row">
+
+
+        <button
+          id="again-button"
+          class="game-button restart"
+          type="button"
+        >
+          🔄 重新測驗
+        </button>
+
+
+        <button
+          id="review-button"
+          class="game-button orange"
+          type="button"
+        >
+          錯題回顧
+        </button>
+
+
+        <button
+          id="result-mode-button"
+          class="game-button secondary"
+          type="button"
+        >
+          選擇模式
+        </button>
+
+
+      </div>
+
+
+    </section>
+
+
+    <!-- Review -->
+
+    <section
+      id="review-screen"
+      class="screen hidden"
+    >
+
+
+      <h2>
+        📝 錯題回顧
+      </h2>
+
+
+      <div
+        id="review-list"
+        class="review-list"
+      ></div>
+
+
+      <div class="button-row">
+
+
+        <button
+          id="review-again-button"
+          class="game-button restart"
+          type="button"
+        >
+          🔄 重新測驗
+        </button>
+
+
+        <button
+          id="review-result-button"
+          class="game-button secondary"
+          type="button"
+        >
+          回到測驗結果
+        </button>
+
+
+      </div>
+
+
+    </section>
+
+
+  </main>
+
+
+</div>
+
+
+<!-- 共用元件 -->
+
+<script src="../js/common-header.js"></script>
+
+<script src="../js/scratchpad.js"></script>
+
+<script src="../js/scratchpad-template.js"></script>
+
+<script src="../js/sound-manager.js?v=1"></script>
+
+<script src="../js/radical-input.js?v=7"></script>
+
+
+<script type="module">
+
+
+import {
+  saveGameScore
+} from "../js/scores.js";
+
+
+"use strict";
+
+
+/*
+==================================================
+基本設定
+==================================================
+*/
+
+const GAME_ID =
+  "radicalOperations";
+
+
+const TOTAL_QUESTIONS =
+  10;
+
+
+const MODE_NAMES = {
+
+  multiply:
+    "根式乘法訓練",
+
+  divide:
+    "除法與有理化",
+
+  addSubtract:
+    "根式加減訓練",
+
+  mixed:
+    "根式四則綜合"
+};
+
+
+const $ =
+  id =>
+    document.getElementById(
+      id
+    );
+
+
+const RU =
+  () =>
+    window.RadicalInputUtils;
+
+
+let mode =
+  "multiply";
+
+
+let questions =
+  [];
+
+
+let index =
+  0;
+
+
+let correct =
+  0;
+
+
+let wrong =
+  0;
+
+
+let combo =
+  0;
+
+
+let maxCombo =
+  0;
+
+
+let records =
+  [];
+
+
+let answered =
+  false;
+
+
+let radicalInput =
+  null;
+
+
+let selectedChoice =
+  null;
+
+
+let startTime =
+  0;
+
+
+let elapsed =
+  0;
+
+
+let timerId =
+  null;
+
+
+let scoreSaved =
+  false;
+
+
+/*
+==================================================
+一般工具
+==================================================
+*/
+
+function rand(
+  min,
+  max
+) {
+
+  return (
+    Math.floor(
+      Math.random() *
+      (
+        max -
+        min +
+        1
+      )
+    ) +
+    min
+  );
+}
+
+
+function pick(
+  array
+) {
+
+  return array[
+    Math.floor(
+      Math.random() *
+      array.length
+    )
+  ];
+}
+
+
+function shuffle(
+  array
+) {
+
+  const result =
+    [...array];
+
+
+  for (
+    let i =
+      result.length - 1;
+
+    i > 0;
+
+    i--
+  ) {
+
+    const j =
+      Math.floor(
+        Math.random() *
+        (
+          i + 1
+        )
+      );
+
+
+    [
+      result[i],
+      result[j]
+    ] = [
+      result[j],
+      result[i]
+    ];
+  }
+
+
+  return result;
+}
+
+
+function gcd(
+  a,
+  b
+) {
+
+  return RU().gcd(
+    a,
+    b
+  );
+}
+
+
+/*
+==================================================
+MathML
+==================================================
+*/
+
+function mathWrap(
+  content
+) {
+
+  return `
+
+    <math
+      xmlns="http://www.w3.org/1998/Math/MathML"
+    >
+
+      ${content}
+
+    </math>
+  `;
+}
+
+
+function radicalMath(
+  coefficient,
+  radicand
+) {
+
+  coefficient =
+    Number(
+      coefficient
+    );
+
+
+  if (
+    radicand === 1
+  ) {
+
+    return `
+
+      <mn>
+        ${coefficient}
+      </mn>
+
+    `;
+  }
+
+
+  let coefficientPart =
+    "";
+
+
+  if (
+    coefficient === -1
+  ) {
+
+    coefficientPart =
+      "<mo>−</mo>";
+
+  } else if (
+    coefficient !== 1
+  ) {
+
+    coefficientPart =
+
+      coefficient < 0
+
+        ? `
+
+            <mo>−</mo>
+
+            <mn>
+              ${Math.abs(
+                coefficient
+              )}
+            </mn>
+
+          `
+
+        : `
+
+            <mn>
+              ${coefficient}
+            </mn>
+
+          `;
+  }
+
+
+  return `
+
+    <mrow>
+
+      ${coefficientPart}
+
+      <msqrt>
+
+        <mn>
+          ${radicand}
+        </mn>
+
+      </msqrt>
+
+    </mrow>
+  `;
+}
+
+
+function radicalHTML(
+  coefficient,
+  radicand
+) {
+
+  return mathWrap(
+
+    radicalMath(
+      coefficient,
+      radicand
+    )
+  );
+}
+
+
+function multiplicationHTML(
+  c1,
+  r1,
+  c2,
+  r2
+) {
+
+  return mathWrap(
+
+    `
+
+      ${radicalMath(
+        c1,
+        r1
+      )}
+
+      <mo>×</mo>
+
+      ${radicalMath(
+        c2,
+        r2
+      )}
+
+    `
+  );
+}
+
+
+function divisionHTML(
+  c1,
+  r1,
+  c2,
+  r2
+) {
+
+  return mathWrap(
+
+    `
+
+      <mfrac>
+
+        ${radicalMath(
+          c1,
+          r1
+        )}
+
+        ${radicalMath(
+          c2,
+          r2
+        )}
+
+      </mfrac>
+
+    `
+  );
+}
+
+
+function fractionHTML(
+  numerator,
+  denominator
+) {
+
+  return mathWrap(
+
+    `
+
+      <mfrac>
+
+        <mn>
+          ${numerator}
+        </mn>
+
+        <mn>
+          ${denominator}
+        </mn>
+
+      </mfrac>
+
+    `
+  );
+}
+
+
+function radicalFractionHTML(
+  coefficient,
+  radicand,
+  denominator
+) {
+
+  return mathWrap(
+
+    `
+
+      <mfrac>
+
+        ${radicalMath(
+          coefficient,
+          radicand
+        )}
+
+        <mn>
+          ${denominator}
+        </mn>
+
+      </mfrac>
+
+    `
+  );
+}
+
+
+/*
+==================================================
+化簡根式
+==================================================
+*/
+
+function simplifyRadicalData(
+  coefficient,
+  radicand
+) {
+
+  const result =
+    RU()
+      .simplifyRadical(
+        coefficient,
+        radicand
+      );
+
+
+  if (
+    !result
+  ) {
+
+    throw new Error(
+      "根式化簡失敗"
+    );
+  }
+
+
+  if (
+    result.type ===
+    "number"
+  ) {
+
+    return {
+
+      type:
+        "number",
+
+      value:
+        result.value
+    };
+  }
+
+
+  return {
+
+    type:
+      "radical",
+
+    coefficient:
+      result.coefficient,
+
+    radicand:
+      result.radicand
+  };
+}
+
+
+/*
+==================================================
+題目物件
+==================================================
+*/
+
+function numberQuestion(
+  html,
+  answer,
+  explanation,
+  label
+) {
+
+  return {
+
+    type:
+      "number",
+
+    html,
+
+    answer,
+
+    explanation,
+
+    label
+  };
+}
+
+
+function radicalQuestion(
+  html,
+  coefficient,
+  radicand,
+  explanation,
+  label
+) {
+
+  return {
+
+    type:
+      "radical",
+
+    html,
+
+    coefficient,
+
+    radicand,
+
+    explanation,
+
+    label
+  };
+}
+
+
+function fractionQuestion(
+  html,
+  numerator,
+  denominator,
+  explanation,
+  label
+) {
+
+  const divisor =
+    gcd(
+      Math.abs(
+        numerator
+      ),
+      Math.abs(
+        denominator
+      )
+    );
+
+
+  numerator /=
+    divisor;
+
+
+  denominator /=
+    divisor;
+
+
+  if (
+    denominator < 0
+  ) {
+
+    numerator *=
+      -1;
+
+    denominator *=
+      -1;
+  }
+
+
+  return {
+
+    type:
+      "fraction",
+
+    html,
+
+    numerator,
+
+    denominator,
+
+    explanation,
+
+    label
+  };
+}
+
+
+function radicalFractionQuestion(
+  html,
+  coefficient,
+  radicand,
+  denominator,
+  explanation,
+  label
+) {
+
+  let divisor =
+    gcd(
+      Math.abs(
+        coefficient
+      ),
+      Math.abs(
+        denominator
+      )
+    );
+
+
+  coefficient /=
+    divisor;
+
+
+  denominator /=
+    divisor;
+
+
+  if (
+    denominator < 0
+  ) {
+
+    coefficient *=
+      -1;
+
+    denominator *=
+      -1;
+  }
+
+
+  return {
+
+    type:
+      "radicalFraction",
+
+    html,
+
+    coefficient,
+
+    radicand,
+
+    denominator,
+
+    explanation,
+
+    label
+  };
+}
+
+
+/*
+==================================================
+模式一
+根式乘法
+40 / 40 / 20
+==================================================
+*/
+
+function makeMultiplyBasic() {
+
+  const pairs =
+    [
+
+      [2, 3],
+      [2, 5],
+      [2, 7],
+      [3, 5],
+      [3, 7],
+      [5, 7],
+      [2, 11],
+      [3, 11],
+      [5, 11]
+    ];
+
+
+  const [
+    a,
+    b
+  ] =
+    pick(
+      pairs
+    );
+
+
+  const radicand =
+    a * b;
+
+
+  return radicalQuestion(
+
+    multiplicationHTML(
+      1,
+      a,
+      1,
+      b
+    ),
+
+    1,
+
+    radicand,
+
+    [
+
+      `√${a} × √${b}
+       ＝
+       √(${a}×${b})`,
+
+      `＝√${radicand}`
+    ],
+
+    "請計算並寫成最簡根式"
+  );
+}
+
+
+function makeMultiplyCoefficient() {
+
+  const pairs =
+    [
+
+      [2, 3],
+      [2, 5],
+      [2, 7],
+      [3, 5],
+      [3, 7],
+      [5, 7]
+    ];
+
+
+  const [
+    a,
+    b
+  ] =
+    pick(
+      pairs
+    );
+
+
+  const c1 =
+    rand(
+      2,
+      6
+    );
+
+
+  const c2 =
+    rand(
+      2,
+      6
+    );
+
+
+  return radicalQuestion(
+
+    multiplicationHTML(
+      c1,
+      a,
+      c2,
+      b
+    ),
+
+    c1 * c2,
+
+    a * b,
+
+    [
+
+      `根號外係數：
+       ${c1}×${c2}
+       ＝
+       ${c1 * c2}`,
+
+      `根號內：
+       ${a}×${b}
+       ＝
+       ${a * b}`,
+
+      `答案＝${
+        radicalHTML(
+          c1 * c2,
+          a * b
+        )
+      }`
+    ],
+
+    "請計算並寫成最簡根式"
+  );
+}
+
+
+function makeMultiplySameRadical() {
+
+  const r =
+    pick(
+      [
+        2,
+        3,
+        5,
+        6,
+        7,
+        10,
+        11,
+        13
+      ]
+    );
+
+
+  const c1 =
+    rand(
+      1,
+      6
+    );
+
+
+  const c2 =
+    rand(
+      1,
+      6
+    );
+
+
+  const answer =
+    c1 *
+    c2 *
+    r;
+
+
+  return numberQuestion(
+
+    multiplicationHTML(
+      c1,
+      r,
+      c2,
+      r
+    ),
+
+    answer,
+
+    [
+
+      `√${r}×√${r}
+       ＝
+       ${r}`,
+
+      `${c1}×${c2}×${r}
+       ＝
+       ${answer}`
+    ],
+
+    "請計算"
+  );
+}
+
+
+function makeMode1() {
+
+  return shuffle(
+    [
+
+      makeMultiplyBasic(),
+      makeMultiplyBasic(),
+      makeMultiplyBasic(),
+      makeMultiplyBasic(),
+
+      makeMultiplyCoefficient(),
+      makeMultiplyCoefficient(),
+      makeMultiplyCoefficient(),
+      makeMultiplyCoefficient(),
+
+      makeMultiplySameRadical(),
+      makeMultiplySameRadical()
+    ]
+  );
+}
+
+
+/*
+==================================================
+模式二
+除法＋有理化
+20 / 20 / 20 / 30 / 10
+==================================================
+*/
+
+function makeDivideBasic() {
+
+  const denominatorRadicand =
+    pick(
+      [
+        2,
+        3,
+        5,
+        7
+      ]
+    );
+
+
+  const answerRadicand =
+    pick(
+      [
+        2,
+        3,
+        5,
+        7,
+        11
+      ]
+    );
+
+
+  const numeratorRadicand =
+    denominatorRadicand *
+    answerRadicand;
+
+
+  const simplified =
+    simplifyRadicalData(
+      1,
+      answerRadicand
+    );
+
+
+  return radicalQuestion(
+
+    divisionHTML(
+      1,
+      numeratorRadicand,
+      1,
+      denominatorRadicand
+    ),
+
+    simplified.coefficient,
+
+    simplified.radicand,
+
+    [
+
+      `√${numeratorRadicand}
+       ÷
+       √${denominatorRadicand}`,
+
+      `＝√(${numeratorRadicand}÷${denominatorRadicand})`,
+
+      `＝√${answerRadicand}`
+    ],
+
+    "請計算並化成最簡根式"
+  );
+}
+
+
+function makeDivideCoefficient() {
+
+  const denominatorRadicand =
+    pick(
+      [
+        2,
+        3,
+        5
+      ]
+    );
+
+
+  const answerRadicand =
+    pick(
+      [
+        2,
+        3,
+        5,
+        7
+      ]
+    );
+
+
+  const numeratorRadicand =
+    denominatorRadicand *
+    answerRadicand;
+
+
+  const answerCoefficient =
+    rand(
+      2,
+      5
+    );
+
+
+  const denominatorCoefficient =
+    rand(
+      2,
+      4
+    );
+
+
+  const numeratorCoefficient =
+    answerCoefficient *
+    denominatorCoefficient;
+
+
+  return radicalQuestion(
+
+    divisionHTML(
+      numeratorCoefficient,
+      numeratorRadicand,
+      denominatorCoefficient,
+      denominatorRadicand
+    ),
+
+    answerCoefficient,
+
+    answerRadicand,
+
+    [
+
+      `係數：
+       ${numeratorCoefficient}
+       ÷
+       ${denominatorCoefficient}
+       ＝
+       ${answerCoefficient}`,
+
+      `根號內：
+       ${numeratorRadicand}
+       ÷
+       ${denominatorRadicand}
+       ＝
+       ${answerRadicand}`,
+
+      `答案＝${
+        radicalHTML(
+          answerCoefficient,
+          answerRadicand
+        )
+      }`
+    ],
+
+    "請計算並寫成最簡根式"
+  );
+}
+
+
+function makeDivideNeedSimplify() {
+
+  const base =
+    pick(
+      [
+        2,
+        3,
+        5,
+        6
+      ]
+    );
+
+
+  const square =
+    pick(
+      [
+        4,
+        9,
+        16
+      ]
+    );
+
+
+  const numeratorRadicand =
+    base *
+    square;
+
+
+  const denominatorRadicand =
+    pick(
+      [
+        1,
+        base
+      ]
+    );
+
+
+  if (
+    denominatorRadicand ===
+    1
+  ) {
+
+    const result =
+      simplifyRadicalData(
+        1,
+        numeratorRadicand
+      );
+
+
+    if (
+      result.type ===
+      "number"
+    ) {
+
+      return numberQuestion(
+
+        RU()
+          .sqrtNumberHTML(
+            numeratorRadicand
+          ),
+
+        result.value,
+
+        [
+
+          `先化簡 √${numeratorRadicand}。`,
+
+          `答案＝${result.value}`
+        ],
+
+        "請化成最簡根式"
+      );
+    }
+
+
+    return radicalQuestion(
+
+      RU()
+        .sqrtNumberHTML(
+          numeratorRadicand
+        ),
+
+      result.coefficient,
+
+      result.radicand,
+
+      [
+
+        `√${numeratorRadicand}
+         還可以提出平方因數。`,
+
+        `答案＝${
+          radicalHTML(
+            result.coefficient,
+            result.radicand
+          )
+        }`
+      ],
+
+      "請化成最簡根式"
+    );
+  }
+
+
+  const quotient =
+    numeratorRadicand /
+    denominatorRadicand;
+
+
+  const result =
+    simplifyRadicalData(
+      1,
+      quotient
+    );
+
+
+  if (
+    result.type ===
+    "number"
+  ) {
+
+    return numberQuestion(
+
+      divisionHTML(
+        1,
+        numeratorRadicand,
+        1,
+        denominatorRadicand
+      ),
+
+      result.value,
+
+      [
+
+        `＝√${quotient}`,
+
+        `＝${result.value}`
+      ],
+
+      "請計算並化成最簡形式"
+    );
+  }
+
+
+  return radicalQuestion(
+
+    divisionHTML(
+      1,
+      numeratorRadicand,
+      1,
+      denominatorRadicand
+    ),
+
+    result.coefficient,
+
+    result.radicand,
+
+    [
+
+      `＝√${quotient}`,
+
+      `＝${
+        radicalHTML(
+          result.coefficient,
+          result.radicand
+        )
+      }`
+    ],
+
+    "請計算並化成最簡形式"
+  );
+}
+
+
+function makeRationalizeBasic() {
+
+  const r =
+    pick(
+      [
+        2,
+        3,
+        5,
+        6,
+        7,
+        10
+      ]
+    );
+
+
+  const numerator =
+    rand(
+      1,
+      6
+    );
+
+
+  /*
+  n / √r
+  =
+  n√r / r
+  */
+
+  return radicalFractionQuestion(
+
+    mathWrap(
+
+      `
+
+        <mfrac>
+
+          <mn>
+            ${numerator}
+          </mn>
+
+          <msqrt>
+
+            <mn>
+              ${r}
+            </mn>
+
+          </msqrt>
+
+        </mfrac>
+
+      `
+    ),
+
+    numerator,
+
+    r,
+
+    r,
+
+    [
+
+      `分子、分母同乘 √${r}。`,
+
+      `＝
+       ${numerator}√${r}
+       /
+       ${r}`,
+
+      "最後再檢查分子係數與分母是否可以約分。"
+    ],
+
+    "請將分母有理化並寫成最簡形式"
+  );
+}
+
+
+function makeRationalizeCoefficient() {
+
+  const r =
+    pick(
+      [
+        2,
+        3,
+        5,
+        6,
+        7
+      ]
+    );
+
+
+  const denominatorCoefficient =
+    rand(
+      2,
+      5
+    );
+
+
+  const numerator =
+    rand(
+      1,
+      8
+    );
+
+
+  const denominator =
+    denominatorCoefficient *
+    r;
+
+
+  return radicalFractionQuestion(
+
+    mathWrap(
+
+      `
+
+        <mfrac>
+
+          <mn>
+            ${numerator}
+          </mn>
+
+          <mrow>
+
+            <mn>
+              ${denominatorCoefficient}
+            </mn>
+
+            <msqrt>
+
+              <mn>
+                ${r}
+              </mn>
+
+            </msqrt>
+
+          </mrow>
+
+        </mfrac>
+
+      `
+    ),
+
+    numerator,
+
+    r,
+
+    denominator,
+
+    [
+
+      `分子、分母同乘 √${r}。`,
+
+      `分母：
+       ${denominatorCoefficient}
+       ×
+       ${r}
+       ＝
+       ${denominator}`,
+
+      "最後再約分成最簡形式。"
+    ],
+
+    "請將分母有理化並寫成最簡形式"
+  );
+}
+
+
+function makeMode2() {
+
+  return shuffle(
+    [
+
+      makeDivideBasic(),
+      makeDivideBasic(),
+
+      makeDivideCoefficient(),
+      makeDivideCoefficient(),
+
+      makeDivideNeedSimplify(),
+      makeDivideNeedSimplify(),
+
+      makeRationalizeBasic(),
+      makeRationalizeBasic(),
+      makeRationalizeBasic(),
+
+      makeRationalizeCoefficient()
+    ]
+  );
+}
+
+
+/*
+==================================================
+模式三
+根式加減
+30 / 20 / 30 / 20
+
+目前控制答案為單一根式或整數
+==================================================
+*/
+
+function makeSameRadicalAddition() {
+
+  const r =
+    pick(
+      [
+        2,
+        3,
+        5,
+        6,
+        7,
+        10,
+        11
+      ]
+    );
+
+
+  const a =
+    rand(
+      1,
+      7
+    );
+
+
+  const b =
+    rand(
+      1,
+      7
+    );
+
+
+  const plus =
+    Math.random() <
+    .65;
+
+
+  const coefficient =
+
+    plus
+      ? a + b
+      : Math.max(
+          a,
+          b
+        ) -
+        Math.min(
+          a,
+          b
+        );
+
+
+  const left =
+    plus
+      ? a
+      : Math.max(
+          a,
+          b
+        );
+
+
+  const right =
+    plus
+      ? b
+      : Math.min(
+          a,
+          b
+        );
+
+
+  if (
+    coefficient === 0
+  ) {
+
+    return numberQuestion(
+
+      mathWrap(
+
+        `
+
+          ${radicalMath(
+            left,
+            r
+          )}
+
+          <mo>−</mo>
+
+          ${radicalMath(
+            right,
+            r
+          )}
+
+        `
+      ),
+
+      0,
+
+      [
+        "同類根式可直接合併係數。",
+
+        `${left}－${right}＝0`
+      ],
+
+      "請合併同類根式"
+    );
+  }
+
+
+  return radicalQuestion(
+
+    mathWrap(
+
+      `
+
+        ${radicalMath(
+          left,
+          r
+        )}
+
+        <mo>
+          ${plus ? "＋" : "−"}
+        </mo>
+
+        ${radicalMath(
+          right,
+          r
+        )}
+
+      `
+    ),
+
+    coefficient,
+
+    r,
+
+    [
+
+      "根號內相同，是同類根式。",
+
+      `${left}
+       ${plus ? "＋" : "－"}
+       ${right}
+       ＝
+       ${coefficient}`,
+
+      `答案＝${
+        radicalHTML(
+          coefficient,
+          r
+        )
+      }`
+    ],
+
+    "請合併同類根式"
+  );
+}
+
+
+function makeThreeTermSameRadical() {
+
+  const r =
+    pick(
+      [
+        2,
+        3,
+        5,
+        7,
+        11
+      ]
+    );
+
+
+  const a =
+    rand(
+      2,
+      7
+    );
+
+
+  const b =
+    rand(
+      2,
+      7
+    );
+
+
+  const c =
+    rand(
+      1,
+      Math.min(
+        a + b - 1,
+        6
+      )
+    );
+
+
+  const coefficient =
+    a +
+    b -
+    c;
+
+
+  return radicalQuestion(
+
+    mathWrap(
+
+      `
+
+        ${radicalMath(
+          a,
+          r
+        )}
+
+        <mo>＋</mo>
+
+        ${radicalMath(
+          b,
+          r
+        )}
+
+        <mo>−</mo>
+
+        ${radicalMath(
+          c,
+          r
+        )}
+
+      `
+    ),
+
+    coefficient,
+
+    r,
+
+    [
+
+      "三項都是同類根式。",
+
+      `${a}＋${b}－${c}
+       ＝
+       ${coefficient}`,
+
+      `答案＝${
+        radicalHTML(
+          coefficient,
+          r
+        )
+      }`
+    ],
+
+    "請合併同類根式"
+  );
+}
+
+
+function makeSimplifyThenCombine() {
+
+  const base =
+    pick(
+      [
+        2,
+        3,
+        5,
+        7
+      ]
+    );
+
+
+  const k1 =
+    pick(
+      [
+        2,
+        3,
+        4
+      ]
+    );
+
+
+  const k2 =
+    pick(
+      [
+        2,
+        3,
+        4,
+        5
+      ]
+    );
+
+
+  const r1 =
+    base *
+    k1 *
+    k1;
+
+
+  const r2 =
+    base *
+    k2 *
+    k2;
+
+
+  const coefficient =
+    k1 +
+    k2;
+
+
+  return radicalQuestion(
+
+    mathWrap(
+
+      `
+
+        <msqrt>
+
+          <mn>
+            ${r1}
+          </mn>
+
+        </msqrt>
+
+        <mo>＋</mo>
+
+        <msqrt>
+
+          <mn>
+            ${r2}
+          </mn>
+
+        </msqrt>
+
+      `
+    ),
+
+    coefficient,
+
+    base,
+
+    [
+
+      `√${r1}
+       ＝
+       ${k1}√${base}`,
+
+      `√${r2}
+       ＝
+       ${k2}√${base}`,
+
+      `${k1}√${base}
+       ＋
+       ${k2}√${base}
+       ＝
+       ${coefficient}√${base}`
+    ],
+
+    "請先化簡，再合併同類根式"
+  );
+}
+
+
+function makeSimplifyThenSubtract() {
+
+  const base =
+    pick(
+      [
+        2,
+        3,
+        5,
+        7
+      ]
+    );
+
+
+  const large =
+    pick(
+      [
+        4,
+        5,
+        6
+      ]
+    );
+
+
+  const small =
+    pick(
+      [
+        2,
+        3
+      ]
+    );
+
+
+  const r1 =
+    base *
+    large *
+    large;
+
+
+  const r2 =
+    base *
+    small *
+    small;
+
+
+  const coefficient =
+    large -
+    small;
+
+
+  return radicalQuestion(
+
+    mathWrap(
+
+      `
+
+        <msqrt>
+
+          <mn>
+            ${r1}
+          </mn>
+
+        </msqrt>
+
+        <mo>−</mo>
+
+        <msqrt>
+
+          <mn>
+            ${r2}
+          </mn>
+
+        </msqrt>
+
+      `
+    ),
+
+    coefficient,
+
+    base,
+
+    [
+
+      `√${r1}
+       ＝
+       ${large}√${base}`,
+
+      `√${r2}
+       ＝
+       ${small}√${base}`,
+
+      `${large}√${base}
+       －
+       ${small}√${base}
+       ＝
+       ${coefficient}√${base}`
+    ],
+
+    "請先化簡，再合併同類根式"
+  );
+}
+
+
+function makeMode3() {
+
+  return shuffle(
+    [
+
+      makeSameRadicalAddition(),
+      makeSameRadicalAddition(),
+      makeSameRadicalAddition(),
+
+      makeThreeTermSameRadical(),
+      makeThreeTermSameRadical(),
+
+      makeSimplifyThenCombine(),
+      makeSimplifyThenCombine(),
+      makeSimplifyThenCombine(),
+
+      makeSimplifyThenSubtract(),
+      makeSimplifyThenSubtract()
+    ]
+  );
+}
+
+
+/*
+==================================================
+模式四
+根式四則
+A～E 各 2
+==================================================
+*/
+
+function makeMixedMultiplyAdd() {
+
+  const r =
+    pick(
+      [
+        2,
+        3,
+        5
+      ]
+    );
+
+
+  const multiplier =
+    rand(
+      2,
+      5
+    );
+
+
+  /*
+  √r × √r + k√r
+  會產生整數 + 根式，
+  不適合目前輸入。
+
+  改成：
+  √a × √b + k√(ab)
+  最終單一根式。
+  */
+
+  const pair =
+    pick(
+      [
+        [2,3],
+        [2,5],
+        [3,5],
+        [2,7],
+        [3,7]
+      ]
+    );
+
+
+  const [
+    a,
+    b
+  ] =
+    pair;
+
+
+  const product =
+    a *
+    b;
+
+
+  return radicalQuestion(
+
+    mathWrap(
+
+      `
+
+        <msqrt>
+          <mn>${a}</mn>
+        </msqrt>
+
+        <mo>×</mo>
+
+        <msqrt>
+          <mn>${b}</mn>
+        </msqrt>
+
+        <mo>＋</mo>
+
+        ${radicalMath(
+          multiplier,
+          product
+        )}
+
+      `
+    ),
+
+    multiplier + 1,
+
+    product,
+
+    [
+
+      `√${a}×√${b}
+       ＝
+       √${product}`,
+
+      `√${product}
+       ＋
+       ${multiplier}√${product}`,
+
+      `＝
+       ${multiplier + 1}√${product}`
+    ],
+
+    "請依運算順序計算"
+  );
+}
+
+
+function makeMixedDivideAdd() {
+
+  const base =
+    pick(
+      [
+        2,
+        3,
+        5
+      ]
+    );
+
+
+  const divisor =
+    pick(
+      [
+        2,
+        3,
+        5
+      ]
+    );
+
+
+  const numeratorRadicand =
+    base *
+    divisor;
+
+
+  const extra =
+    rand(
+      1,
+      4
+    );
+
+
+  return radicalQuestion(
+
+    mathWrap(
+
+      `
+
+        <mfrac>
+
+          <msqrt>
+
+            <mn>
+              ${numeratorRadicand}
+            </mn>
+
+          </msqrt>
+
+          <msqrt>
+
+            <mn>
+              ${divisor}
+            </mn>
+
+          </msqrt>
+
+        </mfrac>
+
+        <mo>＋</mo>
+
+        ${radicalMath(
+          extra,
+          base
+        )}
+
+      `
+    ),
+
+    extra + 1,
+
+    base,
+
+    [
+
+      `√${numeratorRadicand}
+       ÷
+       √${divisor}
+       ＝
+       √${base}`,
+
+      `√${base}
+       ＋
+       ${extra}√${base}`,
+
+      `＝
+       ${extra + 1}√${base}`
+    ],
+
+    "請依運算順序計算"
+  );
+}
+
+
+function makeBracketDistribution() {
+
+  const outside =
+    pick(
+      [
+        2,
+        3,
+        5
+      ]
+    );
+
+
+  const inside1 =
+    outside;
+
+
+  const another =
+    pick(
+      [
+        2,
+        3,
+        5,
+        7
+      ].filter(
+        value =>
+          value !== outside
+      )
+    );
+
+
+  /*
+  √a(√a + √b)
+  = a + √ab
+  不是單項。
+
+  因此設成：
+  √a(√b + 2√b)
+  = 3√ab
+  */
+
+  return radicalQuestion(
+
+    mathWrap(
+
+      `
+
+        <msqrt>
+
+          <mn>
+            ${outside}
+          </mn>
+
+        </msqrt>
+
+        <mo>(</mo>
+
+        <msqrt>
+
+          <mn>
+            ${another}
+          </mn>
+
+        </msqrt>
+
+        <mo>＋</mo>
+
+        ${radicalMath(
+          2,
+          another
+        )}
+
+        <mo>)</mo>
+
+      `
+    ),
+
+    3,
+
+    outside * another,
+
+    [
+
+      "先合併括號內的同類根式。",
+
+      `√${another}
+       ＋
+       2√${another}
+       ＝
+       3√${another}`,
+
+      `√${outside}
+       ×
+       3√${another}
+       ＝
+       3√${outside * another}`
+    ],
+
+    "請先處理括號，再進行乘法"
+  );
+}
+
+
+function makeConjugateProduct() {
+
+  const a =
+    pick(
+      [
+        2,
+        3,
+        5,
+        6,
+        7,
+        10,
+        11
+      ]
+    );
+
+
+  const b =
+    pick(
+      [
+        2,
+        3,
+        5,
+        6,
+        7,
+        10,
+        11
+      ].filter(
+        value =>
+          value !== a
+      )
+    );
+
+
+  const answer =
+    a -
+    b;
+
+
+  return numberQuestion(
+
+    mathWrap(
+
+      `
+
+        <mo>(</mo>
+
+        <msqrt>
+
+          <mn>
+            ${a}
+          </mn>
+
+        </msqrt>
+
+        <mo>＋</mo>
+
+        <msqrt>
+
+          <mn>
+            ${b}
+          </mn>
+
+        </msqrt>
+
+        <mo>)</mo>
+
+        <mo>(</mo>
+
+        <msqrt>
+
+          <mn>
+            ${a}
+          </mn>
+
+        </msqrt>
+
+        <mo>−</mo>
+
+        <msqrt>
+
+          <mn>
+            ${b}
+          </mn>
+
+        </msqrt>
+
+        <mo>)</mo>
+
+      `
+    ),
+
+    answer,
+
+    [
+
+      "利用平方差公式。",
+
+      `(√${a})²
+       －
+       (√${b})²`,
+
+      `＝
+       ${a}
+       －
+       ${b}`,
+
+      `＝${answer}`
+    ],
+
+    "請利用乘法公式計算"
+  );
+}
+
+
+function makeMixedAll() {
+
+  const base =
+    pick(
+      [
+        2,
+        3,
+        5
+      ]
+    );
+
+
+  const factor =
+    pick(
+      [
+        2,
+        3,
+        5,
+        7
+      ]
+    );
+
+
+  const a =
+    rand(
+      2,
+      5
+    );
+
+
+  /*
+  a√base × √factor ÷ √factor + √base
+  = a√base + √base
+  */
+
+  return radicalQuestion(
+
+    mathWrap(
+
+      `
+
+        ${radicalMath(
+          a,
+          base
+        )}
+
+        <mo>×</mo>
+
+        <msqrt>
+
+          <mn>
+            ${factor}
+          </mn>
+
+        </msqrt>
+
+        <mo>÷</mo>
+
+        <msqrt>
+
+          <mn>
+            ${factor}
+          </mn>
+
+        </msqrt>
+
+        <mo>＋</mo>
+
+        <msqrt>
+
+          <mn>
+            ${base}
+          </mn>
+
+        </msqrt>
+
+      `
+    ),
+
+    a + 1,
+
+    base,
+
+    [
+
+      `√${factor}
+       ÷
+       √${factor}
+       ＝
+       1`,
+
+      `${a}√${base}
+       ＋
+       √${base}`,
+
+      `＝
+       ${a + 1}√${base}`
+    ],
+
+    "請依四則運算順序計算"
+  );
+}
+
+
+function makeMode4() {
+
+  return shuffle(
+    [
+
+      makeMixedMultiplyAdd(),
+      makeMixedMultiplyAdd(),
+
+      makeMixedDivideAdd(),
+      makeMixedDivideAdd(),
+
+      makeBracketDistribution(),
+      makeBracketDistribution(),
+
+      makeConjugateProduct(),
+      makeConjugateProduct(),
+
+      makeMixedAll(),
+      makeMixedAll()
+    ]
+  );
+}
+
+
+/*
+==================================================
+題組
+==================================================
+*/
+
+function createQuestions() {
+
+  if (
+    mode ===
+    "multiply"
+  ) {
+
+    return makeMode1();
+  }
+
+
+  if (
+    mode ===
+    "divide"
+  ) {
+
+    return makeMode2();
+  }
+
+
+  if (
+    mode ===
+    "addSubtract"
+  ) {
+
+    return makeMode3();
+  }
+
+
+  return makeMode4();
+}
+
+
+/*
+==================================================
+時間
+==================================================
+*/
+
+function formatTime(
+  seconds
+) {
+
+  const minutes =
+    Math.floor(
+      seconds /
+      60
+    );
+
+
+  const remain =
+    seconds %
+    60;
+
+
+  return (
+    `${String(minutes).padStart(2,"0")}:` +
+    `${String(remain).padStart(2,"0")}`
+  );
+}
+
+
+function stopTimer(
+  update =
+    true
+) {
+
+  if (
+    timerId !==
+    null
+  ) {
+
+    clearInterval(
+      timerId
+    );
+
+
+    timerId =
+      null;
+  }
+
+
+  if (
+    update &&
+    startTime
+  ) {
+
+    elapsed =
+      Math.floor(
+        (
+          Date.now() -
+          startTime
+        ) /
+        1000
+      );
+  }
+}
+
+
+function startTimer() {
+
+  stopTimer(
+    false
+  );
+
+
+  startTime =
+    Date.now();
+
+
+  elapsed =
+    0;
+
+
+  $("timer-display")
+    .textContent =
+      "00:00";
+
+
+  timerId =
+    setInterval(
+      () => {
+
+        elapsed =
+          Math.floor(
+            (
+              Date.now() -
+              startTime
+            ) /
+            1000
+          );
+
+
+        $("timer-display")
+          .textContent =
+            formatTime(
+              elapsed
+            );
+
+      },
+      500
+    );
+}
+
+
+/*
+==================================================
+音效
+==================================================
+*/
+
+function playGameSound(
+  method
+) {
+
+  try {
+
+    const sound =
+      window.GameSound ||
+      window.MathGameSound;
+
+
+    sound?.[
+      method
+    ]?.();
+
+  } catch (
+    error
+  ) {
+
+    console.warn(
+      "音效播放失敗：",
+      error
+    );
+  }
+}
+
+
+/*
+==================================================
+計算紙
+==================================================
+*/
+
+function moveScratchpadButtonToTop() {
+
+  const mount =
+    $("scratchpad-mobile-button");
+
+
+  const button =
+    $("scratchpadOpenButton");
+
+
+  if (
+    mount &&
+    button &&
+    !mount.contains(
+      button
+    )
+  ) {
+
+    mount.appendChild(
+      button
+    );
+  }
+}
+
+
+/*
+==================================================
+畫面
+==================================================
+*/
+
+function showOnly(
+  id
+) {
+
+  [
+    "start-screen",
+    "quiz-screen",
+    "result-screen",
+    "review-screen"
+  ]
+    .forEach(
+      screen => {
+
+        $(screen)
+          .classList
+          .toggle(
+            "hidden",
+            screen !== id
+          );
+      }
+    );
+
+
+  if (
+    id ===
+    "quiz-screen"
+  ) {
+
+    moveScratchpadButtonToTop();
+
+
+    window
+      .showGameScratchpadButton
+      ?.();
+
+  } else {
+
+    window
+      .hideGameScratchpadButton
+      ?.();
+  }
+}
+
+
+/*
+==================================================
+一般預覽
+==================================================
+*/
+
+function updateNumberPreview() {
+
+  const value =
+    $("number-answer")
+      ?.value
+      .trim() ||
+    "";
+
+
+  $("answer-preview")
+    .innerHTML =
+
+      value
+
+        ? `
+
+            目前答案：
+
+            <span class="answer-preview-value">
+
+              ${value}
+
+            </span>
+
+          `
+
+        : "目前尚未完成答案。";
+}
+
+
+function updateFractionPreview() {
+
+  const numerator =
+    $("fraction-numerator")
+      ?.value
+      .trim() ||
+    "";
+
+
+  const denominator =
+    $("fraction-denominator")
+      ?.value
+      .trim() ||
+    "";
+
+
+  if (
+    !numerator ||
+    !denominator
+  ) {
+
+    $("answer-preview")
+      .innerHTML =
+        "目前尚未完成答案。";
+
+
+    return;
+  }
+
+
+  $("answer-preview")
+    .innerHTML = `
+
+      目前答案：
+
+      <span class="answer-preview-value">
+
+        ${fractionHTML(
+          numerator,
+          denominator
+        )}
+
+      </span>
+    `;
+}
+
+
+/*
+==================================================
+根式分數預覽
+==================================================
+*/
+
+function updateRadicalFractionPreview() {
+
+  const sign =
+    Number(
+      $("rf-sign")
+        ?.value ||
+      1
+    );
+
+
+  const coefficientRaw =
+    $("rf-coefficient")
+      ?.value
+      .trim() ||
+    "";
+
+
+  const radicandRaw =
+    $("rf-radicand")
+      ?.value
+      .trim() ||
+    "";
+
+
+  const denominatorRaw =
+    $("rf-denominator")
+      ?.value
+      .trim() ||
+    "";
+
+
+  if (
+    !coefficientRaw ||
+    !radicandRaw ||
+    !denominatorRaw
+  ) {
+
+    $("answer-preview")
+      .innerHTML =
+        "目前尚未完成答案。";
+
+
+    return;
+  }
+
+
+  const coefficient =
+    sign *
+    Number(
+      coefficientRaw
+    );
+
+
+  $("answer-preview")
+    .innerHTML = `
+
+      目前答案：
+
+      <span class="answer-preview-value">
+
+        ${radicalFractionHTML(
+          coefficient,
+          radicandRaw,
+          denominatorRaw
+        )}
+
+      </span>
+    `;
+}
+
+
+/*
+==================================================
+作答 UI
+==================================================
+*/
+
+function renderAnswer(
+  question
+) {
+
+  radicalInput =
+    null;
+
+
+  selectedChoice =
+    null;
+
+
+  const panel =
+    $("answer-panel");
+
+
+  /*
+  --------------------------------------------------
+  number
+  --------------------------------------------------
+  */
+
+  if (
+    question.type ===
+    "number"
+  ) {
+
+    panel.innerHTML = `
+
+      <div class="answer-title">
+
+        ${question.label}
+
+      </div>
+
+
+      <div class="number-answer">
+
+        <input
+          id="number-answer"
+          type="text"
+          inputmode="numeric"
+          autocomplete="off"
+          placeholder="輸入整數答案"
+        >
+
+      </div>
+
+
+      <div
+        id="answer-preview"
+        class="answer-preview"
+      >
+
+        目前尚未完成答案。
+
+      </div>
+    `;
+
+
+    $("number-answer")
+      .addEventListener(
+        "input",
+        updateNumberPreview
+      );
+
+
+    setTimeout(
+      () =>
+        $("number-answer")
+          ?.focus(),
+      0
+    );
+
+
+    return;
+  }
+
+
+  /*
+  --------------------------------------------------
+  fraction
+  --------------------------------------------------
+  */
+
+  if (
+    question.type ===
+    "fraction"
+  ) {
+
+    panel.innerHTML = `
+
+      <div class="answer-title">
+
+        ${question.label}
+
+      </div>
+
+
+      <p class="answer-help">
+
+        若答案還可以約分，
+        系統會提醒你自行整理，
+        不會自動替你約分。
+
+      </p>
+
+
+      <div class="fraction-answer">
+
+
+        <div class="fraction-input">
+
+          <input
+            id="fraction-numerator"
+            type="text"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="分子"
+          >
+
+          <input
+            id="fraction-denominator"
+            type="text"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="分母"
+          >
+
+        </div>
+
+
+      </div>
+
+
+      <div
+        id="answer-preview"
+        class="answer-preview"
+      >
+
+        目前尚未完成答案。
+
+      </div>
+    `;
+
+
+    $("fraction-numerator")
+      .addEventListener(
+        "input",
+        updateFractionPreview
+      );
+
+
+    $("fraction-denominator")
+      .addEventListener(
+        "input",
+        updateFractionPreview
+      );
+
+
+    setTimeout(
+      () =>
+        $("fraction-numerator")
+          ?.focus(),
+      0
+    );
+
+
+    return;
+  }
+
+
+  /*
+  --------------------------------------------------
+  radical
+  --------------------------------------------------
+  */
+
+  if (
+    question.type ===
+    "radical"
+  ) {
+
+    panel.innerHTML = `
+
+      <div class="answer-title">
+
+        ${question.label}
+
+      </div>
+
+
+      <p class="answer-help">
+
+        根號內若還可以化簡，
+        系統只會提醒，
+        不會替你自動化簡。
+
+      </p>
+
+
+      <div
+        id="radical-answer-mount"
+      ></div>
+    `;
+
+
+    radicalInput =
+      new window.RadicalInput(
+        {
+
+          mountId:
+            "radical-answer-mount",
+
+          requireSimplifiedRadical:
+            true,
+
+          theme: {
+
+            primary:
+              "#7b1fa2",
+
+            light:
+              "#f3e5f5",
+
+            border:
+              "#ce93d8"
+          }
+        }
+      );
+
+
+    setTimeout(
+      () =>
+        radicalInput
+          ?.focus(),
+      0
+    );
+
+
+    return;
+  }
+
+
+  /*
+  --------------------------------------------------
+  radicalFraction
+  --------------------------------------------------
+  */
+
+  if (
+    question.type ===
+    "radicalFraction"
+  ) {
+
+    panel.innerHTML = `
+
+      <div class="answer-title">
+
+        ${question.label}
+
+      </div>
+
+
+      <p class="answer-help">
+
+        分母不可含根號。<br>
+
+        根式與分數都必須整理成最簡形式；
+        系統不會自動替你約分或化簡。
+
+      </p>
+
+
+      <div class="radical-fraction-editor">
+
+
+        <div class="rf-sign-box">
+
+          <label class="rf-label">
+            正負號
+          </label>
+
+          <select
+            id="rf-sign"
+            class="rf-sign"
+          >
+
+            <option value="1">
+              ＋
+            </option>
+
+            <option value="-1">
+              －
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="rf-coefficient-box">
+
+          <label class="rf-label">
+            根號外係數
+          </label>
+
+          <input
+            id="rf-coefficient"
+            class="rf-coefficient"
+            type="text"
+            inputmode="numeric"
+            autocomplete="off"
+            value="1"
+          >
+
+        </div>
+
+
+        <div class="rf-radical-box">
+
+          <label class="rf-label">
+            根號內
+          </label>
+
+
+          <div class="rf-radical-entry">
+
+
+            <svg
+              class="rf-radical-svg"
+              viewBox="0 0 180 63"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+
+              <path
+                class="rf-radical-path"
+                d="
+                  M 3 37
+                  L 11 37
+                  L 19 57
+                  L 34 8
+                  L 177 8
+                "
+              />
+
+            </svg>
+
+
+            <input
+              id="rf-radicand"
+              class="rf-radicand"
+              type="text"
+              inputmode="numeric"
+              autocomplete="off"
+              placeholder="輸入"
+            >
+
+
+          </div>
+
+        </div>
+
+
+        <div class="rf-denominator-box">
+
+          <label class="rf-label">
+            分母
+          </label>
+
+          <input
+            id="rf-denominator"
+            class="rf-denominator"
+            type="text"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="分母"
+          >
+
+        </div>
+
+
+      </div>
+
+
+      <div
+        id="answer-preview"
+        class="answer-preview"
+      >
+
+        目前尚未完成答案。
+
+      </div>
+    `;
+
+
+    [
+      "rf-sign",
+      "rf-coefficient",
+      "rf-radicand",
+      "rf-denominator"
+    ]
+      .forEach(
+        id => {
+
+          $(id)
+            .addEventListener(
+              "input",
+              updateRadicalFractionPreview
+            );
+
+
+          $(id)
+            .addEventListener(
+              "change",
+              updateRadicalFractionPreview
+            );
+        }
+      );
+
+
+    setTimeout(
+      () =>
+        $("rf-radicand")
+          ?.focus(),
+      0
+    );
+  }
+}
+
+
+/*
+==================================================
+顯示題目
+==================================================
+*/
+
+function displayQuestion() {
+
+  answered =
+    false;
+
+
+  const question =
+    questions[
+      index
+    ];
+
+
+  $("mode-name")
+    .textContent =
+      MODE_NAMES[
+        mode
+      ];
+
+
+  $("question-number")
+    .textContent =
+      `${index + 1} / ${questions.length}`;
+
+
+  $("correct-count")
+    .textContent =
+      correct;
+
+
+  $("combo-count")
+    .textContent =
+      maxCombo;
+
+
+  $("progress-bar")
+    .style
+    .width =
+      `${
+        index /
+        questions.length *
+        100
+      }%`;
+
+
+  $("question-label")
+    .textContent =
+      question.label;
+
+
+  $("question-content")
+    .innerHTML =
+      question.html;
+
+
+  $("feedback")
+    .className =
+      "feedback";
+
+
+  $("feedback")
+    .textContent =
+      "";
+
+
+  $("explanation")
+    .innerHTML =
+      "";
+
+
+  $("explanation")
+    .classList
+    .add(
+      "hidden"
+    );
+
+
+  $("submit-button")
+    .classList
+    .remove(
+      "hidden"
+    );
+
+
+  $("next-button")
+    .classList
+    .add(
+      "hidden"
+    );
+
+
+  renderAnswer(
+    question
+  );
+
+
+  window
+    .resetGameScratchpad
+    ?.();
+}
+
+
+/*
+==================================================
+讀取答案
+==================================================
+*/
+
+function readAnswer(
+  question
+) {
+
+  /*
+  --------------------------------------------------
+  number
+  --------------------------------------------------
+  */
+
+  if (
+    question.type ===
+    "number"
+  ) {
+
+    const raw =
+      $("number-answer")
+        ?.value
+        .trim() ||
+      "";
+
+
+    if (
+      !/^-?\d+$/
+        .test(
+          raw
+        )
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "請輸入完整的整數答案。"
+      };
+    }
+
+
+    return {
+
+      valid:
+        true,
+
+      value:
+        Number(
+          raw
+        ),
+
+      display:
+        raw
+    };
+  }
+
+
+  /*
+  --------------------------------------------------
+  fraction
+  --------------------------------------------------
+  */
+
+  if (
+    question.type ===
+    "fraction"
+  ) {
+
+    const numeratorRaw =
+      $("fraction-numerator")
+        ?.value
+        .trim() ||
+      "";
+
+
+    const denominatorRaw =
+      $("fraction-denominator")
+        ?.value
+        .trim() ||
+      "";
+
+
+    if (
+      !/^-?\d+$/
+        .test(
+          numeratorRaw
+        ) ||
+      !/^-?\d+$/
+        .test(
+          denominatorRaw
+        )
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "請把分子與分母填寫完整。"
+      };
+    }
+
+
+    let numerator =
+      Number(
+        numeratorRaw
+      );
+
+
+    let denominator =
+      Number(
+        denominatorRaw
+      );
+
+
+    if (
+      denominator === 0
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "⚠️ 分母不能是 0。"
+      };
+    }
+
+
+    if (
+      denominator < 0
+    ) {
+
+      numerator *=
+        -1;
+
+      denominator *=
+        -1;
+    }
+
+
+    if (
+      gcd(
+        Math.abs(
+          numerator
+        ),
+        denominator
+      ) !== 1
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "⚠️ 目前答案還不是最簡分數，請先自行約分。"
+      };
+    }
+
+
+    return {
+
+      valid:
+        true,
+
+      numerator,
+
+      denominator,
+
+      display:
+        fractionHTML(
+          numerator,
+          denominator
+        )
+    };
+  }
+
+
+  /*
+  --------------------------------------------------
+  radical
+  --------------------------------------------------
+  */
+
+  if (
+    question.type ===
+    "radical"
+  ) {
+
+    const result =
+      radicalInput
+        ?.validate();
+
+
+    if (
+      !result?.valid
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          result?.message ||
+          "請把根式答案輸入完整。"
+      };
+    }
+
+
+    return {
+
+      valid:
+        true,
+
+      value:
+        result.value,
+
+      display:
+        result.value.display
+    };
+  }
+
+
+  /*
+  --------------------------------------------------
+  radicalFraction
+  --------------------------------------------------
+  */
+
+  const sign =
+    Number(
+      $("rf-sign")
+        ?.value ||
+      1
+    );
+
+
+  const coefficientRaw =
+    $("rf-coefficient")
+      ?.value
+      .trim() ||
+    "";
+
+
+  const radicandRaw =
+    $("rf-radicand")
+      ?.value
+      .trim() ||
+    "";
+
+
+  const denominatorRaw =
+    $("rf-denominator")
+      ?.value
+      .trim() ||
+    "";
+
+
+  if (
+    !/^\d+$/.test(
+      coefficientRaw
+    ) ||
+    !/^\d+$/.test(
+      radicandRaw
+    ) ||
+    !/^\d+$/.test(
+      denominatorRaw
+    )
+  ) {
+
+    return {
+
+      valid:
+        false,
+
+      message:
+        "請把根式分數答案填寫完整。"
+    };
+  }
+
+
+  const coefficient =
+    sign *
+    Number(
+      coefficientRaw
+    );
+
+
+  const radicand =
+    Number(
+      radicandRaw
+    );
+
+
+  const denominator =
+    Number(
+      denominatorRaw
+    );
+
+
+  if (
+    denominator === 0
+  ) {
+
+    return {
+
+      valid:
+        false,
+
+      message:
+        "⚠️ 分母不能是 0。"
+    };
+  }
+
+
+  if (
+    radicand <= 1
+  ) {
+
+    return {
+
+      valid:
+        false,
+
+      message:
+        "⚠️ 根號內必須為大於 1 的正整數。"
+    };
+  }
+
+
+  if (
+    RU()
+      .getLargestSquareFactor(
+        radicand
+      ) >
+    1
+  ) {
+
+    return {
+
+      valid:
+        false,
+
+      message:
+        `⚠️ √${radicand} 還可以繼續化簡，請先整理成最簡根式。`
+    };
+  }
+
+
+  if (
+    gcd(
+      Math.abs(
+        coefficient
+      ),
+      denominator
+    ) !== 1
+  ) {
+
+    return {
+
+      valid:
+        false,
+
+      message:
+        "⚠️ 根號外係數與分母還可以約分，請整理成最簡形式。"
+    };
+  }
+
+
+  return {
+
+    valid:
+      true,
+
+    coefficient,
+
+    radicand,
+
+    denominator,
+
+    display:
+      radicalFractionHTML(
+        coefficient,
+        radicand,
+        denominator
+      )
+  };
+}
+
+
+/*
+==================================================
+判定
+==================================================
+*/
+
+function checkCorrect(
+  question,
+  answer
+) {
+
+  if (
+    question.type ===
+    "number"
+  ) {
+
+    return (
+      answer.value ===
+      question.answer
+    );
+  }
+
+
+  if (
+    question.type ===
+    "fraction"
+  ) {
+
+    return (
+
+      answer.numerator ===
+        question.numerator &&
+
+      answer.denominator ===
+        question.denominator
+    );
+  }
+
+
+  if (
+    question.type ===
+    "radical"
+  ) {
+
+    return (
+
+      answer.value.coefficient ===
+        question.coefficient &&
+
+      answer.value.radicand ===
+        question.radicand
+    );
+  }
+
+
+  return (
+
+    answer.coefficient ===
+      question.coefficient &&
+
+    answer.radicand ===
+      question.radicand &&
+
+    answer.denominator ===
+      question.denominator
+  );
+}
+
+
+/*
+==================================================
+正確答案文字
+==================================================
+*/
+
+function correctAnswerText(
+  question
+) {
+
+  if (
+    question.type ===
+    "number"
+  ) {
+
+    return String(
+      question.answer
+    );
+  }
+
+
+  if (
+    question.type ===
+    "fraction"
+  ) {
+
+    return fractionHTML(
+      question.numerator,
+      question.denominator
+    );
+  }
+
+
+  if (
+    question.type ===
+    "radical"
+  ) {
+
+    return RU()
+      .radicalToHTML(
+        question.coefficient,
+        question.radicand
+      );
+  }
+
+
+  return radicalFractionHTML(
+    question.coefficient,
+    question.radicand,
+    question.denominator
+  );
+}
+
+
+/*
+==================================================
+解析
+==================================================
+*/
+
+function explanationHTML(
+  question
+) {
+
+  return question
+    .explanation
+    .map(
+      (
+        step,
+        i
+      ) => `
+
+        <div class="explanation-step">
+
+          <strong>
+
+            步驟 ${i + 1}｜
+
+          </strong>
+
+          ${step}
+
+        </div>
+
+      `
+    )
+    .join("");
+}
+
+
+/*
+==================================================
+提交
+==================================================
+*/
+
+function submitAnswer() {
+
+  if (
+    answered
+  ) {
+
+    return;
+  }
+
+
+  const question =
+    questions[
+      index
+    ];
+
+
+  const answer =
+    readAnswer(
+      question
+    );
+
+
+  if (
+    !answer.valid
+  ) {
+
+    $("feedback")
+      .className =
+        "feedback warning";
+
+
+    $("feedback")
+      .textContent =
+        answer.message;
+
+
+    return;
+  }
+
+
+  answered =
+    true;
+
+
+  radicalInput
+    ?.setDisabled(
+      true
+    );
+
+
+  const isCorrect =
+    checkCorrect(
+      question,
+      answer
+    );
+
+
+  if (
+    isCorrect
+  ) {
+
+    correct++;
+
+    combo++;
+
+    maxCombo =
+      Math.max(
+        maxCombo,
+        combo
+      );
+
+
+    $("feedback")
+      .className =
+        "feedback correct";
+
+
+    $("feedback")
+      .textContent =
+        "✨ 回答正確！";
+
+
+    playGameSound(
+      "playCorrect"
+    );
+
+  } else {
+
+    wrong++;
+
+    combo =
+      0;
+
+
+    $("feedback")
+      .className =
+        "feedback wrong";
+
+
+    $("feedback")
+      .innerHTML =
+        `❌ 答案不正確。正確答案：<strong>${
+          correctAnswerText(
+            question
+          )
+        }</strong>`;
+
+
+    playGameSound(
+      "playWrong"
+    );
+  }
+
+
+  records.push(
+    {
+
+      number:
+        index + 1,
+
+      question,
+
+      userAnswer:
+        answer.display,
+
+      correct:
+        isCorrect
+    }
+  );
+
+
+  $("correct-count")
+    .textContent =
+      correct;
+
+
+  $("combo-count")
+    .textContent =
+      maxCombo;
+
+
+  $("explanation")
+    .innerHTML =
+      explanationHTML(
+        question
+      );
+
+
+  $("explanation")
+    .classList
+    .remove(
+      "hidden"
+    );
+
+
+  $("submit-button")
+    .classList
+    .add(
+      "hidden"
+    );
+
+
+  $("next-button")
+    .classList
+    .remove(
+      "hidden"
+    );
+
+
+  $("next-button")
+    .textContent =
+
+      index ===
+        questions.length - 1
+
+        ? "查看測驗結果（Enter）"
+
+        : "下一題（Enter）";
+
+
+  $("next-button")
+    .focus();
+}
+
+
+/*
+==================================================
+下一題
+==================================================
+*/
+
+function nextQuestion() {
+
+  if (
+    !answered
+  ) {
+
+    return;
+  }
+
+
+  index++;
+
+
+  if (
+    index <
+    questions.length
+  ) {
+
+    displayQuestion();
+
+  } else {
+
+    showResult();
+  }
+}
+
+
+/*
+==================================================
+開始
+==================================================
+*/
+
+function startGame(
+  selectedMode
+) {
+
+  mode =
+    selectedMode;
+
+
+  try {
+
+    questions =
+      createQuestions();
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      "建立根式運算題目失敗：",
+      error
+    );
+
+
+    alert(
+      "題目建立失敗，請重新整理頁面後再試一次。"
+    );
+
+
+    return;
+  }
+
+
+  index =
+    0;
+
+
+  correct =
+    0;
+
+
+  wrong =
+    0;
+
+
+  combo =
+    0;
+
+
+  maxCombo =
+    0;
+
+
+  records =
+    [];
+
+
+  answered =
+    false;
+
+
+  radicalInput =
+    null;
+
+
+  scoreSaved =
+    false;
+
+
+  elapsed =
+    0;
+
+
+  $("timer-display")
+    .textContent =
+      "00:00";
+
+
+  $("save-status")
+    .textContent =
+      "";
+
+
+  showOnly(
+    "quiz-screen"
+  );
+
+
+  displayQuestion();
+
+
+  startTimer();
+
+
+  playGameSound(
+    "playStart"
+  );
+}
+
+
+/*
+==================================================
+評價
+==================================================
+*/
+
+function rating(
+  score
+) {
+
+  if (
+    score >= 90
+  ) {
+
+    return {
+
+      stars:
+        "★★★★★",
+
+      comment:
+        "太棒了！你已經能熟練處理各種根式運算。"
+    };
+  }
+
+
+  if (
+    score >= 80
+  ) {
+
+    return {
+
+      stars:
+        "★★★★☆",
+
+      comment:
+        "表現很好，再注意有理化與化簡細節就更完整了。"
+    };
+  }
+
+
+  if (
+    score >= 60
+  ) {
+
+    return {
+
+      stars:
+        "★★★☆☆",
+
+      comment:
+        "基本運算已掌握，再加強根式整理與運算順序。"
+    };
+  }
+
+
+  return {
+
+    stars:
+      "★★☆☆☆",
+
+    comment:
+      "建議從根式乘法開始，再逐步進入除法、加減與綜合題。"
+  };
+}
+
+
+/*
+==================================================
+結果
+==================================================
+*/
+
+async function showResult() {
+
+  stopTimer();
+
+
+  const score =
+    Math.round(
+      correct /
+      questions.length *
+      100
+    );
+
+
+  const result =
+    rating(
+      score
+    );
+
+
+  showOnly(
+    "result-screen"
+  );
+
+
+  $("final-score")
+    .textContent =
+      `${score} 分`;
+
+
+  $("final-stars")
+    .textContent =
+      result.stars;
+
+
+  $("final-comment")
+    .textContent =
+      result.comment;
+
+
+  $("final-correct")
+    .textContent =
+      correct;
+
+
+  $("final-wrong")
+    .textContent =
+      wrong;
+
+
+  $("final-combo")
+    .textContent =
+      maxCombo;
+
+
+  $("final-time")
+    .textContent =
+      formatTime(
+        elapsed
+      );
+
+
+  $("review-button")
+    .disabled =
+      wrong === 0;
+
+
+  $("review-button")
+    .textContent =
+
+      wrong === 0
+
+        ? "全部答對，無錯題"
+
+        : "錯題回顧";
+
+
+  await saveCurrentScore(
+    score
+  );
+}
+
+
+/*
+==================================================
+Firebase
+==================================================
+*/
+
+async function saveCurrentScore(
+  score
+) {
+
+  if (
+    scoreSaved
+  ) {
+
+    return;
+  }
+
+
+  scoreSaved =
+    true;
+
+
+  const status =
+    $("save-status");
+
+
+  status.textContent =
+    "☁️ 正在儲存本次成績……";
+
+
+  status.style.color =
+    "#1d4ed8";
+
+
+  try {
+
+    const result =
+      await saveGameScore(
+        {
+
+          game:
+            GAME_ID,
+
+          mode,
+
+          score,
+
+          correctCount:
+            correct,
+
+          wrongCount:
+            wrong,
+
+          maxCombo,
+
+          playTime:
+            elapsed,
+
+          totalQuestions:
+            questions.length
+        }
+      );
+
+
+    if (
+      result.success
+    ) {
+
+      status.textContent =
+        "✅ 本次成績已儲存。";
+
+
+      status.style.color =
+        "#15803d";
+
+
+      return;
+    }
+
+
+    if (
+      result.reason ===
+      "not-logged-in"
+    ) {
+
+      status.textContent =
+        "ℹ️ 尚未登入，因此本次成績沒有儲存。";
+
+
+      status.style.color =
+        "#b45309";
+
+
+      return;
+    }
+
+
+    status.textContent =
+      "⚠️ 成績暫時無法儲存。";
+
+
+    status.style.color =
+      "#b91c1c";
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      "根式運算成績儲存失敗：",
+      error
+    );
+
+
+    status.textContent =
+      "⚠️ 成績暫時無法儲存。";
+
+
+    status.style.color =
+      "#b91c1c";
+  }
+}
+
+
+/*
+==================================================
+錯題回顧
+==================================================
+*/
+
+function showReview() {
+
+  const wrongRecords =
+    records.filter(
+      record =>
+        !record.correct
+    );
+
+
+  const list =
+    $("review-list");
+
+
+  if (
+    !wrongRecords.length
+  ) {
+
+    list.innerHTML = `
+
+      <div class="review-card">
+
+        全部答對，沒有需要回顧的錯題！
+
+      </div>
+
+    `;
+
+  } else {
+
+    list.innerHTML =
+      wrongRecords
+        .map(
+          record => `
+
+            <article class="review-card">
+
+
+              <div class="review-title">
+
+                第 ${record.number} 題 ❌
+
+              </div>
+
+
+              <div class="review-question">
+
+                ${record.question.html}
+
+              </div>
+
+
+              <div>
+
+                你的答案：
+
+                <strong>
+
+                  ${record.userAnswer}
+
+                </strong>
+
+              </div>
+
+
+              <div>
+
+                正確答案：
+
+                <strong>
+
+                  ${
+                    correctAnswerText(
+                      record.question
+                    )
+                  }
+
+                </strong>
+
+              </div>
+
+
+              <div class="explanation">
+
+                ${
+                  explanationHTML(
+                    record.question
+                  )
+                }
+
+              </div>
+
+
+            </article>
+
+          `
+        )
+        .join("");
+  }
+
+
+  showOnly(
+    "review-screen"
+  );
+}
+
+
+/*
+==================================================
+事件
+==================================================
+*/
+
+document
+  .querySelectorAll(
+    "[data-mode]"
+  )
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          startGame(
+            button.dataset.mode
+          );
+        }
+      );
+    }
+  );
+
+
+$("submit-button")
+  .addEventListener(
+    "click",
+    submitAnswer
+  );
+
+
+$("next-button")
+  .addEventListener(
+    "click",
+    nextQuestion
+  );
+
+
+$("restart-button")
+  .addEventListener(
+    "click",
+    () =>
+      startGame(
+        mode
+      )
+  );
+
+
+$("mode-button")
+  .addEventListener(
+    "click",
+    () => {
+
+      stopTimer();
+
+
+      showOnly(
+        "start-screen"
+      );
+    }
+  );
+
+
+$("again-button")
+  .addEventListener(
+    "click",
+    () =>
+      startGame(
+        mode
+      )
+  );
+
+
+$("result-mode-button")
+  .addEventListener(
+    "click",
+    () =>
+      showOnly(
+        "start-screen"
+      )
+  );
+
+
+$("review-button")
+  .addEventListener(
+    "click",
+    showReview
+  );
+
+
+$("review-again-button")
+  .addEventListener(
+    "click",
+    () =>
+      startGame(
+        mode
+      )
+  );
+
+
+$("review-result-button")
+  .addEventListener(
+    "click",
+    () =>
+      showOnly(
+        "result-screen"
+      )
+  );
+
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key !==
+      "Enter"
+    ) {
+
+      return;
+    }
+
+
+    if (
+      $("quiz-screen")
+        .classList
+        .contains(
+          "hidden"
+        )
+    ) {
+
+      return;
+    }
+
+
+    event.preventDefault();
+
+
+    if (
+      answered
+    ) {
+
+      nextQuestion();
+
+    } else {
+
+      submitAnswer();
+    }
+  }
+);
+
+
+/*
+==================================================
+初始化
+==================================================
+*/
+
+window.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    moveScratchpadButtonToTop();
+
+
+    setTimeout(
+      moveScratchpadButtonToTop,
+      100
+    );
+  }
+);
+
+
+showOnly(
+  "start-screen"
+);
+
+
+</script>
+
+
+</body>
+
+</html>
