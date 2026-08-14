@@ -1267,6 +1267,53 @@
 
     /*
     ==================================================
+    詳解專用根號
+    不使用 SVG 字串插入，避免 Safari/iPad 把 SVG 屬性顯示成文字
+    ==================================================
+    */
+
+    .explanation-radical {
+      position: relative;
+      display: inline-flex;
+      align-items: flex-start;
+      margin: 0 .08em;
+      padding: .08em .12em 0 .58em;
+      min-height: 1.35em;
+      vertical-align: middle;
+      font-family: "Cambria Math", "Times New Roman", serif;
+    }
+
+    .explanation-radical::before {
+      content: "";
+      position: absolute;
+      left: .08em;
+      top: .52em;
+      width: .30em;
+      height: .52em;
+      border-left: 2.4px solid currentColor;
+      border-bottom: 2.4px solid currentColor;
+      transform: skew(-18deg);
+      transform-origin: left bottom;
+    }
+
+    .explanation-radical::after {
+      content: "";
+      position: absolute;
+      left: .38em;
+      right: 0;
+      top: .08em;
+      border-top: 2.4px solid currentColor;
+    }
+
+    .explanation-radicand {
+      position: relative;
+      z-index: 1;
+      padding: 0 .05em;
+      line-height: 1.2;
+    }
+
+    /*
+    ==================================================
     Feedback
     ==================================================
     */
@@ -6612,12 +6659,38 @@ function correctAnswerText(
 
 function formatExplanationMath(step) {
 
-  // 詳解中的 √n 全部改用與題目相同的 SVG 根號，
-  // 避免瀏覽器字型造成根號上橫線缺失。
-  return String(step)
+  const source = String(step);
+
+  /*
+  ==================================================
+  詳解格式化
+
+  重要：
+  1. 如果題目產生器已經放入 HTML（例如 radicalDisplay / sqrtDisplay），
+     就直接保留，不再做第二次字串替換，避免 SVG 標籤被破壞。
+  2. 純文字詳解中的 √n，改用「CSS 根號」呈現。
+     這種作法不會把 SVG HTML 插進一般文字中，因此 Safari / iPad
+     也不會再把 class、viewBox、path 等內容顯示成文字。
+  ==================================================
+  */
+
+  if (source.includes("<")) {
+    return source.replace(/\n/g, "<br>");
+  }
+
+  const escaped = source
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
+  return escaped
     .replace(
       /√\s*\(?\s*(\d+)\s*\)?/g,
-      (_, n) => sqrtDisplay(n)
+      (_, n) => `
+        <span class="explanation-radical">
+          <span class="explanation-radicand">${n}</span>
+        </span>
+      `
     )
     .replace(/\n/g, "<br>");
 }
