@@ -3273,15 +3273,18 @@ function makeSimpleRationalize() {
 
     [
 
-      `原式的分母含有 √${r}，所以分子、分母同乘 √${r}。`,
+      `原式的分母含有 √${r}，因此要把分母中的根號消去。`,
 
-      `分子：${n}×√${r}＝${n}√${r}。`,
+      `分子、分母同乘 √${r}，數值不會改變：\n${n}／√${r} × √${r}／√${r}。`,
 
-      `分母：√${r}×√${r}＝${r}。`,
+      `先算分子：${n}×√${r}＝${n}√${r}。`,
 
-      `因此得到 ${n}√${r}／${r}。`,
+      `再算分母：√${r}×√${r}＝(√${r})²＝${r}。`,
 
-      `最後檢查分子係數 ${n} 與分母 ${r} 是否還能約分，整理成最簡形式。`
+      `所以原式＝${n}√${r}／${r}。`,
+
+      `最後檢查根號是否已是最簡根式，並檢查根號外係數 ${n} 與分母 ${r} 是否可以約分；若可以，還要繼續約成最簡形式。`
+
     ],
 
     "請將分母有理化"
@@ -6659,40 +6662,36 @@ function correctAnswerText(
 
 function formatExplanationMath(step) {
 
-  const source = String(step);
+  const source = String(step ?? "");
 
   /*
   ==================================================
-  詳解格式化
+  詳解格式化（安全版）
 
-  重要：
-  1. 如果題目產生器已經放入 HTML（例如 radicalDisplay / sqrtDisplay），
-     就直接保留，不再做第二次字串替換，避免 SVG 標籤被破壞。
-  2. 純文字詳解中的 √n，改用「CSS 根號」呈現。
-     這種作法不會把 SVG HTML 插進一般文字中，因此 Safari / iPad
-     也不會再把 class、viewBox、path 等內容顯示成文字。
+  關鍵修正：
+  1. 若 step 本身已經含有 HTML（例如 sqrtDisplay / radicalDisplay），
+     直接原樣回傳，絕對不在標籤內插入 <br>。
+  2. 純文字詳解先完成跳脫與換行處理，再把 √n 轉成 SVG 根號。
+     這樣 <br> 只會出現在文字換行，不會跑進 <svg ...> 標籤裡。
   ==================================================
   */
 
   if (source.includes("<")) {
-    return source.replace(/\n/g, "<br>");
+    return source;
   }
 
-  const escaped = source
+  let escaped = source
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-
-  return escaped
-    .replace(
-      /√\s*\(?\s*(\d+)\s*\)?/g,
-      (_, n) => `
-        <span class="explanation-radical">
-          <span class="explanation-radicand">${n}</span>
-        </span>
-      `
-    )
+    .replace(/>/g, "&gt;")
     .replace(/\n/g, "<br>");
+
+  escaped = escaped.replace(
+    /√\s*\(?\s*(\d+)\s*\)?/g,
+    (_, n) => sqrtDisplay(String(n))
+  );
+
+  return escaped;
 }
 
 
