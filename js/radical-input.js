@@ -2,38 +2,15 @@
 ==================================================
 數學遊戲樂園｜RadicalInput
 檔案：js/radical-input.js
-版本：4.0
+版本：6.0
 ==================================================
 
-主要功能：
-
-1. signedNumber
-   ＋7
-   －7
-   ±7
-
-2. radical
-   √2
-   3√2
-   −3√5
-
-3. 題目與答案預覽使用 MathML 顯示根號
-
-4. 學生填答區改成紙本根號樣式：
-   根號橫線會真正延伸到「根號內輸入格」上方
-
-5. 最簡根式檢查
-
-例如學生輸入：
-
-3√8
-
-系統不會自動變成：
-
-6√2
-
-而是提醒學生自行整理。
-
+修正：
+1. 根號斜線與橫線連接
+2. 根號橫線加粗
+3. 橫線完整包住根號內輸入框
+4. 即時顯示目前答案
+5. 不自動替學生化簡
 ==================================================
 */
 
@@ -42,70 +19,22 @@
   "use strict";
 
 
-  /*
-  ==================================================
-  預設
-  ==================================================
-  */
-
   const DEFAULT_OPTIONS = {
 
-    mountId:
-      "",
+    mountId: "",
 
-    mode:
-      "radical",
+    requireSimplifiedRadical: true,
 
-    allowPositive:
-      true,
-
-    allowNegative:
-      true,
-
-    allowPlusMinus:
-      false,
-
-    allowZero:
-      true,
-
-    requireSimplifiedRadical:
-      true,
-
-    maxRadicand:
-      99999,
+    maxRadicand: 99999,
 
     theme: {
 
-      primary:
-        "#0288d1",
+      primary: "#0288d1",
 
-      light:
-        "#e1f5fe",
+      light: "#e1f5fe",
 
-      border:
-        "#81d4fa"
-    },
-
-    labels: {
-
-      sign:
-        "正負號",
-
-      value:
-        "數值",
-
-      coefficient:
-        "根號外係數",
-
-      radicand:
-        "根號內",
-
-      preview:
-        "目前答案"
-    },
-
-    onChange:
-      null
+      border: "#81d4fa"
+    }
   };
 
 
@@ -129,60 +58,11 @@
 
         ...defaults.theme,
 
-        ...(
-          options.theme ||
-          {}
-        )
-      },
-
-      labels: {
-
-        ...defaults.labels,
-
-        ...(
-          options.labels ||
-          {}
-        )
+        ...(options.theme || {})
       }
     };
   }
 
-
-  function escapeHtml(
-    value
-  ) {
-
-    return String(
-      value
-    )
-      .replace(
-        /&/g,
-        "&amp;"
-      )
-      .replace(
-        /</g,
-        "&lt;"
-      )
-      .replace(
-        />/g,
-        "&gt;"
-      )
-      .replace(
-        /"/g,
-        "&quot;"
-      )
-      .replace(
-        /'/g,
-        "&#039;"
-      );
-  }
-
-
-  /*
-  ==================================================
-  最大公因數
-  ==================================================
-  */
 
   function gcd(
     a,
@@ -191,33 +71,25 @@
 
     a =
       Math.abs(
-        Number(
-          a
-        )
+        Number(a)
       );
 
 
     b =
       Math.abs(
-        Number(
-          b
-        )
+        Number(b)
       );
 
 
     while (
-      b !==
-      0
+      b !== 0
     ) {
 
       const temp =
         b;
 
-
       b =
-        a %
-        b;
-
+        a % b;
 
       a =
         temp;
@@ -228,99 +100,60 @@
   }
 
 
-  /*
-  ==================================================
-  完全平方數
-  ==================================================
-  */
-
   function isPerfectSquare(
     value
   ) {
 
-    value =
-      Number(
-        value
-      );
+    const number =
+      Number(value);
 
 
-    if (
-      !Number.isInteger(
-        value
-      ) ||
-      value <
-      0
-    ) {
-
-      return false;
-    }
-
-
-    return Number.isInteger(
-      Math.sqrt(
-        value
+    return (
+      Number.isInteger(number) &&
+      number >= 0 &&
+      Number.isInteger(
+        Math.sqrt(number)
       )
     );
   }
 
 
-  /*
-  ==================================================
-  最大完全平方因數
-  ==================================================
-  */
-
   function getLargestSquareFactor(
     value
   ) {
 
-    value =
+    const number =
       Math.abs(
-        Number(
-          value
-        )
+        Number(value)
       );
 
 
     if (
-      !Number.isInteger(
-        value
-      ) ||
-      value <=
-      1
+      !Number.isInteger(number) ||
+      number <= 1
     ) {
 
       return 1;
     }
 
 
-    const maximumRoot =
-      Math.floor(
-        Math.sqrt(
-          value
-        )
-      );
-
-
     for (
       let root =
-        maximumRoot;
+        Math.floor(
+          Math.sqrt(number)
+        );
 
-      root >=
-        2;
+      root >= 2;
 
       root--
     ) {
 
       const square =
-        root *
-        root;
+        root * root;
 
 
       if (
-        value %
-        square ===
-        0
+        number % square === 0
       ) {
 
         return square;
@@ -332,49 +165,21 @@
   }
 
 
-  /*
-  ==================================================
-  是否為最簡根式
-  ==================================================
-  */
-
   function isSimplifiedRadicand(
     value
   ) {
 
-    value =
-      Number(
-        value
-      );
-
-
-    if (
-      !Number.isInteger(
-        value
-      ) ||
-      value <=
-      1
-    ) {
-
-      return false;
-    }
+    const number =
+      Number(value);
 
 
     return (
-      getLargestSquareFactor(
-        value
-      ) ===
-      1
+      Number.isInteger(number) &&
+      number > 1 &&
+      getLargestSquareFactor(number) === 1
     );
   }
 
-
-  /*
-  ==================================================
-  系統用化簡
-  不修改學生答案
-  ==================================================
-  */
 
   function simplifyRadical(
     coefficient,
@@ -382,26 +187,17 @@
   ) {
 
     coefficient =
-      Number(
-        coefficient
-      );
+      Number(coefficient);
 
 
     radicand =
-      Number(
-        radicand
-      );
+      Number(radicand);
 
 
     if (
-      !Number.isInteger(
-        coefficient
-      ) ||
-      !Number.isInteger(
-        radicand
-      ) ||
-      radicand <
-      0
+      !Number.isInteger(coefficient) ||
+      !Number.isInteger(radicand) ||
+      radicand < 0
     ) {
 
       return null;
@@ -409,35 +205,28 @@
 
 
     if (
-      coefficient ===
-        0 ||
-      radicand ===
-        0
+      coefficient === 0 ||
+      radicand === 0
     ) {
 
       return {
 
-        type:
-          "number",
+        type: "number",
 
-        value:
-          0
+        value: 0
       };
     }
 
 
     if (
-      radicand ===
-      1
+      radicand === 1
     ) {
 
       return {
 
-        type:
-          "number",
+        type: "number",
 
-        value:
-          coefficient
+        value: coefficient
       };
     }
 
@@ -446,23 +235,6 @@
       getLargestSquareFactor(
         radicand
       );
-
-
-    if (
-      squareFactor ===
-      1
-    ) {
-
-      return {
-
-        type:
-          "radical",
-
-        coefficient,
-
-        radicand
-      };
-    }
 
 
     const outside =
@@ -476,34 +248,31 @@
       squareFactor;
 
 
-    const newCoefficient =
+    const finalCoefficient =
       coefficient *
       outside;
 
 
     if (
-      remain ===
-      1
+      remain === 1
     ) {
 
       return {
 
-        type:
-          "number",
+        type: "number",
 
         value:
-          newCoefficient
+          finalCoefficient
       };
     }
 
 
     return {
 
-      type:
-        "radical",
+      type: "radical",
 
       coefficient:
-        newCoefficient,
+        finalCoefficient,
 
       radicand:
         remain
@@ -518,16 +287,13 @@
   */
 
   function mathWrap(
-    content,
-    className =
-      "math-expression"
+    content
   ) {
 
     return `
 
       <math
         xmlns="http://www.w3.org/1998/Math/MathML"
-        class="${className}"
       >
 
         ${content}
@@ -536,12 +302,6 @@
     `;
   }
 
-
-  /*
-  ==================================================
-  √數字
-  ==================================================
-  */
 
   function sqrtNumberHTML(
     value
@@ -554,23 +314,15 @@
         <msqrt>
 
           <mn>
-            ${escapeHtml(value)}
+            ${value}
           </mn>
 
         </msqrt>
 
-      `,
-
-      "math-radical"
+      `
     );
   }
 
-
-  /*
-  ==================================================
-  √分數
-  ==================================================
-  */
 
   function sqrtFractionHTML(
     numerator,
@@ -586,77 +338,33 @@
           <mfrac>
 
             <mn>
-              ${escapeHtml(numerator)}
+              ${numerator}
             </mn>
 
             <mn>
-              ${escapeHtml(denominator)}
+              ${denominator}
             </mn>
 
           </mfrac>
 
         </msqrt>
 
-      `,
-
-      "math-radical"
-    );
-  }
-
-
-  /*
-  ==================================================
-  √(a²)
-
-  ★ a² 完整放入根號內
-  ==================================================
-  */
-
-  function sqrtASquaredHTML() {
-
-    return mathWrap(
-
       `
-
-        <msqrt>
-
-          <msup>
-
-            <mi>a</mi>
-
-            <mn>2</mn>
-
-          </msup>
-
-        </msqrt>
-
-      `,
-
-      "math-radical"
     );
   }
 
-
-  /*
-  ==================================================
-  √(指定數字)²
-  ==================================================
-  */
 
   function sqrtSquareHTML(
     value
   ) {
 
     const number =
-      Number(
-        value
-      );
+      Number(value);
 
 
     const base =
 
-      number <
-      0
+      number < 0
 
         ? `
 
@@ -695,24 +403,18 @@
 
             ${base}
 
-            <mn>2</mn>
+            <mn>
+              2
+            </mn>
 
           </msup>
 
         </msqrt>
 
-      `,
-
-      "math-radical"
+      `
     );
   }
 
-
-  /*
-  ==================================================
-  一般根式
-  ==================================================
-  */
 
   function radicalToHTML(
     coefficient,
@@ -720,20 +422,15 @@
   ) {
 
     coefficient =
-      Number(
-        coefficient
-      );
+      Number(coefficient);
 
 
     radicand =
-      Number(
-        radicand
-      );
+      Number(radicand);
 
 
     if (
-      coefficient ===
-      0
+      coefficient === 0
     ) {
 
       return "0";
@@ -741,8 +438,7 @@
 
 
     if (
-      radicand ===
-      1
+      radicand === 1
     ) {
 
       return String(
@@ -755,27 +451,24 @@
     }
 
 
-    let coefficientMathML =
+    let coefficientPart =
       "";
 
 
     if (
-      coefficient ===
-      -1
+      coefficient === -1
     ) {
 
-      coefficientMathML =
+      coefficientPart =
         "<mo>−</mo>";
 
     } else if (
-      coefficient !==
-      1
+      coefficient !== 1
     ) {
 
-      coefficientMathML =
+      coefficientPart =
 
-        coefficient <
-        0
+        coefficient < 0
 
           ? `
 
@@ -803,7 +496,7 @@
 
         <mrow>
 
-          ${coefficientMathML}
+          ${coefficientPart}
 
           <msqrt>
 
@@ -815,9 +508,7 @@
 
         </mrow>
 
-      `,
-
-      "math-radical"
+      `
     );
   }
 
@@ -831,8 +522,7 @@
   class RadicalInput {
 
     constructor(
-      options =
-        {}
+      options = {}
     ) {
 
       this.options =
@@ -853,13 +543,9 @@
       ) {
 
         throw new Error(
-          `RadicalInput 找不到掛載位置：${this.options.mountId}`
+          `RadicalInput 找不到：${this.options.mountId}`
         );
       }
-
-
-      this.mode =
-        this.options.mode;
 
 
       this.render();
@@ -880,7 +566,7 @@
 
       this.root =
         document.createElement(
-          "section"
+          "div"
         );
 
 
@@ -889,19 +575,19 @@
 
 
       this.root.style.setProperty(
-        "--radical-primary",
+        "--ri-primary",
         this.options.theme.primary
       );
 
 
       this.root.style.setProperty(
-        "--radical-light",
+        "--ri-light",
         this.options.theme.light
       );
 
 
       this.root.style.setProperty(
-        "--radical-border",
+        "--ri-border",
         this.options.theme.border
       );
 
@@ -923,13 +609,7 @@
           }
 
 
-          /*
-          ==============================================
-          Editor
-          ==============================================
-          */
-
-          .radical-input__editor {
+          .ri-editor {
 
             display:
               flex;
@@ -941,21 +621,21 @@
               flex-end;
 
             gap:
-              12px;
+              14px;
 
             flex-wrap:
               wrap;
           }
 
 
-          .radical-input__field {
+          .ri-field {
 
             text-align:
               center;
           }
 
 
-          .radical-input__field label {
+          .ri-field label {
 
             display:
               block;
@@ -974,23 +654,21 @@
           }
 
 
-          .radical-input__field input,
-          .radical-input__field select {
+          .ri-field input,
+          .ri-field select {
 
             height:
-              54px;
+              56px;
 
             padding:
-              8px 10px;
+              8px;
 
             border:
               2px solid
-              var(
-                --radical-border
-              );
+              var(--ri-border);
 
             border-radius:
-              11px;
+              10px;
 
             background:
               white;
@@ -1012,27 +690,11 @@
           }
 
 
-          .radical-input__field select {
-
-            min-width:
-              92px;
-          }
-
-
-          .radical-input__coefficient {
-
-            width:
-              150px;
-          }
-
-
-          .radical-input__field input:focus,
-          .radical-input__field select:focus {
+          .ri-field input:focus,
+          .ri-field select:focus {
 
             border-color:
-              var(
-                --radical-primary
-              );
+              var(--ri-primary);
 
             box-shadow:
               0 0 0 4px
@@ -1045,27 +707,43 @@
           }
 
 
+          .ri-sign {
+
+            width:
+              92px;
+          }
+
+
+          .ri-coefficient {
+
+            width:
+              145px;
+          }
+
+
           /*
-          ==============================================
-          ★ 根號內答案框
+          ==================================================
+          根號輸入
+          ==================================================
 
-          紙本樣式：
+                   ━━━━━━━━━━━━━
+                  √  [答案]
 
-             ___________
-            √ [答案輸入]
-
-          橫線真正涵蓋輸入格
-          ==============================================
+          重點：
+          1. 橫線加粗
+          2. 橫線往左延伸
+          3. 與根號斜線重疊
+          ==================================================
           */
 
-          .radical-input__radicand-group {
+          .ri-radicand-block {
 
             text-align:
               center;
           }
 
 
-          .radical-input__radicand-label {
+          .ri-radicand-label {
 
             display:
               block;
@@ -1084,7 +762,10 @@
           }
 
 
-          .radical-input__sqrt-entry {
+          .ri-sqrt-entry {
+
+            position:
+              relative;
 
             display:
               inline-flex;
@@ -1092,22 +773,23 @@
             align-items:
               flex-end;
 
-            position:
-              relative;
+            /*
+            上方留空間給根號橫線
+            */
 
-            padding-left:
-              29px;
+            padding:
+              13px 2px 0 35px;
 
-            padding-top:
-              10px;
+            min-height:
+              69px;
           }
 
 
           /*
-          根號符號
+          根號本體
           */
 
-          .radical-input__sqrt-entry::before {
+          .ri-sqrt-entry::before {
 
             content:
               "√";
@@ -1115,11 +797,19 @@
             position:
               absolute;
 
+            /*
+            往右一點，
+            讓斜線頂端與橫線重疊
+            */
+
             left:
-              0;
+              2px;
 
             bottom:
-              2px;
+              -1px;
+
+            z-index:
+              2;
 
             color:
               #0f172a;
@@ -1131,10 +821,10 @@
               serif;
 
             font-size:
-              53px;
+              61px;
 
             font-weight:
-              400;
+              500;
 
             line-height:
               1;
@@ -1142,10 +832,14 @@
 
 
           /*
-          根號上方橫線
+          根號橫線
+
+          ★ 4px
+          ★ 往左延伸到根號頂端
+          ★ 避免中間斷掉
           */
 
-          .radical-input__sqrt-entry::after {
+          .ri-sqrt-entry::after {
 
             content:
               "";
@@ -1154,44 +848,51 @@
               absolute;
 
             left:
-              27px;
+              28px;
 
             right:
-              1px;
+              0;
 
             top:
               8px;
 
+            z-index:
+              3;
+
             height:
-              3px;
+              4px;
 
             border-radius:
-              2px;
+              2px 2px 0 0;
 
             background:
               #0f172a;
           }
 
 
-          .radical-input__radicand-input {
+          .ri-radicand {
+
+            position:
+              relative;
+
+            z-index:
+              1;
 
             width:
               180px;
 
             height:
-              54px;
+              56px;
 
             padding:
-              8px 10px;
+              8px;
 
             border:
               2px solid
-              var(
-                --radical-border
-              );
+              var(--ri-border);
 
             border-radius:
-              9px;
+              8px;
 
             background:
               white;
@@ -1213,12 +914,10 @@
           }
 
 
-          .radical-input__radicand-input:focus {
+          .ri-radicand:focus {
 
             border-color:
-              var(
-                --radical-primary
-              );
+              var(--ri-primary);
 
             box-shadow:
               0 0 0 4px
@@ -1232,18 +931,18 @@
 
 
           /*
-          ==============================================
-          Message
-          ==============================================
+          ==================================================
+          提醒
+          ==================================================
           */
 
-          .radical-input__message {
+          .ri-message {
 
             min-height:
               28px;
 
             margin-top:
-              14px;
+              13px;
 
             color:
               #b45309;
@@ -1255,37 +954,33 @@
               900;
 
             line-height:
-              1.65;
+              1.6;
           }
 
 
           /*
-          ==============================================
-          Preview
-          ==============================================
+          ==================================================
+          即時預覽
+          ==================================================
           */
 
-          .radical-input__preview {
+          .ri-preview {
 
             margin-top:
               14px;
 
             padding:
-              13px;
+              14px;
 
             border:
               2px solid
-              var(
-                --radical-border
-              );
+              var(--ri-border);
 
             border-radius:
-              12px;
+              13px;
 
             background:
-              var(
-                --radical-light
-              );
+              var(--ri-light);
 
             color:
               #334155;
@@ -1301,7 +996,7 @@
           }
 
 
-          .radical-input__preview strong {
+          .ri-preview-answer {
 
             display:
               inline-flex;
@@ -1310,22 +1005,20 @@
               center;
 
             margin-left:
-              6px;
+              8px;
 
             color:
-              var(
-                --radical-primary
-              );
+              var(--ri-primary);
 
             font-size:
               27px;
           }
 
 
-          .radical-input__preview math {
+          .ri-preview-answer math {
 
             font-size:
-              1.18em;
+              1.15em;
           }
 
 
@@ -1340,24 +1033,31 @@
             max-width:600px
           ) {
 
-            .radical-input__editor {
+            .ri-editor {
 
               gap:
                 8px;
             }
 
 
-            .radical-input__coefficient {
+            .ri-coefficient {
 
               width:
-                112px;
+                105px;
             }
 
 
-            .radical-input__radicand-input {
+            .ri-radicand {
 
               width:
                 130px;
+            }
+
+
+            .ri-sqrt-entry {
+
+              padding-left:
+                34px;
             }
 
           }
@@ -1365,21 +1065,86 @@
         </style>
 
 
+        <div class="ri-editor">
+
+
+          <div class="ri-field">
+
+            <label>
+              正負號
+            </label>
+
+            <select
+              id="ri-sign"
+              class="ri-sign"
+            >
+
+              <option value="1">
+                ＋
+              </option>
+
+              <option value="-1">
+                －
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="ri-field">
+
+            <label>
+              根號外係數
+            </label>
+
+            <input
+              id="ri-coefficient"
+              class="ri-coefficient"
+              type="text"
+              inputmode="numeric"
+              autocomplete="off"
+              value="1"
+            >
+
+          </div>
+
+
+          <div class="ri-radicand-block">
+
+            <label class="ri-radicand-label">
+              根號內
+            </label>
+
+
+            <div class="ri-sqrt-entry">
+
+              <input
+                id="ri-radicand"
+                class="ri-radicand"
+                type="text"
+                inputmode="numeric"
+                autocomplete="off"
+                placeholder="輸入"
+              >
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+
         <div
-          id="radical-editor"
-          class="radical-input__editor"
+          id="ri-message"
+          class="ri-message"
         ></div>
 
 
         <div
-          id="radical-message"
-          class="radical-input__message"
-        ></div>
-
-
-        <div
-          id="radical-preview"
-          class="radical-input__preview"
+          id="ri-preview"
+          class="ri-preview"
         >
 
           目前尚未完成答案。
@@ -1393,296 +1158,33 @@
       );
 
 
-      this.editor =
-        this.root.querySelector(
-          "#radical-editor"
-        );
-
-
-      this.message =
-        this.root.querySelector(
-          "#radical-message"
-        );
-
-
-      this.preview =
-        this.root.querySelector(
-          "#radical-preview"
-        );
-
-
-      if (
-        this.mode ===
-        "signedNumber"
-      ) {
-
-        this.renderSignedNumber();
-
-      } else {
-
-        this.renderRadical();
-      }
-
-
-      this.updatePreview();
-    }
-
-
-    /*
-    ==================================================
-    Signed Number
-    ==================================================
-    */
-
-    renderSignedNumber() {
-
-      this.editor.innerHTML = `
-
-        <div class="radical-input__field">
-
-          <label>
-            ${escapeHtml(
-              this.options.labels.sign
-            )}
-          </label>
-
-          <select
-            id="radical-sign"
-          ></select>
-
-        </div>
-
-
-        <div class="radical-input__field">
-
-          <label>
-            ${escapeHtml(
-              this.options.labels.value
-            )}
-          </label>
-
-          <input
-            id="radical-value"
-            type="text"
-            inputmode="numeric"
-            autocomplete="off"
-          >
-
-        </div>
-      `;
-
-
       this.signInput =
         this.root.querySelector(
-          "#radical-sign"
-        );
-
-
-      this.valueInput =
-        this.root.querySelector(
-          "#radical-value"
-        );
-
-
-      const signs =
-        [];
-
-
-      if (
-        this.options.allowPositive
-      ) {
-
-        signs.push(
-          [
-            "1",
-            "＋"
-          ]
-        );
-      }
-
-
-      if (
-        this.options.allowNegative
-      ) {
-
-        signs.push(
-          [
-            "-1",
-            "－"
-          ]
-        );
-      }
-
-
-      if (
-        this.options.allowPlusMinus
-      ) {
-
-        signs.push(
-          [
-            "pm",
-            "±"
-          ]
-        );
-      }
-
-
-      this.signInput.innerHTML =
-        signs
-          .map(
-            (
-              [
-                value,
-                text
-              ]
-            ) => `
-
-              <option
-                value="${value}"
-              >
-                ${text}
-              </option>
-            `
-          )
-          .join("");
-
-
-      [
-        this.signInput,
-        this.valueInput
-      ]
-        .forEach(
-          element => {
-
-            element.addEventListener(
-              "input",
-              () => {
-
-                this.clearMessage();
-
-                this.updatePreview();
-
-                this.emitChange();
-              }
-            );
-
-
-            element.addEventListener(
-              "change",
-              () => {
-
-                this.clearMessage();
-
-                this.updatePreview();
-
-                this.emitChange();
-              }
-            );
-          }
-        );
-    }
-
-
-    /*
-    ==================================================
-    Radical
-
-    ★ 根號橫線包住輸入框
-    ==================================================
-    */
-
-    renderRadical() {
-
-      this.editor.innerHTML = `
-
-        <div class="radical-input__field">
-
-          <label>
-            ${escapeHtml(
-              this.options.labels.sign
-            )}
-          </label>
-
-          <select
-            id="radical-sign"
-          >
-
-            <option value="1">
-              ＋
-            </option>
-
-            <option value="-1">
-              －
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <div class="radical-input__field">
-
-          <label>
-            ${escapeHtml(
-              this.options.labels.coefficient
-            )}
-          </label>
-
-          <input
-            id="radical-coefficient"
-            class="radical-input__coefficient"
-            type="text"
-            inputmode="numeric"
-            autocomplete="off"
-            value="1"
-          >
-
-        </div>
-
-
-        <div class="radical-input__radicand-group">
-
-          <label
-            class="radical-input__radicand-label"
-            for="radical-radicand"
-          >
-            ${escapeHtml(
-              this.options.labels.radicand
-            )}
-          </label>
-
-
-          <div class="radical-input__sqrt-entry">
-
-            <input
-              id="radical-radicand"
-              class="radical-input__radicand-input"
-              type="text"
-              inputmode="numeric"
-              autocomplete="off"
-            >
-
-          </div>
-
-        </div>
-      `;
-
-
-      this.signInput =
-        this.root.querySelector(
-          "#radical-sign"
+          "#ri-sign"
         );
 
 
       this.coefficientInput =
         this.root.querySelector(
-          "#radical-coefficient"
+          "#ri-coefficient"
         );
 
 
       this.radicandInput =
         this.root.querySelector(
-          "#radical-radicand"
+          "#ri-radicand"
+        );
+
+
+      this.message =
+        this.root.querySelector(
+          "#ri-message"
+        );
+
+
+      this.preview =
+        this.root.querySelector(
+          "#ri-preview"
         );
 
 
@@ -1701,8 +1203,6 @@
                 this.clearMessage();
 
                 this.updatePreview();
-
-                this.emitChange();
               }
             );
 
@@ -1714,95 +1214,23 @@
                 this.clearMessage();
 
                 this.updatePreview();
-
-                this.emitChange();
               }
             );
           }
         );
+
+
+      this.updatePreview();
     }
 
 
     /*
     ==================================================
-    Get value
+    取得答案
     ==================================================
     */
 
     getValue() {
-
-      if (
-        this.mode ===
-        "signedNumber"
-      ) {
-
-        const raw =
-          this.valueInput
-            ?.value
-            .trim() ||
-          "";
-
-
-        if (
-          !/^\d+$/
-            .test(
-              raw
-            )
-        ) {
-
-          return {
-
-            valid:
-              false,
-
-            mode:
-              "signedNumber"
-          };
-        }
-
-
-        const number =
-          Number(
-            raw
-          );
-
-
-        const sign =
-          this.signInput
-            ?.value ||
-          "1";
-
-
-        return {
-
-          valid:
-            true,
-
-          mode:
-            "signedNumber",
-
-          sign,
-
-          number,
-
-          display:
-
-            sign ===
-            "pm"
-
-              ? `±${number}`
-
-              : sign ===
-                "-1"
-
-                ? `−${number}`
-
-                : String(
-                    number
-                  )
-        };
-      }
-
 
       const coefficientRaw =
         this.coefficientInput
@@ -1832,10 +1260,7 @@
         return {
 
           valid:
-            false,
-
-          mode:
-            "radical"
+            false
         };
       }
 
@@ -1854,9 +1279,7 @@
 
       const sign =
         Number(
-          this.signInput
-            ?.value ||
-          1
+          this.signInput.value
         );
 
 
@@ -1869,9 +1292,6 @@
 
         valid:
           true,
-
-        mode:
-          "radical",
 
         coefficient,
 
@@ -1892,7 +1312,7 @@
 
     /*
     ==================================================
-    Validate
+    驗證
     ==================================================
     */
 
@@ -1906,113 +1326,22 @@
         !value.valid
       ) {
 
-        const message =
-          "請把答案輸入完整。";
-
-
-        this.showMessage(
-          message
+        return this.fail(
+          "incomplete",
+          "請把根式答案輸入完整。"
         );
-
-
-        return {
-
-          valid:
-            false,
-
-          reason:
-            "incomplete",
-
-          message,
-
-          value
-        };
       }
 
-
-      if (
-        this.mode ===
-        "signedNumber"
-      ) {
-
-        if (
-          value.number ===
-            0 &&
-          !this.options.allowZero
-        ) {
-
-          const message =
-            "此題答案不能是 0。";
-
-
-          this.showMessage(
-            message
-          );
-
-
-          return {
-
-            valid:
-              false,
-
-            reason:
-              "zero-not-allowed",
-
-            message,
-
-            value
-          };
-        }
-
-
-        this.clearMessage();
-
-
-        return {
-
-          valid:
-            true,
-
-          reason:
-            "ok",
-
-          value
-        };
-      }
-
-
-      /*
-      --------------------------------------------------
-      Radical
-      --------------------------------------------------
-      */
 
       if (
         value.absoluteCoefficient ===
         0
       ) {
 
-        const message =
-          "⚠️ 係數為 0 時應直接整理成 0。";
-
-
-        this.showMessage(
-          message
+        return this.fail(
+          "zero-coefficient",
+          "⚠️ 根號外係數若為 0，答案應直接整理成 0。"
         );
-
-
-        return {
-
-          valid:
-            false,
-
-          reason:
-            "radical-equals-zero",
-
-          message,
-
-          value
-        };
       }
 
 
@@ -2021,27 +1350,10 @@
         0
       ) {
 
-        const message =
-          "⚠️ 根號內請輸入正整數。";
-
-
-        this.showMessage(
-          message
+        return this.fail(
+          "invalid-radicand",
+          "⚠️ 根號內請輸入正整數。"
         );
-
-
-        return {
-
-          valid:
-            false,
-
-          reason:
-            "invalid-radicand",
-
-          message,
-
-          value
-        };
       }
 
 
@@ -2050,35 +1362,12 @@
         this.options.maxRadicand
       ) {
 
-        const message =
-          `根號內請勿超過 ${this.options.maxRadicand}。`;
-
-
-        this.showMessage(
-          message
+        return this.fail(
+          "too-large",
+          `⚠️ 根號內請勿超過 ${this.options.maxRadicand}。`
         );
-
-
-        return {
-
-          valid:
-            false,
-
-          reason:
-            "radicand-too-large",
-
-          message,
-
-          value
-        };
       }
 
-
-      /*
-      --------------------------------------------------
-      最簡根式
-      --------------------------------------------------
-      */
 
       if (
         this.options
@@ -2090,27 +1379,10 @@
           1
         ) {
 
-          const message =
-            "⚠️ √1 可以直接化成整數，請整理成最簡形式。";
-
-
-          this.showMessage(
-            message
+          return this.fail(
+            "radical-is-integer",
+            "⚠️ √1 可以直接化為整數，請再整理答案。"
           );
-
-
-          return {
-
-            valid:
-              false,
-
-            reason:
-              "radical-can-be-integer",
-
-            message,
-
-            value
-          };
         }
 
 
@@ -2125,29 +1397,10 @@
           1
         ) {
 
-          const message =
-            `⚠️ √${value.radicand} 還可以繼續化簡，請將答案整理成最簡根式後再提交。`;
-
-
-          this.showMessage(
-            message
+          return this.fail(
+            "not-simplified",
+            `⚠️ √${value.radicand} 還可以繼續化簡，請整理成最簡根式後再提交。`
           );
-
-
-          return {
-
-            valid:
-              false,
-
-            reason:
-              "radical-not-simplified",
-
-            squareFactor,
-
-            message,
-
-            value
-          };
         }
       }
 
@@ -2160,17 +1413,36 @@
         valid:
           true,
 
-        reason:
-          "ok",
-
         value
+      };
+    }
+
+
+    fail(
+      reason,
+      message
+    ) {
+
+      this.showMessage(
+        message
+      );
+
+
+      return {
+
+        valid:
+          false,
+
+        reason,
+
+        message
       };
     }
 
 
     /*
     ==================================================
-    Preview
+    即時預覽
     ==================================================
     */
 
@@ -2192,18 +1464,40 @@
       }
 
 
-      this.preview.innerHTML =
-        `${escapeHtml(
-          this.options.labels.preview
-        )}：<strong>${value.display}</strong>`;
+      this.preview.innerHTML = `
+
+        目前答案：
+
+        <span class="ri-preview-answer">
+
+          ${value.display}
+
+        </span>
+      `;
     }
 
 
     /*
     ==================================================
-    Public
+    公開操作
     ==================================================
     */
+
+    showMessage(
+      message
+    ) {
+
+      this.message.textContent =
+        message;
+    }
+
+
+    clearMessage() {
+
+      this.message.textContent =
+        "";
+    }
+
 
     setDisabled(
       disabled
@@ -2211,7 +1505,7 @@
 
       this.root
         .querySelectorAll(
-          "input,select,button"
+          "input, select"
         )
         .forEach(
           element => {
@@ -2237,76 +1531,16 @@
 
     focus() {
 
-      if (
-        this.mode ===
-        "signedNumber"
-      ) {
-
-        this.valueInput
-          ?.focus();
-
-      } else {
-
-        this.radicandInput
-          ?.focus();
-      }
+      this.radicandInput
+        ?.focus();
     }
 
-
-    reset() {
-
-      this.render();
-    }
-
-
-    showMessage(
-      message
-    ) {
-
-      if (
-        this.message
-      ) {
-
-        this.message.textContent =
-          String(
-            message ||
-            ""
-          );
-      }
-    }
-
-
-    clearMessage() {
-
-      if (
-        this.message
-      ) {
-
-        this.message.textContent =
-          "";
-      }
-    }
-
-
-    emitChange() {
-
-      if (
-        typeof this.options.onChange ===
-        "function"
-      ) {
-
-        this.options.onChange(
-          this.getValue(),
-          this
-        );
-      }
-    }
   }
 
 
   /*
   ==================================================
-  對外
+  公開
   ==================================================
   */
 
@@ -2331,8 +1565,6 @@
     sqrtNumberHTML,
 
     sqrtFractionHTML,
-
-    sqrtASquaredHTML,
 
     sqrtSquareHTML,
 
