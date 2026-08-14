@@ -248,7 +248,7 @@
       min-height: 1.55em;
 
       padding:
-        .15em .10em .02em .72em;
+        .15em .10em .02em .78em;
 
       margin:
         0 .04em;
@@ -279,7 +279,7 @@
       stroke:
         currentColor;
 
-      stroke-width: 3.2;
+      stroke-width: 3.6;
 
       stroke-linejoin: round;
       stroke-linecap: round;
@@ -2357,10 +2357,11 @@ function sqrtDisplay(
         <path
           class="display-radical-path"
           d="
-            M 2 37
-            L 8 37
-            L 14 55
-            L 26 8
+            M 1 37
+            L 7 37
+            L 13 51
+            L 18 58
+            L 29 8
             L 98 8
           "
         />
@@ -3225,11 +3226,15 @@ function makeSimpleRationalize() {
 
     [
 
-      `分子、分母同乘 √${r}`,
+      `原式的分母含有 √${r}，所以分子、分母同乘 √${r}。`,
 
-      `＝${n}√${r}/${r}`,
+      `分子：${n}×√${r}＝${n}√${r}。`,
 
-      "最後再約成最簡形式。"
+      `分母：√${r}×√${r}＝${r}。`,
+
+      `因此得到 ${n}√${r}／${r}。`,
+
+      `最後檢查分子係數 ${n} 與分母 ${r} 是否還能約分，整理成最簡形式。`
     ],
 
     "請將分母有理化"
@@ -4519,17 +4524,19 @@ function makeMode4E() {
 
       [
 
-        `分母為 √${a}－${b}，`,
+        `原式分母為 √${a}－${b}，要利用平方差公式有理化分母。`,
 
-        `分子、分母同乘
-         √${a}＋${b}。`,
+        `分子、分母同乘共軛式 √${a}＋${b}。`,
 
-        `分母：
-         ${a}－${b * b}
-         ＝${d}`,
+        `分子：${d}(√${a}＋${b})＝${d}√${a}＋${d * b}。`,
 
-        `約分後答案為
-         √${a}＋${b}。`
+        `分母：(√${a}－${b})(√${a}＋${b})＝(√${a})²－${b}²。`,
+
+        `分母＝${a}－${b * b}＝${d}。`,
+
+        `所以原式＝(${d}√${a}＋${d * b})／${d}。`,
+
+        `分子、分母同除以 ${d}，得到 √${a}＋${b}。`
       ],
 
       "請利用平方差公式有理化分母"
@@ -4663,17 +4670,17 @@ function makeMode4E() {
 
     [
 
-      `分母為
-       √${a}＋√${b}，`,
+      `原式分母為 √${a}＋√${b}，所以分子、分母同乘共軛式 √${a}－√${b}。`,
 
-      `分子、分母同乘
-       √${a}－√${b}。`,
+      `分子：√${n}(√${a}－√${b})＝√${n * a}－√${n * b}。`,
 
-      `分母：
-       ${a}－${b}
-       ＝1。`,
+      `再分別把 √${n * a} 與 √${n * b} 化成最簡根式。`,
 
-      "再將分子乘開並化簡。"
+      `分母：(√${a}＋√${b})(√${a}－√${b})＝(√${a})²－(√${b})²。`,
+
+      `分母＝${a}－${b}＝${denominator}。`,
+
+      `最後將化簡後的分子除以 ${denominator}，並合併、約分成最簡形式。`
     ],
 
     "請利用平方差公式有理化分母"
@@ -5168,6 +5175,50 @@ function radicalPieceHTML(
 
 /*
 ==================================================
+依照學生填答順序顯示 Expression
+判分仍會另外標準化，因此交換根式順序也能判對。
+==================================================
+*/
+
+function expressionDisplayInInputOrder(
+  constant,
+  radicals
+) {
+
+  const parts = [];
+
+  if (constant !== 0) {
+    parts.push({
+      sign: constant < 0 ? "−" : "+",
+      html: String(Math.abs(constant))
+    });
+  }
+
+  radicals.forEach(term => {
+    if (!term.coefficient) return;
+    parts.push({
+      sign: term.coefficient < 0 ? "−" : "+",
+      html: radicalDisplay(Math.abs(term.coefficient), term.radicand)
+    });
+  });
+
+  if (!parts.length) return "0";
+
+  return `
+    <span class="math-expression">
+      ${parts.map((part, i) => `
+        <span>
+          ${i === 0 && part.sign === "+" ? "" : part.sign}
+          ${part.html}
+        </span>
+      `).join("")}
+    </span>
+  `;
+}
+
+
+/*
+==================================================
 讀取 Expression UI
 ==================================================
 */
@@ -5386,13 +5437,15 @@ function readExpressionInputs(
 
     constant,
 
+    // 判分用：標準化後依根號內排序
     radicals:
       normalizeRadicalTerms(
         radicals
       ),
 
+    // 顯示用：保留學生實際填答順序
     display:
-      expressionDisplay(
+      expressionDisplayInInputOrder(
         constant,
         radicals
       )
@@ -6557,6 +6610,19 @@ function correctAnswerText(
 ==================================================
 */
 
+function formatExplanationMath(step) {
+
+  // 詳解中的 √n 全部改用與題目相同的 SVG 根號，
+  // 避免瀏覽器字型造成根號上橫線缺失。
+  return String(step)
+    .replace(
+      /√\s*\(?\s*(\d+)\s*\)?/g,
+      (_, n) => sqrtDisplay(n)
+    )
+    .replace(/\n/g, "<br>");
+}
+
+
 function explanationHTML(
   question
 ) {
@@ -6575,7 +6641,7 @@ function explanationHTML(
             步驟 ${i + 1}｜
           </strong>
 
-          ${step}
+          ${formatExplanationMath(step)}
 
         </div>
 
