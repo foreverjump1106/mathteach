@@ -1373,7 +1373,23 @@
 
 
     .explanation-step {
-      margin: 7px 0;
+      margin: 12px 0;
+    }
+
+    .explanation-math-line {
+      display: flex;
+      align-items: center;
+      flex-wrap: nowrap;
+      gap: .12em;
+      margin-top: 5px;
+      overflow-x: auto;
+      white-space: nowrap;
+      font-family: "Cambria Math", "Times New Roman", serif;
+      font-size: 1.08em;
+    }
+
+    .explanation-math-line .display-radical {
+      flex: 0 0 auto;
     }
 
 
@@ -4219,10 +4235,12 @@ function makeMode4B() {
     ],
 
     [
-
-      "分母含根號，可以整體有理化。",
-
-      `各項除以 √${s} 後整理成最簡根式。`
+      `原式＝( ${a}√${r * s}＋${s}√${r} )／√${s}。先把分子中的兩項分別除以 √${s}。`,
+      `＝ ${a}×(√${r * s}／√${s}) ＋ ${s}×(√${r}／√${s})。`,
+      `第一項：√${r * s}／√${s}＝√(${r * s}÷${s})＝√${r}，所以得到 ${a}√${r}。`,
+      `第二項的分母仍有根號，因此分子、分母同乘 √${s}：${s}√${r}／√${s}＝${s}√${r}×√${s}／(√${s}×√${s})。`,
+      `＝${s}√${r * s}／${s}＝√${r * s}。`,
+      `所以原式＝${a}√${r}＋√${r * s}。若根號內還能化簡，再化成最簡根式；若不是同類方根則不能合併。`
     ],
 
     "請計算並化為最簡根式"
@@ -4311,20 +4329,11 @@ function makeMode4C() {
     ],
 
     [
-
-      `利用
-       (a＋b)²
-       ＝a²＋2ab＋b²。`,
-
-      `${outside}²
-       ＋
-       2×${outside}×√${b}
-       ＋
-       (√${b})²`,
-
-      `＝${constant}
-       ＋
-       ${middleCoefficient}√${b}`
+      `利用完全平方公式 (a＋b)²＝a²＋2ab＋b²。`,
+      `(${outside}＋√${b})²＝${outside}²＋2×${outside}×√${b}＋(√${b})²。`,
+      `＝${outside * outside}＋${middleCoefficient}√${b}＋${b}。`,
+      `先合併整數部分：${outside * outside}＋${b}＝${constant}。`,
+      `所以原式＝${constant}＋${middleCoefficient}√${b}。`
     ],
 
     "請利用完全平方公式展開並化簡"
@@ -6677,21 +6686,23 @@ function formatExplanationMath(step) {
   */
 
   if (source.includes("<")) {
-    return source;
+    return `<div class="explanation-math-line">${source}</div>`;
   }
 
   let escaped = source
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
-    .replace(/\n/g, "<br>");
+    .replace(/\s*\n\s*/g, " ")
+    .replace(/\s{2,}/g, " ")
+    .trim();
 
   escaped = escaped.replace(
     /√\s*\(?\s*(\d+)\s*\)?/g,
     (_, n) => sqrtDisplay(String(n))
   );
 
-  return escaped;
+  return `<div class="explanation-math-line">${escaped}</div>`;
 }
 
 
