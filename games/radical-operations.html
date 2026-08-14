@@ -4140,28 +4140,35 @@ B
 
 function makeMode4B() {
 
-  const r =
+  /*
+  ==================================================
+  單一根式分母的乘除混合題
+
+  解題方向統一採用課本式：
+  1. 分子、分母同乘分母的根式
+  2. 先讓分母有理化成整數
+  3. 分子再利用分配律做根式乘法
+  4. 化成最簡根式
+  5. 最後約分整理
+  ==================================================
+  */
+
+  const [
+    r,
+    s
+  ] =
     pick(
       [
-        2,
-        3,
-        5
+        [2,3],
+        [2,5],
+        [2,7],
+        [3,2],
+        [3,5],
+        [3,7],
+        [5,2],
+        [5,3],
+        [5,7]
       ]
-    );
-
-
-  const s =
-    pick(
-      [
-        2,
-        3,
-        5,
-        6
-      ].filter(
-        value =>
-          value !==
-          r
-      )
     );
 
 
@@ -4172,51 +4179,168 @@ function makeMode4B() {
     );
 
 
-  /*
-  (a√r + √(rs)) ÷ √s
+  const rs =
+    r * s;
 
-  第一項可能變 a√(r/s)，不好。
-  改成：
-  (a√(rs) + s√r) ÷ √s
-  =
-  a√r + √(rs)
-  */
+
+  const originalNumerator = `
+
+    <span class="math-expression">
+
+      ${radicalDisplay(
+        a,
+        rs
+      )}
+
+      <span>＋</span>
+
+      ${radicalDisplay(
+        s,
+        r
+      )}
+
+    </span>
+  `;
+
+
+  const originalFraction =
+    fractionDisplay(
+      originalNumerator,
+      sqrtDisplay(s)
+    );
+
+
+  const rationalizingFactor =
+    fractionDisplay(
+      sqrtDisplay(s),
+      sqrtDisplay(s)
+    );
+
+
+  const multipliedNumerator = `
+
+    <span class="math-expression">
+
+      <span>(</span>
+
+      ${radicalDisplay(
+        a,
+        rs
+      )}
+
+      <span>＋</span>
+
+      ${radicalDisplay(
+        s,
+        r
+      )}
+
+      <span>)</span>
+
+      ${sqrtDisplay(s)}
+
+    </span>
+  `;
+
+
+  const distributedNumerator = `
+
+    <span class="math-expression">
+
+      ${radicalDisplay(
+        a,
+        rs
+      )}
+
+      <span>×</span>
+
+      ${sqrtDisplay(s)}
+
+      <span>＋</span>
+
+      ${radicalDisplay(
+        s,
+        r
+      )}
+
+      <span>×</span>
+
+      ${sqrtDisplay(s)}
+
+    </span>
+  `;
+
+
+  const rootProductNumerator = `
+
+    <span class="math-expression">
+
+      ${a}
+
+      ${sqrtDisplay(
+        rs * s
+      )}
+
+      <span>＋</span>
+
+      ${s}
+
+      ${sqrtDisplay(rs)}
+
+    </span>
+  `;
+
+
+  const simplifiedNumerator = `
+
+    <span class="math-expression">
+
+      ${radicalDisplay(
+        a * s,
+        r
+      )}
+
+      <span>＋</span>
+
+      ${radicalDisplay(
+        s,
+        rs
+      )}
+
+    </span>
+  `;
+
+
+  const finalAnswer =
+    expressionDisplay(
+      0,
+      [
+        {
+          coefficient:
+            a,
+
+          radicand:
+            r
+        },
+
+        {
+          coefficient:
+            1,
+
+          radicand:
+            rs
+        }
+      ]
+    );
+
 
   return expressionQuestion(
 
-    `
-
-      ${fractionDisplay(
-
-        `
-
-          <span class="math-expression">
-
-            ${radicalDisplay(
-              a,
-              r * s
-            )}
-
-            <span>＋</span>
-
-            ${radicalDisplay(
-              s,
-              r
-            )}
-
-          </span>
-        `,
-
-        sqrtDisplay(
-          s
-        )
-      )}
-    `,
+    originalFraction,
 
     0,
 
     [
-
       {
         coefficient:
           a,
@@ -4230,17 +4354,35 @@ function makeMode4B() {
           1,
 
         radicand:
-          r * s
+          rs
       }
     ],
 
     [
-      `原式＝( ${a}√${r * s}＋${s}√${r} )／√${s}。先把分子中的兩項分別除以 √${s}。`,
-      `＝ ${a}×(√${r * s}／√${s}) ＋ ${s}×(√${r}／√${s})。`,
-      `第一項：√${r * s}／√${s}＝√(${r * s}÷${s})＝√${r}，所以得到 ${a}√${r}。`,
-      `第二項的分母仍有根號，因此分子、分母同乘 √${s}：${s}√${r}／√${s}＝${s}√${r}×√${s}／(√${s}×√${s})。`,
-      `＝${s}√${r * s}／${s}＝√${r * s}。`,
-      `所以原式＝${a}√${r}＋√${r * s}。若根號內還能化簡，再化成最簡根式；若不是同類方根則不能合併。`
+
+      `分母是 ${sqrtDisplay(s)}，為了使分母成為整數，分子、分母同乘 ${sqrtDisplay(s)}。`,
+
+      `
+        ${originalFraction}
+        <span style="margin:0 .35em;">×</span>
+        ${rationalizingFactor}
+      `,
+
+      `先計算分母：${sqrtDisplay(s)}×${sqrtDisplay(s)}＝${s}。`,
+
+      `分子整體同乘 ${sqrtDisplay(s)}：${multipliedNumerator}。`,
+
+      `利用分配律將分子乘開：${distributedNumerator}。`,
+
+      `做根式乘法：${rootProductNumerator}。`,
+
+      `因為 ${sqrtDisplay(rs * s)}＝${s}${sqrtDisplay(r)}，所以分子化簡為 ${simplifiedNumerator}。`,
+
+      `因此原式＝${fractionDisplay(simplifiedNumerator, String(s))}。`,
+
+      `分子兩項都有公因數 ${s}，與分母 ${s} 約分後，得到 ${finalAnswer}。`,
+
+      `最後檢查：各根式都已是最簡根式；若兩項不是同類方根，就不能再合併。`
     ],
 
     "請計算並化為最簡根式"
