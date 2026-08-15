@@ -31,7 +31,7 @@
     :root {
 
       --primary: #0288d1;
-      --primary-dark: #01579b;
+      --primary-dark: #0277bd;
       --primary-light: #e1f5fe;
       --primary-border: #81d4fa;
 
@@ -41,6 +41,8 @@
       --success: #15803d;
       --danger: #b91c1c;
       --warning: #b45309;
+
+      --restart: #00897b;
     }
 
 
@@ -63,24 +65,23 @@
       background:
         linear-gradient(
           135deg,
-          #e1f5fe,
-          #fff8e1
+          #e8f7ff,
+          #fffbea
         );
     }
 
 
     button,
-    input {
+    input,
+    select {
 
-      font-family:
-        inherit;
+      font-family: inherit;
     }
 
 
     .hidden {
 
-      display:
-        none !important;
+      display: none !important;
     }
 
 
@@ -89,7 +90,7 @@
       width:
         min(
           100%,
-          960px
+          980px
         );
 
       margin:
@@ -99,29 +100,25 @@
 
     #commonHeaderMount {
 
-      margin-bottom:
-        14px;
+      margin-bottom: 14px;
     }
 
 
     .game-card {
 
-      overflow:
-        hidden;
+      overflow: hidden;
 
       border:
         1px solid
-        #d5edf9;
+        #d5eef9;
 
       border-top:
         8px solid
         var(--primary);
 
-      border-radius:
-        26px;
+      border-radius: 26px;
 
-      background:
-        white;
+      background: white;
 
       box-shadow:
         0 14px 34px
@@ -136,29 +133,6 @@
 
     /*
     ==================================================
-    MathML
-    ==================================================
-    */
-
-    math {
-
-      font-family:
-        "Cambria Math",
-        "STIX Two Math",
-        "Times New Roman",
-        serif;
-    }
-
-
-    .question-content math {
-
-      font-size:
-        1.2em;
-    }
-
-
-    /*
-    ==================================================
     Header
     ==================================================
     */
@@ -168,8 +142,7 @@
       padding:
         24px 20px 18px;
 
-      text-align:
-        center;
+      text-align: center;
 
       background:
         linear-gradient(
@@ -189,9 +162,9 @@
 
       font-size:
         clamp(
-          28px,
+          30px,
           5vw,
-          40px
+          42px
         );
     }
 
@@ -204,49 +177,28 @@
       color:
         var(--muted);
 
-      line-height:
-        1.7;
+      line-height: 1.7;
     }
 
 
     .concept-strip {
 
-      display:
-        flex;
+      display: flex;
 
-      justify-content:
-        center;
+      justify-content: center;
 
-      align-items:
-        center;
+      gap: 8px;
 
-      gap:
-        8px;
+      margin-top: 16px;
 
-      margin-top:
-        16px;
-
-      flex-wrap:
-        wrap;
+      flex-wrap: wrap;
     }
 
 
     .concept-chip {
 
-      min-height:
-        38px;
-
-      display:
-        inline-flex;
-
-      justify-content:
-        center;
-
-      align-items:
-        center;
-
       padding:
-        6px 12px;
+        7px 12px;
 
       border:
         1px solid
@@ -255,44 +207,205 @@
       border-radius:
         999px;
 
-      background:
-        white;
+      background: white;
 
       color:
         var(--primary-dark);
 
-      font-size:
-        14px;
+      font-size: 14px;
 
-      font-weight:
-        900;
-    }
-
-
-    .concept-chip math {
-
-      font-size:
-        1.15em;
+      font-weight: 900;
     }
 
 
     .screen {
 
-      padding:
-        22px;
+      padding: 22px;
     }
 
 
     /*
     ==================================================
-    Mode
+    數學式
+    ==================================================
+    */
+
+    .math-expression {
+
+      display:
+        inline-flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      flex-wrap: wrap;
+
+      gap: .08em;
+
+      font-family:
+        "Cambria Math",
+        "Times New Roman",
+        serif;
+
+      white-space: nowrap;
+    }
+
+
+    .math-expression sup,
+    .detail-math sup {
+
+      position: relative;
+
+      top: -.48em;
+
+      margin-left: 1px;
+
+      font-size: .60em;
+
+      line-height: 1;
+
+      vertical-align: baseline;
+    }
+
+
+    /*
+    ==================================================
+    完整根號
+    題目、詳解、答案統一
+    ==================================================
+    */
+
+    .display-radical {
+
+      position: relative;
+
+      display:
+        inline-flex;
+
+      align-items: center;
+
+      min-height: 1.58em;
+
+      padding:
+        .14em .10em .01em .76em;
+
+      margin:
+        0 .04em;
+
+      vertical-align: middle;
+    }
+
+
+    .display-radical-svg {
+
+      position: absolute;
+
+      inset: 0;
+
+      width: 100%;
+
+      height: 100%;
+
+      overflow: visible;
+
+      pointer-events: none;
+    }
+
+
+    .display-radical-path {
+
+      fill: none;
+
+      stroke:
+        currentColor;
+
+      stroke-width: 3.4;
+
+      stroke-linejoin: round;
+
+      stroke-linecap: round;
+
+      vector-effect:
+        non-scaling-stroke;
+    }
+
+
+    .display-radicand {
+
+      position: relative;
+
+      z-index: 2;
+
+      display:
+        inline-flex;
+
+      align-items: center;
+
+      white-space: nowrap;
+
+      padding:
+        0 .10em .01em .02em;
+    }
+
+
+    /*
+    ==================================================
+    分數
+    ==================================================
+    */
+
+    .display-fraction {
+
+      display:
+        inline-flex;
+
+      flex-direction: column;
+
+      align-items: stretch;
+
+      justify-content: center;
+
+      min-width: 1.8em;
+
+      margin:
+        0 .12em;
+
+      vertical-align: middle;
+    }
+
+
+    .display-fraction-top,
+    .display-fraction-bottom {
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      padding:
+        .08em .20em;
+    }
+
+
+    .display-fraction-top {
+
+      border-bottom:
+        2.5px solid
+        currentColor;
+    }
+
+
+    /*
+    ==================================================
+    模式首頁
     ==================================================
     */
 
     .mode-grid {
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
         repeat(
@@ -303,25 +416,21 @@
           )
         );
 
-      gap:
-        16px;
+      gap: 16px;
     }
 
 
     .mode-card {
 
-      min-height:
-        205px;
+      min-height: 215px;
 
-      padding:
-        21px;
+      padding: 21px;
 
       border:
         2px solid
         var(--primary-border);
 
-      border-radius:
-        20px;
+      border-radius: 20px;
 
       background:
         linear-gradient(
@@ -330,18 +439,20 @@
           white
         );
 
-      text-align:
-        left;
+      text-align: left;
 
-      cursor:
-        pointer;
+      cursor: pointer;
+
+      transition:
+        transform .15s ease,
+        box-shadow .15s ease;
     }
 
 
     .mode-card:hover {
 
       transform:
-        translateY(-2px);
+        translateY(-3px);
 
       box-shadow:
         0 10px 24px
@@ -349,8 +460,32 @@
           15,
           23,
           42,
-          .10
+          .11
         );
+    }
+
+
+    .mode-tag {
+
+      display:
+        inline-block;
+
+      margin-bottom: 10px;
+
+      padding:
+        4px 9px;
+
+      border-radius:
+        999px;
+
+      background: white;
+
+      color:
+        var(--primary-dark);
+
+      font-size: 12px;
+
+      font-weight: 900;
     }
 
 
@@ -362,8 +497,7 @@
       color:
         var(--primary-dark);
 
-      font-size:
-        21px;
+      font-size: 21px;
     }
 
 
@@ -374,68 +508,34 @@
       color:
         var(--muted);
 
-      line-height:
-        1.7;
-    }
-
-
-    .mode-tag {
-
-      display:
-        inline-block;
-
-      margin-bottom:
-        10px;
-
-      padding:
-        4px 9px;
-
-      border-radius:
-        999px;
-
-      background:
-        white;
-
-      color:
-        var(--primary-dark);
-
-      font-size:
-        12px;
-
-      font-weight:
-        900;
+      line-height: 1.7;
     }
 
 
     .mode-example {
 
-      margin-top:
-        10px;
+      margin-top: 10px;
 
       color:
         #475569;
 
-      font-size:
-        14px;
+      font-size: 14px;
 
-      font-weight:
-        900;
+      font-weight: 900;
 
-      line-height:
-        1.6;
+      line-height: 1.65;
     }
 
 
     /*
     ==================================================
-    Status
+    狀態
     ==================================================
     */
 
     .quiz-topbar {
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
         repeat(
@@ -446,33 +546,25 @@
           )
         );
 
-      gap:
-        10px;
+      gap: 10px;
 
-      margin-bottom:
-        12px;
+      margin-bottom: 12px;
     }
 
 
     .status-box {
 
-      min-height:
-        64px;
+      min-height: 68px;
 
-      display:
-        flex;
+      display: flex;
 
-      flex-direction:
-        column;
+      flex-direction: column;
 
-      justify-content:
-        center;
+      justify-content: center;
 
-      padding:
-        8px;
+      padding: 8px;
 
-      border-radius:
-        14px;
+      border-radius: 14px;
 
       background:
         var(--primary-light);
@@ -480,21 +572,17 @@
       color:
         var(--primary-dark);
 
-      text-align:
-        center;
+      text-align: center;
 
-      font-weight:
-        900;
+      font-weight: 900;
     }
 
 
     .status-value {
 
-      margin-top:
-        3px;
+      margin-top: 3px;
 
-      font-size:
-        18px;
+      font-size: 18px;
     }
 
 
@@ -510,20 +598,17 @@
 
     /*
     ==================================================
-    Scratchpad
+    計算紙
     ==================================================
     */
 
     .scratchpad-row {
 
-      display:
-        flex;
+      display: flex;
 
-      justify-content:
-        center;
+      justify-content: center;
 
-      min-height:
-        46px;
+      min-height: 46px;
 
       margin:
         4px 0 12px;
@@ -532,14 +617,11 @@
 
     #scratchpad-mobile-button {
 
-      display:
-        flex;
+      display: flex;
 
-      justify-content:
-        center;
+      justify-content: center;
 
-      width:
-        100%;
+      width: 100%;
     }
 
 
@@ -565,20 +647,17 @@
 
     /*
     ==================================================
-    Progress
+    進度條
     ==================================================
     */
 
     .progress-shell {
 
-      height:
-        10px;
+      height: 10px;
 
-      margin-bottom:
-        16px;
+      margin-bottom: 16px;
 
-      overflow:
-        hidden;
+      overflow: hidden;
 
       border-radius:
         999px;
@@ -600,12 +679,15 @@
           var(--primary),
           #29b6f6
         );
+
+      transition:
+        width .2s ease;
     }
 
 
     /*
     ==================================================
-    Question
+    題目
     ==================================================
     */
 
@@ -618,126 +700,82 @@
         2px solid
         var(--primary-border);
 
-      border-radius:
-        20px;
+      border-radius: 20px;
 
-      background:
-        white;
+      background: white;
 
-      text-align:
-        center;
+      text-align: center;
     }
 
 
     .question-label {
 
-      margin-bottom:
-        10px;
+      margin-bottom: 12px;
 
       color:
         var(--muted);
 
-      font-weight:
-        900;
+      font-weight: 900;
     }
 
 
     .question-content {
 
-      min-height:
-        130px;
+      min-height: 145px;
 
-      display:
-        flex;
+      display: flex;
 
-      justify-content:
-        center;
+      align-items: center;
 
-      align-items:
-        center;
+      justify-content: center;
 
       color:
         #0f172a;
 
       font-size:
         clamp(
-          27px,
-          5.5vw,
+          30px,
+          5vw,
           45px
         );
 
-      font-weight:
-        900;
+      line-height: 1.8;
 
-      overflow-x:
-        auto;
+      overflow-x: auto;
     }
 
 
     /*
     ==================================================
-    ★ 十分逼近參考值
+    參考數值
     ==================================================
     */
 
-    .approx-reference {
+    .reference-box {
 
-      margin:
-        14px auto 0;
+      margin-top: 15px;
 
-      padding:
-        11px 16px;
-
-      max-width:
-        620px;
+      padding: 13px;
 
       border:
-        2px solid
+        1px dashed
         var(--primary-border);
 
-      border-radius:
-        12px;
+      border-radius: 13px;
 
       background:
-        #eff9ff;
+        #f0f9ff;
 
       color:
-        var(--primary-dark);
+        #334155;
 
-      font-size:
-        17px;
+      text-align: center;
 
-      font-weight:
-        900;
+      font-size: 16px;
 
-      line-height:
-        1.8;
-    }
+      font-weight: 800;
 
-
-    .approx-reference-title {
-
-      margin-right:
-        10px;
-
-      color:
-        #475569;
-    }
-
-
-    .reference-values {
-
-      display:
-        inline-flex;
-
-      justify-content:
-        center;
-
-      gap:
-        18px;
-
-      flex-wrap:
-        wrap;
+      line-height: 1.8;
     }
 
 
@@ -749,14 +787,11 @@
 
     .answer-panel {
 
-      margin-top:
-        16px;
+      margin-top: 16px;
 
-      padding:
-        18px;
+      padding: 18px;
 
-      border-radius:
-        18px;
+      border-radius: 18px;
 
       background:
         #f8fafc;
@@ -765,17 +800,14 @@
 
     .answer-title {
 
-      margin-bottom:
-        10px;
+      margin-bottom: 10px;
 
       color:
         var(--primary-dark);
 
-      text-align:
-        center;
+      text-align: center;
 
-      font-weight:
-        900;
+      font-weight: 900;
     }
 
 
@@ -785,29 +817,29 @@
         0 0 12px;
 
       color:
-        #64748b;
+        var(--muted);
 
-      text-align:
-        center;
+      text-align: center;
 
-      font-size:
-        14px;
+      font-size: 14px;
 
-      font-weight:
-        800;
+      font-weight: 800;
 
-      line-height:
-        1.65;
+      line-height: 1.6;
     }
 
 
+    /*
+    ==================================================
+    Number
+    ==================================================
+    */
+
     .number-answer {
 
-      display:
-        flex;
+      display: flex;
 
-      justify-content:
-        center;
+      justify-content: center;
     }
 
 
@@ -815,107 +847,65 @@
 
       width:
         min(
-          250px,
+          260px,
           100%
         );
 
-      padding:
-        13px;
+      padding: 13px;
 
       border:
         2px solid
         #cbd5e1;
 
-      border-radius:
-        12px;
+      border-radius: 12px;
 
-      font-size:
-        24px;
+      font-size: 24px;
 
-      font-weight:
-        900;
+      font-weight: 900;
 
-      text-align:
-        center;
+      text-align: center;
 
-      outline:
-        none;
-    }
-
-
-    .number-answer input:focus {
-
-      border-color:
-        var(--primary);
-
-      box-shadow:
-        0 0 0 4px
-        rgba(
-          2,
-          136,
-          209,
-          .10
-        );
+      outline: none;
     }
 
 
     /*
     ==================================================
-    Preview
+    Decimal
     ==================================================
     */
 
-    .answer-preview {
+    .decimal-answer {
 
-      margin:
-        14px auto 0;
+      display: flex;
 
-      padding:
-        13px;
-
-      max-width:
-        680px;
-
-      border:
-        2px solid
-        var(--primary-border);
-
-      border-radius:
-        13px;
-
-      background:
-        var(--primary-light);
-
-      color:
-        #334155;
-
-      text-align:
-        center;
-
-      font-size:
-        18px;
-
-      font-weight:
-        900;
+      justify-content: center;
     }
 
 
-    .answer-preview-value {
+    .decimal-answer input {
 
-      display:
-        inline-flex;
+      width:
+        min(
+          260px,
+          100%
+        );
 
-      align-items:
-        center;
+      padding: 13px;
 
-      margin-left:
-        7px;
+      border:
+        2px solid
+        #cbd5e1;
 
-      color:
-        var(--primary);
+      border-radius: 12px;
 
-      font-size:
-        26px;
+      font-size: 24px;
+
+      font-weight: 900;
+
+      text-align: center;
+
+      outline: none;
     }
 
 
@@ -927,53 +917,41 @@
 
     .fraction-answer {
 
-      display:
-        flex;
+      display: flex;
 
-      justify-content:
-        center;
+      justify-content: center;
     }
 
 
     .fraction-input {
 
-      display:
-        flex;
+      display: flex;
 
-      flex-direction:
-        column;
+      flex-direction: column;
 
-      width:
-        110px;
+      width: 120px;
     }
 
 
     .fraction-input input {
 
-      width:
-        100%;
+      width: 100%;
 
-      padding:
-        10px;
+      padding: 10px;
 
       border:
         2px solid
         #cbd5e1;
 
-      background:
-        white;
+      background: white;
 
-      font-size:
-        21px;
+      font-size: 21px;
 
-      font-weight:
-        900;
+      font-weight: 900;
 
-      text-align:
-        center;
+      text-align: center;
 
-      outline:
-        none;
+      outline: none;
     }
 
 
@@ -984,7 +962,7 @@
         10px 10px 0 0;
 
       border-bottom:
-        2px solid
+        2.5px solid
         #334155;
     }
 
@@ -995,8 +973,7 @@
       border-radius:
         0 0 10px 10px;
 
-      border-top:
-        0;
+      border-top: 0;
     }
 
 
@@ -1008,8 +985,7 @@
 
     .choice-grid {
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
         repeat(
@@ -1020,40 +996,32 @@
           )
         );
 
-      gap:
-        10px;
+      gap: 10px;
     }
 
 
     .choice-button {
 
-      min-height:
-        62px;
+      min-height: 60px;
 
-      padding:
-        11px;
+      padding: 11px;
 
       border:
         2px solid
         var(--primary-border);
 
-      border-radius:
-        13px;
+      border-radius: 13px;
 
-      background:
-        white;
+      background: white;
 
       color:
         #263238;
 
-      font-size:
-        16px;
+      font-size: 17px;
 
-      font-weight:
-        900;
+      font-weight: 900;
 
-      cursor:
-        pointer;
+      cursor: pointer;
     }
 
 
@@ -1072,57 +1040,106 @@
 
     /*
     ==================================================
+    Preview
+    ==================================================
+    */
+
+    .answer-preview {
+
+      margin:
+        14px auto 0;
+
+      padding: 13px;
+
+      max-width: 720px;
+
+      min-height: 58px;
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      flex-wrap: wrap;
+
+      border:
+        2px solid
+        var(--primary-border);
+
+      border-radius: 13px;
+
+      background:
+        var(--primary-light);
+
+      color:
+        #334155;
+
+      text-align: center;
+
+      font-size: 18px;
+
+      font-weight: 900;
+    }
+
+
+    .answer-preview-value {
+
+      display:
+        inline-flex;
+
+      align-items: center;
+
+      margin-left: 8px;
+
+      color:
+        var(--primary);
+
+      font-size: 25px;
+    }
+
+
+    /*
+    ==================================================
     Buttons
     ==================================================
     */
 
     .button-row {
 
-      display:
-        flex;
+      display: flex;
 
-      justify-content:
-        center;
+      justify-content: center;
 
-      gap:
-        10px;
+      gap: 10px;
 
-      margin-top:
-        16px;
+      margin-top: 16px;
 
-      flex-wrap:
-        wrap;
+      flex-wrap: wrap;
     }
 
 
     .game-button {
 
-      min-width:
-        132px;
+      min-width: 132px;
 
       padding:
         12px 20px;
 
-      border:
-        none;
+      border: none;
 
-      border-radius:
-        12px;
+      border-radius: 12px;
 
       background:
         var(--primary);
 
-      color:
-        white;
+      color: white;
 
-      font-size:
-        16px;
+      font-size: 16px;
 
-      font-weight:
-        900;
+      font-weight: 900;
 
-      cursor:
-        pointer;
+      cursor: pointer;
 
       box-shadow:
         0 5px 0
@@ -1155,11 +1172,19 @@
     .game-button.restart {
 
       background:
-        #00897b;
+        var(--restart);
 
       box-shadow:
         0 5px 0
         #00695c;
+    }
+
+
+    .game-button:disabled {
+
+      opacity: .55;
+
+      cursor: not-allowed;
     }
 
 
@@ -1171,23 +1196,17 @@
 
     .feedback {
 
-      min-height:
-        48px;
+      min-height: 48px;
 
-      margin-top:
-        14px;
+      margin-top: 14px;
 
-      text-align:
-        center;
+      text-align: center;
 
-      font-size:
-        18px;
+      font-size: 18px;
 
-      font-weight:
-        900;
+      font-weight: 900;
 
-      line-height:
-        1.7;
+      line-height: 1.7;
     }
 
 
@@ -1212,32 +1231,54 @@
     }
 
 
+    /*
+    ==================================================
+    詳解
+    ==================================================
+    */
+
     .explanation {
 
-      margin-top:
-        12px;
+      margin-top: 12px;
 
-      padding:
-        16px;
+      padding: 18px;
 
-      border-radius:
-        14px;
+      border-radius: 14px;
 
       background:
-        #eaf8fe;
+        #eaf7fd;
 
       color:
         #334155;
 
-      line-height:
-        1.95;
+      line-height: 1.95;
     }
 
 
     .explanation-step {
 
       margin:
-        7px 0;
+        10px 0;
+    }
+
+
+    .detail-math {
+
+      display:
+        inline-flex;
+
+      align-items: center;
+
+      flex-wrap: nowrap;
+
+      white-space: nowrap;
+
+      font-family:
+        "Cambria Math",
+        "Times New Roman",
+        serif;
+
+      font-size: 1.08em;
     }
 
 
@@ -1249,8 +1290,7 @@
 
     .result-panel {
 
-      text-align:
-        center;
+      text-align: center;
     }
 
 
@@ -1262,25 +1302,21 @@
       color:
         #f57c00;
 
-      font-size:
-        56px;
+      font-size: 56px;
 
-      font-weight:
-        900;
+      font-weight: 900;
     }
 
 
     .result-stars {
 
-      font-size:
-        31px;
+      font-size: 31px;
     }
 
 
     .result-grid {
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
         repeat(
@@ -1291,8 +1327,7 @@
           )
         );
 
-      gap:
-        12px;
+      gap: 12px;
 
       margin:
         20px 0;
@@ -1301,11 +1336,9 @@
 
     .result-stat {
 
-      padding:
-        16px;
+      padding: 16px;
 
-      border-radius:
-        16px;
+      border-radius: 16px;
 
       background:
         var(--primary-light);
@@ -1313,21 +1346,17 @@
       color:
         var(--primary-dark);
 
-      font-weight:
-        900;
+      font-weight: 900;
     }
 
 
     .save-status {
 
-      min-height:
-        28px;
+      min-height: 28px;
 
-      margin-top:
-        14px;
+      margin-top: 14px;
 
-      font-weight:
-        900;
+      font-weight: 900;
     }
 
 
@@ -1339,41 +1368,43 @@
 
     .review-list {
 
-      display:
-        grid;
+      display: grid;
 
-      gap:
-        14px;
+      gap: 14px;
     }
 
 
     .review-card {
 
-      padding:
-        18px;
+      padding: 18px;
 
       border:
         1px solid
         #e2e8f0;
 
-      border-radius:
-        16px;
+      border-radius: 16px;
 
-      background:
-        white;
+      background: white;
+    }
+
+
+    .review-title {
+
+      color:
+        var(--danger);
+
+      font-weight: 900;
     }
 
 
     .review-question {
 
       margin:
-        10px 0;
+        12px 0;
 
-      font-size:
-        20px;
+      font-size: 23px;
 
-      font-weight:
-        900;
+      text-align: center;
     }
 
 
@@ -1389,8 +1420,14 @@
 
       body {
 
+        padding: 8px;
+      }
+
+
+      .screen {
+
         padding:
-          8px;
+          18px 12px;
       }
 
 
@@ -1459,6 +1496,8 @@
   <main class="game-card">
 
 
+    <!-- Header -->
+
     <header class="game-header">
 
 
@@ -1474,49 +1513,25 @@
 
       <div class="concept-strip">
 
-
         <span class="concept-chip">
           平方數
         </span>
 
-
         <span class="concept-chip">
-
-          <math
-            xmlns="http://www.w3.org/1998/Math/MathML"
-          >
-
-            <msqrt>
-
-              <msup>
-
-                <mi>a</mi>
-
-                <mn>2</mn>
-
-              </msup>
-
-            </msqrt>
-
-          </math>
-
+          √a²
         </span>
-
 
         <span class="concept-chip">
           質因數分解
         </span>
 
-
         <span class="concept-chip">
           十分逼近
         </span>
 
-
         <span class="concept-chip">
           平方根的意義
         </span>
-
 
       </div>
 
@@ -1524,7 +1539,7 @@
     </header>
 
 
-    <!-- 模式 -->
+    <!-- Start -->
 
     <section
       id="start-screen"
@@ -1545,16 +1560,13 @@
             12 題
           </span>
 
-
           <h2>
             模式一｜平方數熟練場
           </h2>
 
-
           <p>
-            從 11² 到 32² 隨機抽出 12 題。
+            從 11² 到 32² 隨機抽出 12 題，熟練常用平方數。
           </p>
-
 
           <div class="mode-example">
             例如：17²＝？、26²＝？
@@ -1570,22 +1582,19 @@
         >
 
           <span class="mode-tag">
-            化簡
+            10 題
           </span>
-
 
           <h2>
             模式二｜根式化簡訓練
           </h2>
 
-
           <p>
-            練習根號內平方與質因數標準分解式化簡。
+            練習 √(a²) 與利用質因數標準分解式化簡根式。
           </p>
 
-
           <div class="mode-example">
-            質因數底數由小到大，每個指數至少為 2。
+            √(a²)＝|a|；質因數由小到大排列。
           </div>
 
         </button>
@@ -1598,22 +1607,19 @@
         >
 
           <span class="mode-tag">
-            數值
+            10 題
           </span>
-
 
           <h2>
             模式三｜根號值與十分逼近
           </h2>
 
-
           <p>
-            整數、小數、分數及十分逼近法。
+            判斷根號介於哪兩個整數之間，並利用十分逼近法估算。
           </p>
 
-
           <div class="mode-example">
-            十分逼近題會提供小數平方參考值。
+            題目會提供鄰近小數平方值作為參考。
           </div>
 
         </button>
@@ -1626,18 +1632,20 @@
         >
 
           <span class="mode-tag">
-            應用
+            10 題
           </span>
-
 
           <h2>
             模式四｜平方根觀念應用
           </h2>
 
-
           <p>
-            平方根、正平方根、負平方根及課本型應用。
+            練習平方根、正平方根、負平方根的意義與課本型應用。
           </p>
+
+          <div class="mode-example">
+            例如：若 8 是 4x＋56 的正平方根，求 x。
+          </div>
 
         </button>
 
@@ -1681,7 +1689,7 @@
             id="question-number"
             class="status-value"
           >
-            —
+            1 / 10
           </span>
 
         </div>
@@ -1766,14 +1774,9 @@
         ></div>
 
 
-        <!--
-        ★ 十分逼近參考數值
-        其他題型自動隱藏
-        -->
-
         <div
-          id="approx-reference"
-          class="approx-reference hidden"
+          id="reference-box"
+          class="reference-box hidden"
         ></div>
 
 
@@ -1879,30 +1882,52 @@
 
 
         <div class="result-stat">
+
           答對
           <br>
-          <span id="final-correct">0</span>
+
+          <span id="final-correct">
+            0
+          </span>
+          題
+
         </div>
 
 
         <div class="result-stat">
+
           答錯
           <br>
-          <span id="final-wrong">0</span>
+
+          <span id="final-wrong">
+            0
+          </span>
+          題
+
         </div>
 
 
         <div class="result-stat">
+
           最高連擊
           <br>
-          <span id="final-combo">0</span>
+
+          <span id="final-combo">
+            0
+          </span>
+
         </div>
 
 
         <div class="result-stat">
+
           測驗時間
           <br>
-          <span id="final-time">00:00</span>
+
+          <span id="final-time">
+            00:00
+          </span>
+
         </div>
 
 
@@ -2003,6 +2028,8 @@
 </div>
 
 
+<!-- 共用元件 -->
+
 <script src="../js/common-header.js"></script>
 
 <script src="../js/scratchpad.js"></script>
@@ -2011,11 +2038,7 @@
 
 <script src="../js/sound-manager.js?v=1"></script>
 
-<!--
-v6：避免 iPad Safari 快取 v5
--->
-
-<script src="../js/radical-input.js?v=6"></script>
+<script src="../js/radical-input.js?v=7"></script>
 
 
 <script type="module">
@@ -2031,7 +2054,7 @@ import {
 
 /*
 ==================================================
-設定
+基本設定
 ==================================================
 */
 
@@ -2052,6 +2075,22 @@ const MODE_NAMES = {
 
   meaning:
     "平方根觀念應用"
+};
+
+
+const MODE_TOTALS = {
+
+  squarePractice:
+    12,
+
+  simplify:
+    10,
+
+  approximation:
+    10,
+
+  meaning:
+    10
 };
 
 
@@ -2129,7 +2168,7 @@ let scoreSaved =
 
 /*
 ==================================================
-工具
+一般工具
 ==================================================
 */
 
@@ -2205,228 +2244,363 @@ function shuffle(
 }
 
 
-function nonZeroRand(
-  min,
-  max
+function gcd(
+  a,
+  b
 ) {
 
-  let value =
-    0;
-
-
   while (
-    value === 0
+    b !==
+    0
   ) {
 
-    value =
-      rand(
-        min,
-        max
-      );
+    const t =
+      a %
+      b;
+
+
+    a =
+      b;
+
+
+    b =
+      t;
   }
 
 
-  return value;
-}
-
-
-/*
-==================================================
-數值格式
-
-避免：
-
-172.92250000000003
-
-顯示為：
-
-172.9225
-==================================================
-*/
-
-function cleanDecimal(
-  value,
-  digits =
-    4
-) {
-
-  return Number(
-    Number(value)
-      .toFixed(
-        digits
-      )
+  return Math.abs(
+    a
   );
 }
 
 
 /*
 ==================================================
-MathML
+數學格式
 ==================================================
 */
 
-function mathWrap(
+function powerHTML(
+  base,
+  exponent
+) {
+
+  return `
+
+    <span>
+
+      ${base}<sup>${exponent}</sup>
+
+    </span>
+  `;
+}
+
+
+function sqrtDisplay(
   content
 ) {
 
   return `
 
-    <math
-      xmlns="http://www.w3.org/1998/Math/MathML"
-    >
+    <span class="display-radical">
 
-      ${content}
+      <svg
+        class="display-radical-svg"
+        viewBox="0 0 100 62"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
 
-    </math>
+        <path
+          class="display-radical-path"
+          d="
+            M 2 37
+            L 8 37
+            L 14 55
+            L 26 8
+            L 98 8
+          "
+        />
+
+      </svg>
+
+
+      <span class="display-radicand">
+
+        ${content}
+
+      </span>
+
+    </span>
   `;
 }
 
 
-function fractionHTML(
+function radicalDisplay(
+  coefficient,
+  radicand
+) {
+
+  coefficient =
+    Number(
+      coefficient
+    );
+
+
+  if (
+    radicand ===
+    1
+  ) {
+
+    return String(
+      coefficient
+    );
+  }
+
+
+  let prefix =
+    "";
+
+
+  if (
+    coefficient ===
+    -1
+  ) {
+
+    prefix =
+      "−";
+
+  } else if (
+    coefficient !==
+    1
+  ) {
+
+    prefix =
+      String(
+        coefficient
+      )
+        .replace(
+          "-",
+          "−"
+        );
+  }
+
+
+  return `
+
+    <span class="math-expression">
+
+      ${prefix}
+
+      ${sqrtDisplay(
+        String(
+          radicand
+        )
+      )}
+
+    </span>
+  `;
+}
+
+
+function fractionDisplay(
   numerator,
   denominator
 ) {
 
-  return mathWrap(
+  return `
 
-    `
+    <span class="display-fraction">
 
-      <mfrac>
+      <span class="display-fraction-top">
 
-        <mn>
-          ${numerator}
-        </mn>
+        ${numerator}
 
-        <mn>
-          ${denominator}
-        </mn>
+      </span>
 
-      </mfrac>
+      <span class="display-fraction-bottom">
 
-    `
+        ${denominator}
+
+      </span>
+
+    </span>
+  `;
+}
+
+
+/*
+==================================================
+詳解格式工具
+==================================================
+*/
+
+function detailMath(
+  content
+) {
+
+  return `
+
+    <span class="detail-math">
+
+      ${content}
+
+    </span>
+  `;
+}
+
+
+function detailPower(
+  base,
+  exponent
+) {
+
+  return detailMath(
+    powerHTML(
+      base,
+      exponent
+    )
+  );
+}
+
+
+function detailSqrt(
+  content
+) {
+
+  return detailMath(
+    sqrtDisplay(
+      content
+    )
+  );
+}
+
+
+function detailRadical(
+  coefficient,
+  radicand
+) {
+
+  return detailMath(
+    radicalDisplay(
+      coefficient,
+      radicand
+    )
   );
 }
 
 
 /*
 ==================================================
-質因數
+Prime factor
 ==================================================
 */
 
-function primeFactorMathML(
-  factors
+function primeFactorization(
+  number
 ) {
 
-  return [...factors]
-
-    .sort(
-      (
-        a,
-        b
-      ) =>
-        a.prime -
-        b.prime
-    )
-
-    .map(
-      factor => {
-
-        if (
-          factor.exponent === 1
-        ) {
-
-          return `
-
-            <mn>
-              ${factor.prime}
-            </mn>
-
-          `;
-        }
+  const factors =
+    [];
 
 
-        return `
+  let n =
+    number;
 
-          <msup>
 
-            <mn>
-              ${factor.prime}
-            </mn>
+  let p =
+    2;
 
-            <mn>
-              ${factor.exponent}
-            </mn>
 
-          </msup>
+  while (
+    p *
+    p <=
+    n
+  ) {
 
-        `;
-      }
-    )
+    let count =
+      0;
 
-    .join(
-      "<mo>×</mo>"
+
+    while (
+      n %
+      p ===
+      0
+    ) {
+
+      n /=
+        p;
+
+      count++;
+    }
+
+
+    if (
+      count >
+      0
+    ) {
+
+      factors.push(
+        [
+          p,
+          count
+        ]
+      );
+    }
+
+
+    p++;
+  }
+
+
+  if (
+    n >
+    1
+  ) {
+
+    factors.push(
+      [
+        n,
+        1
+      ]
     );
+  }
+
+
+  return factors;
 }
 
 
-function sqrtPrimeFactorHTML(
+function factorHTML(
   factors
 ) {
 
-  return mathWrap(
-
-    `
-
-      <msqrt>
-
-        <mrow>
-
-          ${primeFactorMathML(
-            factors
-          )}
-
-        </mrow>
-
-      </msqrt>
-
-    `
-  );
-}
-
-
-function primeFactorText(
-  factors
-) {
-
-  return [...factors]
-
-    .sort(
-      (
-        a,
-        b
-      ) =>
-        a.prime -
-        b.prime
-    )
-
+  return factors
     .map(
-      factor => {
+      (
+        [
+          base,
+          exponent
+        ]
+      ) => {
 
         if (
-          factor.exponent === 1
+          exponent ===
+          1
         ) {
 
-          return `${factor.prime}`;
+          return String(
+            base
+          );
         }
 
 
-        return (
-          `${factor.prime}^${factor.exponent}`
+        return powerHTML(
+          base,
+          exponent
         );
       }
     )
-
     .join(
       " × "
     );
@@ -2435,34 +2609,1625 @@ function primeFactorText(
 
 /*
 ==================================================
-音效
+化簡根式
 ==================================================
 */
 
-function playGameSound(
-  method
+function simplifyRadical(
+  n
 ) {
 
-  try {
-
-    const sound =
-      window.GameSound ||
-      window.MathGameSound;
+  let outside =
+    1;
 
 
-    sound?.[
-      method
-    ]?.();
+  let inside =
+    n;
 
-  } catch (
-    error
+
+  for (
+    let square =
+      Math.floor(
+        Math.sqrt(
+          n
+        )
+      );
+
+    square >=
+    2;
+
+    square--
   ) {
 
-    console.warn(
-      "音效播放失敗：",
-      error
+    const squareValue =
+      square *
+      square;
+
+
+    if (
+      n %
+      squareValue ===
+      0
+    ) {
+
+      outside =
+        square;
+
+      inside =
+        n /
+        squareValue;
+
+
+      break;
+    }
+  }
+
+
+  if (
+    inside ===
+    1
+  ) {
+
+    return {
+
+      type:
+        "number",
+
+      value:
+        outside
+    };
+  }
+
+
+  return {
+
+    type:
+      "radical",
+
+    coefficient:
+      outside,
+
+    radicand:
+      inside
+  };
+}
+
+
+/*
+==================================================
+題目物件
+==================================================
+*/
+
+function numberQuestion(
+  html,
+  answer,
+  explanation,
+  label
+) {
+
+  return {
+
+    type:
+      "number",
+
+    html,
+
+    answer,
+
+    explanation,
+
+    label,
+
+    reference:
+      ""
+  };
+}
+
+
+function decimalQuestion(
+  html,
+  answer,
+  explanation,
+  label,
+  reference =
+    ""
+) {
+
+  return {
+
+    type:
+      "decimal",
+
+    html,
+
+    answer,
+
+    explanation,
+
+    label,
+
+    reference
+  };
+}
+
+
+function radicalQuestion(
+  html,
+  coefficient,
+  radicand,
+  explanation,
+  label
+) {
+
+  return {
+
+    type:
+      "radical",
+
+    html,
+
+    coefficient,
+
+    radicand,
+
+    explanation,
+
+    label,
+
+    reference:
+      ""
+  };
+}
+
+
+function fractionQuestion(
+  html,
+  numerator,
+  denominator,
+  explanation,
+  label
+) {
+
+  const d =
+    gcd(
+      Math.abs(
+        numerator
+      ),
+      Math.abs(
+        denominator
+      )
+    );
+
+
+  numerator /=
+    d;
+
+
+  denominator /=
+    d;
+
+
+  return {
+
+    type:
+      "fraction",
+
+    html,
+
+    numerator,
+
+    denominator,
+
+    explanation,
+
+    label,
+
+    reference:
+      ""
+  };
+}
+
+
+function choiceQuestion(
+  html,
+  answer,
+  choices,
+  explanation,
+  label
+) {
+
+  return {
+
+    type:
+      "choice",
+
+    html,
+
+    answer,
+
+    choices,
+
+    explanation,
+
+    label,
+
+    reference:
+      ""
+  };
+}
+
+
+/*
+==================================================
+模式一
+11²～32²
+12題
+==================================================
+*/
+
+function makeMode1() {
+
+  const numbers =
+    shuffle(
+      Array.from(
+        {
+          length:
+            22
+        },
+        (
+          _,
+          i
+        ) =>
+          i +
+          11
+      )
+    )
+      .slice(
+        0,
+        12
+      );
+
+
+  return numbers
+    .map(
+      n => {
+
+        const answer =
+          n *
+          n;
+
+
+        return numberQuestion(
+
+          `
+
+            <span class="math-expression">
+
+              ${powerHTML(
+                n,
+                2
+              )}
+
+            </span>
+          `,
+
+          answer,
+
+          [
+
+            `本題是 ${n} 的平方。`,
+
+            `${detailPower(
+              n,
+              2
+            )}
+            ＝
+            ${n} × ${n}`,
+
+            `${n} × ${n}
+            ＝
+            ${answer}`
+          ],
+
+          "請寫出正確的平方數"
+        );
+      }
+    );
+}
+
+
+/*
+==================================================
+模式二
+√(a²) + 質因數標準分解
+==================================================
+*/
+
+
+/*
+--------------------------------------------------
+A.
+√(a²)
+
+重要：
+a 從 2 開始。
+不再出現 √(1²)
+--------------------------------------------------
+*/
+
+function makeRootSquareQuestion() {
+
+  /*
+  ★ 修正
+  原本若從 1 開始，
+  就可能出現 √(1²)。
+
+  現在固定：
+  2～30
+  */
+
+  const a =
+    rand(
+      2,
+      30
+    );
+
+
+  return numberQuestion(
+
+    `
+
+      <span class="math-expression">
+
+        ${sqrtDisplay(
+          powerHTML(
+            a,
+            2
+          )
+        )}
+
+      </span>
+    `,
+
+    a,
+
+    [
+
+      `平方根的重要性質：`,
+
+      `${detailSqrt(
+        powerHTML(
+          "a",
+          2
+        )
+      )}
+      ＝
+      |a|`,
+
+      `本題
+      a＝${a}，
+      而 ${a}＞0，
+      所以 |${a}|＝${a}。`,
+
+      `因此
+      ${detailSqrt(
+        powerHTML(
+          a,
+          2
+        )
+      )}
+      ＝
+      ${a}。`
+    ],
+
+    "請求出根號的值"
+  );
+}
+
+
+/*
+--------------------------------------------------
+B.
+質因數標準分解式化簡
+
+保證至少有一個指數 ≥2
+--------------------------------------------------
+*/
+
+function makePrimeSimplifyQuestion() {
+
+  const primes =
+    shuffle(
+      [
+        2,
+        3,
+        5,
+        7
+      ]
+    )
+      .slice(
+        0,
+        rand(
+          2,
+          3
+        )
+      )
+      .sort(
+        (
+          a,
+          b
+        ) =>
+          a -
+          b
+      );
+
+
+  const exponents =
+    [];
+
+
+  let hasAtLeastTwo =
+    false;
+
+
+  primes.forEach(
+    (
+      prime,
+      i
+    ) => {
+
+      let exponent =
+        rand(
+          1,
+          5
+        );
+
+
+      if (
+        i ===
+        primes.length -
+        1 &&
+        !hasAtLeastTwo
+      ) {
+
+        exponent =
+          rand(
+            2,
+            5
+          );
+      }
+
+
+      if (
+        exponent >=
+        2
+      ) {
+
+        hasAtLeastTwo =
+          true;
+      }
+
+
+      exponents.push(
+        exponent
+      );
+    }
+  );
+
+
+  let number =
+    1;
+
+
+  primes.forEach(
+    (
+      prime,
+      i
+    ) => {
+
+      number *=
+        prime **
+        exponents[
+          i
+        ];
+    }
+  );
+
+
+  const factors =
+    primes.map(
+      (
+        prime,
+        i
+      ) => [
+        prime,
+        exponents[
+          i
+        ]
+      ]
+    );
+
+
+  let outside =
+    1;
+
+
+  let inside =
+    1;
+
+
+  const outsideParts =
+    [];
+
+
+  const insideParts =
+    [];
+
+
+  factors.forEach(
+    (
+      [
+        prime,
+        exponent
+      ]
+    ) => {
+
+      const outExponent =
+        Math.floor(
+          exponent /
+          2
+        );
+
+
+      const inExponent =
+        exponent %
+        2;
+
+
+      if (
+        outExponent >
+        0
+      ) {
+
+        outside *=
+          prime **
+          outExponent;
+
+
+        outsideParts.push(
+          outExponent ===
+          1
+
+            ? String(
+                prime
+              )
+
+            : powerHTML(
+                prime,
+                outExponent
+              )
+        );
+      }
+
+
+      if (
+        inExponent ===
+        1
+      ) {
+
+        inside *=
+          prime;
+
+
+        insideParts.push(
+          String(
+            prime
+          )
+        );
+      }
+    }
+  );
+
+
+  const standard =
+    factorHTML(
+      factors
+    );
+
+
+  const questionHTML = `
+
+    <span class="math-expression">
+
+      ${sqrtDisplay(
+        standard
+      )}
+
+    </span>
+  `;
+
+
+  const explanation =
+    [
+
+      `先觀察根號內的標準分解式：
+      ${detailMath(
+        standard
+      )}。`,
+
+      `質因數已經依照由小到大排列；指數為 1 時不另外寫出 1。`,
+
+      `平方根化簡時，每兩個相同的質因數可以提出根號外一個。`,
+
+      `根號外得到：
+      ${
+        outsideParts.length
+
+          ? detailMath(
+              outsideParts.join(
+                " × "
+              )
+            )
+
+          : "1"
+      }。`,
+
+      inside ===
+      1
+
+        ? `根號內的質因數全部成對提出，所以根號內不再留下質因數。`
+
+        : `根號內剩下：
+           ${detailMath(
+             insideParts.join(
+               " × "
+             )
+           )}
+           ＝${inside}。`
+    ];
+
+
+  if (
+    inside ===
+    1
+  ) {
+
+    explanation.push(
+      `因此答案＝${outside}。`
+    );
+
+
+    return numberQuestion(
+
+      questionHTML,
+
+      outside,
+
+      explanation,
+
+      "請利用質因數標準分解式化成最簡形式"
     );
   }
+
+
+  explanation.push(
+
+    `所以答案＝
+    ${detailRadical(
+      outside,
+      inside
+    )}。`
+  );
+
+
+  return radicalQuestion(
+
+    questionHTML,
+
+    outside,
+
+    inside,
+
+    explanation,
+
+    "請利用質因數標準分解式化成最簡根式"
+  );
+}
+
+
+/*
+--------------------------------------------------
+C.
+一般整數化簡
+--------------------------------------------------
+*/
+
+function makeNormalSimplifyQuestion() {
+
+  const base =
+    pick(
+      [
+        2,
+        3,
+        5,
+        6,
+        7,
+        10,
+        11
+      ]
+    );
+
+
+  const outside =
+    rand(
+      2,
+      9
+    );
+
+
+  const number =
+    outside *
+    outside *
+    base;
+
+
+  const result =
+    simplifyRadical(
+      number
+    );
+
+
+  return radicalQuestion(
+
+    `
+
+      <span class="math-expression">
+
+        ${sqrtDisplay(
+          number
+        )}
+
+      </span>
+    `,
+
+    result.coefficient,
+
+    result.radicand,
+
+    [
+
+      `找出 ${number} 中最大的完全平方因數。`,
+
+      `${number}
+      ＝
+      ${powerHTML(
+        outside,
+        2
+      )}
+      ×
+      ${base}`,
+
+      `${detailSqrt(
+        `${powerHTML(
+          outside,
+          2
+        )} × ${base}`
+      )}
+      ＝
+      ${outside}
+      ${detailSqrt(
+        base
+      )}`,
+
+      `所以答案＝
+      ${detailRadical(
+        outside,
+        base
+      )}。`
+    ],
+
+    "請化成最簡根式"
+  );
+}
+
+
+function makeMode2() {
+
+  return shuffle(
+    [
+
+      makeRootSquareQuestion(),
+      makeRootSquareQuestion(),
+      makeRootSquareQuestion(),
+
+      makePrimeSimplifyQuestion(),
+      makePrimeSimplifyQuestion(),
+      makePrimeSimplifyQuestion(),
+      makePrimeSimplifyQuestion(),
+
+      makeNormalSimplifyQuestion(),
+      makeNormalSimplifyQuestion(),
+      makeNormalSimplifyQuestion()
+    ]
+  );
+}
+
+
+/*
+==================================================
+模式三
+根號值 + 十分逼近
+==================================================
+*/
+
+
+/*
+--------------------------------------------------
+A.
+介於哪兩整數
+--------------------------------------------------
+*/
+
+function makeBetweenIntegersQuestion() {
+
+  let n;
+
+
+  do {
+
+    n =
+      rand(
+        10,
+        200
+      );
+
+  } while (
+    Number.isInteger(
+      Math.sqrt(
+        n
+      )
+    )
+  );
+
+
+  const lower =
+    Math.floor(
+      Math.sqrt(
+        n
+      )
+    );
+
+
+  const upper =
+    lower +
+    1;
+
+
+  const correctText =
+    `${lower}＜√${n}＜${upper}`;
+
+
+  const candidates =
+    shuffle(
+      [
+
+        {
+          value:
+            "correct",
+
+          text:
+            correctText
+        },
+
+        {
+          value:
+            "a",
+
+          text:
+            `${lower - 1}＜√${n}＜${lower}`
+        },
+
+        {
+          value:
+            "b",
+
+          text:
+            `${upper}＜√${n}＜${upper + 1}`
+        },
+
+        {
+          value:
+            "c",
+
+          text:
+            `${lower}＜√${n}＜${upper + 1}`
+        }
+      ]
+    );
+
+
+  return choiceQuestion(
+
+    `
+
+      <span class="math-expression">
+
+        ${sqrtDisplay(
+          n
+        )}
+        介於哪兩個連續整數之間？
+
+      </span>
+    `,
+
+    "correct",
+
+    candidates,
+
+    [
+
+      `${detailPower(
+        lower,
+        2
+      )}
+      ＝
+      ${
+        lower *
+        lower
+      }。`,
+
+      `${detailPower(
+        upper,
+        2
+      )}
+      ＝
+      ${
+        upper *
+        upper
+      }。`,
+
+      `因為
+      ${
+        lower *
+        lower
+      }
+      ＜
+      ${n}
+      ＜
+      ${
+        upper *
+        upper
+      }，`,
+
+      `所以
+      ${lower}
+      ＜
+      ${detailSqrt(
+        n
+      )}
+      ＜
+      ${upper}。`
+    ],
+
+    "請選出正確範圍"
+  );
+}
+
+
+/*
+--------------------------------------------------
+B.
+十分逼近
+--------------------------------------------------
+*/
+
+function makeApproximationQuestion() {
+
+  let n;
+
+
+  do {
+
+    n =
+      rand(
+        20,
+        220
+      );
+
+  } while (
+    Number.isInteger(
+      Math.sqrt(
+        n
+      )
+    )
+  );
+
+
+  const actual =
+    Math.sqrt(
+      n
+    );
+
+
+  const answer =
+    Number(
+      actual.toFixed(
+        1
+      )
+    );
+
+
+  const tenthBelow =
+    Math.floor(
+      actual *
+      10
+    ) /
+    10;
+
+
+  const tenthAbove =
+    tenthBelow +
+    .1;
+
+
+  /*
+  依使用者之前需求：
+  類似
+  13.15² = ...
+  13.25² = ...
+
+  給學生較接近的平方值
+  */
+
+  const ref1 =
+    Number(
+      (
+        tenthBelow +
+        .05
+      ).toFixed(
+        2
+      )
+    );
+
+
+  const ref2 =
+    Number(
+      (
+        tenthAbove +
+        .05
+      ).toFixed(
+        2
+      )
+    );
+
+
+  const square1 =
+    (
+      ref1 *
+      ref1
+    )
+      .toFixed(
+        4
+      );
+
+
+  const square2 =
+    (
+      ref2 *
+      ref2
+    )
+      .toFixed(
+        4
+      );
+
+
+  const reference = `
+
+    參考數值：
+
+    ${powerHTML(
+      ref1,
+      2
+    )}
+    ＝
+    ${square1}
+
+    &nbsp;&nbsp;&nbsp;
+
+    ${powerHTML(
+      ref2,
+      2
+    )}
+    ＝
+    ${square2}
+  `;
+
+
+  return decimalQuestion(
+
+    `
+
+      <span class="math-expression">
+
+        ${sqrtDisplay(
+          n
+        )}
+
+        <span>
+          ≈ ?
+        </span>
+
+      </span>
+    `,
+
+    answer,
+
+    [
+
+      `本題要求利用十分逼近法，估算到小數第一位。`,
+
+      `先找出
+      ${detailSqrt(
+        n
+      )}
+      介於哪兩個一位小數之間。`,
+
+      `比較附近小數的平方與 ${n} 的大小。`,
+
+      `因為
+      ${detailPower(
+        ref1,
+        2
+      )}
+      ＝${square1}，
+      ${detailPower(
+        ref2,
+        2
+      )}
+      ＝${square2}，`,
+
+      `可判斷
+      ${detailSqrt(
+        n
+      )}
+      約為
+      ${answer}。`
+    ],
+
+    "利用十分逼近法，求到小數第一位",
+
+    reference
+  );
+}
+
+
+function makeMode3() {
+
+  return shuffle(
+    [
+
+      makeBetweenIntegersQuestion(),
+      makeBetweenIntegersQuestion(),
+      makeBetweenIntegersQuestion(),
+      makeBetweenIntegersQuestion(),
+
+      makeApproximationQuestion(),
+      makeApproximationQuestion(),
+      makeApproximationQuestion(),
+      makeApproximationQuestion(),
+      makeApproximationQuestion(),
+      makeApproximationQuestion()
+    ]
+  );
+}
+
+
+/*
+==================================================
+模式四
+平方根的意義
+==================================================
+*/
+
+
+/*
+--------------------------------------------------
+正平方根應用
+--------------------------------------------------
+*/
+
+function makePositiveRootApplication() {
+
+  const root =
+    rand(
+      3,
+      12
+    );
+
+
+  const x =
+    rand(
+      -8,
+      12
+    );
+
+
+  const coefficient =
+    pick(
+      [
+        2,
+        3,
+        4,
+        5
+      ]
+    );
+
+
+  const constant =
+    root *
+    root -
+    coefficient *
+    x;
+
+
+  const constantText =
+
+    constant >=
+    0
+
+      ? `＋${constant}`
+
+      : `－${Math.abs(
+          constant
+        )}`;
+
+
+  return numberQuestion(
+
+    `
+
+      <span class="math-expression">
+
+        若 ${root} 是
+        ${coefficient}x
+        ${constantText}
+        的正平方根，則 x＝？
+
+      </span>
+    `,
+
+    x,
+
+    [
+
+      `「${root} 是
+      ${coefficient}x${constantText}
+      的正平方根」表示：`,
+
+      `${detailPower(
+        root,
+        2
+      )}
+      ＝
+      ${coefficient}x
+      ${constantText}。`,
+
+      `${root * root}
+      ＝
+      ${coefficient}x
+      ${constantText}。`,
+
+      `解這個一元一次方程式，可得 x＝${x}。`
+    ],
+
+    "請利用平方根的意義求 x"
+  );
+}
+
+
+/*
+--------------------------------------------------
+負平方根
+--------------------------------------------------
+*/
+
+function makeNegativeRootApplication() {
+
+  const root =
+    rand(
+      3,
+      12
+    );
+
+
+  const answer =
+    -root;
+
+
+  return numberQuestion(
+
+    `
+
+      <span class="math-expression">
+
+        ${root * root}
+        的負平方根是多少？
+
+      </span>
+    `,
+
+    answer,
+
+    [
+
+      `${root * root}
+      ＝
+      ${detailPower(
+        root,
+        2
+      )}。`,
+
+      `${root * root}
+      的兩個平方根是
+      ${root}
+      與
+      −${root}。`,
+
+      `題目要求「負平方根」，所以答案＝−${root}。`
+    ],
+
+    "請寫出負平方根"
+  );
+}
+
+
+/*
+--------------------------------------------------
+平方根兩個
+--------------------------------------------------
+*/
+
+function makeBothRootsQuestion() {
+
+  const root =
+    rand(
+      2,
+      15
+    );
+
+
+  const n =
+    root *
+    root;
+
+
+  const choices =
+    shuffle(
+      [
+
+        {
+          value:
+            "correct",
+
+          text:
+            `±${root}`
+        },
+
+        {
+          value:
+            "a",
+
+          text:
+            `${root}`
+        },
+
+        {
+          value:
+            "b",
+
+          text:
+            `−${root}`
+        },
+
+        {
+          value:
+            "c",
+
+          text:
+            `±${n}`
+        }
+      ]
+    );
+
+
+  return choiceQuestion(
+
+    `
+
+      <span class="math-expression">
+
+        ${n} 的平方根為何？
+
+      </span>
+    `,
+
+    "correct",
+
+    choices,
+
+    [
+
+      `因為
+      ${detailPower(
+        root,
+        2
+      )}
+      ＝${n}，`,
+
+      `而
+      ${detailPower(
+        `−${root}`,
+        2
+      )}
+      也等於 ${n}。`,
+
+      `所以 ${n} 的平方根有兩個：
+      ${root}
+      和
+      −${root}。`,
+
+      `可合寫為 ±${root}。`
+    ],
+
+    "請選出正確答案"
+  );
+}
+
+
+/*
+--------------------------------------------------
+√(a²)
+此處也避免 a=1
+--------------------------------------------------
+*/
+
+function makeAbsoluteValueRootQuestion() {
+
+  /*
+  ★ 同樣不出 ±1
+  避免又出現 √(1²)
+  */
+
+  const absolute =
+    rand(
+      2,
+      15
+    );
+
+
+  const a =
+    Math.random() <
+    .5
+
+      ? absolute
+
+      : -absolute;
+
+
+  return numberQuestion(
+
+    `
+
+      <span class="math-expression">
+
+        ${sqrtDisplay(
+          powerHTML(
+            `(${a})`,
+            2
+          )
+        )}
+
+      </span>
+    `,
+
+    Math.abs(
+      a
+    ),
+
+    [
+
+      `平方根的重要性質是：`,
+
+      `${detailSqrt(
+        powerHTML(
+          "a",
+          2
+        )
+      )}
+      ＝
+      |a|。`,
+
+      `本題
+      a＝${a}。`,
+
+      `所以
+      |${a}|
+      ＝
+      ${Math.abs(
+        a
+      )}。`,
+
+      `因此答案＝
+      ${Math.abs(
+        a
+      )}。`
+    ],
+
+    "請求出根號的值"
+  );
+}
+
+
+function makeMode4() {
+
+  return shuffle(
+    [
+
+      makePositiveRootApplication(),
+      makePositiveRootApplication(),
+      makePositiveRootApplication(),
+
+      makeNegativeRootApplication(),
+      makeNegativeRootApplication(),
+
+      makeBothRootsQuestion(),
+      makeBothRootsQuestion(),
+
+      makeAbsoluteValueRootQuestion(),
+      makeAbsoluteValueRootQuestion(),
+      makeAbsoluteValueRootQuestion()
+    ]
+  );
+}
+
+
+/*
+==================================================
+題組
+==================================================
+*/
+
+function createQuestions() {
+
+  if (
+    mode ===
+    "squarePractice"
+  ) {
+
+    return makeMode1();
+  }
+
+
+  if (
+    mode ===
+    "simplify"
+  ) {
+
+    return makeMode2();
+  }
+
+
+  if (
+    mode ===
+    "approximation"
+  ) {
+
+    return makeMode3();
+  }
+
+
+  return makeMode4();
 }
 
 
@@ -2492,6 +4257,43 @@ function formatTime(
     `${String(minutes).padStart(2,"0")}:` +
     `${String(remain).padStart(2,"0")}`
   );
+}
+
+
+function stopTimer(
+  update =
+    true
+) {
+
+  if (
+    timerId !==
+    null
+  ) {
+
+    clearInterval(
+      timerId
+    );
+
+
+    timerId =
+      null;
+  }
+
+
+  if (
+    update &&
+    startTime
+  ) {
+
+    elapsed =
+      Math.floor(
+        (
+          Date.now() -
+          startTime
+        ) /
+        1000
+      );
+  }
 }
 
 
@@ -2541,45 +4343,42 @@ function startTimer() {
 }
 
 
-function stopTimer(
-  updateElapsed =
-    true
+/*
+==================================================
+音效
+==================================================
+*/
+
+function playGameSound(
+  method
 ) {
 
-  if (
-    timerId !== null
+  try {
+
+    const sound =
+      window.GameSound ||
+      window.MathGameSound;
+
+
+    sound?.[
+      method
+    ]?.();
+
+  } catch (
+    error
   ) {
 
-    clearInterval(
-      timerId
+    console.warn(
+      "音效播放失敗：",
+      error
     );
-
-
-    timerId =
-      null;
-  }
-
-
-  if (
-    updateElapsed &&
-    startTime
-  ) {
-
-    elapsed =
-      Math.floor(
-        (
-          Date.now() -
-          startTime
-        ) /
-        1000
-      );
   }
 }
 
 
 /*
 ==================================================
-畫面
+計算紙
 ==================================================
 */
 
@@ -2608,6 +4407,12 @@ function moveScratchpadButtonToTop() {
 }
 
 
+/*
+==================================================
+畫面
+==================================================
+*/
+
 function showOnly(
   id
 ) {
@@ -2625,14 +4430,16 @@ function showOnly(
           .classList
           .toggle(
             "hidden",
-            screen !== id
+            screen !==
+              id
           );
       }
     );
 
 
   if (
-    id === "quiz-screen"
+    id ===
+    "quiz-screen"
   ) {
 
     moveScratchpadButtonToTop();
@@ -2653,1247 +4460,55 @@ function showOnly(
 
 /*
 ==================================================
-題目物件
+Preview
 ==================================================
 */
 
-function numberQuestion(
-  html,
-  answer,
-  explanation,
-  label,
-  decimal =
-    false,
-  extra =
-    {}
-) {
+function updateNumberPreview() {
 
-  return {
+  const raw =
+    $("number-answer")
+      ?.value
+      .trim() ||
+    "";
 
-    type:
-      "number",
 
-    html,
+  $("answer-preview")
+    .innerHTML =
 
-    answer,
+      raw
 
-    explanation,
+        ? `目前答案：
+           <span class="answer-preview-value">
+             ${raw}
+           </span>`
 
-    label,
-
-    decimal,
-
-    ...extra
-  };
+        : "目前尚未完成答案。";
 }
 
 
-function fractionQuestion(
-  html,
-  numerator,
-  denominator,
-  explanation,
-  label
-) {
+function updateDecimalPreview() {
 
-  return {
+  const raw =
+    $("decimal-answer")
+      ?.value
+      .trim() ||
+    "";
 
-    type:
-      "fraction",
 
-    html,
+  $("answer-preview")
+    .innerHTML =
 
-    numerator,
+      raw
 
-    denominator,
+        ? `目前答案：
+           <span class="answer-preview-value">
+             ${raw}
+           </span>`
 
-    explanation,
-
-    label
-  };
+        : "目前尚未完成答案。";
 }
 
-
-function radicalQuestion(
-  html,
-  coefficient,
-  radicand,
-  explanation,
-  label
-) {
-
-  return {
-
-    type:
-      "radical",
-
-    html,
-
-    coefficient,
-
-    radicand,
-
-    explanation,
-
-    label
-  };
-}
-
-
-function choiceQuestion(
-  html,
-  choices,
-  answer,
-  explanation,
-  label
-) {
-
-  return {
-
-    type:
-      "choice",
-
-    html,
-
-    choices,
-
-    answer,
-
-    explanation,
-
-    label
-  };
-}
-
-
-/*
-==================================================
-模式一
-11²～32²
-==================================================
-*/
-
-function makeMode1() {
-
-  return shuffle(
-
-    Array.from(
-      {
-        length: 22
-      },
-
-      (
-        _,
-        i
-      ) =>
-        i + 11
-    )
-  )
-    .slice(
-      0,
-      12
-    )
-
-    .map(
-      base => {
-
-        const answer =
-          base * base;
-
-
-        return numberQuestion(
-
-          mathWrap(
-
-            `
-
-              <msup>
-
-                <mn>
-                  ${base}
-                </mn>
-
-                <mn>
-                  2
-                </mn>
-
-              </msup>
-
-              <mo>=</mo>
-
-              <mo>?</mo>
-
-            `
-          ),
-
-          answer,
-
-          [
-
-            `${base} × ${base}＝${answer}`
-          ],
-
-          "請填入正確的平方數"
-        );
-      }
-    );
-}
-
-
-/*
-==================================================
-模式二 A
-√(a²)
-==================================================
-*/
-
-function makeRootOfSquareQuestion() {
-
-  const a =
-    nonZeroRand(
-      -18,
-      18
-    );
-
-
-  const answer =
-    Math.abs(a);
-
-
-  return numberQuestion(
-
-    RU()
-      .sqrtSquareHTML(
-        a
-      ),
-
-    answer,
-
-    [
-
-      "√(a²)＝|a|",
-
-      `本題 a＝${a}`,
-
-      `所以答案＝${answer}`
-    ],
-
-    "請求出根號的值"
-  );
-}
-
-
-/*
-==================================================
-模式二 B
-質因數
-
-規則：
-1. 底數由小到大
-2. 每個指數至少 2
-3. 根式答案至少有一個奇數次方
-==================================================
-*/
-
-function createPrimeFactorData(
-  forceInteger =
-    false
-) {
-
-  const primePool =
-    [
-      2,
-      3,
-      5,
-      7
-    ];
-
-
-  const primes =
-    shuffle(
-      primePool
-    )
-      .slice(
-        0,
-        rand(
-          2,
-          3
-        )
-      )
-      .sort(
-        (
-          a,
-          b
-        ) =>
-          a - b
-      );
-
-
-  let outside =
-    1;
-
-
-  let inside =
-    1;
-
-
-  const factors =
-    primes.map(
-      (
-        prime,
-        factorIndex
-      ) => {
-
-        let exponent;
-
-
-        if (
-          forceInteger
-        ) {
-
-          exponent =
-            pick(
-              [
-                2,
-                4
-              ]
-            );
-
-        } else if (
-          factorIndex === 0
-        ) {
-
-          /*
-          保證至少一個奇數次方
-          */
-
-          exponent =
-            pick(
-              [
-                3,
-                5
-              ]
-            );
-
-        } else {
-
-          exponent =
-            pick(
-              [
-                2,
-                3,
-                4,
-                5
-              ]
-            );
-        }
-
-
-        outside *=
-          Math.pow(
-            prime,
-            Math.floor(
-              exponent /
-              2
-            )
-          );
-
-
-        if (
-          exponent % 2 === 1
-        ) {
-
-          inside *=
-            prime;
-        }
-
-
-        return {
-
-          prime,
-
-          exponent
-        };
-      }
-    );
-
-
-  return {
-
-    factors,
-
-    outside,
-
-    inside
-  };
-}
-
-
-function makePrimeQuestion(
-  forceInteger =
-    false
-) {
-
-  const data =
-    createPrimeFactorData(
-      forceInteger
-    );
-
-
-  if (
-    data.inside === 1
-  ) {
-
-    return numberQuestion(
-
-      sqrtPrimeFactorHTML(
-        data.factors
-      ),
-
-      data.outside,
-
-      [
-
-        `標準分解式：${primeFactorText(
-          data.factors
-        )}`,
-
-        "每兩個相同的質因數可以提出根號外一個。",
-
-        `答案＝${data.outside}`
-      ],
-
-      "請利用質因數標準分解式化簡"
-    );
-  }
-
-
-  return radicalQuestion(
-
-    sqrtPrimeFactorHTML(
-      data.factors
-    ),
-
-    data.outside,
-
-    data.inside,
-
-    [
-
-      `標準分解式：${primeFactorText(
-        data.factors
-      )}`,
-
-      "每兩個相同的質因數可以提出根號外一個。",
-
-      `根號外係數＝${data.outside}`,
-
-      `根號內剩下＝${data.inside}`,
-
-      `答案＝${
-        RU().radicalToHTML(
-          data.outside,
-          data.inside
-        )
-      }`
-    ],
-
-    "請利用質因數標準分解式化成最簡根式"
-  );
-}
-
-
-function makeMode2() {
-
-  return shuffle(
-    [
-
-      makeRootOfSquareQuestion(),
-      makeRootOfSquareQuestion(),
-      makeRootOfSquareQuestion(),
-      makeRootOfSquareQuestion(),
-
-      makePrimeQuestion(),
-      makePrimeQuestion(),
-      makePrimeQuestion(),
-      makePrimeQuestion(),
-      makePrimeQuestion(),
-
-      makePrimeQuestion(true)
-    ]
-  );
-}
-
-
-/*
-==================================================
-模式三 A
-整數
-==================================================
-*/
-
-function makeExactIntegerRoot() {
-
-  const root =
-    rand(
-      2,
-      18
-    );
-
-
-  return numberQuestion(
-
-    RU()
-      .sqrtNumberHTML(
-        root * root
-      ),
-
-    root,
-
-    [
-
-      `${root}²＝${root * root}`,
-
-      `所以答案＝${root}`
-    ],
-
-    "請求出根號的值"
-  );
-}
-
-
-/*
-==================================================
-模式三 B
-小數
-==================================================
-*/
-
-function makeExactDecimalRoot() {
-
-  const tenth =
-    rand(
-      11,
-      39
-    );
-
-
-  const answer =
-    tenth /
-    10;
-
-
-  const radicand =
-    Number(
-      (
-        answer *
-        answer
-      )
-        .toFixed(
-          2
-        )
-    );
-
-
-  return numberQuestion(
-
-    RU()
-      .sqrtNumberHTML(
-        radicand
-      ),
-
-    answer,
-
-    [
-
-      `${answer}²＝${radicand}`,
-
-      `所以答案＝${answer}`
-    ],
-
-    "請求出根號的值",
-
-    true
-  );
-}
-
-
-/*
-==================================================
-模式三 C
-分數
-==================================================
-*/
-
-function makeExactFractionRoot() {
-
-  let numerator;
-
-  let denominator;
-
-
-  do {
-
-    numerator =
-      rand(
-        1,
-        8
-      );
-
-
-    denominator =
-      rand(
-        2,
-        9
-      );
-
-  } while (
-
-    numerator >= denominator ||
-
-    RU().gcd(
-      numerator,
-      denominator
-    ) !== 1
-  );
-
-
-  return fractionQuestion(
-
-    RU()
-      .sqrtFractionHTML(
-
-        numerator *
-        numerator,
-
-        denominator *
-        denominator
-      ),
-
-    numerator,
-
-    denominator,
-
-    [
-
-      `分子的算術平方根為 ${numerator}`,
-
-      `分母的算術平方根為 ${denominator}`,
-
-      `答案＝${numerator}/${denominator}`
-    ],
-
-    "請求出根號的值，答案化成最簡分數"
-  );
-}
-
-
-/*
-==================================================
-模式三 D
-十分逼近
-
-★ 新版參考值
-
-例如：
-
-√174
-
-正確近似值約為 13.2
-
-系統提供：
-
-13.15²＝172.9225
-13.25²＝175.5625
-
-讓學生判斷取到小數第一位。
-==================================================
-*/
-
-function makeApproximation() {
-
-  let number;
-
-
-  do {
-
-    number =
-      rand(
-        2,
-        200
-      );
-
-  } while (
-    RU()
-      .isPerfectSquare(
-        number
-      )
-  );
-
-
-  const actual =
-    Math.sqrt(
-      number
-    );
-
-
-  const answer =
-    Number(
-      actual.toFixed(
-        1
-      )
-    );
-
-
-  /*
-  --------------------------------------------------
-  以答案小數第一位為中心，
-  前後各 0.05
-
-  13.2
-
-  → 13.15
-  → 13.25
-  --------------------------------------------------
-  */
-
-  const lowerReference =
-    Number(
-      (
-        answer -
-        0.05
-      )
-        .toFixed(
-          2
-        )
-    );
-
-
-  const upperReference =
-    Number(
-      (
-        answer +
-        0.05
-      )
-        .toFixed(
-          2
-        )
-    );
-
-
-  const lowerSquare =
-    cleanDecimal(
-      lowerReference *
-      lowerReference,
-      4
-    );
-
-
-  const upperSquare =
-    cleanDecimal(
-      upperReference *
-      upperReference,
-      4
-    );
-
-
-  /*
-  解析用
-  */
-
-  const lowerTenth =
-    Math.floor(
-      actual *
-      10
-    ) /
-    10;
-
-
-  const upperTenth =
-    Number(
-      (
-        lowerTenth +
-        0.1
-      )
-        .toFixed(
-          1
-        )
-    );
-
-
-  return numberQuestion(
-
-    mathWrap(
-
-      `
-
-        <msqrt>
-
-          <mn>
-            ${number}
-          </mn>
-
-        </msqrt>
-
-        <mo>≈</mo>
-
-        <mo>?</mo>
-
-      `
-    ),
-
-    answer,
-
-    [
-
-      `參考：${lowerReference}²＝${lowerSquare}`,
-
-      `參考：${upperReference}²＝${upperSquare}`,
-
-      `因此 √${number} 介於相鄰的小數值之間。`,
-
-      `取到小數第一位，答案約為 ${answer}。`
-    ],
-
-    "利用十分逼近法，求到小數第一位",
-
-    true,
-
-    {
-
-      approximationReference: {
-
-        lowerReference,
-
-        lowerSquare,
-
-        upperReference,
-
-        upperSquare
-      }
-    }
-  );
-}
-
-
-function makeMode3() {
-
-  return shuffle(
-    [
-
-      makeExactIntegerRoot(),
-      makeExactIntegerRoot(),
-
-      makeExactDecimalRoot(),
-
-      makeExactFractionRoot(),
-
-      makeApproximation(),
-      makeApproximation(),
-      makeApproximation(),
-      makeApproximation(),
-      makeApproximation(),
-      makeApproximation()
-    ]
-  );
-}
-
-
-/*
-==================================================
-模式四 A
-正平方根
-==================================================
-*/
-
-function makePositiveRootApplication() {
-
-  const root =
-    rand(
-      3,
-      18
-    );
-
-
-  return numberQuestion(
-
-    `若 ${root} 是 a 的正平方根，則 a＝？`,
-
-    root *
-    root,
-
-    [
-
-      `${root}²＝${root * root}`,
-
-      `所以 a＝${root * root}`
-    ],
-
-    "請利用正平方根的意義計算"
-  );
-}
-
-
-/*
-==================================================
-模式四 B
-負平方根
-==================================================
-*/
-
-function makeNegativeRootApplication() {
-
-  const root =
-    rand(
-      3,
-      15
-    );
-
-
-  return numberQuestion(
-
-    `若 −${root} 是 a 的負平方根，則 a＝？`,
-
-    root *
-    root,
-
-    [
-
-      `(−${root})²＝${root * root}`,
-
-      `所以 a＝${root * root}`
-    ],
-
-    "請利用負平方根的意義計算"
-  );
-}
-
-
-/*
-==================================================
-模式四 C
-求 x
-
-★ 不產生：
-
-4x＋0
-4x－0
-
-若 constant = 0
-
-直接：
-
-4x
-==================================================
-*/
-
-function makeLinearApplication() {
-
-  const root =
-    rand(
-      3,
-      12
-    );
-
-
-  const coefficient =
-    pick(
-      [
-        2,
-        3,
-        4,
-        5
-      ]
-    );
-
-
-  const answer =
-    rand(
-      2,
-      12
-    );
-
-
-  const square =
-    root *
-    root;
-
-
-  const constant =
-    square -
-    coefficient *
-    answer;
-
-
-  let expression;
-
-
-  if (
-    constant > 0
-  ) {
-
-    expression =
-      `${coefficient}x＋${constant}`;
-
-  } else if (
-    constant < 0
-  ) {
-
-    expression =
-      `${coefficient}x－${Math.abs(
-        constant
-      )}`;
-
-  } else {
-
-    /*
-    ★ constant = 0
-
-    不寫 +0 / -0
-    */
-
-    expression =
-      `${coefficient}x`;
-  }
-
-
-  return numberQuestion(
-
-    `若 ${root} 是 ${expression} 的正平方根，則 x＝？`,
-
-    answer,
-
-    [
-
-      `${expression}＝${root}²`,
-
-      `${expression}＝${square}`,
-
-      `所以 x＝${answer}`
-    ],
-
-    "請利用平方根的意義求 x"
-  );
-}
-
-
-/*
-==================================================
-模式四 D
-觀念
-==================================================
-*/
-
-function makeConceptChoice() {
-
-  const root =
-    rand(
-      3,
-      12
-    );
-
-
-  const square =
-    root *
-    root;
-
-
-  return choiceQuestion(
-
-    `${square} 的平方根為何？`,
-
-    shuffle(
-      [
-
-        {
-          value:
-            "correct",
-
-          text:
-            `±${root}`
-        },
-
-        {
-          value:
-            "positive",
-
-          text:
-            `${root}`
-        },
-
-        {
-          value:
-            "negative",
-
-          text:
-            `−${root}`
-        },
-
-        {
-          value:
-            "square",
-
-          text:
-            `${square}`
-        }
-      ]
-    ),
-
-    "correct",
-
-    [
-
-      `${root}²＝${square}`,
-
-      `(−${root})²＝${square}`,
-
-      `所以 ${square} 的平方根為 ±${root}`
-    ],
-
-    "請選出正確答案"
-  );
-}
-
-
-function makeMode4() {
-
-  return shuffle(
-    [
-
-      makePositiveRootApplication(),
-      makePositiveRootApplication(),
-
-      makeNegativeRootApplication(),
-      makeNegativeRootApplication(),
-
-      makeLinearApplication(),
-      makeLinearApplication(),
-      makeLinearApplication(),
-
-      makeConceptChoice(),
-      makeConceptChoice(),
-      makeConceptChoice()
-    ]
-  );
-}
-
-
-/*
-==================================================
-建立題組
-==================================================
-*/
-
-function createQuestions() {
-
-  if (
-    mode === "squarePractice"
-  ) {
-
-    return makeMode1();
-  }
-
-
-  if (
-    mode === "simplify"
-  ) {
-
-    return makeMode2();
-  }
-
-
-  if (
-    mode === "approximation"
-  ) {
-
-    return makeMode3();
-  }
-
-
-  return makeMode4();
-}
-
-
-/*
-==================================================
-十分逼近參考值顯示
-==================================================
-*/
-
-function renderApproximationReference(
-  question
-) {
-
-  const box =
-    $("approx-reference");
-
-
-  if (
-    !question
-      .approximationReference
-  ) {
-
-    box.innerHTML =
-      "";
-
-
-    box.classList.add(
-      "hidden"
-    );
-
-
-    return;
-  }
-
-
-  const ref =
-    question
-      .approximationReference;
-
-
-  box.innerHTML = `
-
-    <span class="approx-reference-title">
-
-      📘 參考數值：
-
-    </span>
-
-
-    <span class="reference-values">
-
-      <span>
-
-        ${ref.lowerReference}<sup>2</sup>
-        ＝
-        ${ref.lowerSquare}
-
-      </span>
-
-
-      <span>
-
-        ${ref.upperReference}<sup>2</sup>
-        ＝
-        ${ref.upperSquare}
-
-      </span>
-
-    </span>
-  `;
-
-
-  box.classList.remove(
-    "hidden"
-  );
-}
-
-
-/*
-==================================================
-分數預覽
-==================================================
-*/
 
 function updateFractionPreview() {
 
@@ -3911,35 +4526,33 @@ function updateFractionPreview() {
     "";
 
 
-  const preview =
-    $("answer-preview");
-
-
   if (
     !numerator ||
     !denominator
   ) {
 
-    preview.innerHTML =
-      "目前尚未完成答案。";
+    $("answer-preview")
+      .innerHTML =
+        "目前尚未完成答案。";
 
 
     return;
   }
 
 
-  preview.innerHTML = `
+  $("answer-preview")
+    .innerHTML = `
 
-    目前答案：
+      目前答案：
 
-    <span class="answer-preview-value">
+      <span class="answer-preview-value">
 
-      ${fractionHTML(
-        numerator,
-        denominator
-      )}
+        ${fractionDisplay(
+          numerator,
+          denominator
+        )}
 
-    </span>
+      </span>
   `;
 }
 
@@ -3954,11 +4567,11 @@ function renderAnswer(
   question
 ) {
 
-  selectedChoice =
+  radicalInput =
     null;
 
 
-  radicalInput =
+  selectedChoice =
     null;
 
 
@@ -3967,13 +4580,12 @@ function renderAnswer(
 
 
   /*
-  --------------------------------------------------
   Number
-  --------------------------------------------------
   */
 
   if (
-    question.type === "number"
+    question.type ===
+    "number"
   ) {
 
     panel.innerHTML = `
@@ -3990,17 +4602,9 @@ function renderAnswer(
         <input
           id="number-answer"
           type="text"
-          inputmode="${
-            question.decimal
-              ? "decimal"
-              : "numeric"
-          }"
+          inputmode="numeric"
           autocomplete="off"
-          placeholder="${
-            question.decimal
-              ? "輸入數值"
-              : "輸入整數答案"
-          }"
+          placeholder="輸入整數答案"
         >
 
       </div>
@@ -4020,34 +4624,7 @@ function renderAnswer(
     $("number-answer")
       .addEventListener(
         "input",
-        event => {
-
-          const value =
-            event
-              .target
-              .value
-              .trim();
-
-
-          $("answer-preview")
-            .innerHTML =
-
-              value
-
-                ? `
-
-                    目前答案：
-
-                    <span class="answer-preview-value">
-
-                      ${value}
-
-                    </span>
-
-                  `
-
-                : "目前尚未完成答案。";
-        }
+        updateNumberPreview
       );
 
 
@@ -4064,13 +4641,73 @@ function renderAnswer(
 
 
   /*
-  --------------------------------------------------
-  Fraction
-  --------------------------------------------------
+  Decimal
   */
 
   if (
-    question.type === "fraction"
+    question.type ===
+    "decimal"
+  ) {
+
+    panel.innerHTML = `
+
+      <div class="answer-title">
+
+        ${question.label}
+
+      </div>
+
+
+      <div class="decimal-answer">
+
+        <input
+          id="decimal-answer"
+          type="text"
+          inputmode="decimal"
+          autocomplete="off"
+          placeholder="輸入數值"
+        >
+
+      </div>
+
+
+      <div
+        id="answer-preview"
+        class="answer-preview"
+      >
+
+        目前尚未完成答案。
+
+      </div>
+    `;
+
+
+    $("decimal-answer")
+      .addEventListener(
+        "input",
+        updateDecimalPreview
+      );
+
+
+    setTimeout(
+      () =>
+        $("decimal-answer")
+          ?.focus(),
+      0
+    );
+
+
+    return;
+  }
+
+
+  /*
+  Fraction
+  */
+
+  if (
+    question.type ===
+    "fraction"
   ) {
 
     panel.innerHTML = `
@@ -4095,6 +4732,7 @@ function renderAnswer(
 
         <div class="fraction-input">
 
+
           <input
             id="fraction-numerator"
             type="text"
@@ -4103,6 +4741,7 @@ function renderAnswer(
             placeholder="分子"
           >
 
+
           <input
             id="fraction-denominator"
             type="text"
@@ -4110,6 +4749,7 @@ function renderAnswer(
             autocomplete="off"
             placeholder="分母"
           >
+
 
         </div>
 
@@ -4155,13 +4795,12 @@ function renderAnswer(
 
 
   /*
-  --------------------------------------------------
   Radical
-  --------------------------------------------------
   */
 
   if (
-    question.type === "radical"
+    question.type ===
+    "radical"
   ) {
 
     panel.innerHTML = `
@@ -4177,7 +4816,7 @@ function renderAnswer(
 
         根號外係數為 1 時可以保留 1。<br>
 
-        根號內若還可以繼續化簡，
+        根號內若還可以化簡，
         系統只提醒，不會替你自動化簡。
 
       </p>
@@ -4227,9 +4866,7 @@ function renderAnswer(
 
 
   /*
-  --------------------------------------------------
   Choice
-  --------------------------------------------------
   */
 
   panel.innerHTML = `
@@ -4257,11 +4894,20 @@ function renderAnswer(
                 ${choice.text}
 
               </button>
-
             `
           )
           .join("")
       }
+
+    </div>
+
+
+    <div
+      id="answer-preview"
+      class="answer-preview"
+    >
+
+      尚未選擇答案。
 
     </div>
   `;
@@ -4279,9 +4925,7 @@ function renderAnswer(
           () => {
 
             selectedChoice =
-              button
-                .dataset
-                .choice;
+              button.dataset.choice;
 
 
             panel
@@ -4289,12 +4933,14 @@ function renderAnswer(
                 ".choice-button"
               )
               .forEach(
-                item =>
+                item => {
+
                   item
                     .classList
                     .remove(
                       "selected"
-                    )
+                    );
+                }
               );
 
 
@@ -4303,6 +4949,19 @@ function renderAnswer(
               .add(
                 "selected"
               );
+
+
+            $("answer-preview")
+              .innerHTML = `
+
+                目前選擇：
+
+                <span class="answer-preview-value">
+
+                  ${button.textContent.trim()}
+
+                </span>
+              `;
           }
         );
       }
@@ -4371,12 +5030,37 @@ function displayQuestion() {
 
 
   /*
-  ★ 顯示 / 隱藏十分逼近參考值
+  參考數值
   */
 
-  renderApproximationReference(
-    question
-  );
+  if (
+    question.reference
+  ) {
+
+    $("reference-box")
+      .innerHTML =
+        question.reference;
+
+
+    $("reference-box")
+      .classList
+      .remove(
+        "hidden"
+      );
+
+  } else {
+
+    $("reference-box")
+      .innerHTML =
+        "";
+
+
+    $("reference-box")
+      .classList
+      .add(
+        "hidden"
+      );
+  }
 
 
   $("feedback")
@@ -4390,15 +5074,15 @@ function displayQuestion() {
 
 
   $("explanation")
+    .innerHTML =
+      "";
+
+
+  $("explanation")
     .classList
     .add(
       "hidden"
     );
-
-
-  $("explanation")
-    .innerHTML =
-      "";
 
 
   $("submit-button")
@@ -4436,8 +5120,13 @@ function readAnswer(
   question
 ) {
 
+  /*
+  Number
+  */
+
   if (
-    question.type === "number"
+    question.type ===
+    "number"
   ) {
 
     const raw =
@@ -4447,17 +5136,11 @@ function readAnswer(
       "";
 
 
-    const regex =
-
-      question.decimal
-
-        ? /^-?(?:\d+|\d*\.\d+)$/
-
-        : /^-?\d+$/;
-
-
     if (
-      !regex.test(raw)
+      !/^-?\d+$/
+        .test(
+          raw
+        )
     ) {
 
       return {
@@ -4466,7 +5149,7 @@ function readAnswer(
           false,
 
         message:
-          "請輸入完整答案。"
+          "請輸入完整整數答案。"
       };
     }
 
@@ -4477,7 +5160,9 @@ function readAnswer(
         true,
 
       value:
-        Number(raw),
+        Number(
+          raw
+        ),
 
       display:
         raw
@@ -4485,8 +5170,63 @@ function readAnswer(
   }
 
 
+  /*
+  Decimal
+  */
+
   if (
-    question.type === "fraction"
+    question.type ===
+    "decimal"
+  ) {
+
+    const raw =
+      $("decimal-answer")
+        ?.value
+        .trim() ||
+      "";
+
+
+    if (
+      !/^-?(?:\d+|\d*\.\d+)$/
+        .test(
+          raw
+        )
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "請輸入完整數值。"
+      };
+    }
+
+
+    return {
+
+      valid:
+        true,
+
+      value:
+        Number(
+          raw
+        ),
+
+      display:
+        raw
+    };
+  }
+
+
+  /*
+  Fraction
+  */
+
+  if (
+    question.type ===
+    "fraction"
   ) {
 
     const numeratorRaw =
@@ -4504,10 +5244,10 @@ function readAnswer(
 
 
     if (
-      !/^\d+$/.test(
+      !/^-?\d+$/.test(
         numeratorRaw
       ) ||
-      !/^\d+$/.test(
+      !/^-?\d+$/.test(
         denominatorRaw
       )
     ) {
@@ -4523,20 +5263,21 @@ function readAnswer(
     }
 
 
-    const numerator =
+    let numerator =
       Number(
         numeratorRaw
       );
 
 
-    const denominator =
+    let denominator =
       Number(
         denominatorRaw
       );
 
 
     if (
-      denominator === 0
+      denominator ===
+      0
     ) {
 
       return {
@@ -4551,10 +5292,28 @@ function readAnswer(
 
 
     if (
-      RU().gcd(
-        numerator,
-        denominator
-      ) !== 1
+      denominator <
+      0
+    ) {
+
+      numerator *=
+        -1;
+
+      denominator *=
+        -1;
+    }
+
+
+    if (
+      gcd(
+        Math.abs(
+          numerator
+        ),
+        Math.abs(
+          denominator
+        )
+      ) !==
+      1
     ) {
 
       return {
@@ -4563,7 +5322,7 @@ function readAnswer(
           false,
 
         message:
-          "⚠️ 目前答案還不是最簡分數，請先自行約分。"
+          "⚠️ 目前答案還不是最簡分數，請自行約分後再提交。"
       };
     }
 
@@ -4578,7 +5337,7 @@ function readAnswer(
       denominator,
 
       display:
-        fractionHTML(
+        fractionDisplay(
           numerator,
           denominator
         )
@@ -4586,8 +5345,13 @@ function readAnswer(
   }
 
 
+  /*
+  Radical
+  */
+
   if (
-    question.type === "radical"
+    question.type ===
+    "radical"
   ) {
 
     const result =
@@ -4606,7 +5370,7 @@ function readAnswer(
 
         message:
           result?.message ||
-          "請把根式答案輸入完整。"
+          "請把根式答案填寫完整。"
       };
     }
 
@@ -4625,6 +5389,10 @@ function readAnswer(
   }
 
 
+  /*
+  Choice
+  */
+
   if (
     !selectedChoice
   ) {
@@ -4635,9 +5403,19 @@ function readAnswer(
         false,
 
       message:
-        "請先選擇答案。"
+        "請先選擇一個答案。"
     };
   }
+
+
+  const choice =
+    question
+      .choices
+      .find(
+        item =>
+          item.value ===
+          selectedChoice
+      );
 
 
   return {
@@ -4649,14 +5427,8 @@ function readAnswer(
       selectedChoice,
 
     display:
-      question
-        .choices
-        .find(
-          item =>
-            item.value ===
-            selectedChoice
-        )
-        ?.text
+      choice?.text ||
+      selectedChoice
   };
 }
 
@@ -4673,7 +5445,20 @@ function checkCorrect(
 ) {
 
   if (
-    question.type === "number"
+    question.type ===
+    "number"
+  ) {
+
+    return (
+      answer.value ===
+      question.answer
+    );
+  }
+
+
+  if (
+    question.type ===
+    "decimal"
   ) {
 
     return (
@@ -4681,13 +5466,14 @@ function checkCorrect(
         answer.value -
         question.answer
       ) <
-      0.000001
+      .000001
     );
   }
 
 
   if (
-    question.type === "fraction"
+    question.type ===
+    "fraction"
   ) {
 
     return (
@@ -4702,7 +5488,8 @@ function checkCorrect(
 
 
   if (
-    question.type === "radical"
+    question.type ===
+    "radical"
   ) {
 
     return (
@@ -4734,7 +5521,8 @@ function correctAnswerText(
 ) {
 
   if (
-    question.type === "number"
+    question.type ===
+    "number"
   ) {
 
     return String(
@@ -4744,10 +5532,22 @@ function correctAnswerText(
 
 
   if (
-    question.type === "fraction"
+    question.type ===
+    "decimal"
   ) {
 
-    return fractionHTML(
+    return String(
+      question.answer
+    );
+  }
+
+
+  if (
+    question.type ===
+    "fraction"
+  ) {
+
+    return fractionDisplay(
       question.numerator,
       question.denominator
     );
@@ -4755,32 +5555,37 @@ function correctAnswerText(
 
 
   if (
-    question.type === "radical"
+    question.type ===
+    "radical"
   ) {
 
-    return RU()
-      .radicalToHTML(
-        question.coefficient,
-        question.radicand
-      );
+    return radicalDisplay(
+      question.coefficient,
+      question.radicand
+    );
   }
 
 
-  return question
-    .choices
-    .find(
-      item =>
-        item.value ===
-        question.answer
-    )
-    ?.text ||
-    "";
+  const choice =
+    question
+      .choices
+      .find(
+        item =>
+          item.value ===
+          question.answer
+      );
+
+
+  return (
+    choice?.text ||
+    question.answer
+  );
 }
 
 
 /*
 ==================================================
-解析
+詳解
 ==================================================
 */
 
@@ -4920,12 +5725,18 @@ function submitAnswer() {
 
 
     $("feedback")
-      .innerHTML =
-        `❌ 答案不正確。正確答案：<strong>${
-          correctAnswerText(
+      .innerHTML = `
+
+        ❌ 答案不正確。正確答案：
+
+        <strong>
+
+          ${correctAnswerText(
             question
-          )
-        }</strong>`;
+          )}
+
+        </strong>
+      `;
 
 
     playGameSound(
@@ -4993,7 +5804,8 @@ function submitAnswer() {
     .textContent =
 
       index ===
-      questions.length - 1
+        questions.length -
+        1
 
         ? "查看測驗結果（Enter）"
 
@@ -5052,28 +5864,8 @@ function startGame(
     selectedMode;
 
 
-  try {
-
-    questions =
-      createQuestions();
-
-  } catch (
-    error
-  ) {
-
-    console.error(
-      "建立平方根題目失敗：",
-      error
-    );
-
-
-    alert(
-      "題目建立失敗，請重新整理頁面後再試一次。"
-    );
-
-
-    return;
-  }
+  questions =
+    createQuestions();
 
 
   index =
@@ -5100,16 +5892,12 @@ function startGame(
     [];
 
 
-  scoreSaved =
-    false;
-
-
   answered =
     false;
 
 
-  selectedChoice =
-    null;
+  scoreSaved =
+    false;
 
 
   radicalInput =
@@ -5149,7 +5937,7 @@ function startGame(
 
 /*
 ==================================================
-評分
+Rating
 ==================================================
 */
 
@@ -5158,7 +5946,8 @@ function rating(
 ) {
 
   if (
-    score >= 90
+    score >=
+    90
   ) {
 
     return {
@@ -5167,13 +5956,14 @@ function rating(
         "★★★★★",
 
       comment:
-        "太棒了！平方根觀念相當熟練。"
+        "太棒了！你已經能熟練掌握平方根與根式化簡。"
     };
   }
 
 
   if (
-    score >= 80
+    score >=
+    80
   ) {
 
     return {
@@ -5182,13 +5972,14 @@ function rating(
         "★★★★☆",
 
       comment:
-        "表現很好，再熟悉不同題型就更完整。"
+        "表現很好，再注意根式化簡與平方根的意義即可。"
     };
   }
 
 
   if (
-    score >= 60
+    score >=
+    60
   ) {
 
     return {
@@ -5197,7 +5988,7 @@ function rating(
         "★★★☆☆",
 
       comment:
-        "已掌握基本觀念，再多練習根式化簡與十分逼近。"
+        "基本觀念已掌握，再加強平方數與根式化簡。"
     };
   }
 
@@ -5208,7 +5999,7 @@ function rating(
       "★★☆☆☆",
 
     comment:
-      "建議從平方數熟練場開始重新練習。"
+      "建議從平方數熟練場開始，再逐步挑戰其他模式。"
   };
 }
 
@@ -5282,13 +6073,15 @@ async function showResult() {
 
   $("review-button")
     .disabled =
-      wrong === 0;
+      wrong ===
+      0;
 
 
   $("review-button")
     .textContent =
 
-      wrong === 0
+      wrong ===
+      0
 
         ? "全部答對，無錯題"
 
@@ -5303,7 +6096,7 @@ async function showResult() {
 
 /*
 ==================================================
-Firebase
+Firestore
 ==================================================
 */
 
@@ -5427,7 +6220,7 @@ async function saveCurrentScore(
 
 /*
 ==================================================
-錯題
+錯題回顧
 ==================================================
 */
 
@@ -5446,15 +6239,17 @@ function showReview() {
       wrongRecords.length
 
         ? wrongRecords
-
             .map(
               record => `
 
                 <article class="review-card">
 
-                  <strong>
+
+                  <div class="review-title">
+
                     第 ${record.number} 題 ❌
-                  </strong>
+
+                  </div>
 
 
                   <div class="review-question">
@@ -5469,7 +6264,9 @@ function showReview() {
                     你的答案：
 
                     <strong>
+
                       ${record.userAnswer}
+
                     </strong>
 
                   </p>
@@ -5498,21 +6295,20 @@ function showReview() {
 
                   </div>
 
+
                 </article>
 
               `
             )
-
             .join("")
 
         : `
 
             <div class="review-card">
 
-              全部答對！
+              全部答對，沒有需要回顧的錯題！
 
             </div>
-
           `;
 
 
@@ -5537,10 +6333,12 @@ document
 
       button.addEventListener(
         "click",
-        () =>
+        () => {
+
           startGame(
             button.dataset.mode
-          )
+          );
+        }
       );
     }
   );
@@ -5570,16 +6368,6 @@ $("restart-button")
   );
 
 
-$("again-button")
-  .addEventListener(
-    "click",
-    () =>
-      startGame(
-        mode
-      )
-  );
-
-
 $("mode-button")
   .addEventListener(
     "click",
@@ -5592,6 +6380,16 @@ $("mode-button")
         "start-screen"
       );
     }
+  );
+
+
+$("again-button")
+  .addEventListener(
+    "click",
+    () =>
+      startGame(
+        mode
+      )
   );
 
 
@@ -5637,7 +6435,8 @@ document.addEventListener(
   event => {
 
     if (
-      event.key !== "Enter"
+      event.key !==
+      "Enter"
     ) {
 
       return;
@@ -5672,6 +6471,12 @@ document.addEventListener(
   }
 );
 
+
+/*
+==================================================
+初始化
+==================================================
+*/
 
 window.addEventListener(
   "DOMContentLoaded",
