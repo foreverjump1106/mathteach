@@ -14,19 +14,16 @@
     平方根大挑戰｜數學遊戲樂園
   </title>
 
-
   <link
     rel="stylesheet"
     href="../css/scratchpad.css"
   >
-
 
   <style>
 
     * {
       box-sizing: border-box;
     }
-
 
     :root {
 
@@ -44,7 +41,6 @@
 
       --restart: #00897b;
     }
-
 
     body {
 
@@ -70,7 +66,6 @@
         );
     }
 
-
     button,
     input,
     select {
@@ -78,12 +73,10 @@
       font-family: inherit;
     }
 
-
     .hidden {
 
       display: none !important;
     }
-
 
     .page-shell {
 
@@ -97,12 +90,10 @@
         0 auto;
     }
 
-
     #commonHeaderMount {
 
       margin-bottom: 14px;
     }
-
 
     .game-card {
 
@@ -130,7 +121,6 @@
         );
     }
 
-
     /*
     ==================================================
     Header
@@ -152,7 +142,6 @@
         );
     }
 
-
     .game-title {
 
       margin: 0;
@@ -168,7 +157,6 @@
         );
     }
 
-
     .game-subtitle {
 
       margin:
@@ -179,7 +167,6 @@
 
       line-height: 1.7;
     }
-
 
     .concept-strip {
 
@@ -193,7 +180,6 @@
 
       flex-wrap: wrap;
     }
-
 
     .concept-chip {
 
@@ -217,12 +203,10 @@
       font-weight: 900;
     }
 
-
     .screen {
 
       padding: 22px;
     }
-
 
     /*
     ==================================================
@@ -239,7 +223,7 @@
 
       align-items: center;
 
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
 
       gap: .08em;
 
@@ -250,7 +234,6 @@
 
       white-space: nowrap;
     }
-
 
     .math-expression sup,
     .detail-math sup {
@@ -268,11 +251,11 @@
       vertical-align: baseline;
     }
 
-
     /*
     ==================================================
-    完整根號
-    題目、詳解、答案統一
+    ★ 完整根號
+    左側根號勾固定寬度
+    橫線由根號內容區延伸
     ==================================================
     */
 
@@ -283,35 +266,46 @@
       display:
         inline-flex;
 
-      align-items: center;
+      align-items:
+        flex-start;
 
-      min-height: 1.58em;
-
-      padding:
-        .14em .10em .01em .76em;
+      min-height:
+        1.55em;
 
       margin:
-        0 .04em;
+        0 .05em;
 
-      vertical-align: middle;
+      padding-left:
+        .72em;
+
+      vertical-align:
+        middle;
     }
 
-
+    /*
+    左側根號勾固定大小
+    不會因根號內文字很長而被水平拉伸
+    */
     .display-radical-svg {
 
       position: absolute;
 
-      inset: 0;
+      left: 0;
 
-      width: 100%;
+      top: 0;
 
-      height: 100%;
+      width:
+        .86em;
 
-      overflow: visible;
+      height:
+        1.58em;
 
-      pointer-events: none;
+      overflow:
+        visible;
+
+      pointer-events:
+        none;
     }
-
 
     .display-radical-path {
 
@@ -322,15 +316,19 @@
 
       stroke-width: 2;
 
-      stroke-linejoin: round;
+      stroke-linejoin:
+        round;
 
-      stroke-linecap: round;
+      stroke-linecap:
+        round;
 
       vector-effect:
         non-scaling-stroke;
     }
 
-
+    /*
+    橫線由根號內內容區塊自己延伸
+    */
     .display-radicand {
 
       position: relative;
@@ -340,14 +338,22 @@
       display:
         inline-flex;
 
-      align-items: center;
+      align-items:
+        center;
 
-      white-space: nowrap;
+      white-space:
+        nowrap;
+
+      min-height:
+        1.35em;
 
       padding:
-        0 .10em .01em .02em;
-    }
+        .05em .12em .01em .06em;
 
+      border-top:
+        2px solid
+        currentColor;
+    }
 
     /*
     ==================================================
@@ -374,7 +380,6 @@
       vertical-align: middle;
     }
 
-
     .display-fraction-top,
     .display-fraction-bottom {
 
@@ -388,14 +393,12 @@
         .08em .20em;
     }
 
-
     .display-fraction-top {
 
       border-bottom:
         2.5px solid
         currentColor;
     }
-
 
     /*
     ==================================================
@@ -418,7 +421,6 @@
 
       gap: 16px;
     }
-
 
     .mode-card {
 
@@ -448,7 +450,6 @@
         box-shadow .15s ease;
     }
 
-
     .mode-card:hover {
 
       transform:
@@ -463,7 +464,6 @@
           .11
         );
     }
-
 
     .mode-tag {
 
@@ -488,7 +488,6 @@
       font-weight: 900;
     }
 
-
     .mode-card h2 {
 
       margin:
@@ -500,7 +499,6 @@
       font-size: 21px;
     }
 
-
     .mode-card p {
 
       margin: 0;
@@ -510,7 +508,6 @@
 
       line-height: 1.7;
     }
-
 
     .mode-example {
 
@@ -525,7 +522,6 @@
 
       line-height: 1.65;
     }
-
 
     /*
     ==================================================
@@ -550,7 +546,6 @@
 
       margin-bottom: 12px;
     }
-
 
     .status-box {
 
@@ -577,14 +572,12 @@
       font-weight: 900;
     }
 
-
     .status-value {
 
       margin-top: 3px;
 
       font-size: 18px;
     }
-
 
     .timer-box {
 
@@ -594,7 +587,6 @@
       color:
         #c2410c;
     }
-
 
     /*
     ==================================================
@@ -614,7 +606,6 @@
         4px 0 12px;
     }
 
-
     #scratchpad-mobile-button {
 
       display: flex;
@@ -623,7 +614,6 @@
 
       width: 100%;
     }
-
 
     #scratchpad-mobile-button
     #scratchpadOpenButton,
@@ -643,7 +633,6 @@
       margin:
         0 !important;
     }
-
 
     /*
     ==================================================
@@ -666,7 +655,6 @@
         #e2e8f0;
     }
 
-
     .progress-bar {
 
       width: 0%;
@@ -683,7 +671,6 @@
       transition:
         width .2s ease;
     }
-
 
     /*
     ==================================================
@@ -707,7 +694,6 @@
       text-align: center;
     }
 
-
     .question-label {
 
       margin-bottom: 12px;
@@ -717,7 +703,6 @@
 
       font-weight: 900;
     }
-
 
     .question-content {
 
@@ -743,7 +728,6 @@
 
       overflow-x: auto;
     }
-
 
     /*
     ==================================================
@@ -778,7 +762,6 @@
       line-height: 1.8;
     }
 
-
     /*
     ==================================================
     Answer
@@ -797,7 +780,6 @@
         #f8fafc;
     }
 
-
     .answer-title {
 
       margin-bottom: 10px;
@@ -809,7 +791,6 @@
 
       font-weight: 900;
     }
-
 
     .answer-help {
 
@@ -828,53 +809,13 @@
       line-height: 1.6;
     }
 
-
     /*
     ==================================================
-    Number
+    Number / Decimal
     ==================================================
     */
 
-    .number-answer {
-
-      display: flex;
-
-      justify-content: center;
-    }
-
-
-    .number-answer input {
-
-      width:
-        min(
-          260px,
-          100%
-        );
-
-      padding: 13px;
-
-      border:
-        2px solid
-        #cbd5e1;
-
-      border-radius: 12px;
-
-      font-size: 24px;
-
-      font-weight: 900;
-
-      text-align: center;
-
-      outline: none;
-    }
-
-
-    /*
-    ==================================================
-    Decimal
-    ==================================================
-    */
-
+    .number-answer,
     .decimal-answer {
 
       display: flex;
@@ -882,7 +823,7 @@
       justify-content: center;
     }
 
-
+    .number-answer input,
     .decimal-answer input {
 
       width:
@@ -908,7 +849,6 @@
       outline: none;
     }
 
-
     /*
     ==================================================
     Fraction
@@ -922,7 +862,6 @@
       justify-content: center;
     }
 
-
     .fraction-input {
 
       display: flex;
@@ -931,7 +870,6 @@
 
       width: 120px;
     }
-
 
     .fraction-input input {
 
@@ -954,7 +892,6 @@
       outline: none;
     }
 
-
     .fraction-input
     input:first-child {
 
@@ -966,7 +903,6 @@
         #334155;
     }
 
-
     .fraction-input
     input:last-child {
 
@@ -975,7 +911,6 @@
 
       border-top: 0;
     }
-
 
     /*
     ==================================================
@@ -998,7 +933,6 @@
 
       gap: 10px;
     }
-
 
     .choice-button {
 
@@ -1024,7 +958,6 @@
       cursor: pointer;
     }
 
-
     .choice-button.selected {
 
       border-color:
@@ -1036,7 +969,6 @@
       color:
         var(--primary-dark);
     }
-
 
     /*
     ==================================================
@@ -1082,7 +1014,6 @@
       font-weight: 900;
     }
 
-
     .answer-preview-value {
 
       display:
@@ -1097,7 +1028,6 @@
 
       font-size: 25px;
     }
-
 
     /*
     ==================================================
@@ -1117,7 +1047,6 @@
 
       flex-wrap: wrap;
     }
-
 
     .game-button {
 
@@ -1146,7 +1075,6 @@
         var(--primary-dark);
     }
 
-
     .game-button.secondary {
 
       background:
@@ -1156,7 +1084,6 @@
         0 5px 0
         #455a64;
     }
-
 
     .game-button.orange {
 
@@ -1168,7 +1095,6 @@
         #d86600;
     }
 
-
     .game-button.restart {
 
       background:
@@ -1179,14 +1105,12 @@
         #00695c;
     }
 
-
     .game-button:disabled {
 
       opacity: .55;
 
       cursor: not-allowed;
     }
-
 
     /*
     ==================================================
@@ -1209,13 +1133,11 @@
       line-height: 1.7;
     }
 
-
     .feedback.correct {
 
       color:
         var(--success);
     }
-
 
     .feedback.wrong {
 
@@ -1223,13 +1145,11 @@
         var(--danger);
     }
 
-
     .feedback.warning {
 
       color:
         var(--warning);
     }
-
 
     /*
     ==================================================
@@ -1254,13 +1174,11 @@
       line-height: 1.95;
     }
 
-
     .explanation-step {
 
       margin:
         10px 0;
     }
-
 
     .detail-math {
 
@@ -1281,7 +1199,6 @@
       font-size: 1.08em;
     }
 
-
     /*
     ==================================================
     Result
@@ -1292,7 +1209,6 @@
 
       text-align: center;
     }
-
 
     .result-score {
 
@@ -1307,12 +1223,10 @@
       font-weight: 900;
     }
 
-
     .result-stars {
 
       font-size: 31px;
     }
-
 
     .result-grid {
 
@@ -1333,7 +1247,6 @@
         20px 0;
     }
 
-
     .result-stat {
 
       padding: 16px;
@@ -1349,7 +1262,6 @@
       font-weight: 900;
     }
 
-
     .save-status {
 
       min-height: 28px;
@@ -1358,7 +1270,6 @@
 
       font-weight: 900;
     }
-
 
     /*
     ==================================================
@@ -1373,7 +1284,6 @@
       gap: 14px;
     }
 
-
     .review-card {
 
       padding: 18px;
@@ -1387,7 +1297,6 @@
       background: white;
     }
 
-
     .review-title {
 
       color:
@@ -1395,7 +1304,6 @@
 
       font-weight: 900;
     }
-
 
     .review-question {
 
@@ -1407,22 +1315,13 @@
       text-align: center;
     }
 
-
-    /*
-    ==================================================
-    Mobile
-    ==================================================
-    */
-
     @media(
       max-width:760px
     ) {
 
       body {
-
         padding: 8px;
       }
-
 
       .screen {
 
@@ -1430,13 +1329,11 @@
           18px 12px;
       }
 
-
       .mode-grid {
 
         grid-template-columns:
           1fr;
       }
-
 
       .quiz-topbar {
 
@@ -1450,20 +1347,17 @@
           );
       }
 
-
       .timer-box {
 
         grid-column:
           1 / -1;
       }
 
-
       .choice-grid {
 
         grid-template-columns:
           1fr;
       }
-
 
       .result-grid {
 
@@ -1483,33 +1377,23 @@
 
 </head>
 
-
 <body>
-
 
 <div class="page-shell">
 
-
   <div id="commonHeaderMount"></div>
-
 
   <main class="game-card">
 
-
-    <!-- Header -->
-
     <header class="game-header">
-
 
       <h1 class="game-title">
         🌱 平方根大挑戰
       </h1>
 
-
       <p class="game-subtitle">
         熟練平方數，再進入根式化簡、十分逼近與平方根的意義。
       </p>
-
 
       <div class="concept-strip">
 
@@ -1535,20 +1419,14 @@
 
       </div>
 
-
     </header>
-
-
-    <!-- Start -->
 
     <section
       id="start-screen"
       class="screen"
     >
 
-
       <div class="mode-grid">
-
 
         <button
           class="mode-card"
@@ -1574,7 +1452,6 @@
 
         </button>
 
-
         <button
           class="mode-card"
           type="button"
@@ -1598,7 +1475,6 @@
           </div>
 
         </button>
-
 
         <button
           class="mode-card"
@@ -1624,7 +1500,6 @@
 
         </button>
 
-
         <button
           class="mode-card"
           type="button"
@@ -1649,23 +1524,16 @@
 
         </button>
 
-
       </div>
 
-
     </section>
-
-
-    <!-- Quiz -->
 
     <section
       id="quiz-screen"
       class="screen hidden"
     >
 
-
       <div class="quiz-topbar">
-
 
         <div class="status-box">
 
@@ -1680,7 +1548,6 @@
 
         </div>
 
-
         <div class="status-box">
 
           進度
@@ -1693,7 +1560,6 @@
           </span>
 
         </div>
-
 
         <div class="status-box">
 
@@ -1708,7 +1574,6 @@
 
         </div>
 
-
         <div class="status-box">
 
           最高連擊
@@ -1721,7 +1586,6 @@
           </span>
 
         </div>
-
 
         <div class="status-box timer-box">
 
@@ -1736,9 +1600,7 @@
 
         </div>
 
-
       </div>
-
 
       <div class="scratchpad-row">
 
@@ -1747,7 +1609,6 @@
         ></div>
 
       </div>
-
 
       <div class="progress-shell">
 
@@ -1758,39 +1619,31 @@
 
       </div>
 
-
       <div class="question-card">
-
 
         <div
           id="question-label"
           class="question-label"
         ></div>
 
-
         <div
           id="question-content"
           class="question-content"
         ></div>
-
 
         <div
           id="reference-box"
           class="reference-box hidden"
         ></div>
 
-
       </div>
-
 
       <div
         id="answer-panel"
         class="answer-panel"
       ></div>
 
-
       <div class="button-row">
-
 
         <button
           id="submit-button"
@@ -1800,7 +1653,6 @@
           提交答案（Enter）
         </button>
 
-
         <button
           id="next-button"
           class="game-button hidden"
@@ -1808,7 +1660,6 @@
         >
           下一題（Enter）
         </button>
-
 
         <button
           id="restart-button"
@@ -1818,7 +1669,6 @@
           🔄 重新測驗
         </button>
 
-
         <button
           id="mode-button"
           class="game-button secondary"
@@ -1827,37 +1677,28 @@
           選擇模式
         </button>
 
-
       </div>
-
 
       <div
         id="feedback"
         class="feedback"
       ></div>
 
-
       <div
         id="explanation"
         class="explanation hidden"
       ></div>
 
-
     </section>
-
-
-    <!-- Result -->
 
     <section
       id="result-screen"
       class="screen hidden result-panel"
     >
 
-
       <h2>
         🎉 挑戰完成
       </h2>
-
 
       <div
         id="final-score"
@@ -1866,7 +1707,6 @@
         0 分
       </div>
 
-
       <div
         id="final-stars"
         class="result-stars"
@@ -1874,12 +1714,9 @@
         ★★★☆☆
       </div>
 
-
       <p id="final-comment"></p>
 
-
       <div class="result-grid">
-
 
         <div class="result-stat">
 
@@ -1893,7 +1730,6 @@
 
         </div>
 
-
         <div class="result-stat">
 
           答錯
@@ -1906,7 +1742,6 @@
 
         </div>
 
-
         <div class="result-stat">
 
           最高連擊
@@ -1917,7 +1752,6 @@
           </span>
 
         </div>
-
 
         <div class="result-stat">
 
@@ -1930,18 +1764,14 @@
 
         </div>
 
-
       </div>
-
 
       <div
         id="save-status"
         class="save-status"
       ></div>
 
-
       <div class="button-row">
-
 
         <button
           id="again-button"
@@ -1951,7 +1781,6 @@
           🔄 重新測驗
         </button>
 
-
         <button
           id="review-button"
           class="game-button orange"
@@ -1959,7 +1788,6 @@
         >
           錯題回顧
         </button>
-
 
         <button
           id="result-mode-button"
@@ -1969,34 +1797,25 @@
           選擇模式
         </button>
 
-
       </div>
 
-
     </section>
-
-
-    <!-- Review -->
 
     <section
       id="review-screen"
       class="screen hidden"
     >
 
-
       <h2>
         📝 錯題回顧
       </h2>
-
 
       <div
         id="review-list"
         class="review-list"
       ></div>
 
-
       <div class="button-row">
-
 
         <button
           id="review-again-button"
@@ -2006,7 +1825,6 @@
           🔄 重新測驗
         </button>
 
-
         <button
           id="review-result-button"
           class="game-button secondary"
@@ -2015,20 +1833,13 @@
           回到測驗結果
         </button>
 
-
       </div>
-
 
     </section>
 
-
   </main>
 
-
 </div>
-
-
-<!-- 共用元件 -->
 
 <script src="../js/common-header.js"></script>
 
@@ -2040,9 +1851,7 @@
 
 <script src="../js/radical-input.js?v=7"></script>
 
-
 <script type="module">
-
 
 import {
   saveGameScore
@@ -2051,12 +1860,6 @@ import {
 
 "use strict";
 
-
-/*
-==================================================
-基本設定
-==================================================
-*/
 
 const GAME_ID =
   "squareRoot";
@@ -2168,7 +1971,7 @@ let scoreSaved =
 
 /*
 ==================================================
-一般工具
+工具
 ==================================================
 */
 
@@ -2296,6 +2099,12 @@ function powerHTML(
 }
 
 
+/*
+★ 新版根號：
+左側固定寬度
+橫線隨內容延伸
+*/
+
 function sqrtDisplay(
   content
 ) {
@@ -2306,7 +2115,7 @@ function sqrtDisplay(
 
       <svg
         class="display-radical-svg"
-        viewBox="0 0 100 62"
+        viewBox="0 0 34 62"
         preserveAspectRatio="none"
         aria-hidden="true"
       >
@@ -2314,16 +2123,15 @@ function sqrtDisplay(
         <path
           class="display-radical-path"
           d="
-            M 2 37
-            L 8 37
-            L 14 55
-            L 26 8
-            L 98 8
+            M 1 37
+            L 7 37
+            L 13 55
+            L 27 8
+            L 34 8
           "
         />
 
       </svg>
-
 
       <span class="display-radicand">
 
@@ -2431,7 +2239,7 @@ function fractionDisplay(
 
 /*
 ==================================================
-詳解格式工具
+詳解格式
 ==================================================
 */
 
@@ -2492,7 +2300,7 @@ function detailRadical(
 
 /*
 ==================================================
-Prime factor
+質因數分解
 ==================================================
 */
 
@@ -2609,7 +2417,7 @@ function factorHTML(
 
 /*
 ==================================================
-化簡根式
+根式化簡
 ==================================================
 */
 
@@ -2861,8 +2669,6 @@ function choiceQuestion(
 /*
 ==================================================
 模式一
-11²～32²
-12題
 ==================================================
 */
 
@@ -2940,32 +2746,10 @@ function makeMode1() {
 /*
 ==================================================
 模式二
-√(a²) + 質因數標準分解
 ==================================================
 */
 
-
-/*
---------------------------------------------------
-A.
-√(a²)
-
-重要：
-a 從 2 開始。
-不再出現 √(1²)
---------------------------------------------------
-*/
-
 function makeRootSquareQuestion() {
-
-  /*
-  ★ 修正
-  原本若從 1 開始，
-  就可能出現 √(1²)。
-
-  現在固定：
-  2～30
-  */
 
   const a =
     rand(
@@ -3005,8 +2789,7 @@ function makeRootSquareQuestion() {
       ＝
       |a|`,
 
-      `本題
-      a＝${a}，
+      `本題 a＝${a}，
       而 ${a}＞0，
       所以 |${a}|＝${a}。`,
 
@@ -3025,15 +2808,6 @@ function makeRootSquareQuestion() {
   );
 }
 
-
-/*
---------------------------------------------------
-B.
-質因數標準分解式化簡
-
-保證至少有一個指數 ≥2
---------------------------------------------------
-*/
 
 function makePrimeSimplifyQuestion() {
 
@@ -3336,13 +3110,6 @@ function makePrimeSimplifyQuestion() {
 }
 
 
-/*
---------------------------------------------------
-C.
-一般整數化簡
---------------------------------------------------
-*/
-
 function makeNormalSimplifyQuestion() {
 
   const base =
@@ -3457,16 +3224,7 @@ function makeMode2() {
 /*
 ==================================================
 模式三
-根號值 + 十分逼近
 ==================================================
-*/
-
-
-/*
---------------------------------------------------
-A.
-介於哪兩整數
---------------------------------------------------
 */
 
 function makeBetweenIntegersQuestion() {
@@ -3504,10 +3262,6 @@ function makeBetweenIntegersQuestion() {
     1;
 
 
-  const correctText =
-    `${lower}＜√${n}＜${upper}`;
-
-
   const candidates =
     shuffle(
       [
@@ -3517,7 +3271,7 @@ function makeBetweenIntegersQuestion() {
             "correct",
 
           text:
-            correctText
+            `${lower}＜√${n}＜${upper}`
         },
 
         {
@@ -3556,6 +3310,7 @@ function makeBetweenIntegersQuestion() {
         ${sqrtDisplay(
           n
         )}
+
         介於哪兩個連續整數之間？
 
       </span>
@@ -3615,13 +3370,6 @@ function makeBetweenIntegersQuestion() {
 }
 
 
-/*
---------------------------------------------------
-B.
-十分逼近
---------------------------------------------------
-*/
-
 function makeApproximationQuestion() {
 
   let n;
@@ -3670,15 +3418,6 @@ function makeApproximationQuestion() {
     tenthBelow +
     .1;
 
-
-  /*
-  依使用者之前需求：
-  類似
-  13.15² = ...
-  13.25² = ...
-
-  給學生較接近的平方值
-  */
 
   const ref1 =
     Number(
@@ -3826,15 +3565,7 @@ function makeMode3() {
 /*
 ==================================================
 模式四
-平方根的意義
 ==================================================
-*/
-
-
-/*
---------------------------------------------------
-正平方根應用
---------------------------------------------------
 */
 
 function makePositiveRootApplication() {
@@ -3926,12 +3657,6 @@ function makePositiveRootApplication() {
 }
 
 
-/*
---------------------------------------------------
-負平方根
---------------------------------------------------
-*/
-
 function makeNegativeRootApplication() {
 
   const root =
@@ -3981,12 +3706,6 @@ function makeNegativeRootApplication() {
   );
 }
 
-
-/*
---------------------------------------------------
-平方根兩個
---------------------------------------------------
-*/
 
 function makeBothRootsQuestion() {
 
@@ -4085,19 +3804,7 @@ function makeBothRootsQuestion() {
 }
 
 
-/*
---------------------------------------------------
-√(a²)
-此處也避免 a=1
---------------------------------------------------
-*/
-
 function makeAbsoluteValueRootQuestion() {
-
-  /*
-  ★ 同樣不出 ±1
-  避免又出現 √(1²)
-  */
 
   const absolute =
     rand(
@@ -4194,7 +3901,7 @@ function makeMode4() {
 
 /*
 ==================================================
-題組
+建立題目
 ==================================================
 */
 
@@ -4409,7 +4116,7 @@ function moveScratchpadButtonToTop() {
 
 /*
 ==================================================
-畫面
+畫面切換
 ==================================================
 */
 
@@ -4559,7 +4266,7 @@ function updateFractionPreview() {
 
 /*
 ==================================================
-作答 UI
+作答介面
 ==================================================
 */
 
@@ -4579,10 +4286,6 @@ function renderAnswer(
     $("answer-panel");
 
 
-  /*
-  Number
-  */
-
   if (
     question.type ===
     "number"
@@ -4596,7 +4299,6 @@ function renderAnswer(
 
       </div>
 
-
       <div class="number-answer">
 
         <input
@@ -4608,7 +4310,6 @@ function renderAnswer(
         >
 
       </div>
-
 
       <div
         id="answer-preview"
@@ -4640,10 +4341,6 @@ function renderAnswer(
   }
 
 
-  /*
-  Decimal
-  */
-
   if (
     question.type ===
     "decimal"
@@ -4657,7 +4354,6 @@ function renderAnswer(
 
       </div>
 
-
       <div class="decimal-answer">
 
         <input
@@ -4669,7 +4365,6 @@ function renderAnswer(
         >
 
       </div>
-
 
       <div
         id="answer-preview"
@@ -4701,10 +4396,6 @@ function renderAnswer(
   }
 
 
-  /*
-  Fraction
-  */
-
   if (
     question.type ===
     "fraction"
@@ -4718,7 +4409,6 @@ function renderAnswer(
 
       </div>
 
-
       <p class="answer-help">
 
         若答案不是最簡分數，
@@ -4726,12 +4416,9 @@ function renderAnswer(
 
       </p>
 
-
       <div class="fraction-answer">
 
-
         <div class="fraction-input">
-
 
           <input
             id="fraction-numerator"
@@ -4741,7 +4428,6 @@ function renderAnswer(
             placeholder="分子"
           >
 
-
           <input
             id="fraction-denominator"
             type="text"
@@ -4750,12 +4436,9 @@ function renderAnswer(
             placeholder="分母"
           >
 
-
         </div>
 
-
       </div>
-
 
       <div
         id="answer-preview"
@@ -4794,10 +4477,6 @@ function renderAnswer(
   }
 
 
-  /*
-  Radical
-  */
-
   if (
     question.type ===
     "radical"
@@ -4811,7 +4490,6 @@ function renderAnswer(
 
       </div>
 
-
       <p class="answer-help">
 
         根號外係數為 1 時可以保留 1。<br>
@@ -4820,7 +4498,6 @@ function renderAnswer(
         系統只提醒，不會替你自動化簡。
 
       </p>
-
 
       <div
         id="radical-answer-mount"
@@ -4865,10 +4542,6 @@ function renderAnswer(
   }
 
 
-  /*
-  Choice
-  */
-
   panel.innerHTML = `
 
     <div class="answer-title">
@@ -4876,7 +4549,6 @@ function renderAnswer(
       ${question.label}
 
     </div>
-
 
     <div class="choice-grid">
 
@@ -4900,7 +4572,6 @@ function renderAnswer(
       }
 
     </div>
-
 
     <div
       id="answer-preview"
@@ -4971,7 +4642,7 @@ function renderAnswer(
 
 /*
 ==================================================
-顯示題目
+題目顯示
 ==================================================
 */
 
@@ -5028,10 +4699,6 @@ function displayQuestion() {
     .innerHTML =
       question.html;
 
-
-  /*
-  參考數值
-  */
 
   if (
     question.reference
@@ -5120,10 +4787,6 @@ function readAnswer(
   question
 ) {
 
-  /*
-  Number
-  */
-
   if (
     question.type ===
     "number"
@@ -5170,10 +4833,6 @@ function readAnswer(
   }
 
 
-  /*
-  Decimal
-  */
-
   if (
     question.type ===
     "decimal"
@@ -5219,10 +4878,6 @@ function readAnswer(
     };
   }
 
-
-  /*
-  Fraction
-  */
 
   if (
     question.type ===
@@ -5345,10 +5000,6 @@ function readAnswer(
   }
 
 
-  /*
-  Radical
-  */
-
   if (
     question.type ===
     "radical"
@@ -5388,10 +5039,6 @@ function readAnswer(
     };
   }
 
-
-  /*
-  Choice
-  */
 
   if (
     !selectedChoice
@@ -5621,7 +5268,7 @@ function explanationHTML(
 
 /*
 ==================================================
-提交
+提交答案
 ==================================================
 */
 
@@ -5852,7 +5499,7 @@ function nextQuestion() {
 
 /*
 ==================================================
-開始
+開始遊戲
 ==================================================
 */
 
@@ -5937,7 +5584,7 @@ function startGame(
 
 /*
 ==================================================
-Rating
+評價
 ==================================================
 */
 
@@ -6244,20 +5891,17 @@ function showReview() {
 
                 <article class="review-card">
 
-
                   <div class="review-title">
 
                     第 ${record.number} 題 ❌
 
                   </div>
 
-
                   <div class="review-question">
 
                     ${record.question.html}
 
                   </div>
-
 
                   <p>
 
@@ -6270,7 +5914,6 @@ function showReview() {
                     </strong>
 
                   </p>
-
 
                   <p>
 
@@ -6286,7 +5929,6 @@ function showReview() {
 
                   </p>
 
-
                   <div class="explanation">
 
                     ${explanationHTML(
@@ -6294,7 +5936,6 @@ function showReview() {
                     )}
 
                   </div>
-
 
                 </article>
 
@@ -6499,7 +6140,6 @@ showOnly(
 
 
 </script>
-
 
 </body>
 
