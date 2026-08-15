@@ -253,15 +253,12 @@
 
     /*
     ==================================================
-    ★ 完整根號
-    左側根號勾固定寬度
-    橫線由根號內容區延伸
+    ★ 穩定版根號
+    題目 / 詳解 / 正確答案共用
     ==================================================
     */
 
     .display-radical {
-
-      position: relative;
 
       display:
         inline-flex;
@@ -269,71 +266,58 @@
       align-items:
         flex-start;
 
-      min-height:
-        1.55em;
+      position:
+        relative;
 
       margin:
-        0 .05em;
+        0 .06em;
 
-      padding-left:
-        .72em;
+      white-space:
+        nowrap;
 
       vertical-align:
         middle;
+
+      font-family:
+        "Cambria Math",
+        "Times New Roman",
+        serif;
     }
 
     /*
-    左側根號勾固定大小
-    不會因根號內文字很長而被水平拉伸
+    左側 √ 固定大小
+    不再使用會隨內容拉伸的 SVG
     */
-    .display-radical-svg {
 
-      position: absolute;
+    .display-radical-sign {
 
-      left: 0;
+      display:
+        inline-block;
 
-      top: 0;
+      margin-right:
+        -.08em;
 
-      width:
-        .86em;
+      font-size:
+        1.42em;
 
-      height:
-        1.58em;
+      font-weight:
+        400;
 
-      overflow:
-        visible;
+      line-height:
+        1;
 
-      pointer-events:
-        none;
-    }
+      transform:
+        translateY(.12em);
 
-    .display-radical-path {
-
-      fill: none;
-
-      stroke:
-        currentColor;
-
-      stroke-width: 2;
-
-      stroke-linejoin:
-        round;
-
-      stroke-linecap:
-        round;
-
-      vector-effect:
-        non-scaling-stroke;
+      flex-shrink:
+        0;
     }
 
     /*
-    橫線由根號內內容區塊自己延伸
+    只有上方橫線會隨根號內內容延伸
     */
+
     .display-radicand {
-
-      position: relative;
-
-      z-index: 2;
 
       display:
         inline-flex;
@@ -341,18 +325,21 @@
       align-items:
         center;
 
-      white-space:
-        nowrap;
-
       min-height:
-        1.35em;
+        1.28em;
 
       padding:
-        .05em .12em .01em .06em;
+        .05em .10em 0 .08em;
 
       border-top:
         2px solid
         currentColor;
+
+      line-height:
+        1.12;
+
+      white-space:
+        nowrap;
     }
 
     /*
@@ -636,7 +623,7 @@
 
     /*
     ==================================================
-    進度條
+    進度
     ==================================================
     */
 
@@ -1320,6 +1307,7 @@
     ) {
 
       body {
+
         padding: 8px;
       }
 
@@ -1881,32 +1869,11 @@ const MODE_NAMES = {
 };
 
 
-const MODE_TOTALS = {
-
-  squarePractice:
-    12,
-
-  simplify:
-    10,
-
-  approximation:
-    10,
-
-  meaning:
-    10
-};
-
-
 const $ =
   id =>
     document.getElementById(
       id
     );
-
-
-const RU =
-  () =>
-    window.RadicalInputUtils;
 
 
 let mode =
@@ -2100,9 +2067,10 @@ function powerHTML(
 
 
 /*
-★ 新版根號：
-左側固定寬度
-橫線隨內容延伸
+==================================================
+★ 新版穩定根號
+不使用 SVG
+==================================================
 */
 
 function sqrtDisplay(
@@ -2113,25 +2081,12 @@ function sqrtDisplay(
 
     <span class="display-radical">
 
-      <svg
-        class="display-radical-svg"
-        viewBox="0 0 34 62"
-        preserveAspectRatio="none"
+      <span
+        class="display-radical-sign"
         aria-hidden="true"
       >
-
-        <path
-          class="display-radical-path"
-          d="
-            M 1 37
-            L 7 37
-            L 13 55
-            L 27 8
-            L 34 8
-          "
-        />
-
-      </svg>
+        √
+      </span>
 
       <span class="display-radicand">
 
@@ -2221,15 +2176,11 @@ function fractionDisplay(
     <span class="display-fraction">
 
       <span class="display-fraction-top">
-
         ${numerator}
-
       </span>
 
       <span class="display-fraction-bottom">
-
         ${denominator}
-
       </span>
 
     </span>
@@ -2300,84 +2251,9 @@ function detailRadical(
 
 /*
 ==================================================
-質因數分解
+標準分解式
 ==================================================
 */
-
-function primeFactorization(
-  number
-) {
-
-  const factors =
-    [];
-
-
-  let n =
-    number;
-
-
-  let p =
-    2;
-
-
-  while (
-    p *
-    p <=
-    n
-  ) {
-
-    let count =
-      0;
-
-
-    while (
-      n %
-      p ===
-      0
-    ) {
-
-      n /=
-        p;
-
-      count++;
-    }
-
-
-    if (
-      count >
-      0
-    ) {
-
-      factors.push(
-        [
-          p,
-          count
-        ]
-      );
-    }
-
-
-    p++;
-  }
-
-
-  if (
-    n >
-    1
-  ) {
-
-    factors.push(
-      [
-        n,
-        1
-      ]
-    );
-  }
-
-
-  return factors;
-}
-
 
 function factorHTML(
   factors
@@ -2589,54 +2465,6 @@ function radicalQuestion(
 }
 
 
-function fractionQuestion(
-  html,
-  numerator,
-  denominator,
-  explanation,
-  label
-) {
-
-  const d =
-    gcd(
-      Math.abs(
-        numerator
-      ),
-      Math.abs(
-        denominator
-      )
-    );
-
-
-  numerator /=
-    d;
-
-
-  denominator /=
-    d;
-
-
-  return {
-
-    type:
-      "fraction",
-
-    html,
-
-    numerator,
-
-    denominator,
-
-    explanation,
-
-    label,
-
-    reference:
-      ""
-  };
-}
-
-
 function choiceQuestion(
   html,
   answer,
@@ -2669,6 +2497,7 @@ function choiceQuestion(
 /*
 ==================================================
 模式一
+11²～32²
 ==================================================
 */
 
@@ -2787,7 +2616,7 @@ function makeRootSquareQuestion() {
         )
       )}
       ＝
-      |a|`,
+      |a|。`,
 
       `本題 a＝${a}，
       而 ${a}＞0，
@@ -2886,25 +2715,6 @@ function makePrimeSimplifyQuestion() {
       exponents.push(
         exponent
       );
-    }
-  );
-
-
-  let number =
-    1;
-
-
-  primes.forEach(
-    (
-      prime,
-      i
-    ) => {
-
-      number *=
-        prime **
-        exponents[
-          i
-        ];
     }
   );
 
@@ -3030,7 +2840,7 @@ function makePrimeSimplifyQuestion() {
         standard
       )}。`,
 
-      `質因數已經依照由小到大排列；指數為 1 時不另外寫出 1。`,
+      `質因數已依照由小到大排列；指數為 1 時不另外寫出 1。`,
 
       `平方根化簡時，每兩個相同的質因數可以提出根號外一個。`,
 
@@ -3050,7 +2860,7 @@ function makePrimeSimplifyQuestion() {
       inside ===
       1
 
-        ? `根號內的質因數全部成對提出，所以根號內不再留下質因數。`
+        ? `根號內的質因數全部成對提出，因此根號內不再留下質因數。`
 
         : `根號內剩下：
            ${detailMath(
@@ -3262,7 +3072,7 @@ function makeBetweenIntegersQuestion() {
     1;
 
 
-  const candidates =
+  const choices =
     shuffle(
       [
 
@@ -3318,7 +3128,7 @@ function makeBetweenIntegersQuestion() {
 
     "correct",
 
-    candidates,
+    choices,
 
     [
 
@@ -4217,53 +4027,6 @@ function updateDecimalPreview() {
 }
 
 
-function updateFractionPreview() {
-
-  const numerator =
-    $("fraction-numerator")
-      ?.value
-      .trim() ||
-    "";
-
-
-  const denominator =
-    $("fraction-denominator")
-      ?.value
-      .trim() ||
-    "";
-
-
-  if (
-    !numerator ||
-    !denominator
-  ) {
-
-    $("answer-preview")
-      .innerHTML =
-        "目前尚未完成答案。";
-
-
-    return;
-  }
-
-
-  $("answer-preview")
-    .innerHTML = `
-
-      目前答案：
-
-      <span class="answer-preview-value">
-
-        ${fractionDisplay(
-          numerator,
-          denominator
-        )}
-
-      </span>
-  `;
-}
-
-
 /*
 ==================================================
 作答介面
@@ -4387,87 +4150,6 @@ function renderAnswer(
     setTimeout(
       () =>
         $("decimal-answer")
-          ?.focus(),
-      0
-    );
-
-
-    return;
-  }
-
-
-  if (
-    question.type ===
-    "fraction"
-  ) {
-
-    panel.innerHTML = `
-
-      <div class="answer-title">
-
-        ${question.label}
-
-      </div>
-
-      <p class="answer-help">
-
-        若答案不是最簡分數，
-        系統會提醒你自行約分。
-
-      </p>
-
-      <div class="fraction-answer">
-
-        <div class="fraction-input">
-
-          <input
-            id="fraction-numerator"
-            type="text"
-            inputmode="numeric"
-            autocomplete="off"
-            placeholder="分子"
-          >
-
-          <input
-            id="fraction-denominator"
-            type="text"
-            inputmode="numeric"
-            autocomplete="off"
-            placeholder="分母"
-          >
-
-        </div>
-
-      </div>
-
-      <div
-        id="answer-preview"
-        class="answer-preview"
-      >
-
-        目前尚未完成答案。
-
-      </div>
-    `;
-
-
-    $("fraction-numerator")
-      .addEventListener(
-        "input",
-        updateFractionPreview
-      );
-
-
-    $("fraction-denominator")
-      .addEventListener(
-        "input",
-        updateFractionPreview
-      );
-
-
-    setTimeout(
-      () =>
-        $("fraction-numerator")
           ?.focus(),
       0
     );
@@ -4642,7 +4324,7 @@ function renderAnswer(
 
 /*
 ==================================================
-題目顯示
+顯示題目
 ==================================================
 */
 
@@ -4881,127 +4563,6 @@ function readAnswer(
 
   if (
     question.type ===
-    "fraction"
-  ) {
-
-    const numeratorRaw =
-      $("fraction-numerator")
-        ?.value
-        .trim() ||
-      "";
-
-
-    const denominatorRaw =
-      $("fraction-denominator")
-        ?.value
-        .trim() ||
-      "";
-
-
-    if (
-      !/^-?\d+$/.test(
-        numeratorRaw
-      ) ||
-      !/^-?\d+$/.test(
-        denominatorRaw
-      )
-    ) {
-
-      return {
-
-        valid:
-          false,
-
-        message:
-          "請把分子與分母填寫完整。"
-      };
-    }
-
-
-    let numerator =
-      Number(
-        numeratorRaw
-      );
-
-
-    let denominator =
-      Number(
-        denominatorRaw
-      );
-
-
-    if (
-      denominator ===
-      0
-    ) {
-
-      return {
-
-        valid:
-          false,
-
-        message:
-          "分母不能是 0。"
-      };
-    }
-
-
-    if (
-      denominator <
-      0
-    ) {
-
-      numerator *=
-        -1;
-
-      denominator *=
-        -1;
-    }
-
-
-    if (
-      gcd(
-        Math.abs(
-          numerator
-        ),
-        Math.abs(
-          denominator
-        )
-      ) !==
-      1
-    ) {
-
-      return {
-
-        valid:
-          false,
-
-        message:
-          "⚠️ 目前答案還不是最簡分數，請自行約分後再提交。"
-      };
-    }
-
-
-    return {
-
-      valid:
-        true,
-
-      numerator,
-
-      denominator,
-
-      display:
-        fractionDisplay(
-          numerator,
-          denominator
-        )
-    };
-  }
-
-
-  if (
-    question.type ===
     "radical"
   ) {
 
@@ -5120,22 +4681,6 @@ function checkCorrect(
 
   if (
     question.type ===
-    "fraction"
-  ) {
-
-    return (
-
-      answer.numerator ===
-        question.numerator &&
-
-      answer.denominator ===
-        question.denominator
-    );
-  }
-
-
-  if (
-    question.type ===
     "radical"
   ) {
 
@@ -5185,18 +4730,6 @@ function correctAnswerText(
 
     return String(
       question.answer
-    );
-  }
-
-
-  if (
-    question.type ===
-    "fraction"
-  ) {
-
-    return fractionDisplay(
-      question.numerator,
-      question.denominator
     );
   }
 
@@ -5268,7 +4801,7 @@ function explanationHTML(
 
 /*
 ==================================================
-提交答案
+提交
 ==================================================
 */
 
@@ -5499,7 +5032,7 @@ function nextQuestion() {
 
 /*
 ==================================================
-開始遊戲
+開始
 ==================================================
 */
 
