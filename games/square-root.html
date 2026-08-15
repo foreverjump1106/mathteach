@@ -210,7 +210,7 @@
 
     /*
     ==================================================
-    數學式
+    一般數學式
     ==================================================
     */
 
@@ -229,6 +229,7 @@
 
       font-family:
         "Cambria Math",
+        "STIX Two Math",
         "Times New Roman",
         serif;
 
@@ -253,93 +254,68 @@
 
     /*
     ==================================================
-    ★ 穩定版根號
+    ★ MathML 數學排版
     題目 / 詳解 / 正確答案共用
     ==================================================
     */
 
-    .display-radical {
+    .mathml-inline {
 
-      display:
-        inline-flex;
-
-      align-items:
-        flex-start;
-
-      position:
-        relative;
+      display: inline-block;
 
       margin:
         0 .06em;
 
-      white-space:
-        nowrap;
+      color:
+        currentColor;
+
+      font-family:
+        "STIX Two Math",
+        "Cambria Math",
+        "Times New Roman",
+        serif;
 
       vertical-align:
         middle;
 
-      font-family:
-        "Cambria Math",
-        "Times New Roman",
-        serif;
+      line-height: 1;
     }
 
-    /*
-    左側 √ 固定大小
-    不再使用會隨內容拉伸的 SVG
-    */
+    .mathml-inline math {
 
-    .display-radical-sign {
+      display: inline-block;
 
-      display:
-        inline-block;
+      margin: 0;
 
-      margin-right:
-        -.08em;
+      padding: 0;
 
-      font-size:
-        1.42em;
-
-      font-weight:
-        400;
-
-      line-height:
-        1;
-
-      transform:
-        translateY(.12em);
-
-      flex-shrink:
-        0;
-    }
-
-    /*
-    只有上方橫線會隨根號內內容延伸
-    */
-
-    .display-radicand {
-
-      display:
-        inline-flex;
-
-      align-items:
-        center;
-
-      min-height:
-        1.28em;
-
-      padding:
-        .05em .10em 0 .08em;
-
-      border-top:
-        2px solid
+      color:
         currentColor;
 
-      line-height:
-        1.12;
+      font-size: 1em;
 
-      white-space:
-        nowrap;
+      line-height: 1;
+    }
+
+    .question-content .mathml-inline {
+
+      font-size: 1.05em;
+    }
+
+    .detail-math .mathml-inline,
+    .explanation .mathml-inline {
+
+      font-size: 1em;
+    }
+
+    .feedback .mathml-inline {
+
+      font-size: 1.12em;
+    }
+
+    .choice-button .mathml-inline {
+
+      font-size: 1em;
     }
 
     /*
@@ -383,7 +359,7 @@
     .display-fraction-top {
 
       border-bottom:
-        2.5px solid
+        2px solid
         currentColor;
     }
 
@@ -1180,6 +1156,7 @@
 
       font-family:
         "Cambria Math",
+        "STIX Two Math",
         "Times New Roman",
         serif;
 
@@ -2046,7 +2023,183 @@ function gcd(
 
 /*
 ==================================================
-數學格式
+MathML 工具
+==================================================
+*/
+
+function escapeXML(
+  value
+) {
+
+  return String(
+    value
+  )
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&apos;"
+    );
+}
+
+
+function mathToken(
+  value
+) {
+
+  const text =
+    String(
+      value
+    )
+      .trim();
+
+
+  if (
+    /^-?\d+(?:\.\d+)?$/
+      .test(
+        text
+      )
+  ) {
+
+    return `
+      <mn>
+        ${escapeXML(text)}
+      </mn>
+    `;
+  }
+
+
+  if (
+    /^[a-zA-Z]+$/
+      .test(
+        text
+      )
+  ) {
+
+    return `
+      <mi>
+        ${escapeXML(text)}
+      </mi>
+    `;
+  }
+
+
+  return `
+    <mtext>
+      ${escapeXML(text)}
+    </mtext>
+  `;
+}
+
+
+function powerMathML(
+  base,
+  exponent
+) {
+
+  return `
+    <msup>
+
+      ${mathToken(base)}
+
+      <mn>
+        ${escapeXML(exponent)}
+      </mn>
+
+    </msup>
+  `;
+}
+
+
+function productMathML(
+  items
+) {
+
+  return items
+    .map(
+      item =>
+        item
+    )
+    .join(
+      `
+        <mo>×</mo>
+      `
+    );
+}
+
+
+function inlineMath(
+  content
+) {
+
+  return `
+
+    <span class="mathml-inline">
+
+      <math
+        xmlns="http://www.w3.org/1998/Math/MathML"
+      >
+
+        <mrow>
+
+          ${content}
+
+        </mrow>
+
+      </math>
+
+    </span>
+  `;
+}
+
+
+function sqrtMath(
+  content
+) {
+
+  return `
+
+    <span class="mathml-inline">
+
+      <math
+        xmlns="http://www.w3.org/1998/Math/MathML"
+      >
+
+        <msqrt>
+
+          <mrow>
+
+            ${content}
+
+          </mrow>
+
+        </msqrt>
+
+      </math>
+
+    </span>
+  `;
+}
+
+
+/*
+==================================================
+一般 HTML 次方
+非根號內需要時使用
 ==================================================
 */
 
@@ -2068,8 +2221,145 @@ function powerHTML(
 
 /*
 ==================================================
-★ 新版穩定根號
-不使用 SVG
+將舊 HTML 數學內容轉成 MathML
+主要供 sqrtDisplay 使用
+==================================================
+*/
+
+function htmlMathToMathML(
+  content
+) {
+
+  let text =
+    String(
+      content
+    )
+      .trim();
+
+
+  /*
+  <span>2<sup>3</sup></span>
+  */
+  text =
+    text.replace(
+      /<span>\s*([^<>]+?)\s*<sup>\s*([^<>]+?)\s*<\/sup>\s*<\/span>/g,
+      (
+        _,
+        base,
+        exponent
+      ) =>
+        powerMathML(
+          base.trim(),
+          exponent.trim()
+        )
+    );
+
+
+  /*
+  其他單純 sup
+  */
+  text =
+    text.replace(
+      /([^<>\s]+)\s*<sup>\s*([^<>]+?)\s*<\/sup>/g,
+      (
+        _,
+        base,
+        exponent
+      ) =>
+        powerMathML(
+          base.trim(),
+          exponent.trim()
+        )
+    );
+
+
+  /*
+  剩餘 span 拿掉
+  */
+  text =
+    text.replace(
+      /<\/?span[^>]*>/g,
+      ""
+    );
+
+
+  /*
+  ×
+  */
+  text =
+    text.replace(
+      /\s*×\s*/g,
+      "<mo>×</mo>"
+    );
+
+
+  /*
+  已經含 MathML 標籤時保留。
+  將其餘純文字數字轉成 mn。
+  */
+
+  const pieces =
+    text.split(
+      /(<(?:msup|mn|mi|mo|mrow|mtext)[\s\S]*?<\/(?:msup|mn|mi|mo|mrow|mtext)>)/g
+    );
+
+
+  return pieces
+    .map(
+      part => {
+
+        const trimmed =
+          part.trim();
+
+
+        if (
+          !trimmed
+        ) {
+
+          return "";
+        }
+
+
+        if (
+          trimmed.startsWith(
+            "<"
+          )
+        ) {
+
+          return trimmed;
+        }
+
+
+        if (
+          /^-?\d+(?:\.\d+)?$/
+            .test(
+              trimmed
+            )
+        ) {
+
+          return `
+            <mn>
+              ${escapeXML(trimmed)}
+            </mn>
+          `;
+        }
+
+
+        return `
+          <mtext>
+            ${escapeXML(trimmed)}
+          </mtext>
+        `;
+      }
+    )
+    .join("");
+}
+
+
+/*
+==================================================
+★ 根號顯示
+MathML 原生 msqrt
 ==================================================
 */
 
@@ -2077,25 +2367,11 @@ function sqrtDisplay(
   content
 ) {
 
-  return `
-
-    <span class="display-radical">
-
-      <span
-        class="display-radical-sign"
-        aria-hidden="true"
-      >
-        √
-      </span>
-
-      <span class="display-radicand">
-
-        ${content}
-
-      </span>
-
-    </span>
-  `;
+  return sqrtMath(
+    htmlMathToMathML(
+      content
+    )
+  );
 }
 
 
@@ -2121,7 +2397,7 @@ function radicalDisplay(
   }
 
 
-  let prefix =
+  let coefficientMath =
     "";
 
 
@@ -2130,39 +2406,45 @@ function radicalDisplay(
     -1
   ) {
 
-    prefix =
-      "−";
+    coefficientMath =
+      `<mo>−</mo>`;
 
   } else if (
     coefficient !==
     1
   ) {
 
-    prefix =
-      String(
+    coefficientMath =
+      `<mn>${Math.abs(
         coefficient
-      )
-        .replace(
-          "-",
-          "−"
-        );
+      )}</mn>`;
+
+
+    if (
+      coefficient <
+      0
+    ) {
+
+      coefficientMath =
+        `<mo>−</mo>${coefficientMath}`;
+    }
   }
 
 
-  return `
+  return inlineMath(
+    `
 
-    <span class="math-expression">
+      ${coefficientMath}
 
-      ${prefix}
+      <msqrt>
 
-      ${sqrtDisplay(
-        String(
-          radicand
-        )
-      )}
+        <mn>
+          ${radicand}
+        </mn>
 
-    </span>
-  `;
+      </msqrt>
+    `
+  );
 }
 
 
@@ -2214,8 +2496,8 @@ function detailPower(
   exponent
 ) {
 
-  return detailMath(
-    powerHTML(
+  return inlineMath(
+    powerMathML(
       base,
       exponent
     )
@@ -2227,10 +2509,8 @@ function detailSqrt(
   content
 ) {
 
-  return detailMath(
-    sqrtDisplay(
-      content
-    )
+  return sqrtDisplay(
+    content
   );
 }
 
@@ -2240,11 +2520,9 @@ function detailRadical(
   radicand
 ) {
 
-  return detailMath(
-    radicalDisplay(
-      coefficient,
-      radicand
-    )
+  return radicalDisplay(
+    coefficient,
+    radicand
   );
 }
 
@@ -2288,6 +2566,42 @@ function factorHTML(
     .join(
       " × "
     );
+}
+
+
+function factorMathML(
+  factors
+) {
+
+  return productMathML(
+    factors.map(
+      (
+        [
+          base,
+          exponent
+        ]
+      ) => {
+
+        if (
+          exponent ===
+          1
+        ) {
+
+          return `
+            <mn>
+              ${base}
+            </mn>
+          `;
+        }
+
+
+        return powerMathML(
+          base,
+          exponent
+        );
+      }
+    )
+  );
 }
 
 
@@ -2535,17 +2849,12 @@ function makeMode1() {
 
         return numberQuestion(
 
-          `
-
-            <span class="math-expression">
-
-              ${powerHTML(
-                n,
-                2
-              )}
-
-            </span>
-          `,
+          inlineMath(
+            powerMathML(
+              n,
+              2
+            )
+          ),
 
           answer,
 
@@ -2589,19 +2898,12 @@ function makeRootSquareQuestion() {
 
   return numberQuestion(
 
-    `
-
-      <span class="math-expression">
-
-        ${sqrtDisplay(
-          powerHTML(
-            a,
-            2
-          )
-        )}
-
-      </span>
-    `,
+    sqrtMath(
+      powerMathML(
+        a,
+        2
+      )
+    ),
 
     a,
 
@@ -2609,8 +2911,8 @@ function makeRootSquareQuestion() {
 
       `平方根的重要性質：`,
 
-      `${detailSqrt(
-        powerHTML(
+      `${sqrtMath(
+        powerMathML(
           "a",
           2
         )
@@ -2623,8 +2925,8 @@ function makeRootSquareQuestion() {
       所以 |${a}|＝${a}。`,
 
       `因此
-      ${detailSqrt(
-        powerHTML(
+      ${sqrtMath(
+        powerMathML(
           a,
           2
         )
@@ -2783,11 +3085,13 @@ function makePrimeSimplifyQuestion() {
           outExponent ===
           1
 
-            ? String(
-                prime
-              )
+            ? `
+                <mn>
+                  ${prime}
+                </mn>
+              `
 
-            : powerHTML(
+            : powerMathML(
                 prime,
                 outExponent
               )
@@ -2805,39 +3109,35 @@ function makePrimeSimplifyQuestion() {
 
 
         insideParts.push(
-          String(
-            prime
-          )
+          `
+            <mn>
+              ${prime}
+            </mn>
+          `
         );
       }
     }
   );
 
 
-  const standard =
-    factorHTML(
+  const standardMath =
+    factorMathML(
       factors
     );
 
 
-  const questionHTML = `
-
-    <span class="math-expression">
-
-      ${sqrtDisplay(
-        standard
-      )}
-
-    </span>
-  `;
+  const questionHTML =
+    sqrtMath(
+      standardMath
+    );
 
 
   const explanation =
     [
 
       `先觀察根號內的標準分解式：
-      ${detailMath(
-        standard
+      ${inlineMath(
+        standardMath
       )}。`,
 
       `質因數已依照由小到大排列；指數為 1 時不另外寫出 1。`,
@@ -2848,9 +3148,9 @@ function makePrimeSimplifyQuestion() {
       ${
         outsideParts.length
 
-          ? detailMath(
-              outsideParts.join(
-                " × "
+          ? inlineMath(
+              productMathML(
+                outsideParts
               )
             )
 
@@ -2863,9 +3163,9 @@ function makePrimeSimplifyQuestion() {
         ? `根號內的質因數全部成對提出，因此根號內不再留下質因數。`
 
         : `根號內剩下：
-           ${detailMath(
-             insideParts.join(
-               " × "
+           ${inlineMath(
+             productMathML(
+               insideParts
              )
            )}
            ＝${inside}。`
@@ -2955,18 +3255,33 @@ function makeNormalSimplifyQuestion() {
     );
 
 
+  const insideProduct =
+    productMathML(
+      [
+
+        powerMathML(
+          outside,
+          2
+        ),
+
+        `
+          <mn>
+            ${base}
+          </mn>
+        `
+      ]
+    );
+
+
   return radicalQuestion(
 
-    `
-
-      <span class="math-expression">
-
-        ${sqrtDisplay(
-          number
-        )}
-
-      </span>
-    `,
+    sqrtMath(
+      `
+        <mn>
+          ${number}
+        </mn>
+      `
+    ),
 
     result.coefficient,
 
@@ -2978,23 +3293,21 @@ function makeNormalSimplifyQuestion() {
 
       `${number}
       ＝
-      ${powerHTML(
-        outside,
-        2
-      )}
-      ×
-      ${base}`,
+      ${inlineMath(
+        insideProduct
+      )}`,
 
-      `${detailSqrt(
-        `${powerHTML(
-          outside,
-          2
-        )} × ${base}`
+      `${sqrtMath(
+        insideProduct
       )}
       ＝
       ${outside}
-      ${detailSqrt(
-        base
+      ${sqrtMath(
+        `
+          <mn>
+            ${base}
+          </mn>
+        `
       )}`,
 
       `所以答案＝
@@ -3036,6 +3349,43 @@ function makeMode2() {
 模式三
 ==================================================
 */
+
+function rangeMath(
+  lower,
+  n,
+  upper
+) {
+
+  return inlineMath(
+    `
+
+      <mn>
+        ${lower}
+      </mn>
+
+      <mo>
+        &lt;
+      </mo>
+
+      <msqrt>
+
+        <mn>
+          ${n}
+        </mn>
+
+      </msqrt>
+
+      <mo>
+        &lt;
+      </mo>
+
+      <mn>
+        ${upper}
+      </mn>
+    `
+  );
+}
+
 
 function makeBetweenIntegersQuestion() {
 
@@ -3081,7 +3431,11 @@ function makeBetweenIntegersQuestion() {
             "correct",
 
           text:
-            `${lower}＜√${n}＜${upper}`
+            rangeMath(
+              lower,
+              n,
+              upper
+            )
         },
 
         {
@@ -3089,7 +3443,11 @@ function makeBetweenIntegersQuestion() {
             "a",
 
           text:
-            `${lower - 1}＜√${n}＜${lower}`
+            rangeMath(
+              lower - 1,
+              n,
+              lower
+            )
         },
 
         {
@@ -3097,7 +3455,11 @@ function makeBetweenIntegersQuestion() {
             "b",
 
           text:
-            `${upper}＜√${n}＜${upper + 1}`
+            rangeMath(
+              upper,
+              n,
+              upper + 1
+            )
         },
 
         {
@@ -3105,7 +3467,11 @@ function makeBetweenIntegersQuestion() {
             "c",
 
           text:
-            `${lower}＜√${n}＜${upper + 1}`
+            rangeMath(
+              lower,
+              n,
+              upper + 1
+            )
         }
       ]
     );
@@ -3117,11 +3483,17 @@ function makeBetweenIntegersQuestion() {
 
       <span class="math-expression">
 
-        ${sqrtDisplay(
-          n
+        ${sqrtMath(
+          `
+            <mn>
+              ${n}
+            </mn>
+          `
         )}
 
-        介於哪兩個連續整數之間？
+        <span>
+          介於哪兩個連續整數之間？
+        </span>
 
       </span>
     `,
@@ -3166,13 +3538,11 @@ function makeBetweenIntegersQuestion() {
       }，`,
 
       `所以
-      ${lower}
-      ＜
-      ${detailSqrt(
-        n
-      )}
-      ＜
-      ${upper}。`
+      ${rangeMath(
+        lower,
+        n,
+        upper
+      )}。`
     ],
 
     "請選出正確範圍"
@@ -3275,18 +3645,22 @@ function makeApproximationQuestion() {
 
     參考數值：
 
-    ${powerHTML(
-      ref1,
-      2
+    ${inlineMath(
+      powerMathML(
+        ref1,
+        2
+      )
     )}
     ＝
     ${square1}
 
     &nbsp;&nbsp;&nbsp;
 
-    ${powerHTML(
-      ref2,
-      2
+    ${inlineMath(
+      powerMathML(
+        ref2,
+        2
+      )
     )}
     ＝
     ${square2}
@@ -3299,8 +3673,12 @@ function makeApproximationQuestion() {
 
       <span class="math-expression">
 
-        ${sqrtDisplay(
-          n
+        ${sqrtMath(
+          `
+            <mn>
+              ${n}
+            </mn>
+          `
         )}
 
         <span>
@@ -3317,8 +3695,12 @@ function makeApproximationQuestion() {
       `本題要求利用十分逼近法，估算到小數第一位。`,
 
       `先找出
-      ${detailSqrt(
-        n
+      ${sqrtMath(
+        `
+          <mn>
+            ${n}
+          </mn>
+        `
       )}
       介於哪兩個一位小數之間。`,
 
@@ -3337,8 +3719,12 @@ function makeApproximationQuestion() {
       ＝${square2}，`,
 
       `可判斷
-      ${detailSqrt(
-        n
+      ${sqrtMath(
+        `
+          <mn>
+            ${n}
+          </mn>
+        `
       )}
       約為
       ${answer}。`
@@ -3634,19 +4020,29 @@ function makeAbsoluteValueRootQuestion() {
 
   return numberQuestion(
 
-    `
+    sqrtMath(
+      `
+        <msup>
 
-      <span class="math-expression">
+          <mrow>
 
-        ${sqrtDisplay(
-          powerHTML(
-            `(${a})`,
+            <mo>(</mo>
+
+            <mn>
+              ${a}
+            </mn>
+
+            <mo>)</mo>
+
+          </mrow>
+
+          <mn>
             2
-          )
-        )}
+          </mn>
 
-      </span>
-    `,
+        </msup>
+      `
+    ),
 
     Math.abs(
       a
@@ -3656,8 +4052,8 @@ function makeAbsoluteValueRootQuestion() {
 
       `平方根的重要性質是：`,
 
-      `${detailSqrt(
-        powerHTML(
+      `${sqrtMath(
+        powerMathML(
           "a",
           2
         )
@@ -4311,7 +4707,7 @@ function renderAnswer(
 
                 <span class="answer-preview-value">
 
-                  ${button.textContent.trim()}
+                  ${button.innerHTML}
 
                 </span>
               `;
