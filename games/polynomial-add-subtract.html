@@ -21,7 +21,7 @@
 
 <link
   rel="stylesheet"
-  href="../css/expression-input.css?v=4"
+  href="../css/expression-input.css?v=5"
 >
 
 <style>
@@ -31,30 +31,35 @@
 }
 
 :root {
-  --primary:#00897b;
-  --primary-dark:#00695c;
-  --primary-light:#e0f2f1;
-  --primary-border:#80cbc4;
 
-  --text:#1f2937;
-  --muted:#64748b;
+  --primary: #00897b;
+  --primary-dark: #00695c;
+  --primary-light: #e0f2f1;
+  --primary-border: #80cbc4;
 
-  --success:#15803d;
-  --danger:#b91c1c;
-  --warning:#b45309;
+  --text: #1f2937;
+  --muted: #64748b;
+
+  --success: #15803d;
+  --danger: #b91c1c;
+  --warning: #b45309;
 }
 
 body {
-  margin:0;
-  min-height:100vh;
-  padding:16px;
+
+  margin: 0;
+
+  min-height: 100vh;
+
+  padding: 16px;
 
   font-family:
     "Microsoft JhengHei",
     "Noto Sans TC",
     sans-serif;
 
-  color:var(--text);
+  color:
+    var(--text);
 
   background:
     linear-gradient(
@@ -67,24 +72,37 @@ body {
 button,
 input,
 select {
-  font-family:inherit;
+
+  font-family: inherit;
 }
 
 .hidden {
-  display:none !important;
+
+  display: none !important;
 }
 
 .page-shell {
-  width:min(100%,960px);
-  margin:0 auto;
+
+  width:
+    min(
+      100%,
+      960px
+    );
+
+  margin:
+    0 auto;
 }
 
 #commonHeaderMount {
-  margin-bottom:14px;
+
+  margin-bottom:
+    14px;
 }
 
 .game-card {
-  overflow:hidden;
+
+  overflow:
+    hidden;
 
   border:
     1px solid
@@ -94,13 +112,20 @@ select {
     8px solid
     var(--primary);
 
-  border-radius:26px;
+  border-radius:
+    26px;
 
-  background:#fff;
+  background:
+    #fff;
 
   box-shadow:
     0 14px 34px
-    rgba(15,23,42,.13);
+    rgba(
+      15,
+      23,
+      42,
+      .13
+    );
 }
 
 
@@ -111,10 +136,12 @@ select {
 */
 
 .game-header {
+
   padding:
     24px 20px 18px;
 
-  text-align:center;
+  text-align:
+    center;
 
   background:
     linear-gradient(
@@ -125,7 +152,8 @@ select {
 }
 
 .game-title {
-  margin:0;
+
+  margin: 0;
 
   color:
     var(--primary-dark);
@@ -139,26 +167,37 @@ select {
 }
 
 .game-subtitle {
+
   margin:
     10px 0 0;
 
   color:
     var(--muted);
 
-  line-height:1.7;
+  line-height:
+    1.7;
 }
 
 .concept-strip {
-  display:flex;
-  justify-content:center;
-  gap:8px;
 
-  margin-top:16px;
+  display:
+    flex;
 
-  flex-wrap:wrap;
+  justify-content:
+    center;
+
+  gap:
+    8px;
+
+  margin-top:
+    16px;
+
+  flex-wrap:
+    wrap;
 }
 
 .concept-chip {
+
   padding:
     7px 11px;
 
@@ -166,19 +205,26 @@ select {
     1px solid
     var(--primary-border);
 
-  border-radius:999px;
+  border-radius:
+    999px;
 
-  background:#fff;
+  background:
+    #fff;
 
   color:
     var(--primary-dark);
 
-  font-size:14px;
-  font-weight:900;
+  font-size:
+    14px;
+
+  font-weight:
+    900;
 }
 
 .screen {
-  padding:22px;
+
+  padding:
+    22px;
 }
 
 
@@ -189,27 +235,37 @@ select {
 */
 
 .mode-grid {
-  display:grid;
+
+  display:
+    grid;
 
   grid-template-columns:
     repeat(
       2,
-      minmax(0,1fr)
+      minmax(
+        0,
+        1fr
+      )
     );
 
-  gap:16px;
+  gap:
+    16px;
 }
 
 .mode-card {
-  min-height:190px;
 
-  padding:21px;
+  min-height:
+    190px;
+
+  padding:
+    21px;
 
   border:
     2px solid
     var(--primary-border);
 
-  border-radius:20px;
+  border-radius:
+    20px;
 
   background:
     linear-gradient(
@@ -218,9 +274,11 @@ select {
       #fff
     );
 
-  text-align:left;
+  text-align:
+    left;
 
-  cursor:pointer;
+  cursor:
+    pointer;
 
   transition:
     transform .15s ease,
@@ -228,61 +286,86 @@ select {
 }
 
 .mode-card:hover {
+
   transform:
     translateY(-3px);
 
   box-shadow:
     0 10px 24px
-    rgba(15,23,42,.11);
+    rgba(
+      15,
+      23,
+      42,
+      .11
+    );
 }
 
 .mode-tag {
-  display:inline-block;
 
-  margin-bottom:10px;
+  display:
+    inline-block;
+
+  margin-bottom:
+    10px;
 
   padding:
     4px 9px;
 
-  border-radius:999px;
+  border-radius:
+    999px;
 
-  background:#fff;
+  background:
+    #fff;
 
   color:
     var(--primary-dark);
 
-  font-size:12px;
-  font-weight:900;
+  font-size:
+    12px;
+
+  font-weight:
+    900;
 }
 
 .mode-card h2 {
+
   margin:
     0 0 9px;
 
   color:
     var(--primary-dark);
 
-  font-size:21px;
+  font-size:
+    21px;
 }
 
 .mode-card p {
-  margin:0;
+
+  margin: 0;
 
   color:
     var(--muted);
 
-  line-height:1.7;
+  line-height:
+    1.7;
 }
 
 .mode-example {
-  margin-top:10px;
 
-  color:#475569;
+  margin-top:
+    10px;
 
-  font-size:14px;
-  font-weight:900;
+  color:
+    #475569;
 
-  line-height:1.6;
+  font-size:
+    14px;
+
+  font-weight:
+    900;
+
+  line-height:
+    1.6;
 }
 
 
@@ -293,29 +376,45 @@ select {
 */
 
 .quiz-topbar {
-  display:grid;
+
+  display:
+    grid;
 
   grid-template-columns:
     repeat(
       5,
-      minmax(0,1fr)
+      minmax(
+        0,
+        1fr
+      )
     );
 
-  gap:10px;
+  gap:
+    10px;
 
-  margin-bottom:12px;
+  margin-bottom:
+    12px;
 }
 
 .status-box {
-  min-height:64px;
 
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
+  min-height:
+    64px;
 
-  padding:8px;
+  display:
+    flex;
 
-  border-radius:14px;
+  flex-direction:
+    column;
+
+  justify-content:
+    center;
+
+  padding:
+    8px;
+
+  border-radius:
+    14px;
 
   background:
     var(--primary-light);
@@ -323,20 +422,29 @@ select {
   color:
     var(--primary-dark);
 
-  text-align:center;
+  text-align:
+    center;
 
-  font-weight:900;
+  font-weight:
+    900;
 }
 
 .status-value {
-  margin-top:3px;
 
-  font-size:18px;
+  margin-top:
+    3px;
+
+  font-size:
+    18px;
 }
 
 .timer-box {
-  background:#fff7ed;
-  color:#c2410c;
+
+  background:
+    #fff7ed;
+
+  color:
+    #c2410c;
 }
 
 
@@ -347,22 +455,30 @@ select {
 */
 
 .scratchpad-row {
-  display:flex;
 
-  justify-content:center;
+  display:
+    flex;
 
-  min-height:46px;
+  justify-content:
+    center;
+
+  min-height:
+    46px;
 
   margin:
     4px 0 12px;
 }
 
 #scratchpad-mobile-button {
-  display:flex;
 
-  justify-content:center;
+  display:
+    flex;
 
-  width:100%;
+  justify-content:
+    center;
+
+  width:
+    100%;
 }
 
 #scratchpad-mobile-button
@@ -370,15 +486,21 @@ select {
 
 #scratchpad-mobile-button
 .scratchpad-open-button {
-  position:static !important;
 
-  inset:auto !important;
+  position:
+    static !important;
 
-  transform:none !important;
+  inset:
+    auto !important;
 
-  margin:0 !important;
+  transform:
+    none !important;
 
-  z-index:auto !important;
+  margin:
+    0 !important;
+
+  z-index:
+    auto !important;
 }
 
 
@@ -389,21 +511,30 @@ select {
 */
 
 .progress-shell {
-  height:10px;
 
-  margin-bottom:16px;
+  height:
+    10px;
 
-  overflow:hidden;
+  margin-bottom:
+    16px;
 
-  border-radius:999px;
+  overflow:
+    hidden;
 
-  background:#e2e8f0;
+  border-radius:
+    999px;
+
+  background:
+    #e2e8f0;
 }
 
 .progress-bar {
-  width:0%;
 
-  height:100%;
+  width:
+    0%;
+
+  height:
+    100%;
 
   background:
     linear-gradient(
@@ -424,6 +555,7 @@ select {
 */
 
 .question-card {
+
   padding:
     22px 18px;
 
@@ -431,47 +563,50 @@ select {
     2px solid
     var(--primary-border);
 
-  border-radius:20px;
+  border-radius:
+    20px;
 
-  background:#fff;
+  background:
+    #fff;
 
-  text-align:center;
+  text-align:
+    center;
 }
 
 .question-label {
-  margin-bottom:10px;
+
+  margin-bottom:
+    10px;
 
   color:
     var(--muted);
 
-  font-weight:900;
+  font-weight:
+    900;
 }
 
-
-/*
-★ 修正重點
-
-question-content 只負責捲動，
-真正的算式全部包在 question-expression 裡。
-
-這樣瀏覽器不會再把
-每一項、每一個括號當成不同 flex 元件分散排列。
-*/
-
 .question-content {
-  min-height:135px;
 
-  display:flex;
+  min-height:
+    135px;
 
-  align-items:center;
+  display:
+    flex;
 
-  overflow-x:auto;
-  overflow-y:hidden;
+  align-items:
+    center;
+
+  overflow-x:
+    auto;
+
+  overflow-y:
+    hidden;
 
   padding:
     10px 4px;
 
-  color:#0f172a;
+  color:
+    #0f172a;
 
   font-size:
     clamp(
@@ -480,26 +615,35 @@ question-content 只負責捲動，
       39px
     );
 
-  font-weight:900;
+  font-weight:
+    900;
 
-  -webkit-overflow-scrolling:touch;
+  -webkit-overflow-scrolling:
+    touch;
 }
 
 .question-expression {
-  display:inline-block;
 
-  min-width:max-content;
+  display:
+    inline-block;
 
-  margin:auto;
+  min-width:
+    max-content;
+
+  margin:
+    auto;
 
   padding:
     .12em .30em;
 
-  white-space:nowrap;
+  white-space:
+    nowrap;
 
-  line-height:1.55;
+  line-height:
+    1.55;
 
-  text-align:center;
+  text-align:
+    center;
 
   font-family:
     "Cambria Math",
@@ -509,74 +653,327 @@ question-content 只負責捲動，
 }
 
 .question-expression * {
-  white-space:nowrap;
+
+  white-space:
+    nowrap;
 }
 
 .question-expression sup,
 .explanation sup,
 .review-question sup,
 .review-answer sup {
-  position:relative;
 
-  top:-.48em;
+  position:
+    relative;
 
-  margin-left:1px;
+  top:
+    -.48em;
 
-  font-size:.58em;
+  margin-left:
+    1px;
 
-  line-height:1;
+  font-size:
+    .58em;
 
-  vertical-align:baseline;
+  line-height:
+    1;
+
+  vertical-align:
+    baseline;
 }
 
 
 /*
 ==================================================
-分數顯示
+題目／答案顯示用分數
 ==================================================
 */
 
 .math-fraction,
 .expression-input__inline-fraction {
-  display:inline-flex;
 
-  flex-direction:column;
+  display:
+    inline-flex;
 
-  align-items:center;
+  flex-direction:
+    column;
 
-  justify-content:center;
+  align-items:
+    stretch;
+
+  justify-content:
+    center;
+
+  min-width:
+    1.4em;
 
   margin:
-    0 4px;
+    0 .12em;
 
-  vertical-align:middle;
+  vertical-align:
+    middle;
 
-  line-height:1.1;
+  line-height:
+    1.05;
 }
 
 .math-fraction-top,
 .expression-input__inline-fraction
 > span:first-child {
-  min-width:20px;
+
+  display:
+    flex;
+
+  justify-content:
+    center;
+
+  align-items:
+    center;
+
+  min-width:
+    100%;
 
   padding:
-    0 4px 2px;
+    0 .15em .08em;
 
   border-bottom:
-    2px solid
+    1.8px solid
     currentColor;
 
-  text-align:center;
+  text-align:
+    center;
 }
 
 .math-fraction-bottom,
 .expression-input__inline-fraction
 > span:last-child {
-  min-width:20px;
 
-  padding-top:2px;
+  display:
+    flex;
 
-  text-align:center;
+  justify-content:
+    center;
+
+  align-items:
+    center;
+
+  min-width:
+    100%;
+
+  padding:
+    .08em .15em 0;
+
+  text-align:
+    center;
+}
+
+
+/*
+==================================================
+★ 分數係數輸入框修正版
+
+原本：
+分子 / 分母
+
+現在：
+  分子
+──────
+  分母
+==================================================
+*/
+
+.polynomial-answer-shell
+.expression-input__fraction-coefficient {
+
+  display:
+    grid !important;
+
+  grid-template-columns:
+    minmax(
+      105px,
+      150px
+    ) !important;
+
+  grid-template-rows:
+    auto auto !important;
+
+  align-items:
+    stretch !important;
+
+  justify-items:
+    stretch !important;
+
+  gap:
+    0 !important;
+
+  width:
+    min(
+      150px,
+      100%
+    ) !important;
+
+  margin:
+    0 !important;
+
+  padding:
+    0 !important;
+
+  border:
+    2px solid
+    var(--primary-border);
+
+  border-radius:
+    13px;
+
+  overflow:
+    hidden;
+
+  background:
+    #fff;
+}
+
+
+/*
+把原本的 / 完全隱藏
+*/
+
+.polynomial-answer-shell
+.expression-input__fraction-slash {
+
+  display:
+    none !important;
+}
+
+
+/*
+分子、分母各自一列
+*/
+
+.polynomial-answer-shell
+.expression-input__fraction-field {
+
+  display:
+    flex !important;
+
+  flex-direction:
+    column !important;
+
+  align-items:
+    center !important;
+
+  justify-content:
+    center !important;
+
+  gap:
+    4px !important;
+
+  width:
+    100% !important;
+
+  margin:
+    0 !important;
+
+  padding:
+    7px 8px !important;
+
+  background:
+    #fff;
+}
+
+
+/*
+分子與分母中間正式橫槓
+*/
+
+.polynomial-answer-shell
+.expression-input__fraction-field:first-child {
+
+  border-bottom:
+    2px solid
+    #334155;
+}
+
+
+/*
+標題
+*/
+
+.polynomial-answer-shell
+.expression-input__fraction-field > span {
+
+  color:
+    #64748b !important;
+
+  font-size:
+    12px !important;
+
+  font-weight:
+    900 !important;
+
+  line-height:
+    1 !important;
+}
+
+
+/*
+輸入格不再自己畫框，
+整個分數外框由 fraction-coefficient 控制
+*/
+
+.polynomial-answer-shell
+.expression-input__fraction-field input {
+
+  width:
+    100% !important;
+
+  min-width:
+    0 !important;
+
+  height:
+    40px !important;
+
+  padding:
+    5px !important;
+
+  border:
+    0 !important;
+
+  border-radius:
+    0 !important;
+
+  outline:
+    none !important;
+
+  background:
+    transparent !important;
+
+  color:
+    #0f172a !important;
+
+  font-size:
+    21px !important;
+
+  font-weight:
+    900 !important;
+
+  text-align:
+    center !important;
+
+  box-shadow:
+    none !important;
+}
+
+
+/*
+快速數字仍放在分數右側／下一行，
+不受分數格影響
+*/
+
+.polynomial-answer-shell
+.expression-input__button-row {
+
+  align-items:
+    center;
 }
 
 
@@ -587,43 +984,61 @@ question-content 只負責捲動，
 */
 
 .answer-panel {
-  margin-top:16px;
 
-  padding:18px;
+  margin-top:
+    16px;
 
-  border-radius:18px;
+  padding:
+    18px;
 
-  background:#f8fafc;
+  border-radius:
+    18px;
+
+  background:
+    #f8fafc;
 }
 
 .answer-title {
-  margin-bottom:10px;
+
+  margin-bottom:
+    10px;
 
   color:
     var(--primary-dark);
 
-  text-align:center;
+  text-align:
+    center;
 
-  font-weight:900;
+  font-weight:
+    900;
 
-  line-height:1.6;
+  line-height:
+    1.6;
 }
 
 .answer-help {
+
   margin:
     0 0 12px;
 
-  color:#64748b;
+  color:
+    #64748b;
 
-  text-align:center;
+  text-align:
+    center;
 
-  font-size:14px;
-  font-weight:800;
+  font-size:
+    14px;
 
-  line-height:1.6;
+  font-weight:
+    800;
+
+  line-height:
+    1.6;
 }
 
 .polynomial-answer-shell {
+
   width:
     min(
       100%,
@@ -642,42 +1057,59 @@ question-content 只負責捲動，
 */
 
 .choice-grid {
-  display:grid;
+
+  display:
+    grid;
 
   grid-template-columns:
     repeat(
       2,
-      minmax(0,1fr)
+      minmax(
+        0,
+        1fr
+      )
     );
 
-  gap:10px;
+  gap:
+    10px;
 }
 
 .choice-button {
-  min-height:66px;
 
-  padding:11px;
+  min-height:
+    66px;
+
+  padding:
+    11px;
 
   border:
     2px solid
     var(--primary-border);
 
-  border-radius:13px;
+  border-radius:
+    13px;
 
-  background:#fff;
+  background:
+    #fff;
 
-  color:#263238;
+  color:
+    #263238;
 
-  font-size:16px;
+  font-size:
+    16px;
 
-  font-weight:900;
+  font-weight:
+    900;
 
-  line-height:1.65;
+  line-height:
+    1.65;
 
-  cursor:pointer;
+  cursor:
+    pointer;
 }
 
 .choice-button.selected {
+
   border-color:
     var(--primary);
 
@@ -696,37 +1128,51 @@ question-content 只負責捲動，
 */
 
 .button-row {
-  display:flex;
 
-  justify-content:center;
+  display:
+    flex;
 
-  gap:10px;
+  justify-content:
+    center;
 
-  margin-top:16px;
+  gap:
+    10px;
 
-  flex-wrap:wrap;
+  margin-top:
+    16px;
+
+  flex-wrap:
+    wrap;
 }
 
 .game-button {
-  min-width:132px;
+
+  min-width:
+    132px;
 
   padding:
     12px 20px;
 
-  border:none;
+  border:
+    none;
 
-  border-radius:12px;
+  border-radius:
+    12px;
 
   background:
     var(--primary);
 
-  color:#fff;
+  color:
+    #fff;
 
-  font-size:16px;
+  font-size:
+    16px;
 
-  font-weight:900;
+  font-weight:
+    900;
 
-  cursor:pointer;
+  cursor:
+    pointer;
 
   box-shadow:
     0 5px 0
@@ -734,7 +1180,9 @@ question-content 只負責捲動，
 }
 
 .game-button.secondary {
-  background:#607d8b;
+
+  background:
+    #607d8b;
 
   box-shadow:
     0 5px 0
@@ -742,7 +1190,9 @@ question-content 只負責捲動，
 }
 
 .game-button.orange {
-  background:#f57c00;
+
+  background:
+    #f57c00;
 
   box-shadow:
     0 5px 0
@@ -750,7 +1200,9 @@ question-content 只負責捲動，
 }
 
 .game-button.restart {
-  background:#7e57c2;
+
+  background:
+    #7e57c2;
 
   box-shadow:
     0 5px 0
@@ -758,9 +1210,12 @@ question-content 只負責捲動，
 }
 
 .game-button:disabled {
-  opacity:.55;
 
-  cursor:not-allowed;
+  opacity:
+    .55;
+
+  cursor:
+    not-allowed;
 }
 
 
@@ -771,30 +1226,40 @@ question-content 只負責捲動，
 */
 
 .feedback {
-  min-height:48px;
 
-  margin-top:14px;
+  min-height:
+    48px;
 
-  text-align:center;
+  margin-top:
+    14px;
 
-  font-size:18px;
+  text-align:
+    center;
 
-  font-weight:900;
+  font-size:
+    18px;
 
-  line-height:1.65;
+  font-weight:
+    900;
+
+  line-height:
+    1.65;
 }
 
 .feedback.correct {
+
   color:
     var(--success);
 }
 
 .feedback.wrong {
+
   color:
     var(--danger);
 }
 
 .feedback.warning {
+
   color:
     var(--warning);
 }
@@ -807,20 +1272,28 @@ question-content 只負責捲動，
 */
 
 .explanation {
-  margin-top:12px;
 
-  padding:16px;
+  margin-top:
+    12px;
 
-  border-radius:14px;
+  padding:
+    16px;
 
-  background:#eaf7f5;
+  border-radius:
+    14px;
 
-  color:#334155;
+  background:
+    #eaf7f5;
 
-  line-height:1.95;
+  color:
+    #334155;
+
+  line-height:
+    1.95;
 }
 
 .explanation-step {
+
   margin:
     8px 0;
 }
@@ -833,46 +1306,63 @@ question-content 只負責捲動，
 */
 
 .result-panel {
-  text-align:center;
+
+  text-align:
+    center;
 }
 
 .result-score {
+
   margin:
     16px 0;
 
-  color:#f57c00;
+  color:
+    #f57c00;
 
-  font-size:56px;
+  font-size:
+    56px;
 
-  font-weight:900;
+  font-weight:
+    900;
 }
 
 .result-stars {
-  margin-bottom:10px;
 
-  font-size:31px;
+  margin-bottom:
+    10px;
+
+  font-size:
+    31px;
 }
 
 .result-grid {
-  display:grid;
+
+  display:
+    grid;
 
   grid-template-columns:
     repeat(
       4,
-      minmax(0,1fr)
+      minmax(
+        0,
+        1fr
+      )
     );
 
-  gap:12px;
+  gap:
+    12px;
 
   margin:
     20px 0;
 }
 
 .result-stat {
+
   padding:
     16px 10px;
 
-  border-radius:16px;
+  border-radius:
+    16px;
 
   background:
     var(--primary-light);
@@ -880,16 +1370,20 @@ question-content 只負責捲動，
   color:
     var(--primary-dark);
 
-  font-weight:900;
+  font-weight:
+    900;
 }
 
 .save-status {
-  min-height:28px;
+
+  min-height:
+    28px;
 
   margin:
     14px 0 0;
 
-  font-weight:900;
+  font-weight:
+    900;
 }
 
 
@@ -900,49 +1394,67 @@ question-content 只負責捲動，
 */
 
 .review-list {
-  display:grid;
 
-  gap:14px;
+  display:
+    grid;
+
+  gap:
+    14px;
 }
 
 .review-card {
-  padding:18px;
+
+  padding:
+    18px;
 
   border:
     1px solid
     #e2e8f0;
 
-  border-radius:16px;
+  border-radius:
+    16px;
 
-  background:#fff;
+  background:
+    #fff;
 }
 
 .review-title {
+
   color:
     var(--danger);
 
-  font-weight:900;
+  font-weight:
+    900;
 }
 
 .review-question {
+
   margin:
     8px 0;
 
-  overflow-x:auto;
+  overflow-x:
+    auto;
 
-  color:#0f172a;
+  color:
+    #0f172a;
 
-  font-size:20px;
+  font-size:
+    20px;
 
-  font-weight:900;
+  font-weight:
+    900;
 
-  line-height:1.8;
+  line-height:
+    1.8;
 }
 
 .review-answer {
-  color:#475569;
 
-  line-height:1.9;
+  color:
+    #475569;
+
+  line-height:
+    1.9;
 }
 
 
@@ -953,55 +1465,72 @@ question-content 只負責捲動，
 */
 
 @media (
-  max-width:760px
+  max-width:
+    760px
 ) {
 
   body {
-    padding:8px;
+
+    padding:
+      8px;
   }
 
   .screen {
+
     padding:
       18px 12px;
   }
 
   .mode-grid {
+
     grid-template-columns:
       1fr;
   }
 
   .quiz-topbar {
+
     grid-template-columns:
       repeat(
         2,
-        minmax(0,1fr)
+        minmax(
+          0,
+          1fr
+        )
       );
   }
 
   .timer-box {
+
     grid-column:
       1 / -1;
   }
 
   .result-grid {
+
     grid-template-columns:
       repeat(
         2,
-        minmax(0,1fr)
+        minmax(
+          0,
+          1fr
+        )
       );
   }
 
   .choice-grid {
+
     grid-template-columns:
       1fr;
   }
 
   .answer-panel {
+
     padding:
       14px 8px;
   }
 
   .question-content {
+
     font-size:
       clamp(
         21px,
@@ -1009,6 +1538,56 @@ question-content 只負責捲動，
         30px
       );
   }
+
+  .polynomial-answer-shell
+  .expression-input__fraction-coefficient {
+
+    grid-template-columns:
+      115px !important;
+
+    width:
+      115px !important;
+  }
+
+}
+
+
+/*
+==================================================
+手機
+==================================================
+*/
+
+@media (
+  max-width:
+    520px
+) {
+
+  .polynomial-answer-shell
+  .expression-input__fraction-coefficient {
+
+    grid-template-columns:
+      105px !important;
+
+    width:
+      105px !important;
+  }
+
+}
+
+
+/*
+==================================================
+額外保護：
+避免分數元件被共用 CSS 強制拉回橫向
+==================================================
+*/
+
+#polynomial-answer-mount
+.expression-input__fraction-coefficient {
+
+  flex-direction:
+    column !important;
 }
 
 </style>
@@ -1092,11 +1671,11 @@ question-content 只負責捲動，
           </h2>
 
           <p>
-            找出同類項，再將相同字母與次方的係數進行加減。
+            每題有三項，其中兩項為同類項，請判斷後正確合併。
           </p>
 
           <div class="mode-example">
-            例如：3x²＋5x－x²＋2x
+            例如：3x²－5x＋2x² → 5x²－5x
           </div>
 
         </button>
@@ -1146,7 +1725,7 @@ question-content 只負責捲動，
           </p>
 
           <div class="mode-example">
-            同類項題也一定會保留尚未合併的多個項目。
+            同類項題同樣會保留三項，讓你判斷哪兩項可以合併。
           </div>
 
         </button>
@@ -1171,7 +1750,7 @@ question-content 只負責捲動，
           </p>
 
           <div class="mode-example">
-            長算式可左右滑動，但算式本身不會被拆開。
+            分數係數請自行約成最簡分數。
           </div>
 
         </button>
@@ -1564,7 +2143,7 @@ question-content 只負責捲動，
 
 <script src="../js/sound-manager.js?v=1"></script>
 
-<script src="../js/expression-input.js?v=4"></script>
+<script src="../js/expression-input.js?v=5"></script>
 
 
 <script type="module">
@@ -1954,25 +2533,6 @@ function fractionCoefficient(
 }
 
 
-function addFraction(
-  first,
-  second
-) {
-
-  return U()
-    .normalizeFraction(
-
-      first.numerator *
-      second.denominator +
-      second.numerator *
-      first.denominator,
-
-      first.denominator *
-      second.denominator
-    );
-}
-
-
 function multiplyFraction(
   value,
   multiplier
@@ -2148,7 +2708,7 @@ function combine(
 
 /*
 ==================================================
-產生一般多項式
+一般多項式
 ==================================================
 */
 
@@ -2279,9 +2839,7 @@ function randomFractionPolynomial() {
 
 /*
 ==================================================
-標準多項式顯示
-
-這個函式只拿來顯示「已整理完成」的多項式。
+整理完成的多項式
 ==================================================
 */
 
@@ -2306,13 +2864,7 @@ function polynomialHTML(
 
 /*
 ==================================================
-★ 尚未合併的多項式顯示
-
-這裡是本次最重要修正。
-
-不能呼叫 normalize()，
-否則 3x＋5x－2x 會在題目出現前
-先被程式整理成 6x。
+尚未合併的整數多項式
 ==================================================
 */
 
@@ -2381,10 +2933,6 @@ function rawPolynomialHTML(
         }
 
 
-        /*
-        常數
-        */
-
         if (
           exponent ===
           0
@@ -2396,14 +2944,12 @@ function rawPolynomialHTML(
         }
 
 
-        /*
-        x 或 x²、x³
-        */
-
         const coefficientText =
           absolute ===
           1
+
             ? ""
+
             : String(
                 absolute
               );
@@ -2412,7 +2958,9 @@ function rawPolynomialHTML(
         const exponentText =
           exponent ===
           1
+
             ? ""
+
             : `<sup>${exponent}</sup>`;
 
 
@@ -2426,58 +2974,6 @@ function rawPolynomialHTML(
       }
     )
     .join("");
-}
-
-
-/*
-==================================================
-分數顯示
-==================================================
-*/
-
-
-function fractionHTML(
-  value
-) {
-
-  const normalized =
-    F(
-      Math.abs(
-        value.numerator
-      ),
-      value.denominator
-    );
-
-
-  if (
-    normalized.denominator ===
-    1
-  ) {
-
-    return String(
-      normalized.numerator
-    );
-  }
-
-
-  return `
-
-    <span class="math-fraction">
-
-      <span class="math-fraction-top">
-
-        ${normalized.numerator}
-
-      </span>
-
-      <span class="math-fraction-bottom">
-
-        ${normalized.denominator}
-
-      </span>
-
-    </span>
-  `;
 }
 
 
@@ -2507,10 +3003,7 @@ function bracket(
 
 /*
 ==================================================
-★ 統一包住所有題目
-
-模式二、三、四長算式全部透過這一層，
-不再讓不同項目直接成為 flex child。
+統一題目容器
 ==================================================
 */
 
@@ -2601,10 +3094,16 @@ function choiceQuestion(
 
 /*
 ==================================================
-模式一｜同類項
+★ 模式一｜同類項判讀
 
-★ 每題至少 3 個尚未合併的項目。
-★ 題面保留原始加減。
+固定規則：
+
+1. 每題正好三項
+2. 其中兩項一定是同類項
+3. 第三項一定不是同類項
+4. 被合併的兩項只使用 x 或 x²
+5. 不會只有常數項互相合併
+6. 同類項係數相加後不得等於 0
 ==================================================
 */
 
@@ -2615,150 +3114,193 @@ function makeLikeQuestion() {
     true
   ) {
 
-    const raw =
-      [];
-
-
     /*
-    決定這題包含幾種同類項。
+    同類項只能是 x 或 x²
     */
 
-    const groupCount =
-      rand(
-        1,
-        3
+    const likeExponent =
+      pick(
+        [
+          1,
+          2
+        ]
       );
 
 
-    const powers =
-      shuffle(
-        [
-          2,
-          1,
-          0
-        ]
-      )
-        .slice(
-          0,
-          groupCount
+    /*
+    第三項一定不同類
+    */
+
+    const thirdExponentChoices =
+      [
+        0,
+        1,
+        2
+      ]
+        .filter(
+          exponent =>
+            exponent !==
+            likeExponent
         );
 
 
-    powers.forEach(
-      (
-        exponent,
-        powerIndex
-      ) => {
-
-        /*
-        每一種類至少 2 項。
-
-        如果全題只有一種同類項，
-        就安排 3～4 項，
-        避免學生只看到兩項。
-        */
-
-        const count =
-          groupCount ===
-          1
-            ? rand(
-                3,
-                4
-              )
-            : 2;
-
-
-        for (
-          let i =
-            0;
-
-          i <
-            count;
-
-          i++
-        ) {
-
-          raw.push(
-            {
-
-              exponent,
-
-              coefficient:
-                nonZeroRand(
-                  -8,
-                  8
-                )
-            }
-          );
-        }
-      }
-    );
+    const thirdExponent =
+      pick(
+        thirdExponentChoices
+      );
 
 
     /*
-    打亂項目的順序，
-    讓學生真的需要找同類項。
+    同類項兩個係數
     */
 
-    const shuffledRaw =
+    const coefficient1 =
+      nonZeroRand(
+        -8,
+        8
+      );
+
+
+    const coefficient2 =
+      nonZeroRand(
+        -8,
+        8
+      );
+
+
+    /*
+    不要剛好抵消
+    */
+
+    if (
+      coefficient1 +
+      coefficient2 ===
+      0
+    ) {
+
+      continue;
+    }
+
+
+    /*
+    第三項
+    */
+
+    const coefficient3 =
+      nonZeroRand(
+        -8,
+        8
+      );
+
+
+    const rawTerms =
       shuffle(
-        raw
+        [
+
+          {
+            exponent:
+              likeExponent,
+
+            coefficient:
+              coefficient1
+          },
+
+          {
+            exponent:
+              likeExponent,
+
+            coefficient:
+              coefficient2
+          },
+
+          {
+            exponent:
+              thirdExponent,
+
+            coefficient:
+              coefficient3
+          }
+        ]
       );
 
 
     const answer =
       normalize(
-        shuffledRaw
+        rawTerms
       );
 
 
-    if (
-      !answer.length
-    ) {
-
-      continue;
-    }
-
-
     /*
-    避免題目完全沒有加減變化。
+    理論上答案應該剩兩項。
+    再做一次保護。
     */
 
     if (
-      shuffledRaw.length <
-      3
+      answer.length !==
+      2
     ) {
 
       continue;
     }
+
+
+    const likeName =
+      likeExponent ===
+      2
+
+        ? "x² 項"
+
+        : "x 項";
+
+
+    const thirdName =
+
+      thirdExponent ===
+      2
+
+        ? "x² 項"
+
+        : thirdExponent ===
+          1
+
+          ? "x 項"
+
+          : "常數項";
 
 
     return polynomialQuestion(
 
-      /*
-      ★ 題面一定使用 rawPolynomialHTML，
-      不能使用 polynomialHTML。
-      */
-
       rawPolynomialHTML(
-        shuffledRaw
+        rawTerms
       ),
 
       answer,
 
       [
 
-        "先找出字母相同，而且次方也相同的同類項。",
+        `先觀察三個項目的字母與次方。`,
 
-        "同類項合併時，字母與次方保持不變，只計算前面的係數。",
+        `其中有兩個 ${likeName}，它們是同類項，可以合併。`,
 
-        `整理後：
+        `另外一項是 ${thirdName}，不是同類項，因此要原樣保留。`,
+
+        `同類項只計算係數：
+         ${coefficient1}
+         ＋
+         (${coefficient2})
+         ＝
+         ${
+           coefficient1 +
+           coefficient2
+         }。`,
+
+        `整理後答案：
          ${polynomialHTML(
            answer
          )}`
       ],
 
-      "請找出同類項並合併"
+      "請找出哪兩項是同類項，合併後寫出完整多項式"
     );
   }
 }
@@ -2811,7 +3353,9 @@ function makeTwoPolynomial(
 
           minTerms:
             missing
+
               ? 2
+
               : 3,
 
           maxTerms:
@@ -2829,12 +3373,16 @@ function makeTwoPolynomial(
 
           minTerms:
             missing
+
               ? 1
+
               : 3,
 
           maxTerms:
             missing
+
               ? 2
+
               : 3
         }
       );
@@ -2866,7 +3414,9 @@ function makeTwoPolynomial(
     const symbol =
       operation ===
       "add"
+
         ? "＋"
+
         : "－";
 
 
@@ -2915,7 +3465,9 @@ function makeTwoPolynomial(
 
       operation ===
       "add"
+
         ? "請計算多項式的和"
+
         : "請計算多項式的差"
     );
   }
@@ -2950,49 +3502,50 @@ function makeMode2() {
     );
 
 
-  return schedule.map(
-    type => {
+  return schedule
+    .map(
+      type => {
 
-      if (
-        type ===
-        "add"
-      ) {
-
-        return makeTwoPolynomial(
+        if (
+          type ===
           "add"
-        );
-      }
+        ) {
+
+          return makeTwoPolynomial(
+            "add"
+          );
+        }
 
 
-      if (
-        type ===
-        "subtract"
-      ) {
-
-        return makeTwoPolynomial(
+        if (
+          type ===
           "subtract"
-        );
-      }
+        ) {
+
+          return makeTwoPolynomial(
+            "subtract"
+          );
+        }
 
 
-      if (
-        type ===
-        "missingAdd"
-      ) {
+        if (
+          type ===
+          "missingAdd"
+        ) {
+
+          return makeTwoPolynomial(
+            "add",
+            true
+          );
+        }
+
 
         return makeTwoPolynomial(
-          "add",
+          "subtract",
           true
         );
       }
-
-
-      return makeTwoPolynomial(
-        "subtract",
-        true
-      );
-    }
-  );
+    );
 }
 
 
@@ -3012,9 +3565,9 @@ function makeTriple() {
     const first =
       randomIntegerPolynomial(
         {
-          maxDegree:2,
-          minTerms:2,
-          maxTerms:3
+          maxDegree: 2,
+          minTerms: 2,
+          maxTerms: 3
         }
       );
 
@@ -3022,9 +3575,9 @@ function makeTriple() {
     const second =
       randomIntegerPolynomial(
         {
-          maxDegree:2,
-          minTerms:2,
-          maxTerms:3
+          maxDegree: 2,
+          minTerms: 2,
+          maxTerms: 3
         }
       );
 
@@ -3032,9 +3585,9 @@ function makeTriple() {
     const third =
       randomIntegerPolynomial(
         {
-          maxDegree:2,
-          minTerms:2,
-          maxTerms:3
+          maxDegree: 2,
+          minTerms: 2,
+          maxTerms: 3
         }
       );
 
@@ -3062,18 +3615,27 @@ function makeTriple() {
         [
 
           {
-            sign:1,
-            terms:first
+            sign:
+              1,
+
+            terms:
+              first
           },
 
           {
-            sign:sign2,
-            terms:second
+            sign:
+              sign2,
+
+            terms:
+              second
           },
 
           {
-            sign:sign3,
-            terms:third
+            sign:
+              sign3,
+
+            terms:
+              third
           }
         ]
       );
@@ -3094,7 +3656,14 @@ function makeTriple() {
       )}` +
 
       `<span class="outer-operator">
-         ${sign2 === 1 ? "＋" : "－"}
+         ${
+           sign2 ===
+           1
+
+             ? "＋"
+
+             : "－"
+         }
        </span>` +
 
       `${bracket(
@@ -3102,7 +3671,14 @@ function makeTriple() {
       )}` +
 
       `<span class="outer-operator">
-         ${sign3 === 1 ? "＋" : "－"}
+         ${
+           sign3 ===
+           1
+
+             ? "＋"
+
+             : "－"
+         }
        </span>` +
 
       `${bracket(
@@ -3147,9 +3723,9 @@ function makeChoice() {
     const first =
       randomIntegerPolynomial(
         {
-          maxDegree:2,
-          minTerms:3,
-          maxTerms:3
+          maxDegree: 2,
+          minTerms: 3,
+          maxTerms: 3
         }
       );
 
@@ -3157,9 +3733,9 @@ function makeChoice() {
     const second =
       randomIntegerPolynomial(
         {
-          maxDegree:2,
-          minTerms:3,
-          maxTerms:3
+          maxDegree: 2,
+          minTerms: 3,
+          maxTerms: 3
         }
       );
 
@@ -3299,23 +3875,43 @@ function makeChoice() {
         [
 
           {
-            value:"correct",
-            text:texts[0]
+            value:
+              "correct",
+
+            text:
+              texts[
+                0
+              ]
           },
 
           {
-            value:"wrong1",
-            text:texts[1]
+            value:
+              "wrong1",
+
+            text:
+              texts[
+                1
+              ]
           },
 
           {
-            value:"wrong2",
-            text:texts[2]
+            value:
+              "wrong2",
+
+            text:
+              texts[
+                2
+              ]
           },
 
           {
-            value:"wrong3",
-            text:texts[3]
+            value:
+              "wrong3",
+
+            text:
+              texts[
+                3
+              ]
           }
         ]
       ),
@@ -3340,7 +3936,7 @@ function makeChoice() {
 ==================================================
 模式三
 
-★ 同類項使用同一個修正版 makeLikeQuestion。
+其中兩題使用新版同類項判讀題。
 ==================================================
 */
 
@@ -3395,11 +3991,21 @@ function makeAdvancedInteger() {
     const first =
       randomIntegerPolynomial(
         {
-          maxDegree:3,
-          minTerms:3,
-          maxTerms:4,
-          min:-9,
-          max:9
+
+          maxDegree:
+            3,
+
+          minTerms:
+            3,
+
+          maxTerms:
+            4,
+
+          min:
+            -9,
+
+          max:
+            9
         }
       );
 
@@ -3407,11 +4013,21 @@ function makeAdvancedInteger() {
     const second =
       randomIntegerPolynomial(
         {
-          maxDegree:3,
-          minTerms:2,
-          maxTerms:4,
-          min:-9,
-          max:9
+
+          maxDegree:
+            3,
+
+          minTerms:
+            2,
+
+          maxTerms:
+            4,
+
+          min:
+            -9,
+
+          max:
+            9
         }
       );
 
@@ -3419,11 +4035,21 @@ function makeAdvancedInteger() {
     const third =
       randomIntegerPolynomial(
         {
-          maxDegree:3,
-          minTerms:2,
-          maxTerms:4,
-          min:-9,
-          max:9
+
+          maxDegree:
+            3,
+
+          minTerms:
+            2,
+
+          maxTerms:
+            4,
+
+          min:
+            -9,
+
+          max:
+            9
         }
       );
 
@@ -3451,18 +4077,27 @@ function makeAdvancedInteger() {
         [
 
           {
-            sign:1,
-            terms:first
+            sign:
+              1,
+
+            terms:
+              first
           },
 
           {
-            sign:sign2,
-            terms:second
+            sign:
+              sign2,
+
+            terms:
+              second
           },
 
           {
-            sign:sign3,
-            terms:third
+            sign:
+              sign3,
+
+            terms:
+              third
           }
         ]
       );
@@ -3483,7 +4118,14 @@ function makeAdvancedInteger() {
       )}` +
 
       `<span class="outer-operator">
-         ${sign2 === 1 ? "＋" : "－"}
+         ${
+           sign2 ===
+           1
+
+             ? "＋"
+
+             : "－"
+         }
        </span>` +
 
       `${bracket(
@@ -3491,7 +4133,14 @@ function makeAdvancedInteger() {
       )}` +
 
       `<span class="outer-operator">
-         ${sign3 === 1 ? "＋" : "－"}
+         ${
+           sign3 ===
+           1
+
+             ? "＋"
+
+             : "－"
+         }
        </span>` +
 
       `${bracket(
@@ -3534,9 +4183,9 @@ function makeLeadingNegative() {
     const first =
       randomIntegerPolynomial(
         {
-          maxDegree:3,
-          minTerms:3,
-          maxTerms:4
+          maxDegree: 3,
+          minTerms: 3,
+          maxTerms: 4
         }
       );
 
@@ -3544,9 +4193,9 @@ function makeLeadingNegative() {
     const second =
       randomIntegerPolynomial(
         {
-          maxDegree:3,
-          minTerms:2,
-          maxTerms:4
+          maxDegree: 3,
+          minTerms: 2,
+          maxTerms: 4
         }
       );
 
@@ -3554,9 +4203,9 @@ function makeLeadingNegative() {
     const third =
       randomIntegerPolynomial(
         {
-          maxDegree:3,
-          minTerms:2,
-          maxTerms:4
+          maxDegree: 3,
+          minTerms: 2,
+          maxTerms: 4
         }
       );
 
@@ -3566,18 +4215,27 @@ function makeLeadingNegative() {
         [
 
           {
-            sign:-1,
-            terms:first
+            sign:
+              -1,
+
+            terms:
+              first
           },
 
           {
-            sign:1,
-            terms:second
+            sign:
+              1,
+
+            terms:
+              second
           },
 
           {
-            sign:-1,
-            terms:third
+            sign:
+              -1,
+
+            terms:
+              third
           }
         ]
       );
@@ -3697,7 +4355,8 @@ function makeFractionQuestion() {
         term =>
           fractionCoefficient(
             term.coefficient
-          ).denominator !==
+          )
+            .denominator !==
           1
       );
 
@@ -3721,7 +4380,9 @@ function makeFractionQuestion() {
          ${
            operation ===
            "add"
+
              ? "＋"
+
              : "－"
          }
 
@@ -3745,6 +4406,8 @@ function makeFractionQuestion() {
           : "括號前是加號，因此第二個多項式各項符號不變。",
 
         "同類項的分數係數先通分，再進行加減。",
+
+        "最後每一個分數係數都必須自行約成最簡分數。",
 
         `最後整理：
          ${polynomialHTML(
@@ -3807,15 +4470,20 @@ function makeFour() {
             randomIntegerPolynomial(
               {
 
-                maxDegree:3,
+                maxDegree:
+                  3,
 
-                minTerms:2,
+                minTerms:
+                  2,
 
-                maxTerms:3,
+                maxTerms:
+                  3,
 
-                min:-5,
+                min:
+                  -5,
 
-                max:5
+                max:
+                  5
               }
             )
         }
@@ -3863,7 +4531,9 @@ function makeFour() {
                  ${
                    item.sign ===
                    1
+
                      ? "＋"
+
                      : "－"
                  }
 
@@ -4002,17 +4672,19 @@ function formatTime(
 
     `${String(
       minutes
-    ).padStart(
-      2,
-      "0"
-    )}:` +
+    )
+      .padStart(
+        2,
+        "0"
+      )}:` +
 
     `${String(
       remain
-    ).padStart(
-      2,
-      "0"
-    )}`
+    )
+      .padStart(
+        2,
+        "0"
+      )}`
   );
 }
 
@@ -4149,6 +4821,14 @@ function renderAnswer(
         請像紙本作答一樣，
         將最後答案整理成降冪排列的完整多項式。
 
+        ${
+          question.fraction
+
+            ? "<br>分數係數請以上下分子、分母的格式輸入，並自行約成最簡分數。"
+
+            : ""
+        }
+
       </p>
 
       <div class="polynomial-answer-shell">
@@ -4242,21 +4922,30 @@ function renderAnswer(
 
           theme: {
 
-            primary:"#00897b",
-            light:"#e0f2f1",
-            border:"#80cbc4"
+            primary:
+              "#00897b",
+
+            light:
+              "#e0f2f1",
+
+            border:
+              "#80cbc4"
           },
 
           labels: {
 
             polynomialLabel:
               question.fraction
+
                 ? "請輸入含分數係數的多項式"
+
                 : "請輸入最後整理後的多項式",
 
             polynomialCoefficientLabel:
               question.fraction
+
                 ? "輸入這一項的分數係數"
+
                 : "輸入這一項的係數",
 
             polynomialExponentLabel:
@@ -4439,10 +5128,6 @@ function displayQuestion() {
       question.label;
 
 
-  /*
-  ★ question.html 本身已只有一個 question-expression。
-  */
-
   $(
     "question-content"
   )
@@ -4531,7 +5216,8 @@ function readAnswer(
 
       return {
 
-        valid:false,
+        valid:
+          false,
 
         message:
           "多項式輸入器尚未準備完成。"
@@ -4549,7 +5235,8 @@ function readAnswer(
 
       return {
 
-        valid:false,
+        valid:
+          false,
 
         message:
           result.message ||
@@ -4560,7 +5247,8 @@ function readAnswer(
 
     return {
 
-      valid:true,
+      valid:
+        true,
 
       value:
         result.value.fractionTerms,
@@ -4577,7 +5265,8 @@ function readAnswer(
 
     return {
 
-      valid:false,
+      valid:
+        false,
 
       message:
         "請先選擇一個答案。"
@@ -4596,7 +5285,8 @@ function readAnswer(
 
   return {
 
-    valid:true,
+    valid:
+      true,
 
     value:
       selectedChoice,
@@ -5156,7 +5846,8 @@ function rating(
 
     return {
 
-      stars:"★★★★★",
+      stars:
+        "★★★★★",
 
       comment:
         "太棒了！你已能熟練處理多項式的加減與同類項。"
@@ -5171,7 +5862,8 @@ function rating(
 
     return {
 
-      stars:"★★★★☆",
+      stars:
+        "★★★★☆",
 
       comment:
         "表現很好，再注意減號進括號與同類項的符號。"
@@ -5186,7 +5878,8 @@ function rating(
 
     return {
 
-      stars:"★★★☆☆",
+      stars:
+        "★★★☆☆",
 
       comment:
         "基本概念已掌握，再加強同類項合併與去括號。"
@@ -5196,7 +5889,8 @@ function rating(
 
   return {
 
-    stars:"★★☆☆☆",
+    stars:
+      "★★☆☆☆",
 
     comment:
       "建議先從模式一重新練習同類項，再進入多項式加減。"
