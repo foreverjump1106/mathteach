@@ -3,43 +3,22 @@
 數學遊戲樂園｜排行榜
 檔案：js/leaderboard.js
 
-版本：8.0
-正式遊戲排行榜版
+版本：8.1
+排行榜版面修正版
 ==================================================
 
 功能：
 
-1. 排行榜依學期分類
-
-2. 直接讀取 game-config.js
-
-3. 只顯示 finished:true
-   已正式開放的遊戲
-
-4. 尚無成績仍保留排行榜卡片
-
-5. 多模式遊戲：
-   每個模式分開排行榜
-
-6. 同一玩家：
-   同一遊戲＋同一模式
-   只保留最佳紀錄
-
-7. speed：
-   分數高
-   → 時間短
-   → 答對多
-   → 答錯少
-   → 最高連擊高
-
-8. timed：
-   分數高
-   → 答對多
-   → 答錯少
-   → 最高連擊高
-
-9. 每榜前 20 名
-
+1. 依學期顯示排行榜
+2. 只顯示 game-config.js 中 finished:true 的遊戲
+3. 多模式遊戲可切換模式
+4. 同一位玩家、同一遊戲、同一模式只保留最佳紀錄
+5. 固定題數遊戲：
+   分數高 → 時間短 → 答對多 → 答錯少 → 連擊高
+6. 固定時間遊戲：
+   分數高 → 答對多 → 答錯少 → 連擊高
+7. 每榜最多顯示 20 名
+8. 完整配合 leaderboard.html 原本 CSS
 ==================================================
 */
 
@@ -74,6 +53,9 @@ import {
   onAuthStateChanged
 
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+"use strict";
 
 
 /*
@@ -179,7 +161,7 @@ let allScoreRecords =
 */
 
 
-function toSafeNumber(
+function safeNumber(
   value,
   fallback =
     0
@@ -199,20 +181,29 @@ function toSafeNumber(
 }
 
 
-function toSafeTime(
+/*
+==================================================
+時間
+==================================================
+*/
+
+
+function safePlayTime(
   value
 ) {
 
   const number =
-    toSafeNumber(
-      value,
-      Number.MAX_SAFE_INTEGER
+    Number(
+      value
     );
 
 
   if (
+    !Number.isFinite(
+      number
+    ) ||
     number <
-    0
+      0
   ) {
 
     return Number.MAX_SAFE_INTEGER;
@@ -223,12 +214,54 @@ function toSafeTime(
 }
 
 
-function getTimestampMilliseconds(
-  timestamp
+function formatTime(
+  seconds
+) {
+
+  const value =
+    Math.max(
+      0,
+      Math.round(
+        safeNumber(
+          seconds,
+          0
+        )
+      )
+    );
+
+
+  const minute =
+    Math.floor(
+      value /
+      60
+    );
+
+
+  const second =
+    value %
+    60;
+
+
+  return (
+    `${String(minute).padStart(2,"0")}:` +
+    `${String(second).padStart(2,"0")}`
+  );
+}
+
+
+/*
+==================================================
+日期
+==================================================
+*/
+
+
+function timestampToMilliseconds(
+  value
 ) {
 
   if (
-    !timestamp
+    !value
   ) {
 
     return 0;
@@ -236,22 +269,22 @@ function getTimestampMilliseconds(
 
 
   if (
-    typeof timestamp.toMillis ===
+    typeof value.toMillis ===
     "function"
   ) {
 
-    return timestamp.toMillis();
+    return value.toMillis();
   }
 
 
   if (
-    timestamp.seconds !==
+    value.seconds !==
     undefined
   ) {
 
     return (
       Number(
-        timestamp.seconds
+        value.seconds
       ) *
       1000
     );
@@ -260,60 +293,66 @@ function getTimestampMilliseconds(
 
   const date =
     new Date(
-      timestamp
+      value
     );
 
 
-  const milliseconds =
+  const time =
     date.getTime();
 
 
   return Number.isFinite(
-    milliseconds
+    time
   )
-    ? milliseconds
+    ? time
     : 0;
 }
 
 
-function formatTime(
-  seconds
+function formatDate(
+  value
 ) {
 
-  const safeSeconds =
-    Math.max(
-      0,
-      Math.round(
-        toSafeNumber(
-          seconds,
-          0
-        )
-      )
+  const time =
+    timestampToMilliseconds(
+      value
     );
 
 
-  const minutes =
-    Math.floor(
-      safeSeconds /
-      60
+  if (
+    !time
+  ) {
+
+    return "";
+  }
+
+
+  const date =
+    new Date(
+      time
     );
 
 
-  const remainSeconds =
-    safeSeconds %
-    60;
+  return date.toLocaleDateString(
+    "zh-TW",
+    {
 
+      year:
+        "numeric",
 
-  return (
-    `${String(minutes).padStart(2,"0")}:` +
-    `${String(remainSeconds).padStart(2,"0")}`
+      month:
+        "2-digit",
+
+      day:
+        "2-digit"
+    }
   );
 }
 
 
 /*
 ==================================================
-取得玩家名稱
+玩家名稱
 ==================================================
 */
 
@@ -323,11 +362,17 @@ function getPlayerName(
 ) {
 
   return (
+
     record.nickname ||
+
     record.displayName ||
+
     record.playerName ||
+
     record.name ||
+
     record.email ||
+
     "玩家"
   );
 }
@@ -335,7 +380,7 @@ function getPlayerName(
 
 /*
 ==================================================
-取得玩家唯一識別
+玩家唯一識別
 ==================================================
 */
 
@@ -345,8 +390,11 @@ function getPlayerKey(
 ) {
 
   return (
+
     record.uid ||
+
     record.email ||
+
     getPlayerName(
       record
     )
@@ -356,7 +404,50 @@ function getPlayerKey(
 
 /*
 ==================================================
-初始化學期遊戲卡
+排行榜種類
+==================================================
+*/
+
+
+function getRankingType(
+  gameId
+) {
+
+  const type =
+    getGameConfig(
+      gameId
+    )?.ranking?.type;
+
+
+  return (
+    type ===
+    "timed"
+
+      ? "timed"
+
+      : "speed"
+  );
+}
+
+
+/*
+==================================================
+目前學期正式遊戲
+==================================================
+*/
+
+
+function getCurrentSemesterGames() {
+
+  return getFinishedGamesBySemester(
+    selectedSemester
+  );
+}
+
+
+/*
+==================================================
+初始化
 ==================================================
 */
 
@@ -366,7 +457,7 @@ renderSemesterGames();
 
 /*
 ==================================================
-登入
+登入狀態
 ==================================================
 */
 
@@ -396,17 +487,11 @@ onAuthStateChanged(
       }
 
 
-      showLoginRequiredMessage();
+      showLoginRequired();
 
 
       return;
     }
-
-
-    const playerName =
-      user.displayName ||
-      user.email ||
-      "玩家";
 
 
     if (
@@ -414,7 +499,11 @@ onAuthStateChanged(
     ) {
 
       userStatus.textContent =
-        `目前登入：${playerName}`;
+        `目前登入：${
+          user.displayName ||
+          user.email ||
+          "玩家"
+        }`;
     }
 
 
@@ -476,22 +565,7 @@ semesterSelect
 
 /*
 ==================================================
-取得目前學期正式遊戲
-==================================================
-*/
-
-
-function getCurrentSemesterGames() {
-
-  return getFinishedGamesBySemester(
-    selectedSemester
-  );
-}
-
-
-/*
-==================================================
-建立遊戲篩選卡片
+建立遊戲篩選列
 ==================================================
 */
 
@@ -527,14 +601,13 @@ function renderSemesterGames() {
 
 
   /*
-  --------------------------------------------------
   全部遊戲
-  --------------------------------------------------
   */
 
 
-  const allButton =
-    createGameFilterButton({
+  filterBox.appendChild(
+
+    createFilterButton({
 
       gameId:
         "all",
@@ -542,75 +615,53 @@ function renderSemesterGames() {
       label:
         `📚 ${semesterName}全部遊戲`,
 
-      active:
-        selectedGame ===
-        "all",
-
       all:
         true
-    });
-
-
-  filterBox.appendChild(
-    allButton
+    })
   );
 
 
   /*
-  --------------------------------------------------
-  已正式開放遊戲
-  --------------------------------------------------
+  正式完成的遊戲
   */
 
 
-  const games =
-    getCurrentSemesterGames();
+  getCurrentSemesterGames()
+    .forEach(
+      (
+        game
+      ) => {
 
+        filterBox.appendChild(
 
-  games.forEach(
-    (
-      game
-    ) => {
+          createFilterButton({
 
-      const button =
-        createGameFilterButton({
+            gameId:
+              game.id,
 
-          gameId:
-            game.id,
-
-          label:
-            `${game.icon || "🎮"} ${
-              game.shortName ||
-              game.name
-            }`,
-
-          active:
-            selectedGame ===
-            game.id
-        });
-
-
-      filterBox.appendChild(
-        button
-      );
-    }
-  );
+            label:
+              `${game.icon || "🎮"} ${
+                game.shortName ||
+                game.name
+              }`
+          })
+        );
+      }
+    );
 }
 
 
 /*
 ==================================================
-建立篩選按鈕
+篩選按鈕
 ==================================================
 */
 
 
-function createGameFilterButton({
+function createFilterButton({
 
   gameId,
   label,
-  active =
-    false,
   all =
     false
 
@@ -640,22 +691,19 @@ function createGameFilterButton({
   }
 
 
-  button.dataset.game =
-    gameId;
-
-
-  button.textContent =
-    label;
-
-
   if (
-    active
+    selectedGame ===
+    gameId
   ) {
 
     button.classList.add(
       "active"
     );
   }
+
+
+  button.textContent =
+    label;
 
 
   button.addEventListener(
@@ -667,7 +715,7 @@ function createGameFilterButton({
 
 
       filterBox
-        ?.querySelectorAll(
+        .querySelectorAll(
           ".filter-button"
         )
         .forEach(
@@ -710,21 +758,18 @@ Firestore
 
 async function loadAllScores() {
 
-  setLoadingState();
+  setLoading();
 
 
   try {
 
-    const scoresReference =
-      collection(
-        db,
-        "scores"
-      );
-
-
     const snapshot =
       await getDocs(
-        scoresReference
+
+        collection(
+          db,
+          "scores"
+        )
       );
 
 
@@ -741,6 +786,7 @@ async function loadAllScores() {
         })
       );
 
+
   } catch (
     error
   ) {
@@ -754,16 +800,13 @@ async function loadAllScores() {
     showError(
       error
     );
-
-
-    throw error;
   }
 }
 
 
 /*
 ==================================================
-主排行榜
+排行榜主畫面
 ==================================================
 */
 
@@ -774,45 +817,13 @@ function renderLeaderboard() {
     !currentUser
   ) {
 
-    showLoginRequiredMessage();
+    showLoginRequired();
 
     return;
   }
 
 
-  if (
-    loadingMessage
-  ) {
-
-    loadingMessage.hidden =
-      true;
-  }
-
-
-  if (
-    errorMessage
-  ) {
-
-    errorMessage.hidden =
-      true;
-  }
-
-
-  if (
-    emptyMessage
-  ) {
-
-    emptyMessage.hidden =
-      true;
-  }
-
-
-  if (
-    !leaderboardList
-  ) {
-
-    return;
-  }
+  hideMessages();
 
 
   leaderboardList.innerHTML =
@@ -823,7 +834,7 @@ function renderLeaderboard() {
     getCurrentSemesterGames();
 
 
-  const gamesToRender =
+  const games =
 
     selectedGame ===
     "all"
@@ -840,28 +851,20 @@ function renderLeaderboard() {
 
 
   if (
-    gamesToRender.length ===
+    games.length ===
     0
   ) {
 
-    if (
-      emptyMessage
-    ) {
-
-      emptyMessage.hidden =
-        false;
-
-
-      emptyMessage.textContent =
-        "這個學期目前沒有已正式開放的排行榜項目。";
-    }
+    showEmpty(
+      "目前沒有已正式開放的排行榜項目。"
+    );
 
 
     return;
   }
 
 
-  gamesToRender.forEach(
+  games.forEach(
     (
       game
     ) => {
@@ -871,6 +874,7 @@ function renderLeaderboard() {
           (
             record
           ) =>
+
             String(
               record.game ||
               ""
@@ -881,15 +885,12 @@ function renderLeaderboard() {
         );
 
 
-      const section =
+      leaderboardList.appendChild(
+
         createGameSection(
           game,
           gameRecords
-        );
-
-
-      leaderboardList.appendChild(
-        section
+        )
       );
     }
   );
@@ -898,7 +899,7 @@ function renderLeaderboard() {
 
 /*
 ==================================================
-建立單一遊戲區
+單一遊戲區塊
 ==================================================
 */
 
@@ -919,7 +920,7 @@ function createGameSection(
 
 
   /*
-  標題
+  遊戲標題
   */
 
 
@@ -933,38 +934,25 @@ function createGameSection(
     "leaderboard-game-title";
 
 
-  const icon =
-    document.createElement(
-      "span"
-    );
+  title.innerHTML = `
 
+    <span class="leaderboard-game-icon">
 
-  icon.className =
-    "leaderboard-game-icon";
+      ${game.icon || "🎮"}
 
+    </span>
 
-  icon.textContent =
-    game.icon ||
-    "🎮";
+    <span>
 
+      ${
+        game.name ||
+        getGameName(
+          game.id
+        )
+      }
 
-  const titleText =
-    document.createElement(
-      "span"
-    );
-
-
-  titleText.textContent =
-    game.name ||
-    getGameName(
-      game.id
-    );
-
-
-  title.append(
-    icon,
-    titleText
-  );
+    </span>
+  `;
 
 
   section.appendChild(
@@ -973,22 +961,23 @@ function createGameSection(
 
 
   /*
-  模式
+  讀取模式設定
   */
 
 
   const modes =
-    getConfiguredModes(
+    getGameModes(
       game.id
     );
 
 
   if (
     modes.length >
-    1
+    0
   ) {
 
-    renderMultiModeGame(
+    createModeLeaderboard(
+
       section,
       game,
       records,
@@ -997,7 +986,8 @@ function createGameSection(
 
   } else {
 
-    renderSingleModeGame(
+    createSingleLeaderboard(
+
       section,
       game,
       records
@@ -1011,25 +1001,25 @@ function createGameSection(
 
 /*
 ==================================================
-正式模式
+遊戲模式
 ==================================================
 */
 
 
-function getConfiguredModes(
+function getGameModes(
   gameId
 ) {
 
-  const config =
+  const modes =
     getGameConfig(
       gameId
-    );
+    )?.modes;
 
 
   if (
-    !config?.modes ||
-    typeof config.modes !==
-    "object"
+    !modes ||
+    typeof modes !==
+      "object"
   ) {
 
     return [];
@@ -1037,7 +1027,7 @@ function getConfiguredModes(
 
 
   return Object.entries(
-    config.modes
+    modes
   )
     .map(
       (
@@ -1063,12 +1053,12 @@ function getConfiguredModes(
 
 /*
 ==================================================
-單模式遊戲
+單模式排行榜
 ==================================================
 */
 
 
-function renderSingleModeGame(
+function createSingleLeaderboard(
   section,
   game,
   records
@@ -1085,9 +1075,14 @@ function renderSingleModeGame(
 
 
   heading.textContent =
-    getRankingTitle(
+    getRankingType(
       game.id
-    );
+    ) ===
+    "speed"
+
+      ? "🏁 成績排行榜"
+
+      : "🏆 分數排行榜";
 
 
   section.appendChild(
@@ -1108,8 +1103,8 @@ function renderSingleModeGame(
   ) {
 
     section.appendChild(
-      createEmptyRanking(
-        game
+      createEmptyBox(
+        "目前尚無成績紀錄。"
       )
     );
 
@@ -1129,12 +1124,12 @@ function renderSingleModeGame(
 
 /*
 ==================================================
-多模式遊戲
+多模式排行榜
 ==================================================
 */
 
 
-function renderMultiModeGame(
+function createModeLeaderboard(
   section,
   game,
   records,
@@ -1151,16 +1146,10 @@ function renderMultiModeGame(
     "leaderboard-mode-tabs";
 
 
-  const contents =
+  const contentContainer =
     document.createElement(
       "div"
     );
-
-
-  section.append(
-    tabs,
-    contents
-  );
 
 
   modes.forEach(
@@ -1168,6 +1157,11 @@ function renderMultiModeGame(
       modeData,
       modeIndex
     ) => {
+
+      /*
+      Tab
+      */
+
 
       const tab =
         document.createElement(
@@ -1196,6 +1190,11 @@ function renderMultiModeGame(
           "active"
         );
       }
+
+
+      /*
+      內容
+      */
 
 
       const content =
@@ -1233,7 +1232,7 @@ function renderMultiModeGame(
 
 
       /*
-      僅留下該模式紀錄
+      該模式資料
       */
 
 
@@ -1242,6 +1241,7 @@ function renderMultiModeGame(
           (
             record
           ) =>
+
             String(
               record.mode ??
               ""
@@ -1263,15 +1263,16 @@ function renderMultiModeGame(
       ) {
 
         content.appendChild(
-          createEmptyRanking(
-            game,
-            modeData.name
+
+          createEmptyBox(
+            `${modeData.name}目前尚無成績紀錄。`
           )
         );
 
       } else {
 
         content.appendChild(
+
           createRankingList(
             ranking,
             game.id
@@ -1281,7 +1282,7 @@ function renderMultiModeGame(
 
 
       /*
-      Tab 切換
+      切換模式
       */
 
 
@@ -1310,7 +1311,7 @@ function renderMultiModeGame(
           );
 
 
-          contents
+          contentContainer
             .querySelectorAll(
               ".leaderboard-mode-content"
             )
@@ -1336,10 +1337,16 @@ function renderMultiModeGame(
       );
 
 
-      contents.appendChild(
+      contentContainer.appendChild(
         content
       );
     }
+  );
+
+
+  section.append(
+    tabs,
+    contentContainer
   );
 }
 
@@ -1351,87 +1358,31 @@ function renderMultiModeGame(
 */
 
 
-function createEmptyRanking(
-  game,
-  modeName =
-    ""
+function createEmptyBox(
+  text
 ) {
 
-  const empty =
+  const box =
     document.createElement(
       "div"
     );
 
 
-  empty.className =
+  box.className =
     "leaderboard-mode-empty";
 
 
-  empty.textContent =
-    modeName
-
-      ? `${modeName}目前尚無成績紀錄。`
-
-      : "目前尚無成績紀錄。";
+  box.textContent =
+    text;
 
 
-  return empty;
+  return box;
 }
 
 
 /*
 ==================================================
-排行榜標題
-==================================================
-*/
-
-
-function getRankingTitle(
-  gameId
-) {
-
-  return getRankingType(
-    gameId
-  ) ===
-  "speed"
-
-    ? "🏁 速度排行榜"
-
-    : "🏆 分數排行榜";
-}
-
-
-/*
-==================================================
-排行榜類型
-==================================================
-*/
-
-
-function getRankingType(
-  gameId
-) {
-
-  const type =
-    getGameConfig(
-      gameId
-    )?.ranking?.type;
-
-
-  return (
-    type ===
-    "timed"
-
-      ? "timed"
-
-      : "speed"
-  );
-}
-
-
-/*
-==================================================
-建立排行資料
+排行榜排序
 ==================================================
 */
 
@@ -1448,13 +1399,13 @@ function prepareRanking(
     ) ===
     "timed"
 
-      ? compareTimedRecords
+      ? compareTimed
 
-      : compareSpeedRecords;
+      : compareSpeed;
 
 
   /*
-  先將所有紀錄排序
+  先排序全部紀錄
   */
 
 
@@ -1468,11 +1419,11 @@ function prepareRanking(
 
 
   /*
-  同一玩家只保留最佳紀錄
+  同一玩家只留下最好的一次
   */
 
 
-  const playerBestMap =
+  const players =
     new Map();
 
 
@@ -1481,20 +1432,20 @@ function prepareRanking(
       record
     ) => {
 
-      const playerKey =
+      const key =
         getPlayerKey(
           record
         );
 
 
       if (
-        !playerBestMap.has(
-          playerKey
+        !players.has(
+          key
         )
       ) {
 
-        playerBestMap.set(
-          playerKey,
+        players.set(
+          key,
           record
         );
       }
@@ -1503,7 +1454,7 @@ function prepareRanking(
 
 
   return Array.from(
-    playerBestMap.values()
+    players.values()
   )
     .sort(
       comparator
@@ -1517,14 +1468,14 @@ function prepareRanking(
 
 /*
 ==================================================
-speed 排序
+固定題數排序
 ==================================================
 */
 
 
-function compareSpeedRecords(
-  recordA,
-  recordB
+function compareSpeed(
+  a,
+  b
 ) {
 
   /*
@@ -1532,44 +1483,46 @@ function compareSpeedRecords(
   */
 
 
-  const scoreDifference =
-    toSafeNumber(
-      recordB.score
+  let difference =
+
+    safeNumber(
+      b.score
     ) -
-    toSafeNumber(
-      recordA.score
+    safeNumber(
+      a.score
     );
 
 
   if (
-    scoreDifference !==
+    difference !==
     0
   ) {
 
-    return scoreDifference;
+    return difference;
   }
 
 
   /*
-  2. 完成時間短
+  2. 時間短
   */
 
 
-  const timeDifference =
-    toSafeTime(
-      recordA.playTime
+  difference =
+
+    safePlayTime(
+      a.playTime
     ) -
-    toSafeTime(
-      recordB.playTime
+    safePlayTime(
+      b.playTime
     );
 
 
   if (
-    timeDifference !==
+    difference !==
     0
   ) {
 
-    return timeDifference;
+    return difference;
   }
 
 
@@ -1578,21 +1531,22 @@ function compareSpeedRecords(
   */
 
 
-  const correctDifference =
-    toSafeNumber(
-      recordB.correctCount
+  difference =
+
+    safeNumber(
+      b.correctCount
     ) -
-    toSafeNumber(
-      recordA.correctCount
+    safeNumber(
+      a.correctCount
     );
 
 
   if (
-    correctDifference !==
+    difference !==
     0
   ) {
 
-    return correctDifference;
+    return difference;
   }
 
 
@@ -1601,44 +1555,46 @@ function compareSpeedRecords(
   */
 
 
-  const wrongDifference =
-    toSafeNumber(
-      recordA.wrongCount
+  difference =
+
+    safeNumber(
+      a.wrongCount
     ) -
-    toSafeNumber(
-      recordB.wrongCount
+    safeNumber(
+      b.wrongCount
     );
 
 
   if (
-    wrongDifference !==
+    difference !==
     0
   ) {
 
-    return wrongDifference;
+    return difference;
   }
 
 
   /*
-  5. 最高連擊高
+  5. 連擊高
   */
 
 
-  const comboDifference =
-    toSafeNumber(
-      recordB.maxCombo
+  difference =
+
+    safeNumber(
+      b.maxCombo
     ) -
-    toSafeNumber(
-      recordA.maxCombo
+    safeNumber(
+      a.maxCombo
     );
 
 
   if (
-    comboDifference !==
+    difference !==
     0
   ) {
 
-    return comboDifference;
+    return difference;
   }
 
 
@@ -1648,11 +1604,13 @@ function compareSpeedRecords(
 
 
   return (
-    getTimestampMilliseconds(
-      recordA.createdAt
+
+    timestampToMilliseconds(
+      a.createdAt
     ) -
-    getTimestampMilliseconds(
-      recordB.createdAt
+
+    timestampToMilliseconds(
+      b.createdAt
     )
   );
 }
@@ -1660,14 +1618,14 @@ function compareSpeedRecords(
 
 /*
 ==================================================
-timed 排序
+固定時間排序
 ==================================================
 */
 
 
-function compareTimedRecords(
-  recordA,
-  recordB
+function compareTimed(
+  a,
+  b
 ) {
 
   /*
@@ -1675,21 +1633,22 @@ function compareTimedRecords(
   */
 
 
-  const scoreDifference =
-    toSafeNumber(
-      recordB.score
+  let difference =
+
+    safeNumber(
+      b.score
     ) -
-    toSafeNumber(
-      recordA.score
+    safeNumber(
+      a.score
     );
 
 
   if (
-    scoreDifference !==
+    difference !==
     0
   ) {
 
-    return scoreDifference;
+    return difference;
   }
 
 
@@ -1698,21 +1657,22 @@ function compareTimedRecords(
   */
 
 
-  const correctDifference =
-    toSafeNumber(
-      recordB.correctCount
+  difference =
+
+    safeNumber(
+      b.correctCount
     ) -
-    toSafeNumber(
-      recordA.correctCount
+    safeNumber(
+      a.correctCount
     );
 
 
   if (
-    correctDifference !==
+    difference !==
     0
   ) {
 
-    return correctDifference;
+    return difference;
   }
 
 
@@ -1721,58 +1681,57 @@ function compareTimedRecords(
   */
 
 
-  const wrongDifference =
-    toSafeNumber(
-      recordA.wrongCount
+  difference =
+
+    safeNumber(
+      a.wrongCount
     ) -
-    toSafeNumber(
-      recordB.wrongCount
+    safeNumber(
+      b.wrongCount
     );
 
 
   if (
-    wrongDifference !==
+    difference !==
     0
   ) {
 
-    return wrongDifference;
+    return difference;
   }
 
 
   /*
-  4. 最高連擊
+  4. 連擊高
   */
 
 
-  const comboDifference =
-    toSafeNumber(
-      recordB.maxCombo
+  difference =
+
+    safeNumber(
+      b.maxCombo
     ) -
-    toSafeNumber(
-      recordA.maxCombo
+    safeNumber(
+      a.maxCombo
     );
 
 
   if (
-    comboDifference !==
+    difference !==
     0
   ) {
 
-    return comboDifference;
+    return difference;
   }
-
-
-  /*
-  5. 較早完成
-  */
 
 
   return (
-    getTimestampMilliseconds(
-      recordA.createdAt
+
+    timestampToMilliseconds(
+      a.createdAt
     ) -
-    getTimestampMilliseconds(
-      recordB.createdAt
+
+    timestampToMilliseconds(
+      b.createdAt
     )
   );
 }
@@ -1780,7 +1739,8 @@ function compareTimedRecords(
 
 /*
 ==================================================
-建立排行榜清單
+★ 建立排行榜
+這裡重新配合 leaderboard.html 原本 CSS
 ==================================================
 */
 
@@ -1790,91 +1750,14 @@ function createRankingList(
   gameId
 ) {
 
-  const wrapper =
+  const list =
     document.createElement(
-      "div"
+      "ol"
     );
 
 
-  wrapper.className =
-    "ranking-table-wrapper";
-
-
-  const table =
-    document.createElement(
-      "div"
-    );
-
-
-  table.className =
-    "ranking-table";
-
-
-  /*
-  表頭
-  */
-
-
-  const header =
-    document.createElement(
-      "div"
-    );
-
-
-  header.className =
-    "ranking-row ranking-header";
-
-
-  const rankingType =
-    getRankingType(
-      gameId
-    );
-
-
-  header.innerHTML =
-
-    rankingType ===
-    "speed"
-
-      ? `
-
-          <div>名次</div>
-
-          <div>玩家</div>
-
-          <div>分數</div>
-
-          <div>時間</div>
-
-          <div>答對</div>
-
-          <div>連擊</div>
-        `
-
-      : `
-
-          <div>名次</div>
-
-          <div>玩家</div>
-
-          <div>分數</div>
-
-          <div>答對</div>
-
-          <div>答錯</div>
-
-          <div>連擊</div>
-        `;
-
-
-  table.appendChild(
-    header
-  );
-
-
-  /*
-  排名
-  */
+  list.className =
+    "leaderboard-ranking-list";
 
 
   ranking.forEach(
@@ -1883,52 +1766,44 @@ function createRankingList(
       rankingIndex
     ) => {
 
-      const row =
-        createRankingRow(
+      list.appendChild(
+
+        createRankingItem(
           record,
           rankingIndex +
           1,
           gameId
-        );
-
-
-      table.appendChild(
-        row
+        )
       );
     }
   );
 
 
-  wrapper.appendChild(
-    table
-  );
-
-
-  return wrapper;
+  return list;
 }
 
 
 /*
 ==================================================
-建立單筆排行榜
+★ 建立單筆排名卡
 ==================================================
 */
 
 
-function createRankingRow(
+function createRankingItem(
   record,
   rank,
   gameId
 ) {
 
-  const row =
+  const item =
     document.createElement(
-      "div"
+      "li"
     );
 
 
-  row.className =
-    "ranking-row";
+  item.className =
+    "leaderboard-item";
 
 
   /*
@@ -1937,35 +1812,40 @@ function createRankingRow(
 
 
   if (
+
     currentUser &&
+
+    record.uid &&
+
     String(
-      record.uid ||
-      ""
+      record.uid
     ) ===
     String(
       currentUser.uid
     )
   ) {
 
-    row.classList.add(
-      "current-user-row"
+    item.classList.add(
+      "current-user"
     );
   }
 
 
   /*
+  --------------------------------------------------
   名次
+  --------------------------------------------------
   */
 
 
-  const rankElement =
+  const rankBox =
     document.createElement(
       "div"
     );
 
 
-  rankElement.className =
-    "ranking-rank";
+  rankBox.className =
+    "rank";
 
 
   if (
@@ -1973,7 +1853,7 @@ function createRankingRow(
     1
   ) {
 
-    rankElement.textContent =
+    rankBox.textContent =
       "🥇";
 
   } else if (
@@ -1981,7 +1861,7 @@ function createRankingRow(
     2
   ) {
 
-    rankElement.textContent =
+    rankBox.textContent =
       "🥈";
 
   } else if (
@@ -1989,58 +1869,67 @@ function createRankingRow(
     3
   ) {
 
-    rankElement.textContent =
+    rankBox.textContent =
       "🥉";
 
   } else {
 
-    rankElement.textContent =
+    rankBox.textContent =
       rank;
   }
 
 
   /*
-  玩家
+  --------------------------------------------------
+  玩家資料
+  --------------------------------------------------
   */
 
 
-  const playerElement =
+  const playerBox =
     document.createElement(
       "div"
     );
 
 
-  playerElement.className =
-    "ranking-player";
+  playerBox.className =
+    "player-info";
 
 
-  playerElement.textContent =
+  /*
+  玩家名稱
+  */
+
+
+  const playerName =
+    document.createElement(
+      "div"
+    );
+
+
+  playerName.className =
+    "player-name";
+
+
+  playerName.textContent =
     getPlayerName(
       record
     );
 
 
   /*
-  分數
+  詳細資訊
   */
 
 
-  const scoreElement =
+  const details =
     document.createElement(
       "div"
     );
 
 
-  scoreElement.className =
-    "ranking-score";
-
-
-  scoreElement.textContent =
-    Math.round(
-      toSafeNumber(
-        record.score
-      )
-    );
+  details.className =
+    "record-detail";
 
 
   const rankingType =
@@ -2054,148 +1943,179 @@ function createRankingRow(
     "speed"
   ) {
 
-    /*
-    時間
-    */
+    details.innerHTML = `
 
+      答對
+      <strong>
+        ${safeNumber(
+          record.correctCount
+        )}
+      </strong>
 
-    const timeElement =
-      document.createElement(
-        "div"
-      );
+      題
 
+      ・
 
-    timeElement.className =
-      "ranking-time";
+      答錯
+      <strong>
+        ${safeNumber(
+          record.wrongCount
+        )}
+      </strong>
 
+      題
 
-    timeElement.textContent =
-      formatTime(
-        record.playTime
-      );
+      ・
 
+      最高連擊
+      <strong>
+        ${safeNumber(
+          record.maxCombo
+        )}
+      </strong>
 
-    /*
-    答對
-    */
+      <br>
 
+      ⏱️ 完成時間：
 
-    const correctElement =
-      document.createElement(
-        "div"
-      );
+      <span class="leaderboard-play-duration">
 
+        ${formatTime(
+          record.playTime
+        )}
 
-    correctElement.textContent =
-      toSafeNumber(
-        record.correctCount
-      );
-
-
-    /*
-    連擊
-    */
-
-
-    const comboElement =
-      document.createElement(
-        "div"
-      );
-
-
-    comboElement.textContent =
-      toSafeNumber(
-        record.maxCombo
-      );
-
-
-    row.append(
-
-      rankElement,
-      playerElement,
-      scoreElement,
-      timeElement,
-      correctElement,
-      comboElement
-    );
+      </span>
+    `;
 
   } else {
 
-    /*
-    答對
-    */
+    details.innerHTML = `
 
+      答對
+      <strong>
+        ${safeNumber(
+          record.correctCount
+        )}
+      </strong>
 
-    const correctElement =
-      document.createElement(
-        "div"
-      );
+      題
 
+      ・
 
-    correctElement.textContent =
-      toSafeNumber(
-        record.correctCount
-      );
+      答錯
+      <strong>
+        ${safeNumber(
+          record.wrongCount
+        )}
+      </strong>
 
+      題
 
-    /*
-    答錯
-    */
+      ・
 
-
-    const wrongElement =
-      document.createElement(
-        "div"
-      );
-
-
-    wrongElement.textContent =
-      toSafeNumber(
-        record.wrongCount
-      );
-
-
-    /*
-    連擊
-    */
-
-
-    const comboElement =
-      document.createElement(
-        "div"
-      );
-
-
-    comboElement.textContent =
-      toSafeNumber(
-        record.maxCombo
-      );
-
-
-    row.append(
-
-      rankElement,
-      playerElement,
-      scoreElement,
-      correctElement,
-      wrongElement,
-      comboElement
-    );
+      最高連擊
+      <strong>
+        ${safeNumber(
+          record.maxCombo
+        )}
+      </strong>
+    `;
   }
 
 
-  return row;
+  /*
+  日期
+  */
+
+
+  const date =
+    document.createElement(
+      "div"
+    );
+
+
+  date.className =
+    "record-date";
+
+
+  const dateText =
+    formatDate(
+      record.createdAt
+    );
+
+
+  date.textContent =
+
+    dateText
+
+      ? `完成日期：${dateText}`
+
+      : "";
+
+
+  playerBox.append(
+
+    playerName,
+    details,
+    date
+  );
+
+
+  /*
+  --------------------------------------------------
+  分數
+  --------------------------------------------------
+  */
+
+
+  const scoreBox =
+    document.createElement(
+      "div"
+    );
+
+
+  scoreBox.className =
+    "score";
+
+
+  const score =
+    Math.round(
+      safeNumber(
+        record.score
+      )
+    );
+
+
+  scoreBox.innerHTML = `
+
+    ${score}
+
+    <div class="score-label">
+      分
+    </div>
+  `;
+
+
+  item.append(
+
+    rankBox,
+    playerBox,
+    scoreBox
+  );
+
+
+  return item;
 }
 
 
 /*
 ==================================================
-讀取中
+讀取狀態
 ==================================================
 */
 
 
-function setLoadingState() {
+function setLoading() {
 
   if (
     loadingMessage
@@ -2206,7 +2126,7 @@ function setLoadingState() {
 
 
     loadingMessage.textContent =
-      "正在讀取排行榜……";
+      "排行榜載入中……";
   }
 
 
@@ -2240,12 +2160,83 @@ function setLoadingState() {
 
 /*
 ==================================================
+隱藏提示
+==================================================
+*/
+
+
+function hideMessages() {
+
+  if (
+    loadingMessage
+  ) {
+
+    loadingMessage.hidden =
+      true;
+  }
+
+
+  if (
+    errorMessage
+  ) {
+
+    errorMessage.hidden =
+      true;
+  }
+
+
+  if (
+    emptyMessage
+  ) {
+
+    emptyMessage.hidden =
+      true;
+  }
+}
+
+
+/*
+==================================================
+沒有資料
+==================================================
+*/
+
+
+function showEmpty(
+  message
+) {
+
+  if (
+    loadingMessage
+  ) {
+
+    loadingMessage.hidden =
+      true;
+  }
+
+
+  if (
+    emptyMessage
+  ) {
+
+    emptyMessage.hidden =
+      false;
+
+
+    emptyMessage.textContent =
+      message;
+  }
+}
+
+
+/*
+==================================================
 未登入
 ==================================================
 */
 
 
-function showLoginRequiredMessage() {
+function showLoginRequired() {
 
   if (
     loadingMessage
