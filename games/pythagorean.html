@@ -26,6 +26,7 @@
 }
 
 :root {
+
   --navy: #17324d;
   --navy-dark: #0f2438;
 
@@ -39,20 +40,18 @@
   --orange: #f59e0b;
   --orange-dark: #c97900;
 
-  --purple: #7c3aed;
-
   --text: #1f2937;
   --muted: #64748b;
 
   --success: #15803d;
   --danger: #c62828;
   --warning: #b45309;
-
-  --border: #cfe2e3;
 }
 
 body {
+
   margin: 0;
+
   min-height: 100vh;
 
   padding: 16px;
@@ -62,7 +61,8 @@ body {
     "Noto Sans TC",
     sans-serif;
 
-  color: var(--text);
+  color:
+    var(--text);
 
   background:
     linear-gradient(
@@ -89,23 +89,34 @@ body {
 button,
 input,
 select {
+
   font-family: inherit;
 }
 
 .hidden {
+
   display: none !important;
 }
 
 .page-shell {
-  width: min(100%, 1040px);
-  margin: 0 auto;
+
+  width:
+    min(
+      100%,
+      1040px
+    );
+
+  margin:
+    0 auto;
 }
 
 #commonHeaderMount {
+
   margin-bottom: 14px;
 }
 
 .game-shell {
+
   overflow: hidden;
 
   border:
@@ -115,12 +126,23 @@ select {
   border-radius: 30px;
 
   background:
-    rgba(255,255,255,.98);
+    rgba(
+      255,
+      255,
+      255,
+      .98
+    );
 
   box-shadow:
     0 18px 45px
-    rgba(15,36,56,.13);
+    rgba(
+      15,
+      36,
+      56,
+      .13
+    );
 }
+
 
 /*
 ==================================================
@@ -129,7 +151,9 @@ Hero
 */
 
 .hero {
+
   position: relative;
+
   overflow: hidden;
 
   padding:
@@ -148,51 +172,43 @@ Hero
     );
 }
 
-.hero::before {
-  content: "";
-
-  position: absolute;
-
-  width: 220px;
-  height: 220px;
-
-  top: -120px;
-  right: -50px;
-
-  border:
-    2px solid
-    rgba(255,255,255,.13);
-
-  border-radius: 50%;
-}
-
 .hero-icon {
-  position: relative;
 
   display: inline-flex;
 
   justify-content: center;
+
   align-items: center;
 
   width: 58px;
+
   height: 58px;
 
   margin-bottom: 8px;
 
   border:
     2px solid
-    rgba(255,255,255,.48);
+    rgba(
+      255,
+      255,
+      255,
+      .48
+    );
 
   border-radius: 18px;
 
   background:
-    rgba(255,255,255,.12);
+    rgba(
+      255,
+      255,
+      255,
+      .12
+    );
 
   font-size: 34px;
 }
 
 .game-title {
-  position: relative;
 
   margin: 0;
 
@@ -207,7 +223,6 @@ Hero
 }
 
 .game-subtitle {
-  position: relative;
 
   max-width: 760px;
 
@@ -221,7 +236,6 @@ Hero
 }
 
 .concept-strip {
-  position: relative;
 
   display: flex;
 
@@ -235,26 +249,39 @@ Hero
 }
 
 .concept-chip {
+
   padding:
     7px 12px;
 
   border:
     1px solid
-    rgba(255,255,255,.42);
+    rgba(
+      255,
+      255,
+      255,
+      .42
+    );
 
-  border-radius:
-    999px;
+  border-radius: 999px;
 
   background:
-    rgba(255,255,255,.11);
+    rgba(
+      255,
+      255,
+      255,
+      .11
+    );
 
   font-size: 13px;
+
   font-weight: 900;
 }
 
 .screen {
+
   padding: 24px;
 }
+
 
 /*
 ==================================================
@@ -263,6 +290,7 @@ MathML
 */
 
 math {
+
   font-family:
     "Cambria Math",
     "Times New Roman",
@@ -270,13 +298,18 @@ math {
 }
 
 .math-inline {
+
   display: inline-block;
+
   vertical-align: middle;
 }
 
-.math-large {
-  font-size: 1.18em;
+.answer-preview math,
+.feedback math {
+
+  font-size: 1.3em;
 }
+
 
 /*
 ==================================================
@@ -285,43 +318,50 @@ math {
 */
 
 .mode-intro {
+
   margin-bottom: 18px;
+
   text-align: center;
 }
 
 .mode-intro h2 {
+
   margin:
     0 0 6px;
 
-  color: var(--navy);
+  color:
+    var(--navy);
 }
 
 .mode-intro p {
+
   margin: 0;
 
-  color: var(--muted);
+  color:
+    var(--muted);
 
   line-height: 1.7;
 }
 
 .mode-grid {
+
   display: grid;
 
   grid-template-columns:
     repeat(
       3,
-      minmax(0,1fr)
+      minmax(
+        0,
+        1fr
+      )
     );
 
   gap: 17px;
 }
 
 .mode-card {
-  position: relative;
 
   min-height: 245px;
-
-  overflow: hidden;
 
   padding: 22px;
 
@@ -339,55 +379,26 @@ math {
 
   transition:
     transform .18s ease,
-    box-shadow .18s ease,
-    border-color .18s ease;
+    box-shadow .18s ease;
 }
 
 .mode-card:hover {
+
   transform:
     translateY(-4px);
 
-  border-color:
-    var(--teal);
-
   box-shadow:
     0 12px 26px
-    rgba(15,50,77,.12);
-}
-
-.mode-card::after {
-  content: "";
-
-  position: absolute;
-
-  width: 90px;
-  height: 90px;
-
-  right: -28px;
-  bottom: -28px;
-
-  border-radius: 50%;
-
-  background:
-    var(--card-accent);
-}
-
-.mode-one {
-  --card-accent:
-    rgba(20,155,146,.12);
-}
-
-.mode-two {
-  --card-accent:
-    rgba(245,158,11,.13);
-}
-
-.mode-three {
-  --card-accent:
-    rgba(124,58,237,.11);
+    rgba(
+      15,
+      50,
+      77,
+      .12
+    );
 }
 
 .mode-top {
+
   display: flex;
 
   align-items: center;
@@ -398,15 +409,16 @@ math {
 }
 
 .mode-icon {
+
   width: 47px;
+
   height: 47px;
 
   display: flex;
 
   justify-content: center;
-  align-items: center;
 
-  flex: 0 0 auto;
+  align-items: center;
 
   border-radius: 15px;
 
@@ -417,14 +429,17 @@ math {
 }
 
 .mode-number {
+
   color:
     var(--teal-dark);
 
   font-size: 13px;
+
   font-weight: 900;
 }
 
 .mode-card h3 {
+
   margin:
     2px 0 0;
 
@@ -435,6 +450,7 @@ math {
 }
 
 .mode-card p {
+
   margin: 0;
 
   color:
@@ -444,6 +460,7 @@ math {
 }
 
 .mode-example {
+
   margin-top: 12px;
 
   padding:
@@ -458,10 +475,12 @@ math {
     #475569;
 
   font-size: 14px;
+
   font-weight: 800;
 
   line-height: 1.65;
 }
+
 
 /*
 ==================================================
@@ -470,10 +489,15 @@ math {
 */
 
 .quiz-topbar {
+
   display: grid;
 
   grid-template-columns:
-    1.35fr repeat(4,1fr);
+    1.35fr
+    repeat(
+      4,
+      1fr
+    );
 
   gap: 10px;
 
@@ -481,6 +505,7 @@ math {
 }
 
 .status-box {
+
   min-height: 68px;
 
   display: flex;
@@ -506,10 +531,12 @@ math {
   text-align: center;
 
   font-size: 13px;
+
   font-weight: 900;
 }
 
 .status-value {
+
   margin-top: 4px;
 
   color:
@@ -519,21 +546,14 @@ math {
 }
 
 .timer-box {
+
   background:
     #fff8ea;
-
-  border-color:
-    #fce4b5;
 
   color:
     #b45309;
 }
 
-.timer-box
-.status-value {
-  color:
-    #c66c00;
-}
 
 /*
 ==================================================
@@ -542,10 +562,10 @@ math {
 */
 
 .scratchpad-row {
+
   display: flex;
 
   justify-content: center;
-  align-items: center;
 
   min-height: 54px;
 
@@ -554,12 +574,12 @@ math {
 }
 
 #scratchpad-mobile-button {
+
   width: 100%;
 
   display: flex;
 
   justify-content: center;
-  align-items: center;
 }
 
 #scratchpad-mobile-button
@@ -567,22 +587,11 @@ math {
 
 #scratchpad-mobile-button
 .scratchpad-open-button {
+
   position:
     static !important;
 
   inset:
-    auto !important;
-
-  left:
-    auto !important;
-
-  right:
-    auto !important;
-
-  top:
-    auto !important;
-
-  bottom:
     auto !important;
 
   transform:
@@ -592,6 +601,7 @@ math {
     0 !important;
 }
 
+
 /*
 ==================================================
 進度
@@ -599,25 +609,26 @@ math {
 */
 
 .progress-shell {
+
   height: 9px;
 
   margin-bottom: 18px;
 
   overflow: hidden;
 
-  border-radius:
-    999px;
+  border-radius: 999px;
 
   background:
     #e2e8f0;
 }
 
 .progress-bar {
+
   width: 0%;
+
   height: 100%;
 
-  border-radius:
-    999px;
+  border-radius: 999px;
 
   background:
     linear-gradient(
@@ -630,6 +641,7 @@ math {
     width .2s ease;
 }
 
+
 /*
 ==================================================
 題目
@@ -637,17 +649,25 @@ math {
 */
 
 .question-stage {
+
   display: grid;
 
   grid-template-columns:
-    minmax(280px,.9fr)
-    minmax(320px,1.1fr);
+    minmax(
+      280px,
+      .9fr
+    )
+    minmax(
+      320px,
+      1.1fr
+    );
 
   gap: 18px;
 }
 
 .diagram-card,
 .question-card {
+
   min-height: 330px;
 
   border:
@@ -660,11 +680,13 @@ math {
 }
 
 .diagram-card {
+
   position: relative;
 
   display: flex;
 
   justify-content: center;
+
   align-items: center;
 
   padding: 18px;
@@ -680,6 +702,7 @@ math {
 }
 
 .diagram-card::before {
+
   content: "";
 
   position: absolute;
@@ -704,6 +727,7 @@ math {
 }
 
 #diagram-content {
+
   position: relative;
 
   width: 100%;
@@ -711,20 +735,25 @@ math {
   display: flex;
 
   justify-content: center;
+
   align-items: center;
 }
 
 .geometry-svg {
+
   width:
     min(
       100%,
-      350px
+      370px
     );
 
   height: auto;
+
+  overflow: visible;
 }
 
 .question-card {
+
   display: flex;
 
   flex-direction: column;
@@ -737,6 +766,7 @@ math {
 }
 
 .question-type {
+
   display: inline-block;
 
   align-self: center;
@@ -746,8 +776,7 @@ math {
   padding:
     6px 11px;
 
-  border-radius:
-    999px;
+  border-radius: 999px;
 
   background:
     var(--teal-light);
@@ -756,20 +785,24 @@ math {
     var(--teal-dark);
 
   font-size: 13px;
+
   font-weight: 900;
 }
 
 .question-label {
+
   color:
     var(--muted);
 
   font-size: 15px;
+
   font-weight: 800;
 
   line-height: 1.7;
 }
 
 .question-content {
+
   margin-top: 13px;
 
   color:
@@ -788,6 +821,7 @@ math {
 }
 
 .formula-hint {
+
   margin-top: 18px;
 
   padding: 13px;
@@ -805,18 +839,21 @@ math {
     #466066;
 
   font-size: 15px;
+
   font-weight: 800;
 
   line-height: 1.7;
 }
 
+
 /*
 ==================================================
-答案 Panel
+答案區
 ==================================================
 */
 
 .answer-panel {
+
   margin-top: 18px;
 
   padding: 20px;
@@ -832,6 +869,7 @@ math {
 }
 
 .answer-title {
+
   margin-bottom: 10px;
 
   color:
@@ -843,6 +881,7 @@ math {
 }
 
 .answer-help {
+
   margin:
     0 0 13px;
 
@@ -856,18 +895,22 @@ math {
   line-height: 1.65;
 }
 
+
 /*
 ==================================================
-Number
+一般整數
 ==================================================
 */
 
 .number-answer {
+
   display: flex;
+
   justify-content: center;
 }
 
 .number-answer input {
+
   width:
     min(
       260px,
@@ -888,6 +931,7 @@ Number
     var(--navy);
 
   font-size: 24px;
+
   font-weight: 900;
 
   text-align: center;
@@ -895,38 +939,31 @@ Number
   outline: none;
 }
 
-.number-answer input:focus {
-  border-color:
-    var(--teal);
-
-  box-shadow:
-    0 0 0 4px
-    rgba(20,155,146,.12);
-}
 
 /*
 ==================================================
-Fraction answer
+分數
 ==================================================
 */
 
 .fraction-answer-wrap {
+
   display: flex;
 
   justify-content: center;
-
-  align-items: center;
 }
 
 .fraction-answer {
-  width: 125px;
 
   display: flex;
 
   flex-direction: column;
+
+  width: 125px;
 }
 
 .fraction-answer input {
+
   width: 100%;
 
   padding:
@@ -939,6 +976,7 @@ Fraction answer
   background: white;
 
   font-size: 21px;
+
   font-weight: 900;
 
   text-align: center;
@@ -948,6 +986,7 @@ Fraction answer
 
 .fraction-answer
 input:first-child {
+
   border-radius:
     11px 11px 0 0;
 
@@ -958,46 +997,166 @@ input:first-child {
 
 .fraction-answer
 input:last-child {
+
   border-radius:
     0 0 11px 11px;
 
   border-top: 0;
 }
 
+
 /*
 ==================================================
-根式分數
+★ 穩定根號輸入框
 ==================================================
 */
 
-.radical-fraction-grid {
-  display: grid;
+.radical-editor-row {
 
-  grid-template-columns:
-    auto auto auto;
+  display: flex;
 
   justify-content: center;
 
-  align-items: center;
+  align-items: flex-end;
 
-  gap: 10px;
+  gap: 12px;
+
+  flex-wrap: wrap;
 }
 
-.rf-sign,
-.rf-coefficient,
-.rf-radicand,
-.rf-denominator {
-  min-height: 52px;
+.radical-field {
+
+  text-align: center;
+}
+
+.radical-field label {
+
+  display: block;
+
+  margin-bottom: 5px;
+
+  color:
+    var(--muted);
+
+  font-size: 13px;
+
+  font-weight: 900;
+}
+
+.radical-sign {
+
+  width: 78px;
+
+  height: 58px;
 
   border:
     2px solid
-    #b8d1d4;
+    #9fd9d5;
 
   border-radius: 11px;
 
   background: white;
 
-  font-size: 20px;
+  font-size: 22px;
+
+  font-weight: 900;
+}
+
+.radical-coefficient {
+
+  width: 110px;
+
+  height: 58px;
+
+  border:
+    2px solid
+    #9fd9d5;
+
+  border-radius: 11px;
+
+  background: white;
+
+  font-size: 22px;
+
+  font-weight: 900;
+
+  text-align: center;
+}
+
+
+/*
+真正用 SVG 畫整個根號
+橫槓不靠字型
+*/
+
+.root-svg-editor {
+
+  position: relative;
+
+  width: 235px;
+
+  height: 68px;
+}
+
+.root-svg-editor svg {
+
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+
+  height: 100%;
+
+  overflow: visible;
+
+  pointer-events: none;
+}
+
+.root-svg-editor path {
+
+  fill: none;
+
+  stroke:
+    #172033;
+
+  stroke-width: 3;
+
+  stroke-linejoin: round;
+
+  stroke-linecap: round;
+
+  vector-effect:
+    non-scaling-stroke;
+}
+
+.root-svg-editor input {
+
+  position: absolute;
+
+  left: 48px;
+
+  top: 11px;
+
+  width: 178px;
+
+  height: 54px;
+
+  padding: 8px;
+
+  border:
+    2px solid
+    #9fd9d5;
+
+  border-radius: 9px;
+
+  background: white;
+
+  color:
+    var(--navy);
+
+  font-size: 22px;
+
   font-weight: 900;
 
   text-align: center;
@@ -1005,81 +1164,100 @@ input:last-child {
   outline: none;
 }
 
-.rf-sign {
-  width: 75px;
-}
 
-.rf-coefficient {
-  width: 100px;
-}
+/*
+==================================================
+根式分數
+==================================================
+*/
 
-.rf-radicand {
-  width: 115px;
-}
+.radical-fraction-answer {
 
-.rf-denominator {
-  width: 120px;
-}
-
-.rf-root {
   display: flex;
+
+  justify-content: center;
 
   align-items: center;
 
-  font-family:
-    "Cambria Math",
-    "Times New Roman",
-    serif;
+  gap: 10px;
 
-  font-size: 33px;
+  flex-wrap: wrap;
 }
 
-.rf-root-box {
+.rf-numerator-area {
+
+  display: flex;
+
+  align-items: flex-end;
+
+  gap: 9px;
+}
+
+.rf-denominator-area {
+
   display: flex;
 
   flex-direction: column;
 
-  align-items: center;
-}
-
-.rf-root-top {
-  display: flex;
+  justify-content: center;
 
   align-items: center;
 
-  gap: 6px;
+  margin-left: 4px;
 }
 
-.rf-divider {
-  width: 100%;
+.rf-fraction-line {
+
+  width: 235px;
+
   height: 2px;
 
   margin:
-    6px 0;
+    5px 0 6px;
 
   background:
     #334155;
 }
 
-.rf-denominator-wrap {
-  display: flex;
+.rf-denominator {
 
-  justify-content: center;
+  width: 130px;
+
+  height: 54px;
+
+  border:
+    2px solid
+    #b8d1d4;
+
+  border-radius: 10px;
+
+  background: white;
+
+  font-size: 22px;
+
+  font-weight: 900;
+
+  text-align: center;
 }
+
 
 /*
 ==================================================
-Choice
+選擇題
 ==================================================
 */
 
 .choice-grid {
+
   display: grid;
 
   grid-template-columns:
     repeat(
       2,
-      minmax(0,1fr)
+      minmax(
+        0,
+        1fr
+      )
     );
 
   gap: 10px;
@@ -1091,6 +1269,7 @@ Choice
 }
 
 .choice-button {
+
   min-height: 58px;
 
   padding: 12px;
@@ -1107,12 +1286,14 @@ Choice
     var(--navy);
 
   font-size: 17px;
+
   font-weight: 900;
 
   cursor: pointer;
 }
 
 .choice-button.selected {
+
   border-color:
     var(--teal);
 
@@ -1123,26 +1304,30 @@ Choice
     var(--teal-dark);
 }
 
+
 /*
 ==================================================
-Preview
+目前答案
 ==================================================
 */
 
 .answer-preview {
+
   max-width: 720px;
 
-  min-height: 60px;
+  min-height: 62px;
 
   display: flex;
 
   justify-content: center;
+
   align-items: center;
 
   margin:
     14px auto 0;
 
-  padding: 12px;
+  padding:
+    12px 16px;
 
   border:
     2px solid
@@ -1158,30 +1343,49 @@ Preview
 
   text-align: center;
 
-  font-size: 18px;
+  /*
+  ★ 所有答案類型統一字級
+  */
+  font-size: 21px;
+
   font-weight: 900;
+
+  line-height: 1.5;
 }
 
 .answer-preview-value {
+
   display: inline-flex;
 
   align-items: center;
 
-  margin-left: 8px;
+  justify-content: center;
+
+  margin-left: 9px;
 
   color:
-    var(--teal-dark);
+    var(--teal);
 
-  font-size: 23px;
+  /*
+  ★ 分數、根式不再縮小
+  */
+  font-size: 26px;
 }
+
+.answer-preview-value math {
+
+  font-size: 1.15em;
+}
+
 
 /*
 ==================================================
-Buttons
+按鈕
 ==================================================
 */
 
 .button-row {
+
   display: flex;
 
   justify-content: center;
@@ -1194,6 +1398,7 @@ Buttons
 }
 
 .game-button {
+
   min-width: 138px;
 
   padding:
@@ -1209,6 +1414,7 @@ Buttons
     var(--navy);
 
   font-size: 16px;
+
   font-weight: 900;
 
   cursor: pointer;
@@ -1219,6 +1425,7 @@ Buttons
 }
 
 .game-button.primary {
+
   background:
     var(--teal);
 
@@ -1228,6 +1435,7 @@ Buttons
 }
 
 .game-button.restart {
+
   background:
     var(--blue);
 
@@ -1237,6 +1445,7 @@ Buttons
 }
 
 .game-button.secondary {
+
   background:
     #64748b;
 
@@ -1246,6 +1455,7 @@ Buttons
 }
 
 .game-button.orange {
+
   background:
     var(--orange);
 
@@ -1254,10 +1464,6 @@ Buttons
     var(--orange-dark);
 }
 
-.game-button:disabled {
-  opacity: .55;
-  cursor: not-allowed;
-}
 
 /*
 ==================================================
@@ -1266,6 +1472,7 @@ Feedback
 */
 
 .feedback {
+
   min-height: 46px;
 
   margin-top: 14px;
@@ -1273,25 +1480,30 @@ Feedback
   text-align: center;
 
   font-size: 18px;
+
   font-weight: 900;
 
   line-height: 1.8;
 }
 
 .feedback.correct {
+
   color:
     var(--success);
 }
 
 .feedback.wrong {
+
   color:
     var(--danger);
 }
 
 .feedback.warning {
+
   color:
     var(--warning);
 }
+
 
 /*
 ==================================================
@@ -1300,6 +1512,7 @@ Feedback
 */
 
 .explanation {
+
   margin-top: 13px;
 
   padding: 18px;
@@ -1316,21 +1529,25 @@ Feedback
 }
 
 .explanation-step {
+
   margin:
     9px 0;
 }
 
+
 /*
 ==================================================
-Result
+結果
 ==================================================
 */
 
 .result-panel {
+
   text-align: center;
 }
 
 .result-score {
+
   margin:
     16px 0;
 
@@ -1338,22 +1555,26 @@ Result
     var(--orange);
 
   font-size: 56px;
+
   font-weight: 900;
 }
 
 .result-stars {
-  margin-bottom: 8px;
 
   font-size: 31px;
 }
 
 .result-grid {
+
   display: grid;
 
   grid-template-columns:
     repeat(
       4,
-      minmax(0,1fr)
+      minmax(
+        0,
+        1fr
+      )
     );
 
   gap: 12px;
@@ -1363,8 +1584,8 @@ Result
 }
 
 .result-stat {
-  padding:
-    16px 10px;
+
+  padding: 16px;
 
   border-radius: 16px;
 
@@ -1378,12 +1599,14 @@ Result
 }
 
 .save-status {
+
   min-height: 28px;
 
   margin-top: 14px;
 
   font-weight: 900;
 }
+
 
 /*
 ==================================================
@@ -1392,12 +1615,14 @@ Review
 */
 
 .review-list {
+
   display: grid;
 
   gap: 14px;
 }
 
 .review-card {
+
   padding: 18px;
 
   border:
@@ -1410,6 +1635,7 @@ Review
 }
 
 .review-title {
+
   color:
     var(--danger);
 
@@ -1417,6 +1643,7 @@ Review
 }
 
 .review-question {
+
   margin:
     12px 0;
 
@@ -1424,19 +1651,14 @@ Review
     var(--navy);
 
   font-size: 21px;
+
   font-weight: 900;
 }
 
-.review-answer {
-  color:
-    #475569;
-
-  line-height: 1.8;
-}
 
 /*
 ==================================================
-Responsive
+RWD
 ==================================================
 */
 
@@ -1445,71 +1667,79 @@ Responsive
 ) {
 
   .mode-grid {
+
     grid-template-columns:
       1fr;
   }
-
 }
+
 
 @media(
   max-width: 780px
 ) {
 
   body {
+
     padding: 8px;
   }
 
   .screen {
+
     padding:
       18px 12px;
   }
 
   .quiz-topbar {
+
     grid-template-columns:
       repeat(
         2,
-        minmax(0,1fr)
+        minmax(
+          0,
+          1fr
+        )
       );
   }
 
   .timer-box {
+
     grid-column:
       1 / -1;
   }
 
   .question-stage {
+
     grid-template-columns:
       1fr;
   }
 
   .diagram-card {
-    min-height: 260px;
+
+    min-height: 270px;
   }
 
   .question-card {
+
     min-height: 240px;
   }
 
   .choice-grid {
+
     grid-template-columns:
       1fr;
   }
 
   .result-grid {
+
     grid-template-columns:
       repeat(
         2,
-        minmax(0,1fr)
+        minmax(
+          0,
+          1fr
+        )
       );
   }
-
-  .radical-fraction-grid {
-    grid-template-columns:
-      1fr;
-
-    justify-items: center;
-  }
-
 }
 
 </style>
@@ -1521,569 +1751,568 @@ Responsive
 
 <div class="page-shell">
 
-  <div id="commonHeaderMount"></div>
+<div id="commonHeaderMount"></div>
 
-  <main class="game-shell">
+<main class="game-shell">
 
 
-    <!-- ==================================================
-         Header
-    ================================================== -->
+<header class="hero">
 
-    <header class="hero">
+  <div class="hero-icon">
+    📐
+  </div>
 
-      <div class="hero-icon">
-        📐
-      </div>
+  <h1 class="game-title">
+    畢氏定理大挑戰
+  </h1>
 
-      <h1 class="game-title">
-        畢氏定理大挑戰
-      </h1>
+  <p class="game-subtitle">
+    從基本邊長與直角判斷開始，再挑戰生活應用、斜邊上的高與坐標平面兩點距離。
+  </p>
 
-      <p class="game-subtitle">
-        從基本邊長與直角判斷開始，再挑戰生活應用、斜邊上的高與坐標平面兩點距離。
-      </p>
+  <div class="concept-strip">
 
-      <div class="concept-strip">
+    <span class="concept-chip">
+      a²＋b²＝c²
+    </span>
 
-        <span class="concept-chip">
-          a²＋b²＝c²
-        </span>
+    <span class="concept-chip">
+      求第三邊
+    </span>
 
-        <span class="concept-chip">
-          求第三邊
-        </span>
+    <span class="concept-chip">
+      直角判斷
+    </span>
 
-        <span class="concept-chip">
-          斜邊上的高
-        </span>
+    <span class="concept-chip">
+      斜邊上的高
+    </span>
 
-        <span class="concept-chip">
-          生活應用
-        </span>
+    <span class="concept-chip">
+      兩點間距離
+    </span>
 
-        <span class="concept-chip">
-          兩點間距離
-        </span>
+  </div>
 
-      </div>
+</header>
 
-    </header>
 
+<!-- ==================================================
+Start
+================================================== -->
 
-    <!-- ==================================================
-         Start
-    ================================================== -->
+<section
+  id="start-screen"
+  class="screen"
+>
 
-    <section
-      id="start-screen"
-      class="screen"
-    >
+<div class="mode-intro">
 
-      <div class="mode-intro">
+  <h2>
+    選擇挑戰模式
+  </h2>
 
-        <h2>
-          選擇挑戰模式
-        </h2>
-
-        <p>
-          三個模式依照翰林版八上 2-3 畢氏定理的例題與隨堂練習架構重新整理。
-        </p>
-
-      </div>
-
-
-      <div class="mode-grid">
-
-
-        <!-- MODE 1 -->
-
-        <button
-          class="mode-card mode-one"
-          type="button"
-          data-mode="basic"
-        >
-
-          <div class="mode-top">
-
-            <div class="mode-icon">
-              📐
-            </div>
-
-            <div>
-
-              <div class="mode-number">
-                MODE 01
-              </div>
-
-              <h3>
-                畢氏定理基礎
-              </h3>
-
-            </div>
-
-          </div>
-
-          <p>
-            求直角三角形斜邊、另一股，並判斷三邊是否能構成直角三角形。
-          </p>
-
-          <div class="mode-example">
-            題型比例：斜邊 4 題、股長 3 題、直角判斷 3 題。
-          </div>
-
-        </button>
-
-
-        <!-- MODE 2 -->
-
-        <button
-          class="mode-card mode-two"
-          type="button"
-          data-mode="application"
-        >
-
-          <div class="mode-top">
-
-            <div class="mode-icon">
-              🏗️
-            </div>
-
-            <div>
-
-              <div class="mode-number">
-                MODE 02
-              </div>
-
-              <h3>
-                生活應用與斜邊上的高
-              </h3>
-
-            </div>
-
-          </div>
-
-          <p>
-            將畢氏定理運用在梯子、竹竿、長方形對角線等情境，並加入斜邊上的高。
-          </p>
-
-          <div class="mode-example">
-            題型比例：生活應用 5 題、直接求高 3 題、先求邊再求高 2 題。
-          </div>
-
-        </button>
-
-
-        <!-- MODE 3 -->
-
-        <button
-          class="mode-card mode-three"
-          type="button"
-          data-mode="distance"
-        >
-
-          <div class="mode-top">
-
-            <div class="mode-icon">
-              📍
-            </div>
-
-            <div>
-
-              <div class="mode-number">
-                MODE 03
-              </div>
-
-              <h3>
-                平面上兩點的距離
-              </h3>
-
-            </div>
-
-          </div>
-
-          <p>
-            先練習水平、鉛直距離，再利用距離公式求坐標平面上任意兩點的距離。
-          </p>
-
-          <div class="mode-example">
-            包含課本例 7、例 8 類型，以及三點建立直角三角形的題型。
-          </div>
-
-        </button>
-
-      </div>
-
-    </section>
-
-
-    <!-- ==================================================
-         Quiz
-    ================================================== -->
-
-    <section
-      id="quiz-screen"
-      class="screen hidden"
-    >
-
-      <div class="quiz-topbar">
-
-        <div class="status-box">
-
-          模式
-
-          <span
-            id="mode-name"
-            class="status-value"
-          >
-            —
-          </span>
-
-        </div>
-
-        <div class="status-box">
-
-          進度
-
-          <span
-            id="question-number"
-            class="status-value"
-          >
-            1 / 10
-          </span>
-
-        </div>
-
-        <div class="status-box">
-
-          答對
-
-          <span
-            id="correct-count"
-            class="status-value"
-          >
-            0
-          </span>
-
-        </div>
-
-        <div class="status-box">
-
-          最高連擊
-
-          <span
-            id="combo-count"
-            class="status-value"
-          >
-            0
-          </span>
-
-        </div>
-
-        <div class="status-box timer-box">
-
-          測驗時間
-
-          <span
-            id="timer-display"
-            class="status-value"
-          >
-            00:00
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <!-- 計算紙固定在上方 -->
-
-      <div class="scratchpad-row">
-
-        <div
-          id="scratchpad-mobile-button"
-        ></div>
-
-      </div>
-
-
-      <div class="progress-shell">
-
-        <div
-          id="progress-bar"
-          class="progress-bar"
-        ></div>
-
-      </div>
-
-
-      <div class="question-stage">
-
-        <div class="diagram-card">
-
-          <div
-            id="diagram-content"
-          ></div>
-
-        </div>
-
-
-        <div class="question-card">
-
-          <div
-            id="question-type"
-            class="question-type"
-          >
-            —
-          </div>
-
-          <div
-            id="question-label"
-            class="question-label"
-          ></div>
-
-          <div
-            id="question-content"
-            class="question-content"
-          ></div>
-
-          <div
-            id="formula-hint"
-            class="formula-hint"
-          ></div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        id="answer-panel"
-        class="answer-panel"
-      ></div>
-
-
-      <div class="button-row">
-
-        <button
-          id="submit-button"
-          class="game-button primary"
-          type="button"
-        >
-          提交答案（Enter）
-        </button>
-
-        <button
-          id="next-button"
-          class="game-button primary hidden"
-          type="button"
-        >
-          下一題（Enter）
-        </button>
-
-        <button
-          id="restart-button"
-          class="game-button restart"
-          type="button"
-        >
-          🔄 重新測驗
-        </button>
-
-        <button
-          id="mode-button"
-          class="game-button secondary"
-          type="button"
-        >
-          選擇模式
-        </button>
-
-      </div>
-
-
-      <div
-        id="feedback"
-        class="feedback"
-      ></div>
-
-
-      <div
-        id="explanation"
-        class="explanation hidden"
-      ></div>
-
-    </section>
-
-
-    <!-- ==================================================
-         Result
-    ================================================== -->
-
-    <section
-      id="result-screen"
-      class="screen hidden result-panel"
-    >
-
-      <h2>
-        🎉 挑戰完成
-      </h2>
-
-      <div
-        id="final-score"
-        class="result-score"
-      >
-        0 分
-      </div>
-
-      <div
-        id="final-stars"
-        class="result-stars"
-      >
-        ★★★☆☆
-      </div>
-
-      <p id="final-comment"></p>
-
-
-      <div class="result-grid">
-
-        <div class="result-stat">
-
-          答對
-          <br>
-
-          <span id="final-correct">
-            0
-          </span>
-
-          題
-
-        </div>
-
-        <div class="result-stat">
-
-          答錯
-          <br>
-
-          <span id="final-wrong">
-            0
-          </span>
-
-          題
-
-        </div>
-
-        <div class="result-stat">
-
-          最高連擊
-          <br>
-
-          <span id="final-combo">
-            0
-          </span>
-
-        </div>
-
-        <div class="result-stat">
-
-          測驗時間
-          <br>
-
-          <span id="final-time">
-            00:00
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <div
-        id="save-status"
-        class="save-status"
-      ></div>
-
-
-      <div class="button-row">
-
-        <button
-          id="again-button"
-          class="game-button restart"
-          type="button"
-        >
-          🔄 重新測驗
-        </button>
-
-        <button
-          id="review-button"
-          class="game-button orange"
-          type="button"
-        >
-          錯題回顧
-        </button>
-
-        <button
-          id="result-mode-button"
-          class="game-button secondary"
-          type="button"
-        >
-          選擇模式
-        </button>
-
-      </div>
-
-    </section>
-
-
-    <!-- ==================================================
-         Review
-    ================================================== -->
-
-    <section
-      id="review-screen"
-      class="screen hidden"
-    >
-
-      <h2>
-        📝 錯題回顧
-      </h2>
-
-      <div
-        id="review-list"
-        class="review-list"
-      ></div>
-
-
-      <div class="button-row">
-
-        <button
-          id="review-again-button"
-          class="game-button restart"
-          type="button"
-        >
-          🔄 重新測驗
-        </button>
-
-        <button
-          id="review-result-button"
-          class="game-button secondary"
-          type="button"
-        >
-          回到測驗結果
-        </button>
-
-      </div>
-
-    </section>
-
-
-  </main>
+  <p>
+    依照翰林版八上畢氏定理課程內容分成三個模式。
+  </p>
 
 </div>
 
 
+<div class="mode-grid">
+
+
+<button
+  class="mode-card"
+  type="button"
+  data-mode="basic"
+>
+
+  <div class="mode-top">
+
+    <div class="mode-icon">
+      📐
+    </div>
+
+    <div>
+
+      <div class="mode-number">
+        MODE 01
+      </div>
+
+      <h3>
+        畢氏定理基礎
+      </h3>
+
+    </div>
+
+  </div>
+
+  <p>
+    求斜邊、求另一股，以及透過三邊長判斷是否為直角三角形。
+  </p>
+
+  <div class="mode-example">
+    斜邊 4 題、另一股 3 題、直角三角形判斷 3 題。
+  </div>
+
+</button>
+
+
+<button
+  class="mode-card"
+  type="button"
+  data-mode="application"
+>
+
+  <div class="mode-top">
+
+    <div class="mode-icon">
+      🏗️
+    </div>
+
+    <div>
+
+      <div class="mode-number">
+        MODE 02
+      </div>
+
+      <h3>
+        生活應用與斜邊上的高
+      </h3>
+
+    </div>
+
+  </div>
+
+  <p>
+    長方形、梯子、竹竿等生活題，以及直角三角形斜邊上的高。
+  </p>
+
+  <div class="mode-example">
+    包含整數、最簡分數與最簡根式分數答案。
+  </div>
+
+</button>
+
+
+<button
+  class="mode-card"
+  type="button"
+  data-mode="distance"
+>
+
+  <div class="mode-top">
+
+    <div class="mode-icon">
+      📍
+    </div>
+
+    <div>
+
+      <div class="mode-number">
+        MODE 03
+      </div>
+
+      <h3>
+        平面上兩點的距離
+      </h3>
+
+    </div>
+
+  </div>
+
+  <p>
+    水平距離、鉛直距離與一般坐標平面上兩點距離。
+  </p>
+
+  <div class="mode-example">
+    圖中的點會依照實際坐標位置繪製。
+  </div>
+
+</button>
+
+
+</div>
+
+</section>
+
+
 <!-- ==================================================
-     共用元件
+Quiz
 ================================================== -->
+
+<section
+  id="quiz-screen"
+  class="screen hidden"
+>
+
+<div class="quiz-topbar">
+
+
+<div class="status-box">
+
+  模式
+
+  <span
+    id="mode-name"
+    class="status-value"
+  >
+    —
+  </span>
+
+</div>
+
+
+<div class="status-box">
+
+  進度
+
+  <span
+    id="question-number"
+    class="status-value"
+  >
+    1 / 10
+  </span>
+
+</div>
+
+
+<div class="status-box">
+
+  答對
+
+  <span
+    id="correct-count"
+    class="status-value"
+  >
+    0
+  </span>
+
+</div>
+
+
+<div class="status-box">
+
+  最高連擊
+
+  <span
+    id="combo-count"
+    class="status-value"
+  >
+    0
+  </span>
+
+</div>
+
+
+<div class="status-box timer-box">
+
+  測驗時間
+
+  <span
+    id="timer-display"
+    class="status-value"
+  >
+    00:00
+  </span>
+
+</div>
+
+
+</div>
+
+
+<div class="scratchpad-row">
+
+  <div
+    id="scratchpad-mobile-button"
+  ></div>
+
+</div>
+
+
+<div class="progress-shell">
+
+  <div
+    id="progress-bar"
+    class="progress-bar"
+  ></div>
+
+</div>
+
+
+<div class="question-stage">
+
+
+<div class="diagram-card">
+
+  <div
+    id="diagram-content"
+  ></div>
+
+</div>
+
+
+<div class="question-card">
+
+  <div
+    id="question-type"
+    class="question-type"
+  >
+    —
+  </div>
+
+  <div
+    id="question-label"
+    class="question-label"
+  ></div>
+
+  <div
+    id="question-content"
+    class="question-content"
+  ></div>
+
+  <div
+    id="formula-hint"
+    class="formula-hint"
+  ></div>
+
+</div>
+
+
+</div>
+
+
+<div
+  id="answer-panel"
+  class="answer-panel"
+></div>
+
+
+<div class="button-row">
+
+<button
+  id="submit-button"
+  class="game-button primary"
+  type="button"
+>
+  提交答案（Enter）
+</button>
+
+<button
+  id="next-button"
+  class="game-button primary hidden"
+  type="button"
+>
+  下一題（Enter）
+</button>
+
+<button
+  id="restart-button"
+  class="game-button restart"
+  type="button"
+>
+  🔄 重新測驗
+</button>
+
+<button
+  id="mode-button"
+  class="game-button secondary"
+  type="button"
+>
+  選擇模式
+</button>
+
+</div>
+
+
+<div
+  id="feedback"
+  class="feedback"
+></div>
+
+
+<div
+  id="explanation"
+  class="explanation hidden"
+></div>
+
+
+</section>
+
+
+<!-- ==================================================
+Result
+================================================== -->
+
+<section
+  id="result-screen"
+  class="screen hidden result-panel"
+>
+
+<h2>
+  🎉 挑戰完成
+</h2>
+
+<div
+  id="final-score"
+  class="result-score"
+>
+  0 分
+</div>
+
+<div
+  id="final-stars"
+  class="result-stars"
+>
+  ★★★☆☆
+</div>
+
+<p id="final-comment"></p>
+
+
+<div class="result-grid">
+
+
+<div class="result-stat">
+
+  答對
+  <br>
+
+  <span id="final-correct">
+    0
+  </span>
+
+  題
+
+</div>
+
+
+<div class="result-stat">
+
+  答錯
+  <br>
+
+  <span id="final-wrong">
+    0
+  </span>
+
+  題
+
+</div>
+
+
+<div class="result-stat">
+
+  最高連擊
+  <br>
+
+  <span id="final-combo">
+    0
+  </span>
+
+</div>
+
+
+<div class="result-stat">
+
+  測驗時間
+  <br>
+
+  <span id="final-time">
+    00:00
+  </span>
+
+</div>
+
+
+</div>
+
+
+<div
+  id="save-status"
+  class="save-status"
+></div>
+
+
+<div class="button-row">
+
+<button
+  id="again-button"
+  class="game-button restart"
+  type="button"
+>
+  🔄 重新測驗
+</button>
+
+<button
+  id="review-button"
+  class="game-button orange"
+  type="button"
+>
+  錯題回顧
+</button>
+
+<button
+  id="result-mode-button"
+  class="game-button secondary"
+  type="button"
+>
+  選擇模式
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
+Review
+================================================== -->
+
+<section
+  id="review-screen"
+  class="screen hidden"
+>
+
+<h2>
+  📝 錯題回顧
+</h2>
+
+<div
+  id="review-list"
+  class="review-list"
+></div>
+
+
+<div class="button-row">
+
+<button
+  id="review-again-button"
+  class="game-button restart"
+  type="button"
+>
+  🔄 重新測驗
+</button>
+
+<button
+  id="review-result-button"
+  class="game-button secondary"
+  type="button"
+>
+  回到測驗結果
+</button>
+
+</div>
+
+</section>
+
+
+</main>
+
+</div>
+
 
 <script src="../js/common-header.js"></script>
 
@@ -2092,8 +2321,6 @@ Responsive
 <script src="../js/scratchpad-template.js"></script>
 
 <script src="../js/sound-manager.js?v=1"></script>
-
-<script src="../js/radical-input.js?v=7"></script>
 
 
 <script type="module">
@@ -2108,16 +2335,12 @@ import {
 
 /*
 ==================================================
-基本設定
+設定
 ==================================================
 */
 
 const GAME_ID =
   "pythagorean";
-
-
-const TOTAL_QUESTIONS =
-  10;
 
 
 const MODE_NAMES = {
@@ -2180,15 +2403,11 @@ let selectedChoice =
   null;
 
 
-let radicalInput =
-  null;
-
-
 let startTime =
   0;
 
 
-let finalElapsed =
+let elapsed =
   0;
 
 
@@ -2250,7 +2469,8 @@ function shuffle(
     let i =
       result.length - 1;
 
-    i > 0;
+    i >
+      0;
 
     i--
   ) {
@@ -2259,7 +2479,8 @@ function shuffle(
       Math.floor(
         Math.random() *
         (
-          i + 1
+          i +
+          1
         )
       );
 
@@ -2267,7 +2488,8 @@ function shuffle(
     [
       result[i],
       result[j]
-    ] = [
+    ] =
+    [
       result[j],
       result[i]
     ];
@@ -2323,20 +2545,6 @@ function reduceFraction(
   denominator
 ) {
 
-  if (
-    denominator <
-    0
-  ) {
-
-    numerator *=
-      -1;
-
-
-    denominator *=
-      -1;
-  }
-
-
   const d =
     gcd(
       numerator,
@@ -2363,7 +2571,7 @@ MathML
 ==================================================
 */
 
-function mNumber(
+function mn(
   value
 ) {
 
@@ -2373,7 +2581,7 @@ function mNumber(
 }
 
 
-function mIdentifier(
+function mi(
   value
 ) {
 
@@ -2383,7 +2591,7 @@ function mIdentifier(
 }
 
 
-function mOperator(
+function mo(
   value
 ) {
 
@@ -2393,79 +2601,79 @@ function mOperator(
 }
 
 
-function mSup(
+function msup(
   base,
   exponent
 ) {
 
   return `
     <msup>
+
       ${base}
-      ${mNumber(exponent)}
+
+      ${mn(
+        exponent
+      )}
+
     </msup>
   `;
 }
 
 
-function mSqrt(
+function msqrt(
   content
 ) {
 
   return `
     <msqrt>
+
       ${content}
+
     </msqrt>
   `;
 }
 
 
-function mFraction(
+function mfrac(
   numerator,
   denominator
 ) {
 
   return `
     <mfrac>
+
       <mrow>
         ${numerator}
       </mrow>
+
       <mrow>
         ${denominator}
       </mrow>
+
     </mfrac>
   `;
 }
 
 
 function mathHTML(
-  content,
-  large =
-    false
+  content
 ) {
 
   return `
+
     <math
-      class="math-inline ${large ? "math-large" : ""}"
+      class="math-inline"
       xmlns="http://www.w3.org/1998/Math/MathML"
     >
+
       <mrow>
+
         ${content}
+
       </mrow>
+
     </math>
   `;
-}
-
-
-function squareHTML(
-  n
-) {
-
-  return mathHTML(
-    mSup(
-      mNumber(n),
-      2
-    )
-  );
 }
 
 
@@ -2474,8 +2682,10 @@ function rootHTML(
 ) {
 
   return mathHTML(
-    mSqrt(
-      mNumber(n)
+    msqrt(
+      mn(
+        n
+      )
     )
   );
 }
@@ -2500,11 +2710,15 @@ function radicalHTML(
   const sign =
     coefficient <
     0
-      ? "−"
+
+      ? mo(
+          "−"
+        )
+
       : "";
 
 
-  const abs =
+  const absolute =
     Math.abs(
       coefficient
     );
@@ -2512,23 +2726,25 @@ function radicalHTML(
 
   const coefficientHTML =
 
-    abs ===
+    absolute ===
     1
 
       ? ""
 
-      : mNumber(
-          abs
+      : mn(
+          absolute
         );
 
 
   return mathHTML(
 
     `
-      ${sign ? mOperator("−") : ""}
+      ${sign}
+
       ${coefficientHTML}
-      ${mSqrt(
-        mNumber(
+
+      ${msqrt(
+        mn(
           radicand
         )
       )}
@@ -2544,11 +2760,11 @@ function fractionHTML(
 
   return mathHTML(
 
-    mFraction(
-      mNumber(
+    mfrac(
+      mn(
         numerator
       ),
-      mNumber(
+      mn(
         denominator
       )
     )
@@ -2562,32 +2778,30 @@ function radicalFractionHTML(
   denominator
 ) {
 
-  const numeratorHTML = `
-
-    ${
-      coefficient ===
-      1
-
-        ? ""
-
-        : mNumber(
-            coefficient
-          )
-    }
-
-    ${mSqrt(
-      mNumber(
-        radicand
-      )
-    )}
-  `;
-
-
   return mathHTML(
 
-    mFraction(
-      numeratorHTML,
-      mNumber(
+    mfrac(
+
+      `
+        ${
+          coefficient ===
+          1
+
+            ? ""
+
+            : mn(
+                coefficient
+              )
+        }
+
+        ${msqrt(
+          mn(
+            radicand
+          )
+        )}
+      `,
+
+      mn(
         denominator
       )
     )
@@ -2628,14 +2842,6 @@ function simplifyRoot(
   }
 
 
-  let outside =
-    1;
-
-
-  let inside =
-    n;
-
-
   for (
     let i =
       Math.floor(
@@ -2645,7 +2851,7 @@ function simplifyRoot(
       );
 
     i >=
-    2;
+      2;
 
     i--
   ) {
@@ -2661,16 +2867,18 @@ function simplifyRoot(
       0
     ) {
 
-      outside =
-        i;
+      return {
 
+        type:
+          "radical",
 
-      inside =
-        n /
-        square;
+        coefficient:
+          i,
 
-
-      break;
+        radicand:
+          n /
+          square
+      };
     }
   }
 
@@ -2681,11 +2889,53 @@ function simplifyRoot(
       "radical",
 
     coefficient:
-      outside,
+      1,
 
     radicand:
-      inside
+      n
   };
+}
+
+
+function isSimplestRadicand(
+  n
+) {
+
+  if (
+    n <=
+    0
+  ) {
+
+    return false;
+  }
+
+
+  for (
+    let i =
+      2;
+
+    i *
+      i <=
+      n;
+
+    i++
+  ) {
+
+    if (
+      n %
+      (
+        i *
+        i
+      ) ===
+      0
+    ) {
+
+      return false;
+    }
+  }
+
+
+  return true;
 }
 
 
@@ -2715,7 +2965,7 @@ function playGameSound(
   ) {
 
     console.warn(
-      "音效播放失敗：",
+      "音效播放失敗",
       error
     );
   }
@@ -2724,15 +2974,17 @@ function playGameSound(
 
 /*
 ==================================================
-SVG 圖形
+★ 一般直角三角形
+showRightAngle = false 時不畫直角符號
 ==================================================
 */
 
 function triangleSVG(
   legA,
   legB,
-  hypotenuseText =
-    "?"
+  hypotenuse,
+  showRightAngle =
+    true
 ) {
 
   return `
@@ -2740,13 +2992,12 @@ function triangleSVG(
     <svg
       class="geometry-svg"
       viewBox="0 0 360 260"
-      aria-label="直角三角形"
     >
 
       <path
         d="
           M 65 210
-          L 65 48
+          L 65 52
           L 305 210
           Z
         "
@@ -2756,19 +3007,28 @@ function triangleSVG(
         stroke-linejoin="round"
       />
 
-      <path
-        d="
-          M 65 182
-          L 93 182
-          L 93 210
-        "
-        fill="none"
-        stroke="#f59e0b"
-        stroke-width="5"
-      />
+      ${
+        showRightAngle
+
+          ? `
+
+            <path
+              d="
+                M 65 181
+                L 94 181
+                L 94 210
+              "
+              fill="none"
+              stroke="#f59e0b"
+              stroke-width="5"
+            />
+          `
+
+          : ""
+      }
 
       <text
-        x="28"
+        x="27"
         y="140"
         font-size="27"
         font-weight="900"
@@ -2778,8 +3038,8 @@ function triangleSVG(
       </text>
 
       <text
-        x="172"
-        y="242"
+        x="170"
+        y="243"
         font-size="27"
         font-weight="900"
         fill="#17324d"
@@ -2788,13 +3048,13 @@ function triangleSVG(
       </text>
 
       <text
-        x="195"
-        y="116"
+        x="198"
+        y="118"
         font-size="27"
         font-weight="900"
         fill="#149b92"
       >
-        ${hypotenuseText}
+        ${hypotenuse}
       </text>
 
     </svg>
@@ -2802,11 +3062,15 @@ function triangleSVG(
 }
 
 
+/*
+==================================================
+求另一股
+==================================================
+*/
+
 function legTriangleSVG(
-  knownLeg,
-  hypotenuse,
-  unknownName =
-    "x"
+  known,
+  hypotenuse
 ) {
 
   return `
@@ -2814,27 +3078,25 @@ function legTriangleSVG(
     <svg
       class="geometry-svg"
       viewBox="0 0 360 260"
-      aria-label="求直角三角形另一股"
     >
 
       <path
         d="
           M 65 210
-          L 65 55
-          L 300 210
+          L 65 52
+          L 305 210
           Z
         "
         fill="rgba(49,130,206,.07)"
         stroke="#17324d"
         stroke-width="5"
-        stroke-linejoin="round"
       />
 
       <path
         d="
-          M 65 182
-          L 93 182
-          L 93 210
+          M 65 181
+          L 94 181
+          L 94 210
         "
         fill="none"
         stroke="#f59e0b"
@@ -2842,28 +3104,28 @@ function legTriangleSVG(
       />
 
       <text
-        x="27"
-        y="142"
+        x="25"
+        y="140"
         font-size="27"
         font-weight="900"
         fill="#149b92"
       >
-        ${unknownName}
+        x
       </text>
 
       <text
         x="170"
-        y="242"
+        y="243"
         font-size="27"
         font-weight="900"
         fill="#17324d"
       >
-        ${knownLeg}
+        ${known}
       </text>
 
       <text
-        x="195"
-        y="115"
+        x="198"
+        y="118"
         font-size="27"
         font-weight="900"
         fill="#17324d"
@@ -2875,6 +3137,12 @@ function legTriangleSVG(
   `;
 }
 
+
+/*
+==================================================
+長方形
+==================================================
+*/
 
 function rectangleSVG(
   width,
@@ -2893,7 +3161,6 @@ function rectangleSVG(
         y="55"
         width="245"
         height="150"
-        rx="4"
         fill="rgba(49,130,206,.06)"
         stroke="#17324d"
         stroke-width="5"
@@ -2943,11 +3210,15 @@ function rectangleSVG(
 }
 
 
+/*
+==================================================
+梯子
+==================================================
+*/
+
 function ladderSVG(
-  height,
   ground,
-  ladder =
-    "?"
+  ladder
 ) {
 
   return `
@@ -2982,7 +3253,6 @@ function ladderSVG(
         y2="215"
         stroke="#149b92"
         stroke-width="9"
-        stroke-linecap="round"
       />
 
       <path
@@ -2997,13 +3267,13 @@ function ladderSVG(
       />
 
       <text
-        x="28"
-        y="142"
+        x="25"
+        y="140"
         font-size="25"
         font-weight="900"
         fill="#17324d"
       >
-        ${height}
+        h
       </text>
 
       <text
@@ -3017,7 +3287,7 @@ function ladderSVG(
       </text>
 
       <text
-        x="194"
+        x="195"
         y="120"
         font-size="25"
         font-weight="900"
@@ -3031,55 +3301,267 @@ function ladderSVG(
 }
 
 
+/*
+==================================================
+★ 斜邊上的高
+真正依兩股長繪製直角三角形
+包含：
+1. 原直角頂點符號
+2. 高與斜邊交點符號
+==================================================
+*/
+
 function altitudeSVG(
   a,
   b,
-  c
+  cText
 ) {
+
+  const ux =
+    -0.6;
+
+  const uy =
+    0.8;
+
+
+  const vx =
+    0.8;
+
+  const vy =
+    0.6;
+
+
+  const scale =
+    Math.min(
+      145 /
+      a,
+
+      145 /
+      b
+    );
+
+
+  const rx =
+    150;
+
+
+  const ry =
+    52;
+
+
+  const ax =
+    rx +
+    ux *
+    a *
+    scale;
+
+
+  const ay =
+    ry +
+    uy *
+    a *
+    scale;
+
+
+  const bx =
+    rx +
+    vx *
+    b *
+    scale;
+
+
+  const by =
+    ry +
+    vy *
+    b *
+    scale;
+
+
+  /*
+  R 投影到 AB
+  */
+
+  const abx =
+    bx -
+    ax;
+
+
+  const aby =
+    by -
+    ay;
+
+
+  const arx =
+    rx -
+    ax;
+
+
+  const ary =
+    ry -
+    ay;
+
+
+  const t =
+    (
+      arx *
+      abx +
+      ary *
+      aby
+    ) /
+    (
+      abx *
+      abx +
+      aby *
+      aby
+    );
+
+
+  const hx =
+    ax +
+    t *
+    abx;
+
+
+  const hy =
+    ay +
+    t *
+    aby;
+
+
+  /*
+  頂點直角小正方形
+  */
+
+  const marker =
+    20;
+
+
+  const p1x =
+    rx +
+    ux *
+    marker;
+
+
+  const p1y =
+    ry +
+    uy *
+    marker;
+
+
+  const p2x =
+    p1x +
+    vx *
+    marker;
+
+
+  const p2y =
+    p1y +
+    vy *
+    marker;
+
+
+  const p3x =
+    rx +
+    vx *
+    marker;
+
+
+  const p3y =
+    ry +
+    vy *
+    marker;
+
 
   return `
 
     <svg
       class="geometry-svg"
-      viewBox="0 0 360 270"
+      viewBox="0 0 360 280"
     >
 
-      <path
-        d="
-          M 55 205
-          L 195 48
-          L 315 205
-          Z
+      <polygon
+        points="
+          ${rx},${ry}
+          ${ax},${ay}
+          ${bx},${by}
         "
-        fill="rgba(245,158,11,.08)"
+        fill="rgba(245,158,11,.07)"
         stroke="#17324d"
         stroke-width="5"
         stroke-linejoin="round"
       />
 
+
+      <!-- 斜邊上的高 -->
+
       <line
-        x1="195"
-        y1="48"
-        x2="195"
-        y2="205"
+        x1="${rx}"
+        y1="${ry}"
+        x2="${hx}"
+        y2="${hy}"
         stroke="#149b92"
         stroke-width="4"
       />
 
-      <path
-        d="
-          M 195 177
-          L 223 177
-          L 223 205
+
+      <!-- ★ 原直角三角形的直角符號 -->
+
+      <polyline
+        points="
+          ${p1x},${p1y}
+          ${p2x},${p2y}
+          ${p3x},${p3y}
         "
         fill="none"
         stroke="#f59e0b"
         stroke-width="5"
+        stroke-linejoin="round"
       />
 
+
+      <!-- ★ 高與斜邊的直角符號 -->
+
+      <rect
+        x="${hx - 12}"
+        y="${hy - 12}"
+        width="24"
+        height="24"
+        fill="none"
+        stroke="#f59e0b"
+        stroke-width="4"
+        transform="
+          rotate(
+            ${
+              Math.atan2(
+                aby,
+                abx
+              ) *
+              180 /
+              Math.PI
+            }
+            ${hx}
+            ${hy}
+          )
+        "
+      />
+
+
       <text
-        x="102"
-        y="117"
+        x="${
+          (
+            rx +
+            ax
+          ) /
+          2 -
+          28
+        }"
+        y="${
+          (
+            ry +
+            ay
+          ) /
+          2
+        }"
         font-size="25"
         font-weight="900"
         fill="#17324d"
@@ -3087,9 +3569,23 @@ function altitudeSVG(
         ${a}
       </text>
 
+
       <text
-        x="252"
-        y="120"
+        x="${
+          (
+            rx +
+            bx
+          ) /
+          2 +
+          8
+        }"
+        y="${
+          (
+            ry +
+            by
+          ) /
+          2
+        }"
         font-size="25"
         font-weight="900"
         fill="#17324d"
@@ -3097,19 +3593,48 @@ function altitudeSVG(
         ${b}
       </text>
 
+
       <text
-        x="170"
-        y="244"
+        x="${
+          (
+            ax +
+            bx
+          ) /
+          2 -
+          8
+        }"
+        y="${
+          (
+            ay +
+            by
+          ) /
+          2 +
+          33
+        }"
         font-size="25"
         font-weight="900"
         fill="#17324d"
       >
-        ${c}
+        ${cText}
       </text>
 
+
       <text
-        x="205"
-        y="132"
+        x="${
+          (
+            rx +
+            hx
+          ) /
+          2 +
+          9
+        }"
+        y="${
+          (
+            ry +
+            hy
+          ) /
+          2
+        }"
         font-size="25"
         font-weight="900"
         fill="#149b92"
@@ -3122,6 +3647,12 @@ function altitudeSVG(
 }
 
 
+/*
+==================================================
+★ 正確座標平面
+==================================================
+*/
+
 function coordinateSVG(
   x1,
   y1,
@@ -3129,218 +3660,279 @@ function coordinateSVG(
   y2
 ) {
 
+  const width =
+    380;
+
+
+  const height =
+    300;
+
+
+  const originX =
+    width /
+    2;
+
+
+  const originY =
+    height /
+    2;
+
+
+  const maxValue =
+    Math.max(
+      4,
+      Math.abs(
+        x1
+      ),
+      Math.abs(
+        x2
+      ),
+      Math.abs(
+        y1
+      ),
+      Math.abs(
+        y2
+      )
+    ) +
+    1;
+
+
+  const scale =
+    Math.min(
+      150 /
+      maxValue,
+      115 /
+      maxValue
+    );
+
+
+  const mapX =
+    x =>
+      originX +
+      x *
+      scale;
+
+
+  const mapY =
+    y =>
+      originY -
+      y *
+      scale;
+
+
+  const ax =
+    mapX(
+      x1
+    );
+
+
+  const ay =
+    mapY(
+      y1
+    );
+
+
+  const bx =
+    mapX(
+      x2
+    );
+
+
+  const by =
+    mapY(
+      y2
+    );
+
+
+  let grid =
+    "";
+
+
+  for (
+    let i =
+      -maxValue;
+
+    i <=
+      maxValue;
+
+    i++
+  ) {
+
+    const gx =
+      mapX(
+        i
+      );
+
+
+    const gy =
+      mapY(
+        i
+      );
+
+
+    grid += `
+
+      <line
+        x1="${gx}"
+        y1="20"
+        x2="${gx}"
+        y2="${height - 20}"
+        stroke="#dcebed"
+        stroke-width="1"
+      />
+
+      <line
+        x1="20"
+        y1="${gy}"
+        x2="${width - 20}"
+        y2="${gy}"
+        stroke="#dcebed"
+        stroke-width="1"
+      />
+    `;
+  }
+
+
   return `
 
     <svg
       class="geometry-svg"
-      viewBox="0 0 360 290"
+      viewBox="0 0 ${width} ${height}"
     >
 
+      ${grid}
+
+
+      <!-- x 軸 -->
+
       <line
-        x1="30"
-        y1="145"
-        x2="330"
-        y2="145"
+        x1="20"
+        y1="${originY}"
+        x2="${width - 20}"
+        y2="${originY}"
         stroke="#64748b"
         stroke-width="3"
       />
 
+
+      <!-- y 軸 -->
+
       <line
-        x1="180"
+        x1="${originX}"
         y1="20"
-        x2="180"
-        y2="270"
+        x2="${originX}"
+        y2="${height - 20}"
         stroke="#64748b"
         stroke-width="3"
       />
 
+
+      <!-- AB 真正依照座標連線 -->
+
       <line
-        x1="100"
-        y1="220"
-        x2="270"
-        y2="70"
+        x1="${ax}"
+        y1="${ay}"
+        x2="${bx}"
+        y2="${by}"
         stroke="#149b92"
         stroke-width="5"
+        stroke-linecap="round"
+      />
+
+
+      <!-- A 點投影 -->
+
+      <line
+        x1="${ax}"
+        y1="${ay}"
+        x2="${ax}"
+        y2="${originY}"
+        stroke="#94a3b8"
+        stroke-width="2.5"
+        stroke-dasharray="7 6"
       />
 
       <line
-        x1="100"
-        y1="220"
-        x2="270"
-        y2="220"
+        x1="${ax}"
+        y1="${ay}"
+        x2="${originX}"
+        y2="${ay}"
         stroke="#94a3b8"
-        stroke-width="3"
-        stroke-dasharray="8 6"
+        stroke-width="2.5"
+        stroke-dasharray="7 6"
+      />
+
+
+      <!-- B 點投影 -->
+
+      <line
+        x1="${bx}"
+        y1="${by}"
+        x2="${bx}"
+        y2="${originY}"
+        stroke="#94a3b8"
+        stroke-width="2.5"
+        stroke-dasharray="7 6"
       />
 
       <line
-        x1="270"
-        y1="220"
-        x2="270"
-        y2="70"
+        x1="${bx}"
+        y1="${by}"
+        x2="${originX}"
+        y2="${by}"
         stroke="#94a3b8"
-        stroke-width="3"
-        stroke-dasharray="8 6"
+        stroke-width="2.5"
+        stroke-dasharray="7 6"
       />
+
 
       <circle
-        cx="100"
-        cy="220"
+        cx="${ax}"
+        cy="${ay}"
         r="8"
         fill="#3182ce"
       />
 
+
       <circle
-        cx="270"
-        cy="70"
+        cx="${bx}"
+        cy="${by}"
         r="8"
         fill="#f59e0b"
       />
 
+
       <text
-        x="42"
-        y="248"
-        font-size="19"
+        x="${
+          ax -
+          54
+        }"
+        y="${
+          ay +
+          30
+        }"
+        font-size="18"
         font-weight="900"
         fill="#17324d"
       >
         A(${x1}, ${y1})
       </text>
 
+
       <text
-        x="228"
-        y="49"
-        font-size="19"
+        x="${
+          bx +
+          8
+        }"
+        y="${
+          by -
+          15
+        }"
+        font-size="18"
         font-weight="900"
         fill="#17324d"
       >
         B(${x2}, ${y2})
-      </text>
-
-    </svg>
-  `;
-}
-
-
-function threePointSVG(
-  xGap,
-  yGap
-) {
-
-  return `
-
-    <svg
-      class="geometry-svg"
-      viewBox="0 0 360 285"
-    >
-
-      <line
-        x1="65"
-        y1="70"
-        x2="295"
-        y2="70"
-        stroke="#17324d"
-        stroke-width="5"
-      />
-
-      <line
-        x1="295"
-        y1="70"
-        x2="295"
-        y2="220"
-        stroke="#17324d"
-        stroke-width="5"
-      />
-
-      <line
-        x1="65"
-        y1="70"
-        x2="295"
-        y2="220"
-        stroke="#149b92"
-        stroke-width="5"
-      />
-
-      <path
-        d="
-          M 270 70
-          L 270 95
-          L 295 95
-        "
-        fill="none"
-        stroke="#f59e0b"
-        stroke-width="5"
-      />
-
-      <circle
-        cx="65"
-        cy="70"
-        r="7"
-        fill="#3182ce"
-      />
-
-      <circle
-        cx="295"
-        cy="70"
-        r="7"
-        fill="#64748b"
-      />
-
-      <circle
-        cx="295"
-        cy="220"
-        r="7"
-        fill="#f59e0b"
-      />
-
-      <text
-        x="35"
-        y="55"
-        font-size="22"
-        font-weight="900"
-        fill="#17324d"
-      >
-        A
-      </text>
-
-      <text
-        x="305"
-        y="62"
-        font-size="22"
-        font-weight="900"
-        fill="#17324d"
-      >
-        B
-      </text>
-
-      <text
-        x="305"
-        y="240"
-        font-size="22"
-        font-weight="900"
-        fill="#17324d"
-      >
-        C
-      </text>
-
-      <text
-        x="165"
-        y="54"
-        font-size="22"
-        font-weight="900"
-        fill="#17324d"
-      >
-        ${xGap}
-      </text>
-
-      <text
-        x="307"
-        y="153"
-        font-size="22"
-        font-weight="900"
-        fill="#17324d"
-      >
-        ${yGap}
       </text>
 
     </svg>
@@ -3354,7 +3946,7 @@ function threePointSVG(
 ==================================================
 */
 
-function makeQuestion(
+function question(
   data
 ) {
 
@@ -3388,8 +3980,7 @@ function makeQuestion(
 
 /*
 ==================================================
-MODE 1
-畢氏定理基礎
+模式一
 ==================================================
 */
 
@@ -3409,36 +4000,39 @@ function makeHypotenuseQuestion() {
     );
 
 
-  const sum =
-    a * a +
-    b * b;
+  const total =
+    a *
+    a +
+    b *
+    b;
 
 
   const result =
     simplifyRoot(
-      sum
+      total
     );
 
 
-  return makeQuestion({
+  return question({
 
     typeLabel:
-      "斜邊長的計算",
+      "求斜邊",
 
     label:
-      "已知直角三角形的兩股長，求斜邊長",
+      "已知兩股長，求斜邊",
 
     html:
-      `兩股長分別為 ${a}、${b}，求斜邊 c。`,
+      `兩股長為 ${a}、${b}，求斜邊 c。`,
 
     hint:
-      "💡 斜邊平方＝兩股平方和",
+      "💡 c²＝a²＋b²",
 
     diagram:
       triangleSVG(
         a,
         b,
-        "c"
+        "c",
+        true
       ),
 
     answerType:
@@ -3456,46 +4050,66 @@ function makeHypotenuseQuestion() {
     explanation:
       [
 
-        `由畢氏定理知：
+        `由畢氏定理：
          ${mathHTML(
            `
-             ${mSup(mIdentifier("c"),2)}
-             ${mOperator("=")}
-             ${mSup(mNumber(a),2)}
-             ${mOperator("+")}
-             ${mSup(mNumber(b),2)}
+             ${msup(
+               mi(
+                 "c"
+               ),
+               2
+             )}
+
+             ${mo(
+               "="
+             )}
+
+             ${msup(
+               mn(
+                 a
+               ),
+               2
+             )}
+
+             ${mo(
+               "+"
+             )}
+
+             ${msup(
+               mn(
+                 b
+               ),
+               2
+             )}
            `
          )}。`,
 
         `${mathHTML(
           `
-            ${mSup(mIdentifier("c"),2)}
-            ${mOperator("=")}
-            ${mNumber(a * a)}
-            ${mOperator("+")}
-            ${mNumber(b * b)}
-            ${mOperator("=")}
-            ${mNumber(sum)}
+            ${msup(
+              mi(
+                "c"
+              ),
+              2
+            )}
+
+            ${mo(
+              "="
+            )}
+
+            ${mn(
+              total
+            )}
           `
         )}。`,
-
-        `因為斜邊長 c＞0，所以取正值。`,
 
         result.type ===
         "number"
 
-          ? `故得 c＝${result.value}。`
+          ? `因為 c＞0，所以 c＝${result.value}。`
 
-          : `故得
-             ${mathHTML(
-               `
-                 ${mIdentifier("c")}
-                 ${mOperator("=")}
-                 ${mSqrt(mNumber(sum))}
-               `
-             )}
-             ＝
-             ${radicalHTML(
+          : `因為 c＞0，所以
+             c＝${radicalHTML(
                result.coefficient,
                result.radicand
              )}。`
@@ -3506,249 +4120,146 @@ function makeHypotenuseQuestion() {
 
 function makeLegQuestion() {
 
-  const triple =
-    pick(
-      [
-
-        [3,4,5],
-        [5,12,13],
-        [6,8,10],
-        [7,24,25],
-        [8,15,17],
-        [9,12,15],
-        [9,40,41],
-        [12,16,20]
-      ]
-    );
+  let known;
+  let hypotenuse;
+  let difference;
+  let result;
 
 
-  const swap =
-    Math.random() <
-    .5;
+  do {
 
-
-  const knownLeg =
-    swap
-      ? triple[0]
-      : triple[1];
-
-
-  const unknownLeg =
-    swap
-      ? triple[1]
-      : triple[0];
-
-
-  const c =
-    triple[2];
-
-
-  const makeRadical =
-    Math.random() <
-    .35;
-
-
-  if (
-    makeRadical
-  ) {
-
-    let known =
+    known =
       rand(
+        3,
+        10
+      );
+
+
+    hypotenuse =
+      rand(
+        known +
         2,
-        8
+        known +
+        10
       );
 
 
-    let hyp =
-      rand(
-        known + 2,
-        known + 8
-      );
+    difference =
+      hypotenuse *
+      hypotenuse -
+      known *
+      known;
 
 
-    let difference =
-      hyp * hyp -
-      known * known;
-
-
-    let result =
+    result =
       simplifyRoot(
         difference
       );
 
-
-    while (
-      result.type ===
-      "number"
-    ) {
-
-      known =
-        rand(
-          2,
-          8
-        );
+  } while (
+    difference <=
+    0
+  );
 
 
-      hyp =
-        rand(
-          known + 2,
-          known + 8
-        );
-
-
-      difference =
-        hyp * hyp -
-        known * known;
-
-
-      result =
-        simplifyRoot(
-          difference
-        );
-    }
-
-
-    return makeQuestion({
-
-      typeLabel:
-        "股長的計算",
-
-      label:
-        "已知一股與斜邊，求另一股",
-
-      html:
-        `斜邊長 ${hyp}，其中一股長 ${known}，求另一股 x。`,
-
-      hint:
-        "💡 另一股平方＝斜邊平方－已知股平方",
-
-      diagram:
-        legTriangleSVG(
-          known,
-          hyp,
-          "x"
-        ),
-
-      answerType:
-        "radical",
-
-      coefficient:
-        result.coefficient,
-
-      radicand:
-        result.radicand,
-
-      explanation:
-        [
-
-          `由畢氏定理知：
-           ${mathHTML(
-             `
-               ${mSup(mIdentifier("x"),2)}
-               ${mOperator("+")}
-               ${mSup(mNumber(known),2)}
-               ${mOperator("=")}
-               ${mSup(mNumber(hyp),2)}
-             `
-           )}。`,
-
-          `移項得：
-           ${mathHTML(
-             `
-               ${mSup(mIdentifier("x"),2)}
-               ${mOperator("=")}
-               ${mSup(mNumber(hyp),2)}
-               ${mOperator("−")}
-               ${mSup(mNumber(known),2)}
-             `
-           )}。`,
-
-          `${mathHTML(
-            `
-              ${mSup(mIdentifier("x"),2)}
-              ${mOperator("=")}
-              ${mNumber(hyp * hyp)}
-              ${mOperator("−")}
-              ${mNumber(known * known)}
-              ${mOperator("=")}
-              ${mNumber(difference)}
-            `
-          )}。`,
-
-          `因為 x＞0，
-           所以
-           ${mathHTML(
-             `
-               ${mIdentifier("x")}
-               ${mOperator("=")}
-               ${mSqrt(mNumber(difference))}
-             `
-           )}
-           ＝
-           ${radicalHTML(
-             result.coefficient,
-             result.radicand
-           )}。`
-        ]
-    });
-  }
-
-
-  return makeQuestion({
+  return question({
 
     typeLabel:
-      "股長的計算",
+      "求另一股",
 
     label:
       "已知一股與斜邊，求另一股",
 
     html:
-      `斜邊長 ${c}，其中一股長 ${knownLeg}，求另一股 x。`,
+      `斜邊長 ${hypotenuse}，一股長 ${known}，求另一股 x。`,
 
     hint:
-      "💡 另一股平方＝斜邊平方－已知股平方",
+      "💡 x²＝斜邊²－已知股²",
 
     diagram:
       legTriangleSVG(
-        knownLeg,
-        c,
-        "x"
+        known,
+        hypotenuse
       ),
 
     answerType:
-      "number",
+      result.type,
 
     answer:
-      unknownLeg,
+      result.value,
+
+    coefficient:
+      result.coefficient,
+
+    radicand:
+      result.radicand,
 
     explanation:
       [
 
-        `由畢氏定理知：
+        `由畢氏定理：
          ${mathHTML(
            `
-             ${mSup(mIdentifier("x"),2)}
-             ${mOperator("+")}
-             ${mSup(mNumber(knownLeg),2)}
-             ${mOperator("=")}
-             ${mSup(mNumber(c),2)}
+             ${msup(
+               mi(
+                 "x"
+               ),
+               2
+             )}
+
+             ${mo(
+               "+"
+             )}
+
+             ${msup(
+               mn(
+                 known
+               ),
+               2
+             )}
+
+             ${mo(
+               "="
+             )}
+
+             ${msup(
+               mn(
+                 hypotenuse
+               ),
+               2
+             )}
            `
          )}。`,
 
         `所以
          ${mathHTML(
            `
-             ${mSup(mIdentifier("x"),2)}
-             ${mOperator("=")}
-             ${mNumber(c * c)}
-             ${mOperator("−")}
-             ${mNumber(knownLeg * knownLeg)}
-             ${mOperator("=")}
-             ${mNumber(unknownLeg * unknownLeg)}
+             ${msup(
+               mi(
+                 "x"
+               ),
+               2
+             )}
+
+             ${mo(
+               "="
+             )}
+
+             ${mn(
+               difference
+             )}
            `
          )}。`,
 
-        `因為 x＞0，所以 x＝${unknownLeg}。`
+        result.type ===
+        "number"
+
+          ? `x＝${result.value}。`
+
+          : `x＝${radicalHTML(
+              result.coefficient,
+              result.radicand
+            )}。`
       ]
   });
 }
@@ -3761,41 +4272,30 @@ function makeJudgeQuestion() {
     .5;
 
 
-  let sides;
-
-
-  if (
+  const sides =
     valid
-  ) {
 
-    sides =
-      pick(
-        [
+      ? pick(
+          [
+            [3,4,5],
+            [5,12,13],
+            [6,8,10],
+            [8,15,17],
+            [7,24,25],
+            [9,12,15]
+          ]
+        )
 
-          [3,4,5],
-          [5,12,13],
-          [6,8,10],
-          [8,15,17],
-          [7,24,25],
-          [9,12,15]
-        ]
-      );
-
-  } else {
-
-    sides =
-      pick(
-        [
-
-          [4,5,7],
-          [5,6,8],
-          [6,7,10],
-          [8,10,13],
-          [9,12,16],
-          [7,8,12]
-        ]
-      );
-  }
+      : pick(
+          [
+            [4,5,7],
+            [5,6,8],
+            [6,7,10],
+            [8,10,13],
+            [9,12,16],
+            [7,8,12]
+          ]
+        );
 
 
   const [
@@ -3806,7 +4306,7 @@ function makeJudgeQuestion() {
     sides;
 
 
-  return makeQuestion({
+  return question({
 
     typeLabel:
       "直角三角形判斷",
@@ -3818,13 +4318,17 @@ function makeJudgeQuestion() {
       `三邊長為 ${a}、${b}、${c}，是否為直角三角形？`,
 
     hint:
-      "💡 先找最長邊，再比較兩短邊的平方和與最長邊平方",
+      "💡 先找最長邊，再比較兩短邊平方和與最長邊平方",
 
+    /*
+    ★ 判斷題不放直角符號
+    */
     diagram:
       triangleSVG(
         a,
         b,
-        c
+        c,
+        false
       ),
 
     answerType:
@@ -3858,31 +4362,27 @@ function makeJudgeQuestion() {
     explanation:
       [
 
-        `最長邊是 ${c}。`,
+        `先找最長邊 ${c}。`,
 
-        `${mathHTML(
-          `
-            ${mSup(mNumber(a),2)}
-            ${mOperator("+")}
-            ${mSup(mNumber(b),2)}
-            ${mOperator("=")}
-            ${mNumber(a * a + b * b)}
-          `
-        )}。`,
+        `兩短邊平方和：
+         ${a}²＋${b}²＝${
+           a *
+           a +
+           b *
+           b
+         }。`,
 
-        `${mathHTML(
-          `
-            ${mSup(mNumber(c),2)}
-            ${mOperator("=")}
-            ${mNumber(c * c)}
-          `
-        )}。`,
+        `最長邊平方：
+         ${c}²＝${
+           c *
+           c
+         }。`,
 
         valid
 
-          ? `兩短邊平方和等於最長邊平方，因此是直角三角形。`
+          ? `兩者相等，所以是直角三角形。`
 
-          : `兩短邊平方和不等於最長邊平方，因此不是直角三角形。`
+          : `兩者不相等，所以不是直角三角形。`
       ]
   });
 }
@@ -3912,12 +4412,11 @@ function makeMode1() {
 
 /*
 ==================================================
-MODE 2
-生活應用＋斜邊上的高
+模式二
 ==================================================
 */
 
-function makeRectangleApplication() {
+function makeRectangleQuestion() {
 
   const width =
     rand(
@@ -3933,27 +4432,29 @@ function makeRectangleApplication() {
     );
 
 
-  const sum =
-    width * width +
-    height * height;
+  const total =
+    width *
+    width +
+    height *
+    height;
 
 
   const result =
     simplifyRoot(
-      sum
+      total
     );
 
 
-  return makeQuestion({
+  return question({
 
     typeLabel:
-      "生活應用｜長方形對角線",
+      "生活應用｜長方形",
 
     label:
-      "利用畢氏定理解決圖形問題",
+      "利用畢氏定理求長方形對角線",
 
     html:
-      `一個長方形長 ${width}、寬 ${height}，求對角線 d 的長。`,
+      `長方形長 ${width}、寬 ${height}，求對角線 d。`,
 
     hint:
       "💡 長、寬與對角線形成直角三角形",
@@ -3979,48 +4480,29 @@ function makeRectangleApplication() {
     explanation:
       [
 
-        `長方形的長、寬與對角線形成直角三角形。`,
+        `長、寬及對角線形成直角三角形。`,
 
-        `由畢氏定理：
-         ${mathHTML(
-           `
-             ${mSup(mIdentifier("d"),2)}
-             ${mOperator("=")}
-             ${mSup(mNumber(width),2)}
-             ${mOperator("+")}
-             ${mSup(mNumber(height),2)}
-           `
-         )}。`,
-
-        `${mathHTML(
-          `
-            ${mSup(mIdentifier("d"),2)}
-            ${mOperator("=")}
-            ${mNumber(sum)}
-          `
-        )}。`,
+        `d²＝${width}²＋${height}²＝${total}。`,
 
         result.type ===
         "number"
 
-          ? `因為 d＞0，所以 d＝${result.value}。`
+          ? `d＝${result.value}。`
 
-          : `因為 d＞0，所以
-             d＝${radicalHTML(
-               result.coefficient,
-               result.radicand
-             )}。`
+          : `d＝${radicalHTML(
+              result.coefficient,
+              result.radicand
+            )}。`
       ]
   });
 }
 
 
-function makeLadderApplication() {
+function makeLadderQuestion() {
 
   const triple =
     pick(
       [
-
         [6,8,10],
         [9,12,15],
         [12,16,20],
@@ -4031,34 +4513,39 @@ function makeLadderApplication() {
 
 
   const ground =
-    triple[0];
+    triple[
+      0
+    ];
 
 
   const height =
-    triple[1];
+    triple[
+      1
+    ];
 
 
   const ladder =
-    triple[2];
+    triple[
+      2
+    ];
 
 
-  return makeQuestion({
+  return question({
 
     typeLabel:
-      "生活應用｜雲梯／竹竿",
+      "生活應用｜梯子",
 
     label:
-      "找出生活情境中的直角三角形",
+      "利用直角三角形求高度",
 
     html:
-      `梯腳離牆 ${ground} 公尺，梯長 ${ladder} 公尺，求梯子頂端離地高度 h。`,
+      `梯腳離牆 ${ground} 公尺，梯長 ${ladder} 公尺，求頂端高度 h。`,
 
     hint:
-      "💡 牆面與地面互相垂直，梯子是斜邊",
+      "💡 梯子是斜邊",
 
     diagram:
       ladderSVG(
-        "h",
         ground,
         ladder
       ),
@@ -4072,117 +4559,16 @@ function makeLadderApplication() {
     explanation:
       [
 
-        `梯子、牆面與地面形成直角三角形，梯子是斜邊。`,
+        `梯子、牆面及地面形成直角三角形。`,
 
-        `由畢氏定理：
-         ${mathHTML(
-           `
-             ${mSup(mIdentifier("h"),2)}
-             ${mOperator("+")}
-             ${mSup(mNumber(ground),2)}
-             ${mOperator("=")}
-             ${mSup(mNumber(ladder),2)}
-           `
-         )}。`,
+        `h²＋${ground}²＝${ladder}²。`,
 
-        `所以
-         ${mathHTML(
-           `
-             ${mSup(mIdentifier("h"),2)}
-             ${mOperator("=")}
-             ${mNumber(ladder * ladder)}
-             ${mOperator("−")}
-             ${mNumber(ground * ground)}
-             ${mOperator("=")}
-             ${mNumber(height * height)}
-           `
-         )}。`,
+        `h²＝${
+          height *
+          height
+        }。`,
 
-        `因為 h＞0，所以 h＝${height} 公尺。`
-      ]
-  });
-}
-
-
-function makePoleApplication() {
-
-  const triple =
-    pick(
-      [
-
-        [7,24,25],
-        [9,40,41],
-        [12,35,37],
-        [20,21,29]
-      ]
-    );
-
-
-  const ground =
-    triple[0];
-
-
-  const height =
-    triple[1];
-
-
-  const pole =
-    triple[2];
-
-
-  return makeQuestion({
-
-    typeLabel:
-      "生活應用｜竹竿靠牆",
-
-    label:
-      "利用畢氏定理求垂直高度",
-
-    html:
-      `一根長 ${pole} 公尺的竹竿靠牆，竹竿底部離牆 ${ground} 公尺，求竹竿頂端離地高度。`,
-
-    hint:
-      "💡 竹竿為斜邊",
-
-    diagram:
-      ladderSVG(
-        "x",
-        ground,
-        pole
-      ),
-
-    answerType:
-      "number",
-
-    answer:
-      height,
-
-    explanation:
-      [
-
-        `設竹竿頂端離地高度為 x 公尺。`,
-
-        `由畢氏定理：
-         ${mathHTML(
-           `
-             ${mSup(mIdentifier("x"),2)}
-             ${mOperator("+")}
-             ${mSup(mNumber(ground),2)}
-             ${mOperator("=")}
-             ${mSup(mNumber(pole),2)}
-           `
-         )}。`,
-
-        `所以
-         ${mathHTML(
-           `
-             ${mSup(mIdentifier("x"),2)}
-             ${mOperator("=")}
-             ${mNumber(height * height)}
-           `
-         )}。`,
-
-        `因為 x＞0，所以 x＝${height} 公尺。`
+        `h＝${height} 公尺。`
       ]
   });
 }
@@ -4193,7 +4579,6 @@ function makeAltitudeQuestion() {
   const triple =
     pick(
       [
-
         [3,4,5],
         [5,12,13],
         [8,15,17],
@@ -4203,26 +4588,23 @@ function makeAltitudeQuestion() {
     );
 
 
-  const a =
-    triple[0];
-
-
-  const b =
-    triple[1];
-
-
-  const c =
-    triple[2];
+  const [
+    a,
+    b,
+    c
+  ] =
+    triple;
 
 
   const reduced =
     reduceFraction(
-      a * b,
+      a *
+      b,
       c
     );
 
 
-  return makeQuestion({
+  return question({
 
     typeLabel:
       "斜邊上的高",
@@ -4234,7 +4616,7 @@ function makeAltitudeQuestion() {
       `直角三角形的兩股長為 ${a}、${b}，斜邊長為 ${c}，求斜邊上的高 h。`,
 
     hint:
-      "💡 斜邊上的高＝兩股乘積 ÷ 斜邊",
+      "💡 h＝兩股乘積 ÷ 斜邊",
 
     diagram:
       altitudeSVG(
@@ -4244,6 +4626,7 @@ function makeAltitudeQuestion() {
       ),
 
     answerType:
+
       reduced.denominator ===
       1
 
@@ -4252,6 +4635,7 @@ function makeAltitudeQuestion() {
         : "fraction",
 
     answer:
+
       reduced.denominator ===
       1
 
@@ -4268,212 +4652,20 @@ function makeAltitudeQuestion() {
     explanation:
       [
 
-        `同一個三角形的面積可以寫成：
-         ${mathHTML(
-           `
-             ${mFraction(mNumber(1),mNumber(2))}
-             ${mOperator("×")}
-             ${mNumber(c)}
-             ${mOperator("×")}
-             ${mIdentifier("h")}
-           `
-         )}
-         ，也可以寫成
-         ${mathHTML(
-           `
-             ${mFraction(mNumber(1),mNumber(2))}
-             ${mOperator("×")}
-             ${mNumber(a)}
-             ${mOperator("×")}
-             ${mNumber(b)}
-           `
-         )}。`,
+        `同一個三角形面積可分別用兩股或斜邊與高表示。`,
 
-        `因此：
-         ${mathHTML(
-           `
-             ${mNumber(c)}
-             ${mIdentifier("h")}
-             ${mOperator("=")}
-             ${mNumber(a)}
-             ${mOperator("×")}
-             ${mNumber(b)}
-           `
-         )}。`,
+        `½×${a}×${b}＝½×${c}×h。`,
 
-        `所以
-         ${mathHTML(
-           `
-             ${mIdentifier("h")}
-             ${mOperator("=")}
-             ${mFraction(
-               `
-                 ${mNumber(a)}
-                 ${mOperator("×")}
-                 ${mNumber(b)}
-               `,
-               mNumber(c)
-             )}
-           `
-         )}。`,
+        `${a}×${b}＝${c}h。`,
 
-        reduced.denominator ===
-        1
-
-          ? `約分後 h＝${reduced.numerator}。`
-
-          : `約分後
-             h＝${fractionHTML(
-               reduced.numerator,
-               reduced.denominator
-             )}。`
-      ]
-  });
-}
-
-
-function makeFindSideThenAltitudeQuestion() {
-
-  const data =
-    pick(
-      [
-
-        {
-          a: 24,
-          c: 30,
-          b: 18
-        },
-
-        {
-          a: 15,
-          c: 17,
-          b: 8
-        },
-
-        {
-          a: 12,
-          c: 20,
-          b: 16
-        },
-
-        {
-          a: 9,
-          c: 15,
-          b: 12
-        }
-      ]
-    );
-
-
-  const {
-    a,
-    b,
-    c
-  } =
-    data;
-
-
-  const reduced =
-    reduceFraction(
-      a * b,
-      c
-    );
-
-
-  return makeQuestion({
-
-    typeLabel:
-      "斜邊上的高｜兩步驟",
-
-    label:
-      "先利用畢氏定理求另一股，再求斜邊上的高",
-
-    html:
-      `直角三角形一股長 ${a}，斜邊長 ${c}，求斜邊上的高 h。`,
-
-    hint:
-      "💡 第一步先求另一股，第二步再使用 h＝兩股乘積÷斜邊",
-
-    diagram:
-      altitudeSVG(
-        a,
-        "?",
-        c
-      ),
-
-    answerType:
-      reduced.denominator ===
-      1
-
-        ? "number"
-
-        : "fraction",
-
-    answer:
-      reduced.denominator ===
-      1
-
-        ? reduced.numerator
-
-        : undefined,
-
-    numerator:
-      reduced.numerator,
-
-    denominator:
-      reduced.denominator,
-
-    explanation:
-      [
-
-        `先求另一股，設其長為 x。`,
-
-        `由畢氏定理：
-         ${mathHTML(
-           `
-             ${mSup(mIdentifier("x"),2)}
-             ${mOperator("+")}
-             ${mSup(mNumber(a),2)}
-             ${mOperator("=")}
-             ${mSup(mNumber(c),2)}
-           `
-         )}。`,
-
-        `${mathHTML(
-          `
-            ${mSup(mIdentifier("x"),2)}
-            ${mOperator("=")}
-            ${mNumber(c * c)}
-            ${mOperator("−")}
-            ${mNumber(a * a)}
-            ${mOperator("=")}
-            ${mNumber(b * b)}
-          `
-        )}，
-        所以 x＝${b}。`,
-
-        `再利用斜邊上的高：
-         ${mathHTML(
-           `
-             ${mIdentifier("h")}
-             ${mOperator("=")}
-             ${mFraction(
-               `
-                 ${mNumber(a)}
-                 ${mOperator("×")}
-                 ${mNumber(b)}
-               `,
-               mNumber(c)
-             )}
-           `
-         )}。`,
+        `h＝${a * b}/${c}。`,
 
         reduced.denominator ===
         1
 
           ? `所以 h＝${reduced.numerator}。`
 
-          : `所以
+          : `約分後
              h＝${fractionHTML(
                reduced.numerator,
                reduced.denominator
@@ -4486,163 +4678,41 @@ function makeFindSideThenAltitudeQuestion() {
 function makeRadicalAltitudeQuestion() {
 
   /*
-  模仿課本自評：
-  兩股可能含根號，先求斜邊，再求高
+  固定使用可確定正確的課本型資料
+  5、√11、斜邊 6
+  h = 5√11 / 6
   */
 
-  const radical =
-    pick(
-      [
-        2,
-        3,
-        5,
-        6,
-        7,
-        11
-      ]
-    );
+  const a =
+    5;
 
 
-  const integerLeg =
-    rand(
-      3,
-      7
-    );
+  const radicand =
+    11;
 
 
-  /*
-  令另一股 = √r
-  斜邊平方 = integer² + r
-  只挑成完全平方
-  */
-
-  let c;
+  const c =
+    6;
 
 
-  let r =
-    radical;
-
-
-  let found =
-    false;
-
-
-  for (
-    let candidate =
-      integerLeg + 1;
-
-    candidate <=
-      integerLeg + 8;
-
-    candidate++
-  ) {
-
-    const diff =
-      candidate *
-      candidate -
-      integerLeg *
-      integerLeg;
-
-
-    if (
-      diff >
-      1 &&
-      [
-        2,
-        3,
-        5,
-        6,
-        7,
-        8,
-        10,
-        11,
-        12,
-        13,
-        14,
-        15
-      ]
-        .includes(
-          diff
-        )
-    ) {
-
-      c =
-        candidate;
-
-
-      r =
-        diff;
-
-
-      found =
-        true;
-
-
-      break;
-    }
-  }
-
-
-  if (
-    !found
-  ) {
-
-    /*
-    使用課本型 5 與 √11 → 斜邊 6
-    */
-
-    c =
-      6;
-
-
-    r =
-      11;
-  }
-
-
-  const coefficient =
-    integerLeg;
-
-
-  const denominator =
-    c;
-
-
-  const common =
-    gcd(
-      coefficient,
-      denominator
-    );
-
-
-  const finalCoefficient =
-    coefficient /
-    common;
-
-
-  const finalDenominator =
-    denominator /
-    common;
-
-
-  return makeQuestion({
+  return question({
 
     typeLabel:
       "斜邊上的高｜根式",
 
     label:
-      "兩股含根式，先求斜邊再求斜邊上的高",
+      "先求斜邊，再求斜邊上的高",
 
     html:
-      `兩股長為 ${integerLeg} 與 ${rootHTML(r)}，求斜邊上的高 h。`,
+      `兩股長為 5 與 ${rootHTML(11)}，求斜邊上的高 h。`,
 
     hint:
       "💡 先求斜邊，再使用 h＝兩股乘積÷斜邊",
 
     diagram:
       altitudeSVG(
-        integerLeg,
-        "√" + r,
+        5,
+        "√11",
         "c"
       ),
 
@@ -4650,67 +4720,31 @@ function makeRadicalAltitudeQuestion() {
       "radicalFraction",
 
     coefficient:
-      finalCoefficient,
+      5,
 
     radicand:
-      r,
+      radicand,
 
     denominator:
-      finalDenominator,
+      c,
 
     explanation:
       [
 
-        `先設斜邊長為 c。`,
+        `先求斜邊 c。`,
 
-        `由畢氏定理：
-         ${mathHTML(
-           `
-             ${mSup(mIdentifier("c"),2)}
-             ${mOperator("=")}
-             ${mSup(mNumber(integerLeg),2)}
-             ${mOperator("+")}
-             ${mSup(
-               mSqrt(mNumber(r)),
-               2
-             )}
-           `
-         )}。`,
+        `c²＝5²＋(√11)²＝25＋11＝36。`,
 
-        `${mathHTML(
-          `
-            ${mSup(mIdentifier("c"),2)}
-            ${mOperator("=")}
-            ${mNumber(integerLeg * integerLeg)}
-            ${mOperator("+")}
-            ${mNumber(r)}
-            ${mOperator("=")}
-            ${mNumber(c * c)}
-          `
-        )}，
-        所以 c＝${c}。`,
+        `所以 c＝6。`,
 
-        `再利用斜邊上的高：
-         ${mathHTML(
-           `
-             ${mIdentifier("h")}
-             ${mOperator("=")}
-             ${mFraction(
-               `
-                 ${mNumber(integerLeg)}
-                 ${mOperator("×")}
-                 ${mSqrt(mNumber(r))}
-               `,
-               mNumber(c)
-             )}
-           `
-         )}。`,
+        `再利用三角形面積：
+         ½×5×√11＝½×6×h。`,
 
-        `約分後：
+        `因此
          h＝${radicalFractionHTML(
-           finalCoefficient,
-           r,
-           finalDenominator
+           5,
+           11,
+           6
          )}。`
       ]
   });
@@ -4722,17 +4756,18 @@ function makeMode2() {
   return shuffle(
     [
 
-      makeRectangleApplication(),
-      makeLadderApplication(),
-      makePoleApplication(),
-      makeRectangleApplication(),
-      makeLadderApplication(),
+      makeRectangleQuestion(),
+      makeRectangleQuestion(),
+
+      makeLadderQuestion(),
+      makeLadderQuestion(),
+      makeLadderQuestion(),
 
       makeAltitudeQuestion(),
       makeAltitudeQuestion(),
       makeAltitudeQuestion(),
 
-      makeFindSideThenAltitudeQuestion(),
+      makeRadicalAltitudeQuestion(),
       makeRadicalAltitudeQuestion()
     ]
   );
@@ -4741,8 +4776,7 @@ function makeMode2() {
 
 /*
 ==================================================
-MODE 3
-兩點間距離
+模式三
 ==================================================
 */
 
@@ -4752,6 +4786,10 @@ function makeAxisDistanceQuestion() {
     Math.random() <
     .5;
 
+
+  /*
+  水平
+  */
 
   if (
     horizontal
@@ -4766,15 +4804,16 @@ function makeAxisDistanceQuestion() {
 
     const x1 =
       rand(
-        -8,
-        1
+        -7,
+        0
       );
 
 
     const x2 =
       rand(
-        x1 + 2,
-        8
+        x1 +
+        2,
+        7
       );
 
 
@@ -4785,7 +4824,7 @@ function makeAxisDistanceQuestion() {
       );
 
 
-    return makeQuestion({
+    return question({
 
       typeLabel:
         "水平線上兩點距離",
@@ -4797,8 +4836,11 @@ function makeAxisDistanceQuestion() {
         `A(${x1}, ${y})、B(${x2}, ${y})，求 AB。`,
 
       hint:
-        "💡 y 坐標相同，只需比較 x 坐標的差",
+        "💡 y 坐標相同，所以兩點必須畫在同一條水平線上",
 
+      /*
+      ★ 真正依座標繪製
+      */
       diagram:
         coordinateSVG(
           x1,
@@ -4815,15 +4857,19 @@ function makeAxisDistanceQuestion() {
       explanation:
         [
 
-          `A、B 兩點的 y 坐標相同，因此 AB 是水平距離。`,
+          `A、B 的 y 坐標相同。`,
 
-          `AB＝|${x2}－(${x1})|。`,
+          `所以兩點在同一條水平線上。`,
 
-          `AB＝${answer}。`
+          `AB＝|${x2}－(${x1})|＝${answer}。`
         ]
     });
   }
 
+
+  /*
+  鉛直
+  */
 
   const x =
     rand(
@@ -4834,15 +4880,16 @@ function makeAxisDistanceQuestion() {
 
   const y1 =
     rand(
-      -8,
-      1
+      -7,
+      0
     );
 
 
   const y2 =
     rand(
-      y1 + 2,
-      8
+      y1 +
+      2,
+      7
     );
 
 
@@ -4853,7 +4900,7 @@ function makeAxisDistanceQuestion() {
     );
 
 
-  return makeQuestion({
+  return question({
 
     typeLabel:
       "鉛直線上兩點距離",
@@ -4865,7 +4912,7 @@ function makeAxisDistanceQuestion() {
       `A(${x}, ${y1})、B(${x}, ${y2})，求 AB。`,
 
     hint:
-      "💡 x 坐標相同，只需比較 y 坐標的差",
+      "💡 x 坐標相同，所以兩點必須畫在同一條鉛直線上",
 
     diagram:
       coordinateSVG(
@@ -4883,11 +4930,11 @@ function makeAxisDistanceQuestion() {
     explanation:
       [
 
-        `A、B 兩點的 x 坐標相同，因此 AB 是鉛直距離。`,
+        `A、B 的 x 坐標相同。`,
 
-        `AB＝|${y2}－(${y1})|。`,
+        `所以兩點在同一條鉛直線上。`,
 
-        `AB＝${answer}。`
+        `AB＝|${y2}－(${y1})|＝${answer}。`
       ]
   });
 }
@@ -4895,25 +4942,27 @@ function makeAxisDistanceQuestion() {
 
 function makeGeneralDistanceQuestion() {
 
-  const x1 =
-    rand(
-      -6,
-      4
-    );
-
-
-  const y1 =
-    rand(
-      -6,
-      4
-    );
-
-
+  let x1;
+  let y1;
   let x2;
   let y2;
 
 
   do {
+
+    x1 =
+      rand(
+        -6,
+        6
+      );
+
+
+    y1 =
+      rand(
+        -6,
+        6
+      );
+
 
     x2 =
       rand(
@@ -4929,10 +4978,16 @@ function makeGeneralDistanceQuestion() {
       );
 
   } while (
-    x2 ===
-      x1 ||
-    y2 ===
-      y1
+
+    (
+      x1 ===
+      x2
+    ) ||
+
+    (
+      y1 ===
+      y2
+    )
   );
 
 
@@ -4946,18 +5001,20 @@ function makeGeneralDistanceQuestion() {
     y1;
 
 
-  const sum =
-    dx * dx +
-    dy * dy;
+  const total =
+    dx *
+    dx +
+    dy *
+    dy;
 
 
   const result =
     simplifyRoot(
-      sum
+      total
     );
 
 
-  return makeQuestion({
+  return question({
 
     typeLabel:
       "平面上兩點的距離",
@@ -4971,6 +5028,9 @@ function makeGeneralDistanceQuestion() {
     hint:
       "💡 AB＝√[(x₂－x₁)²＋(y₂－y₁)²]",
 
+    /*
+    ★ A、B 真正依所在象限畫
+    */
     diagram:
       coordinateSVG(
         x1,
@@ -4994,166 +5054,21 @@ function makeGeneralDistanceQuestion() {
     explanation:
       [
 
-        `使用兩點距離公式：
-         ${mathHTML(
-           `
-             ${mIdentifier("AB")}
-             ${mOperator("=")}
-             ${mSqrt(
-               `
-                 ${mSup(
-                   `
-                     <mrow>
-                       ${mNumber(x2)}
-                       ${mOperator("−")}
-                       <mo>(</mo>
-                       ${mNumber(x1)}
-                       <mo>)</mo>
-                     </mrow>
-                   `,
-                   2
-                 )}
-                 ${mOperator("+")}
-                 ${mSup(
-                   `
-                     <mrow>
-                       ${mNumber(y2)}
-                       ${mOperator("−")}
-                       <mo>(</mo>
-                       ${mNumber(y1)}
-                       <mo>)</mo>
-                     </mrow>
-                   `,
-                   2
-                 )}
-               `
-             )}
-           `
-         )}。`,
+        `x 坐標差：
+         ${x2}－(${x1})＝${dx}。`,
 
-        `x 坐標差＝${dx}，y 坐標差＝${dy}。`,
+        `y 坐標差：
+         ${y2}－(${y1})＝${dy}。`,
 
-        `${mathHTML(
-          `
-            ${mIdentifier("AB")}
-            ${mOperator("=")}
-            ${mSqrt(
-              `
-                ${mNumber(dx * dx)}
-                ${mOperator("+")}
-                ${mNumber(dy * dy)}
-              `
-            )}
-            ${mOperator("=")}
-            ${mSqrt(mNumber(sum))}
-          `
-        )}。`,
+        `AB²＝${dx}²＋${dy}²＝${total}。`,
 
         result.type ===
         "number"
 
           ? `所以 AB＝${result.value}。`
 
-          : `化為最簡根式：
+          : `所以
              AB＝${radicalHTML(
-               result.coefficient,
-               result.radicand
-             )}。`
-      ]
-  });
-}
-
-
-function makeThreePointDistanceQuestion() {
-
-  const xGap =
-    rand(
-      3,
-      8
-    );
-
-
-  const yGap =
-    rand(
-      3,
-      8
-    );
-
-
-  const sum =
-    xGap * xGap +
-    yGap * yGap;
-
-
-  const result =
-    simplifyRoot(
-      sum
-    );
-
-
-  return makeQuestion({
-
-    typeLabel:
-      "三點距離應用",
-
-    label:
-      "先求水平、鉛直距離，再使用畢氏定理",
-
-    html:
-      `已知 AB＝${xGap}、BC＝${yGap}，且 ∠B＝90°，求 AC。`,
-
-    hint:
-      "💡 先把水平距離與鉛直距離視為兩股",
-
-    diagram:
-      threePointSVG(
-        xGap,
-        yGap
-      ),
-
-    answerType:
-      result.type,
-
-    answer:
-      result.value,
-
-    coefficient:
-      result.coefficient,
-
-    radicand:
-      result.radicand,
-
-    explanation:
-      [
-
-        `因為 ∠B＝90°，所以 △ABC 是直角三角形。`,
-
-        `由畢氏定理：
-         ${mathHTML(
-           `
-             ${mSup(mIdentifier("AC"),2)}
-             ${mOperator("=")}
-             ${mSup(mNumber(xGap),2)}
-             ${mOperator("+")}
-             ${mSup(mNumber(yGap),2)}
-           `
-         )}。`,
-
-        `${mathHTML(
-          `
-            ${mSup(mIdentifier("AC"),2)}
-            ${mOperator("=")}
-            ${mNumber(sum)}
-          `
-        )}。`,
-
-        result.type ===
-        "number"
-
-          ? `因為 AC＞0，所以 AC＝${result.value}。`
-
-          : `因為 AC＞0，所以
-             AC＝${radicalHTML(
                result.coefficient,
                result.radicand
              )}。`
@@ -5176,9 +5091,8 @@ function makeMode3() {
       makeGeneralDistanceQuestion(),
       makeGeneralDistanceQuestion(),
       makeGeneralDistanceQuestion(),
-
-      makeThreePointDistanceQuestion(),
-      makeThreePointDistanceQuestion()
+      makeGeneralDistanceQuestion(),
+      makeGeneralDistanceQuestion()
     ]
   );
 }
@@ -5186,7 +5100,7 @@ function makeMode3() {
 
 /*
 ==================================================
-Create Questions
+建立題目
 ==================================================
 */
 
@@ -5216,6 +5130,1678 @@ function createQuestions() {
 
 /*
 ==================================================
+根號輸入 HTML
+==================================================
+*/
+
+function rootEditorHTML(
+  id
+) {
+
+  return `
+
+    <div class="root-svg-editor">
+
+      <svg
+        viewBox="0 0 235 68"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+
+        <path
+          d="
+            M 2 39
+            L 13 39
+            L 25 59
+            L 40 8
+            L 230 8
+          "
+        />
+
+      </svg>
+
+      <input
+        id="${id}"
+        type="text"
+        inputmode="numeric"
+        autocomplete="off"
+        placeholder="輸入"
+      >
+
+    </div>
+  `;
+}
+
+
+/*
+==================================================
+目前答案
+==================================================
+*/
+
+function updateNumberPreview() {
+
+  const raw =
+    $("number-answer")
+      ?.value
+      .trim() ||
+    "";
+
+
+  $("answer-preview")
+    .innerHTML =
+
+      raw
+
+        ? `目前答案：
+           <span class="answer-preview-value">
+             ${raw}
+           </span>`
+
+        : "目前尚未完成答案。";
+}
+
+
+function updateFractionPreview() {
+
+  const numerator =
+    $("fraction-numerator")
+      ?.value
+      .trim() ||
+    "";
+
+
+  const denominator =
+    $("fraction-denominator")
+      ?.value
+      .trim() ||
+    "";
+
+
+  if (
+    !numerator ||
+    !denominator
+  ) {
+
+    $("answer-preview")
+      .innerHTML =
+        "目前尚未完成答案。";
+
+
+    return;
+  }
+
+
+  $("answer-preview")
+    .innerHTML = `
+
+      目前答案：
+
+      <span class="answer-preview-value">
+
+        ${fractionHTML(
+          numerator,
+          denominator
+        )}
+
+      </span>
+    `;
+}
+
+
+function updateRadicalPreview() {
+
+  const sign =
+    Number(
+      $("radical-sign")
+        ?.value ||
+      1
+    );
+
+
+  const coefficientRaw =
+    $("radical-coefficient")
+      ?.value
+      .trim() ||
+    "";
+
+
+  const radicandRaw =
+    $("radical-radicand")
+      ?.value
+      .trim() ||
+    "";
+
+
+  if (
+    !coefficientRaw ||
+    !radicandRaw
+  ) {
+
+    $("answer-preview")
+      .innerHTML =
+        "目前尚未完成答案。";
+
+
+    return;
+  }
+
+
+  const coefficient =
+    sign *
+    Number(
+      coefficientRaw
+    );
+
+
+  $("answer-preview")
+    .innerHTML = `
+
+      目前答案：
+
+      <span class="answer-preview-value">
+
+        ${radicalHTML(
+          coefficient,
+          Number(
+            radicandRaw
+          )
+        )}
+
+      </span>
+    `;
+}
+
+
+function updateRadicalFractionPreview() {
+
+  const sign =
+    Number(
+      $("rf-sign")
+        ?.value ||
+      1
+    );
+
+
+  const coefficientRaw =
+    $("rf-coefficient")
+      ?.value
+      .trim() ||
+    "";
+
+
+  const radicandRaw =
+    $("rf-radicand")
+      ?.value
+      .trim() ||
+    "";
+
+
+  const denominatorRaw =
+    $("rf-denominator")
+      ?.value
+      .trim() ||
+    "";
+
+
+  if (
+    !coefficientRaw ||
+    !radicandRaw ||
+    !denominatorRaw
+  ) {
+
+    $("answer-preview")
+      .innerHTML =
+        "目前尚未完成答案。";
+
+
+    return;
+  }
+
+
+  const coefficient =
+    sign *
+    Number(
+      coefficientRaw
+    );
+
+
+  $("answer-preview")
+    .innerHTML = `
+
+      目前答案：
+
+      <span class="answer-preview-value">
+
+        ${radicalFractionHTML(
+          coefficient,
+          Number(
+            radicandRaw
+          ),
+          Number(
+            denominatorRaw
+          )
+        )}
+
+      </span>
+    `;
+}
+
+
+/*
+==================================================
+答案 UI
+==================================================
+*/
+
+function renderAnswer(
+  q
+) {
+
+  selectedChoice =
+    null;
+
+
+  const panel =
+    $("answer-panel");
+
+
+  /*
+  Number
+  */
+
+  if (
+    q.answerType ===
+    "number"
+  ) {
+
+    panel.innerHTML = `
+
+      <div class="answer-title">
+        請填寫答案
+      </div>
+
+      <div class="number-answer">
+
+        <input
+          id="number-answer"
+          type="text"
+          inputmode="numeric"
+          autocomplete="off"
+          placeholder="輸入答案"
+        >
+
+      </div>
+
+      <div
+        id="answer-preview"
+        class="answer-preview"
+      >
+        目前尚未完成答案。
+      </div>
+    `;
+
+
+    $("number-answer")
+      .addEventListener(
+        "input",
+        updateNumberPreview
+      );
+
+
+    $("number-answer")
+      .focus();
+
+
+    return;
+  }
+
+
+  /*
+  Fraction
+  */
+
+  if (
+    q.answerType ===
+    "fraction"
+  ) {
+
+    panel.innerHTML = `
+
+      <div class="answer-title">
+        請填寫最簡分數
+      </div>
+
+      <p class="answer-help">
+        請自行約分成最簡分數後再提交。
+      </p>
+
+      <div class="fraction-answer-wrap">
+
+        <div class="fraction-answer">
+
+          <input
+            id="fraction-numerator"
+            type="text"
+            inputmode="numeric"
+            placeholder="分子"
+          >
+
+          <input
+            id="fraction-denominator"
+            type="text"
+            inputmode="numeric"
+            placeholder="分母"
+          >
+
+        </div>
+
+      </div>
+
+      <div
+        id="answer-preview"
+        class="answer-preview"
+      >
+        目前尚未完成答案。
+      </div>
+    `;
+
+
+    [
+      "fraction-numerator",
+      "fraction-denominator"
+    ]
+      .forEach(
+        id => {
+
+          $(id)
+            .addEventListener(
+              "input",
+              updateFractionPreview
+            );
+        }
+      );
+
+
+    $("fraction-numerator")
+      .focus();
+
+
+    return;
+  }
+
+
+  /*
+  ★ Radical
+  */
+
+  if (
+    q.answerType ===
+    "radical"
+  ) {
+
+    panel.innerHTML = `
+
+      <div class="answer-title">
+        請填寫最簡根式
+      </div>
+
+      <p class="answer-help">
+        根號外係數為 1 時可以填 1。<br>
+        根號內如果還可以化簡，系統會提醒你自行修正。
+      </p>
+
+      <div class="radical-editor-row">
+
+        <div class="radical-field">
+
+          <label>
+            正負號
+          </label>
+
+          <select
+            id="radical-sign"
+            class="radical-sign"
+          >
+
+            <option value="1">
+              ＋
+            </option>
+
+            <option value="-1">
+              －
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="radical-field">
+
+          <label>
+            根號外係數
+          </label>
+
+          <input
+            id="radical-coefficient"
+            class="radical-coefficient"
+            type="text"
+            inputmode="numeric"
+            value="1"
+          >
+
+        </div>
+
+
+        <div class="radical-field">
+
+          <label>
+            根號內
+          </label>
+
+          ${rootEditorHTML(
+            "radical-radicand"
+          )}
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="answer-preview"
+        class="answer-preview"
+      >
+        目前尚未完成答案。
+      </div>
+    `;
+
+
+    [
+      "radical-sign",
+      "radical-coefficient",
+      "radical-radicand"
+    ]
+      .forEach(
+        id => {
+
+          $(id)
+            .addEventListener(
+              "input",
+              updateRadicalPreview
+            );
+
+
+          $(id)
+            .addEventListener(
+              "change",
+              updateRadicalPreview
+            );
+        }
+      );
+
+
+    $("radical-radicand")
+      .focus();
+
+
+    return;
+  }
+
+
+  /*
+  ★ Radical fraction
+  */
+
+  if (
+    q.answerType ===
+    "radicalFraction"
+  ) {
+
+    panel.innerHTML = `
+
+      <div class="answer-title">
+        請填寫最簡根式分數
+      </div>
+
+      <p class="answer-help">
+        根號外係數為 1 時可填 1，
+        分子與分母也必須完成約分。
+      </p>
+
+      <div class="radical-fraction-answer">
+
+        <div>
+
+          <div class="rf-numerator-area">
+
+            <select
+              id="rf-sign"
+              class="radical-sign"
+            >
+
+              <option value="1">
+                ＋
+              </option>
+
+              <option value="-1">
+                －
+              </option>
+
+            </select>
+
+
+            <input
+              id="rf-coefficient"
+              class="radical-coefficient"
+              type="text"
+              inputmode="numeric"
+              value="1"
+            >
+
+
+            ${rootEditorHTML(
+              "rf-radicand"
+            )}
+
+          </div>
+
+
+          <div class="rf-fraction-line"></div>
+
+
+          <div
+            style="
+              display:flex;
+              justify-content:flex-end;
+              padding-right:52px;
+            "
+          >
+
+            <input
+              id="rf-denominator"
+              class="rf-denominator"
+              type="text"
+              inputmode="numeric"
+              placeholder="分母"
+            >
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="answer-preview"
+        class="answer-preview"
+      >
+        目前尚未完成答案。
+      </div>
+    `;
+
+
+    [
+      "rf-sign",
+      "rf-coefficient",
+      "rf-radicand",
+      "rf-denominator"
+    ]
+      .forEach(
+        id => {
+
+          $(id)
+            .addEventListener(
+              "input",
+              updateRadicalFractionPreview
+            );
+
+
+          $(id)
+            .addEventListener(
+              "change",
+              updateRadicalFractionPreview
+            );
+        }
+      );
+
+
+    $("rf-radicand")
+      .focus();
+
+
+    return;
+  }
+
+
+  /*
+  Choice
+  */
+
+  panel.innerHTML = `
+
+    <div class="answer-title">
+      請選擇正確答案
+    </div>
+
+    <div class="choice-grid">
+
+      ${
+        q.choices
+          .map(
+            choice => `
+
+              <button
+                type="button"
+                class="choice-button"
+                data-choice="${choice.value}"
+              >
+
+                ${choice.text}
+
+              </button>
+            `
+          )
+          .join("")
+      }
+
+    </div>
+
+    <div
+      id="answer-preview"
+      class="answer-preview"
+    >
+      尚未選擇答案。
+    </div>
+  `;
+
+
+  panel
+    .querySelectorAll(
+      ".choice-button"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            selectedChoice =
+              button.dataset.choice;
+
+
+            panel
+              .querySelectorAll(
+                ".choice-button"
+              )
+              .forEach(
+                item =>
+                  item.classList.remove(
+                    "selected"
+                  )
+              );
+
+
+            button.classList.add(
+              "selected"
+            );
+
+
+            $("answer-preview")
+              .innerHTML = `
+
+                目前答案：
+
+                <span class="answer-preview-value">
+
+                  ${button.textContent.trim()}
+
+                </span>
+              `;
+          }
+        );
+      }
+    );
+}
+
+
+/*
+==================================================
+顯示題目
+==================================================
+*/
+
+function displayQuestion() {
+
+  answered =
+    false;
+
+
+  selectedChoice =
+    null;
+
+
+  const q =
+    questions[
+      index
+    ];
+
+
+  $("mode-name")
+    .textContent =
+      MODE_NAMES[
+        mode
+      ];
+
+
+  $("question-number")
+    .textContent =
+      `${index + 1} / ${questions.length}`;
+
+
+  $("correct-count")
+    .textContent =
+      correct;
+
+
+  $("combo-count")
+    .textContent =
+      maxCombo;
+
+
+  $("progress-bar")
+    .style
+    .width =
+      `${
+        index /
+        questions.length *
+        100
+      }%`;
+
+
+  $("diagram-content")
+    .innerHTML =
+      q.diagram;
+
+
+  $("question-type")
+    .textContent =
+      q.typeLabel;
+
+
+  $("question-label")
+    .textContent =
+      q.label;
+
+
+  $("question-content")
+    .innerHTML =
+      q.html;
+
+
+  $("formula-hint")
+    .textContent =
+      q.hint;
+
+
+  $("feedback")
+    .className =
+      "feedback";
+
+
+  $("feedback")
+    .textContent =
+      "";
+
+
+  $("explanation")
+    .innerHTML =
+      "";
+
+
+  $("explanation")
+    .classList
+    .add(
+      "hidden"
+    );
+
+
+  $("submit-button")
+    .classList
+    .remove(
+      "hidden"
+    );
+
+
+  $("next-button")
+    .classList
+    .add(
+      "hidden"
+    );
+
+
+  renderAnswer(
+    q
+  );
+
+
+  window
+    .resetGameScratchpad
+    ?.();
+}
+
+
+/*
+==================================================
+讀取答案
+==================================================
+*/
+
+function readAnswer(
+  q
+) {
+
+  /*
+  number
+  */
+
+  if (
+    q.answerType ===
+    "number"
+  ) {
+
+    const raw =
+      $("number-answer")
+        ?.value
+        .trim() ||
+      "";
+
+
+    if (
+      !/^-?\d+$/
+        .test(
+          raw
+        )
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "請輸入完整整數答案。"
+      };
+    }
+
+
+    return {
+
+      valid:
+        true,
+
+      value:
+        Number(
+          raw
+        ),
+
+      display:
+        raw
+    };
+  }
+
+
+  /*
+  fraction
+  */
+
+  if (
+    q.answerType ===
+    "fraction"
+  ) {
+
+    const n =
+      Number(
+        $("fraction-numerator")
+          ?.value
+      );
+
+
+    const d =
+      Number(
+        $("fraction-denominator")
+          ?.value
+      );
+
+
+    if (
+      !Number.isInteger(
+        n
+      ) ||
+      !Number.isInteger(
+        d
+      ) ||
+      d ===
+      0
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "請完整填寫正確的分子與分母。"
+      };
+    }
+
+
+    if (
+      gcd(
+        n,
+        d
+      ) !==
+      1
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "這個分數還可以約分，請自行化成最簡分數。"
+      };
+    }
+
+
+    return {
+
+      valid:
+        true,
+
+      value: {
+
+        numerator:
+          n,
+
+        denominator:
+          d
+      },
+
+      display:
+        `${n}/${d}`
+    };
+  }
+
+
+  /*
+  radical
+  */
+
+  if (
+    q.answerType ===
+    "radical"
+  ) {
+
+    const sign =
+      Number(
+        $("radical-sign")
+          .value
+      );
+
+
+    const coefficient =
+      Number(
+        $("radical-coefficient")
+          .value
+      );
+
+
+    const radicand =
+      Number(
+        $("radical-radicand")
+          .value
+      );
+
+
+    if (
+      !Number.isInteger(
+        coefficient
+      ) ||
+      coefficient <=
+      0 ||
+      !Number.isInteger(
+        radicand
+      ) ||
+      radicand <=
+      0
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "請完整填寫根式答案。"
+      };
+    }
+
+
+    if (
+      !isSimplestRadicand(
+        radicand
+      )
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          `√${radicand} 還可以化簡，請自行化成最簡根式。`
+      };
+    }
+
+
+    return {
+
+      valid:
+        true,
+
+      value: {
+
+        coefficient:
+          sign *
+          coefficient,
+
+        radicand
+      },
+
+      display:
+        `${sign * coefficient}√${radicand}`
+    };
+  }
+
+
+  /*
+  radical fraction
+  */
+
+  if (
+    q.answerType ===
+    "radicalFraction"
+  ) {
+
+    const sign =
+      Number(
+        $("rf-sign")
+          .value
+      );
+
+
+    const coefficient =
+      Number(
+        $("rf-coefficient")
+          .value
+      );
+
+
+    const radicand =
+      Number(
+        $("rf-radicand")
+          .value
+      );
+
+
+    const denominator =
+      Number(
+        $("rf-denominator")
+          .value
+      );
+
+
+    if (
+      !Number.isInteger(
+        coefficient
+      ) ||
+      coefficient <=
+      0 ||
+      !Number.isInteger(
+        radicand
+      ) ||
+      radicand <=
+      0 ||
+      !Number.isInteger(
+        denominator
+      ) ||
+      denominator <=
+      0
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "請完整填寫根式分數。"
+      };
+    }
+
+
+    if (
+      !isSimplestRadicand(
+        radicand
+      )
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          `√${radicand} 還可以化簡。`
+      };
+    }
+
+
+    if (
+      gcd(
+        coefficient,
+        denominator
+      ) !==
+      1
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "根號外係數與分母還可以約分。"
+      };
+    }
+
+
+    return {
+
+      valid:
+        true,
+
+      value: {
+
+        coefficient:
+          sign *
+          coefficient,
+
+        radicand,
+
+        denominator
+      },
+
+      display:
+        `${sign * coefficient}√${radicand}/${denominator}`
+    };
+  }
+
+
+  /*
+  choice
+  */
+
+  if (
+    !selectedChoice
+  ) {
+
+    return {
+
+      valid:
+        false,
+
+      message:
+        "請先選擇答案。"
+    };
+  }
+
+
+  return {
+
+    valid:
+      true,
+
+    value:
+      selectedChoice,
+
+    display:
+      q.choices
+        .find(
+          item =>
+            item.value ===
+            selectedChoice
+        )
+        ?.text ||
+      selectedChoice
+  };
+}
+
+
+/*
+==================================================
+判定
+==================================================
+*/
+
+function checkCorrect(
+  q,
+  answer
+) {
+
+  if (
+    q.answerType ===
+    "number"
+  ) {
+
+    return (
+      answer.value ===
+      q.answer
+    );
+  }
+
+
+  if (
+    q.answerType ===
+    "fraction"
+  ) {
+
+    return (
+
+      answer.value.numerator ===
+        q.numerator &&
+
+      answer.value.denominator ===
+        q.denominator
+    );
+  }
+
+
+  if (
+    q.answerType ===
+    "radical"
+  ) {
+
+    return (
+
+      answer.value.coefficient ===
+        q.coefficient &&
+
+      answer.value.radicand ===
+        q.radicand
+    );
+  }
+
+
+  if (
+    q.answerType ===
+    "radicalFraction"
+  ) {
+
+    return (
+
+      answer.value.coefficient ===
+        q.coefficient &&
+
+      answer.value.radicand ===
+        q.radicand &&
+
+      answer.value.denominator ===
+        q.denominator
+    );
+  }
+
+
+  return (
+    answer.value ===
+    q.answer
+  );
+}
+
+
+/*
+==================================================
+正確答案
+==================================================
+*/
+
+function correctAnswerText(
+  q
+) {
+
+  if (
+    q.answerType ===
+    "number"
+  ) {
+
+    return String(
+      q.answer
+    );
+  }
+
+
+  if (
+    q.answerType ===
+    "fraction"
+  ) {
+
+    return fractionHTML(
+      q.numerator,
+      q.denominator
+    );
+  }
+
+
+  if (
+    q.answerType ===
+    "radical"
+  ) {
+
+    return radicalHTML(
+      q.coefficient,
+      q.radicand
+    );
+  }
+
+
+  if (
+    q.answerType ===
+    "radicalFraction"
+  ) {
+
+    return radicalFractionHTML(
+      q.coefficient,
+      q.radicand,
+      q.denominator
+    );
+  }
+
+
+  return q.choices
+    .find(
+      item =>
+        item.value ===
+        q.answer
+    )
+    ?.text ||
+    q.answer;
+}
+
+
+/*
+==================================================
+詳解
+==================================================
+*/
+
+function explanationHTML(
+  q
+) {
+
+  return q.explanation
+    .map(
+      (
+        step,
+        i
+      ) => `
+
+        <div class="explanation-step">
+
+          <strong>
+            步驟 ${i + 1}｜
+          </strong>
+
+          ${step}
+
+        </div>
+      `
+    )
+    .join("");
+}
+
+
+/*
+==================================================
+提交
+==================================================
+*/
+
+function submitAnswer() {
+
+  if (
+    answered
+  ) {
+
+    return;
+  }
+
+
+  const q =
+    questions[
+      index
+    ];
+
+
+  const answer =
+    readAnswer(
+      q
+    );
+
+
+  if (
+    !answer.valid
+  ) {
+
+    $("feedback")
+      .className =
+        "feedback warning";
+
+
+    $("feedback")
+      .textContent =
+        answer.message;
+
+
+    return;
+  }
+
+
+  answered =
+    true;
+
+
+  const isCorrect =
+    checkCorrect(
+      q,
+      answer
+    );
+
+
+  if (
+    isCorrect
+  ) {
+
+    correct++;
+
+    combo++;
+
+    maxCombo =
+      Math.max(
+        maxCombo,
+        combo
+      );
+
+
+    $("feedback")
+      .className =
+        "feedback correct";
+
+
+    $("feedback")
+      .textContent =
+        "✨ 回答正確！";
+
+
+    playGameSound(
+      "playCorrect"
+    );
+
+  } else {
+
+    wrong++;
+
+    combo =
+      0;
+
+
+    $("feedback")
+      .className =
+        "feedback wrong";
+
+
+    $("feedback")
+      .innerHTML = `
+
+        ❌ 答案不正確。正確答案：
+
+        <strong>
+
+          ${correctAnswerText(
+            q
+          )}
+
+        </strong>
+      `;
+
+
+    playGameSound(
+      "playWrong"
+    );
+  }
+
+
+  records.push({
+
+    number:
+      index +
+      1,
+
+    question:
+      q,
+
+    userAnswer:
+      answer.display,
+
+    correct:
+      isCorrect
+  });
+
+
+  $("correct-count")
+    .textContent =
+      correct;
+
+
+  $("combo-count")
+    .textContent =
+      maxCombo;
+
+
+  $("explanation")
+    .innerHTML =
+      explanationHTML(
+        q
+      );
+
+
+  $("explanation")
+    .classList
+    .remove(
+      "hidden"
+    );
+
+
+  $("submit-button")
+    .classList
+    .add(
+      "hidden"
+    );
+
+
+  $("next-button")
+    .classList
+    .remove(
+      "hidden"
+    );
+
+
+  $("next-button")
+    .textContent =
+
+      index ===
+      questions.length -
+      1
+
+        ? "查看測驗結果（Enter）"
+
+        : "下一題（Enter）";
+
+
+  $("next-button")
+    .focus();
+}
+
+
+/*
+==================================================
+下一題
+==================================================
+*/
+
+function nextQuestion() {
+
+  if (
+    !answered
+  ) {
+
+    return;
+  }
+
+
+  index++;
+
+
+  if (
+    index <
+    questions.length
+  ) {
+
+    displayQuestion();
+
+  } else {
+
+    showResult();
+  }
+}
+
+
+/*
+==================================================
 時間
 ==================================================
 */
@@ -5224,33 +6810,29 @@ function formatTime(
   seconds
 ) {
 
-  const minutes =
+  const minute =
     Math.floor(
       seconds /
       60
     );
 
 
-  const remain =
+  const second =
     seconds %
     60;
 
 
   return (
-    `${String(minutes).padStart(2,"0")}:` +
-    `${String(remain).padStart(2,"0")}`
+    `${String(minute).padStart(2,"0")}:` +
+    `${String(second).padStart(2,"0")}`
   );
 }
 
 
-function stopTimer(
-  update =
-    true
-) {
+function stopTimer() {
 
   if (
-    timerId !==
-    null
+    timerId
   ) {
 
     clearInterval(
@@ -5264,11 +6846,10 @@ function stopTimer(
 
 
   if (
-    update &&
     startTime
   ) {
 
-    finalElapsed =
+    elapsed =
       Math.floor(
         (
           Date.now() -
@@ -5282,16 +6863,21 @@ function stopTimer(
 
 function startTimer() {
 
-  stopTimer(
-    false
-  );
+  if (
+    timerId
+  ) {
+
+    clearInterval(
+      timerId
+    );
+  }
 
 
   startTime =
     Date.now();
 
 
-  finalElapsed =
+  elapsed =
     0;
 
 
@@ -5304,7 +6890,7 @@ function startTimer() {
     setInterval(
       () => {
 
-        const elapsed =
+        elapsed =
           Math.floor(
             (
               Date.now() -
@@ -5359,7 +6945,7 @@ function moveScratchpadButtonToTop() {
 
 /*
 ==================================================
-畫面切換
+畫面
 ==================================================
 */
 
@@ -5419,1679 +7005,7 @@ function showOnly(
 
 /*
 ==================================================
-Preview helpers
-==================================================
-*/
-
-function setPreview(
-  html
-) {
-
-  const preview =
-    $("answer-preview");
-
-
-  if (
-    preview
-  ) {
-
-    preview.innerHTML =
-      html;
-  }
-}
-
-
-function updateNumberPreview() {
-
-  const raw =
-    $("number-answer")
-      ?.value
-      .trim() ||
-    "";
-
-
-  setPreview(
-
-    raw
-
-      ? `目前答案：
-         <span class="answer-preview-value">
-           ${raw}
-         </span>`
-
-      : "目前尚未完成答案。"
-  );
-}
-
-
-function updateFractionPreview() {
-
-  const numerator =
-    $("fraction-numerator")
-      ?.value
-      .trim() ||
-    "";
-
-
-  const denominator =
-    $("fraction-denominator")
-      ?.value
-      .trim() ||
-    "";
-
-
-  if (
-    !numerator ||
-    !denominator
-  ) {
-
-    setPreview(
-      "目前尚未完成答案。"
-    );
-
-
-    return;
-  }
-
-
-  setPreview(
-    `
-      目前答案：
-
-      <span class="answer-preview-value">
-
-        ${fractionHTML(
-          numerator,
-          denominator
-        )}
-
-      </span>
-    `
-  );
-}
-
-
-function updateRadicalFractionPreview() {
-
-  const sign =
-    $("rf-sign")
-      ?.value ||
-    "+";
-
-
-  const coefficient =
-    $("rf-coefficient")
-      ?.value
-      .trim() ||
-    "";
-
-
-  const radicand =
-    $("rf-radicand")
-      ?.value
-      .trim() ||
-    "";
-
-
-  const denominator =
-    $("rf-denominator")
-      ?.value
-      .trim() ||
-    "";
-
-
-  if (
-    !coefficient ||
-    !radicand ||
-    !denominator
-  ) {
-
-    setPreview(
-      "目前尚未完成答案。"
-    );
-
-
-    return;
-  }
-
-
-  let c =
-    Number(
-      coefficient
-    );
-
-
-  if (
-    sign ===
-    "-"
-  ) {
-
-    c *=
-      -1;
-  }
-
-
-  setPreview(
-    `
-      目前答案：
-
-      <span class="answer-preview-value">
-
-        ${radicalFractionHTML(
-          c,
-          Number(
-            radicand
-          ),
-          Number(
-            denominator
-          )
-        )}
-
-      </span>
-    `
-  );
-}
-
-
-/*
-==================================================
-Answer rendering
-==================================================
-*/
-
-function renderAnswer(
-  question
-) {
-
-  radicalInput =
-    null;
-
-
-  selectedChoice =
-    null;
-
-
-  const panel =
-    $("answer-panel");
-
-
-  /*
-  整數
-  */
-
-  if (
-    question.answerType ===
-    "number"
-  ) {
-
-    panel.innerHTML = `
-
-      <div class="answer-title">
-
-        請填寫答案
-
-      </div>
-
-      <div class="number-answer">
-
-        <input
-          id="number-answer"
-          type="text"
-          inputmode="numeric"
-          autocomplete="off"
-          placeholder="輸入答案"
-        >
-
-      </div>
-
-      <div
-        id="answer-preview"
-        class="answer-preview"
-      >
-
-        目前尚未完成答案。
-
-      </div>
-    `;
-
-
-    $("number-answer")
-      .addEventListener(
-        "input",
-        updateNumberPreview
-      );
-
-
-    setTimeout(
-      () =>
-        $("number-answer")
-          ?.focus(),
-      0
-    );
-
-
-    return;
-  }
-
-
-  /*
-  根式
-  */
-
-  if (
-    question.answerType ===
-    "radical"
-  ) {
-
-    panel.innerHTML = `
-
-      <div class="answer-title">
-
-        請填寫最簡根式
-
-      </div>
-
-      <p class="answer-help">
-
-        根號外係數為 1 時可以保留 1。<br>
-
-        根號內若仍可化簡，
-        系統只會提醒，不會替你自動化簡。
-
-      </p>
-
-      <div
-        id="radical-answer-mount"
-      ></div>
-    `;
-
-
-    radicalInput =
-      new window.RadicalInput(
-        {
-
-          mountId:
-            "radical-answer-mount",
-
-          requireSimplifiedRadical:
-            true,
-
-          theme: {
-
-            primary:
-              "#149b92",
-
-            light:
-              "#eaf9f7",
-
-            border:
-              "#9fd9d5"
-          }
-        }
-      );
-
-
-    setTimeout(
-      () =>
-        radicalInput
-          ?.focus(),
-      0
-    );
-
-
-    return;
-  }
-
-
-  /*
-  一般分數
-  */
-
-  if (
-    question.answerType ===
-    "fraction"
-  ) {
-
-    panel.innerHTML = `
-
-      <div class="answer-title">
-
-        請填寫最簡分數
-
-      </div>
-
-      <p class="answer-help">
-
-        請自行約分成最簡分數後再提交。
-
-      </p>
-
-      <div class="fraction-answer-wrap">
-
-        <div class="fraction-answer">
-
-          <input
-            id="fraction-numerator"
-            type="text"
-            inputmode="numeric"
-            autocomplete="off"
-            placeholder="分子"
-          >
-
-          <input
-            id="fraction-denominator"
-            type="text"
-            inputmode="numeric"
-            autocomplete="off"
-            placeholder="分母"
-          >
-
-        </div>
-
-      </div>
-
-      <div
-        id="answer-preview"
-        class="answer-preview"
-      >
-
-        目前尚未完成答案。
-
-      </div>
-    `;
-
-
-    [
-      "fraction-numerator",
-      "fraction-denominator"
-    ]
-      .forEach(
-        id => {
-
-          $(id)
-            .addEventListener(
-              "input",
-              updateFractionPreview
-            );
-        }
-      );
-
-
-    setTimeout(
-      () =>
-        $("fraction-numerator")
-          ?.focus(),
-      0
-    );
-
-
-    return;
-  }
-
-
-  /*
-  根式分數
-  例如 5√11 / 6
-  */
-
-  if (
-    question.answerType ===
-    "radicalFraction"
-  ) {
-
-    panel.innerHTML = `
-
-      <div class="answer-title">
-
-        請填寫最簡根式分數
-
-      </div>
-
-      <p class="answer-help">
-
-        分子填「根號外係數 × 根式」，分母填在下方。<br>
-
-        根號外係數是 1 時可填 1。
-
-      </p>
-
-      <div class="radical-fraction-grid">
-
-        <select
-          id="rf-sign"
-          class="rf-sign"
-        >
-
-          <option value="+">
-            ＋
-          </option>
-
-          <option value="-">
-            －
-          </option>
-
-        </select>
-
-
-        <input
-          id="rf-coefficient"
-          class="rf-coefficient"
-          type="text"
-          inputmode="numeric"
-          autocomplete="off"
-          placeholder="係數"
-        >
-
-
-        <div class="rf-root-box">
-
-          <div class="rf-root-top">
-
-            <span class="rf-root">
-              √
-            </span>
-
-            <input
-              id="rf-radicand"
-              class="rf-radicand"
-              type="text"
-              inputmode="numeric"
-              autocomplete="off"
-              placeholder="根號內"
-            >
-
-          </div>
-
-          <div class="rf-divider"></div>
-
-          <div class="rf-denominator-wrap">
-
-            <input
-              id="rf-denominator"
-              class="rf-denominator"
-              type="text"
-              inputmode="numeric"
-              autocomplete="off"
-              placeholder="分母"
-            >
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        id="answer-preview"
-        class="answer-preview"
-      >
-
-        目前尚未完成答案。
-
-      </div>
-    `;
-
-
-    [
-      "rf-sign",
-      "rf-coefficient",
-      "rf-radicand",
-      "rf-denominator"
-    ]
-      .forEach(
-        id => {
-
-          $(id)
-            .addEventListener(
-              "input",
-              updateRadicalFractionPreview
-            );
-
-
-          $(id)
-            .addEventListener(
-              "change",
-              updateRadicalFractionPreview
-            );
-        }
-      );
-
-
-    setTimeout(
-      () =>
-        $("rf-coefficient")
-          ?.focus(),
-      0
-    );
-
-
-    return;
-  }
-
-
-  /*
-  Choice
-  */
-
-  panel.innerHTML = `
-
-    <div class="answer-title">
-
-      請選擇正確答案
-
-    </div>
-
-    <div class="choice-grid">
-
-      ${
-        question
-          .choices
-          .map(
-            choice => `
-
-              <button
-                type="button"
-                class="choice-button"
-                data-choice="${choice.value}"
-              >
-
-                ${choice.text}
-
-              </button>
-            `
-          )
-          .join("")
-      }
-
-    </div>
-
-    <div
-      id="answer-preview"
-      class="answer-preview"
-    >
-
-      尚未選擇答案。
-
-    </div>
-  `;
-
-
-  panel
-    .querySelectorAll(
-      ".choice-button"
-    )
-    .forEach(
-      button => {
-
-        button.addEventListener(
-          "click",
-          () => {
-
-            selectedChoice =
-              button.dataset.choice;
-
-
-            panel
-              .querySelectorAll(
-                ".choice-button"
-              )
-              .forEach(
-                item => {
-
-                  item
-                    .classList
-                    .remove(
-                      "selected"
-                    );
-                }
-              );
-
-
-            button
-              .classList
-              .add(
-                "selected"
-              );
-
-
-            setPreview(
-              `
-                目前選擇：
-
-                <span class="answer-preview-value">
-
-                  ${button.textContent.trim()}
-
-                </span>
-              `
-            );
-          }
-        );
-      }
-    );
-}
-
-
-/*
-==================================================
-Display question
-==================================================
-*/
-
-function displayQuestion() {
-
-  answered =
-    false;
-
-
-  radicalInput =
-    null;
-
-
-  selectedChoice =
-    null;
-
-
-  const question =
-    questions[
-      index
-    ];
-
-
-  $("mode-name")
-    .textContent =
-      MODE_NAMES[
-        mode
-      ];
-
-
-  $("question-number")
-    .textContent =
-      `${index + 1} / ${questions.length}`;
-
-
-  $("correct-count")
-    .textContent =
-      correct;
-
-
-  $("combo-count")
-    .textContent =
-      maxCombo;
-
-
-  $("progress-bar")
-    .style
-    .width =
-      `${
-        index /
-        questions.length *
-        100
-      }%`;
-
-
-  $("diagram-content")
-    .innerHTML =
-      question.diagram;
-
-
-  $("question-type")
-    .textContent =
-      question.typeLabel;
-
-
-  $("question-label")
-    .textContent =
-      question.label;
-
-
-  $("question-content")
-    .innerHTML =
-      question.html;
-
-
-  $("formula-hint")
-    .textContent =
-      question.hint;
-
-
-  $("feedback")
-    .className =
-      "feedback";
-
-
-  $("feedback")
-    .textContent =
-      "";
-
-
-  $("explanation")
-    .innerHTML =
-      "";
-
-
-  $("explanation")
-    .classList
-    .add(
-      "hidden"
-    );
-
-
-  $("submit-button")
-    .classList
-    .remove(
-      "hidden"
-    );
-
-
-  $("next-button")
-    .classList
-    .add(
-      "hidden"
-    );
-
-
-  renderAnswer(
-    question
-  );
-
-
-  window
-    .resetGameScratchpad
-    ?.();
-}
-
-
-/*
-==================================================
-Read answer
-==================================================
-*/
-
-function readAnswer(
-  question
-) {
-
-  /*
-  number
-  */
-
-  if (
-    question.answerType ===
-    "number"
-  ) {
-
-    const raw =
-      $("number-answer")
-        ?.value
-        .trim() ||
-      "";
-
-
-    if (
-      !/^-?\d+$/
-        .test(
-          raw
-        )
-    ) {
-
-      return {
-
-        valid:
-          false,
-
-        message:
-          "請輸入完整的整數答案。"
-      };
-    }
-
-
-    return {
-
-      valid:
-        true,
-
-      value:
-        Number(
-          raw
-        ),
-
-      display:
-        raw
-    };
-  }
-
-
-  /*
-  radical
-  */
-
-  if (
-    question.answerType ===
-    "radical"
-  ) {
-
-    const result =
-      radicalInput
-        ?.validate();
-
-
-    if (
-      !result?.valid
-    ) {
-
-      return {
-
-        valid:
-          false,
-
-        message:
-          result?.message ||
-          "請完成最簡根式答案。"
-      };
-    }
-
-
-    return {
-
-      valid:
-        true,
-
-      value:
-        result.value,
-
-      display:
-        result.value.display
-    };
-  }
-
-
-  /*
-  fraction
-  */
-
-  if (
-    question.answerType ===
-    "fraction"
-  ) {
-
-    const numeratorRaw =
-      $("fraction-numerator")
-        ?.value
-        .trim() ||
-      "";
-
-
-    const denominatorRaw =
-      $("fraction-denominator")
-        ?.value
-        .trim() ||
-      "";
-
-
-    if (
-      !/^-?\d+$/
-        .test(
-          numeratorRaw
-        ) ||
-      !/^-?\d+$/
-        .test(
-          denominatorRaw
-        )
-    ) {
-
-      return {
-
-        valid:
-          false,
-
-        message:
-          "請完整填寫分子與分母。"
-      };
-    }
-
-
-    const numerator =
-      Number(
-        numeratorRaw
-      );
-
-
-    const denominator =
-      Number(
-        denominatorRaw
-      );
-
-
-    if (
-      denominator ===
-      0
-    ) {
-
-      return {
-
-        valid:
-          false,
-
-        message:
-          "分母不能是 0。"
-      };
-    }
-
-
-    const reduced =
-      reduceFraction(
-        numerator,
-        denominator
-      );
-
-
-    if (
-      reduced.numerator !==
-        numerator ||
-      reduced.denominator !==
-        denominator
-    ) {
-
-      return {
-
-        valid:
-          false,
-
-        message:
-          "這個分數還可以約分，請自行化成最簡分數後再提交。"
-      };
-    }
-
-
-    return {
-
-      valid:
-        true,
-
-      value: {
-
-        numerator,
-        denominator
-      },
-
-      display:
-        `${numerator}/${denominator}`
-    };
-  }
-
-
-  /*
-  radical fraction
-  */
-
-  if (
-    question.answerType ===
-    "radicalFraction"
-  ) {
-
-    const sign =
-      $("rf-sign")
-        ?.value ||
-      "+";
-
-
-    const coefficientRaw =
-      $("rf-coefficient")
-        ?.value
-        .trim() ||
-      "";
-
-
-    const radicandRaw =
-      $("rf-radicand")
-        ?.value
-        .trim() ||
-      "";
-
-
-    const denominatorRaw =
-      $("rf-denominator")
-        ?.value
-        .trim() ||
-      "";
-
-
-    if (
-      !/^\d+$/
-        .test(
-          coefficientRaw
-        ) ||
-      !/^\d+$/
-        .test(
-          radicandRaw
-        ) ||
-      !/^\d+$/
-        .test(
-          denominatorRaw
-        )
-    ) {
-
-      return {
-
-        valid:
-          false,
-
-        message:
-          "請完整填寫根號外係數、根號內與分母。"
-      };
-    }
-
-
-    let coefficient =
-      Number(
-        coefficientRaw
-      );
-
-
-    const radicand =
-      Number(
-        radicandRaw
-      );
-
-
-    const denominator =
-      Number(
-        denominatorRaw
-      );
-
-
-    if (
-      denominator ===
-      0
-    ) {
-
-      return {
-
-        valid:
-          false,
-
-        message:
-          "分母不能是 0。"
-      };
-    }
-
-
-    if (
-      coefficient ===
-      0 ||
-      radicand <=
-      0
-    ) {
-
-      return {
-
-        valid:
-          false,
-
-        message:
-          "請檢查根式答案。"
-      };
-    }
-
-
-    const simplified =
-      simplifyRoot(
-        radicand
-      );
-
-
-    if (
-      simplified.type ===
-      "number"
-    ) {
-
-      return {
-
-        valid:
-          false,
-
-        message:
-          "根號內是完全平方數，答案還可以繼續化簡。"
-      };
-    }
-
-
-    if (
-      simplified.coefficient !==
-      1
-    ) {
-
-      return {
-
-        valid:
-          false,
-
-        message:
-          "根號內還可以化簡，請自行化成最簡根式。"
-      };
-    }
-
-
-    const d =
-      gcd(
-        coefficient,
-        denominator
-      );
-
-
-    if (
-      d !==
-      1
-    ) {
-
-      return {
-
-        valid:
-          false,
-
-        message:
-          "根號外係數與分母還可以約分，請先化成最簡形式。"
-      };
-    }
-
-
-    if (
-      sign ===
-      "-"
-    ) {
-
-      coefficient *=
-        -1;
-    }
-
-
-    return {
-
-      valid:
-        true,
-
-      value: {
-
-        coefficient,
-        radicand,
-        denominator
-      },
-
-      display:
-        `${coefficient}√${radicand}/${denominator}`
-    };
-  }
-
-
-  /*
-  choice
-  */
-
-  if (
-    !selectedChoice
-  ) {
-
-    return {
-
-      valid:
-        false,
-
-      message:
-        "請先選擇一個答案。"
-    };
-  }
-
-
-  const choice =
-    question
-      .choices
-      .find(
-        item =>
-          item.value ===
-          selectedChoice
-      );
-
-
-  return {
-
-    valid:
-      true,
-
-    value:
-      selectedChoice,
-
-    display:
-      choice?.text ||
-      selectedChoice
-  };
-}
-
-
-/*
-==================================================
-Check
-==================================================
-*/
-
-function checkCorrect(
-  question,
-  answer
-) {
-
-  if (
-    question.answerType ===
-    "number"
-  ) {
-
-    return (
-      answer.value ===
-      question.answer
-    );
-  }
-
-
-  if (
-    question.answerType ===
-    "radical"
-  ) {
-
-    return (
-
-      answer.value.coefficient ===
-        question.coefficient &&
-
-      answer.value.radicand ===
-        question.radicand
-    );
-  }
-
-
-  if (
-    question.answerType ===
-    "fraction"
-  ) {
-
-    return (
-
-      answer.value.numerator ===
-        question.numerator &&
-
-      answer.value.denominator ===
-        question.denominator
-    );
-  }
-
-
-  if (
-    question.answerType ===
-    "radicalFraction"
-  ) {
-
-    return (
-
-      answer.value.coefficient ===
-        question.coefficient &&
-
-      answer.value.radicand ===
-        question.radicand &&
-
-      answer.value.denominator ===
-        question.denominator
-    );
-  }
-
-
-  return (
-    answer.value ===
-    question.answer
-  );
-}
-
-
-/*
-==================================================
-Correct answer
-==================================================
-*/
-
-function correctAnswerText(
-  question
-) {
-
-  if (
-    question.answerType ===
-    "number"
-  ) {
-
-    return String(
-      question.answer
-    );
-  }
-
-
-  if (
-    question.answerType ===
-    "radical"
-  ) {
-
-    return radicalHTML(
-      question.coefficient,
-      question.radicand
-    );
-  }
-
-
-  if (
-    question.answerType ===
-    "fraction"
-  ) {
-
-    return fractionHTML(
-      question.numerator,
-      question.denominator
-    );
-  }
-
-
-  if (
-    question.answerType ===
-    "radicalFraction"
-  ) {
-
-    return radicalFractionHTML(
-      question.coefficient,
-      question.radicand,
-      question.denominator
-    );
-  }
-
-
-  const choice =
-    question
-      .choices
-      .find(
-        item =>
-          item.value ===
-          question.answer
-      );
-
-
-  return (
-    choice?.text ||
-    question.answer
-  );
-}
-
-
-/*
-==================================================
-Explanation
-==================================================
-*/
-
-function explanationHTML(
-  question
-) {
-
-  return question
-    .explanation
-    .map(
-      (
-        step,
-        i
-      ) => `
-
-        <div class="explanation-step">
-
-          <strong>
-            步驟 ${i + 1}｜
-          </strong>
-
-          ${step}
-
-        </div>
-      `
-    )
-    .join("");
-}
-
-
-/*
-==================================================
-Submit
-==================================================
-*/
-
-function submitAnswer() {
-
-  if (
-    answered
-  ) {
-
-    return;
-  }
-
-
-  const question =
-    questions[
-      index
-    ];
-
-
-  const answer =
-    readAnswer(
-      question
-    );
-
-
-  if (
-    !answer.valid
-  ) {
-
-    $("feedback")
-      .className =
-        "feedback warning";
-
-
-    $("feedback")
-      .textContent =
-        answer.message;
-
-
-    return;
-  }
-
-
-  answered =
-    true;
-
-
-  radicalInput
-    ?.setDisabled(
-      true
-    );
-
-
-  const isCorrect =
-    checkCorrect(
-      question,
-      answer
-    );
-
-
-  if (
-    isCorrect
-  ) {
-
-    correct++;
-
-    combo++;
-
-    maxCombo =
-      Math.max(
-        maxCombo,
-        combo
-      );
-
-
-    $("feedback")
-      .className =
-        "feedback correct";
-
-
-    $("feedback")
-      .textContent =
-        "✨ 回答正確！";
-
-
-    playGameSound(
-      "playCorrect"
-    );
-
-  } else {
-
-    wrong++;
-
-    combo =
-      0;
-
-
-    $("feedback")
-      .className =
-        "feedback wrong";
-
-
-    $("feedback")
-      .innerHTML = `
-
-        ❌ 答案不正確。正確答案：
-
-        <strong>
-
-          ${correctAnswerText(
-            question
-          )}
-
-        </strong>
-      `;
-
-
-    playGameSound(
-      "playWrong"
-    );
-  }
-
-
-  records.push(
-    {
-
-      number:
-        index + 1,
-
-      question,
-
-      userAnswer:
-        answer.display,
-
-      correct:
-        isCorrect
-    }
-  );
-
-
-  $("correct-count")
-    .textContent =
-      correct;
-
-
-  $("combo-count")
-    .textContent =
-      maxCombo;
-
-
-  $("explanation")
-    .innerHTML =
-      explanationHTML(
-        question
-      );
-
-
-  $("explanation")
-    .classList
-    .remove(
-      "hidden"
-    );
-
-
-  $("submit-button")
-    .classList
-    .add(
-      "hidden"
-    );
-
-
-  $("next-button")
-    .classList
-    .remove(
-      "hidden"
-    );
-
-
-  $("next-button")
-    .textContent =
-
-      index ===
-        questions.length -
-        1
-
-        ? "查看測驗結果（Enter）"
-
-        : "下一題（Enter）";
-
-
-  $("next-button")
-    .focus();
-}
-
-
-/*
-==================================================
-Next
-==================================================
-*/
-
-function nextQuestion() {
-
-  if (
-    !answered
-  ) {
-
-    return;
-  }
-
-
-  index++;
-
-
-  if (
-    index <
-    questions.length
-  ) {
-
-    displayQuestion();
-
-  } else {
-
-    showResult();
-  }
-}
-
-
-/*
-==================================================
-Start
+開始
 ==================================================
 */
 
@@ -7102,10 +7016,6 @@ function startGame(
   mode =
     selectedMode;
 
-
-  /*
-  每次都重新產生題庫
-  */
 
   questions =
     createQuestions();
@@ -7143,15 +7053,11 @@ function startGame(
     null;
 
 
-  radicalInput =
-    null;
-
-
   scoreSaved =
     false;
 
 
-  finalElapsed =
+  elapsed =
     0;
 
 
@@ -7179,7 +7085,7 @@ function startGame(
 
 /*
 ==================================================
-Rating
+結果
 ==================================================
 */
 
@@ -7198,7 +7104,7 @@ function rating(
         "★★★★★",
 
       comment:
-        "太棒了！你已經能熟練運用畢氏定理解決各類問題。"
+        "太棒了！你已經能靈活運用畢氏定理。"
     };
   }
 
@@ -7214,7 +7120,7 @@ function rating(
         "★★★★☆",
 
       comment:
-        "表現很好，再留意斜邊判斷與根式化簡即可。"
+        "表現很好，再加強斜邊上的高與距離公式即可。"
     };
   }
 
@@ -7230,7 +7136,7 @@ function rating(
         "★★★☆☆",
 
       comment:
-        "基本觀念已掌握，建議再加強生活應用與坐標距離。"
+        "基本觀念已掌握，再多練習幾次會更熟練。"
     };
   }
 
@@ -7241,16 +7147,10 @@ function rating(
       "★★☆☆☆",
 
     comment:
-      "建議先從模式一開始，熟悉斜邊與兩股的關係。"
+      "建議先從模式一熟悉畢氏定理的基本關係。"
   };
 }
 
-
-/*
-==================================================
-Result
-==================================================
-*/
 
 async function showResult() {
 
@@ -7273,11 +7173,6 @@ async function showResult() {
 
   showOnly(
     "result-screen"
-  );
-
-
-  playGameSound(
-    "playComplete"
   );
 
 
@@ -7314,7 +7209,7 @@ async function showResult() {
   $("final-time")
     .textContent =
       formatTime(
-        finalElapsed
+        elapsed
       );
 
 
@@ -7333,6 +7228,11 @@ async function showResult() {
         ? "全部答對，無錯題"
 
         : "錯題回顧";
+
+
+  playGameSound(
+    "playComplete"
+  );
 
 
   await saveCurrentScore(
@@ -7371,38 +7271,32 @@ async function saveCurrentScore(
     "☁️ 正在儲存本次成績……";
 
 
-  status.style.color =
-    "#1d4ed8";
-
-
   try {
 
     const result =
-      await saveGameScore(
-        {
+      await saveGameScore({
 
-          game:
-            GAME_ID,
+        game:
+          GAME_ID,
 
-          mode,
+        mode,
 
-          score,
+        score,
 
-          correctCount:
-            correct,
+        correctCount:
+          correct,
 
-          wrongCount:
-            wrong,
+        wrongCount:
+          wrong,
 
-          maxCombo,
+        maxCombo,
 
-          playTime:
-            finalElapsed,
+        playTime:
+          elapsed,
 
-          totalQuestions:
-            questions.length
-        }
-      );
+        totalQuestions:
+          questions.length
+      });
 
 
     if (
@@ -7430,10 +7324,6 @@ async function saveCurrentScore(
         "ℹ️ 尚未登入，因此本次成績沒有儲存。";
 
 
-      status.style.color =
-        "#b45309";
-
-
       return;
     }
 
@@ -7441,33 +7331,24 @@ async function saveCurrentScore(
     status.textContent =
       "⚠️ 成績暫時無法儲存。";
 
-
-    status.style.color =
-      "#b91c1c";
-
   } catch (
     error
   ) {
 
     console.error(
-      "畢氏定理成績儲存失敗：",
       error
     );
 
 
     status.textContent =
       "⚠️ 成績暫時無法儲存。";
-
-
-    status.style.color =
-      "#b91c1c";
   }
 }
 
 
 /*
 ==================================================
-Review
+錯題
 ==================================================
 */
 
@@ -7475,87 +7356,81 @@ function showReview() {
 
   const wrongRecords =
     records.filter(
-      record =>
-        !record.correct
+      item =>
+        !item.correct
     );
 
 
-  const list =
-    $("review-list");
+  $("review-list")
+    .innerHTML =
 
+      wrongRecords.length
 
-  if (
-    wrongRecords.length ===
-    0
-  ) {
+        ? wrongRecords
+            .map(
+              record => `
 
-    list.innerHTML = `
+                <article class="review-card">
 
-      <div class="review-card">
+                  <div class="review-title">
 
-        全部答對，沒有需要回顧的錯題！
+                    第 ${record.number} 題 ❌
 
-      </div>
-    `;
+                  </div>
 
-  } else {
+                  <div class="review-question">
 
-    list.innerHTML =
-      wrongRecords
-        .map(
-          record => `
+                    ${record.question.html}
 
-            <article class="review-card">
+                  </div>
 
-              <div class="review-title">
+                  <p>
 
-                第 ${record.number} 題 ❌
+                    你的答案：
 
-              </div>
+                    <strong>
 
-              <div class="review-question">
+                      ${record.userAnswer}
 
-                ${record.question.html}
+                    </strong>
 
-              </div>
+                  </p>
 
-              <div class="review-answer">
+                  <p>
 
-                你的答案：
+                    正確答案：
 
-                <strong>
-                  ${record.userAnswer}
-                </strong>
+                    <strong>
 
-                <br>
+                      ${correctAnswerText(
+                        record.question
+                      )}
 
-                正確答案：
+                    </strong>
 
-                <strong>
-                  ${
-                    correctAnswerText(
+                  </p>
+
+                  <div class="explanation">
+
+                    ${explanationHTML(
                       record.question
-                    )
-                  }
-                </strong>
+                    )}
 
-              </div>
+                  </div>
 
-              <div class="explanation">
+                </article>
+              `
+            )
+            .join("")
 
-                ${
-                  explanationHTML(
-                    record.question
-                  )
-                }
+        : `
 
-              </div>
+            <div class="review-card">
 
-            </article>
-          `
-        )
-        .join("");
-  }
+              全部答對，沒有需要回顧的錯題！
+
+            </div>
+          `;
 
 
   showOnly(
@@ -7566,7 +7441,7 @@ function showReview() {
 
 /*
 ==================================================
-Events
+事件
 ==================================================
 */
 
@@ -7607,10 +7482,12 @@ $("next-button")
 $("restart-button")
   .addEventListener(
     "click",
-    () =>
+    () => {
+
       startGame(
         mode
-      )
+      );
+    }
   );
 
 
@@ -7632,20 +7509,24 @@ $("mode-button")
 $("again-button")
   .addEventListener(
     "click",
-    () =>
+    () => {
+
       startGame(
         mode
-      )
+      );
+    }
   );
 
 
 $("result-mode-button")
   .addEventListener(
     "click",
-    () =>
+    () => {
+
       showOnly(
         "start-screen"
-      )
+      );
+    }
   );
 
 
@@ -7659,20 +7540,24 @@ $("review-button")
 $("review-again-button")
   .addEventListener(
     "click",
-    () =>
+    () => {
+
       startGame(
         mode
-      )
+      );
+    }
   );
 
 
 $("review-result-button")
   .addEventListener(
     "click",
-    () =>
+    () => {
+
       showOnly(
         "result-screen"
-      )
+      );
+    }
   );
 
 
@@ -7720,7 +7605,7 @@ document.addEventListener(
 
 /*
 ==================================================
-Init
+初始化
 ==================================================
 */
 
