@@ -1,0 +1,1925 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    畢氏定理大挑戰｜數學遊戲樂園
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="../css/scratchpad.css"
+  >
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+
+      --navy: #17324d;
+      --navy-dark: #0f2438;
+
+      --teal: #149b92;
+      --teal-dark: #0b746e;
+
+      --sky: #dff6f4;
+      --sky-light: #f3fbfa;
+
+      --orange: #f59e0b;
+      --orange-dark: #c97900;
+
+      --blue: #3182ce;
+
+      --text: #1f2937;
+      --muted: #64748b;
+
+      --success: #15803d;
+      --danger: #c62828;
+      --warning: #b45309;
+
+      --line: #cbd5e1;
+    }
+
+    body {
+
+      margin: 0;
+
+      min-height: 100vh;
+
+      padding: 16px;
+
+      font-family:
+        "Microsoft JhengHei",
+        "Noto Sans TC",
+        sans-serif;
+
+      color:
+        var(--text);
+
+      background:
+
+        linear-gradient(
+          rgba(49, 130, 206, .045) 1px,
+          transparent 1px
+        ),
+
+        linear-gradient(
+          90deg,
+          rgba(49, 130, 206, .045) 1px,
+          transparent 1px
+        ),
+
+        linear-gradient(
+          135deg,
+          #edf8fa,
+          #fffaf0
+        );
+
+      background-size:
+        26px 26px,
+        26px 26px,
+        auto;
+    }
+
+    button,
+    input {
+
+      font-family: inherit;
+    }
+
+    .hidden {
+
+      display: none !important;
+    }
+
+    .page-shell {
+
+      width:
+        min(
+          100%,
+          1020px
+        );
+
+      margin:
+        0 auto;
+    }
+
+    #commonHeaderMount {
+
+      margin-bottom: 14px;
+    }
+
+    /*
+    ==================================================
+    主卡片
+    ==================================================
+    */
+
+    .game-shell {
+
+      overflow: hidden;
+
+      border:
+        1px solid
+        #d7e7e7;
+
+      border-radius: 30px;
+
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          .96
+        );
+
+      box-shadow:
+        0 18px 45px
+        rgba(
+          15,
+          36,
+          56,
+          .13
+        );
+    }
+
+    /*
+    ==================================================
+    標題區
+    ==================================================
+    */
+
+    .hero {
+
+      position: relative;
+
+      overflow: hidden;
+
+      padding:
+        30px 24px 28px;
+
+      text-align: center;
+
+      background:
+        linear-gradient(
+          135deg,
+          #16324f 0%,
+          #1b5067 56%,
+          #168d86 100%
+        );
+
+      color: white;
+    }
+
+    .hero::before {
+
+      content: "";
+
+      position: absolute;
+
+      width: 230px;
+      height: 230px;
+
+      top: -120px;
+      right: -55px;
+
+      border:
+        2px solid
+        rgba(
+          255,
+          255,
+          255,
+          .14
+        );
+
+      border-radius: 50%;
+    }
+
+    .hero::after {
+
+      content: "";
+
+      position: absolute;
+
+      width: 150px;
+      height: 150px;
+
+      left: -50px;
+      bottom: -80px;
+
+      border:
+        2px solid
+        rgba(
+          255,
+          255,
+          255,
+          .12
+        );
+
+      transform:
+        rotate(
+          35deg
+        );
+    }
+
+    .hero-icon {
+
+      display:
+        inline-flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      width: 58px;
+      height: 58px;
+
+      margin-bottom: 9px;
+
+      border:
+        2px solid
+        rgba(
+          255,
+          255,
+          255,
+          .5
+        );
+
+      border-radius: 18px;
+
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          .12
+        );
+
+      font-size: 34px;
+    }
+
+    .game-title {
+
+      position: relative;
+
+      margin: 0;
+
+      font-size:
+        clamp(
+          31px,
+          5vw,
+          44px
+        );
+
+      font-weight: 900;
+
+      letter-spacing: .03em;
+    }
+
+    .game-subtitle {
+
+      position: relative;
+
+      margin:
+        11px auto 0;
+
+      max-width: 700px;
+
+      color:
+        #d8f4f2;
+
+      font-size: 16px;
+
+      line-height: 1.8;
+    }
+
+    .concept-strip {
+
+      position: relative;
+
+      display: flex;
+
+      justify-content: center;
+
+      gap: 8px;
+
+      margin-top: 17px;
+
+      flex-wrap: wrap;
+    }
+
+    .concept-chip {
+
+      padding:
+        7px 12px;
+
+      border:
+        1px solid
+        rgba(
+          255,
+          255,
+          255,
+          .42
+        );
+
+      border-radius:
+        999px;
+
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          .11
+        );
+
+      color: white;
+
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    /*
+    ==================================================
+    共用區
+    ==================================================
+    */
+
+    .screen {
+
+      padding:
+        25px;
+    }
+
+    /*
+    ==================================================
+    模式卡片
+    ==================================================
+    */
+
+    .mode-intro {
+
+      margin-bottom: 18px;
+
+      text-align: center;
+    }
+
+    .mode-intro h2 {
+
+      margin:
+        0 0 6px;
+
+      color:
+        var(--navy);
+
+      font-size: 23px;
+    }
+
+    .mode-intro p {
+
+      margin: 0;
+
+      color:
+        var(--muted);
+
+      line-height: 1.7;
+    }
+
+    .mode-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(
+            0,
+            1fr
+          )
+        );
+
+      gap: 17px;
+    }
+
+    .mode-card {
+
+      position: relative;
+
+      min-height: 220px;
+
+      overflow: hidden;
+
+      padding:
+        22px;
+
+      border:
+        2px solid
+        #d5e7e6;
+
+      border-radius: 22px;
+
+      background: white;
+
+      text-align: left;
+
+      cursor: pointer;
+
+      transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        border-color .18s ease;
+    }
+
+    .mode-card:hover {
+
+      transform:
+        translateY(-4px);
+
+      border-color:
+        var(--teal);
+
+      box-shadow:
+        0 12px 26px
+        rgba(
+          15,
+          50,
+          77,
+          .12
+        );
+    }
+
+    .mode-card::after {
+
+      content: "";
+
+      position: absolute;
+
+      width: 88px;
+      height: 88px;
+
+      right: -25px;
+      bottom: -25px;
+
+      border-radius:
+        50%;
+
+      background:
+        var(--card-accent);
+    }
+
+    .mode-card.mode-one {
+
+      --card-accent:
+        rgba(
+          20,
+          155,
+          146,
+          .11
+        );
+    }
+
+    .mode-card.mode-two {
+
+      --card-accent:
+        rgba(
+          49,
+          130,
+          206,
+          .11
+        );
+    }
+
+    .mode-card.mode-three {
+
+      --card-accent:
+        rgba(
+          245,
+          158,
+          11,
+          .13
+        );
+    }
+
+    .mode-card.mode-four {
+
+      --card-accent:
+        rgba(
+          124,
+          58,
+          237,
+          .10
+        );
+    }
+
+    .mode-top {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 11px;
+
+      margin-bottom: 12px;
+    }
+
+    .mode-icon {
+
+      width: 47px;
+      height: 47px;
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      flex: 0 0 auto;
+
+      border-radius: 15px;
+
+      background:
+        var(--sky);
+
+      font-size: 27px;
+    }
+
+    .mode-number {
+
+      color:
+        var(--teal-dark);
+
+      font-size: 13px;
+
+      font-weight: 900;
+    }
+
+    .mode-card h3 {
+
+      margin:
+        2px 0 0;
+
+      color:
+        var(--navy);
+
+      font-size: 21px;
+    }
+
+    .mode-card p {
+
+      margin: 0;
+
+      color:
+        var(--muted);
+
+      line-height: 1.7;
+    }
+
+    .mode-example {
+
+      margin-top: 12px;
+
+      padding:
+        10px 12px;
+
+      border-radius: 12px;
+
+      background:
+        #f8fafc;
+
+      color:
+        #475569;
+
+      font-size: 14px;
+
+      font-weight: 800;
+
+      line-height: 1.65;
+    }
+
+    /*
+    ==================================================
+    狀態列
+    ==================================================
+    */
+
+    .quiz-topbar {
+
+      display: grid;
+
+      grid-template-columns:
+        1.3fr repeat(
+          4,
+          1fr
+        );
+
+      gap: 10px;
+
+      margin-bottom: 13px;
+    }
+
+    .status-box {
+
+      min-height: 68px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      justify-content: center;
+
+      padding: 9px;
+
+      border:
+        1px solid
+        #dbe8eb;
+
+      border-radius: 15px;
+
+      background:
+        #f4fafb;
+
+      color:
+        var(--navy);
+
+      text-align: center;
+
+      font-size: 13px;
+
+      font-weight: 900;
+    }
+
+    .status-value {
+
+      margin-top: 4px;
+
+      color:
+        var(--teal-dark);
+
+      font-size: 18px;
+    }
+
+    .timer-box {
+
+      background:
+        #fff8ea;
+
+      border-color:
+        #fce4b5;
+
+      color:
+        #b45309;
+    }
+
+    .timer-box
+    .status-value {
+
+      color:
+        #c66c00;
+    }
+
+    /*
+    ==================================================
+    計算紙
+    ==================================================
+    */
+
+    .scratchpad-row {
+
+      display: flex;
+
+      justify-content: center;
+
+      min-height: 46px;
+
+      margin:
+        4px 0 13px;
+    }
+
+    #scratchpad-mobile-button {
+
+      width: 100%;
+
+      display: flex;
+
+      justify-content: center;
+    }
+
+    /*
+    ==================================================
+    進度條
+    ==================================================
+    */
+
+    .progress-shell {
+
+      height: 9px;
+
+      margin-bottom: 18px;
+
+      overflow: hidden;
+
+      border-radius:
+        999px;
+
+      background:
+        #e2e8f0;
+    }
+
+    .progress-bar {
+
+      width: 10%;
+
+      height: 100%;
+
+      border-radius:
+        999px;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--teal),
+          #45c5bb
+        );
+    }
+
+    /*
+    ==================================================
+    題目區
+    ==================================================
+    */
+
+    .question-stage {
+
+      display: grid;
+
+      grid-template-columns:
+        minmax(
+          260px,
+          .95fr
+        )
+        minmax(
+          280px,
+          1.05fr
+        );
+
+      gap: 18px;
+    }
+
+    .diagram-card,
+    .question-card {
+
+      min-height: 315px;
+
+      border:
+        2px solid
+        #d7e7e8;
+
+      border-radius: 22px;
+
+      background: white;
+    }
+
+    .diagram-card {
+
+      position: relative;
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      padding: 18px;
+
+      overflow: hidden;
+
+      background:
+        linear-gradient(
+          180deg,
+          #f7fcfc,
+          #ffffff
+        );
+    }
+
+    /*
+    淡淡座標紙
+    */
+
+    .diagram-card::before {
+
+      content: "";
+
+      position: absolute;
+
+      inset: 0;
+
+      opacity: .38;
+
+      background:
+
+        linear-gradient(
+          #d8eeee 1px,
+          transparent 1px
+        ),
+
+        linear-gradient(
+          90deg,
+          #d8eeee 1px,
+          transparent 1px
+        );
+
+      background-size:
+        22px 22px;
+    }
+
+    .geometry-svg {
+
+      position: relative;
+
+      width:
+        min(
+          100%,
+          320px
+        );
+
+      height: auto;
+    }
+
+    .question-card {
+
+      display: flex;
+
+      flex-direction: column;
+
+      justify-content: center;
+
+      padding:
+        24px;
+
+      text-align: center;
+    }
+
+    .question-type {
+
+      display:
+        inline-block;
+
+      align-self: center;
+
+      margin-bottom: 15px;
+
+      padding:
+        6px 11px;
+
+      border-radius:
+        999px;
+
+      background:
+        var(--sky);
+
+      color:
+        var(--teal-dark);
+
+      font-size: 13px;
+
+      font-weight: 900;
+    }
+
+    .question-label {
+
+      color:
+        var(--muted);
+
+      font-size: 15px;
+
+      font-weight: 800;
+
+      line-height: 1.7;
+    }
+
+    .question-content {
+
+      margin-top: 13px;
+
+      color:
+        var(--navy-dark);
+
+      font-size:
+        clamp(
+          24px,
+          4vw,
+          34px
+        );
+
+      font-weight: 900;
+
+      line-height: 1.6;
+    }
+
+    /*
+    ==================================================
+    示範公式框
+    ==================================================
+    */
+
+    .formula-hint {
+
+      margin-top: 18px;
+
+      padding:
+        13px;
+
+      border:
+        1px dashed
+        #a9ceca;
+
+      border-radius: 14px;
+
+      background:
+        #f3fbfa;
+
+      color:
+        #466066;
+
+      font-size: 15px;
+
+      font-weight: 800;
+    }
+
+    /*
+    ==================================================
+    作答區
+    ==================================================
+    */
+
+    .answer-panel {
+
+      margin-top: 18px;
+
+      padding:
+        20px;
+
+      border:
+        1px solid
+        #dbe8eb;
+
+      border-radius: 20px;
+
+      background:
+        #f8fbfc;
+    }
+
+    .answer-title {
+
+      margin-bottom: 11px;
+
+      color:
+        var(--navy);
+
+      text-align: center;
+
+      font-weight: 900;
+    }
+
+    .answer-help {
+
+      margin:
+        0 0 13px;
+
+      color:
+        var(--muted);
+
+      text-align: center;
+
+      font-size: 14px;
+
+      line-height: 1.6;
+    }
+
+    .number-answer {
+
+      display: flex;
+
+      justify-content: center;
+    }
+
+    .number-answer input {
+
+      width:
+        min(
+          260px,
+          100%
+        );
+
+      padding:
+        13px;
+
+      border:
+        2px solid
+        #b8d1d4;
+
+      border-radius: 13px;
+
+      background: white;
+
+      color:
+        var(--navy);
+
+      font-size: 24px;
+
+      font-weight: 900;
+
+      text-align: center;
+
+      outline: none;
+    }
+
+    .number-answer input:focus {
+
+      border-color:
+        var(--teal);
+
+      box-shadow:
+        0 0 0 4px
+        rgba(
+          20,
+          155,
+          146,
+          .12
+        );
+    }
+
+    .answer-preview {
+
+      max-width: 700px;
+
+      min-height: 58px;
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      margin:
+        14px auto 0;
+
+      padding: 12px;
+
+      border:
+        2px solid
+        #bfe7e4;
+
+      border-radius: 14px;
+
+      background:
+        #eaf9f7;
+
+      color:
+        #3c5660;
+
+      font-size: 18px;
+
+      font-weight: 900;
+    }
+
+    /*
+    ==================================================
+    按鈕
+    ==================================================
+    */
+
+    .button-row {
+
+      display: flex;
+
+      justify-content: center;
+
+      gap: 10px;
+
+      margin-top: 17px;
+
+      flex-wrap: wrap;
+    }
+
+    .game-button {
+
+      min-width: 138px;
+
+      padding:
+        12px 19px;
+
+      border: 0;
+
+      border-radius: 13px;
+
+      color: white;
+
+      background:
+        var(--navy);
+
+      font-size: 16px;
+
+      font-weight: 900;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 5px 0
+        var(--navy-dark);
+    }
+
+    .game-button.primary {
+
+      background:
+        var(--teal);
+
+      box-shadow:
+        0 5px 0
+        var(--teal-dark);
+    }
+
+    .game-button.restart {
+
+      background:
+        #3182ce;
+
+      box-shadow:
+        0 5px 0
+        #1e5e9b;
+    }
+
+    .game-button.secondary {
+
+      background:
+        #64748b;
+
+      box-shadow:
+        0 5px 0
+        #475569;
+    }
+
+    /*
+    ==================================================
+    手機 / 平板
+    ==================================================
+    */
+
+    @media(
+      max-width:
+        780px
+    ) {
+
+      body {
+
+        padding: 8px;
+      }
+
+      .screen {
+
+        padding:
+          18px 12px;
+      }
+
+      .mode-grid {
+
+        grid-template-columns:
+          1fr;
+      }
+
+      .quiz-topbar {
+
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(
+              0,
+              1fr
+            )
+          );
+      }
+
+      .timer-box {
+
+        grid-column:
+          1 / -1;
+      }
+
+      .question-stage {
+
+        grid-template-columns:
+          1fr;
+      }
+
+      .diagram-card {
+
+        min-height: 260px;
+      }
+
+      .question-card {
+
+        min-height: 240px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<div class="page-shell">
+
+  <div id="commonHeaderMount"></div>
+
+
+  <main class="game-shell">
+
+    <!-- ==================================================
+         HERO
+    ================================================== -->
+
+    <header class="hero">
+
+      <div class="hero-icon">
+        📐
+      </div>
+
+      <h1 class="game-title">
+        畢氏定理大挑戰
+      </h1>
+
+      <p class="game-subtitle">
+        從直角三角形開始，練習第三邊、根式邊長、生活應用與兩點間距離。
+      </p>
+
+      <div class="concept-strip">
+
+        <span class="concept-chip">
+          a²＋b²＝c²
+        </span>
+
+        <span class="concept-chip">
+          直角三角形
+        </span>
+
+        <span class="concept-chip">
+          最簡根式
+        </span>
+
+        <span class="concept-chip">
+          圖形應用
+        </span>
+
+        <span class="concept-chip">
+          座標距離
+        </span>
+
+      </div>
+
+    </header>
+
+
+    <!-- ==================================================
+         模式首頁
+    ================================================== -->
+
+    <section
+      id="start-screen"
+      class="screen"
+    >
+
+      <div class="mode-intro">
+
+        <h2>
+          選擇挑戰模式
+        </h2>
+
+        <p>
+          四個模式由基本計算逐步進入幾何與座標應用。
+        </p>
+
+      </div>
+
+
+      <div class="mode-grid">
+
+        <!-- 模式一 -->
+
+        <button
+          class="mode-card mode-one"
+          type="button"
+          data-mode="basic"
+        >
+
+          <div class="mode-top">
+
+            <div class="mode-icon">
+              📐
+            </div>
+
+            <div>
+
+              <div class="mode-number">
+                MODE 01
+              </div>
+
+              <h3>
+                畢氏定理基礎挑戰
+              </h3>
+
+            </div>
+
+          </div>
+
+          <p>
+            已知直角三角形的兩邊求第三邊，也要判斷三個邊長是否能構成直角三角形。
+          </p>
+
+          <div class="mode-example">
+            例如：兩股為 5、7，斜邊＝√74。
+            <br>
+            5、12、13 是否為直角三角形？
+          </div>
+
+        </button>
+
+
+        <!-- 模式二 -->
+
+        <button
+          class="mode-card mode-two"
+          type="button"
+          data-mode="radical"
+        >
+
+          <div class="mode-top">
+
+            <div class="mode-icon">
+              🌱
+            </div>
+
+            <div>
+
+              <div class="mode-number">
+                MODE 02
+              </div>
+
+              <h3>
+                根式邊長挑戰
+              </h3>
+
+            </div>
+
+          </div>
+
+          <p>
+            畢氏定理算出的平方根，需要進一步化成最簡根式。
+          </p>
+
+          <div class="mode-example">
+            例如：6²＋9²＝117
+            <br>
+            斜邊＝√117＝3√13
+          </div>
+
+        </button>
+
+
+        <!-- 模式三 -->
+
+        <button
+          class="mode-card mode-three"
+          type="button"
+          data-mode="application"
+        >
+
+          <div class="mode-top">
+
+            <div class="mode-icon">
+              🏠
+            </div>
+
+            <div>
+
+              <div class="mode-number">
+                MODE 03
+              </div>
+
+              <h3>
+                生活中的畢氏定理
+              </h3>
+
+            </div>
+
+          </div>
+
+          <p>
+            將直角三角形藏進長方形、梯子、旗杆、繩索與複合圖形中。
+          </p>
+
+          <div class="mode-example">
+            例如：長方形長 12、寬 5，
+            求對角線長。
+          </div>
+
+        </button>
+
+
+        <!-- 模式四 -->
+
+        <button
+          class="mode-card mode-four"
+          type="button"
+          data-mode="distance"
+        >
+
+          <div class="mode-top">
+
+            <div class="mode-icon">
+              📍
+            </div>
+
+            <div>
+
+              <div class="mode-number">
+                MODE 04
+              </div>
+
+              <h3>
+                座標距離挑戰
+              </h3>
+
+            </div>
+
+          </div>
+
+          <p>
+            利用水平距離與鉛直距離建立直角三角形，求平面上兩點間的距離。
+          </p>
+
+          <div class="mode-example">
+            例如：A(1,2)、B(7,10)
+            <br>
+            AB＝10
+          </div>
+
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         遊戲畫面
+    ================================================== -->
+
+    <section
+      id="quiz-screen"
+      class="screen hidden"
+    >
+
+      <div class="quiz-topbar">
+
+        <div class="status-box">
+
+          模式
+
+          <span
+            id="mode-name"
+            class="status-value"
+          >
+            畢氏定理基礎挑戰
+          </span>
+
+        </div>
+
+
+        <div class="status-box">
+
+          進度
+
+          <span class="status-value">
+            1 / 10
+          </span>
+
+        </div>
+
+
+        <div class="status-box">
+
+          答對
+
+          <span class="status-value">
+            0
+          </span>
+
+        </div>
+
+
+        <div class="status-box">
+
+          最高連擊
+
+          <span class="status-value">
+            0
+          </span>
+
+        </div>
+
+
+        <div class="status-box timer-box">
+
+          測驗時間
+
+          <span class="status-value">
+            00:00
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="scratchpad-row">
+
+        <div id="scratchpad-mobile-button"></div>
+
+      </div>
+
+
+      <div class="progress-shell">
+
+        <div class="progress-bar"></div>
+
+      </div>
+
+
+      <!-- 圖形＋題目 -->
+
+      <div class="question-stage">
+
+
+        <!-- 左邊圖形 -->
+
+        <div class="diagram-card">
+
+          <svg
+            class="geometry-svg"
+            viewBox="0 0 330 250"
+            aria-label="直角三角形示意圖"
+          >
+
+            <!-- 三角形 -->
+
+            <path
+              d="
+                M 60 205
+                L 60 55
+                L 285 205
+                Z
+              "
+              fill="rgba(20,155,146,.09)"
+              stroke="#17324d"
+              stroke-width="5"
+              stroke-linejoin="round"
+            />
+
+
+            <!-- 直角符號 -->
+
+            <path
+              d="
+                M 60 180
+                L 85 180
+                L 85 205
+              "
+              fill="none"
+              stroke="#f59e0b"
+              stroke-width="5"
+            />
+
+
+            <!-- 邊長 -->
+
+            <text
+              x="28"
+              y="137"
+              font-size="28"
+              font-weight="900"
+              fill="#17324d"
+            >
+              5
+            </text>
+
+
+            <text
+              x="164"
+              y="237"
+              font-size="28"
+              font-weight="900"
+              fill="#17324d"
+            >
+              7
+            </text>
+
+
+            <text
+              x="183"
+              y="119"
+              font-size="28"
+              font-weight="900"
+              fill="#149b92"
+            >
+              c
+            </text>
+
+          </svg>
+
+        </div>
+
+
+        <!-- 右邊題目 -->
+
+        <div class="question-card">
+
+          <div class="question-type">
+            求第三邊
+          </div>
+
+          <div class="question-label">
+            已知下圖是一個直角三角形
+          </div>
+
+          <div class="question-content">
+            兩股長為 5、7，求斜邊 c。
+          </div>
+
+          <div class="formula-hint">
+            💡 可以使用：a²＋b²＝c²
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- 作答 -->
+
+      <div class="answer-panel">
+
+        <div class="answer-title">
+          請填寫斜邊 c 的長度
+        </div>
+
+        <p class="answer-help">
+          若答案不是整數，請化成最簡根式。
+        </p>
+
+        <div class="number-answer">
+
+          <input
+            id="demo-answer"
+            type="text"
+            inputmode="text"
+            autocomplete="off"
+            placeholder="輸入答案"
+          >
+
+        </div>
+
+        <div
+          id="answer-preview"
+          class="answer-preview"
+        >
+          目前尚未完成答案。
+        </div>
+
+      </div>
+
+
+      <div class="button-row">
+
+        <button
+          class="game-button primary"
+          type="button"
+        >
+          提交答案（Enter）
+        </button>
+
+        <button
+          class="game-button restart"
+          type="button"
+        >
+          🔄 重新測驗
+        </button>
+
+        <button
+          id="back-mode-button"
+          class="game-button secondary"
+          type="button"
+        >
+          選擇模式
+        </button>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+<script src="../js/common-header.js"></script>
+
+<script src="../js/scratchpad.js"></script>
+
+<script src="../js/scratchpad-template.js"></script>
+
+<script src="../js/sound-manager.js?v=1"></script>
+
+
+<script>
+
+  "use strict";
+
+
+  const MODE_NAMES = {
+
+    basic:
+      "畢氏定理基礎挑戰",
+
+    radical:
+      "根式邊長挑戰",
+
+    application:
+      "生活中的畢氏定理",
+
+    distance:
+      "座標距離挑戰"
+  };
+
+
+  const startScreen =
+    document.getElementById(
+      "start-screen"
+    );
+
+
+  const quizScreen =
+    document.getElementById(
+      "quiz-screen"
+    );
+
+
+  const modeName =
+    document.getElementById(
+      "mode-name"
+    );
+
+
+  /*
+  ==================================================
+  第一版：
+  點任何模式先進入示範遊戲畫面
+  後續再接正式題庫
+  ==================================================
+  */
+
+  document
+    .querySelectorAll(
+      "[data-mode]"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            const mode =
+              button.dataset.mode;
+
+
+            modeName.textContent =
+              MODE_NAMES[
+                mode
+              ];
+
+
+            startScreen
+              .classList
+              .add(
+                "hidden"
+              );
+
+
+            quizScreen
+              .classList
+              .remove(
+                "hidden"
+              );
+
+
+            window
+              .showGameScratchpadButton
+              ?.();
+          }
+        );
+      }
+    );
+
+
+  document
+    .getElementById(
+      "back-mode-button"
+    )
+    .addEventListener(
+      "click",
+      () => {
+
+        quizScreen
+          .classList
+          .add(
+            "hidden"
+          );
+
+
+        startScreen
+          .classList
+          .remove(
+            "hidden"
+          );
+
+
+        window
+          .hideGameScratchpadButton
+          ?.();
+      }
+    );
+
+
+  /*
+  ==================================================
+  示範目前答案
+  ==================================================
+  */
+
+  const demoAnswer =
+    document.getElementById(
+      "demo-answer"
+    );
+
+
+  const answerPreview =
+    document.getElementById(
+      "answer-preview"
+    );
+
+
+  demoAnswer
+    .addEventListener(
+      "input",
+      () => {
+
+        const value =
+          demoAnswer
+            .value
+            .trim();
+
+
+        answerPreview
+          .textContent =
+
+            value
+
+              ? `目前答案：${value}`
+
+              : "目前尚未完成答案。";
+      }
+    );
+
+
+  window
+    .hideGameScratchpadButton
+    ?.();
+
+</script>
+
+</body>
+
+</html>
