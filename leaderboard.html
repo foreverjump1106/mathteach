@@ -17,6 +17,12 @@
 
   <style>
 
+    /*
+    ==================================================
+    基本設定
+    ==================================================
+    */
+
     * {
       box-sizing: border-box;
     }
@@ -24,23 +30,44 @@
 
     :root {
 
-      --primary:
+      --blue:
         #1565c0;
 
-      --primary-dark:
+      --blue-dark:
         #0d47a1;
 
-      --primary-light:
-        #e3f2fd;
+      --blue-light:
+        #eef5ff;
 
-      --border:
-        #90caf9;
+      --orange:
+        #f57c00;
+
+      --orange-dark:
+        #e65100;
+
+      --gray:
+        #607d8b;
+
+      --gray-dark:
+        #455a64;
 
       --text:
-        #1f2937;
+        #334155;
 
       --muted:
         #64748b;
+
+      --border:
+        #dbe4ee;
+
+      --shadow:
+        0 12px 30px
+        rgba(
+          15,
+          23,
+          42,
+          0.10
+        );
     }
 
 
@@ -80,6 +107,26 @@
     }
 
 
+    button {
+
+      touch-action:
+        manipulation;
+    }
+
+
+    [hidden] {
+
+      display:
+        none !important;
+    }
+
+
+    /*
+    ==================================================
+    主容器
+    ==================================================
+    */
+
     .container {
 
       width: 100%;
@@ -94,17 +141,17 @@
 
     /*
     ==================================================
-    標題
+    頁首
     ==================================================
     */
 
     .header {
 
       margin-bottom:
-        22px;
+        18px;
 
       padding:
-        28px 20px;
+        30px 22px;
 
       border-radius:
         24px;
@@ -116,55 +163,52 @@
         center;
 
       box-shadow:
-        0 12px 30px
-        rgba(
-          0,
-          0,
-          0,
-          .12
-        );
+        var(--shadow);
     }
 
 
-    h1 {
+    .header h1 {
 
       margin:
-        0 0 10px;
+        0 0 12px;
 
       color:
-        var(--primary);
+        var(--blue);
 
       font-size:
-        36px;
+        clamp(
+          31px,
+          5vw,
+          42px
+        );
     }
 
 
     .subtitle {
 
-      margin:
-        0;
+      margin: 0;
 
       color:
         #666;
 
+      font-size:
+        17px;
+
       line-height:
-        1.8;
+        1.75;
     }
 
 
     .ranking-rule {
 
-      margin:
-        14px auto 0;
+      display:
+        inline-block;
+
+      margin-top:
+        18px;
 
       padding:
-        10px 14px;
-
-      width:
-        fit-content;
-
-      max-width:
-        100%;
+        10px 15px;
 
       border-radius:
         12px;
@@ -179,12 +223,18 @@
         14px;
 
       font-weight:
-        800;
+        bold;
 
       line-height:
-        1.7;
+        1.65;
     }
 
+
+    /*
+    ==================================================
+    使用者
+    ==================================================
+    */
 
     .user-box {
 
@@ -192,54 +242,32 @@
         18px;
 
       padding:
-        12px;
+        13px 16px;
 
       border-radius:
-        12px;
+        13px;
 
       background:
-        #eef5ff;
+        var(--blue-light);
 
       color:
         #174a7e;
 
+      font-size:
+        17px;
+
       font-weight:
-        900;
+        bold;
     }
 
 
     /*
     ==================================================
-    學期
+    ★ 上方快速導覽
     ==================================================
     */
 
-    .semester-card {
-
-      margin-bottom:
-        18px;
-
-      padding:
-        18px;
-
-      border-radius:
-        20px;
-
-      background:
-        white;
-
-      box-shadow:
-        0 8px 22px
-        rgba(
-          15,
-          23,
-          42,
-          .08
-        );
-    }
-
-
-    .semester-control {
+    .top-actions {
 
       display:
         flex;
@@ -251,37 +279,186 @@
         center;
 
       gap:
-        10px;
+        12px;
 
-      flex-wrap:
-        wrap;
+      margin-bottom:
+        18px;
+
+      padding:
+        14px 16px;
+
+      border-radius:
+        18px;
+
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          0.82
+        );
+
+      box-shadow:
+        0 8px 22px
+        rgba(
+          15,
+          23,
+          42,
+          0.08
+        );
     }
 
 
-    .semester-control label {
+    .top-action-link {
 
-      color:
-        #334155;
+      display:
+        inline-flex;
 
-      font-weight:
-        900;
-    }
+      align-items:
+        center;
 
+      justify-content:
+        center;
 
-    .semester-select {
+      gap:
+        6px;
 
       min-width:
-        220px;
+        150px;
 
       min-height:
         46px;
 
       padding:
-        8px 14px;
+        11px 20px;
+
+      border-radius:
+        13px;
+
+      color:
+        white;
+
+      text-decoration:
+        none;
+
+      font-size:
+        16px;
+
+      font-weight:
+        bold;
+
+      transition:
+        transform .15s ease,
+        opacity .15s ease;
+    }
+
+
+    .top-action-link.home {
+
+      background:
+        var(--gray);
+
+      box-shadow:
+        0 4px 0
+        var(--gray-dark);
+    }
+
+
+    .top-action-link.scores {
+
+      background:
+        var(--orange);
+
+      box-shadow:
+        0 4px 0
+        var(--orange-dark);
+    }
+
+
+    .top-action-link:hover {
+
+      transform:
+        translateY(-1px);
+
+      opacity:
+        .92;
+    }
+
+
+    .top-action-link:active {
+
+      transform:
+        translateY(1px);
+    }
+
+
+    /*
+    ==================================================
+    學期選擇
+    ==================================================
+    */
+
+    .semester-card {
+
+      display:
+        flex;
+
+      justify-content:
+        center;
+
+      align-items:
+        center;
+
+      gap:
+        14px;
+
+      margin-bottom:
+        18px;
+
+      padding:
+        18px 20px;
+
+      border-radius:
+        20px;
+
+      background:
+        white;
+
+      box-shadow:
+        var(--shadow);
+    }
+
+
+    .semester-label {
+
+      color:
+        #334155;
+
+      font-size:
+        17px;
+
+      font-weight:
+        bold;
+    }
+
+
+    .semester-select {
+
+      width:
+        min(
+          270px,
+          100%
+        );
+
+      min-height:
+        48px;
+
+      padding:
+        9px 14px;
 
       border:
         2px solid
-        var(--border);
+        #90caf9;
 
       border-radius:
         12px;
@@ -290,13 +467,13 @@
         white;
 
       color:
-        var(--primary-dark);
+        #174a7e;
 
       font-size:
         16px;
 
       font-weight:
-        900;
+        bold;
 
       outline:
         none;
@@ -306,177 +483,22 @@
     .semester-select:focus {
 
       border-color:
-        var(--primary);
+        var(--blue);
 
       box-shadow:
-        0 0 0 4px
+        0 0 0 3px
         rgba(
           21,
           101,
           192,
-          .10
+          0.12
         );
     }
 
 
     /*
     ==================================================
-    遊戲篩選
-    ==================================================
-    */
-
-    .filter-card {
-
-      margin-bottom:
-        20px;
-
-      padding:
-        18px;
-
-      border-radius:
-        20px;
-
-      background:
-        white;
-
-      box-shadow:
-        0 8px 22px
-        rgba(
-          15,
-          23,
-          42,
-          .08
-        );
-    }
-
-
-    .filter-title {
-
-      margin:
-        0 0 14px;
-
-      color:
-        #334155;
-
-      text-align:
-        center;
-
-      font-size:
-        18px;
-
-      font-weight:
-        900;
-    }
-
-
-    .filter-box {
-
-      display:
-        grid;
-
-      grid-template-columns:
-        repeat(
-          3,
-          minmax(
-            0,
-            1fr
-          )
-        );
-
-      gap:
-        10px;
-    }
-
-
-    .filter-button {
-
-      min-height:
-        56px;
-
-      padding:
-        10px 12px;
-
-      border:
-        2px solid
-        #cbd5e1;
-
-      border-radius:
-        14px;
-
-      background:
-        white;
-
-      color:
-        #475569;
-
-      font-size:
-        14px;
-
-      font-weight:
-        900;
-
-      line-height:
-        1.45;
-
-      cursor:
-        pointer;
-
-      transition:
-        .15s ease;
-    }
-
-
-    .filter-button:hover {
-
-      transform:
-        translateY(
-          -2px
-        );
-
-      border-color:
-        var(--primary);
-
-      color:
-        var(--primary);
-    }
-
-
-    .filter-button.active {
-
-      border-color:
-        var(--primary);
-
-      background:
-        var(--primary);
-
-      color:
-        white;
-
-      box-shadow:
-        0 5px 12px
-        rgba(
-          21,
-          101,
-          192,
-          .22
-        );
-    }
-
-
-    .filter-button.all-button {
-
-      grid-column:
-        1 /
-        -1;
-
-      min-height:
-        48px;
-    }
-
-
-    /*
-    ==================================================
-    排行榜主卡
+    排行榜主卡片
     ==================================================
     */
 
@@ -495,162 +517,61 @@
         white;
 
       box-shadow:
-        0 12px 30px
-        rgba(
-          0,
-          0,
-          0,
-          .12
-        );
+        var(--shadow);
     }
 
 
-    .loading,
-    .empty-message,
-    .error-message {
+    .filter-title {
 
-      padding:
-        45px 20px;
+      margin:
+        2px 0 18px;
+
+      color:
+        #334155;
 
       text-align:
         center;
 
       font-size:
-        18px;
-
-      line-height:
-        1.8;
-    }
-
-
-    .loading {
-
-      color:
-        var(--primary);
-    }
-
-
-    .empty-message {
-
-      color:
-        #666;
-    }
-
-
-    .error-message {
-
-      color:
-        #c62828;
-    }
-
-
-    .leaderboard-list {
-
-      margin: 0;
-
-      padding: 0;
-
-      list-style:
-        none;
+        21px;
     }
 
 
     /*
     ==================================================
-    每一款遊戲
+    遊戲篩選
     ==================================================
     */
 
-    .leaderboard-game-section {
-
-      margin:
-        0 0 28px;
-
-      padding:
-        0;
-
-      list-style:
-        none;
-    }
-
-
-    .leaderboard-game-section:last-child {
-
-      margin-bottom:
-        0;
-    }
-
-
-    .leaderboard-game-title {
+    .filter-box {
 
       display:
-        flex;
+        grid;
 
-      align-items:
-        center;
+      grid-template-columns:
+        repeat(
+          3,
+          minmax(
+            0,
+            1fr
+          )
+        );
 
       gap:
         10px;
 
-      margin:
-        0 0 14px;
-
-      padding:
-        13px 16px;
-
-      border-radius:
-        14px;
-
-      background:
-        #eff6ff;
-
-      color:
-        #1d4ed8;
-
-      font-size:
-        21px;
-
-      font-weight:
-        900;
+      margin-bottom:
+        22px;
     }
 
 
-    .leaderboard-game-icon {
-
-      font-size:
-        25px;
-    }
-
-
-    /*
-    ==================================================
-    模式
-    ==================================================
-    */
-
-    .leaderboard-mode-tabs {
-
-      display:
-        flex;
-
-      flex-wrap:
-        wrap;
-
-      gap:
-        8px;
-
-      margin:
-        0 0 14px;
-    }
-
-
-    .leaderboard-mode-tab {
+    .filter-button {
 
       min-height:
-        42px;
+        50px;
 
       padding:
-        9px 14px;
+        10px 14px;
 
       border:
         2px solid
@@ -666,10 +587,264 @@
         #475569;
 
       font-size:
+        15px;
+
+      font-weight:
+        bold;
+
+      cursor:
+        pointer;
+
+      transition:
+        .15s ease;
+    }
+
+
+    .filter-button:hover {
+
+      border-color:
+        var(--blue);
+
+      color:
+        var(--blue);
+
+      transform:
+        translateY(-1px);
+    }
+
+
+    .filter-button.active {
+
+      border-color:
+        var(--blue);
+
+      background:
+        var(--blue);
+
+      color:
+        white;
+    }
+
+
+    /*
+    全部遊戲
+    */
+
+
+    .filter-button.all-button {
+
+      grid-column:
+        1 / -1;
+
+      border-color:
+        var(--blue);
+
+      background:
+        var(--blue);
+
+      color:
+        white;
+    }
+
+
+    /*
+    如果使用者點別的遊戲，
+    JS 會把 active 拿掉，
+    所以 all-button 也必須能回到一般狀態
+    */
+
+    .filter-button.all-button:not(.active) {
+
+      background:
+        white;
+
+      color:
+        var(--blue);
+    }
+
+
+    /*
+    ==================================================
+    載入 / 錯誤 / 無資料
+    ==================================================
+    */
+
+    .loading,
+    .empty-message,
+    .error-message {
+
+      padding:
+        38px 20px;
+
+      text-align:
+        center;
+
+      font-size:
+        17px;
+
+      line-height:
+        1.8;
+    }
+
+
+    .loading {
+
+      color:
+        var(--blue);
+    }
+
+
+    .empty-message {
+
+      color:
+        var(--muted);
+    }
+
+
+    .error-message {
+
+      color:
+        #c62828;
+    }
+
+
+    /*
+    ==================================================
+    遊戲排行榜清單
+    ==================================================
+    */
+
+    .leaderboard-list {
+
+      display:
+        grid;
+
+      gap:
+        20px;
+
+      margin: 0;
+
+      padding: 0;
+
+      list-style:
+        none;
+    }
+
+
+    /*
+    ==================================================
+    單一遊戲
+    ==================================================
+    */
+
+    .leaderboard-game-section {
+
+      overflow:
+        hidden;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:
+        18px;
+
+      background:
+        white;
+    }
+
+
+    .leaderboard-game-title {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        8px;
+
+      margin: 0;
+
+      padding:
+        17px 18px;
+
+      background:
+        var(--blue-light);
+
+      color:
+        var(--blue);
+
+      font-size:
+        20px;
+
+      font-weight:
+        bold;
+    }
+
+
+    .leaderboard-game-icon {
+
+      font-size:
+        23px;
+    }
+
+
+    /*
+    ==================================================
+    模式頁籤
+    ==================================================
+    */
+
+    .leaderboard-mode-tabs {
+
+      display:
+        flex;
+
+      gap:
+        8px;
+
+      padding:
+        14px 14px 4px;
+
+      overflow-x:
+        auto;
+
+      -webkit-overflow-scrolling:
+        touch;
+    }
+
+
+    .leaderboard-mode-tab {
+
+      flex-shrink:
+        0;
+
+      min-height:
+        42px;
+
+      padding:
+        8px 15px;
+
+      border:
+        2px solid
+        #cbd5e1;
+
+      border-radius:
+        11px;
+
+      background:
+        white;
+
+      color:
+        #475569;
+
+      font-size:
         14px;
 
       font-weight:
-        900;
+        bold;
 
       cursor:
         pointer;
@@ -679,28 +854,21 @@
     .leaderboard-mode-tab.active {
 
       border-color:
-        #2563eb;
+        var(--blue);
 
       background:
-        #2563eb;
+        var(--blue);
 
       color:
         white;
     }
 
 
-    .leaderboard-mode-content[hidden] {
-
-      display:
-        none !important;
-    }
-
-
-    .leaderboard-mode-heading,
-    .leaderboard-single-title {
+    .leaderboard-single-title,
+    .leaderboard-mode-heading {
 
       margin:
-        0 0 10px;
+        16px 18px 9px;
 
       color:
         #334155;
@@ -709,45 +877,20 @@
         17px;
 
       font-weight:
-        900;
+        bold;
     }
 
 
-    /*
-    ==================================================
-    空排行榜
-    ==================================================
-    */
-
     .leaderboard-mode-empty {
 
-      margin:
-        8px 0 18px;
-
       padding:
-        25px 15px;
-
-      border:
-        2px dashed
-        #cbd5e1;
-
-      border-radius:
-        14px;
-
-      background:
-        #f8fafc;
+        30px 20px;
 
       color:
         #64748b;
 
       text-align:
         center;
-
-      font-size:
-        15px;
-
-      font-weight:
-        800;
 
       line-height:
         1.7;
@@ -756,23 +899,15 @@
 
     /*
     ==================================================
-    排名
+    排行卡
     ==================================================
     */
 
     .leaderboard-ranking-list {
 
-      display:
-        grid;
+      margin: 0;
 
-      gap:
-        10px;
-
-      margin:
-        0;
-
-      padding:
-        0;
+      padding: 0;
 
       list-style:
         none;
@@ -785,7 +920,12 @@
         grid;
 
       grid-template-columns:
-        68px 1fr 105px;
+        70px
+        minmax(
+          0,
+          1fr
+        )
+        100px;
 
       gap:
         12px;
@@ -794,30 +934,30 @@
         center;
 
       padding:
-        15px 16px;
+        17px 18px;
 
-      border:
+      border-top:
         1px solid
-        #e2e8f0;
-
-      border-radius:
-        14px;
-
-      background:
-        white;
+        #eeeeee;
     }
 
 
     .leaderboard-item.current-user {
 
-      border:
-        2px solid
-        #ffb300;
-
       background:
         #fff8e1;
+
+      border-left:
+        6px solid
+        #ffb300;
     }
 
+
+    /*
+    ==================================================
+    名次
+    ==================================================
+    */
 
     .rank {
 
@@ -825,36 +965,41 @@
         center;
 
       font-size:
-        23px;
+        24px;
 
       font-weight:
-        900;
+        bold;
     }
 
 
+    /*
+    ==================================================
+    玩家
+    ==================================================
+    */
+
     .player-info {
 
-      min-width:
-        0;
+      min-width: 0;
     }
 
 
     .player-name {
 
       margin-bottom:
-        4px;
+        5px;
 
       overflow:
         hidden;
 
       color:
-        #1f2937;
+        #333;
 
       font-size:
-        17px;
+        18px;
 
       font-weight:
-        900;
+        bold;
 
       text-overflow:
         ellipsis;
@@ -872,25 +1017,25 @@
       font-size:
         13px;
 
-      font-weight:
-        700;
-
       line-height:
-        1.6;
+        1.7;
     }
 
 
     .leaderboard-play-duration {
 
       color:
-        #0f766e;
+        #0288d1;
 
       font-weight:
-        900;
+        bold;
     }
 
 
     .record-date {
+
+      margin-top:
+        3px;
 
       color:
         #94a3b8;
@@ -900,23 +1045,32 @@
     }
 
 
+    /*
+    ==================================================
+    分數
+    ==================================================
+    */
+
     .score {
 
       text-align:
-        right;
+        center;
 
       color:
-        #f57c00;
+        var(--orange);
 
       font-size:
         25px;
 
       font-weight:
-        900;
+        bold;
     }
 
 
     .score-label {
+
+      margin-top:
+        2px;
 
       color:
         #888;
@@ -931,7 +1085,7 @@
 
     /*
     ==================================================
-    底部
+    底部導覽
     ==================================================
     */
 
@@ -947,7 +1101,7 @@
         12px;
 
       margin-top:
-        24px;
+        22px;
 
       flex-wrap:
         wrap;
@@ -957,16 +1111,28 @@
     .action-link {
 
       display:
-        inline-block;
+        inline-flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      min-width:
+        150px;
+
+      min-height:
+        46px;
 
       padding:
-        12px 22px;
+        11px 20px;
 
       border-radius:
         12px;
 
       background:
-        var(--primary);
+        var(--gray);
 
       color:
         white;
@@ -974,21 +1140,31 @@
       text-decoration:
         none;
 
+      font-size:
+        15px;
+
       font-weight:
-        900;
+        bold;
     }
 
 
-    .action-link.secondary {
+    .action-link.scores {
 
       background:
-        #607d8b;
+        var(--orange);
+    }
+
+
+    .action-link:hover {
+
+      opacity:
+        .9;
     }
 
 
     /*
     ==================================================
-    手機
+    平板
     ==================================================
     */
 
@@ -1004,10 +1180,31 @@
       }
 
 
-      h1 {
+      .header {
 
-        font-size:
-          29px;
+        padding:
+          24px 16px;
+      }
+
+
+      .top-actions {
+
+        padding:
+          12px;
+      }
+
+
+      .semester-card {
+
+        padding:
+          16px;
+      }
+
+
+      .leaderboard-card {
+
+        padding:
+          16px 12px;
       }
 
 
@@ -1024,30 +1221,197 @@
       }
 
 
-      .leaderboard-card {
-
-        padding:
-          14px 10px;
-      }
-
-
       .leaderboard-item {
 
         grid-template-columns:
-          50px 1fr 75px;
+          52px
+          minmax(
+            0,
+            1fr
+          )
+          76px;
 
         gap:
           8px;
 
         padding:
-          13px 9px;
+          15px 10px;
       }
 
 
       .rank {
 
         font-size:
-          20px;
+          21px;
+      }
+
+
+      .player-name {
+
+        font-size:
+          16px;
+      }
+
+
+      .score {
+
+        font-size:
+          21px;
+      }
+    }
+
+
+    /*
+    ==================================================
+    手機
+    ==================================================
+    */
+
+    @media (
+      max-width:
+        480px
+    ) {
+
+      body {
+
+        padding:
+          8px;
+      }
+
+
+      .header {
+
+        border-radius:
+          18px;
+      }
+
+
+      .header h1 {
+
+        font-size:
+          28px;
+      }
+
+
+      .subtitle {
+
+        font-size:
+          14px;
+      }
+
+
+      .ranking-rule {
+
+        font-size:
+          12px;
+      }
+
+
+      /*
+      上方兩個按鈕仍同一排
+      */
+
+      .top-actions {
+
+        display:
+          grid;
+
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(
+              0,
+              1fr
+            )
+          );
+
+        gap:
+          8px;
+      }
+
+
+      .top-action-link {
+
+        min-width: 0;
+
+        padding:
+          10px 8px;
+
+        font-size:
+          14px;
+      }
+
+
+      /*
+      學期
+      */
+
+      .semester-card {
+
+        display:
+          grid;
+
+        grid-template-columns:
+          1fr;
+
+        gap:
+          8px;
+
+        text-align:
+          center;
+      }
+
+
+      .semester-select {
+
+        width: 100%;
+      }
+
+
+      /*
+      遊戲按鈕
+      */
+
+      .filter-box {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .filter-button.all-button {
+
+        grid-column:
+          auto;
+      }
+
+
+      /*
+      排行卡
+      */
+
+      .leaderboard-item {
+
+        grid-template-columns:
+          42px
+          minmax(
+            0,
+            1fr
+          )
+          60px;
+
+        gap:
+          6px;
+
+        padding:
+          13px 7px;
+      }
+
+
+      .rank {
+
+        font-size:
+          18px;
       }
 
 
@@ -1058,83 +1422,10 @@
       }
 
 
-      .score {
+      .record-detail {
 
         font-size:
-          20px;
-      }
-    }
-
-
-    @media (
-      max-width:
-        480px
-    ) {
-
-      .semester-control {
-
-        display:
-          grid;
-
-        grid-template-columns:
-          1fr;
-      }
-
-
-      .semester-control label {
-
-        text-align:
-          center;
-      }
-
-
-      .semester-select {
-
-        width:
-          100%;
-
-        min-width:
-          0;
-      }
-
-
-      .filter-box {
-
-        grid-template-columns:
-          1fr 1fr;
-      }
-
-
-      .filter-button {
-
-        min-height:
-          54px;
-
-        padding:
-          8px;
-
-        font-size:
-          13px;
-      }
-
-
-      .leaderboard-game-title {
-
-        font-size:
-          18px;
-      }
-
-
-      .leaderboard-mode-tab {
-
-        flex:
-          1 1
-          calc(
-            50% - 8px
-          );
-
-        font-size:
-          12px;
+          11px;
       }
 
 
@@ -1145,20 +1436,42 @@
       }
 
 
+      .score {
+
+        font-size:
+          19px;
+      }
+
+
+      /*
+      底部
+      */
+
       .footer-actions {
 
         display:
           grid;
 
         grid-template-columns:
-          1fr;
+          repeat(
+            2,
+            minmax(
+              0,
+              1fr
+            )
+          );
       }
 
 
       .action-link {
 
-        text-align:
-          center;
+        min-width: 0;
+
+        padding:
+          10px 8px;
+
+        font-size:
+          14px;
       }
     }
 
@@ -1173,13 +1486,19 @@
   <main class="container">
 
 
-    <!-- 標題 -->
+    <!--
+    ==================================================
+    頁首
+    ==================================================
+    -->
 
     <header class="header">
+
 
       <h1>
         🏆 遊戲排行榜
       </h1>
+
 
       <p class="subtitle">
 
@@ -1207,49 +1526,112 @@
 
       </div>
 
+
     </header>
 
 
-    <!-- 學期 -->
+    <!--
+    ==================================================
+    ★ 上方快速導覽
+    跟「我的成績」相同邏輯
+    ==================================================
+    -->
+
+    <nav
+      class="top-actions"
+      aria-label="排行榜快速導覽"
+    >
+
+
+      <a
+        class="top-action-link home"
+        href="index.html"
+      >
+
+        🏠 回到首頁
+
+      </a>
+
+
+      <a
+        class="top-action-link scores"
+        href="my-scores.html"
+      >
+
+        📊 我的成績
+
+      </a>
+
+
+    </nav>
+
+
+    <!--
+    ==================================================
+    學期選擇
+    ==================================================
+    -->
 
     <section class="semester-card">
 
-      <div class="semester-control">
 
-        <label for="semesterSelect">
+      <label
+        class="semester-label"
+        for="semesterSelect"
+      >
 
-          📚 選擇學期
+        📚 選擇學期
 
-        </label>
+      </label>
 
 
-        <select
-          id="semesterSelect"
-          class="semester-select"
+      <select
+        id="semesterSelect"
+        class="semester-select"
+      >
+
+
+        <option
+          value="grade7-first"
         >
 
-          <option value="grade7-first">
-            七年級上學期
-          </option>
+          七年級上學期
 
-          <option value="grade7-second">
-            七年級下學期
-          </option>
+        </option>
 
-          <option value="grade8-first">
-            八年級上學期
-          </option>
 
-        </select>
+        <option
+          value="grade7-second"
+        >
 
-      </div>
+          七年級下學期
+
+        </option>
+
+
+        <option
+          value="grade8-first"
+        >
+
+          八年級上學期
+
+        </option>
+
+
+      </select>
+
 
     </section>
 
 
-    <!-- 遊戲卡片 -->
+    <!--
+    ==================================================
+    排行榜主區
+    ==================================================
+    -->
 
-    <section class="filter-card">
+    <section class="leaderboard-card">
+
 
       <h2
         id="filterTitle"
@@ -1261,19 +1643,24 @@
       </h2>
 
 
+      <!--
+      ==================================================
+      JS 自動建立遊戲篩選按鈕
+      ==================================================
+      -->
+
       <nav
         id="filterBox"
         class="filter-box"
         aria-label="排行榜遊戲篩選"
       ></nav>
 
-    </section>
 
-
-    <!-- 排行榜 -->
-
-    <section class="leaderboard-card">
-
+      <!--
+      ==================================================
+      載入中
+      ==================================================
+      -->
 
       <div
         id="loadingMessage"
@@ -1285,6 +1672,12 @@
       </div>
 
 
+      <!--
+      ==================================================
+      錯誤
+      ==================================================
+      -->
+
       <div
         id="errorMessage"
         class="error-message"
@@ -1292,16 +1685,29 @@
       ></div>
 
 
+      <!--
+      ==================================================
+      無資料
+      ==================================================
+      -->
+
       <div
         id="emptyMessage"
         class="empty-message"
         hidden
       >
 
-        目前還沒有成績紀錄。
+        目前尚無排行榜紀錄。
 
       </div>
 
+
+      <!--
+      ==================================================
+      排行榜
+      leaderboard.js 會建立內容
+      ==================================================
+      -->
 
       <ol
         id="leaderboardList"
@@ -1312,9 +1718,16 @@
     </section>
 
 
-    <!-- 底部 -->
+    <!--
+    ==================================================
+    底部仍保留快速導覽
+    ==================================================
+    -->
 
-    <div class="footer-actions">
+    <nav
+      class="footer-actions"
+      aria-label="排行榜底部導覽"
+    >
 
 
       <a
@@ -1322,13 +1735,13 @@
         href="index.html"
       >
 
-        🎮 選擇遊戲
+        🏠 回到首頁
 
       </a>
 
 
       <a
-        class="action-link secondary"
+        class="action-link scores"
         href="my-scores.html"
       >
 
@@ -1337,25 +1750,23 @@
       </a>
 
 
-      <a
-        class="action-link secondary"
-        href="index.html"
-      >
-
-        ← 回到首頁
-
-      </a>
-
-
-    </div>
+    </nav>
 
 
   </main>
 
 
+  <!--
+  ==================================================
+  排行榜程式
+
+  使用目前已修正的 leaderboard.js v8.1
+  ==================================================
+  -->
+
   <script
     type="module"
-    src="js/leaderboard.js?v=7.0"
+    src="js/leaderboard.js?v=8.1"
   ></script>
 
 
