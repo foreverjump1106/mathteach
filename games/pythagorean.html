@@ -3,1409 +3,1519 @@
 
 <head>
 
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+  畢氏定理大挑戰｜數學遊戲樂園
+</title>
+
+<link
+  rel="stylesheet"
+  href="../css/scratchpad.css"
+>
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --navy: #17324d;
+  --navy-dark: #0f2438;
+
+  --teal: #149b92;
+  --teal-dark: #0b746e;
+  --teal-light: #e7f8f6;
+
+  --blue: #3182ce;
+  --blue-dark: #1e5e9b;
+
+  --orange: #f59e0b;
+  --orange-dark: #c97900;
+
+  --purple: #7c3aed;
+
+  --text: #1f2937;
+  --muted: #64748b;
+
+  --success: #15803d;
+  --danger: #c62828;
+  --warning: #b45309;
+
+  --border: #cfe2e3;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+
+  padding: 16px;
+
+  font-family:
+    "Microsoft JhengHei",
+    "Noto Sans TC",
+    sans-serif;
+
+  color: var(--text);
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  background:
+    linear-gradient(
+      rgba(49,130,206,.045) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(49,130,206,.045) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      135deg,
+      #edf8fa,
+      #fffaf0
+    );
 
-  <title>
-    畢氏定理大挑戰｜數學遊戲樂園
-  </title>
+  background-size:
+    26px 26px,
+    26px 26px,
+    auto;
+}
 
-  <link
-    rel="stylesheet"
-    href="../css/scratchpad.css"
-  >
+button,
+input,
+select {
+  font-family: inherit;
+}
 
-  <style>
+.hidden {
+  display: none !important;
+}
 
-    * {
-      box-sizing: border-box;
-    }
+.page-shell {
+  width: min(100%, 1040px);
+  margin: 0 auto;
+}
 
-    :root {
+#commonHeaderMount {
+  margin-bottom: 14px;
+}
 
-      --navy: #17324d;
-      --navy-dark: #0f2438;
+.game-shell {
+  overflow: hidden;
 
-      --teal: #149b92;
-      --teal-dark: #0b746e;
+  border:
+    1px solid
+    #d7e7e7;
 
-      --sky: #dff6f4;
-      --sky-light: #f3fbfa;
+  border-radius: 30px;
 
-      --orange: #f59e0b;
-      --orange-dark: #c97900;
+  background:
+    rgba(255,255,255,.98);
 
-      --blue: #3182ce;
-      --blue-dark: #1e5e9b;
+  box-shadow:
+    0 18px 45px
+    rgba(15,36,56,.13);
+}
 
-      --text: #1f2937;
-      --muted: #64748b;
+/*
+==================================================
+Hero
+==================================================
+*/
 
-      --success: #15803d;
-      --danger: #c62828;
-      --warning: #b45309;
+.hero {
+  position: relative;
+  overflow: hidden;
 
-      --line: #cbd5e1;
-    }
+  padding:
+    28px 24px 26px;
 
-    body {
+  text-align: center;
 
-      margin: 0;
+  color: white;
 
-      min-height: 100vh;
+  background:
+    linear-gradient(
+      135deg,
+      #16324f 0%,
+      #1b5067 58%,
+      #168d86 100%
+    );
+}
 
-      padding: 16px;
+.hero::before {
+  content: "";
 
-      font-family:
-        "Microsoft JhengHei",
-        "Noto Sans TC",
-        sans-serif;
+  position: absolute;
 
-      color:
-        var(--text);
+  width: 220px;
+  height: 220px;
 
-      background:
+  top: -120px;
+  right: -50px;
 
-        linear-gradient(
-          rgba(49, 130, 206, .045) 1px,
-          transparent 1px
-        ),
+  border:
+    2px solid
+    rgba(255,255,255,.13);
 
-        linear-gradient(
-          90deg,
-          rgba(49, 130, 206, .045) 1px,
-          transparent 1px
-        ),
+  border-radius: 50%;
+}
 
-        linear-gradient(
-          135deg,
-          #edf8fa,
-          #fffaf0
-        );
+.hero-icon {
+  position: relative;
 
-      background-size:
-        26px 26px,
-        26px 26px,
-        auto;
-    }
+  display: inline-flex;
 
-    button,
-    input,
-    select {
+  justify-content: center;
+  align-items: center;
 
-      font-family: inherit;
-    }
+  width: 58px;
+  height: 58px;
 
-    .hidden {
+  margin-bottom: 8px;
 
-      display: none !important;
-    }
+  border:
+    2px solid
+    rgba(255,255,255,.48);
 
-    .page-shell {
+  border-radius: 18px;
 
-      width:
-        min(
-          100%,
-          1040px
-        );
+  background:
+    rgba(255,255,255,.12);
 
-      margin:
-        0 auto;
-    }
+  font-size: 34px;
+}
 
-    #commonHeaderMount {
+.game-title {
+  position: relative;
 
-      margin-bottom: 14px;
-    }
+  margin: 0;
 
-    /*
-    ==================================================
-    主框架
-    ==================================================
-    */
+  font-size:
+    clamp(
+      31px,
+      5vw,
+      44px
+    );
 
-    .game-shell {
+  font-weight: 900;
+}
 
-      overflow: hidden;
+.game-subtitle {
+  position: relative;
 
-      border:
-        1px solid
-        #d7e7e7;
+  max-width: 760px;
 
-      border-radius: 30px;
+  margin:
+    10px auto 0;
 
-      background:
-        rgba(
-          255,
-          255,
-          255,
-          .97
-        );
+  color:
+    #d8f4f2;
 
-      box-shadow:
-        0 18px 45px
-        rgba(
-          15,
-          36,
-          56,
-          .13
-        );
-    }
+  line-height: 1.8;
+}
 
-    /*
-    ==================================================
-    HERO
-    ==================================================
-    */
+.concept-strip {
+  position: relative;
 
-    .hero {
+  display: flex;
 
-      position: relative;
+  justify-content: center;
 
-      overflow: hidden;
+  gap: 8px;
 
-      padding:
-        28px 24px 27px;
+  margin-top: 16px;
 
-      text-align: center;
+  flex-wrap: wrap;
+}
 
-      background:
-        linear-gradient(
-          135deg,
-          #16324f 0%,
-          #1b5067 56%,
-          #168d86 100%
-        );
+.concept-chip {
+  padding:
+    7px 12px;
 
-      color: white;
-    }
+  border:
+    1px solid
+    rgba(255,255,255,.42);
 
-    .hero::before {
+  border-radius:
+    999px;
 
-      content: "";
+  background:
+    rgba(255,255,255,.11);
 
-      position: absolute;
+  font-size: 13px;
+  font-weight: 900;
+}
 
-      width: 230px;
-      height: 230px;
+.screen {
+  padding: 24px;
+}
 
-      top: -120px;
-      right: -55px;
+/*
+==================================================
+MathML
+==================================================
+*/
 
-      border:
-        2px solid
-        rgba(
-          255,
-          255,
-          255,
-          .14
-        );
+math {
+  font-family:
+    "Cambria Math",
+    "Times New Roman",
+    serif;
+}
 
-      border-radius: 50%;
-    }
+.math-inline {
+  display: inline-block;
+  vertical-align: middle;
+}
 
-    .hero::after {
+.math-large {
+  font-size: 1.18em;
+}
 
-      content: "";
+/*
+==================================================
+模式
+==================================================
+*/
 
-      position: absolute;
+.mode-intro {
+  margin-bottom: 18px;
+  text-align: center;
+}
 
-      width: 150px;
-      height: 150px;
+.mode-intro h2 {
+  margin:
+    0 0 6px;
 
-      left: -50px;
-      bottom: -80px;
+  color: var(--navy);
+}
 
-      border:
-        2px solid
-        rgba(
-          255,
-          255,
-          255,
-          .12
-        );
+.mode-intro p {
+  margin: 0;
 
-      transform:
-        rotate(
-          35deg
-        );
-    }
+  color: var(--muted);
 
-    .hero-icon {
+  line-height: 1.7;
+}
 
-      position: relative;
+.mode-grid {
+  display: grid;
 
-      display:
-        inline-flex;
+  grid-template-columns:
+    repeat(
+      3,
+      minmax(0,1fr)
+    );
 
-      justify-content: center;
+  gap: 17px;
+}
 
-      align-items: center;
+.mode-card {
+  position: relative;
 
-      width: 58px;
-      height: 58px;
+  min-height: 245px;
 
-      margin-bottom: 9px;
+  overflow: hidden;
 
-      border:
-        2px solid
-        rgba(
-          255,
-          255,
-          255,
-          .5
-        );
+  padding: 22px;
 
-      border-radius: 18px;
+  border:
+    2px solid
+    #d5e7e6;
 
-      background:
-        rgba(
-          255,
-          255,
-          255,
-          .12
-        );
+  border-radius: 22px;
 
-      font-size: 34px;
-    }
+  background: white;
 
-    .game-title {
+  text-align: left;
 
-      position: relative;
+  cursor: pointer;
 
-      margin: 0;
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    border-color .18s ease;
+}
 
-      font-size:
-        clamp(
-          31px,
-          5vw,
-          44px
-        );
+.mode-card:hover {
+  transform:
+    translateY(-4px);
 
-      font-weight: 900;
-    }
+  border-color:
+    var(--teal);
 
-    .game-subtitle {
+  box-shadow:
+    0 12px 26px
+    rgba(15,50,77,.12);
+}
 
-      position: relative;
+.mode-card::after {
+  content: "";
 
-      margin:
-        11px auto 0;
+  position: absolute;
 
-      max-width: 730px;
+  width: 90px;
+  height: 90px;
 
-      color:
-        #d8f4f2;
+  right: -28px;
+  bottom: -28px;
 
-      line-height: 1.8;
-    }
+  border-radius: 50%;
 
-    .concept-strip {
+  background:
+    var(--card-accent);
+}
 
-      position: relative;
+.mode-one {
+  --card-accent:
+    rgba(20,155,146,.12);
+}
 
-      display: flex;
+.mode-two {
+  --card-accent:
+    rgba(245,158,11,.13);
+}
 
-      justify-content: center;
+.mode-three {
+  --card-accent:
+    rgba(124,58,237,.11);
+}
 
-      gap: 8px;
+.mode-top {
+  display: flex;
 
-      margin-top: 17px;
+  align-items: center;
 
-      flex-wrap: wrap;
-    }
+  gap: 11px;
 
-    .concept-chip {
+  margin-bottom: 13px;
+}
 
-      padding:
-        7px 12px;
+.mode-icon {
+  width: 47px;
+  height: 47px;
 
-      border:
-        1px solid
-        rgba(
-          255,
-          255,
-          255,
-          .42
-        );
+  display: flex;
 
-      border-radius:
-        999px;
+  justify-content: center;
+  align-items: center;
 
-      background:
-        rgba(
-          255,
-          255,
-          255,
-          .11
-        );
+  flex: 0 0 auto;
 
-      font-size: 13px;
+  border-radius: 15px;
 
-      font-weight: 900;
-    }
+  background:
+    var(--teal-light);
 
-    .screen {
+  font-size: 27px;
+}
 
-      padding: 25px;
-    }
+.mode-number {
+  color:
+    var(--teal-dark);
 
-    /*
-    ==================================================
-    模式
-    ==================================================
-    */
+  font-size: 13px;
+  font-weight: 900;
+}
 
-    .mode-intro {
+.mode-card h3 {
+  margin:
+    2px 0 0;
 
-      margin-bottom: 18px;
+  color:
+    var(--navy);
 
-      text-align: center;
-    }
+  font-size: 20px;
+}
 
-    .mode-intro h2 {
+.mode-card p {
+  margin: 0;
 
-      margin:
-        0 0 6px;
+  color:
+    var(--muted);
 
-      color:
-        var(--navy);
-    }
+  line-height: 1.7;
+}
 
-    .mode-intro p {
+.mode-example {
+  margin-top: 12px;
 
-      margin: 0;
+  padding:
+    10px 12px;
 
-      color:
-        var(--muted);
+  border-radius: 12px;
 
-      line-height: 1.7;
-    }
+  background:
+    #f8fafc;
 
-    .mode-grid {
+  color:
+    #475569;
 
-      display: grid;
+  font-size: 14px;
+  font-weight: 800;
 
-      grid-template-columns:
-        repeat(
-          2,
-          minmax(
-            0,
-            1fr
-          )
-        );
+  line-height: 1.65;
+}
 
-      gap: 17px;
-    }
+/*
+==================================================
+狀態
+==================================================
+*/
 
-    .mode-card {
+.quiz-topbar {
+  display: grid;
 
-      position: relative;
+  grid-template-columns:
+    1.35fr repeat(4,1fr);
 
-      min-height: 220px;
+  gap: 10px;
 
-      overflow: hidden;
+  margin-bottom: 12px;
+}
 
-      padding: 22px;
+.status-box {
+  min-height: 68px;
 
-      border:
-        2px solid
-        #d5e7e6;
+  display: flex;
 
-      border-radius: 22px;
+  flex-direction: column;
 
-      background: white;
+  justify-content: center;
 
-      text-align: left;
+  padding: 9px;
 
-      cursor: pointer;
+  border:
+    1px solid
+    #dbe8eb;
 
-      transition:
-        transform .18s ease,
-        box-shadow .18s ease,
-        border-color .18s ease;
-    }
+  border-radius: 15px;
 
-    .mode-card:hover {
+  background:
+    #f4fafb;
 
-      transform:
-        translateY(-4px);
+  color:
+    var(--navy);
 
-      border-color:
-        var(--teal);
+  text-align: center;
 
-      box-shadow:
-        0 12px 26px
-        rgba(
-          15,
-          50,
-          77,
-          .12
-        );
-    }
+  font-size: 13px;
+  font-weight: 900;
+}
 
-    .mode-card::after {
+.status-value {
+  margin-top: 4px;
 
-      content: "";
+  color:
+    var(--teal-dark);
 
-      position: absolute;
+  font-size: 18px;
+}
 
-      width: 88px;
-      height: 88px;
+.timer-box {
+  background:
+    #fff8ea;
 
-      right: -25px;
-      bottom: -25px;
+  border-color:
+    #fce4b5;
 
-      border-radius: 50%;
+  color:
+    #b45309;
+}
 
-      background:
-        var(--card-accent);
-    }
+.timer-box
+.status-value {
+  color:
+    #c66c00;
+}
 
-    .mode-one {
+/*
+==================================================
+計算紙
+==================================================
+*/
 
-      --card-accent:
-        rgba(20,155,146,.11);
-    }
+.scratchpad-row {
+  display: flex;
 
-    .mode-two {
+  justify-content: center;
+  align-items: center;
 
-      --card-accent:
-        rgba(49,130,206,.11);
-    }
+  min-height: 54px;
 
-    .mode-three {
+  margin:
+    2px 0 12px;
+}
 
-      --card-accent:
-        rgba(245,158,11,.13);
-    }
+#scratchpad-mobile-button {
+  width: 100%;
 
-    .mode-four {
+  display: flex;
 
-      --card-accent:
-        rgba(124,58,237,.10);
-    }
+  justify-content: center;
+  align-items: center;
+}
 
-    .mode-top {
+#scratchpad-mobile-button
+#scratchpadOpenButton,
 
-      display: flex;
+#scratchpad-mobile-button
+.scratchpad-open-button {
+  position:
+    static !important;
 
-      align-items: center;
+  inset:
+    auto !important;
 
-      gap: 11px;
+  left:
+    auto !important;
 
-      margin-bottom: 12px;
-    }
+  right:
+    auto !important;
 
-    .mode-icon {
+  top:
+    auto !important;
 
-      width: 47px;
-      height: 47px;
+  bottom:
+    auto !important;
 
-      display: flex;
+  transform:
+    none !important;
 
-      justify-content: center;
+  margin:
+    0 !important;
+}
 
-      align-items: center;
+/*
+==================================================
+進度
+==================================================
+*/
 
-      flex: 0 0 auto;
+.progress-shell {
+  height: 9px;
 
-      border-radius: 15px;
+  margin-bottom: 18px;
 
-      background:
-        var(--sky);
+  overflow: hidden;
 
-      font-size: 27px;
-    }
+  border-radius:
+    999px;
 
-    .mode-number {
+  background:
+    #e2e8f0;
+}
 
-      color:
-        var(--teal-dark);
+.progress-bar {
+  width: 0%;
+  height: 100%;
 
-      font-size: 13px;
+  border-radius:
+    999px;
 
-      font-weight: 900;
-    }
+  background:
+    linear-gradient(
+      90deg,
+      var(--teal),
+      #45c5bb
+    );
 
-    .mode-card h3 {
+  transition:
+    width .2s ease;
+}
 
-      margin:
-        2px 0 0;
+/*
+==================================================
+題目
+==================================================
+*/
 
-      color:
-        var(--navy);
+.question-stage {
+  display: grid;
 
-      font-size: 21px;
-    }
+  grid-template-columns:
+    minmax(280px,.9fr)
+    minmax(320px,1.1fr);
 
-    .mode-card p {
+  gap: 18px;
+}
 
-      margin: 0;
+.diagram-card,
+.question-card {
+  min-height: 330px;
 
-      color:
-        var(--muted);
+  border:
+    2px solid
+    #d7e7e8;
 
-      line-height: 1.7;
-    }
+  border-radius: 22px;
 
-    .mode-example {
+  background: white;
+}
 
-      margin-top: 12px;
+.diagram-card {
+  position: relative;
 
-      padding:
-        10px 12px;
+  display: flex;
 
-      border-radius: 12px;
+  justify-content: center;
+  align-items: center;
 
-      background:
-        #f8fafc;
+  padding: 18px;
 
-      color:
-        #475569;
+  overflow: hidden;
 
-      font-size: 14px;
+  background:
+    linear-gradient(
+      180deg,
+      #f7fcfc,
+      #ffffff
+    );
+}
 
-      font-weight: 800;
+.diagram-card::before {
+  content: "";
 
-      line-height: 1.65;
-    }
+  position: absolute;
 
-    /*
-    ==================================================
-    狀態列
-    ==================================================
-    */
+  inset: 0;
 
-    .quiz-topbar {
+  opacity: .38;
 
-      display: grid;
+  background:
+    linear-gradient(
+      #d8eeee 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      #d8eeee 1px,
+      transparent 1px
+    );
 
-      grid-template-columns:
-        1.3fr repeat(
-          4,
-          1fr
-        );
+  background-size:
+    22px 22px;
+}
 
-      gap: 10px;
+#diagram-content {
+  position: relative;
 
-      margin-bottom: 12px;
-    }
+  width: 100%;
 
-    .status-box {
+  display: flex;
 
-      min-height: 68px;
+  justify-content: center;
+  align-items: center;
+}
 
-      display: flex;
+.geometry-svg {
+  width:
+    min(
+      100%,
+      350px
+    );
 
-      flex-direction: column;
+  height: auto;
+}
 
-      justify-content: center;
+.question-card {
+  display: flex;
 
-      padding: 9px;
+  flex-direction: column;
 
-      border:
-        1px solid
-        #dbe8eb;
+  justify-content: center;
 
-      border-radius: 15px;
+  padding: 24px;
 
-      background:
-        #f4fafb;
+  text-align: center;
+}
 
-      color:
-        var(--navy);
+.question-type {
+  display: inline-block;
 
-      text-align: center;
+  align-self: center;
 
-      font-size: 13px;
+  margin-bottom: 15px;
 
-      font-weight: 900;
-    }
+  padding:
+    6px 11px;
 
-    .status-value {
+  border-radius:
+    999px;
 
-      margin-top: 4px;
+  background:
+    var(--teal-light);
 
-      color:
-        var(--teal-dark);
+  color:
+    var(--teal-dark);
 
-      font-size: 18px;
-    }
+  font-size: 13px;
+  font-weight: 900;
+}
 
-    .timer-box {
+.question-label {
+  color:
+    var(--muted);
 
-      background:
-        #fff8ea;
+  font-size: 15px;
+  font-weight: 800;
 
-      border-color:
-        #fce4b5;
+  line-height: 1.7;
+}
 
-      color:
-        #b45309;
-    }
+.question-content {
+  margin-top: 13px;
 
-    .timer-box
-    .status-value {
+  color:
+    var(--navy-dark);
 
-      color:
-        #c66c00;
-    }
+  font-size:
+    clamp(
+      22px,
+      4vw,
+      33px
+    );
 
-    /*
-    ==================================================
-    計算紙
-    ==================================================
-    */
+  font-weight: 900;
 
-    .scratchpad-row {
+  line-height: 1.7;
+}
 
-      display: flex;
+.formula-hint {
+  margin-top: 18px;
 
-      justify-content: center;
+  padding: 13px;
 
-      align-items: center;
+  border:
+    1px dashed
+    #a9ceca;
 
-      min-height: 54px;
+  border-radius: 14px;
 
-      margin:
-        2px 0 12px;
-    }
+  background:
+    #f3fbfa;
 
-    #scratchpad-mobile-button {
+  color:
+    #466066;
 
-      display: flex;
+  font-size: 15px;
+  font-weight: 800;
 
-      justify-content: center;
+  line-height: 1.7;
+}
 
-      align-items: center;
+/*
+==================================================
+答案 Panel
+==================================================
+*/
 
-      width: 100%;
-    }
+.answer-panel {
+  margin-top: 18px;
 
-    #scratchpad-mobile-button
-    #scratchpadOpenButton,
+  padding: 20px;
 
-    #scratchpad-mobile-button
-    .scratchpad-open-button {
+  border:
+    1px solid
+    #dbe8eb;
 
-      position:
-        static !important;
+  border-radius: 20px;
 
-      left:
-        auto !important;
+  background:
+    #f8fbfc;
+}
 
-      right:
-        auto !important;
+.answer-title {
+  margin-bottom: 10px;
 
-      top:
-        auto !important;
+  color:
+    var(--navy);
 
-      bottom:
-        auto !important;
+  text-align: center;
 
-      inset:
-        auto !important;
+  font-weight: 900;
+}
 
-      transform:
-        none !important;
+.answer-help {
+  margin:
+    0 0 13px;
 
-      margin:
-        0 !important;
-    }
+  color:
+    var(--muted);
 
-    /*
-    ==================================================
-    進度
-    ==================================================
-    */
+  text-align: center;
 
-    .progress-shell {
+  font-size: 14px;
 
-      height: 9px;
+  line-height: 1.65;
+}
 
-      margin-bottom: 18px;
+/*
+==================================================
+Number
+==================================================
+*/
 
-      overflow: hidden;
+.number-answer {
+  display: flex;
+  justify-content: center;
+}
 
-      border-radius:
-        999px;
+.number-answer input {
+  width:
+    min(
+      260px,
+      100%
+    );
 
-      background:
-        #e2e8f0;
-    }
+  padding: 13px;
 
-    .progress-bar {
+  border:
+    2px solid
+    #b8d1d4;
 
-      width: 0%;
+  border-radius: 13px;
 
-      height: 100%;
+  background: white;
 
-      border-radius:
-        999px;
+  color:
+    var(--navy);
 
-      background:
-        linear-gradient(
-          90deg,
-          var(--teal),
-          #45c5bb
-        );
+  font-size: 24px;
+  font-weight: 900;
 
-      transition:
-        width .2s ease;
-    }
+  text-align: center;
 
-    /*
-    ==================================================
-    題目舞台
-    ==================================================
-    */
+  outline: none;
+}
 
-    .question-stage {
+.number-answer input:focus {
+  border-color:
+    var(--teal);
 
-      display: grid;
+  box-shadow:
+    0 0 0 4px
+    rgba(20,155,146,.12);
+}
 
-      grid-template-columns:
-        minmax(
-          270px,
-          .95fr
-        )
-        minmax(
-          300px,
-          1.05fr
-        );
+/*
+==================================================
+Fraction answer
+==================================================
+*/
 
-      gap: 18px;
-    }
+.fraction-answer-wrap {
+  display: flex;
 
-    .diagram-card,
-    .question-card {
+  justify-content: center;
 
-      min-height: 315px;
+  align-items: center;
+}
 
-      border:
-        2px solid
-        #d7e7e8;
+.fraction-answer {
+  width: 125px;
 
-      border-radius: 22px;
+  display: flex;
 
-      background: white;
-    }
+  flex-direction: column;
+}
 
-    .diagram-card {
+.fraction-answer input {
+  width: 100%;
 
-      position: relative;
+  padding:
+    9px 7px;
 
-      display: flex;
+  border:
+    2px solid
+    #b8d1d4;
 
-      justify-content: center;
+  background: white;
 
-      align-items: center;
+  font-size: 21px;
+  font-weight: 900;
 
-      padding: 18px;
+  text-align: center;
 
-      overflow: hidden;
+  outline: none;
+}
 
-      background:
-        linear-gradient(
-          180deg,
-          #f7fcfc,
-          #ffffff
-        );
-    }
+.fraction-answer
+input:first-child {
+  border-radius:
+    11px 11px 0 0;
 
-    .diagram-card::before {
+  border-bottom:
+    2px solid
+    #334155;
+}
 
-      content: "";
+.fraction-answer
+input:last-child {
+  border-radius:
+    0 0 11px 11px;
 
-      position: absolute;
+  border-top: 0;
+}
 
-      inset: 0;
+/*
+==================================================
+根式分數
+==================================================
+*/
 
-      opacity: .38;
+.radical-fraction-grid {
+  display: grid;
 
-      background:
+  grid-template-columns:
+    auto auto auto;
 
-        linear-gradient(
-          #d8eeee 1px,
-          transparent 1px
-        ),
+  justify-content: center;
 
-        linear-gradient(
-          90deg,
-          #d8eeee 1px,
-          transparent 1px
-        );
+  align-items: center;
 
-      background-size:
-        22px 22px;
-    }
+  gap: 10px;
+}
 
-    #diagram-content {
+.rf-sign,
+.rf-coefficient,
+.rf-radicand,
+.rf-denominator {
+  min-height: 52px;
 
-      position: relative;
+  border:
+    2px solid
+    #b8d1d4;
 
-      width: 100%;
+  border-radius: 11px;
 
-      display: flex;
+  background: white;
 
-      justify-content: center;
+  font-size: 20px;
+  font-weight: 900;
 
-      align-items: center;
-    }
+  text-align: center;
 
-    .geometry-svg {
+  outline: none;
+}
 
-      width:
-        min(
-          100%,
-          340px
-        );
+.rf-sign {
+  width: 75px;
+}
 
-      height: auto;
-    }
+.rf-coefficient {
+  width: 100px;
+}
 
-    .question-card {
+.rf-radicand {
+  width: 115px;
+}
 
-      display: flex;
+.rf-denominator {
+  width: 120px;
+}
 
-      flex-direction: column;
+.rf-root {
+  display: flex;
 
-      justify-content: center;
+  align-items: center;
 
-      padding: 24px;
+  font-family:
+    "Cambria Math",
+    "Times New Roman",
+    serif;
 
-      text-align: center;
-    }
+  font-size: 33px;
+}
 
-    .question-type {
+.rf-root-box {
+  display: flex;
 
-      display:
-        inline-block;
+  flex-direction: column;
 
-      align-self: center;
+  align-items: center;
+}
 
-      margin-bottom: 15px;
+.rf-root-top {
+  display: flex;
 
-      padding:
-        6px 11px;
+  align-items: center;
 
-      border-radius:
-        999px;
+  gap: 6px;
+}
 
-      background:
-        var(--sky);
+.rf-divider {
+  width: 100%;
+  height: 2px;
 
-      color:
-        var(--teal-dark);
+  margin:
+    6px 0;
 
-      font-size: 13px;
+  background:
+    #334155;
+}
 
-      font-weight: 900;
-    }
+.rf-denominator-wrap {
+  display: flex;
 
-    .question-label {
+  justify-content: center;
+}
 
-      color:
-        var(--muted);
+/*
+==================================================
+Choice
+==================================================
+*/
 
-      font-size: 15px;
+.choice-grid {
+  display: grid;
 
-      font-weight: 800;
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0,1fr)
+    );
 
-      line-height: 1.7;
-    }
+  gap: 10px;
 
-    .question-content {
+  max-width: 680px;
 
-      margin-top: 13px;
+  margin:
+    0 auto;
+}
 
-      color:
-        var(--navy-dark);
+.choice-button {
+  min-height: 58px;
 
-      font-size:
-        clamp(
-          24px,
-          4vw,
-          34px
-        );
+  padding: 12px;
 
-      font-weight: 900;
+  border:
+    2px solid
+    #b8d1d4;
 
-      line-height: 1.6;
-    }
+  border-radius: 13px;
 
-    .formula-hint {
+  background: white;
 
-      margin-top: 18px;
+  color:
+    var(--navy);
 
-      padding: 13px;
+  font-size: 17px;
+  font-weight: 900;
 
-      border:
-        1px dashed
-        #a9ceca;
+  cursor: pointer;
+}
 
-      border-radius: 14px;
+.choice-button.selected {
+  border-color:
+    var(--teal);
 
-      background:
-        #f3fbfa;
+  background:
+    #e5f8f6;
 
-      color:
-        #466066;
+  color:
+    var(--teal-dark);
+}
 
-      font-size: 15px;
+/*
+==================================================
+Preview
+==================================================
+*/
 
-      font-weight: 800;
-    }
+.answer-preview {
+  max-width: 720px;
 
-    /*
-    ==================================================
-    答案
-    ==================================================
-    */
+  min-height: 60px;
 
-    .answer-panel {
+  display: flex;
 
-      margin-top: 18px;
+  justify-content: center;
+  align-items: center;
 
-      padding: 20px;
+  margin:
+    14px auto 0;
 
-      border:
-        1px solid
-        #dbe8eb;
+  padding: 12px;
 
-      border-radius: 20px;
+  border:
+    2px solid
+    #bfe7e4;
 
-      background:
-        #f8fbfc;
-    }
+  border-radius: 14px;
 
-    .answer-title {
+  background:
+    #eaf9f7;
 
-      margin-bottom: 11px;
+  color:
+    #3c5660;
 
-      color:
-        var(--navy);
+  text-align: center;
 
-      text-align: center;
+  font-size: 18px;
+  font-weight: 900;
+}
 
-      font-weight: 900;
-    }
+.answer-preview-value {
+  display: inline-flex;
 
-    .answer-help {
+  align-items: center;
 
-      margin:
-        0 0 13px;
+  margin-left: 8px;
 
-      color:
-        var(--muted);
+  color:
+    var(--teal-dark);
 
-      text-align: center;
+  font-size: 23px;
+}
 
-      font-size: 14px;
+/*
+==================================================
+Buttons
+==================================================
+*/
 
-      line-height: 1.6;
-    }
+.button-row {
+  display: flex;
 
-    .number-answer {
+  justify-content: center;
 
-      display: flex;
+  gap: 10px;
 
-      justify-content: center;
-    }
+  margin-top: 17px;
 
-    .number-answer input {
+  flex-wrap: wrap;
+}
 
-      width:
-        min(
-          260px,
-          100%
-        );
+.game-button {
+  min-width: 138px;
 
-      padding: 13px;
+  padding:
+    12px 19px;
 
-      border:
-        2px solid
-        #b8d1d4;
+  border: 0;
 
-      border-radius: 13px;
+  border-radius: 13px;
 
-      background: white;
+  color: white;
 
-      color:
-        var(--navy);
+  background:
+    var(--navy);
 
-      font-size: 24px;
+  font-size: 16px;
+  font-weight: 900;
 
-      font-weight: 900;
+  cursor: pointer;
 
-      text-align: center;
+  box-shadow:
+    0 5px 0
+    var(--navy-dark);
+}
 
-      outline: none;
-    }
+.game-button.primary {
+  background:
+    var(--teal);
 
-    .number-answer input:focus {
+  box-shadow:
+    0 5px 0
+    var(--teal-dark);
+}
 
-      border-color:
-        var(--teal);
+.game-button.restart {
+  background:
+    var(--blue);
 
-      box-shadow:
-        0 0 0 4px
-        rgba(
-          20,
-          155,
-          146,
-          .12
-        );
-    }
+  box-shadow:
+    0 5px 0
+    var(--blue-dark);
+}
 
-    /*
-    ==================================================
-    選擇題
-    ==================================================
-    */
+.game-button.secondary {
+  background:
+    #64748b;
 
-    .choice-grid {
+  box-shadow:
+    0 5px 0
+    #475569;
+}
 
-      display: grid;
+.game-button.orange {
+  background:
+    var(--orange);
 
-      grid-template-columns:
-        repeat(
-          2,
-          minmax(
-            0,
-            1fr
-          )
-        );
+  box-shadow:
+    0 5px 0
+    var(--orange-dark);
+}
 
-      gap: 10px;
+.game-button:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
 
-      max-width: 680px;
+/*
+==================================================
+Feedback
+==================================================
+*/
 
-      margin:
-        0 auto;
-    }
+.feedback {
+  min-height: 46px;
 
-    .choice-button {
+  margin-top: 14px;
 
-      min-height: 58px;
+  text-align: center;
 
-      padding: 12px;
+  font-size: 18px;
+  font-weight: 900;
 
-      border:
-        2px solid
-        #b8d1d4;
+  line-height: 1.8;
+}
 
-      border-radius: 13px;
+.feedback.correct {
+  color:
+    var(--success);
+}
 
-      background: white;
+.feedback.wrong {
+  color:
+    var(--danger);
+}
 
-      color:
-        var(--navy);
+.feedback.warning {
+  color:
+    var(--warning);
+}
 
-      font-size: 17px;
+/*
+==================================================
+詳解
+==================================================
+*/
 
-      font-weight: 900;
+.explanation {
+  margin-top: 13px;
 
-      cursor: pointer;
-    }
+  padding: 18px;
 
-    .choice-button.selected {
+  border-radius: 16px;
 
-      border-color:
-        var(--teal);
+  background:
+    #edf8f8;
 
-      background:
-        #e5f8f6;
+  color:
+    #334155;
 
-      color:
-        var(--teal-dark);
-    }
+  line-height: 2;
+}
 
-    /*
-    ==================================================
-    Preview
-    ==================================================
-    */
+.explanation-step {
+  margin:
+    9px 0;
+}
 
-    .answer-preview {
+/*
+==================================================
+Result
+==================================================
+*/
 
-      max-width: 720px;
+.result-panel {
+  text-align: center;
+}
 
-      min-height: 58px;
+.result-score {
+  margin:
+    16px 0;
 
-      display: flex;
+  color:
+    var(--orange);
 
-      justify-content: center;
+  font-size: 56px;
+  font-weight: 900;
+}
 
-      align-items: center;
+.result-stars {
+  margin-bottom: 8px;
 
-      margin:
-        14px auto 0;
+  font-size: 31px;
+}
 
-      padding: 12px;
+.result-grid {
+  display: grid;
 
-      border:
-        2px solid
-        #bfe7e4;
+  grid-template-columns:
+    repeat(
+      4,
+      minmax(0,1fr)
+    );
 
-      border-radius: 14px;
+  gap: 12px;
 
-      background:
-        #eaf9f7;
+  margin:
+    20px 0;
+}
 
-      color:
-        #3c5660;
+.result-stat {
+  padding:
+    16px 10px;
 
-      text-align: center;
+  border-radius: 16px;
 
-      font-size: 18px;
+  background:
+    var(--teal-light);
 
-      font-weight: 900;
-    }
+  color:
+    var(--navy);
 
-    /*
-    ==================================================
-    按鈕
-    ==================================================
-    */
+  font-weight: 900;
+}
 
-    .button-row {
+.save-status {
+  min-height: 28px;
 
-      display: flex;
+  margin-top: 14px;
 
-      justify-content: center;
+  font-weight: 900;
+}
 
-      gap: 10px;
+/*
+==================================================
+Review
+==================================================
+*/
 
-      margin-top: 17px;
+.review-list {
+  display: grid;
 
-      flex-wrap: wrap;
-    }
+  gap: 14px;
+}
 
-    .game-button {
+.review-card {
+  padding: 18px;
 
-      min-width: 138px;
+  border:
+    1px solid
+    #e2e8f0;
 
-      padding:
-        12px 19px;
+  border-radius: 16px;
 
-      border: 0;
+  background: white;
+}
 
-      border-radius: 13px;
+.review-title {
+  color:
+    var(--danger);
 
-      color: white;
+  font-weight: 900;
+}
 
-      background:
-        var(--navy);
+.review-question {
+  margin:
+    12px 0;
 
-      font-size: 16px;
+  color:
+    var(--navy);
 
-      font-weight: 900;
+  font-size: 21px;
+  font-weight: 900;
+}
 
-      cursor: pointer;
+.review-answer {
+  color:
+    #475569;
 
-      box-shadow:
-        0 5px 0
-        var(--navy-dark);
-    }
+  line-height: 1.8;
+}
 
-    .game-button.primary {
+/*
+==================================================
+Responsive
+==================================================
+*/
 
-      background:
-        var(--teal);
+@media(
+  max-width: 900px
+) {
 
-      box-shadow:
-        0 5px 0
-        var(--teal-dark);
-    }
+  .mode-grid {
+    grid-template-columns:
+      1fr;
+  }
 
-    .game-button.restart {
+}
 
-      background:
-        var(--blue);
+@media(
+  max-width: 780px
+) {
 
-      box-shadow:
-        0 5px 0
-        var(--blue-dark);
-    }
+  body {
+    padding: 8px;
+  }
 
-    .game-button.secondary {
+  .screen {
+    padding:
+      18px 12px;
+  }
 
-      background:
-        #64748b;
+  .quiz-topbar {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0,1fr)
+      );
+  }
 
-      box-shadow:
-        0 5px 0
-        #475569;
-    }
+  .timer-box {
+    grid-column:
+      1 / -1;
+  }
 
-    .game-button:disabled {
+  .question-stage {
+    grid-template-columns:
+      1fr;
+  }
 
-      opacity: .55;
+  .diagram-card {
+    min-height: 260px;
+  }
 
-      cursor: not-allowed;
-    }
+  .question-card {
+    min-height: 240px;
+  }
 
-    /*
-    ==================================================
-    回饋
-    ==================================================
-    */
+  .choice-grid {
+    grid-template-columns:
+      1fr;
+  }
 
-    .feedback {
+  .result-grid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0,1fr)
+      );
+  }
 
-      min-height: 45px;
+  .radical-fraction-grid {
+    grid-template-columns:
+      1fr;
 
-      margin-top: 14px;
+    justify-items: center;
+  }
 
-      text-align: center;
+}
 
-      font-size: 18px;
-
-      font-weight: 900;
-    }
-
-    .feedback.correct {
-
-      color:
-        var(--success);
-    }
-
-    .feedback.wrong {
-
-      color:
-        var(--danger);
-    }
-
-    .feedback.warning {
-
-      color:
-        var(--warning);
-    }
-
-    /*
-    ==================================================
-    詳解
-    ==================================================
-    */
-
-    .explanation {
-
-      margin-top: 13px;
-
-      padding: 18px;
-
-      border-radius: 16px;
-
-      background:
-        #edf8f8;
-
-      color:
-        #334155;
-
-      line-height: 1.9;
-    }
-
-    .explanation-step {
-
-      margin:
-        8px 0;
-    }
-
-    /*
-    ==================================================
-    Root display
-    ==================================================
-    */
-
-    .simple-radical {
-
-      font-family:
-        "Cambria Math",
-        "Times New Roman",
-        serif;
-
-      white-space: nowrap;
-    }
-
-    /*
-    ==================================================
-    RWD
-    ==================================================
-    */
-
-    @media(
-      max-width:
-        780px
-    ) {
-
-      body {
-
-        padding: 8px;
-      }
-
-      .screen {
-
-        padding:
-          18px 12px;
-      }
-
-      .mode-grid {
-
-        grid-template-columns:
-          1fr;
-      }
-
-      .quiz-topbar {
-
-        grid-template-columns:
-          repeat(
-            2,
-            minmax(
-              0,
-              1fr
-            )
-          );
-      }
-
-      .timer-box {
-
-        grid-column:
-          1 / -1;
-      }
-
-      .question-stage {
-
-        grid-template-columns:
-          1fr;
-      }
-
-      .diagram-card {
-
-        min-height: 260px;
-      }
-
-      .question-card {
-
-        min-height: 235px;
-      }
-
-      .choice-grid {
-
-        grid-template-columns:
-          1fr;
-      }
-
-    }
-
-  </style>
+</style>
 
 </head>
+
 
 <body>
 
@@ -1414,6 +1524,11 @@
   <div id="commonHeaderMount"></div>
 
   <main class="game-shell">
+
+
+    <!-- ==================================================
+         Header
+    ================================================== -->
 
     <header class="hero">
 
@@ -1426,7 +1541,7 @@
       </h1>
 
       <p class="game-subtitle">
-        從直角三角形開始，練習第三邊、根式邊長、生活應用與兩點間距離。
+        從基本邊長與直角判斷開始，再挑戰生活應用、斜邊上的高與坐標平面兩點距離。
       </p>
 
       <div class="concept-strip">
@@ -1436,19 +1551,19 @@
         </span>
 
         <span class="concept-chip">
-          直角三角形
+          求第三邊
         </span>
 
         <span class="concept-chip">
-          最簡根式
+          斜邊上的高
         </span>
 
         <span class="concept-chip">
-          圖形應用
+          生活應用
         </span>
 
         <span class="concept-chip">
-          座標距離
+          兩點間距離
         </span>
 
       </div>
@@ -1457,7 +1572,7 @@
 
 
     <!-- ==================================================
-         模式
+         Start
     ================================================== -->
 
     <section
@@ -1472,7 +1587,7 @@
         </h2>
 
         <p>
-          每次進入模式都會重新產生該模式的題目。
+          三個模式依照翰林版八上 2-3 畢氏定理的例題與隨堂練習架構重新整理。
         </p>
 
       </div>
@@ -1480,6 +1595,8 @@
 
       <div class="mode-grid">
 
+
+        <!-- MODE 1 -->
 
         <button
           class="mode-card mode-one"
@@ -1500,7 +1617,7 @@
               </div>
 
               <h3>
-                畢氏定理基礎挑戰
+                畢氏定理基礎
               </h3>
 
             </div>
@@ -1508,26 +1625,28 @@
           </div>
 
           <p>
-            求直角三角形的第三邊，並判斷三個邊長是否能構成直角三角形。
+            求直角三角形斜邊、另一股，並判斷三邊是否能構成直角三角形。
           </p>
 
           <div class="mode-example">
-            整數與最簡根式答案都可能出現。
+            題型比例：斜邊 4 題、股長 3 題、直角判斷 3 題。
           </div>
 
         </button>
 
 
+        <!-- MODE 2 -->
+
         <button
           class="mode-card mode-two"
           type="button"
-          data-mode="radical"
+          data-mode="application"
         >
 
           <div class="mode-top">
 
             <div class="mode-icon">
-              🌱
+              🏗️
             </div>
 
             <div>
@@ -1537,7 +1656,7 @@
               </div>
 
               <h3>
-                根式邊長挑戰
+                生活應用與斜邊上的高
               </h3>
 
             </div>
@@ -1545,55 +1664,20 @@
           </div>
 
           <p>
-            著重畢氏定理計算後，將平方根化成最簡根式。
+            將畢氏定理運用在梯子、竹竿、長方形對角線等情境，並加入斜邊上的高。
           </p>
 
           <div class="mode-example">
-            例如：√117＝3√13。
+            題型比例：生活應用 5 題、直接求高 3 題、先求邊再求高 2 題。
           </div>
 
         </button>
 
+
+        <!-- MODE 3 -->
 
         <button
           class="mode-card mode-three"
-          type="button"
-          data-mode="application"
-        >
-
-          <div class="mode-top">
-
-            <div class="mode-icon">
-              🏠
-            </div>
-
-            <div>
-
-              <div class="mode-number">
-                MODE 03
-              </div>
-
-              <h3>
-                生活中的畢氏定理
-              </h3>
-
-            </div>
-
-          </div>
-
-          <p>
-            長方形對角線、梯子靠牆、旗杆與幾何應用。
-          </p>
-
-          <div class="mode-example">
-            從情境中找出直角三角形。
-          </div>
-
-        </button>
-
-
-        <button
-          class="mode-card mode-four"
           type="button"
           data-mode="distance"
         >
@@ -1607,11 +1691,11 @@
             <div>
 
               <div class="mode-number">
-                MODE 04
+                MODE 03
               </div>
 
               <h3>
-                座標距離挑戰
+                平面上兩點的距離
               </h3>
 
             </div>
@@ -1619,11 +1703,11 @@
           </div>
 
           <p>
-            利用坐標差建立直角三角形，計算兩點間的距離。
+            先練習水平、鉛直距離，再利用距離公式求坐標平面上任意兩點的距離。
           </p>
 
           <div class="mode-example">
-            答案也可能是最簡根式。
+            包含課本例 7、例 8 類型，以及三點建立直角三角形的題型。
           </div>
 
         </button>
@@ -1657,7 +1741,6 @@
 
         </div>
 
-
         <div class="status-box">
 
           進度
@@ -1670,7 +1753,6 @@
           </span>
 
         </div>
-
 
         <div class="status-box">
 
@@ -1685,7 +1767,6 @@
 
         </div>
 
-
         <div class="status-box">
 
           最高連擊
@@ -1698,7 +1779,6 @@
           </span>
 
         </div>
-
 
         <div class="status-box timer-box">
 
@@ -1716,7 +1796,7 @@
       </div>
 
 
-      <!-- ★ 計算紙已經移到上方 -->
+      <!-- 計算紙固定在上方 -->
 
       <div class="scratchpad-row">
 
@@ -1833,10 +1913,177 @@
 
     </section>
 
+
+    <!-- ==================================================
+         Result
+    ================================================== -->
+
+    <section
+      id="result-screen"
+      class="screen hidden result-panel"
+    >
+
+      <h2>
+        🎉 挑戰完成
+      </h2>
+
+      <div
+        id="final-score"
+        class="result-score"
+      >
+        0 分
+      </div>
+
+      <div
+        id="final-stars"
+        class="result-stars"
+      >
+        ★★★☆☆
+      </div>
+
+      <p id="final-comment"></p>
+
+
+      <div class="result-grid">
+
+        <div class="result-stat">
+
+          答對
+          <br>
+
+          <span id="final-correct">
+            0
+          </span>
+
+          題
+
+        </div>
+
+        <div class="result-stat">
+
+          答錯
+          <br>
+
+          <span id="final-wrong">
+            0
+          </span>
+
+          題
+
+        </div>
+
+        <div class="result-stat">
+
+          最高連擊
+          <br>
+
+          <span id="final-combo">
+            0
+          </span>
+
+        </div>
+
+        <div class="result-stat">
+
+          測驗時間
+          <br>
+
+          <span id="final-time">
+            00:00
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="save-status"
+        class="save-status"
+      ></div>
+
+
+      <div class="button-row">
+
+        <button
+          id="again-button"
+          class="game-button restart"
+          type="button"
+        >
+          🔄 重新測驗
+        </button>
+
+        <button
+          id="review-button"
+          class="game-button orange"
+          type="button"
+        >
+          錯題回顧
+        </button>
+
+        <button
+          id="result-mode-button"
+          class="game-button secondary"
+          type="button"
+        >
+          選擇模式
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         Review
+    ================================================== -->
+
+    <section
+      id="review-screen"
+      class="screen hidden"
+    >
+
+      <h2>
+        📝 錯題回顧
+      </h2>
+
+      <div
+        id="review-list"
+        class="review-list"
+      ></div>
+
+
+      <div class="button-row">
+
+        <button
+          id="review-again-button"
+          class="game-button restart"
+          type="button"
+        >
+          🔄 重新測驗
+        </button>
+
+        <button
+          id="review-result-button"
+          class="game-button secondary"
+          type="button"
+        >
+          回到測驗結果
+        </button>
+
+      </div>
+
+    </section>
+
+
   </main>
 
 </div>
 
+
+<!-- ==================================================
+     共用元件
+================================================== -->
 
 <script src="../js/common-header.js"></script>
 
@@ -1849,29 +2096,41 @@
 <script src="../js/radical-input.js?v=7"></script>
 
 
-<script>
+<script type="module">
+
+import {
+  saveGameScore
+} from "../js/scores.js";
+
 
 "use strict";
+
+
+/*
+==================================================
+基本設定
+==================================================
+*/
+
+const GAME_ID =
+  "pythagorean";
+
+
+const TOTAL_QUESTIONS =
+  10;
 
 
 const MODE_NAMES = {
 
   basic:
-    "畢氏定理基礎挑戰",
-
-  radical:
-    "根式邊長挑戰",
+    "畢氏定理基礎",
 
   application:
-    "生活中的畢氏定理",
+    "生活應用與斜邊上的高",
 
   distance:
-    "座標距離挑戰"
+    "平面上兩點的距離"
 };
-
-
-const TOTAL_QUESTIONS =
-  10;
 
 
 const $ =
@@ -1909,6 +2168,10 @@ let maxCombo =
   0;
 
 
+let records =
+  [];
+
+
 let answered =
   false;
 
@@ -1925,8 +2188,16 @@ let startTime =
   0;
 
 
+let finalElapsed =
+  0;
+
+
 let timerId =
   null;
+
+
+let scoreSaved =
+  false;
 
 
 /*
@@ -2007,6 +2278,323 @@ function shuffle(
 }
 
 
+function gcd(
+  a,
+  b
+) {
+
+  a =
+    Math.abs(
+      a
+    );
+
+
+  b =
+    Math.abs(
+      b
+    );
+
+
+  while (
+    b
+  ) {
+
+    const temp =
+      a %
+      b;
+
+
+    a =
+      b;
+
+
+    b =
+      temp;
+  }
+
+
+  return a ||
+    1;
+}
+
+
+function reduceFraction(
+  numerator,
+  denominator
+) {
+
+  if (
+    denominator <
+    0
+  ) {
+
+    numerator *=
+      -1;
+
+
+    denominator *=
+      -1;
+  }
+
+
+  const d =
+    gcd(
+      numerator,
+      denominator
+    );
+
+
+  return {
+
+    numerator:
+      numerator /
+      d,
+
+    denominator:
+      denominator /
+      d
+  };
+}
+
+
+/*
+==================================================
+MathML
+==================================================
+*/
+
+function mNumber(
+  value
+) {
+
+  return `
+    <mn>${value}</mn>
+  `;
+}
+
+
+function mIdentifier(
+  value
+) {
+
+  return `
+    <mi>${value}</mi>
+  `;
+}
+
+
+function mOperator(
+  value
+) {
+
+  return `
+    <mo>${value}</mo>
+  `;
+}
+
+
+function mSup(
+  base,
+  exponent
+) {
+
+  return `
+    <msup>
+      ${base}
+      ${mNumber(exponent)}
+    </msup>
+  `;
+}
+
+
+function mSqrt(
+  content
+) {
+
+  return `
+    <msqrt>
+      ${content}
+    </msqrt>
+  `;
+}
+
+
+function mFraction(
+  numerator,
+  denominator
+) {
+
+  return `
+    <mfrac>
+      <mrow>
+        ${numerator}
+      </mrow>
+      <mrow>
+        ${denominator}
+      </mrow>
+    </mfrac>
+  `;
+}
+
+
+function mathHTML(
+  content,
+  large =
+    false
+) {
+
+  return `
+    <math
+      class="math-inline ${large ? "math-large" : ""}"
+      xmlns="http://www.w3.org/1998/Math/MathML"
+    >
+      <mrow>
+        ${content}
+      </mrow>
+    </math>
+  `;
+}
+
+
+function squareHTML(
+  n
+) {
+
+  return mathHTML(
+    mSup(
+      mNumber(n),
+      2
+    )
+  );
+}
+
+
+function rootHTML(
+  n
+) {
+
+  return mathHTML(
+    mSqrt(
+      mNumber(n)
+    )
+  );
+}
+
+
+function radicalHTML(
+  coefficient,
+  radicand
+) {
+
+  if (
+    radicand ===
+    1
+  ) {
+
+    return String(
+      coefficient
+    );
+  }
+
+
+  const sign =
+    coefficient <
+    0
+      ? "−"
+      : "";
+
+
+  const abs =
+    Math.abs(
+      coefficient
+    );
+
+
+  const coefficientHTML =
+
+    abs ===
+    1
+
+      ? ""
+
+      : mNumber(
+          abs
+        );
+
+
+  return mathHTML(
+
+    `
+      ${sign ? mOperator("−") : ""}
+      ${coefficientHTML}
+      ${mSqrt(
+        mNumber(
+          radicand
+        )
+      )}
+    `
+  );
+}
+
+
+function fractionHTML(
+  numerator,
+  denominator
+) {
+
+  return mathHTML(
+
+    mFraction(
+      mNumber(
+        numerator
+      ),
+      mNumber(
+        denominator
+      )
+    )
+  );
+}
+
+
+function radicalFractionHTML(
+  coefficient,
+  radicand,
+  denominator
+) {
+
+  const numeratorHTML = `
+
+    ${
+      coefficient ===
+      1
+
+        ? ""
+
+        : mNumber(
+            coefficient
+          )
+    }
+
+    ${mSqrt(
+      mNumber(
+        radicand
+      )
+    )}
+  `;
+
+
+  return mathHTML(
+
+    mFraction(
+      numeratorHTML,
+      mNumber(
+        denominator
+      )
+    )
+  );
+}
+
+
 /*
 ==================================================
 根式化簡
@@ -2062,12 +2650,14 @@ function simplifyRoot(
     i--
   ) {
 
+    const square =
+      i *
+      i;
+
+
     if (
       n %
-      (
-        i *
-        i
-      ) ===
+      square ===
       0
     ) {
 
@@ -2077,10 +2667,7 @@ function simplifyRoot(
 
       inside =
         n /
-        (
-          i *
-          i
-        );
+        square;
 
 
       break;
@@ -2102,70 +2689,65 @@ function simplifyRoot(
 }
 
 
-function answerText(
-  question
+/*
+==================================================
+音效
+==================================================
+*/
+
+function playGameSound(
+  method
 ) {
 
-  if (
-    question.answerType ===
-    "number"
+  try {
+
+    const sound =
+      window.GameSound ||
+      window.MathGameSound;
+
+
+    sound?.[
+      method
+    ]?.();
+
+  } catch (
+    error
   ) {
 
-    return String(
-      question.answer
+    console.warn(
+      "音效播放失敗：",
+      error
     );
   }
-
-
-  if (
-    question.answerType ===
-    "radical"
-  ) {
-
-    const c =
-      question.coefficient;
-
-
-    const r =
-      question.radicand;
-
-
-    return `${c === 1 ? "" : c}√${r}`;
-  }
-
-
-  return question.answer ===
-    "yes"
-      ? "是"
-      : "不是";
 }
 
 
 /*
 ==================================================
-三角形 SVG
+SVG 圖形
 ==================================================
 */
 
 function triangleSVG(
-  a,
-  b,
-  unknown =
-    "c"
+  legA,
+  legB,
+  hypotenuseText =
+    "?"
 ) {
 
   return `
 
     <svg
       class="geometry-svg"
-      viewBox="0 0 340 250"
+      viewBox="0 0 360 260"
+      aria-label="直角三角形"
     >
 
       <path
         d="
-          M 62 205
-          L 62 48
-          L 292 205
+          M 65 210
+          L 65 48
+          L 305 210
           Z
         "
         fill="rgba(20,155,146,.08)"
@@ -2176,9 +2758,9 @@ function triangleSVG(
 
       <path
         d="
-          M 62 179
-          L 88 179
-          L 88 205
+          M 65 182
+          L 93 182
+          L 93 210
         "
         fill="none"
         stroke="#f59e0b"
@@ -2186,33 +2768,107 @@ function triangleSVG(
       />
 
       <text
-        x="26"
-        y="137"
-        font-size="28"
+        x="28"
+        y="140"
+        font-size="27"
         font-weight="900"
         fill="#17324d"
       >
-        ${a}
+        ${legA}
       </text>
 
       <text
-        x="168"
-        y="237"
-        font-size="28"
+        x="172"
+        y="242"
+        font-size="27"
         font-weight="900"
         fill="#17324d"
       >
-        ${b}
+        ${legB}
       </text>
 
       <text
-        x="190"
-        y="117"
-        font-size="28"
+        x="195"
+        y="116"
+        font-size="27"
         font-weight="900"
         fill="#149b92"
       >
-        ${unknown}
+        ${hypotenuseText}
+      </text>
+
+    </svg>
+  `;
+}
+
+
+function legTriangleSVG(
+  knownLeg,
+  hypotenuse,
+  unknownName =
+    "x"
+) {
+
+  return `
+
+    <svg
+      class="geometry-svg"
+      viewBox="0 0 360 260"
+      aria-label="求直角三角形另一股"
+    >
+
+      <path
+        d="
+          M 65 210
+          L 65 55
+          L 300 210
+          Z
+        "
+        fill="rgba(49,130,206,.07)"
+        stroke="#17324d"
+        stroke-width="5"
+        stroke-linejoin="round"
+      />
+
+      <path
+        d="
+          M 65 182
+          L 93 182
+          L 93 210
+        "
+        fill="none"
+        stroke="#f59e0b"
+        stroke-width="5"
+      />
+
+      <text
+        x="27"
+        y="142"
+        font-size="27"
+        font-weight="900"
+        fill="#149b92"
+      >
+        ${unknownName}
+      </text>
+
+      <text
+        x="170"
+        y="242"
+        font-size="27"
+        font-weight="900"
+        fill="#17324d"
+      >
+        ${knownLeg}
+      </text>
+
+      <text
+        x="195"
+        y="115"
+        font-size="27"
+        font-weight="900"
+        fill="#17324d"
+      >
+        ${hypotenuse}
       </text>
 
     </svg>
@@ -2229,14 +2885,14 @@ function rectangleSVG(
 
     <svg
       class="geometry-svg"
-      viewBox="0 0 340 250"
+      viewBox="0 0 360 260"
     >
 
       <rect
-        x="55"
+        x="58"
         y="55"
-        width="230"
-        height="145"
+        width="245"
+        height="150"
         rx="4"
         fill="rgba(49,130,206,.06)"
         stroke="#17324d"
@@ -2244,17 +2900,17 @@ function rectangleSVG(
       />
 
       <line
-        x1="55"
-        y1="200"
-        x2="285"
+        x1="58"
+        y1="205"
+        x2="303"
         y2="55"
         stroke="#149b92"
         stroke-width="5"
       />
 
       <text
-        x="158"
-        y="235"
+        x="170"
+        y="240"
         font-size="26"
         font-weight="900"
         fill="#17324d"
@@ -2263,8 +2919,8 @@ function rectangleSVG(
       </text>
 
       <text
-        x="18"
-        y="137"
+        x="20"
+        y="140"
         font-size="26"
         font-weight="900"
         fill="#17324d"
@@ -2273,8 +2929,8 @@ function rectangleSVG(
       </text>
 
       <text
-        x="170"
-        y="118"
+        x="184"
+        y="125"
         font-size="25"
         font-weight="900"
         fill="#149b92"
@@ -2288,40 +2944,42 @@ function rectangleSVG(
 
 
 function ladderSVG(
-  wall,
-  ground
+  height,
+  ground,
+  ladder =
+    "?"
 ) {
 
   return `
 
     <svg
       class="geometry-svg"
-      viewBox="0 0 340 250"
+      viewBox="0 0 360 260"
     >
 
       <line
-        x1="65"
-        y1="40"
-        x2="65"
-        y2="210"
+        x1="70"
+        y1="35"
+        x2="70"
+        y2="215"
         stroke="#17324d"
-        stroke-width="7"
+        stroke-width="8"
       />
 
       <line
         x1="45"
-        y1="210"
-        x2="300"
-        y2="210"
+        y1="215"
+        x2="315"
+        y2="215"
         stroke="#64748b"
         stroke-width="7"
       />
 
       <line
-        x1="65"
-        y1="60"
-        x2="275"
-        y2="210"
+        x1="70"
+        y1="55"
+        x2="285"
+        y2="215"
         stroke="#149b92"
         stroke-width="9"
         stroke-linecap="round"
@@ -2329,9 +2987,9 @@ function ladderSVG(
 
       <path
         d="
-          M 65 184
-          L 91 184
-          L 91 210
+          M 70 187
+          L 98 187
+          L 98 215
         "
         fill="none"
         stroke="#f59e0b"
@@ -2340,17 +2998,17 @@ function ladderSVG(
 
       <text
         x="28"
-        y="137"
+        y="142"
         font-size="25"
         font-weight="900"
         fill="#17324d"
       >
-        ${wall}
+        ${height}
       </text>
 
       <text
-        x="163"
-        y="240"
+        x="170"
+        y="247"
         font-size="25"
         font-weight="900"
         fill="#17324d"
@@ -2359,13 +3017,104 @@ function ladderSVG(
       </text>
 
       <text
-        x="190"
-        y="119"
+        x="194"
+        y="120"
         font-size="25"
         font-weight="900"
         fill="#149b92"
       >
-        ?
+        ${ladder}
+      </text>
+
+    </svg>
+  `;
+}
+
+
+function altitudeSVG(
+  a,
+  b,
+  c
+) {
+
+  return `
+
+    <svg
+      class="geometry-svg"
+      viewBox="0 0 360 270"
+    >
+
+      <path
+        d="
+          M 55 205
+          L 195 48
+          L 315 205
+          Z
+        "
+        fill="rgba(245,158,11,.08)"
+        stroke="#17324d"
+        stroke-width="5"
+        stroke-linejoin="round"
+      />
+
+      <line
+        x1="195"
+        y1="48"
+        x2="195"
+        y2="205"
+        stroke="#149b92"
+        stroke-width="4"
+      />
+
+      <path
+        d="
+          M 195 177
+          L 223 177
+          L 223 205
+        "
+        fill="none"
+        stroke="#f59e0b"
+        stroke-width="5"
+      />
+
+      <text
+        x="102"
+        y="117"
+        font-size="25"
+        font-weight="900"
+        fill="#17324d"
+      >
+        ${a}
+      </text>
+
+      <text
+        x="252"
+        y="120"
+        font-size="25"
+        font-weight="900"
+        fill="#17324d"
+      >
+        ${b}
+      </text>
+
+      <text
+        x="170"
+        y="244"
+        font-size="25"
+        font-weight="900"
+        fill="#17324d"
+      >
+        ${c}
+      </text>
+
+      <text
+        x="205"
+        y="132"
+        font-size="25"
+        font-weight="900"
+        fill="#149b92"
+      >
+        h
       </text>
 
     </svg>
@@ -2384,51 +3133,51 @@ function coordinateSVG(
 
     <svg
       class="geometry-svg"
-      viewBox="0 0 340 280"
+      viewBox="0 0 360 290"
     >
 
       <line
-        x1="35"
-        y1="140"
-        x2="310"
-        y2="140"
+        x1="30"
+        y1="145"
+        x2="330"
+        y2="145"
         stroke="#64748b"
         stroke-width="3"
       />
 
       <line
-        x1="170"
-        y1="25"
-        x2="170"
-        y2="255"
+        x1="180"
+        y1="20"
+        x2="180"
+        y2="270"
         stroke="#64748b"
         stroke-width="3"
       />
 
       <line
         x1="100"
-        y1="205"
-        x2="260"
-        y2="65"
+        y1="220"
+        x2="270"
+        y2="70"
         stroke="#149b92"
         stroke-width="5"
       />
 
       <line
         x1="100"
-        y1="205"
-        x2="260"
-        y2="205"
+        y1="220"
+        x2="270"
+        y2="220"
         stroke="#94a3b8"
         stroke-width="3"
         stroke-dasharray="8 6"
       />
 
       <line
-        x1="260"
-        y1="205"
-        x2="260"
-        y2="65"
+        x1="270"
+        y1="220"
+        x2="270"
+        y2="70"
         stroke="#94a3b8"
         stroke-width="3"
         stroke-dasharray="8 6"
@@ -2436,36 +3185,162 @@ function coordinateSVG(
 
       <circle
         cx="100"
-        cy="205"
+        cy="220"
         r="8"
         fill="#3182ce"
       />
 
       <circle
-        cx="260"
-        cy="65"
+        cx="270"
+        cy="70"
         r="8"
         fill="#f59e0b"
       />
 
       <text
-        x="55"
-        y="230"
-        font-size="20"
+        x="42"
+        y="248"
+        font-size="19"
         font-weight="900"
         fill="#17324d"
       >
-        A(${x1},${y1})
+        A(${x1}, ${y1})
       </text>
 
       <text
-        x="230"
-        y="45"
-        font-size="20"
+        x="228"
+        y="49"
+        font-size="19"
         font-weight="900"
         fill="#17324d"
       >
-        B(${x2},${y2})
+        B(${x2}, ${y2})
+      </text>
+
+    </svg>
+  `;
+}
+
+
+function threePointSVG(
+  xGap,
+  yGap
+) {
+
+  return `
+
+    <svg
+      class="geometry-svg"
+      viewBox="0 0 360 285"
+    >
+
+      <line
+        x1="65"
+        y1="70"
+        x2="295"
+        y2="70"
+        stroke="#17324d"
+        stroke-width="5"
+      />
+
+      <line
+        x1="295"
+        y1="70"
+        x2="295"
+        y2="220"
+        stroke="#17324d"
+        stroke-width="5"
+      />
+
+      <line
+        x1="65"
+        y1="70"
+        x2="295"
+        y2="220"
+        stroke="#149b92"
+        stroke-width="5"
+      />
+
+      <path
+        d="
+          M 270 70
+          L 270 95
+          L 295 95
+        "
+        fill="none"
+        stroke="#f59e0b"
+        stroke-width="5"
+      />
+
+      <circle
+        cx="65"
+        cy="70"
+        r="7"
+        fill="#3182ce"
+      />
+
+      <circle
+        cx="295"
+        cy="70"
+        r="7"
+        fill="#64748b"
+      />
+
+      <circle
+        cx="295"
+        cy="220"
+        r="7"
+        fill="#f59e0b"
+      />
+
+      <text
+        x="35"
+        y="55"
+        font-size="22"
+        font-weight="900"
+        fill="#17324d"
+      >
+        A
+      </text>
+
+      <text
+        x="305"
+        y="62"
+        font-size="22"
+        font-weight="900"
+        fill="#17324d"
+      >
+        B
+      </text>
+
+      <text
+        x="305"
+        y="240"
+        font-size="22"
+        font-weight="900"
+        fill="#17324d"
+      >
+        C
+      </text>
+
+      <text
+        x="165"
+        y="54"
+        font-size="22"
+        font-weight="900"
+        fill="#17324d"
+      >
+        ${xGap}
+      </text>
+
+      <text
+        x="307"
+        y="153"
+        font-size="22"
+        font-weight="900"
+        fill="#17324d"
+      >
+        ${yGap}
       </text>
 
     </svg>
@@ -2475,53 +3350,89 @@ function coordinateSVG(
 
 /*
 ==================================================
-題目建立
+題目物件
 ==================================================
 */
 
-function makeSideQuestion(
-  forceRadical =
-    false
+function makeQuestion(
+  data
 ) {
-
-  let a;
-  let b;
-  let result;
-
-
-  do {
-
-    a =
-      rand(
-        3,
-        12
-      );
-
-
-    b =
-      rand(
-        3,
-        12
-      );
-
-
-    result =
-      simplifyRoot(
-        a * a +
-        b * b
-      );
-
-  } while (
-    forceRadical &&
-    result.type !==
-      "radical"
-  );
-
 
   return {
 
-    kind:
-      "side",
+    typeLabel:
+      "",
+
+    label:
+      "",
+
+    html:
+      "",
+
+    hint:
+      "",
+
+    diagram:
+      "",
+
+    answerType:
+      "number",
+
+    explanation:
+      [],
+
+    ...data
+  };
+}
+
+
+/*
+==================================================
+MODE 1
+畢氏定理基礎
+==================================================
+*/
+
+function makeHypotenuseQuestion() {
+
+  const a =
+    rand(
+      3,
+      12
+    );
+
+
+  const b =
+    rand(
+      3,
+      12
+    );
+
+
+  const sum =
+    a * a +
+    b * b;
+
+
+  const result =
+    simplifyRoot(
+      sum
+    );
+
+
+  return makeQuestion({
+
+    typeLabel:
+      "斜邊長的計算",
+
+    label:
+      "已知直角三角形的兩股長，求斜邊長",
+
+    html:
+      `兩股長分別為 ${a}、${b}，求斜邊 c。`,
+
+    hint:
+      "💡 斜邊平方＝兩股平方和",
 
     diagram:
       triangleSVG(
@@ -2529,18 +3440,6 @@ function makeSideQuestion(
         b,
         "c"
       ),
-
-    typeLabel:
-      "求第三邊",
-
-    label:
-      "已知下圖是一個直角三角形",
-
-    html:
-      `兩股長為 ${a}、${b}，求斜邊 c。`,
-
-    hint:
-      "💡 使用 a²＋b²＝c²",
 
     answerType:
       result.type,
@@ -2557,30 +3456,301 @@ function makeSideQuestion(
     explanation:
       [
 
-        `因為 c 是斜邊，所以使用 a²＋b²＝c²。`,
+        `由畢氏定理知：
+         ${mathHTML(
+           `
+             ${mSup(mIdentifier("c"),2)}
+             ${mOperator("=")}
+             ${mSup(mNumber(a),2)}
+             ${mOperator("+")}
+             ${mSup(mNumber(b),2)}
+           `
+         )}。`,
 
-        `${a}²＋${b}²＝c²。`,
+        `${mathHTML(
+          `
+            ${mSup(mIdentifier("c"),2)}
+            ${mOperator("=")}
+            ${mNumber(a * a)}
+            ${mOperator("+")}
+            ${mNumber(b * b)}
+            ${mOperator("=")}
+            ${mNumber(sum)}
+          `
+        )}。`,
 
-        `${a * a}＋${b * b}＝c²。`,
-
-        `c²＝${a * a + b * b}。`,
+        `因為斜邊長 c＞0，所以取正值。`,
 
         result.type ===
         "number"
 
-          ? `所以 c＝${result.value}。`
+          ? `故得 c＝${result.value}。`
 
-          : `所以 c＝√${
-              a * a +
-              b * b
-            }＝${
-              result.coefficient ===
-              1
-                ? ""
-                : result.coefficient
-            }√${result.radicand}。`
+          : `故得
+             ${mathHTML(
+               `
+                 ${mIdentifier("c")}
+                 ${mOperator("=")}
+                 ${mSqrt(mNumber(sum))}
+               `
+             )}
+             ＝
+             ${radicalHTML(
+               result.coefficient,
+               result.radicand
+             )}。`
       ]
-  };
+  });
+}
+
+
+function makeLegQuestion() {
+
+  const triple =
+    pick(
+      [
+
+        [3,4,5],
+        [5,12,13],
+        [6,8,10],
+        [7,24,25],
+        [8,15,17],
+        [9,12,15],
+        [9,40,41],
+        [12,16,20]
+      ]
+    );
+
+
+  const swap =
+    Math.random() <
+    .5;
+
+
+  const knownLeg =
+    swap
+      ? triple[0]
+      : triple[1];
+
+
+  const unknownLeg =
+    swap
+      ? triple[1]
+      : triple[0];
+
+
+  const c =
+    triple[2];
+
+
+  const makeRadical =
+    Math.random() <
+    .35;
+
+
+  if (
+    makeRadical
+  ) {
+
+    let known =
+      rand(
+        2,
+        8
+      );
+
+
+    let hyp =
+      rand(
+        known + 2,
+        known + 8
+      );
+
+
+    let difference =
+      hyp * hyp -
+      known * known;
+
+
+    let result =
+      simplifyRoot(
+        difference
+      );
+
+
+    while (
+      result.type ===
+      "number"
+    ) {
+
+      known =
+        rand(
+          2,
+          8
+        );
+
+
+      hyp =
+        rand(
+          known + 2,
+          known + 8
+        );
+
+
+      difference =
+        hyp * hyp -
+        known * known;
+
+
+      result =
+        simplifyRoot(
+          difference
+        );
+    }
+
+
+    return makeQuestion({
+
+      typeLabel:
+        "股長的計算",
+
+      label:
+        "已知一股與斜邊，求另一股",
+
+      html:
+        `斜邊長 ${hyp}，其中一股長 ${known}，求另一股 x。`,
+
+      hint:
+        "💡 另一股平方＝斜邊平方－已知股平方",
+
+      diagram:
+        legTriangleSVG(
+          known,
+          hyp,
+          "x"
+        ),
+
+      answerType:
+        "radical",
+
+      coefficient:
+        result.coefficient,
+
+      radicand:
+        result.radicand,
+
+      explanation:
+        [
+
+          `由畢氏定理知：
+           ${mathHTML(
+             `
+               ${mSup(mIdentifier("x"),2)}
+               ${mOperator("+")}
+               ${mSup(mNumber(known),2)}
+               ${mOperator("=")}
+               ${mSup(mNumber(hyp),2)}
+             `
+           )}。`,
+
+          `移項得：
+           ${mathHTML(
+             `
+               ${mSup(mIdentifier("x"),2)}
+               ${mOperator("=")}
+               ${mSup(mNumber(hyp),2)}
+               ${mOperator("−")}
+               ${mSup(mNumber(known),2)}
+             `
+           )}。`,
+
+          `${mathHTML(
+            `
+              ${mSup(mIdentifier("x"),2)}
+              ${mOperator("=")}
+              ${mNumber(hyp * hyp)}
+              ${mOperator("−")}
+              ${mNumber(known * known)}
+              ${mOperator("=")}
+              ${mNumber(difference)}
+            `
+          )}。`,
+
+          `因為 x＞0，
+           所以
+           ${mathHTML(
+             `
+               ${mIdentifier("x")}
+               ${mOperator("=")}
+               ${mSqrt(mNumber(difference))}
+             `
+           )}
+           ＝
+           ${radicalHTML(
+             result.coefficient,
+             result.radicand
+           )}。`
+        ]
+    });
+  }
+
+
+  return makeQuestion({
+
+    typeLabel:
+      "股長的計算",
+
+    label:
+      "已知一股與斜邊，求另一股",
+
+    html:
+      `斜邊長 ${c}，其中一股長 ${knownLeg}，求另一股 x。`,
+
+    hint:
+      "💡 另一股平方＝斜邊平方－已知股平方",
+
+    diagram:
+      legTriangleSVG(
+        knownLeg,
+        c,
+        "x"
+      ),
+
+    answerType:
+      "number",
+
+    answer:
+      unknownLeg,
+
+    explanation:
+      [
+
+        `由畢氏定理知：
+         ${mathHTML(
+           `
+             ${mSup(mIdentifier("x"),2)}
+             ${mOperator("+")}
+             ${mSup(mNumber(knownLeg),2)}
+             ${mOperator("=")}
+             ${mSup(mNumber(c),2)}
+           `
+         )}。`,
+
+        `所以
+         ${mathHTML(
+           `
+             ${mSup(mIdentifier("x"),2)}
+             ${mOperator("=")}
+             ${mNumber(c * c)}
+             ${mOperator("−")}
+             ${mNumber(knownLeg * knownLeg)}
+             ${mOperator("=")}
+             ${mNumber(unknownLeg * unknownLeg)}
+           `
+         )}。`,
+
+        `因為 x＞0，所以 x＝${unknownLeg}。`
+      ]
+  });
 }
 
 
@@ -2606,7 +3776,8 @@ function makeJudgeQuestion() {
           [5,12,13],
           [6,8,10],
           [8,15,17],
-          [7,24,25]
+          [7,24,25],
+          [9,12,15]
         ]
       );
 
@@ -2620,7 +3791,8 @@ function makeJudgeQuestion() {
           [5,6,8],
           [6,7,10],
           [8,10,13],
-          [9,12,16]
+          [9,12,16],
+          [7,8,12]
         ]
       );
   }
@@ -2634,10 +3806,19 @@ function makeJudgeQuestion() {
     sides;
 
 
-  return {
+  return makeQuestion({
 
-    kind:
-      "judge",
+    typeLabel:
+      "直角三角形判斷",
+
+    label:
+      "判斷三個邊長是否能構成直角三角形",
+
+    html:
+      `三邊長為 ${a}、${b}、${c}，是否為直角三角形？`,
+
+    hint:
+      "💡 先找最長邊，再比較兩短邊的平方和與最長邊平方",
 
     diagram:
       triangleSVG(
@@ -2645,18 +3826,6 @@ function makeJudgeQuestion() {
         b,
         c
       ),
-
-    typeLabel:
-      "直角三角形判斷",
-
-    label:
-      "觀察三個邊長",
-
-    html:
-      `邊長 ${a}、${b}、${c} 是否能構成直角三角形？`,
-
-    hint:
-      "💡 先找最長邊，再比較兩短邊平方和與最長邊平方",
 
     answerType:
       "choice",
@@ -2691,31 +3860,69 @@ function makeJudgeQuestion() {
 
         `最長邊是 ${c}。`,
 
-        `${a}²＋${b}²＝${
-          a * a +
-          b * b
-        }。`,
+        `${mathHTML(
+          `
+            ${mSup(mNumber(a),2)}
+            ${mOperator("+")}
+            ${mSup(mNumber(b),2)}
+            ${mOperator("=")}
+            ${mNumber(a * a + b * b)}
+          `
+        )}。`,
 
-        `${c}²＝${
-          c * c
-        }。`,
+        `${mathHTML(
+          `
+            ${mSup(mNumber(c),2)}
+            ${mOperator("=")}
+            ${mNumber(c * c)}
+          `
+        )}。`,
 
         valid
 
-          ? `兩者相等，所以可以構成直角三角形。`
+          ? `兩短邊平方和等於最長邊平方，因此是直角三角形。`
 
-          : `兩者不相等，所以不是直角三角形。`
+          : `兩短邊平方和不等於最長邊平方，因此不是直角三角形。`
       ]
-  };
+  });
 }
 
 
-function makeRectangleQuestion() {
+function makeMode1() {
+
+  return shuffle(
+    [
+
+      makeHypotenuseQuestion(),
+      makeHypotenuseQuestion(),
+      makeHypotenuseQuestion(),
+      makeHypotenuseQuestion(),
+
+      makeLegQuestion(),
+      makeLegQuestion(),
+      makeLegQuestion(),
+
+      makeJudgeQuestion(),
+      makeJudgeQuestion(),
+      makeJudgeQuestion()
+    ]
+  );
+}
+
+
+/*
+==================================================
+MODE 2
+生活應用＋斜邊上的高
+==================================================
+*/
+
+function makeRectangleApplication() {
 
   const width =
     rand(
-      5,
-      15
+      4,
+      14
     );
 
 
@@ -2726,37 +3933,36 @@ function makeRectangleQuestion() {
     );
 
 
+  const sum =
+    width * width +
+    height * height;
+
+
   const result =
     simplifyRoot(
-      width *
-      width +
-      height *
-      height
+      sum
     );
 
 
-  return {
+  return makeQuestion({
 
-    kind:
-      "application",
+    typeLabel:
+      "生活應用｜長方形對角線",
+
+    label:
+      "利用畢氏定理解決圖形問題",
+
+    html:
+      `一個長方形長 ${width}、寬 ${height}，求對角線 d 的長。`,
+
+    hint:
+      "💡 長、寬與對角線形成直角三角形",
 
     diagram:
       rectangleSVG(
         width,
         height
       ),
-
-    typeLabel:
-      "長方形對角線",
-
-    label:
-      "利用畢氏定理解決圖形問題",
-
-    html:
-      `長方形長 ${width}、寬 ${height}，求對角線 d。`,
-
-    hint:
-      "💡 長、寬、對角線形成直角三角形",
 
     answerType:
       result.type,
@@ -2775,170 +3981,995 @@ function makeRectangleQuestion() {
 
         `長方形的長、寬與對角線形成直角三角形。`,
 
-        `d²＝${width}²＋${height}²。`,
+        `由畢氏定理：
+         ${mathHTML(
+           `
+             ${mSup(mIdentifier("d"),2)}
+             ${mOperator("=")}
+             ${mSup(mNumber(width),2)}
+             ${mOperator("+")}
+             ${mSup(mNumber(height),2)}
+           `
+         )}。`,
 
-        `d²＝${
-          width * width +
-          height * height
-        }。`,
+        `${mathHTML(
+          `
+            ${mSup(mIdentifier("d"),2)}
+            ${mOperator("=")}
+            ${mNumber(sum)}
+          `
+        )}。`,
 
         result.type ===
         "number"
 
-          ? `所以 d＝${result.value}。`
+          ? `因為 d＞0，所以 d＝${result.value}。`
 
-          : `所以 d＝${
-              result.coefficient ===
-              1
-                ? ""
-                : result.coefficient
-            }√${result.radicand}。`
+          : `因為 d＞0，所以
+             d＝${radicalHTML(
+               result.coefficient,
+               result.radicand
+             )}。`
       ]
-  };
+  });
 }
 
 
-function makeLadderQuestion() {
+function makeLadderApplication() {
 
-  const wall =
-    rand(
-      4,
-      12
+  const triple =
+    pick(
+      [
+
+        [6,8,10],
+        [9,12,15],
+        [12,16,20],
+        [15,20,25],
+        [10,24,26]
+      ]
     );
 
 
   const ground =
-    rand(
-      3,
-      10
-    );
+    triple[0];
 
 
-  const result =
-    simplifyRoot(
-      wall *
-      wall +
-      ground *
-      ground
-    );
+  const height =
+    triple[1];
 
 
-  return {
+  const ladder =
+    triple[2];
 
-    kind:
-      "application",
+
+  return makeQuestion({
+
+    typeLabel:
+      "生活應用｜雲梯／竹竿",
+
+    label:
+      "找出生活情境中的直角三角形",
+
+    html:
+      `梯腳離牆 ${ground} 公尺，梯長 ${ladder} 公尺，求梯子頂端離地高度 h。`,
+
+    hint:
+      "💡 牆面與地面互相垂直，梯子是斜邊",
 
     diagram:
       ladderSVG(
-        wall,
-        ground
+        "h",
+        ground,
+        ladder
       ),
 
-    typeLabel:
-      "梯子靠牆",
-
-    label:
-      "找出情境中的直角三角形",
-
-    html:
-      `梯腳離牆 ${ground} 公尺，梯子頂端高 ${wall} 公尺，求梯長。`,
-
-    hint:
-      "💡 牆面與地面互相垂直",
-
     answerType:
-      result.type,
+      "number",
 
     answer:
-      result.value,
-
-    coefficient:
-      result.coefficient,
-
-    radicand:
-      result.radicand,
+      height,
 
     explanation:
       [
 
-        `牆面、地面與梯子形成直角三角形。`,
+        `梯子、牆面與地面形成直角三角形，梯子是斜邊。`,
 
-        `梯長²＝${wall}²＋${ground}²。`,
+        `由畢氏定理：
+         ${mathHTML(
+           `
+             ${mSup(mIdentifier("h"),2)}
+             ${mOperator("+")}
+             ${mSup(mNumber(ground),2)}
+             ${mOperator("=")}
+             ${mSup(mNumber(ladder),2)}
+           `
+         )}。`,
 
-        `梯長²＝${
-          wall * wall +
-          ground * ground
-        }。`,
+        `所以
+         ${mathHTML(
+           `
+             ${mSup(mIdentifier("h"),2)}
+             ${mOperator("=")}
+             ${mNumber(ladder * ladder)}
+             ${mOperator("−")}
+             ${mNumber(ground * ground)}
+             ${mOperator("=")}
+             ${mNumber(height * height)}
+           `
+         )}。`,
 
-        result.type ===
-        "number"
-
-          ? `所以梯長＝${result.value} 公尺。`
-
-          : `所以梯長＝${
-              result.coefficient ===
-              1
-                ? ""
-                : result.coefficient
-            }√${result.radicand} 公尺。`
+        `因為 h＞0，所以 h＝${height} 公尺。`
       ]
-  };
+  });
 }
 
 
-function makeDistanceQuestion() {
+function makePoleApplication() {
 
-  const x1 =
+  const triple =
+    pick(
+      [
+
+        [7,24,25],
+        [9,40,41],
+        [12,35,37],
+        [20,21,29]
+      ]
+    );
+
+
+  const ground =
+    triple[0];
+
+
+  const height =
+    triple[1];
+
+
+  const pole =
+    triple[2];
+
+
+  return makeQuestion({
+
+    typeLabel:
+      "生活應用｜竹竿靠牆",
+
+    label:
+      "利用畢氏定理求垂直高度",
+
+    html:
+      `一根長 ${pole} 公尺的竹竿靠牆，竹竿底部離牆 ${ground} 公尺，求竹竿頂端離地高度。`,
+
+    hint:
+      "💡 竹竿為斜邊",
+
+    diagram:
+      ladderSVG(
+        "x",
+        ground,
+        pole
+      ),
+
+    answerType:
+      "number",
+
+    answer:
+      height,
+
+    explanation:
+      [
+
+        `設竹竿頂端離地高度為 x 公尺。`,
+
+        `由畢氏定理：
+         ${mathHTML(
+           `
+             ${mSup(mIdentifier("x"),2)}
+             ${mOperator("+")}
+             ${mSup(mNumber(ground),2)}
+             ${mOperator("=")}
+             ${mSup(mNumber(pole),2)}
+           `
+         )}。`,
+
+        `所以
+         ${mathHTML(
+           `
+             ${mSup(mIdentifier("x"),2)}
+             ${mOperator("=")}
+             ${mNumber(height * height)}
+           `
+         )}。`,
+
+        `因為 x＞0，所以 x＝${height} 公尺。`
+      ]
+  });
+}
+
+
+function makeAltitudeQuestion() {
+
+  const triple =
+    pick(
+      [
+
+        [3,4,5],
+        [5,12,13],
+        [8,15,17],
+        [7,24,25],
+        [20,21,29]
+      ]
+    );
+
+
+  const a =
+    triple[0];
+
+
+  const b =
+    triple[1];
+
+
+  const c =
+    triple[2];
+
+
+  const reduced =
+    reduceFraction(
+      a * b,
+      c
+    );
+
+
+  return makeQuestion({
+
+    typeLabel:
+      "斜邊上的高",
+
+    label:
+      "利用三角形面積求斜邊上的高",
+
+    html:
+      `直角三角形的兩股長為 ${a}、${b}，斜邊長為 ${c}，求斜邊上的高 h。`,
+
+    hint:
+      "💡 斜邊上的高＝兩股乘積 ÷ 斜邊",
+
+    diagram:
+      altitudeSVG(
+        a,
+        b,
+        c
+      ),
+
+    answerType:
+      reduced.denominator ===
+      1
+
+        ? "number"
+
+        : "fraction",
+
+    answer:
+      reduced.denominator ===
+      1
+
+        ? reduced.numerator
+
+        : undefined,
+
+    numerator:
+      reduced.numerator,
+
+    denominator:
+      reduced.denominator,
+
+    explanation:
+      [
+
+        `同一個三角形的面積可以寫成：
+         ${mathHTML(
+           `
+             ${mFraction(mNumber(1),mNumber(2))}
+             ${mOperator("×")}
+             ${mNumber(c)}
+             ${mOperator("×")}
+             ${mIdentifier("h")}
+           `
+         )}
+         ，也可以寫成
+         ${mathHTML(
+           `
+             ${mFraction(mNumber(1),mNumber(2))}
+             ${mOperator("×")}
+             ${mNumber(a)}
+             ${mOperator("×")}
+             ${mNumber(b)}
+           `
+         )}。`,
+
+        `因此：
+         ${mathHTML(
+           `
+             ${mNumber(c)}
+             ${mIdentifier("h")}
+             ${mOperator("=")}
+             ${mNumber(a)}
+             ${mOperator("×")}
+             ${mNumber(b)}
+           `
+         )}。`,
+
+        `所以
+         ${mathHTML(
+           `
+             ${mIdentifier("h")}
+             ${mOperator("=")}
+             ${mFraction(
+               `
+                 ${mNumber(a)}
+                 ${mOperator("×")}
+                 ${mNumber(b)}
+               `,
+               mNumber(c)
+             )}
+           `
+         )}。`,
+
+        reduced.denominator ===
+        1
+
+          ? `約分後 h＝${reduced.numerator}。`
+
+          : `約分後
+             h＝${fractionHTML(
+               reduced.numerator,
+               reduced.denominator
+             )}。`
+      ]
+  });
+}
+
+
+function makeFindSideThenAltitudeQuestion() {
+
+  const data =
+    pick(
+      [
+
+        {
+          a: 24,
+          c: 30,
+          b: 18
+        },
+
+        {
+          a: 15,
+          c: 17,
+          b: 8
+        },
+
+        {
+          a: 12,
+          c: 20,
+          b: 16
+        },
+
+        {
+          a: 9,
+          c: 15,
+          b: 12
+        }
+      ]
+    );
+
+
+  const {
+    a,
+    b,
+    c
+  } =
+    data;
+
+
+  const reduced =
+    reduceFraction(
+      a * b,
+      c
+    );
+
+
+  return makeQuestion({
+
+    typeLabel:
+      "斜邊上的高｜兩步驟",
+
+    label:
+      "先利用畢氏定理求另一股，再求斜邊上的高",
+
+    html:
+      `直角三角形一股長 ${a}，斜邊長 ${c}，求斜邊上的高 h。`,
+
+    hint:
+      "💡 第一步先求另一股，第二步再使用 h＝兩股乘積÷斜邊",
+
+    diagram:
+      altitudeSVG(
+        a,
+        "?",
+        c
+      ),
+
+    answerType:
+      reduced.denominator ===
+      1
+
+        ? "number"
+
+        : "fraction",
+
+    answer:
+      reduced.denominator ===
+      1
+
+        ? reduced.numerator
+
+        : undefined,
+
+    numerator:
+      reduced.numerator,
+
+    denominator:
+      reduced.denominator,
+
+    explanation:
+      [
+
+        `先求另一股，設其長為 x。`,
+
+        `由畢氏定理：
+         ${mathHTML(
+           `
+             ${mSup(mIdentifier("x"),2)}
+             ${mOperator("+")}
+             ${mSup(mNumber(a),2)}
+             ${mOperator("=")}
+             ${mSup(mNumber(c),2)}
+           `
+         )}。`,
+
+        `${mathHTML(
+          `
+            ${mSup(mIdentifier("x"),2)}
+            ${mOperator("=")}
+            ${mNumber(c * c)}
+            ${mOperator("−")}
+            ${mNumber(a * a)}
+            ${mOperator("=")}
+            ${mNumber(b * b)}
+          `
+        )}，
+        所以 x＝${b}。`,
+
+        `再利用斜邊上的高：
+         ${mathHTML(
+           `
+             ${mIdentifier("h")}
+             ${mOperator("=")}
+             ${mFraction(
+               `
+                 ${mNumber(a)}
+                 ${mOperator("×")}
+                 ${mNumber(b)}
+               `,
+               mNumber(c)
+             )}
+           `
+         )}。`,
+
+        reduced.denominator ===
+        1
+
+          ? `所以 h＝${reduced.numerator}。`
+
+          : `所以
+             h＝${fractionHTML(
+               reduced.numerator,
+               reduced.denominator
+             )}。`
+      ]
+  });
+}
+
+
+function makeRadicalAltitudeQuestion() {
+
+  /*
+  模仿課本自評：
+  兩股可能含根號，先求斜邊，再求高
+  */
+
+  const radical =
+    pick(
+      [
+        2,
+        3,
+        5,
+        6,
+        7,
+        11
+      ]
+    );
+
+
+  const integerLeg =
     rand(
-      -4,
-      3
+      3,
+      7
+    );
+
+
+  /*
+  令另一股 = √r
+  斜邊平方 = integer² + r
+  只挑成完全平方
+  */
+
+  let c;
+
+
+  let r =
+    radical;
+
+
+  let found =
+    false;
+
+
+  for (
+    let candidate =
+      integerLeg + 1;
+
+    candidate <=
+      integerLeg + 8;
+
+    candidate++
+  ) {
+
+    const diff =
+      candidate *
+      candidate -
+      integerLeg *
+      integerLeg;
+
+
+    if (
+      diff >
+      1 &&
+      [
+        2,
+        3,
+        5,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ]
+        .includes(
+          diff
+        )
+    ) {
+
+      c =
+        candidate;
+
+
+      r =
+        diff;
+
+
+      found =
+        true;
+
+
+      break;
+    }
+  }
+
+
+  if (
+    !found
+  ) {
+
+    /*
+    使用課本型 5 與 √11 → 斜邊 6
+    */
+
+    c =
+      6;
+
+
+    r =
+      11;
+  }
+
+
+  const coefficient =
+    integerLeg;
+
+
+  const denominator =
+    c;
+
+
+  const common =
+    gcd(
+      coefficient,
+      denominator
+    );
+
+
+  const finalCoefficient =
+    coefficient /
+    common;
+
+
+  const finalDenominator =
+    denominator /
+    common;
+
+
+  return makeQuestion({
+
+    typeLabel:
+      "斜邊上的高｜根式",
+
+    label:
+      "兩股含根式，先求斜邊再求斜邊上的高",
+
+    html:
+      `兩股長為 ${integerLeg} 與 ${rootHTML(r)}，求斜邊上的高 h。`,
+
+    hint:
+      "💡 先求斜邊，再使用 h＝兩股乘積÷斜邊",
+
+    diagram:
+      altitudeSVG(
+        integerLeg,
+        "√" + r,
+        "c"
+      ),
+
+    answerType:
+      "radicalFraction",
+
+    coefficient:
+      finalCoefficient,
+
+    radicand:
+      r,
+
+    denominator:
+      finalDenominator,
+
+    explanation:
+      [
+
+        `先設斜邊長為 c。`,
+
+        `由畢氏定理：
+         ${mathHTML(
+           `
+             ${mSup(mIdentifier("c"),2)}
+             ${mOperator("=")}
+             ${mSup(mNumber(integerLeg),2)}
+             ${mOperator("+")}
+             ${mSup(
+               mSqrt(mNumber(r)),
+               2
+             )}
+           `
+         )}。`,
+
+        `${mathHTML(
+          `
+            ${mSup(mIdentifier("c"),2)}
+            ${mOperator("=")}
+            ${mNumber(integerLeg * integerLeg)}
+            ${mOperator("+")}
+            ${mNumber(r)}
+            ${mOperator("=")}
+            ${mNumber(c * c)}
+          `
+        )}，
+        所以 c＝${c}。`,
+
+        `再利用斜邊上的高：
+         ${mathHTML(
+           `
+             ${mIdentifier("h")}
+             ${mOperator("=")}
+             ${mFraction(
+               `
+                 ${mNumber(integerLeg)}
+                 ${mOperator("×")}
+                 ${mSqrt(mNumber(r))}
+               `,
+               mNumber(c)
+             )}
+           `
+         )}。`,
+
+        `約分後：
+         h＝${radicalFractionHTML(
+           finalCoefficient,
+           r,
+           finalDenominator
+         )}。`
+      ]
+  });
+}
+
+
+function makeMode2() {
+
+  return shuffle(
+    [
+
+      makeRectangleApplication(),
+      makeLadderApplication(),
+      makePoleApplication(),
+      makeRectangleApplication(),
+      makeLadderApplication(),
+
+      makeAltitudeQuestion(),
+      makeAltitudeQuestion(),
+      makeAltitudeQuestion(),
+
+      makeFindSideThenAltitudeQuestion(),
+      makeRadicalAltitudeQuestion()
+    ]
+  );
+}
+
+
+/*
+==================================================
+MODE 3
+兩點間距離
+==================================================
+*/
+
+function makeAxisDistanceQuestion() {
+
+  const horizontal =
+    Math.random() <
+    .5;
+
+
+  if (
+    horizontal
+  ) {
+
+    const y =
+      rand(
+        -5,
+        5
+      );
+
+
+    const x1 =
+      rand(
+        -8,
+        1
+      );
+
+
+    const x2 =
+      rand(
+        x1 + 2,
+        8
+      );
+
+
+    const answer =
+      Math.abs(
+        x2 -
+        x1
+      );
+
+
+    return makeQuestion({
+
+      typeLabel:
+        "水平線上兩點距離",
+
+      label:
+        "利用數線上兩點距離計算",
+
+      html:
+        `A(${x1}, ${y})、B(${x2}, ${y})，求 AB。`,
+
+      hint:
+        "💡 y 坐標相同，只需比較 x 坐標的差",
+
+      diagram:
+        coordinateSVG(
+          x1,
+          y,
+          x2,
+          y
+        ),
+
+      answerType:
+        "number",
+
+      answer,
+
+      explanation:
+        [
+
+          `A、B 兩點的 y 坐標相同，因此 AB 是水平距離。`,
+
+          `AB＝|${x2}－(${x1})|。`,
+
+          `AB＝${answer}。`
+        ]
+    });
+  }
+
+
+  const x =
+    rand(
+      -5,
+      5
     );
 
 
   const y1 =
     rand(
-      -4,
-      3
+      -8,
+      1
     );
-
-
-  let dx =
-    rand(
-      2,
-      8
-    );
-
-
-  let dy =
-    rand(
-      2,
-      8
-    );
-
-
-  const x2 =
-    x1 +
-    dx;
 
 
   const y2 =
-    y1 +
-    dy;
+    rand(
+      y1 + 2,
+      8
+    );
+
+
+  const answer =
+    Math.abs(
+      y2 -
+      y1
+    );
+
+
+  return makeQuestion({
+
+    typeLabel:
+      "鉛直線上兩點距離",
+
+    label:
+      "利用數線上兩點距離計算",
+
+    html:
+      `A(${x}, ${y1})、B(${x}, ${y2})，求 AB。`,
+
+    hint:
+      "💡 x 坐標相同，只需比較 y 坐標的差",
+
+    diagram:
+      coordinateSVG(
+        x,
+        y1,
+        x,
+        y2
+      ),
+
+    answerType:
+      "number",
+
+    answer,
+
+    explanation:
+      [
+
+        `A、B 兩點的 x 坐標相同，因此 AB 是鉛直距離。`,
+
+        `AB＝|${y2}－(${y1})|。`,
+
+        `AB＝${answer}。`
+      ]
+  });
+}
+
+
+function makeGeneralDistanceQuestion() {
+
+  const x1 =
+    rand(
+      -6,
+      4
+    );
+
+
+  const y1 =
+    rand(
+      -6,
+      4
+    );
+
+
+  let x2;
+  let y2;
+
+
+  do {
+
+    x2 =
+      rand(
+        -6,
+        6
+      );
+
+
+    y2 =
+      rand(
+        -6,
+        6
+      );
+
+  } while (
+    x2 ===
+      x1 ||
+    y2 ===
+      y1
+  );
+
+
+  const dx =
+    x2 -
+    x1;
+
+
+  const dy =
+    y2 -
+    y1;
+
+
+  const sum =
+    dx * dx +
+    dy * dy;
 
 
   const result =
     simplifyRoot(
-      dx *
-      dx +
-      dy *
-      dy
+      sum
     );
 
 
-  return {
+  return makeQuestion({
 
-    kind:
-      "distance",
+    typeLabel:
+      "平面上兩點的距離",
+
+    label:
+      "使用兩點距離公式",
+
+    html:
+      `A(${x1}, ${y1})、B(${x2}, ${y2})，求 AB。`,
+
+    hint:
+      "💡 AB＝√[(x₂－x₁)²＋(y₂－y₁)²]",
 
     diagram:
       coordinateSVG(
@@ -2948,17 +4979,137 @@ function makeDistanceQuestion() {
         y2
       ),
 
+    answerType:
+      result.type,
+
+    answer:
+      result.value,
+
+    coefficient:
+      result.coefficient,
+
+    radicand:
+      result.radicand,
+
+    explanation:
+      [
+
+        `使用兩點距離公式：
+         ${mathHTML(
+           `
+             ${mIdentifier("AB")}
+             ${mOperator("=")}
+             ${mSqrt(
+               `
+                 ${mSup(
+                   `
+                     <mrow>
+                       ${mNumber(x2)}
+                       ${mOperator("−")}
+                       <mo>(</mo>
+                       ${mNumber(x1)}
+                       <mo>)</mo>
+                     </mrow>
+                   `,
+                   2
+                 )}
+                 ${mOperator("+")}
+                 ${mSup(
+                   `
+                     <mrow>
+                       ${mNumber(y2)}
+                       ${mOperator("−")}
+                       <mo>(</mo>
+                       ${mNumber(y1)}
+                       <mo>)</mo>
+                     </mrow>
+                   `,
+                   2
+                 )}
+               `
+             )}
+           `
+         )}。`,
+
+        `x 坐標差＝${dx}，y 坐標差＝${dy}。`,
+
+        `${mathHTML(
+          `
+            ${mIdentifier("AB")}
+            ${mOperator("=")}
+            ${mSqrt(
+              `
+                ${mNumber(dx * dx)}
+                ${mOperator("+")}
+                ${mNumber(dy * dy)}
+              `
+            )}
+            ${mOperator("=")}
+            ${mSqrt(mNumber(sum))}
+          `
+        )}。`,
+
+        result.type ===
+        "number"
+
+          ? `所以 AB＝${result.value}。`
+
+          : `化為最簡根式：
+             AB＝${radicalHTML(
+               result.coefficient,
+               result.radicand
+             )}。`
+      ]
+  });
+}
+
+
+function makeThreePointDistanceQuestion() {
+
+  const xGap =
+    rand(
+      3,
+      8
+    );
+
+
+  const yGap =
+    rand(
+      3,
+      8
+    );
+
+
+  const sum =
+    xGap * xGap +
+    yGap * yGap;
+
+
+  const result =
+    simplifyRoot(
+      sum
+    );
+
+
+  return makeQuestion({
+
     typeLabel:
-      "兩點間的距離",
+      "三點距離應用",
 
     label:
-      "利用坐標差建立直角三角形",
+      "先求水平、鉛直距離，再使用畢氏定理",
 
     html:
-      `A(${x1},${y1})、B(${x2},${y2})，求 AB。`,
+      `已知 AB＝${xGap}、BC＝${yGap}，且 ∠B＝90°，求 AC。`,
 
     hint:
-      `💡 水平距離＝${dx}，鉛直距離＝${dy}`,
+      "💡 先把水平距離與鉛直距離視為兩股",
+
+    diagram:
+      threePointSVG(
+        xGap,
+        yGap
+      ),
 
     answerType:
       result.type,
@@ -2975,165 +5126,97 @@ function makeDistanceQuestion() {
     explanation:
       [
 
-        `水平距離＝|${x2}－(${x1})|＝${dx}。`,
+        `因為 ∠B＝90°，所以 △ABC 是直角三角形。`,
 
-        `鉛直距離＝|${y2}－(${y1})|＝${dy}。`,
+        `由畢氏定理：
+         ${mathHTML(
+           `
+             ${mSup(mIdentifier("AC"),2)}
+             ${mOperator("=")}
+             ${mSup(mNumber(xGap),2)}
+             ${mOperator("+")}
+             ${mSup(mNumber(yGap),2)}
+           `
+         )}。`,
 
-        `AB²＝${dx}²＋${dy}²。`,
-
-        `AB²＝${
-          dx * dx +
-          dy * dy
-        }。`,
+        `${mathHTML(
+          `
+            ${mSup(mIdentifier("AC"),2)}
+            ${mOperator("=")}
+            ${mNumber(sum)}
+          `
+        )}。`,
 
         result.type ===
         "number"
 
-          ? `所以 AB＝${result.value}。`
+          ? `因為 AC＞0，所以 AC＝${result.value}。`
 
-          : `所以 AB＝${
-              result.coefficient ===
-              1
-                ? ""
-                : result.coefficient
-            }√${result.radicand}。`
+          : `因為 AC＞0，所以
+             AC＝${radicalHTML(
+               result.coefficient,
+               result.radicand
+             )}。`
       ]
-  };
+  });
 }
 
 
-/*
-==================================================
-建立各模式題庫
-==================================================
-*/
-
-function createQuestions(
-  selectedMode
-) {
-
-  const result =
-    [];
-
-
-  if (
-    selectedMode ===
-    "basic"
-  ) {
-
-    for (
-      let i = 0;
-      i < 6;
-      i++
-    ) {
-
-      result.push(
-        makeSideQuestion(
-          false
-        )
-      );
-    }
-
-
-    for (
-      let i = 0;
-      i < 4;
-      i++
-    ) {
-
-      result.push(
-        makeJudgeQuestion()
-      );
-    }
-
-
-    return shuffle(
-      result
-    );
-  }
-
-
-  if (
-    selectedMode ===
-    "radical"
-  ) {
-
-    for (
-      let i = 0;
-      i < 10;
-      i++
-    ) {
-
-      result.push(
-        makeSideQuestion(
-          true
-        )
-      );
-    }
-
-
-    return shuffle(
-      result
-    );
-  }
-
-
-  if (
-    selectedMode ===
-    "application"
-  ) {
-
-    for (
-      let i = 0;
-      i < 5;
-      i++
-    ) {
-
-      result.push(
-        makeRectangleQuestion()
-      );
-    }
-
-
-    for (
-      let i = 0;
-      i < 5;
-      i++
-    ) {
-
-      result.push(
-        makeLadderQuestion()
-      );
-    }
-
-
-    return shuffle(
-      result
-    );
-  }
-
-
-  for (
-    let i = 0;
-    i < 10;
-    i++
-  ) {
-
-    result.push(
-      makeDistanceQuestion()
-    );
-  }
-
+function makeMode3() {
 
   return shuffle(
-    result
+    [
+
+      makeAxisDistanceQuestion(),
+      makeAxisDistanceQuestion(),
+      makeAxisDistanceQuestion(),
+
+      makeGeneralDistanceQuestion(),
+      makeGeneralDistanceQuestion(),
+      makeGeneralDistanceQuestion(),
+      makeGeneralDistanceQuestion(),
+      makeGeneralDistanceQuestion(),
+
+      makeThreePointDistanceQuestion(),
+      makeThreePointDistanceQuestion()
+    ]
   );
 }
 
 
 /*
 ==================================================
-Timer
+Create Questions
+==================================================
+*/
+
+function createQuestions() {
+
+  if (
+    mode ===
+    "basic"
+  ) {
+
+    return makeMode1();
+  }
+
+
+  if (
+    mode ===
+    "application"
+  ) {
+
+    return makeMode2();
+  }
+
+
+  return makeMode3();
+}
+
+
+/*
+==================================================
+時間
 ==================================================
 */
 
@@ -3160,10 +5243,14 @@ function formatTime(
 }
 
 
-function stopTimer() {
+function stopTimer(
+  update =
+    true
+) {
 
   if (
-    timerId
+    timerId !==
+    null
   ) {
 
     clearInterval(
@@ -3174,16 +5261,38 @@ function stopTimer() {
     timerId =
       null;
   }
+
+
+  if (
+    update &&
+    startTime
+  ) {
+
+    finalElapsed =
+      Math.floor(
+        (
+          Date.now() -
+          startTime
+        ) /
+        1000
+      );
+  }
 }
 
 
 function startTimer() {
 
-  stopTimer();
+  stopTimer(
+    false
+  );
 
 
   startTime =
     Date.now();
+
+
+  finalElapsed =
+    0;
 
 
   $("timer-display")
@@ -3195,7 +5304,7 @@ function startTimer() {
     setInterval(
       () => {
 
-        const seconds =
+        const elapsed =
           Math.floor(
             (
               Date.now() -
@@ -3208,7 +5317,7 @@ function startTimer() {
         $("timer-display")
           .textContent =
             formatTime(
-              seconds
+              elapsed
             );
 
       },
@@ -3219,7 +5328,7 @@ function startTimer() {
 
 /*
 ==================================================
-計算紙移到上方
+計算紙
 ==================================================
 */
 
@@ -3250,72 +5359,243 @@ function moveScratchpadButtonToTop() {
 
 /*
 ==================================================
-畫面
+畫面切換
 ==================================================
 */
 
-function showStartScreen() {
+function showOnly(
+  screenId
+) {
 
-  $("quiz-screen")
-    .classList
-    .add(
-      "hidden"
+  [
+    "start-screen",
+    "quiz-screen",
+    "result-screen",
+    "review-screen"
+  ]
+    .forEach(
+      id => {
+
+        $(id)
+          .classList
+          .toggle(
+            "hidden",
+            id !==
+              screenId
+          );
+      }
     );
 
 
-  $("start-screen")
-    .classList
-    .remove(
-      "hidden"
+  if (
+    screenId ===
+    "quiz-screen"
+  ) {
+
+    window
+      .showGameScratchpadButton
+      ?.();
+
+
+    setTimeout(
+      moveScratchpadButtonToTop,
+      0
     );
 
 
-  stopTimer();
+    setTimeout(
+      moveScratchpadButtonToTop,
+      100
+    );
 
+  } else {
 
-  window
-    .hideGameScratchpadButton
-    ?.();
+    window
+      .hideGameScratchpadButton
+      ?.();
+  }
 }
 
 
-function showQuizScreen() {
+/*
+==================================================
+Preview helpers
+==================================================
+*/
 
-  $("start-screen")
-    .classList
-    .add(
-      "hidden"
-    );
+function setPreview(
+  html
+) {
 
-
-  $("quiz-screen")
-    .classList
-    .remove(
-      "hidden"
-    );
+  const preview =
+    $("answer-preview");
 
 
-  window
-    .showGameScratchpadButton
-    ?.();
+  if (
+    preview
+  ) {
+
+    preview.innerHTML =
+      html;
+  }
+}
 
 
-  setTimeout(
-    moveScratchpadButtonToTop,
-    0
+function updateNumberPreview() {
+
+  const raw =
+    $("number-answer")
+      ?.value
+      .trim() ||
+    "";
+
+
+  setPreview(
+
+    raw
+
+      ? `目前答案：
+         <span class="answer-preview-value">
+           ${raw}
+         </span>`
+
+      : "目前尚未完成答案。"
   );
+}
 
 
-  setTimeout(
-    moveScratchpadButtonToTop,
-    100
+function updateFractionPreview() {
+
+  const numerator =
+    $("fraction-numerator")
+      ?.value
+      .trim() ||
+    "";
+
+
+  const denominator =
+    $("fraction-denominator")
+      ?.value
+      .trim() ||
+    "";
+
+
+  if (
+    !numerator ||
+    !denominator
+  ) {
+
+    setPreview(
+      "目前尚未完成答案。"
+    );
+
+
+    return;
+  }
+
+
+  setPreview(
+    `
+      目前答案：
+
+      <span class="answer-preview-value">
+
+        ${fractionHTML(
+          numerator,
+          denominator
+        )}
+
+      </span>
+    `
+  );
+}
+
+
+function updateRadicalFractionPreview() {
+
+  const sign =
+    $("rf-sign")
+      ?.value ||
+    "+";
+
+
+  const coefficient =
+    $("rf-coefficient")
+      ?.value
+      .trim() ||
+    "";
+
+
+  const radicand =
+    $("rf-radicand")
+      ?.value
+      .trim() ||
+    "";
+
+
+  const denominator =
+    $("rf-denominator")
+      ?.value
+      .trim() ||
+    "";
+
+
+  if (
+    !coefficient ||
+    !radicand ||
+    !denominator
+  ) {
+
+    setPreview(
+      "目前尚未完成答案。"
+    );
+
+
+    return;
+  }
+
+
+  let c =
+    Number(
+      coefficient
+    );
+
+
+  if (
+    sign ===
+    "-"
+  ) {
+
+    c *=
+      -1;
+  }
+
+
+  setPreview(
+    `
+      目前答案：
+
+      <span class="answer-preview-value">
+
+        ${radicalFractionHTML(
+          c,
+          Number(
+            radicand
+          ),
+          Number(
+            denominator
+          )
+        )}
+
+      </span>
+    `
   );
 }
 
 
 /*
 ==================================================
-答案介面
+Answer rendering
 ==================================================
 */
 
@@ -3359,7 +5639,7 @@ function renderAnswer(
           type="text"
           inputmode="numeric"
           autocomplete="off"
-          placeholder="輸入整數答案"
+          placeholder="輸入答案"
         >
 
       </div>
@@ -3375,36 +5655,17 @@ function renderAnswer(
     `;
 
 
-    const input =
-      $("number-answer");
-
-
-    input
+    $("number-answer")
       .addEventListener(
         "input",
-        () => {
-
-          const value =
-            input
-              .value
-              .trim();
-
-
-          $("answer-preview")
-            .textContent =
-
-              value
-
-                ? `目前答案：${value}`
-
-                : "目前尚未完成答案。";
-        }
+        updateNumberPreview
       );
 
 
     setTimeout(
       () =>
-        input.focus(),
+        $("number-answer")
+          ?.focus(),
       0
     );
 
@@ -3434,8 +5695,8 @@ function renderAnswer(
 
         根號外係數為 1 時可以保留 1。<br>
 
-        若根號內還可以化簡，
-        系統只會提醒，不會自動替你化簡。
+        根號內若仍可化簡，
+        系統只會提醒，不會替你自動化簡。
 
       </p>
 
@@ -3445,53 +5706,37 @@ function renderAnswer(
     `;
 
 
-    if (
-      window.RadicalInput
-    ) {
+    radicalInput =
+      new window.RadicalInput(
+        {
 
-      radicalInput =
-        new window.RadicalInput(
-          {
+          mountId:
+            "radical-answer-mount",
 
-            mountId:
-              "radical-answer-mount",
+          requireSimplifiedRadical:
+            true,
 
-            requireSimplifiedRadical:
-              true,
+          theme: {
 
-            theme: {
+            primary:
+              "#149b92",
 
-              primary:
-                "#149b92",
+            light:
+              "#eaf9f7",
 
-              light:
-                "#eaf9f7",
-
-              border:
-                "#9fd9d5"
-            }
+            border:
+              "#9fd9d5"
           }
-        );
-
-
-      setTimeout(
-        () =>
-          radicalInput
-            ?.focus(),
-        0
+        }
       );
 
-    } else {
 
-      panel.innerHTML += `
-
-        <div class="feedback warning">
-
-          radical-input.js 尚未載入。
-
-        </div>
-      `;
-    }
+    setTimeout(
+      () =>
+        radicalInput
+          ?.focus(),
+      0
+    );
 
 
     return;
@@ -3499,7 +5744,234 @@ function renderAnswer(
 
 
   /*
-  選擇題
+  一般分數
+  */
+
+  if (
+    question.answerType ===
+    "fraction"
+  ) {
+
+    panel.innerHTML = `
+
+      <div class="answer-title">
+
+        請填寫最簡分數
+
+      </div>
+
+      <p class="answer-help">
+
+        請自行約分成最簡分數後再提交。
+
+      </p>
+
+      <div class="fraction-answer-wrap">
+
+        <div class="fraction-answer">
+
+          <input
+            id="fraction-numerator"
+            type="text"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="分子"
+          >
+
+          <input
+            id="fraction-denominator"
+            type="text"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="分母"
+          >
+
+        </div>
+
+      </div>
+
+      <div
+        id="answer-preview"
+        class="answer-preview"
+      >
+
+        目前尚未完成答案。
+
+      </div>
+    `;
+
+
+    [
+      "fraction-numerator",
+      "fraction-denominator"
+    ]
+      .forEach(
+        id => {
+
+          $(id)
+            .addEventListener(
+              "input",
+              updateFractionPreview
+            );
+        }
+      );
+
+
+    setTimeout(
+      () =>
+        $("fraction-numerator")
+          ?.focus(),
+      0
+    );
+
+
+    return;
+  }
+
+
+  /*
+  根式分數
+  例如 5√11 / 6
+  */
+
+  if (
+    question.answerType ===
+    "radicalFraction"
+  ) {
+
+    panel.innerHTML = `
+
+      <div class="answer-title">
+
+        請填寫最簡根式分數
+
+      </div>
+
+      <p class="answer-help">
+
+        分子填「根號外係數 × 根式」，分母填在下方。<br>
+
+        根號外係數是 1 時可填 1。
+
+      </p>
+
+      <div class="radical-fraction-grid">
+
+        <select
+          id="rf-sign"
+          class="rf-sign"
+        >
+
+          <option value="+">
+            ＋
+          </option>
+
+          <option value="-">
+            －
+          </option>
+
+        </select>
+
+
+        <input
+          id="rf-coefficient"
+          class="rf-coefficient"
+          type="text"
+          inputmode="numeric"
+          autocomplete="off"
+          placeholder="係數"
+        >
+
+
+        <div class="rf-root-box">
+
+          <div class="rf-root-top">
+
+            <span class="rf-root">
+              √
+            </span>
+
+            <input
+              id="rf-radicand"
+              class="rf-radicand"
+              type="text"
+              inputmode="numeric"
+              autocomplete="off"
+              placeholder="根號內"
+            >
+
+          </div>
+
+          <div class="rf-divider"></div>
+
+          <div class="rf-denominator-wrap">
+
+            <input
+              id="rf-denominator"
+              class="rf-denominator"
+              type="text"
+              inputmode="numeric"
+              autocomplete="off"
+              placeholder="分母"
+            >
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="answer-preview"
+        class="answer-preview"
+      >
+
+        目前尚未完成答案。
+
+      </div>
+    `;
+
+
+    [
+      "rf-sign",
+      "rf-coefficient",
+      "rf-radicand",
+      "rf-denominator"
+    ]
+      .forEach(
+        id => {
+
+          $(id)
+            .addEventListener(
+              "input",
+              updateRadicalFractionPreview
+            );
+
+
+          $(id)
+            .addEventListener(
+              "change",
+              updateRadicalFractionPreview
+            );
+        }
+      );
+
+
+    setTimeout(
+      () =>
+        $("rf-coefficient")
+          ?.focus(),
+      0
+    );
+
+
+    return;
+  }
+
+
+  /*
+  Choice
   */
 
   panel.innerHTML = `
@@ -3513,7 +5985,8 @@ function renderAnswer(
     <div class="choice-grid">
 
       ${
-        question.choices
+        question
+          .choices
           .map(
             choice => `
 
@@ -3564,10 +6037,14 @@ function renderAnswer(
                 ".choice-button"
               )
               .forEach(
-                item =>
-                  item.classList.remove(
-                    "selected"
-                  )
+                item => {
+
+                  item
+                    .classList
+                    .remove(
+                      "selected"
+                    );
+                }
               );
 
 
@@ -3578,11 +6055,17 @@ function renderAnswer(
               );
 
 
-            $("answer-preview")
-              .textContent =
-                `目前選擇：${
-                  button.textContent.trim()
-                }`;
+            setPreview(
+              `
+                目前選擇：
+
+                <span class="answer-preview-value">
+
+                  ${button.textContent.trim()}
+
+                </span>
+              `
+            );
           }
         );
       }
@@ -3592,7 +6075,7 @@ function renderAnswer(
 
 /*
 ==================================================
-顯示題目
+Display question
 ==================================================
 */
 
@@ -3664,7 +6147,7 @@ function displayQuestion() {
 
 
   $("question-content")
-    .textContent =
+    .innerHTML =
       question.html;
 
 
@@ -3674,13 +6157,13 @@ function displayQuestion() {
 
 
   $("feedback")
-    .textContent =
-      "";
+    .className =
+      "feedback";
 
 
   $("feedback")
-    .className =
-      "feedback";
+    .textContent =
+      "";
 
 
   $("explanation")
@@ -3722,13 +6205,17 @@ function displayQuestion() {
 
 /*
 ==================================================
-讀取答案
+Read answer
 ==================================================
 */
 
 function readAnswer(
   question
 ) {
+
+  /*
+  number
+  */
 
   if (
     question.answerType ===
@@ -3768,10 +6255,17 @@ function readAnswer(
       value:
         Number(
           raw
-        )
+        ),
+
+      display:
+        raw
     };
   }
 
+
+  /*
+  radical
+  */
 
   if (
     question.answerType ===
@@ -3805,10 +6299,335 @@ function readAnswer(
         true,
 
       value:
-        result.value
+        result.value,
+
+      display:
+        result.value.display
     };
   }
 
+
+  /*
+  fraction
+  */
+
+  if (
+    question.answerType ===
+    "fraction"
+  ) {
+
+    const numeratorRaw =
+      $("fraction-numerator")
+        ?.value
+        .trim() ||
+      "";
+
+
+    const denominatorRaw =
+      $("fraction-denominator")
+        ?.value
+        .trim() ||
+      "";
+
+
+    if (
+      !/^-?\d+$/
+        .test(
+          numeratorRaw
+        ) ||
+      !/^-?\d+$/
+        .test(
+          denominatorRaw
+        )
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "請完整填寫分子與分母。"
+      };
+    }
+
+
+    const numerator =
+      Number(
+        numeratorRaw
+      );
+
+
+    const denominator =
+      Number(
+        denominatorRaw
+      );
+
+
+    if (
+      denominator ===
+      0
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "分母不能是 0。"
+      };
+    }
+
+
+    const reduced =
+      reduceFraction(
+        numerator,
+        denominator
+      );
+
+
+    if (
+      reduced.numerator !==
+        numerator ||
+      reduced.denominator !==
+        denominator
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "這個分數還可以約分，請自行化成最簡分數後再提交。"
+      };
+    }
+
+
+    return {
+
+      valid:
+        true,
+
+      value: {
+
+        numerator,
+        denominator
+      },
+
+      display:
+        `${numerator}/${denominator}`
+    };
+  }
+
+
+  /*
+  radical fraction
+  */
+
+  if (
+    question.answerType ===
+    "radicalFraction"
+  ) {
+
+    const sign =
+      $("rf-sign")
+        ?.value ||
+      "+";
+
+
+    const coefficientRaw =
+      $("rf-coefficient")
+        ?.value
+        .trim() ||
+      "";
+
+
+    const radicandRaw =
+      $("rf-radicand")
+        ?.value
+        .trim() ||
+      "";
+
+
+    const denominatorRaw =
+      $("rf-denominator")
+        ?.value
+        .trim() ||
+      "";
+
+
+    if (
+      !/^\d+$/
+        .test(
+          coefficientRaw
+        ) ||
+      !/^\d+$/
+        .test(
+          radicandRaw
+        ) ||
+      !/^\d+$/
+        .test(
+          denominatorRaw
+        )
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "請完整填寫根號外係數、根號內與分母。"
+      };
+    }
+
+
+    let coefficient =
+      Number(
+        coefficientRaw
+      );
+
+
+    const radicand =
+      Number(
+        radicandRaw
+      );
+
+
+    const denominator =
+      Number(
+        denominatorRaw
+      );
+
+
+    if (
+      denominator ===
+      0
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "分母不能是 0。"
+      };
+    }
+
+
+    if (
+      coefficient ===
+      0 ||
+      radicand <=
+      0
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "請檢查根式答案。"
+      };
+    }
+
+
+    const simplified =
+      simplifyRoot(
+        radicand
+      );
+
+
+    if (
+      simplified.type ===
+      "number"
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "根號內是完全平方數，答案還可以繼續化簡。"
+      };
+    }
+
+
+    if (
+      simplified.coefficient !==
+      1
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "根號內還可以化簡，請自行化成最簡根式。"
+      };
+    }
+
+
+    const d =
+      gcd(
+        coefficient,
+        denominator
+      );
+
+
+    if (
+      d !==
+      1
+    ) {
+
+      return {
+
+        valid:
+          false,
+
+        message:
+          "根號外係數與分母還可以約分，請先化成最簡形式。"
+      };
+    }
+
+
+    if (
+      sign ===
+      "-"
+    ) {
+
+      coefficient *=
+        -1;
+    }
+
+
+    return {
+
+      valid:
+        true,
+
+      value: {
+
+        coefficient,
+        radicand,
+        denominator
+      },
+
+      display:
+        `${coefficient}√${radicand}/${denominator}`
+    };
+  }
+
+
+  /*
+  choice
+  */
 
   if (
     !selectedChoice
@@ -3820,9 +6639,19 @@ function readAnswer(
         false,
 
       message:
-        "請先選擇答案。"
+        "請先選擇一個答案。"
     };
   }
+
+
+  const choice =
+    question
+      .choices
+      .find(
+        item =>
+          item.value ===
+          selectedChoice
+      );
 
 
   return {
@@ -3831,6 +6660,10 @@ function readAnswer(
       true,
 
     value:
+      selectedChoice,
+
+    display:
+      choice?.text ||
       selectedChoice
   };
 }
@@ -3838,11 +6671,11 @@ function readAnswer(
 
 /*
 ==================================================
-判定
+Check
 ==================================================
 */
 
-function isCorrectAnswer(
+function checkCorrect(
   question,
   answer
 ) {
@@ -3875,6 +6708,41 @@ function isCorrectAnswer(
   }
 
 
+  if (
+    question.answerType ===
+    "fraction"
+  ) {
+
+    return (
+
+      answer.value.numerator ===
+        question.numerator &&
+
+      answer.value.denominator ===
+        question.denominator
+    );
+  }
+
+
+  if (
+    question.answerType ===
+    "radicalFraction"
+  ) {
+
+    return (
+
+      answer.value.coefficient ===
+        question.coefficient &&
+
+      answer.value.radicand ===
+        question.radicand &&
+
+      answer.value.denominator ===
+        question.denominator
+    );
+  }
+
+
   return (
     answer.value ===
     question.answer
@@ -3884,7 +6752,82 @@ function isCorrectAnswer(
 
 /*
 ==================================================
-詳解
+Correct answer
+==================================================
+*/
+
+function correctAnswerText(
+  question
+) {
+
+  if (
+    question.answerType ===
+    "number"
+  ) {
+
+    return String(
+      question.answer
+    );
+  }
+
+
+  if (
+    question.answerType ===
+    "radical"
+  ) {
+
+    return radicalHTML(
+      question.coefficient,
+      question.radicand
+    );
+  }
+
+
+  if (
+    question.answerType ===
+    "fraction"
+  ) {
+
+    return fractionHTML(
+      question.numerator,
+      question.denominator
+    );
+  }
+
+
+  if (
+    question.answerType ===
+    "radicalFraction"
+  ) {
+
+    return radicalFractionHTML(
+      question.coefficient,
+      question.radicand,
+      question.denominator
+    );
+  }
+
+
+  const choice =
+    question
+      .choices
+      .find(
+        item =>
+          item.value ===
+          question.answer
+      );
+
+
+  return (
+    choice?.text ||
+    question.answer
+  );
+}
+
+
+/*
+==================================================
+Explanation
 ==================================================
 */
 
@@ -3903,9 +6846,7 @@ function explanationHTML(
         <div class="explanation-step">
 
           <strong>
-
             步驟 ${i + 1}｜
-
           </strong>
 
           ${step}
@@ -3919,7 +6860,7 @@ function explanationHTML(
 
 /*
 ==================================================
-提交
+Submit
 ==================================================
 */
 
@@ -3974,7 +6915,7 @@ function submitAnswer() {
 
 
   const isCorrect =
-    isCorrectAnswer(
+    checkCorrect(
       question,
       answer
     );
@@ -4005,18 +6946,9 @@ function submitAnswer() {
         "✨ 回答正確！";
 
 
-    try {
-
-      (
-        window.GameSound ||
-        window.MathGameSound
-      )
-        ?.playCorrect
-        ?.();
-
-    } catch (
-      error
-    ) {}
+    playGameSound(
+      "playCorrect"
+    );
 
   } else {
 
@@ -4032,27 +6964,41 @@ function submitAnswer() {
 
 
     $("feedback")
-      .textContent =
-        `❌ 答案不正確。正確答案：${
-          answerText(
+      .innerHTML = `
+
+        ❌ 答案不正確。正確答案：
+
+        <strong>
+
+          ${correctAnswerText(
             question
-          )
-        }`;
+          )}
+
+        </strong>
+      `;
 
 
-    try {
-
-      (
-        window.GameSound ||
-        window.MathGameSound
-      )
-        ?.playWrong
-        ?.();
-
-    } catch (
-      error
-    ) {}
+    playGameSound(
+      "playWrong"
+    );
   }
+
+
+  records.push(
+    {
+
+      number:
+        index + 1,
+
+      question,
+
+      userAnswer:
+        answer.display,
+
+      correct:
+        isCorrect
+    }
+  );
 
 
   $("correct-count")
@@ -4100,15 +7046,19 @@ function submitAnswer() {
         questions.length -
         1
 
-        ? "重新選擇模式（Enter）"
+        ? "查看測驗結果（Enter）"
 
         : "下一題（Enter）";
+
+
+  $("next-button")
+    .focus();
 }
 
 
 /*
 ==================================================
-下一題
+Next
 ==================================================
 */
 
@@ -4122,29 +7072,26 @@ function nextQuestion() {
   }
 
 
-  if (
-    index >=
-    questions.length -
-    1
-  ) {
-
-    showStartScreen();
-
-
-    return;
-  }
-
-
   index++;
 
 
-  displayQuestion();
+  if (
+    index <
+    questions.length
+  ) {
+
+    displayQuestion();
+
+  } else {
+
+    showResult();
+  }
 }
 
 
 /*
 ==================================================
-開始新模式
+Start
 ==================================================
 */
 
@@ -4157,14 +7104,11 @@ function startGame(
 
 
   /*
-  ★ 關鍵修正：
-  每次點選模式都重新建立題庫
+  每次都重新產生題庫
   */
 
   questions =
-    createQuestions(
-      mode
-    );
+    createQuestions();
 
 
   index =
@@ -4187,6 +7131,10 @@ function startGame(
     0;
 
 
+  records =
+    [];
+
+
   answered =
     false;
 
@@ -4199,7 +7147,22 @@ function startGame(
     null;
 
 
-  showQuizScreen();
+  scoreSaved =
+    false;
+
+
+  finalElapsed =
+    0;
+
+
+  $("save-status")
+    .textContent =
+      "";
+
+
+  showOnly(
+    "quiz-screen"
+  );
 
 
   displayQuestion();
@@ -4208,24 +7171,402 @@ function startGame(
   startTimer();
 
 
-  try {
-
-    (
-      window.GameSound ||
-      window.MathGameSound
-    )
-      ?.playStart
-      ?.();
-
-  } catch (
-    error
-  ) {}
+  playGameSound(
+    "playStart"
+  );
 }
 
 
 /*
 ==================================================
-事件
+Rating
+==================================================
+*/
+
+function rating(
+  score
+) {
+
+  if (
+    score >=
+    90
+  ) {
+
+    return {
+
+      stars:
+        "★★★★★",
+
+      comment:
+        "太棒了！你已經能熟練運用畢氏定理解決各類問題。"
+    };
+  }
+
+
+  if (
+    score >=
+    80
+  ) {
+
+    return {
+
+      stars:
+        "★★★★☆",
+
+      comment:
+        "表現很好，再留意斜邊判斷與根式化簡即可。"
+    };
+  }
+
+
+  if (
+    score >=
+    60
+  ) {
+
+    return {
+
+      stars:
+        "★★★☆☆",
+
+      comment:
+        "基本觀念已掌握，建議再加強生活應用與坐標距離。"
+    };
+  }
+
+
+  return {
+
+    stars:
+      "★★☆☆☆",
+
+    comment:
+      "建議先從模式一開始，熟悉斜邊與兩股的關係。"
+  };
+}
+
+
+/*
+==================================================
+Result
+==================================================
+*/
+
+async function showResult() {
+
+  stopTimer();
+
+
+  const score =
+    Math.round(
+      correct /
+      questions.length *
+      100
+    );
+
+
+  const result =
+    rating(
+      score
+    );
+
+
+  showOnly(
+    "result-screen"
+  );
+
+
+  playGameSound(
+    "playComplete"
+  );
+
+
+  $("final-score")
+    .textContent =
+      `${score} 分`;
+
+
+  $("final-stars")
+    .textContent =
+      result.stars;
+
+
+  $("final-comment")
+    .textContent =
+      result.comment;
+
+
+  $("final-correct")
+    .textContent =
+      correct;
+
+
+  $("final-wrong")
+    .textContent =
+      wrong;
+
+
+  $("final-combo")
+    .textContent =
+      maxCombo;
+
+
+  $("final-time")
+    .textContent =
+      formatTime(
+        finalElapsed
+      );
+
+
+  $("review-button")
+    .disabled =
+      wrong ===
+      0;
+
+
+  $("review-button")
+    .textContent =
+
+      wrong ===
+      0
+
+        ? "全部答對，無錯題"
+
+        : "錯題回顧";
+
+
+  await saveCurrentScore(
+    score
+  );
+}
+
+
+/*
+==================================================
+Firestore
+==================================================
+*/
+
+async function saveCurrentScore(
+  score
+) {
+
+  if (
+    scoreSaved
+  ) {
+
+    return;
+  }
+
+
+  scoreSaved =
+    true;
+
+
+  const status =
+    $("save-status");
+
+
+  status.textContent =
+    "☁️ 正在儲存本次成績……";
+
+
+  status.style.color =
+    "#1d4ed8";
+
+
+  try {
+
+    const result =
+      await saveGameScore(
+        {
+
+          game:
+            GAME_ID,
+
+          mode,
+
+          score,
+
+          correctCount:
+            correct,
+
+          wrongCount:
+            wrong,
+
+          maxCombo,
+
+          playTime:
+            finalElapsed,
+
+          totalQuestions:
+            questions.length
+        }
+      );
+
+
+    if (
+      result.success
+    ) {
+
+      status.textContent =
+        "✅ 本次成績已儲存。";
+
+
+      status.style.color =
+        "#15803d";
+
+
+      return;
+    }
+
+
+    if (
+      result.reason ===
+      "not-logged-in"
+    ) {
+
+      status.textContent =
+        "ℹ️ 尚未登入，因此本次成績沒有儲存。";
+
+
+      status.style.color =
+        "#b45309";
+
+
+      return;
+    }
+
+
+    status.textContent =
+      "⚠️ 成績暫時無法儲存。";
+
+
+    status.style.color =
+      "#b91c1c";
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      "畢氏定理成績儲存失敗：",
+      error
+    );
+
+
+    status.textContent =
+      "⚠️ 成績暫時無法儲存。";
+
+
+    status.style.color =
+      "#b91c1c";
+  }
+}
+
+
+/*
+==================================================
+Review
+==================================================
+*/
+
+function showReview() {
+
+  const wrongRecords =
+    records.filter(
+      record =>
+        !record.correct
+    );
+
+
+  const list =
+    $("review-list");
+
+
+  if (
+    wrongRecords.length ===
+    0
+  ) {
+
+    list.innerHTML = `
+
+      <div class="review-card">
+
+        全部答對，沒有需要回顧的錯題！
+
+      </div>
+    `;
+
+  } else {
+
+    list.innerHTML =
+      wrongRecords
+        .map(
+          record => `
+
+            <article class="review-card">
+
+              <div class="review-title">
+
+                第 ${record.number} 題 ❌
+
+              </div>
+
+              <div class="review-question">
+
+                ${record.question.html}
+
+              </div>
+
+              <div class="review-answer">
+
+                你的答案：
+
+                <strong>
+                  ${record.userAnswer}
+                </strong>
+
+                <br>
+
+                正確答案：
+
+                <strong>
+                  ${
+                    correctAnswerText(
+                      record.question
+                    )
+                  }
+                </strong>
+
+              </div>
+
+              <div class="explanation">
+
+                ${
+                  explanationHTML(
+                    record.question
+                  )
+                }
+
+              </div>
+
+            </article>
+          `
+        )
+        .join("");
+  }
+
+
+  showOnly(
+    "review-screen"
+  );
+}
+
+
+/*
+==================================================
+Events
 ==================================================
 */
 
@@ -4266,19 +7607,72 @@ $("next-button")
 $("restart-button")
   .addEventListener(
     "click",
-    () => {
-
+    () =>
       startGame(
         mode
-      );
-    }
+      )
   );
 
 
 $("mode-button")
   .addEventListener(
     "click",
-    showStartScreen
+    () => {
+
+      stopTimer();
+
+
+      showOnly(
+        "start-screen"
+      );
+    }
+  );
+
+
+$("again-button")
+  .addEventListener(
+    "click",
+    () =>
+      startGame(
+        mode
+      )
+  );
+
+
+$("result-mode-button")
+  .addEventListener(
+    "click",
+    () =>
+      showOnly(
+        "start-screen"
+      )
+  );
+
+
+$("review-button")
+  .addEventListener(
+    "click",
+    showReview
+  );
+
+
+$("review-again-button")
+  .addEventListener(
+    "click",
+    () =>
+      startGame(
+        mode
+      )
+  );
+
+
+$("review-result-button")
+  .addEventListener(
+    "click",
+    () =>
+      showOnly(
+        "result-screen"
+      )
   );
 
 
@@ -4326,7 +7720,7 @@ document.addEventListener(
 
 /*
 ==================================================
-初始化計算紙
+Init
 ==================================================
 */
 
@@ -4334,9 +7728,7 @@ window.addEventListener(
   "DOMContentLoaded",
   () => {
 
-    window
-      .hideGameScratchpadButton
-      ?.();
+    moveScratchpadButtonToTop();
 
 
     setTimeout(
@@ -4347,7 +7739,9 @@ window.addEventListener(
 );
 
 
-showStartScreen();
+showOnly(
+  "start-screen"
+);
 
 </script>
 
