@@ -51,9 +51,7 @@
 body {
 
   margin: 0;
-
   min-height: 100vh;
-
   padding: 16px;
 
   font-family:
@@ -61,8 +59,7 @@ body {
     "Noto Sans TC",
     sans-serif;
 
-  color:
-    var(--text);
+  color: var(--text);
 
   background:
     linear-gradient(
@@ -89,29 +86,20 @@ body {
 button,
 input,
 select {
-
   font-family: inherit;
 }
 
 .hidden {
-
   display: none !important;
 }
 
 .page-shell {
 
-  width:
-    min(
-      100%,
-      1040px
-    );
-
-  margin:
-    0 auto;
+  width: min(100%, 1040px);
+  margin: 0 auto;
 }
 
 #commonHeaderMount {
-
   margin-bottom: 14px;
 }
 
@@ -126,41 +114,27 @@ select {
   border-radius: 30px;
 
   background:
-    rgba(
-      255,
-      255,
-      255,
-      .98
-    );
+    rgba(255,255,255,.98);
 
   box-shadow:
     0 18px 45px
-    rgba(
-      15,
-      36,
-      56,
-      .13
-    );
+    rgba(15,36,56,.13);
 }
 
 
-/*
-==================================================
+/* ==================================================
 Hero
-==================================================
-*/
+================================================== */
 
 .hero {
 
   position: relative;
-
   overflow: hidden;
 
   padding:
     28px 24px 26px;
 
   text-align: center;
-
   color: white;
 
   background:
@@ -175,35 +149,22 @@ Hero
 .hero-icon {
 
   display: inline-flex;
-
   justify-content: center;
-
   align-items: center;
 
   width: 58px;
-
   height: 58px;
 
   margin-bottom: 8px;
 
   border:
     2px solid
-    rgba(
-      255,
-      255,
-      255,
-      .48
-    );
+    rgba(255,255,255,.48);
 
   border-radius: 18px;
 
   background:
-    rgba(
-      255,
-      255,
-      255,
-      .12
-    );
+    rgba(255,255,255,.12);
 
   font-size: 34px;
 }
@@ -238,9 +199,7 @@ Hero
 .concept-strip {
 
   display: flex;
-
   justify-content: center;
-
   gap: 8px;
 
   margin-top: 16px;
@@ -255,39 +214,25 @@ Hero
 
   border:
     1px solid
-    rgba(
-      255,
-      255,
-      255,
-      .42
-    );
+    rgba(255,255,255,.42);
 
   border-radius: 999px;
 
   background:
-    rgba(
-      255,
-      255,
-      255,
-      .11
-    );
+    rgba(255,255,255,.11);
 
   font-size: 13px;
-
   font-weight: 900;
 }
 
 .screen {
-
   padding: 24px;
 }
 
 
-/*
-==================================================
+/* ==================================================
 MathML
-==================================================
-*/
+================================================== */
 
 math {
 
@@ -295,12 +240,13 @@ math {
     "Cambria Math",
     "Times New Roman",
     serif;
+
+  vertical-align: middle;
 }
 
 .math-inline {
 
   display: inline-block;
-
   vertical-align: middle;
 }
 
@@ -310,17 +256,23 @@ math {
   font-size: 1.3em;
 }
 
-
 /*
-==================================================
-模式
-==================================================
+公式提示中的數學式
 */
+
+.formula-hint math {
+
+  font-size: 1.12em;
+}
+
+
+/* ==================================================
+模式
+================================================== */
 
 .mode-intro {
 
   margin-bottom: 18px;
-
   text-align: center;
 }
 
@@ -336,10 +288,7 @@ math {
 .mode-intro p {
 
   margin: 0;
-
-  color:
-    var(--muted);
-
+  color: var(--muted);
   line-height: 1.7;
 }
 
@@ -350,10 +299,7 @@ math {
   grid-template-columns:
     repeat(
       3,
-      minmax(
-        0,
-        1fr
-      )
+      minmax(0,1fr)
     );
 
   gap: 17px;
@@ -374,7 +320,6 @@ math {
   background: white;
 
   text-align: left;
-
   cursor: pointer;
 
   transition:
@@ -389,18 +334,12 @@ math {
 
   box-shadow:
     0 12px 26px
-    rgba(
-      15,
-      50,
-      77,
-      .12
-    );
+    rgba(15,50,77,.12);
 }
 
 .mode-top {
 
   display: flex;
-
   align-items: center;
 
   gap: 11px;
@@ -411,13 +350,10 @@ math {
 .mode-icon {
 
   width: 47px;
-
   height: 47px;
 
   display: flex;
-
   justify-content: center;
-
   align-items: center;
 
   border-radius: 15px;
@@ -434,7 +370,6 @@ math {
     var(--teal-dark);
 
   font-size: 13px;
-
   font-weight: 900;
 }
 
@@ -475,18 +410,14 @@ math {
     #475569;
 
   font-size: 14px;
-
   font-weight: 800;
-
   line-height: 1.65;
 }
 
 
-/*
-==================================================
+/* ==================================================
 狀態
-==================================================
-*/
+================================================== */
 
 .quiz-topbar {
 
@@ -494,10 +425,7 @@ math {
 
   grid-template-columns:
     1.35fr
-    repeat(
-      4,
-      1fr
-    );
+    repeat(4,1fr);
 
   gap: 10px;
 
@@ -509,9 +437,7 @@ math {
   min-height: 68px;
 
   display: flex;
-
   flex-direction: column;
-
   justify-content: center;
 
   padding: 9px;
@@ -531,7 +457,6 @@ math {
   text-align: center;
 
   font-size: 13px;
-
   font-weight: 900;
 }
 
@@ -555,16 +480,13 @@ math {
 }
 
 
-/*
-==================================================
+/* ==================================================
 計算紙
-==================================================
-*/
+================================================== */
 
 .scratchpad-row {
 
   display: flex;
-
   justify-content: center;
 
   min-height: 54px;
@@ -578,7 +500,6 @@ math {
   width: 100%;
 
   display: flex;
-
   justify-content: center;
 }
 
@@ -602,11 +523,9 @@ math {
 }
 
 
-/*
-==================================================
+/* ==================================================
 進度
-==================================================
-*/
+================================================== */
 
 .progress-shell {
 
@@ -625,7 +544,6 @@ math {
 .progress-bar {
 
   width: 0%;
-
   height: 100%;
 
   border-radius: 999px;
@@ -642,25 +560,17 @@ math {
 }
 
 
-/*
-==================================================
+/* ==================================================
 題目
-==================================================
-*/
+================================================== */
 
 .question-stage {
 
   display: grid;
 
   grid-template-columns:
-    minmax(
-      280px,
-      .9fr
-    )
-    minmax(
-      320px,
-      1.1fr
-    );
+    minmax(280px,.9fr)
+    minmax(320px,1.1fr);
 
   gap: 18px;
 }
@@ -684,9 +594,7 @@ math {
   position: relative;
 
   display: flex;
-
   justify-content: center;
-
   align-items: center;
 
   padding: 18px;
@@ -733,9 +641,7 @@ math {
   width: 100%;
 
   display: flex;
-
   justify-content: center;
-
   align-items: center;
 }
 
@@ -755,9 +661,7 @@ math {
 .question-card {
 
   display: flex;
-
   flex-direction: column;
-
   justify-content: center;
 
   padding: 24px;
@@ -785,7 +689,6 @@ math {
     var(--teal-dark);
 
   font-size: 13px;
-
   font-weight: 900;
 }
 
@@ -795,9 +698,7 @@ math {
     var(--muted);
 
   font-size: 15px;
-
   font-weight: 800;
-
   line-height: 1.7;
 }
 
@@ -816,7 +717,6 @@ math {
     );
 
   font-weight: 900;
-
   line-height: 1.7;
 }
 
@@ -839,18 +739,14 @@ math {
     #466066;
 
   font-size: 15px;
-
   font-weight: 800;
-
   line-height: 1.7;
 }
 
 
-/*
-==================================================
+/* ==================================================
 答案區
-==================================================
-*/
+================================================== */
 
 .answer-panel {
 
@@ -891,21 +787,17 @@ math {
   text-align: center;
 
   font-size: 14px;
-
   line-height: 1.65;
 }
 
 
-/*
-==================================================
+/* ==================================================
 一般整數
-==================================================
-*/
+================================================== */
 
 .number-answer {
 
   display: flex;
-
   justify-content: center;
 }
 
@@ -931,7 +823,6 @@ math {
     var(--navy);
 
   font-size: 24px;
-
   font-weight: 900;
 
   text-align: center;
@@ -940,23 +831,19 @@ math {
 }
 
 
-/*
-==================================================
+/* ==================================================
 分數
-==================================================
-*/
+================================================== */
 
 .fraction-answer-wrap {
 
   display: flex;
-
   justify-content: center;
 }
 
 .fraction-answer {
 
   display: flex;
-
   flex-direction: column;
 
   width: 125px;
@@ -976,7 +863,6 @@ math {
   background: white;
 
   font-size: 21px;
-
   font-weight: 900;
 
   text-align: center;
@@ -1005,18 +891,14 @@ input:last-child {
 }
 
 
-/*
-==================================================
-★ 穩定根號輸入框
-==================================================
-*/
+/* ==================================================
+根號答案格
+================================================== */
 
 .radical-editor-row {
 
   display: flex;
-
   justify-content: center;
-
   align-items: flex-end;
 
   gap: 12px;
@@ -1039,14 +921,12 @@ input:last-child {
     var(--muted);
 
   font-size: 13px;
-
   font-weight: 900;
 }
 
 .radical-sign {
 
   width: 78px;
-
   height: 58px;
 
   border:
@@ -1058,14 +938,12 @@ input:last-child {
   background: white;
 
   font-size: 22px;
-
   font-weight: 900;
 }
 
 .radical-coefficient {
 
   width: 110px;
-
   height: 58px;
 
   border:
@@ -1077,24 +955,16 @@ input:last-child {
   background: white;
 
   font-size: 22px;
-
   font-weight: 900;
 
   text-align: center;
 }
-
-
-/*
-真正用 SVG 畫整個根號
-橫槓不靠字型
-*/
 
 .root-svg-editor {
 
   position: relative;
 
   width: 235px;
-
   height: 68px;
 }
 
@@ -1105,7 +975,6 @@ input:last-child {
   inset: 0;
 
   width: 100%;
-
   height: 100%;
 
   overflow: visible;
@@ -1123,7 +992,6 @@ input:last-child {
   stroke-width: 3;
 
   stroke-linejoin: round;
-
   stroke-linecap: round;
 
   vector-effect:
@@ -1135,11 +1003,9 @@ input:last-child {
   position: absolute;
 
   left: 48px;
-
   top: 11px;
 
   width: 178px;
-
   height: 54px;
 
   padding: 8px;
@@ -1156,7 +1022,6 @@ input:last-child {
     var(--navy);
 
   font-size: 22px;
-
   font-weight: 900;
 
   text-align: center;
@@ -1165,18 +1030,14 @@ input:last-child {
 }
 
 
-/*
-==================================================
+/* ==================================================
 根式分數
-==================================================
-*/
+================================================== */
 
 .radical-fraction-answer {
 
   display: flex;
-
   justify-content: center;
-
   align-items: center;
 
   gap: 10px;
@@ -1187,29 +1048,14 @@ input:last-child {
 .rf-numerator-area {
 
   display: flex;
-
   align-items: flex-end;
 
   gap: 9px;
 }
 
-.rf-denominator-area {
-
-  display: flex;
-
-  flex-direction: column;
-
-  justify-content: center;
-
-  align-items: center;
-
-  margin-left: 4px;
-}
-
 .rf-fraction-line {
 
   width: 235px;
-
   height: 2px;
 
   margin:
@@ -1222,7 +1068,6 @@ input:last-child {
 .rf-denominator {
 
   width: 130px;
-
   height: 54px;
 
   border:
@@ -1234,18 +1079,15 @@ input:last-child {
   background: white;
 
   font-size: 22px;
-
   font-weight: 900;
 
   text-align: center;
 }
 
 
-/*
-==================================================
+/* ==================================================
 選擇題
-==================================================
-*/
+================================================== */
 
 .choice-grid {
 
@@ -1254,10 +1096,7 @@ input:last-child {
   grid-template-columns:
     repeat(
       2,
-      minmax(
-        0,
-        1fr
-      )
+      minmax(0,1fr)
     );
 
   gap: 10px;
@@ -1286,7 +1125,6 @@ input:last-child {
     var(--navy);
 
   font-size: 17px;
-
   font-weight: 900;
 
   cursor: pointer;
@@ -1305,22 +1143,17 @@ input:last-child {
 }
 
 
-/*
-==================================================
+/* ==================================================
 目前答案
-==================================================
-*/
+================================================== */
 
 .answer-preview {
 
   max-width: 720px;
-
   min-height: 62px;
 
   display: flex;
-
   justify-content: center;
-
   align-items: center;
 
   margin:
@@ -1343,11 +1176,7 @@ input:last-child {
 
   text-align: center;
 
-  /*
-  ★ 所有答案類型統一字級
-  */
   font-size: 21px;
-
   font-weight: 900;
 
   line-height: 1.5;
@@ -1358,7 +1187,6 @@ input:last-child {
   display: inline-flex;
 
   align-items: center;
-
   justify-content: center;
 
   margin-left: 9px;
@@ -1366,9 +1194,6 @@ input:last-child {
   color:
     var(--teal);
 
-  /*
-  ★ 分數、根式不再縮小
-  */
   font-size: 26px;
 }
 
@@ -1378,16 +1203,13 @@ input:last-child {
 }
 
 
-/*
-==================================================
+/* ==================================================
 按鈕
-==================================================
-*/
+================================================== */
 
 .button-row {
 
   display: flex;
-
   justify-content: center;
 
   gap: 10px;
@@ -1414,7 +1236,6 @@ input:last-child {
     var(--navy);
 
   font-size: 16px;
-
   font-weight: 900;
 
   cursor: pointer;
@@ -1465,11 +1286,9 @@ input:last-child {
 }
 
 
-/*
-==================================================
+/* ==================================================
 Feedback
-==================================================
-*/
+================================================== */
 
 .feedback {
 
@@ -1480,36 +1299,27 @@ Feedback
   text-align: center;
 
   font-size: 18px;
-
   font-weight: 900;
 
   line-height: 1.8;
 }
 
 .feedback.correct {
-
-  color:
-    var(--success);
+  color: var(--success);
 }
 
 .feedback.wrong {
-
-  color:
-    var(--danger);
+  color: var(--danger);
 }
 
 .feedback.warning {
-
-  color:
-    var(--warning);
+  color: var(--warning);
 }
 
 
-/*
-==================================================
+/* ==================================================
 詳解
-==================================================
-*/
+================================================== */
 
 .explanation {
 
@@ -1529,20 +1339,15 @@ Feedback
 }
 
 .explanation-step {
-
-  margin:
-    9px 0;
+  margin: 9px 0;
 }
 
 
-/*
-==================================================
+/* ==================================================
 結果
-==================================================
-*/
+================================================== */
 
 .result-panel {
-
   text-align: center;
 }
 
@@ -1555,12 +1360,10 @@ Feedback
     var(--orange);
 
   font-size: 56px;
-
   font-weight: 900;
 }
 
 .result-stars {
-
   font-size: 31px;
 }
 
@@ -1571,10 +1374,7 @@ Feedback
   grid-template-columns:
     repeat(
       4,
-      minmax(
-        0,
-        1fr
-      )
+      minmax(0,1fr)
     );
 
   gap: 12px;
@@ -1608,16 +1408,13 @@ Feedback
 }
 
 
-/*
-==================================================
+/* ==================================================
 Review
-==================================================
-*/
+================================================== */
 
 .review-list {
 
   display: grid;
-
   gap: 14px;
 }
 
@@ -1651,25 +1448,20 @@ Review
     var(--navy);
 
   font-size: 21px;
-
   font-weight: 900;
 }
 
 
-/*
-==================================================
+/* ==================================================
 RWD
-==================================================
-*/
+================================================== */
 
 @media(
   max-width: 900px
 ) {
 
   .mode-grid {
-
-    grid-template-columns:
-      1fr;
+    grid-template-columns: 1fr;
   }
 }
 
@@ -1679,7 +1471,6 @@ RWD
 ) {
 
   body {
-
     padding: 8px;
   }
 
@@ -1694,10 +1485,7 @@ RWD
     grid-template-columns:
       repeat(
         2,
-        minmax(
-          0,
-          1fr
-        )
+        minmax(0,1fr)
       );
   }
 
@@ -1734,10 +1522,7 @@ RWD
     grid-template-columns:
       repeat(
         2,
-        minmax(
-          0,
-          1fr
-        )
+        minmax(0,1fr)
       );
   }
 }
@@ -1796,10 +1581,6 @@ RWD
 
 </header>
 
-
-<!-- ==================================================
-Start
-================================================== -->
 
 <section
   id="start-screen"
@@ -1886,7 +1667,7 @@ Start
   </div>
 
   <p>
-    長方形、梯子、竹竿等生活題，以及直角三角形斜邊上的高。
+    長方形、梯子等生活題，以及直角三角形斜邊上的高。
   </p>
 
   <div class="mode-example">
@@ -1937,10 +1718,6 @@ Start
 
 </section>
 
-
-<!-- ==================================================
-Quiz
-================================================== -->
 
 <section
   id="quiz-screen"
@@ -2142,10 +1919,6 @@ Quiz
 </section>
 
 
-<!-- ==================================================
-Result
-================================================== -->
-
 <section
   id="result-screen"
   class="screen hidden result-panel"
@@ -2267,10 +2040,6 @@ Result
 </section>
 
 
-<!-- ==================================================
-Review
-================================================== -->
-
 <section
   id="review-screen"
   class="screen hidden"
@@ -2315,11 +2084,8 @@ Review
 
 
 <script src="../js/common-header.js"></script>
-
 <script src="../js/scratchpad.js"></script>
-
 <script src="../js/scratchpad-template.js"></script>
-
 <script src="../js/sound-manager.js?v=1"></script>
 
 
@@ -2332,12 +2098,6 @@ import {
 
 "use strict";
 
-
-/*
-==================================================
-設定
-==================================================
-*/
 
 const GAME_ID =
   "pythagorean";
@@ -2366,64 +2126,49 @@ const $ =
 let mode =
   "basic";
 
-
 let questions =
   [];
-
 
 let index =
   0;
 
-
 let correct =
   0;
-
 
 let wrong =
   0;
 
-
 let combo =
   0;
-
 
 let maxCombo =
   0;
 
-
 let records =
   [];
-
 
 let answered =
   false;
 
-
 let selectedChoice =
   null;
-
 
 let startTime =
   0;
 
-
 let elapsed =
   0;
 
-
 let timerId =
   null;
-
 
 let scoreSaved =
   false;
 
 
-/*
-==================================================
+/* ==================================================
 工具
-==================================================
-*/
+================================================== */
 
 function rand(
   min,
@@ -2565,11 +2310,9 @@ function reduceFraction(
 }
 
 
-/*
-==================================================
+/* ==================================================
 MathML
-==================================================
-*/
+================================================== */
 
 function mn(
   value
@@ -2651,6 +2394,37 @@ function mfrac(
       </mrow>
 
     </mfrac>
+  `;
+}
+
+
+/*
+★ AB 上方線段
+*/
+
+function overlineAB() {
+
+  return `
+
+    <mover
+      accent="true"
+    >
+
+      <mrow>
+
+        ${mi(
+          "A"
+        )}
+
+        ${mi(
+          "B"
+        )}
+
+      </mrow>
+
+      <mo>¯</mo>
+
+    </mover>
   `;
 }
 
@@ -2810,10 +2584,120 @@ function radicalFractionHTML(
 
 
 /*
-==================================================
-根式化簡
-==================================================
+★ 完整兩點距離公式
+AB 橫線與根號橫線都使用 MathML
 */
+
+function distanceFormulaHTML() {
+
+  return `
+
+    💡
+
+    ${mathHTML(
+      `
+
+        ${overlineAB()}
+
+        ${mo(
+          "="
+        )}
+
+        ${msqrt(
+          `
+
+            ${msup(
+              `
+                <mrow>
+
+                  ${mo(
+                    "("
+                  )}
+
+                  <msub>
+                    ${mi(
+                      "x"
+                    )}
+                    ${mn(
+                      2
+                    )}
+                  </msub>
+
+                  ${mo(
+                    "−"
+                  )}
+
+                  <msub>
+                    ${mi(
+                      "x"
+                    )}
+                    ${mn(
+                      1
+                    )}
+                  </msub>
+
+                  ${mo(
+                    ")"
+                  )}
+
+                </mrow>
+              `,
+              2
+            )}
+
+            ${mo(
+              "+"
+            )}
+
+            ${msup(
+              `
+                <mrow>
+
+                  ${mo(
+                    "("
+                  )}
+
+                  <msub>
+                    ${mi(
+                      "y"
+                    )}
+                    ${mn(
+                      2
+                    )}
+                  </msub>
+
+                  ${mo(
+                    "−"
+                  )}
+
+                  <msub>
+                    ${mi(
+                      "y"
+                    )}
+                    ${mn(
+                      1
+                    )}
+                  </msub>
+
+                  ${mo(
+                    ")"
+                  )}
+
+                </mrow>
+              `,
+              2
+            )}
+          `
+        )}
+      `
+    )}
+  `;
+}
+
+
+/* ==================================================
+根式化簡
+================================================== */
 
 function simplifyRoot(
   n
@@ -2939,11 +2823,9 @@ function isSimplestRadicand(
 }
 
 
-/*
-==================================================
+/* ==================================================
 音效
-==================================================
-*/
+================================================== */
 
 function playGameSound(
   method
@@ -2972,12 +2854,9 @@ function playGameSound(
 }
 
 
-/*
-==================================================
-★ 一般直角三角形
-showRightAngle = false 時不畫直角符號
-==================================================
-*/
+/* ==================================================
+直角三角形
+================================================== */
 
 function triangleSVG(
   legA,
@@ -3062,11 +2941,9 @@ function triangleSVG(
 }
 
 
-/*
-==================================================
+/* ==================================================
 求另一股
-==================================================
-*/
+================================================== */
 
 function legTriangleSVG(
   known,
@@ -3138,11 +3015,9 @@ function legTriangleSVG(
 }
 
 
-/*
-==================================================
+/* ==================================================
 長方形
-==================================================
-*/
+================================================== */
 
 function rectangleSVG(
   width,
@@ -3210,11 +3085,9 @@ function rectangleSVG(
 }
 
 
-/*
-==================================================
+/* ==================================================
 梯子
-==================================================
-*/
+================================================== */
 
 function ladderSVG(
   ground,
@@ -3301,15 +3174,11 @@ function ladderSVG(
 }
 
 
-/*
-==================================================
-★ 斜邊上的高
-真正依兩股長繪製直角三角形
-包含：
-1. 原直角頂點符號
-2. 高與斜邊交點符號
-==================================================
-*/
+/* ==================================================
+★ 新版斜邊上的高
+不按照實際比例拉伸
+兩個直角符號改成小型 L 型
+================================================== */
 
 function altitudeSVG(
   a,
@@ -3317,88 +3186,58 @@ function altitudeSVG(
   cText
 ) {
 
-  const ux =
-    -0.6;
+  /*
+  固定使用一個清楚的直角三角形位置。
 
-  const uy =
-    0.8;
+  R = 原直角頂點
+  A、B = 斜邊兩端
+  H = R 到 AB 的垂足
 
+  數字仍然使用真實題目數字，
+  但畫面不依 7、24、25 等比例拉長。
+  */
 
-  const vx =
-    0.8;
-
-  const vy =
-    0.6;
-
-
-  const scale =
-    Math.min(
-      145 /
-      a,
-
-      145 /
-      b
-    );
+  const R = {
+    x: 185,
+    y: 48
+  };
 
 
-  const rx =
-    150;
+  const A = {
+    x: 65,
+    y: 185
+  };
 
 
-  const ry =
-    52;
-
-
-  const ax =
-    rx +
-    ux *
-    a *
-    scale;
-
-
-  const ay =
-    ry +
-    uy *
-    a *
-    scale;
-
-
-  const bx =
-    rx +
-    vx *
-    b *
-    scale;
-
-
-  const by =
-    ry +
-    vy *
-    b *
-    scale;
+  const B = {
+    x: 305,
+    y: 215
+  };
 
 
   /*
+  計算 H：
   R 投影到 AB
   */
 
   const abx =
-    bx -
-    ax;
+    B.x -
+    A.x;
 
 
   const aby =
-    by -
-    ay;
+    B.y -
+    A.y;
 
 
   const arx =
-    rx -
-    ax;
+    R.x -
+    A.x;
 
 
   const ary =
-    ry -
-    ay;
+    R.y -
+    A.y;
 
 
   const t =
@@ -3416,74 +3255,142 @@ function altitudeSVG(
     );
 
 
-  const hx =
-    ax +
-    t *
-    abx;
+  const H = {
 
+    x:
+      A.x +
+      t *
+      abx,
 
-  const hy =
-    ay +
-    t *
-    aby;
+    y:
+      A.y +
+      t *
+      aby
+  };
 
 
   /*
-  頂點直角小正方形
+  AB 單位向量
   */
 
-  const marker =
-    20;
+  const abLength =
+    Math.hypot(
+      abx,
+      aby
+    );
 
 
-  const p1x =
-    rx +
-    ux *
-    marker;
+  const tx =
+    abx /
+    abLength;
 
 
-  const p1y =
-    ry +
-    uy *
-    marker;
+  const ty =
+    aby /
+    abLength;
 
 
-  const p2x =
-    p1x +
-    vx *
-    marker;
+  /*
+  從 H 指向 R 的單位向量
+  */
+
+  const hrx =
+    R.x -
+    H.x;
 
 
-  const p2y =
-    p1y +
-    vy *
-    marker;
+  const hry =
+    R.y -
+    H.y;
 
 
-  const p3x =
-    rx +
-    vx *
-    marker;
+  const hrLength =
+    Math.hypot(
+      hrx,
+      hry
+    );
 
 
-  const p3y =
-    ry +
-    vy *
-    marker;
+  const nx =
+    hrx /
+    hrLength;
 
+
+  const ny =
+    hry /
+    hrLength;
+
+
+  /*
+  H 點的小直角符號
+  */
+
+  const hm =
+    13;
+
+
+  const h1 = {
+
+    x:
+      H.x +
+      tx *
+      hm,
+
+    y:
+      H.y +
+      ty *
+      hm
+  };
+
+
+  const h2 = {
+
+    x:
+      h1.x +
+      nx *
+      hm,
+
+    y:
+      h1.y +
+      ny *
+      hm
+  };
+
+
+  const h3 = {
+
+    x:
+      H.x +
+      nx *
+      hm,
+
+    y:
+      H.y +
+      ny *
+      hm
+  };
+
+
+  /*
+  R 點直角符號
+  這裡單純使用小型示意符號，
+  不讓符號與線段或文字重疊。
+  */
 
   return `
 
     <svg
       class="geometry-svg"
-      viewBox="0 0 360 280"
+      viewBox="0 0 370 270"
     >
+
+      <!-- 三角形 -->
 
       <polygon
         points="
-          ${rx},${ry}
-          ${ax},${ay}
-          ${bx},${by}
+          ${R.x},${R.y}
+          ${A.x},${A.y}
+          ${B.x},${B.y}
         "
         fill="rgba(245,158,11,.07)"
         stroke="#17324d"
@@ -3495,73 +3402,57 @@ function altitudeSVG(
       <!-- 斜邊上的高 -->
 
       <line
-        x1="${rx}"
-        y1="${ry}"
-        x2="${hx}"
-        y2="${hy}"
+        x1="${R.x}"
+        y1="${R.y}"
+        x2="${H.x}"
+        y2="${H.y}"
         stroke="#149b92"
         stroke-width="4"
       />
 
 
-      <!-- ★ 原直角三角形的直角符號 -->
+      <!--
+      原直角頂點的小型直角符號
+      不再使用大型旋轉方框
+      -->
 
-      <polyline
-        points="
-          ${p1x},${p1y}
-          ${p2x},${p2y}
-          ${p3x},${p3y}
+      <path
+        d="
+          M 169 66
+          L 182 77
+          L 194 63
         "
-        fill="none"
-        stroke="#f59e0b"
-        stroke-width="5"
-        stroke-linejoin="round"
-      />
-
-
-      <!-- ★ 高與斜邊的直角符號 -->
-
-      <rect
-        x="${hx - 12}"
-        y="${hy - 12}"
-        width="24"
-        height="24"
         fill="none"
         stroke="#f59e0b"
         stroke-width="4"
-        transform="
-          rotate(
-            ${
-              Math.atan2(
-                aby,
-                abx
-              ) *
-              180 /
-              Math.PI
-            }
-            ${hx}
-            ${hy}
-          )
-        "
+        stroke-linejoin="round"
+        stroke-linecap="round"
       />
 
 
+      <!--
+      高與斜邊交點的直角符號
+      -->
+
+      <polyline
+        points="
+          ${h1.x},${h1.y}
+          ${h2.x},${h2.y}
+          ${h3.x},${h3.y}
+        "
+        fill="none"
+        stroke="#f59e0b"
+        stroke-width="4"
+        stroke-linejoin="round"
+        stroke-linecap="round"
+      />
+
+
+      <!-- 邊長 a -->
+
       <text
-        x="${
-          (
-            rx +
-            ax
-          ) /
-          2 -
-          28
-        }"
-        y="${
-          (
-            ry +
-            ay
-          ) /
-          2
-        }"
+        x="103"
+        y="108"
         font-size="25"
         font-weight="900"
         fill="#17324d"
@@ -3570,22 +3461,11 @@ function altitudeSVG(
       </text>
 
 
+      <!-- 邊長 b -->
+
       <text
-        x="${
-          (
-            rx +
-            bx
-          ) /
-          2 +
-          8
-        }"
-        y="${
-          (
-            ry +
-            by
-          ) /
-          2
-        }"
+        x="250"
+        y="125"
         font-size="25"
         font-weight="900"
         fill="#17324d"
@@ -3594,23 +3474,11 @@ function altitudeSVG(
       </text>
 
 
+      <!-- 斜邊 -->
+
       <text
-        x="${
-          (
-            ax +
-            bx
-          ) /
-          2 -
-          8
-        }"
-        y="${
-          (
-            ay +
-            by
-          ) /
-          2 +
-          33
-        }"
+        x="177"
+        y="235"
         font-size="25"
         font-weight="900"
         fill="#17324d"
@@ -3619,19 +3487,21 @@ function altitudeSVG(
       </text>
 
 
+      <!-- 高 -->
+
       <text
         x="${
           (
-            rx +
-            hx
+            R.x +
+            H.x
           ) /
           2 +
-          9
+          12
         }"
         y="${
           (
-            ry +
-            hy
+            R.y +
+            H.y
           ) /
           2
         }"
@@ -3647,11 +3517,9 @@ function altitudeSVG(
 }
 
 
-/*
-==================================================
-★ 正確座標平面
-==================================================
-*/
+/* ==================================================
+座標平面
+================================================== */
 
 function coordinateSVG(
   x1,
@@ -3802,9 +3670,6 @@ function coordinateSVG(
 
       ${grid}
 
-
-      <!-- x 軸 -->
-
       <line
         x1="20"
         y1="${originY}"
@@ -3813,9 +3678,6 @@ function coordinateSVG(
         stroke="#64748b"
         stroke-width="3"
       />
-
-
-      <!-- y 軸 -->
 
       <line
         x1="${originX}"
@@ -3827,8 +3689,6 @@ function coordinateSVG(
       />
 
 
-      <!-- AB 真正依照座標連線 -->
-
       <line
         x1="${ax}"
         y1="${ay}"
@@ -3839,8 +3699,6 @@ function coordinateSVG(
         stroke-linecap="round"
       />
 
-
-      <!-- A 點投影 -->
 
       <line
         x1="${ax}"
@@ -3862,8 +3720,6 @@ function coordinateSVG(
         stroke-dasharray="7 6"
       />
 
-
-      <!-- B 點投影 -->
 
       <line
         x1="${bx}"
@@ -3940,11 +3796,9 @@ function coordinateSVG(
 }
 
 
-/*
-==================================================
+/* ==================================================
 題目物件
-==================================================
-*/
+================================================== */
 
 function question(
   data
@@ -3978,11 +3832,9 @@ function question(
 }
 
 
-/*
-==================================================
+/* ==================================================
 模式一
-==================================================
-*/
+================================================== */
 
 function makeHypotenuseQuestion() {
 
@@ -4320,9 +4172,6 @@ function makeJudgeQuestion() {
     hint:
       "💡 先找最長邊，再比較兩短邊平方和與最長邊平方",
 
-    /*
-    ★ 判斷題不放直角符號
-    */
     diagram:
       triangleSVG(
         a,
@@ -4410,11 +4259,9 @@ function makeMode1() {
 }
 
 
-/*
-==================================================
+/* ==================================================
 模式二
-==================================================
-*/
+================================================== */
 
 function makeRectangleQuestion() {
 
@@ -4677,12 +4524,6 @@ function makeAltitudeQuestion() {
 
 function makeRadicalAltitudeQuestion() {
 
-  /*
-  固定使用可確定正確的課本型資料
-  5、√11、斜邊 6
-  h = 5√11 / 6
-  */
-
   const a =
     5;
 
@@ -4774,11 +4615,9 @@ function makeMode2() {
 }
 
 
-/*
-==================================================
+/* ==================================================
 模式三
-==================================================
-*/
+================================================== */
 
 function makeAxisDistanceQuestion() {
 
@@ -4786,10 +4625,6 @@ function makeAxisDistanceQuestion() {
     Math.random() <
     .5;
 
-
-  /*
-  水平
-  */
 
   if (
     horizontal
@@ -4836,11 +4671,8 @@ function makeAxisDistanceQuestion() {
         `A(${x1}, ${y})、B(${x2}, ${y})，求 AB。`,
 
       hint:
-        "💡 y 坐標相同，所以兩點必須畫在同一條水平線上",
+        "💡 y 坐標相同，只需比較 x 坐標的差",
 
-      /*
-      ★ 真正依座標繪製
-      */
       diagram:
         coordinateSVG(
           x1,
@@ -4866,10 +4698,6 @@ function makeAxisDistanceQuestion() {
     });
   }
 
-
-  /*
-  鉛直
-  */
 
   const x =
     rand(
@@ -4912,7 +4740,7 @@ function makeAxisDistanceQuestion() {
       `A(${x}, ${y1})、B(${x}, ${y2})，求 AB。`,
 
     hint:
-      "💡 x 坐標相同，所以兩點必須畫在同一條鉛直線上",
+      "💡 x 坐標相同，只需比較 y 坐標的差",
 
     diagram:
       coordinateSVG(
@@ -5025,12 +4853,12 @@ function makeGeneralDistanceQuestion() {
     html:
       `A(${x1}, ${y1})、B(${x2}, ${y2})，求 AB。`,
 
-    hint:
-      "💡 AB＝√[(x₂－x₁)²＋(y₂－y₁)²]",
-
     /*
-    ★ A、B 真正依所在象限畫
+    ★ 改成真正 MathML
     */
+    hint:
+      distanceFormulaHTML(),
+
     diagram:
       coordinateSVG(
         x1,
@@ -5098,11 +4926,9 @@ function makeMode3() {
 }
 
 
-/*
-==================================================
+/* ==================================================
 建立題目
-==================================================
-*/
+================================================== */
 
 function createQuestions() {
 
@@ -5128,11 +4954,9 @@ function createQuestions() {
 }
 
 
-/*
-==================================================
+/* ==================================================
 根號輸入 HTML
-==================================================
-*/
+================================================== */
 
 function rootEditorHTML(
   id
@@ -5173,11 +4997,9 @@ function rootEditorHTML(
 }
 
 
-/*
-==================================================
+/* ==================================================
 目前答案
-==================================================
-*/
+================================================== */
 
 function updateNumberPreview() {
 
@@ -5280,7 +5102,7 @@ function updateRadicalPreview() {
 
     $("answer-preview")
       .innerHTML =
-        "目前尚未完成答案。";
+        "目前尚未完成答案.";
 
 
     return;
@@ -5388,11 +5210,9 @@ function updateRadicalFractionPreview() {
 }
 
 
-/*
-==================================================
+/* ==================================================
 答案 UI
-==================================================
-*/
+================================================== */
 
 function renderAnswer(
   q
@@ -5405,10 +5225,6 @@ function renderAnswer(
   const panel =
     $("answer-panel");
 
-
-  /*
-  Number
-  */
 
   if (
     q.answerType ===
@@ -5456,10 +5272,6 @@ function renderAnswer(
     return;
   }
 
-
-  /*
-  Fraction
-  */
 
   if (
     q.answerType ===
@@ -5530,10 +5342,6 @@ function renderAnswer(
     return;
   }
 
-
-  /*
-  ★ Radical
-  */
 
   if (
     q.answerType ===
@@ -5649,10 +5457,6 @@ function renderAnswer(
     return;
   }
 
-
-  /*
-  ★ Radical fraction
-  */
 
   if (
     q.answerType ===
@@ -5776,10 +5580,6 @@ function renderAnswer(
   }
 
 
-  /*
-  Choice
-  */
-
   panel.innerHTML = `
 
     <div class="answer-title">
@@ -5868,11 +5668,9 @@ function renderAnswer(
 }
 
 
-/*
-==================================================
+/* ==================================================
 顯示題目
-==================================================
-*/
+================================================== */
 
 function displayQuestion() {
 
@@ -5942,8 +5740,13 @@ function displayQuestion() {
       q.html;
 
 
+  /*
+  ★ 改成 innerHTML
+  MathML 才能正常顯示
+  */
+
   $("formula-hint")
-    .textContent =
+    .innerHTML =
       q.hint;
 
 
@@ -5994,19 +5797,13 @@ function displayQuestion() {
 }
 
 
-/*
-==================================================
+/* ==================================================
 讀取答案
-==================================================
-*/
+================================================== */
 
 function readAnswer(
   q
 ) {
-
-  /*
-  number
-  */
 
   if (
     q.answerType ===
@@ -6053,10 +5850,6 @@ function readAnswer(
     };
   }
 
-
-  /*
-  fraction
-  */
 
   if (
     q.answerType ===
@@ -6137,10 +5930,6 @@ function readAnswer(
     };
   }
 
-
-  /*
-  radical
-  */
 
   if (
     q.answerType ===
@@ -6228,10 +6017,6 @@ function readAnswer(
     };
   }
 
-
-  /*
-  radical fraction
-  */
 
   if (
     q.answerType ===
@@ -6353,10 +6138,6 @@ function readAnswer(
   }
 
 
-  /*
-  choice
-  */
-
   if (
     !selectedChoice
   ) {
@@ -6393,11 +6174,9 @@ function readAnswer(
 }
 
 
-/*
-==================================================
+/* ==================================================
 判定
-==================================================
-*/
+================================================== */
 
 function checkCorrect(
   q,
@@ -6474,11 +6253,9 @@ function checkCorrect(
 }
 
 
-/*
-==================================================
+/* ==================================================
 正確答案
-==================================================
-*/
+================================================== */
 
 function correctAnswerText(
   q
@@ -6543,11 +6320,9 @@ function correctAnswerText(
 }
 
 
-/*
-==================================================
+/* ==================================================
 詳解
-==================================================
-*/
+================================================== */
 
 function explanationHTML(
   q
@@ -6575,11 +6350,9 @@ function explanationHTML(
 }
 
 
-/*
-==================================================
+/* ==================================================
 提交
-==================================================
-*/
+================================================== */
 
 function submitAnswer() {
 
@@ -6767,11 +6540,9 @@ function submitAnswer() {
 }
 
 
-/*
-==================================================
+/* ==================================================
 下一題
-==================================================
-*/
+================================================== */
 
 function nextQuestion() {
 
@@ -6800,11 +6571,9 @@ function nextQuestion() {
 }
 
 
-/*
-==================================================
+/* ==================================================
 時間
-==================================================
-*/
+================================================== */
 
 function formatTime(
   seconds
@@ -6912,11 +6681,9 @@ function startTimer() {
 }
 
 
-/*
-==================================================
+/* ==================================================
 計算紙
-==================================================
-*/
+================================================== */
 
 function moveScratchpadButtonToTop() {
 
@@ -6943,11 +6710,9 @@ function moveScratchpadButtonToTop() {
 }
 
 
-/*
-==================================================
+/* ==================================================
 畫面
-==================================================
-*/
+================================================== */
 
 function showOnly(
   screenId
@@ -7003,11 +6768,9 @@ function showOnly(
 }
 
 
-/*
-==================================================
+/* ==================================================
 開始
-==================================================
-*/
+================================================== */
 
 function startGame(
   selectedMode
@@ -7083,11 +6846,9 @@ function startGame(
 }
 
 
-/*
-==================================================
+/* ==================================================
 結果
-==================================================
-*/
+================================================== */
 
 function rating(
   score
@@ -7241,11 +7002,9 @@ async function showResult() {
 }
 
 
-/*
-==================================================
+/* ==================================================
 Firestore
-==================================================
-*/
+================================================== */
 
 async function saveCurrentScore(
   score
@@ -7346,11 +7105,9 @@ async function saveCurrentScore(
 }
 
 
-/*
-==================================================
+/* ==================================================
 錯題
-==================================================
-*/
+================================================== */
 
 function showReview() {
 
@@ -7439,11 +7196,9 @@ function showReview() {
 }
 
 
-/*
-==================================================
+/* ==================================================
 事件
-==================================================
-*/
+================================================== */
 
 document
   .querySelectorAll(
@@ -7603,11 +7358,9 @@ document.addEventListener(
 );
 
 
-/*
-==================================================
+/* ==================================================
 初始化
-==================================================
-*/
+================================================== */
 
 window.addEventListener(
   "DOMContentLoaded",
