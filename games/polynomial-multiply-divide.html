@@ -60,8 +60,7 @@
         "Noto Sans TC",
         sans-serif;
 
-      color:
-        var(--text);
+      color: var(--text);
 
       background:
         linear-gradient(
@@ -74,12 +73,10 @@
     button,
     input,
     select {
-
       font-family: inherit;
     }
 
     .hidden {
-
       display: none !important;
     }
 
@@ -96,7 +93,6 @@
     }
 
     #commonHeaderMount {
-
       margin-bottom: 14px;
     }
 
@@ -212,7 +208,6 @@
     }
 
     .screen {
-
       padding: 22px;
     }
 
@@ -293,7 +288,8 @@
       border-radius:
         999px;
 
-      background: white;
+      background:
+        white;
 
       color:
         var(--primary-dark);
@@ -340,7 +336,7 @@
 
     /*
     ==================================================
-    狀態列
+    狀態
     ==================================================
     */
 
@@ -451,7 +447,7 @@
 
     /*
     ==================================================
-    進度
+    Progress
     ==================================================
     */
 
@@ -489,7 +485,7 @@
 
     /*
     ==================================================
-    題目
+    Question
     ==================================================
     */
 
@@ -578,10 +574,6 @@
         serif;
     }
 
-    /*
-    長題目允許自動換行
-    */
-
     .math-expression.math-wrap {
 
       width: 100%;
@@ -593,8 +585,7 @@
 
       flex-wrap: wrap;
 
-      white-space:
-        normal;
+      white-space: normal;
 
       column-gap:
         .22em;
@@ -630,12 +621,13 @@
     .explanation sup,
     .review-question sup,
     .preview-value sup,
-    .correct-answer sup {
+    .correct-answer sup,
+    .long-division sup {
 
       position: relative;
 
       top:
-        -.48em;
+        -.46em;
 
       margin-left: 1px;
 
@@ -644,8 +636,7 @@
 
       line-height: 1;
 
-      vertical-align:
-        baseline;
+      vertical-align: baseline;
     }
 
     .negative-monomial {
@@ -686,7 +677,7 @@
 
     /*
     ==================================================
-    數學分數顯示
+    Math fraction
     ==================================================
     */
 
@@ -796,7 +787,7 @@
 
     /*
     ==================================================
-    單項式答案
+    Monomial answer
     ==================================================
     */
 
@@ -846,7 +837,8 @@
 
       border-radius: 11px;
 
-      background: white;
+      background:
+        white;
 
       font-size: 24px;
 
@@ -858,24 +850,24 @@
     }
 
     .mono-sign-wrap select {
-
       width: 78px;
     }
 
     .integer-coefficient-input {
-
-      width: 105px;
+      width: 110px;
     }
 
     /*
-    自訂分數係數格
+    ==================================================
+    手製分數係數
+    ==================================================
     */
 
     .fraction-coefficient-input {
 
       position: relative;
 
-      width: 120px;
+      width: 125px;
 
       overflow: hidden;
 
@@ -895,7 +887,7 @@
 
       width: 100%;
 
-      height: 48px;
+      height: 50px;
 
       padding:
         4px 8px;
@@ -916,12 +908,6 @@
       outline: none;
     }
 
-    /*
-    ★ 修正：
-    原本 input:first-child 會因為前方有 div 而失效。
-    改成 first-of-type。
-    */
-
     .fraction-coefficient-input
     input:first-of-type {
 
@@ -940,27 +926,12 @@
     }
 
     /*
-    另外用 pseudo element 再保險補一次中線
+    ==================================================
+    x 與次方格
+
+    ★ 次方格加寬
+    ==================================================
     */
-
-    .fraction-coefficient-input::after {
-
-      content: "";
-
-      position: absolute;
-
-      left: 10px;
-
-      right: 10px;
-
-      top: 50%;
-
-      border-top:
-        2px solid
-        #334155;
-
-      pointer-events: none;
-    }
 
     .monomial-x-power {
 
@@ -973,13 +944,13 @@
         flex-end;
 
       min-width:
-        105px;
+        128px;
 
       height:
-        78px;
+        82px;
 
       padding:
-        0 48px 8px 0;
+        0 66px 8px 0;
 
       font-family:
         "Cambria Math",
@@ -1005,9 +976,12 @@
 
       right: 0;
 
-      width: 50px;
+      width: 68px;
 
-      height: 43px;
+      height: 46px;
+
+      padding:
+        3px 5px;
 
       border:
         2px solid
@@ -1032,9 +1006,11 @@
       position: absolute;
 
       top:
-        -20px;
+        -21px;
 
       right: 0;
+
+      width: 68px;
 
       color:
         #64748b;
@@ -1042,6 +1018,8 @@
       font-size: 11px;
 
       font-weight: 900;
+
+      text-align: center;
     }
 
     /*
@@ -1097,9 +1075,9 @@
 
       align-items: center;
 
-      flex-wrap: wrap;
-
       justify-content: center;
+
+      flex-wrap: wrap;
 
       margin-left: 8px;
 
@@ -1134,7 +1112,7 @@
     }
 
     /*
-    分數係數改成真正上下式
+    分數係數
     */
 
     .polynomial-answer-shell
@@ -1148,8 +1126,8 @@
 
       grid-template-columns:
         minmax(
-          105px,
-          145px
+          110px,
+          150px
         ) !important;
 
       grid-template-rows:
@@ -1160,12 +1138,12 @@
 
       width:
         min(
-          145px,
+          150px,
           100%
         ) !important;
 
       min-height:
-        102px !important;
+        106px !important;
 
       margin:
         0 !important;
@@ -1206,14 +1184,14 @@
       justify-content:
         center !important;
 
-      gap:
-        2px !important;
-
       width:
         100% !important;
 
       height:
-        50px !important;
+        52px !important;
+
+      gap:
+        0 !important;
 
       margin:
         0 !important;
@@ -1228,18 +1206,6 @@
         white !important;
     }
 
-    /*
-    不依賴 first-child
-    */
-
-    .polynomial-answer-shell
-    .expression-input__fraction-field:first-of-type {
-
-      border-bottom:
-        2px solid
-        #334155 !important;
-    }
-
     .polynomial-answer-shell
     .expression-input__fraction-field input {
 
@@ -1250,7 +1216,7 @@
         0 !important;
 
       height:
-        36px !important;
+        42px !important;
 
       padding:
         3px !important;
@@ -1271,7 +1237,7 @@
         center !important;
 
       font-size:
-        20px !important;
+        21px !important;
 
       font-weight:
         900 !important;
@@ -1281,8 +1247,7 @@
     }
 
     /*
-    ★ 強制分數中線
-    避免元件 DOM 結構不同時 first-of-type 失效
+    ★ 分子 / 分母中間橫線
     */
 
     .polynomial-answer-shell
@@ -1292,9 +1257,9 @@
 
       position: absolute;
 
-      left: 10px;
+      left: 12px;
 
-      right: 10px;
+      right: 12px;
 
       top: 50%;
 
@@ -1305,6 +1270,31 @@
         #334155;
 
       pointer-events: none;
+    }
+
+    /*
+    ★ 修正圖三：
+    元件本身另外出現的小字「分母」隱藏。
+    輸入框內的大字 placeholder 仍保留。
+    */
+
+    .polynomial-answer-shell
+    .expression-input__fraction-field label,
+
+    .polynomial-answer-shell
+    .expression-input__fraction-field
+    .expression-input__label,
+
+    .polynomial-answer-shell
+    .expression-input__fraction-field
+    .expression-input__field-label,
+
+    .polynomial-answer-shell
+    .expression-input__fraction-field
+    small {
+
+      display:
+        none !important;
     }
 
     /*
@@ -1324,21 +1314,19 @@
       margin:
         0 auto;
 
-      padding:
-        18px;
+      padding: 18px;
 
       border:
         2px solid
         var(--primary-border);
 
-      border-radius:
-        18px;
+      border-radius: 18px;
 
       background:
         linear-gradient(
           180deg,
           #fbf3fd,
-          #fff
+          white
         );
     }
 
@@ -1351,16 +1339,11 @@
           0,
           1fr
         )
-        165px;
+        170px;
 
       gap: 14px;
 
       align-items: stretch;
-    }
-
-    .division-quotient-box {
-
-      min-width: 0;
     }
 
     .division-section-title {
@@ -1384,8 +1367,7 @@
       justify-content:
         flex-start;
 
-      padding:
-        12px;
+      padding: 12px;
 
       border:
         2px solid
@@ -1425,7 +1407,8 @@
 
       border-radius: 11px;
 
-      background: white;
+      background:
+        white;
 
       font-size: 23px;
 
@@ -1437,71 +1420,12 @@
     }
 
     .division-preview {
-
       margin-top: 16px;
     }
 
     /*
     ==================================================
-    Choice
-    ==================================================
-    */
-
-    .choice-grid {
-
-      display: grid;
-
-      grid-template-columns:
-        repeat(
-          2,
-          minmax(
-            0,
-            1fr
-          )
-        );
-
-      gap: 10px;
-    }
-
-    .choice-button {
-
-      min-height: 62px;
-
-      padding: 11px;
-
-      border:
-        2px solid
-        var(--primary-border);
-
-      border-radius: 13px;
-
-      background: white;
-
-      color:
-        #263238;
-
-      font-size: 17px;
-
-      font-weight: 900;
-
-      cursor: pointer;
-    }
-
-    .choice-button.selected {
-
-      border-color:
-        var(--primary);
-
-      background:
-        var(--primary-light);
-
-      color:
-        var(--primary-dark);
-    }
-
-    /*
-    ==================================================
-    Buttons
+    Feedback
     ==================================================
     */
 
@@ -1575,19 +1499,6 @@
         #00695c;
     }
 
-    .game-button:disabled {
-
-      opacity: .55;
-
-      cursor: not-allowed;
-    }
-
-    /*
-    ==================================================
-    Feedback
-    ==================================================
-    */
-
     .feedback {
 
       min-height: 48px;
@@ -1604,26 +1515,20 @@
     }
 
     .feedback.correct {
-
-      color:
-        var(--success);
+      color: var(--success);
     }
 
     .feedback.wrong {
-
-      color:
-        var(--danger);
+      color: var(--danger);
     }
 
     .feedback.warning {
-
-      color:
-        var(--warning);
+      color: var(--warning);
     }
 
     /*
     ==================================================
-    Explanation
+    詳解
     ==================================================
     */
 
@@ -1631,7 +1536,7 @@
 
       margin-top: 12px;
 
-      padding: 16px;
+      padding: 18px;
 
       border-radius: 14px;
 
@@ -1647,7 +1552,241 @@
     .explanation-step {
 
       margin:
-        8px 0;
+        11px 0;
+    }
+
+    /*
+    ==================================================
+    ★ 多項式直式除法
+    ==================================================
+    */
+
+    .long-division {
+
+      width:
+        min(
+          100%,
+          760px
+        );
+
+      margin:
+        18px auto;
+
+      padding:
+        18px;
+
+      overflow-x:
+        auto;
+
+      border:
+        2px solid
+        #d8b4e2;
+
+      border-radius:
+        15px;
+
+      background:
+        white;
+
+      font-family:
+        "Cambria Math",
+        "Times New Roman",
+        "Microsoft JhengHei",
+        serif;
+
+      font-size:
+        clamp(
+          17px,
+          3vw,
+          23px
+        );
+    }
+
+    .long-division-title {
+
+      margin-bottom: 16px;
+
+      color:
+        var(--primary-dark);
+
+      font-family:
+        "Microsoft JhengHei",
+        sans-serif;
+
+      font-size: 16px;
+
+      font-weight: 900;
+
+      text-align: center;
+    }
+
+    .long-division-head {
+
+      display: grid;
+
+      grid-template-columns:
+        auto
+        minmax(
+          260px,
+          1fr
+        );
+
+      align-items: end;
+
+      width:
+        max-content;
+
+      min-width: 100%;
+
+      margin-bottom: 8px;
+    }
+
+    .long-division-blank {
+
+      min-width: 130px;
+    }
+
+    .long-division-quotient {
+
+      padding:
+        3px 10px 6px;
+
+      border-bottom:
+        2px solid
+        #334155;
+
+      text-align: center;
+
+      font-weight: 900;
+    }
+
+    .long-division-main {
+
+      display: grid;
+
+      grid-template-columns:
+        auto
+        minmax(
+          260px,
+          1fr
+        );
+
+      align-items: start;
+
+      width:
+        max-content;
+
+      min-width: 100%;
+    }
+
+    .long-division-divisor {
+
+      min-width: 130px;
+
+      padding:
+        6px 12px 0 0;
+
+      border-right:
+        2px solid
+        #334155;
+
+      text-align: right;
+
+      white-space: nowrap;
+    }
+
+    .long-division-work {
+
+      padding-left: 12px;
+    }
+
+    .long-step {
+
+      margin-bottom: 18px;
+    }
+
+    .long-step-current {
+
+      padding:
+        4px 8px;
+
+      font-weight: 900;
+    }
+
+    .long-step-product {
+
+      padding:
+        5px 8px;
+
+      border-bottom:
+        2px solid
+        #334155;
+    }
+
+    .long-step-product::before {
+
+      content: "－ ";
+
+      font-weight: 900;
+    }
+
+    .long-step-remainder {
+
+      padding:
+        5px 8px;
+
+      font-weight: 900;
+    }
+
+    .long-step-note {
+
+      margin-top: 5px;
+
+      color:
+        #64748b;
+
+      font-family:
+        "Microsoft JhengHei",
+        sans-serif;
+
+      font-size: 13px;
+
+      font-weight: 700;
+    }
+
+    /*
+    ==================================================
+    乘開細節
+    ==================================================
+    */
+
+    .expansion-box {
+
+      margin:
+        14px 0;
+
+      padding:
+        14px 16px;
+
+      border:
+        1px solid
+        #d8b4e2;
+
+      border-radius: 12px;
+
+      background:
+        white;
+
+      font-family:
+        "Cambria Math",
+        "Times New Roman",
+        "Microsoft JhengHei",
+        serif;
+
+      font-size:
+        1.08em;
+
+      line-height: 2;
     }
 
     /*
@@ -1657,7 +1796,6 @@
     */
 
     .result-panel {
-
       text-align: center;
     }
 
@@ -1669,8 +1807,7 @@
       color:
         #f57c00;
 
-      font-size:
-        56px;
+      font-size: 56px;
 
       font-weight: 900;
     }
@@ -1679,8 +1816,7 @@
 
       margin-bottom: 10px;
 
-      font-size:
-        31px;
+      font-size: 31px;
     }
 
     .result-grid {
@@ -1751,7 +1887,8 @@
 
       border-radius: 16px;
 
-      background: white;
+      background:
+        white;
     }
 
     .review-title {
@@ -1774,19 +1911,12 @@
       text-align: center;
     }
 
-    /*
-    ==================================================
-    Mobile
-    ==================================================
-    */
-
     @media(
       max-width:
         760px
     ) {
 
       body {
-
         padding: 8px;
       }
 
@@ -1797,9 +1927,7 @@
       }
 
       .mode-grid {
-
-        grid-template-columns:
-          1fr;
+        grid-template-columns: 1fr;
       }
 
       .quiz-topbar {
@@ -1815,15 +1943,7 @@
       }
 
       .timer-box {
-
-        grid-column:
-          1 / -1;
-      }
-
-      .choice-grid {
-
-        grid-template-columns:
-          1fr;
+        grid-column: 1 / -1;
       }
 
       .result-grid {
@@ -1854,17 +1974,18 @@
 
         font-size:
           clamp(
-            24px,
+            23px,
             6vw,
             34px
           );
       }
 
-      .math-expression.math-wrap {
+      .long-division {
 
-        row-gap:
-          .45em;
+        padding:
+          12px 8px;
       }
+
     }
 
   </style>
@@ -1919,12 +2040,6 @@
 
     </header>
 
-    <!--
-    ==================================================
-    模式首頁
-    ==================================================
-    -->
-
     <section
       id="start-screen"
       class="screen"
@@ -1971,7 +2086,7 @@
           </h2>
 
           <p>
-            練習分配律、一次式與二次式相乘，以及完全平方與平方差公式。
+            練習分配律、一般多項式乘法，以及完全平方與平方差公式。
           </p>
 
           <div class="mode-example">
@@ -1999,7 +2114,7 @@
           </p>
 
           <div class="mode-example">
-            以真正的除法計算為主，不加入反推被除式題型
+            答錯時可利用完整直式除法進行偵錯
           </div>
 
         </button>
@@ -2019,7 +2134,7 @@
           </h2>
 
           <p>
-            整合前三模式，並加入「被除式＝除式×商式＋餘式」等綜合應用。
+            整合前三模式，並加入被除式、除式、商式與餘式的綜合應用。
           </p>
 
           <div class="mode-example">
@@ -2032,12 +2147,6 @@
 
     </section>
 
-    <!--
-    ==================================================
-    Quiz
-    ==================================================
-    -->
-
     <section
       id="quiz-screen"
       class="screen hidden"
@@ -2046,77 +2155,60 @@
       <div class="quiz-topbar">
 
         <div class="status-box">
-
           模式
-
           <span
             id="mode-name"
             class="status-value"
           >
             —
           </span>
-
         </div>
 
         <div class="status-box">
-
           進度
-
           <span
             id="question-number"
             class="status-value"
           >
             1 / 10
           </span>
-
         </div>
 
         <div class="status-box">
-
           答對
-
           <span
             id="correct-count"
             class="status-value"
           >
             0
           </span>
-
         </div>
 
         <div class="status-box">
-
           最高連擊
-
           <span
             id="combo-count"
             class="status-value"
           >
             0
           </span>
-
         </div>
 
         <div class="status-box timer-box">
-
           測驗時間
-
           <span
             id="timer-display"
             class="status-value"
           >
             00:00
           </span>
-
         </div>
 
       </div>
 
       <div class="scratchpad-row">
 
-        <div
-          id="scratchpad-mobile-button"
-        ></div>
+        <div id="scratchpad-mobile-button"></div>
 
       </div>
 
@@ -2196,12 +2288,6 @@
 
     </section>
 
-    <!--
-    ==================================================
-    Result
-    ==================================================
-    -->
-
     <section
       id="result-screen"
       class="screen hidden result-panel"
@@ -2230,51 +2316,37 @@
       <div class="result-grid">
 
         <div class="result-stat">
-
           答對
           <br>
-
           <span id="final-correct">
             0
           </span>
-
           題
-
         </div>
 
         <div class="result-stat">
-
           答錯
           <br>
-
           <span id="final-wrong">
             0
           </span>
-
           題
-
         </div>
 
         <div class="result-stat">
-
           最高連擊
           <br>
-
           <span id="final-combo">
             0
           </span>
-
         </div>
 
         <div class="result-stat">
-
           測驗時間
           <br>
-
           <span id="final-time">
             00:00
           </span>
-
         </div>
 
       </div>
@@ -2313,12 +2385,6 @@
       </div>
 
     </section>
-
-    <!--
-    ==================================================
-    Review
-    ==================================================
-    -->
 
     <section
       id="review-screen"
@@ -2361,13 +2427,9 @@
 </div>
 
 <script src="../js/common-header.js"></script>
-
 <script src="../js/scratchpad.js"></script>
-
 <script src="../js/scratchpad-template.js"></script>
-
 <script src="../js/sound-manager.js?v=1"></script>
-
 <script src="../js/expression-input.js?v=5"></script>
 
 <script type="module">
@@ -2447,10 +2509,6 @@ let answered =
   false;
 
 
-let selectedChoice =
-  null;
-
-
 let answerInput =
   null;
 
@@ -2477,7 +2535,7 @@ let scoreSaved =
 
 /*
 ==================================================
-基本工具
+工具
 ==================================================
 */
 
@@ -2628,11 +2686,11 @@ function gcd(
 
 
 function gcdArray(
-  numbers
+  values
 ) {
 
-  const filtered =
-    numbers
+  const numbers =
+    values
       .map(
         value =>
           Math.abs(
@@ -2649,20 +2707,20 @@ function gcdArray(
 
 
   if (
-    !filtered.length
+    !numbers.length
   ) {
 
     return 1;
   }
 
 
-  return filtered.reduce(
+  return numbers.reduce(
     (
-      current,
+      result,
       value
     ) =>
       gcd(
-        current,
+        result,
         value
       )
   );
@@ -2706,7 +2764,23 @@ function F(
   }
 
 
-  const g =
+  if (
+    numerator ===
+    0
+  ) {
+
+    return {
+
+      numerator:
+        0,
+
+      denominator:
+        1
+    };
+  }
+
+
+  const divisor =
     gcd(
       numerator,
       denominator
@@ -2717,11 +2791,11 @@ function F(
 
     numerator:
       numerator /
-      g,
+      divisor,
 
     denominator:
       denominator /
-      g
+      divisor
   };
 }
 
@@ -2745,6 +2819,25 @@ function addF(
 }
 
 
+function subF(
+  a,
+  b
+) {
+
+  return F(
+
+    a.numerator *
+    b.denominator -
+
+    b.numerator *
+    a.denominator,
+
+    a.denominator *
+    b.denominator
+  );
+}
+
+
 function mulF(
   a,
   b
@@ -2757,6 +2850,22 @@ function mulF(
 
     a.denominator *
     b.denominator
+  );
+}
+
+
+function divF(
+  a,
+  b
+) {
+
+  return F(
+
+    a.numerator *
+    b.denominator,
+
+    a.denominator *
+    b.numerator
   );
 }
 
@@ -2812,7 +2921,7 @@ function fractionHTML(
   fraction
 ) {
 
-  const f =
+  const value =
     F(
       fraction.numerator,
       fraction.denominator
@@ -2820,12 +2929,12 @@ function fractionHTML(
 
 
   if (
-    f.denominator ===
+    value.denominator ===
     1
   ) {
 
     return String(
-      f.numerator
+      value.numerator
     )
       .replace(
         "-",
@@ -2836,7 +2945,7 @@ function fractionHTML(
 
   const sign =
 
-    f.numerator <
+    value.numerator <
     0
 
       ? "−"
@@ -2853,14 +2962,14 @@ function fractionHTML(
       <span class="math-fraction-top">
 
         ${Math.abs(
-          f.numerator
+          value.numerator
         )}
 
       </span>
 
       <span class="math-fraction-bottom">
 
-        ${f.denominator}
+        ${value.denominator}
 
       </span>
 
@@ -2895,7 +3004,6 @@ function powerHTML(
 
 
   return `
-
     ${base}<sup>${exponent}</sup>
   `;
 }
@@ -2912,7 +3020,7 @@ function monomialCoreHTML(
   exponent
 ) {
 
-  const c =
+  const value =
     F(
       coefficient.numerator,
       coefficient.denominator
@@ -2921,7 +3029,7 @@ function monomialCoreHTML(
 
   if (
     isZeroF(
-      c
+      value
     )
   ) {
 
@@ -2930,16 +3038,16 @@ function monomialCoreHTML(
 
 
   const negative =
-    c.numerator <
+    value.numerator <
     0;
 
 
   const absolute =
     F(
       Math.abs(
-        c.numerator
+        value.numerator
       ),
-      c.denominator
+      value.denominator
     );
 
 
@@ -2961,7 +3069,6 @@ function monomialCoreHTML(
     !(
       absolute.numerator ===
       1 &&
-
       absolute.denominator ===
       1
     )
@@ -3030,14 +3137,7 @@ function monomialHTML(
     negative
   ) {
 
-    return `
-
-      <span class="negative-monomial">
-
-        (${core})
-
-      </span>
-    `;
+    return `(${core})`;
   }
 
 
@@ -3173,64 +3273,63 @@ function polynomialHTML(
     "";
 
 
-  polynomial
-    .forEach(
-      (
-        term,
-        i
-      ) => {
+  polynomial.forEach(
+    (
+      term,
+      i
+    ) => {
 
-        const coefficient =
-          F(
-            term.coefficient.numerator,
-            term.coefficient.denominator
+      const coefficient =
+        F(
+          term.coefficient.numerator,
+          term.coefficient.denominator
+        );
+
+
+      const negative =
+        coefficient.numerator <
+        0;
+
+
+      const absolute =
+        F(
+          Math.abs(
+            coefficient.numerator
+          ),
+          coefficient.denominator
+        );
+
+
+      if (
+        i ===
+        0
+      ) {
+
+        result +=
+          monomialHTML(
+            coefficient,
+            term.exponent
           );
 
+      } else {
 
-        const negative =
-          coefficient.numerator <
-          0;
+        result +=
+
+          negative
+
+            ? "－"
+
+            : "＋";
 
 
-        const absolute =
-          F(
-            Math.abs(
-              coefficient.numerator
-            ),
-            coefficient.denominator
+        result +=
+          monomialHTML(
+            absolute,
+            term.exponent
           );
-
-
-        if (
-          i ===
-          0
-        ) {
-
-          result +=
-            monomialHTML(
-              coefficient,
-              term.exponent
-            );
-
-        } else {
-
-          result +=
-
-            negative
-
-              ? "－"
-
-              : "＋";
-
-
-          result +=
-            monomialHTML(
-              absolute,
-              term.exponent
-            );
-        }
       }
-    );
+    }
+  );
 
 
   return result;
@@ -3238,17 +3337,10 @@ function polynomialHTML(
 
 
 function bracketPolynomial(
-  terms
+  polynomial
 ) {
 
-  return `
-
-    (
-      ${polynomialHTML(
-        terms
-      )}
-    )
-  `;
+  return `(${polynomialHTML(polynomial)})`;
 }
 
 
@@ -3256,14 +3348,10 @@ function polynomialCoefficientGCD(
   polynomial
 ) {
 
-  const normalized =
+  const coefficients =
     normalizePolynomial(
       polynomial
-    );
-
-
-  const integerCoefficients =
-    normalized
+    )
       .map(
         term => {
 
@@ -3282,7 +3370,7 @@ function polynomialCoefficientGCD(
 
 
   if (
-    integerCoefficients.some(
+    coefficients.some(
       value =>
         value ===
         null
@@ -3294,7 +3382,7 @@ function polynomialCoefficientGCD(
 
 
   return gcdArray(
-    integerCoefficients
+    coefficients
   );
 }
 
@@ -3303,15 +3391,92 @@ function isPrimitiveIntegerPolynomial(
   polynomial
 ) {
 
-  const gcdValue =
+  return (
     polynomialCoefficientGCD(
+      polynomial
+    ) ===
+    1
+  );
+}
+
+
+function leadingTerm(
+  polynomial
+) {
+
+  const normalized =
+    normalizePolynomial(
       polynomial
     );
 
 
   return (
-    gcdValue ===
-    1
+    normalized[
+      0
+    ] ||
+    null
+  );
+}
+
+
+function degreeOf(
+  polynomial
+) {
+
+  const leading =
+    leadingTerm(
+      polynomial
+    );
+
+
+  return (
+    leading
+
+      ? leading.exponent
+
+      : -Infinity
+  );
+}
+
+
+function addPolynomials(
+  first,
+  second
+) {
+
+  return normalizePolynomial(
+    [
+      ...first,
+      ...second
+    ]
+  );
+}
+
+
+function subtractPolynomials(
+  first,
+  second
+) {
+
+  return normalizePolynomial(
+    [
+
+      ...first,
+
+      ...second.map(
+        term => ({
+
+          exponent:
+            term.exponent,
+
+          coefficient:
+            F(
+              -term.coefficient.numerator,
+              term.coefficient.denominator
+            )
+        })
+      )
+    ]
   );
 }
 
@@ -3321,7 +3486,7 @@ function multiplyTwoPolynomials(
   second
 ) {
 
-  const result =
+  const terms =
     [];
 
 
@@ -3335,7 +3500,7 @@ function multiplyTwoPolynomials(
       second
     ) {
 
-      result.push(
+      terms.push(
         {
 
           exponent:
@@ -3354,7 +3519,7 @@ function multiplyTwoPolynomials(
 
 
   return normalizePolynomial(
-    result
+    terms
   );
 }
 
@@ -3390,10 +3555,11 @@ function addConstantToPolynomial(
   constant
 ) {
 
-  return normalizePolynomial(
-    [
+  return addPolynomials(
 
-      ...polynomial,
+    polynomial,
+
+    [
 
       {
 
@@ -3410,6 +3576,419 @@ function addConstantToPolynomial(
 }
 
 
+/*
+==================================================
+完整多項式直式除法演算法
+==================================================
+*/
+
+function polynomialLongDivision(
+  dividend,
+  divisor
+) {
+
+  let current =
+    normalizePolynomial(
+      dividend
+    );
+
+
+  const divisorNormalized =
+    normalizePolynomial(
+      divisor
+    );
+
+
+  const quotient =
+    [];
+
+
+  const steps =
+    [];
+
+
+  const divisorLead =
+    leadingTerm(
+      divisorNormalized
+    );
+
+
+  if (
+    !divisorLead
+  ) {
+
+    throw new Error(
+      "除式不可為 0"
+    );
+  }
+
+
+  let guard =
+    0;
+
+
+  while (
+    current.length &&
+    degreeOf(
+      current
+    ) >=
+    degreeOf(
+      divisorNormalized
+    ) &&
+    guard <
+    30
+  ) {
+
+    guard++;
+
+
+    const currentLead =
+      leadingTerm(
+        current
+      );
+
+
+    const quotientTerm =
+      {
+
+        exponent:
+          currentLead.exponent -
+          divisorLead.exponent,
+
+        coefficient:
+          divF(
+            currentLead.coefficient,
+            divisorLead.coefficient
+          )
+      };
+
+
+    quotient.push(
+      quotientTerm
+    );
+
+
+    const product =
+      multiplyPolynomialByMonomial(
+
+        divisorNormalized,
+
+        quotientTerm.coefficient,
+
+        quotientTerm.exponent
+      );
+
+
+    const remainder =
+      subtractPolynomials(
+        current,
+        product
+      );
+
+
+    steps.push(
+      {
+
+        current:
+          normalizePolynomial(
+            current
+          ),
+
+        quotientTerm,
+
+        product,
+
+        remainder:
+          normalizePolynomial(
+            remainder
+          )
+      }
+    );
+
+
+    current =
+      remainder;
+  }
+
+
+  return {
+
+    quotient:
+      normalizePolynomial(
+        quotient
+      ),
+
+    remainder:
+      normalizePolynomial(
+        current
+      ),
+
+    steps
+  };
+}
+
+
+/*
+==================================================
+直式除法 HTML
+==================================================
+*/
+
+function longDivisionHTML(
+  dividend,
+  divisor
+) {
+
+  const result =
+    polynomialLongDivision(
+      dividend,
+      divisor
+    );
+
+
+  return `
+
+    <div class="long-division">
+
+      <div class="long-division-title">
+
+        多項式直式除法
+
+      </div>
+
+      <div class="long-division-head">
+
+        <div class="long-division-blank"></div>
+
+        <div class="long-division-quotient">
+
+          ${polynomialHTML(
+            result.quotient
+          )}
+
+        </div>
+
+      </div>
+
+      <div class="long-division-main">
+
+        <div class="long-division-divisor">
+
+          ${polynomialHTML(
+            divisor
+          )}
+
+        </div>
+
+        <div class="long-division-work">
+
+          ${
+            result.steps
+              .map(
+                (
+                  step,
+                  i
+                ) => `
+
+                  <div class="long-step">
+
+                    <div class="long-step-current">
+
+                      ${polynomialHTML(
+                        step.current
+                      )}
+
+                    </div>
+
+                    <div class="long-step-note">
+
+                      ${
+                        i ===
+                        0
+
+                          ? "最高次項相除，得到商的第一項：" +
+                            monomialHTML(
+                              step.quotientTerm.coefficient,
+                              step.quotientTerm.exponent
+                            )
+
+                          : "再由剩下多項式的最高次項相除，得到商的下一項：" +
+                            monomialHTML(
+                              step.quotientTerm.coefficient,
+                              step.quotientTerm.exponent
+                            )
+                      }
+
+                    </div>
+
+                    <div class="long-step-product">
+
+                      ${polynomialHTML(
+                        step.product
+                      )}
+
+                    </div>
+
+                    <div class="long-step-remainder">
+
+                      ${polynomialHTML(
+                        step.remainder
+                      )}
+
+                    </div>
+
+                    <div class="long-step-note">
+
+                      乘回除式後相減，得到上面的新多項式。
+
+                    </div>
+
+                  </div>
+                `
+              )
+              .join("")
+          }
+
+        </div>
+
+      </div>
+
+      <div class="long-step-note">
+
+        最後商式＝
+        ${polynomialHTML(
+          result.quotient
+        )}，
+
+        餘式＝
+        ${polynomialHTML(
+          result.remainder
+        )}。
+
+      </div>
+
+    </div>
+  `;
+}
+
+
+/*
+==================================================
+乘法尚未合併前的各項
+==================================================
+*/
+
+function rawProductTermsHTML(
+  first,
+  second
+) {
+
+  const rawTerms =
+    [];
+
+
+  for (
+    const a of
+    first
+  ) {
+
+    for (
+      const b of
+      second
+    ) {
+
+      rawTerms.push(
+        {
+
+          exponent:
+            a.exponent +
+            b.exponent,
+
+          coefficient:
+            mulF(
+              a.coefficient,
+              b.coefficient
+            )
+        }
+      );
+    }
+  }
+
+
+  if (
+    !rawTerms.length
+  ) {
+
+    return "0";
+  }
+
+
+  let html =
+    "";
+
+
+  rawTerms.forEach(
+    (
+      term,
+      i
+    ) => {
+
+      const negative =
+        term.coefficient.numerator <
+        0;
+
+
+      const absolute =
+        F(
+          Math.abs(
+            term.coefficient.numerator
+          ),
+          term.coefficient.denominator
+        );
+
+
+      if (
+        i ===
+        0
+      ) {
+
+        html +=
+          monomialHTML(
+            term.coefficient,
+            term.exponent
+          );
+
+      } else {
+
+        html +=
+
+          negative
+
+            ? "－"
+
+            : "＋";
+
+
+        html +=
+          monomialHTML(
+            absolute,
+            term.exponent
+          );
+      }
+    }
+  );
+
+
+  return html;
+}
+
+
+/*
+==================================================
+隨機多項式
+==================================================
+*/
+
 function randomPolynomial(
   minDegree,
   maxDegree,
@@ -3421,7 +4000,7 @@ function randomPolynomial(
     7
 ) {
 
-  const available =
+  const exponents =
     shuffle(
 
       Array.from(
@@ -3443,7 +4022,7 @@ function randomPolynomial(
     );
 
 
-  const termCount =
+  const count =
     Math.min(
 
       rand(
@@ -3451,40 +4030,34 @@ function randomPolynomial(
         maxTerms
       ),
 
-      available.length
-    );
-
-
-  const exponents =
-    available.slice(
-      0,
-      termCount
+      exponents.length
     );
 
 
   return normalizePolynomial(
 
-    exponents.map(
-      exponent => ({
+    exponents
+      .slice(
+        0,
+        count
+      )
+      .map(
+        exponent => ({
 
-        exponent,
+          exponent,
 
-        coefficient:
-          F(
-            nonZeroRand(
-              coefficientMin,
-              coefficientMax
+          coefficient:
+            F(
+              nonZeroRand(
+                coefficientMin,
+                coefficientMax
+              )
             )
-          )
-      })
-    )
+        })
+      )
   );
 }
 
-
-/*
-產生整數係數且整體互質的多項式
-*/
 
 function randomPrimitivePolynomial(
   minDegree,
@@ -3528,10 +4101,6 @@ function randomPrimitivePolynomial(
     }
   }
 
-
-  /*
-  後備
-  */
 
   return [
 
@@ -3605,8 +4174,8 @@ function polynomialQuestion(
   answer,
   explanation,
   label,
-  wrap =
-    false
+  options =
+    {}
 ) {
 
   return {
@@ -3617,15 +4186,13 @@ function polynomialQuestion(
     html:
       `
 
-        <span
-          class="math-expression ${
-            wrap
+        <span class="math-expression ${
+          options.wrap
 
-              ? "math-wrap"
+            ? "math-wrap"
 
-              : ""
-          }"
-        >
+            : ""
+        }">
 
           ${html}
 
@@ -3639,19 +4206,23 @@ function polynomialQuestion(
 
     explanation,
 
-    label
+    label,
+
+    wrongDetail:
+      options.wrongDetail ||
+      ""
   };
 }
 
 
 function divisionQuestion(
   html,
+  dividend,
+  divisor,
   quotient,
   remainder,
   explanation,
-  label,
-  wrap =
-    false
+  label
 ) {
 
   return {
@@ -3660,22 +4231,17 @@ function divisionQuestion(
       "division",
 
     html:
-      `
+      `<span class="math-expression">${html}</span>`,
 
-        <span
-          class="math-expression ${
-            wrap
+    dividend:
+      normalizePolynomial(
+        dividend
+      ),
 
-              ? "math-wrap"
-
-              : ""
-          }"
-        >
-
-          ${html}
-
-        </span>
-      `,
+    divisor:
+      normalizePolynomial(
+        divisor
+      ),
 
     quotient:
       normalizePolynomial(
@@ -3686,14 +4252,20 @@ function divisionQuestion(
 
     explanation,
 
-    label
+    label,
+
+    wrongDetail:
+      longDivisionHTML(
+        dividend,
+        divisor
+      )
   };
 }
 
 
 /*
 ==================================================
-模式一：單項式乘除
+模式一
 ==================================================
 */
 
@@ -3766,14 +4338,16 @@ function makeMonomialMultiply() {
 
     [
 
-      `先算係數：
+      `先計算係數：
       ${a} × ${b}
-      ＝
-      ${a * b}。`,
+      ＝${a * b}。`,
 
-      `同底數相乘，指數相加：
-      ${exponentA}＋${exponentB}
-      ＝${answerExponent}。`,
+      `再計算 x 的次方：
+      x<sup>${exponentA}</sup>
+      ×
+      x<sup>${exponentB}</sup>
+      ＝
+      x<sup>${answerExponent}</sup>。`,
 
       `所以答案＝
       ${monomialHTML(
@@ -3903,7 +4477,7 @@ function makeMonomialDivide(
 
     [
 
-      `先算係數：
+      `係數相除：
       ${numeratorCoefficient}
       ÷
       ${divisorCoefficient}
@@ -3967,7 +4541,7 @@ function makeMode1() {
 
 /*
 ==================================================
-模式二：多項式乘法
+模式二
 ==================================================
 */
 
@@ -4015,19 +4589,15 @@ function makeMonomialTimesPolynomial() {
 
     `
 
-      <span class="implicit-multiply">
+      ${monomialFromInteger(
+        coefficient,
+        exponent,
+        true
+      )}
 
-        ${monomialFromInteger(
-          coefficient,
-          exponent,
-          true
-        )}
-
-        ${bracketPolynomial(
-          polynomial
-        )}
-
-      </span>
+      ${bracketPolynomial(
+        polynomial
+      )}
     `,
 
     answer,
@@ -4036,11 +4606,11 @@ function makeMonomialTimesPolynomial() {
 
       `單項式與括號相鄰表示相乘。`,
 
-      `利用分配律，單項式必須乘括號內每一項。`,
+      `利用分配律，單項式要乘括號內的每一項。`,
 
-      `係數相乘，同底數的指數相加。`,
+      `逐項乘開後，再依降冪排列。`,
 
-      `整理後答案＝
+      `答案＝
       ${polynomialHTML(
         answer
       )}。`
@@ -4053,20 +4623,6 @@ function makeMonomialTimesPolynomial() {
 
 function makeBinomialProduct() {
 
-  const a =
-    nonZeroRand(
-      -6,
-      6
-    );
-
-
-  const b =
-    nonZeroRand(
-      -6,
-      6
-    );
-
-
   const first =
     [
 
@@ -4077,7 +4633,10 @@ function makeBinomialProduct() {
 
         coefficient:
           F(
-            1
+            nonZeroRand(
+              1,
+              4
+            )
           )
       },
 
@@ -4088,7 +4647,10 @@ function makeBinomialProduct() {
 
         coefficient:
           F(
-            a
+            nonZeroRand(
+              -6,
+              6
+            )
           )
       }
     ];
@@ -4104,7 +4666,10 @@ function makeBinomialProduct() {
 
         coefficient:
           F(
-            1
+            nonZeroRand(
+              1,
+              4
+            )
           )
       },
 
@@ -4115,7 +4680,10 @@ function makeBinomialProduct() {
 
         coefficient:
           F(
-            b
+            nonZeroRand(
+              -6,
+              6
+            )
           )
       }
     ];
@@ -4128,70 +4696,8 @@ function makeBinomialProduct() {
     );
 
 
-  return polynomialQuestion(
-
-    `
-
-      <span class="implicit-multiply">
-
-        ${bracketPolynomial(
-          first
-        )}
-
-        ${bracketPolynomial(
-          second
-        )}
-
-      </span>
-    `,
-
-    answer,
-
-    [
-
-      `兩個括號相鄰表示相乘。`,
-
-      `第一個括號每一項都要乘第二個括號每一項。`,
-
-      `乘開後合併同類項。`,
-
-      `答案＝
-      ${polynomialHTML(
-        answer
-      )}。`
-    ],
-
-    "請展開並整理多項式"
-  );
-}
-
-
-function makeQuadraticTimesLinear() {
-
-  const first =
-    randomPolynomial(
-      0,
-      2,
-      2,
-      3,
-      -5,
-      5
-    );
-
-
-  const second =
-    randomPolynomial(
-      0,
-      1,
-      2,
-      2,
-      -4,
-      4
-    );
-
-
-  const answer =
-    multiplyTwoPolynomials(
+  const raw =
+    rawProductTermsHTML(
       first,
       second
     );
@@ -4200,31 +4706,29 @@ function makeQuadraticTimesLinear() {
   return polynomialQuestion(
 
     `
-
-      <span class="implicit-multiply">
-
-        ${bracketPolynomial(
-          first
-        )}
-
-        ${bracketPolynomial(
-          second
-        )}
-
-      </span>
+      ${bracketPolynomial(first)}
+      ${bracketPolynomial(second)}
     `,
 
     answer,
 
     [
 
-      `先依分配律逐項相乘。`,
+      `先利用分配律，把第一個括號的每一項分別乘第二個括號的每一項。`,
 
-      `每一個乘積計算係數及 x 的次方。`,
+      `
+      乘開後尚未合併同類項為：
 
-      `最後合併同類項並依降冪排列。`,
+      <div class="expansion-box">
 
-      `答案＝
+        ${raw}
+
+      </div>
+      `,
+
+      `再合併同類項。`,
+
+      `所以答案＝
       ${polynomialHTML(
         answer
       )}。`
@@ -4235,9 +4739,7 @@ function makeQuadraticTimesLinear() {
 }
 
 
-function makeSquareFormula(
-  kind
-) {
+function makeSquareFormula() {
 
   const a =
     pick(
@@ -4250,20 +4752,10 @@ function makeSquareFormula(
 
 
   const b =
-    rand(
-      1,
-      7
+    nonZeroRand(
+      -6,
+      6
     );
-
-
-  const sign =
-
-    kind ===
-    "minus"
-
-      ? -1
-
-      : 1;
 
 
   const polynomial =
@@ -4287,7 +4779,6 @@ function makeSquareFormula(
 
         coefficient:
           F(
-            sign *
             b
           )
       }
@@ -4301,37 +4792,36 @@ function makeSquareFormula(
     );
 
 
-  const formula =
-
-    kind ===
-    "minus"
-
-      ? "(A－B)²＝A²－2AB＋B²"
-
-      : "(A＋B)²＝A²＋2AB＋B²";
-
-
   return polynomialQuestion(
 
     `
-
       ${bracketPolynomial(
         polynomial
-      )}
-
-      <sup>2</sup>
+      )}<sup>2</sup>
     `,
 
     answer,
 
     [
 
-      `使用完全平方公式：
-      ${formula}。`,
+      `使用完全平方公式。`,
 
-      `代入題目的 A、B。`,
+      `也可以把平方寫成兩個相同括號相乘。`,
 
-      `整理後答案＝
+      `
+      乘開後：
+
+      <div class="expansion-box">
+
+        ${rawProductTermsHTML(
+          polynomial,
+          polynomial
+        )}
+
+      </div>
+      `,
+
+      `再合併同類項，得到
       ${polynomialHTML(
         answer
       )}。`
@@ -4425,32 +4915,32 @@ function makeDifferenceSquares() {
   return polynomialQuestion(
 
     `
-
-      <span class="implicit-multiply">
-
-        ${bracketPolynomial(
-          first
-        )}
-
-        ${bracketPolynomial(
-          second
-        )}
-
-      </span>
+      ${bracketPolynomial(first)}
+      ${bracketPolynomial(second)}
     `,
 
     answer,
 
     [
 
-      `兩個括號符合平方差公式。`,
+      `本題可利用平方差公式，也可以直接乘開。`,
 
-      `(A＋B)(A－B)
-      ＝A²－B²。`,
+      `
+      直接乘開得到：
 
-      `代入後整理。`,
+      <div class="expansion-box">
 
-      `答案＝
+        ${rawProductTermsHTML(
+          first,
+          second
+        )}
+
+      </div>
+      `,
+
+      `中間的一次項互相抵消。`,
+
+      `所以答案＝
       ${polynomialHTML(
         answer
       )}。`
@@ -4471,20 +4961,14 @@ function makeMode2() {
 
       makeBinomialProduct(),
       makeBinomialProduct(),
+      makeBinomialProduct(),
 
-      makeQuadraticTimesLinear(),
-      makeQuadraticTimesLinear(),
-
-      makeSquareFormula(
-        "plus"
-      ),
-
-      makeSquareFormula(
-        "minus"
-      ),
+      makeSquareFormula(),
+      makeSquareFormula(),
 
       makeDifferenceSquares(),
-      makeDifferenceSquares()
+      makeDifferenceSquares(),
+      makeBinomialProduct()
     ]
   );
 }
@@ -4492,41 +4976,18 @@ function makeMode2() {
 
 /*
 ==================================================
-多項式除法
+除法資料
 ==================================================
 */
 
-function allIntegerCoefficients(
-  polynomial
-) {
-
-  return polynomial.every(
-    term =>
-      term.coefficient.denominator ===
-      1
-  );
-}
-
-
-/*
-產生：
-除式 × 商式 ＝ 被除式
-
-要求：
-1. 除式整體係數 gcd = 1
-2. 商式整體係數 gcd = 1
-3. 因 Gauss lemma，
-   被除式也會是 primitive polynomial
-*/
-
-function generatePrimitiveExactDivision() {
+function generateExactDivision() {
 
   for (
     let attempt =
       0;
 
     attempt <
-    800;
+    700;
 
     attempt++
   ) {
@@ -4570,26 +5031,6 @@ function generatePrimitiveExactDivision() {
 
 
     if (
-      !allIntegerCoefficients(
-        dividend
-      )
-    ) {
-
-      continue;
-    }
-
-
-    if (
-      !isPrimitiveIntegerPolynomial(
-        divisor
-      )
-    ) {
-
-      continue;
-    }
-
-
-    if (
       !isPrimitiveIntegerPolynomial(
         dividend
       )
@@ -4601,44 +5042,26 @@ function generatePrimitiveExactDivision() {
 
     return {
 
+      dividend,
+
       divisor,
 
-      quotient,
-
-      dividend
+      quotient
     };
   }
 
-
-  /*
-  後備：
-  (x+1)(2x+1)
-  = 2x²+3x+1
-  */
 
   const divisor =
     [
 
       {
-
-        exponent:
-          1,
-
-        coefficient:
-          F(
-            1
-          )
+        exponent: 1,
+        coefficient: F(1)
       },
 
       {
-
-        exponent:
-          0,
-
-        coefficient:
-          F(
-            1
-          )
+        exponent: 0,
+        coefficient: F(1)
       }
     ];
 
@@ -4647,25 +5070,13 @@ function generatePrimitiveExactDivision() {
     [
 
       {
-
-        exponent:
-          1,
-
-        coefficient:
-          F(
-            2
-          )
+        exponent: 1,
+        coefficient: F(2)
       },
 
       {
-
-        exponent:
-          0,
-
-        coefficient:
-          F(
-            1
-          )
+        exponent: 0,
+        coefficient: F(1)
       }
     ];
 
@@ -4685,129 +5096,15 @@ function generatePrimitiveExactDivision() {
 }
 
 
-/*
-==================================================
-多項式 ÷ 單項式
-==================================================
-*/
-
-function makePolynomialDivideByMonomial() {
-
-  const divisorCoefficient =
-    pick(
-      [
-        2,
-        3,
-        4,
-        5,
-        6
-      ]
-    ) *
-    (
-      Math.random() <
-      .25
-
-        ? -1
-
-        : 1
-    );
-
-
-  const divisorExponent =
-    rand(
-      0,
-      1
-    );
-
-
-  const quotient =
-    randomPrimitivePolynomial(
-      0,
-      2,
-      2,
-      3,
-      -5,
-      5
-    );
-
-
-  const divisor =
-    [
-
-      {
-
-        exponent:
-          divisorExponent,
-
-        coefficient:
-          F(
-            divisorCoefficient
-          )
-      }
-    ];
-
-
-  const dividend =
-    multiplyTwoPolynomials(
-      divisor,
-      quotient
-    );
-
-
-  return polynomialQuestion(
-
-    `
-
-      ${bracketPolynomial(
-        dividend
-      )}
-
-      ÷
-
-      ${monomialFromInteger(
-        divisorCoefficient,
-        divisorExponent,
-        true
-      )}
-    `,
-
-    quotient,
-
-    [
-
-      `被除式每一項都要分別除以單項式。`,
-
-      `係數相除，同底數指數相減。`,
-
-      `最後依降冪排列。`,
-
-      `答案＝
-      ${polynomialHTML(
-        quotient
-      )}。`
-    ],
-
-    "請計算多項式的商"
-  );
-}
-
-
-/*
-==================================================
-三項式 ÷ 二項式
-==================================================
-*/
-
-function makeExactBinomialDivision() {
+function makeExactDivisionQuestion() {
 
   const data =
-    generatePrimitiveExactDivision();
+    generateExactDivision();
 
 
   return polynomialQuestion(
 
     `
-
       ${bracketPolynomial(
         data.dividend
       )}
@@ -4823,30 +5120,31 @@ function makeExactBinomialDivision() {
 
     [
 
-      `被除式與除式先依降冪排列。`,
+      `先把被除式與除式依降冪排列。`,
 
-      `用被除式最高次項除以除式最高次項，得到商的第一項。`,
+      `最高次項相除，得到商的第一項。`,
 
-      `把商的第一項乘回除式，再相減。`,
+      `再乘回除式並相減，接著繼續下一輪。`,
 
-      `重複上述過程直到除盡。`,
-
-      `商式＝
+      `最後商式＝
       ${polynomialHTML(
         data.quotient
       )}。`
     ],
 
-    "請計算多項式的商"
+    "請計算多項式的商",
+
+    {
+
+      wrongDetail:
+        longDivisionHTML(
+          data.dividend,
+          data.divisor
+        )
+    }
   );
 }
 
-
-/*
-==================================================
-求商式與餘式
-==================================================
-*/
 
 function makeDivisionWithRemainder(
   missingTerm =
@@ -4863,12 +5161,7 @@ function makeDivisionWithRemainder(
     attempt++
   ) {
 
-    /*
-    除式使用 monic，
-    保證係數 gcd = 1
-    */
-
-    const constantOfDivisor =
+    const divisorConstant =
       nonZeroRand(
         -6,
         6
@@ -4879,25 +5172,13 @@ function makeDivisionWithRemainder(
       [
 
         {
-
-          exponent:
-            1,
-
-          coefficient:
-            F(
-              1
-            )
+          exponent: 1,
+          coefficient: F(1)
         },
 
         {
-
-          exponent:
-            0,
-
-          coefficient:
-            F(
-              constantOfDivisor
-            )
+          exponent: 0,
+          coefficient: F(divisorConstant)
         }
       ];
 
@@ -4909,32 +5190,17 @@ function makeDivisionWithRemainder(
       );
 
 
-    let quotientConstant;
+    const quotientConstant =
 
-
-    if (
       missingTerm
-    ) {
 
-      /*
-      讓 x 項係數為 0：
-      a*x*(x+c) + b*(x+c)
-      x項係數 = ac+b
-      因此 b = -ac
-      */
+        ? -quotientLeading *
+          divisorConstant
 
-      quotientConstant =
-        -quotientLeading *
-        constantOfDivisor;
-
-    } else {
-
-      quotientConstant =
-        nonZeroRand(
-          -7,
-          7
-        );
-    }
+        : nonZeroRand(
+            -7,
+            7
+          );
 
 
     const quotient =
@@ -4942,25 +5208,13 @@ function makeDivisionWithRemainder(
         [
 
           {
-
-            exponent:
-              1,
-
-            coefficient:
-              F(
-                quotientLeading
-              )
+            exponent: 1,
+            coefficient: F(quotientLeading)
           },
 
           {
-
-            exponent:
-              0,
-
-            coefficient:
-              F(
-                quotientConstant
-              )
+            exponent: 0,
+            coefficient: F(quotientConstant)
           }
         ]
       );
@@ -4968,8 +5222,8 @@ function makeDivisionWithRemainder(
 
     const remainder =
       nonZeroRand(
-        -12,
-        12
+        -10,
+        10
       );
 
 
@@ -4985,20 +5239,6 @@ function makeDivisionWithRemainder(
       );
 
 
-    /*
-    被除式、除式都必須 primitive
-    */
-
-    if (
-      !isPrimitiveIntegerPolynomial(
-        divisor
-      )
-    ) {
-
-      continue;
-    }
-
-
     if (
       !isPrimitiveIntegerPolynomial(
         dividend
@@ -5012,7 +5252,6 @@ function makeDivisionWithRemainder(
     return divisionQuestion(
 
       `
-
         ${bracketPolynomial(
           dividend
         )}
@@ -5024,29 +5263,28 @@ function makeDivisionWithRemainder(
         )}
       `,
 
+      dividend,
+
+      divisor,
+
       quotient,
 
       remainder,
 
       [
 
-        `先把被除式與除式依降冪排列
-        ${
-          missingTerm
+        `先把被除式與除式依降冪排列。`,
 
-            ? "；被除式缺少 x 項，做直式時要補上 0x。"
+        missingTerm
 
-            : "。"
-        }`,
+          ? `被除式缺少 x 項，做直式時要把缺少的位置補成 0x。`
 
-        `用被除式最高次項除以除式最高次項，得到商的第一項。`,
+          : `由最高次項開始做多項式直式除法。`,
 
-        `用商的第一項乘回除式，再相減。`,
+        `每一次都按照：
+        最高次項相除 → 寫商 → 乘回除式 → 相減。`,
 
-        `繼續以上步驟，直到餘式的次數低於除式。`,
-
-        `最後：
-        商式＝
+        `最後商式＝
         ${polynomialHTML(
           quotient
         )}，
@@ -5059,122 +5297,52 @@ function makeDivisionWithRemainder(
   }
 
 
-  /*
-  後備
-  */
+  throw new Error(
+    "無法建立餘式題"
+  );
+}
 
-  const divisor =
+
+function makeMode3() {
+
+  return shuffle(
     [
 
-      {
+      makeExactDivisionQuestion(),
+      makeExactDivisionQuestion(),
+      makeExactDivisionQuestion(),
+      makeExactDivisionQuestion(),
 
-        exponent:
-          1,
-
-        coefficient:
-          F(
-            1
-          )
-      },
-
-      {
-
-        exponent:
-          0,
-
-        coefficient:
-          F(
-            -2
-          )
-      }
-    ];
-
-
-  const quotient =
-    [
-
-      {
-
-        exponent:
-          1,
-
-        coefficient:
-          F(
-            2
-          )
-      },
-
-      {
-
-        exponent:
-          0,
-
-        coefficient:
-          F(
-            1
-          )
-      }
-    ];
-
-
-  const remainder =
-    3;
-
-
-  const dividend =
-    addConstantToPolynomial(
-
-      multiplyTwoPolynomials(
-        divisor,
-        quotient
+      makeDivisionWithRemainder(
+        false
       ),
 
-      remainder
-    );
+      makeDivisionWithRemainder(
+        false
+      ),
 
+      makeDivisionWithRemainder(
+        false
+      ),
 
-  return divisionQuestion(
+      makeDivisionWithRemainder(
+        true
+      ),
 
-    `
+      makeDivisionWithRemainder(
+        true
+      ),
 
-      ${bracketPolynomial(
-        dividend
-      )}
-
-      ÷
-
-      ${bracketPolynomial(
-        divisor
-      )}
-    `,
-
-    quotient,
-
-    remainder,
-
-    [
-
-      `使用多項式長除法。`,
-
-      `逐次以最高次項相除。`,
-
-      `最後得到：
-      商式＝
-      ${polynomialHTML(
-        quotient
-      )}，
-      餘式＝${remainder}。`
-    ],
-
-    "請填寫商式與餘式"
+      makeExactDivisionQuestion()
+    ]
   );
 }
 
 
 /*
 ==================================================
-模式四用：
-已知除式、商式、餘式求被除式
+模式四：
+已知除式商式餘式求被除式
 ==================================================
 */
 
@@ -5209,21 +5377,109 @@ function makeFindDividendQuestion() {
     );
 
 
+  const product =
+    multiplyTwoPolynomials(
+      divisor,
+      quotient
+    );
+
+
   const dividend =
     addConstantToPolynomial(
-
-      multiplyTwoPolynomials(
-        divisor,
-        quotient
-      ),
-
+      product,
       remainder
     );
 
 
-  /*
-  長題目分段
-  */
+  const raw =
+    rawProductTermsHTML(
+      divisor,
+      quotient
+    );
+
+
+  const wrongDetail = `
+
+    <div class="explanation-step">
+
+      <strong>
+        完整乘開｜
+      </strong>
+
+      使用：
+
+      被除式＝除式×商式＋餘式
+
+    </div>
+
+    <div class="expansion-box">
+
+      ${bracketPolynomial(
+        divisor
+      )}
+
+      ${bracketPolynomial(
+        quotient
+      )}
+
+      ＋
+      ${
+        remainder >=
+        0
+
+          ? remainder
+
+          : `(${remainder})`
+      }
+
+      <br>
+
+      ＝
+      ${raw}
+
+      ${
+        remainder >=
+        0
+
+          ? `＋${remainder}`
+
+          : `－${Math.abs(remainder)}`
+      }
+
+      <br>
+
+      先合併乘法結果中的同類項：
+
+      <br>
+
+      ＝
+      ${polynomialHTML(
+        product
+      )}
+
+      ${
+        remainder >=
+        0
+
+          ? `＋${remainder}`
+
+          : `－${Math.abs(remainder)}`
+      }
+
+      <br>
+
+      再合併常數項：
+
+      <br>
+
+      ＝
+      ${polynomialHTML(
+        dividend
+      )}
+
+    </div>
+  `;
+
 
   return polynomialQuestion(
 
@@ -5274,17 +5530,13 @@ function makeFindDividendQuestion() {
       `使用關係式：
       被除式＝除式×商式＋餘式。`,
 
-      `先計算：
-      ${bracketPolynomial(
-        divisor
-      )}
-      ${bracketPolynomial(
-        quotient
-      )}。`,
+      `先計算除式×商式。`,
 
-      `再加上餘式 ${remainder}。`,
+      `把所有乘開的項列出後，再合併同類項。`,
 
-      `整理後被除式＝
+      `最後再加上餘式。`,
+
+      `被除式＝
       ${polynomialHTML(
         dividend
       )}。`
@@ -5292,251 +5544,21 @@ function makeFindDividendQuestion() {
 
     "請利用被除式＝除式×商式＋餘式",
 
-    true
+    {
+
+      wrap:
+        true,
+
+      wrongDetail
+    }
   );
 }
 
-
-/*
-==================================================
-模式三
-只保留真正除法
-==================================================
-*/
-
-function makeMode3() {
-
-  return shuffle(
-    [
-
-      /*
-      多項式 ÷ 單項式
-      */
-
-      makePolynomialDivideByMonomial(),
-
-      makePolynomialDivideByMonomial(),
-
-      /*
-      三項式 ÷ 二項式
-      */
-
-      makeExactBinomialDivision(),
-
-      makeExactBinomialDivision(),
-
-      makeExactBinomialDivision(),
-
-      makeExactBinomialDivision(),
-
-      /*
-      商式＋餘式
-      */
-
-      makeDivisionWithRemainder(
-        false
-      ),
-
-      makeDivisionWithRemainder(
-        false
-      ),
-
-      /*
-      缺項補0
-      */
-
-      makeDivisionWithRemainder(
-        true
-      ),
-
-      makeDivisionWithRemainder(
-        true
-      )
-    ]
-  );
-}
-
-
-/*
-==================================================
-模式四挑戰乘法
-==================================================
-*/
-
-function makeChallengeProduct() {
-
-  const a =
-    pick(
-      [
-        1,
-        2
-      ]
-    );
-
-
-  const b =
-    rand(
-      1,
-      5
-    );
-
-
-  const c =
-    rand(
-      1,
-      5
-    );
-
-
-  const first =
-    [
-
-      {
-
-        exponent:
-          1,
-
-        coefficient:
-          F(
-            a
-          )
-      },
-
-      {
-
-        exponent:
-          0,
-
-        coefficient:
-          F(
-            b
-          )
-      }
-    ];
-
-
-  const second =
-    [
-
-      {
-
-        exponent:
-          1,
-
-        coefficient:
-          F(
-            a
-          )
-      },
-
-      {
-
-        exponent:
-          0,
-
-        coefficient:
-          F(
-            -b
-          )
-      }
-    ];
-
-
-  const third =
-    [
-
-      {
-
-        exponent:
-          1,
-
-        coefficient:
-          F(
-            1
-          )
-      },
-
-      {
-
-        exponent:
-          0,
-
-        coefficient:
-          F(
-            c
-          )
-      }
-    ];
-
-
-  const answer =
-    multiplyTwoPolynomials(
-
-      multiplyTwoPolynomials(
-        first,
-        second
-      ),
-
-      third
-    );
-
-
-  return polynomialQuestion(
-
-    `
-
-      <span class="implicit-multiply">
-
-        ${bracketPolynomial(
-          first
-        )}
-
-        ${bracketPolynomial(
-          second
-        )}
-
-        ${bracketPolynomial(
-          third
-        )}
-
-      </span>
-    `,
-
-    answer,
-
-    [
-
-      `先觀察前兩個括號符合平方差公式。`,
-
-      `先化成 A²－B²。`,
-
-      `再乘第三個括號。`,
-
-      `最後答案＝
-      ${polynomialHTML(
-        answer
-      )}。`
-    ],
-
-    "挑戰題：請選擇合適的方法展開"
-  );
-}
-
-
-/*
-==================================================
-模式四
-==================================================
-*/
 
 function makeMode4() {
 
   return shuffle(
     [
-
-      /*
-      模式一
-      */
 
       makeMonomialMultiply(),
 
@@ -5544,28 +5566,13 @@ function makeMode4() {
         true
       ),
 
-      /*
-      模式二
-      */
+      makeBinomialProduct(),
 
-      makeSquareFormula(
-        pick(
-          [
-            "plus",
-            "minus"
-          ]
-        )
-      ),
+      makeSquareFormula(),
 
       makeDifferenceSquares(),
 
-      makeQuadraticTimesLinear(),
-
-      /*
-      模式三除法
-      */
-
-      makeExactBinomialDivision(),
+      makeExactDivisionQuestion(),
 
       makeDivisionWithRemainder(
         false
@@ -5575,18 +5582,9 @@ function makeMode4() {
         true
       ),
 
-      /*
-      原模式三的反推被除式
-      正式移到模式四
-      */
-
       makeFindDividendQuestion(),
 
-      /*
-      挑戰
-      */
-
-      makeChallengeProduct()
+      makeFindDividendQuestion()
     ]
   );
 }
@@ -5633,7 +5631,7 @@ function createQuestions() {
 
 /*
 ==================================================
-單項式 Preview
+單項式 preview
 ==================================================
 */
 
@@ -5663,12 +5661,6 @@ function monomialPreviewHTML() {
 
     return "";
   }
-
-
-  const exponent =
-    Number(
-      exponentRaw
-    );
 
 
   let coefficient;
@@ -5762,8 +5754,12 @@ function monomialPreviewHTML() {
 
 
   return monomialHTML(
+
     coefficient,
-    exponent
+
+    Number(
+      exponentRaw
+    )
   );
 }
 
@@ -5782,13 +5778,13 @@ function updateMonomialPreview() {
   }
 
 
-  const value =
+  const html =
     monomialPreviewHTML();
 
 
   preview.innerHTML =
 
-    value
+    html
 
       ? `
 
@@ -5796,7 +5792,7 @@ function updateMonomialPreview() {
 
           <span class="preview-value">
 
-            ${value}
+            ${html}
 
           </span>
         `
@@ -5807,7 +5803,7 @@ function updateMonomialPreview() {
 
 /*
 ==================================================
-單項式 Answer UI
+Monomial UI
 ==================================================
 */
 
@@ -5834,7 +5830,7 @@ function renderMonomialAnswer(
         ${
           fractionExpected
 
-            ? "本題係數答案為分數，請直接填寫最簡分數。"
+            ? "本題係數答案為分數，請填寫最簡分數。"
 
             : "本題係數答案為整數。"
         }
@@ -5842,7 +5838,7 @@ function renderMonomialAnswer(
         <br>
 
         次方請填在 x 的右上角；
-        一次方最後會顯示成 x，不寫 1。
+        一次方最後顯示成 x，不寫 1。
 
       </p>
 
@@ -5942,9 +5938,7 @@ function renderMonomialAnswer(
         id="answer-preview"
         class="answer-preview"
       >
-
         目前尚未完成答案。
-
       </div>
     `;
 
@@ -6082,10 +6076,10 @@ function expressionOptions(
         "編輯多項式",
 
       numeratorLabel:
-        "分子",
+        "",
 
       denominatorLabel:
-        "分母"
+        ""
     }
   };
 }
@@ -6093,11 +6087,11 @@ function expressionOptions(
 
 /*
 ==================================================
-清除 ExpressionInput 自動填入的分母 1
+把分數欄位多餘小標籤刪掉
 ==================================================
 */
 
-function clearAutomaticDenominatorOnes(
+function cleanFractionFieldLabels(
   mount
 ) {
 
@@ -6109,98 +6103,59 @@ function clearAutomaticDenominatorOnes(
   }
 
 
-  const clear =
+  const clean =
     () => {
 
-      const fractionBoxes =
-        mount.querySelectorAll(
-          ".expression-input__fraction-coefficient"
-        );
-
-
-      fractionBoxes
+      mount
+        .querySelectorAll(
+          ".expression-input__fraction-field"
+        )
         .forEach(
-          box => {
+          field => {
 
-            const fields =
-              box.querySelectorAll(
-                ".expression-input__fraction-field"
+            [
+              ...field.children
+            ]
+              .forEach(
+                child => {
+
+                  if (
+                    child.tagName ===
+                    "INPUT"
+                  ) {
+
+                    return;
+                  }
+
+
+                  const text =
+                    child.textContent
+                      ?.trim();
+
+
+                  if (
+                    text ===
+                    "分子" ||
+
+                    text ===
+                    "分母"
+                  ) {
+
+                    child.remove();
+                  }
+                }
               );
-
-
-            if (
-              fields.length <
-              2
-            ) {
-
-              return;
-            }
-
-
-            const denominatorInput =
-              fields[
-                fields.length -
-                1
-              ]
-                .querySelector(
-                  "input"
-                );
-
-
-            if (
-              !denominatorInput
-            ) {
-
-              return;
-            }
-
-
-            if (
-              denominatorInput.dataset
-                .initialOneHandled ===
-              "true"
-            ) {
-
-              return;
-            }
-
-
-            denominatorInput.dataset
-              .initialOneHandled =
-                "true";
-
-
-            if (
-              denominatorInput.value ===
-              "1"
-            ) {
-
-              denominatorInput.value =
-                "";
-
-
-              denominatorInput
-                .dispatchEvent(
-                  new Event(
-                    "input",
-                    {
-                      bubbles:
-                        true
-                    }
-                  )
-                );
-            }
           }
         );
     };
 
 
-  clear();
+  clean();
 
 
   const observer =
     new MutationObserver(
-      clear
+      clean
     );
 
 
@@ -6218,16 +6173,19 @@ function clearAutomaticDenominatorOnes(
 
 
   setTimeout(
-    () =>
-      observer.disconnect(),
-    15000
+    () => {
+
+      observer.disconnect();
+
+    },
+    20000
   );
 }
 
 
 /*
 ==================================================
-多項式答案
+Polynomial UI
 ==================================================
 */
 
@@ -6271,12 +6229,8 @@ function renderPolynomialAnswer(
     );
 
 
-  const mount =
-    $("polynomial-answer-mount");
-
-
-  clearAutomaticDenominatorOnes(
-    mount
+  cleanFractionFieldLabels(
+    $("polynomial-answer-mount")
   );
 
 
@@ -6291,7 +6245,7 @@ function renderPolynomialAnswer(
 
 /*
 ==================================================
-解析 ExpressionInput
+Parse ExpressionInput
 ==================================================
 */
 
@@ -6379,7 +6333,7 @@ function parseExpressionInput(
 
 /*
 ==================================================
-商式＋餘式 Preview
+Division Preview
 ==================================================
 */
 
@@ -6403,19 +6357,19 @@ function updateDivisionPreview() {
 
   try {
 
-    const quotientResult =
+    const result =
       parseExpressionInput(
         divisionQuotientInput
       );
 
 
     if (
-      quotientResult.valid
+      result.valid
     ) {
 
       quotientHTML =
         polynomialHTML(
-          quotientResult.value
+          result.value
         );
     }
 
@@ -6435,16 +6389,12 @@ function updateDivisionPreview() {
     "";
 
 
-  const validRemainder =
-    /^-?\d+$/
-      .test(
-        remainderRaw
-      );
-
-
   if (
     !quotientHTML &&
-    !validRemainder
+    !/^-?\d+$/
+      .test(
+        remainderRaw
+      )
   ) {
 
     preview.innerHTML =
@@ -6461,22 +6411,24 @@ function updateDivisionPreview() {
 
     <span class="preview-value">
 
+      商式＝
       ${
-        quotientHTML
-
-          ? `商式＝${quotientHTML}`
-
-          : "商式＝尚未完成"
+        quotientHTML ||
+        "尚未完成"
       }
 
       &nbsp;&nbsp;
 
+      餘式＝
       ${
-        validRemainder
+        /^-?\d+$/
+          .test(
+            remainderRaw
+          )
 
-          ? `餘式＝${remainderRaw}`
+          ? remainderRaw
 
-          : "餘式＝尚未完成"
+          : "尚未完成"
       }
 
     </span>
@@ -6486,7 +6438,7 @@ function updateDivisionPreview() {
 
 /*
 ==================================================
-商式＋餘式 UI
+Division UI
 ==================================================
 */
 
@@ -6505,11 +6457,7 @@ function renderDivisionAnswer(
 
       <p class="answer-help">
 
-        商式請依降冪排列，
-        餘式也要一起填答。<br>
-
-        若商式使用分數係數，
-        請直接填寫分子與分母。
+        商式請依降冪排列，餘式也要一起填答。
 
       </p>
 
@@ -6517,7 +6465,7 @@ function renderDivisionAnswer(
 
         <div class="division-answer-grid">
 
-          <div class="division-quotient-box">
+          <div>
 
             <div class="division-section-title">
               商式
@@ -6544,7 +6492,7 @@ function renderDivisionAnswer(
               type="text"
               inputmode="numeric"
               autocomplete="off"
-              placeholder="輸入餘式"
+              placeholder="餘式"
             >
 
           </div>
@@ -6555,9 +6503,7 @@ function renderDivisionAnswer(
           id="division-preview"
           class="answer-preview division-preview"
         >
-
           目前尚未完成答案。
-
         </div>
 
       </div>
@@ -6576,14 +6522,10 @@ function renderDivisionAnswer(
     $("division-quotient-mount");
 
 
-  clearAutomaticDenominatorOnes(
+  cleanFractionFieldLabels(
     mount
   );
 
-
-  /*
-  ExpressionInput 內的任何輸入、按鍵都更新預覽
-  */
 
   [
     "input",
@@ -6626,17 +6568,13 @@ function renderDivisionAnswer(
 
 /*
 ==================================================
-Render Answer
+Answer
 ==================================================
 */
 
 function renderAnswer(
   question
 ) {
-
-  selectedChoice =
-    null;
-
 
   answerInput =
     null;
@@ -6682,16 +6620,13 @@ function renderAnswer(
     renderDivisionAnswer(
       question
     );
-
-
-    return;
   }
 }
 
 
 /*
 ==================================================
-Read Monomial
+Read monomial
 ==================================================
 */
 
@@ -6789,21 +6724,8 @@ function readMonomialAnswer() {
       !/^\d+$/
         .test(
           numeratorRaw
-        )
-    ) {
+        ) ||
 
-      return {
-
-        valid:
-          false,
-
-        message:
-          "請填寫分子。"
-      };
-    }
-
-
-    if (
       !/^\d+$/
         .test(
           denominatorRaw
@@ -6816,7 +6738,7 @@ function readMonomialAnswer() {
           false,
 
         message:
-          "請填寫分母。"
+          "請填寫完整的分子與分母。"
       };
     }
 
@@ -6870,10 +6792,8 @@ function readMonomialAnswer() {
 
     coefficient =
       F(
-
         sign *
         numerator,
-
         denominator
       );
   }
@@ -6975,7 +6895,7 @@ function readAnswer(
           false,
 
         message:
-          "請填寫完整的整數餘式。"
+          "請填寫完整餘式。"
       };
     }
 
@@ -7016,7 +6936,7 @@ function readAnswer(
       false,
 
     message:
-      "目前題型無法讀取答案。"
+      "答案格式錯誤。"
   };
 }
 
@@ -7107,9 +7027,7 @@ function checkCorrect(
   ) {
 
     return samePolynomial(
-
       answer.value,
-
       question.answer
     );
   }
@@ -7139,7 +7057,7 @@ function checkCorrect(
 
 /*
 ==================================================
-Correct Answer
+正確答案
 ==================================================
 */
 
@@ -7153,9 +7071,7 @@ function correctAnswerHTML(
   ) {
 
     return monomialHTML(
-
       question.coefficient,
-
       question.exponent
     );
   }
@@ -7196,41 +7112,71 @@ function correctAnswerHTML(
 
 /*
 ==================================================
-Explanation
+詳解
 ==================================================
 */
 
 function explanationHTML(
-  question
+  question,
+  showWrongDetail =
+    false
 ) {
 
-  return question.explanation
-    .map(
-      (
-        step,
-        i
-      ) => `
+  const basic =
+    question.explanation
+      .map(
+        (
+          step,
+          i
+        ) => `
 
-        <div class="explanation-step">
+          <div class="explanation-step">
 
-          <strong>
+            <strong>
 
-            步驟 ${i + 1}｜
+              步驟 ${i + 1}｜
 
-          </strong>
+            </strong>
 
-          ${step}
+            ${step}
 
-        </div>
-      `
-    )
-    .join("");
+          </div>
+        `
+      )
+      .join("");
+
+
+  const detail =
+
+    showWrongDetail &&
+    question.wrongDetail
+
+      ? `
+
+          <div class="explanation-step">
+
+            <strong>
+              完整偵錯過程｜
+            </strong>
+
+          </div>
+
+          ${question.wrongDetail}
+        `
+
+      : "";
+
+
+  return (
+    basic +
+    detail
+  );
 }
 
 
 /*
 ==================================================
-Display Question
+題目
 ==================================================
 */
 
@@ -7507,10 +7453,15 @@ function submitAnswer() {
       maxCombo;
 
 
+  /*
+  ★ 答錯才加入完整偵錯細節
+  */
+
   $("explanation")
     .innerHTML =
       explanationHTML(
-        question
+        question,
+        !isCorrect
       );
 
 
@@ -7587,7 +7538,7 @@ function nextQuestion() {
 
 /*
 ==================================================
-Time
+時間
 ==================================================
 */
 
@@ -7767,7 +7718,7 @@ function moveScratchpadButtonToTop() {
 
 /*
 ==================================================
-Screen
+畫面
 ==================================================
 */
 
@@ -7867,10 +7818,6 @@ function startGame(
     false;
 
 
-  selectedChoice =
-    null;
-
-
   answerInput =
     null;
 
@@ -7951,7 +7898,7 @@ function rating(
         "★★★★☆",
 
       comment:
-        "表現很好，再注意乘法公式、降冪排列與商式餘式。"
+        "表現很好，再注意乘法公式與多項式直式除法。"
     };
   }
 
@@ -7978,7 +7925,7 @@ function rating(
       "★★☆☆☆",
 
     comment:
-      "建議先從單項式乘除開始，再逐步挑戰多項式乘法與除法。"
+      "建議先從單項式乘除開始，再逐步挑戰多項式乘除。"
   };
 }
 
@@ -8264,7 +8211,8 @@ function showReview() {
                   <div class="explanation">
 
                     ${explanationHTML(
-                      record.question
+                      record.question,
+                      true
                     )}
 
                   </div>
@@ -8413,12 +8361,6 @@ $("review-result-button")
   );
 
 
-/*
-==================================================
-Enter
-==================================================
-*/
-
 document
   .addEventListener(
     "keydown",
@@ -8461,12 +8403,6 @@ document
     }
   );
 
-
-/*
-==================================================
-Init
-==================================================
-*/
 
 window
   .addEventListener(
