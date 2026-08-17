@@ -859,7 +859,7 @@
 
     /*
     ==================================================
-    手製分數係數
+    分數係數
     ==================================================
     */
 
@@ -927,9 +927,7 @@
 
     /*
     ==================================================
-    x 與次方格
-
-    ★ 次方格加寬
+    x 與次方
     ==================================================
     */
 
@@ -1111,10 +1109,6 @@
         0 auto;
     }
 
-    /*
-    分數係數
-    */
-
     .polynomial-answer-shell
     .expression-input__fraction-coefficient {
 
@@ -1246,10 +1240,6 @@
         none !important;
     }
 
-    /*
-    ★ 分子 / 分母中間橫線
-    */
-
     .polynomial-answer-shell
     .expression-input__fraction-coefficient::after {
 
@@ -1271,12 +1261,6 @@
 
       pointer-events: none;
     }
-
-    /*
-    ★ 修正圖三：
-    元件本身另外出現的小字「分母」隱藏。
-    輸入框內的大字 placeholder 仍保留。
-    */
 
     .polynomial-answer-shell
     .expression-input__fraction-field label,
@@ -1425,7 +1409,7 @@
 
     /*
     ==================================================
-    Feedback
+    Buttons
     ==================================================
     */
 
@@ -1499,6 +1483,12 @@
         #00695c;
     }
 
+    /*
+    ==================================================
+    Feedback
+    ==================================================
+    */
+
     .feedback {
 
       min-height: 48px;
@@ -1528,7 +1518,7 @@
 
     /*
     ==================================================
-    詳解
+    Explanation
     ==================================================
     */
 
@@ -1557,206 +1547,7 @@
 
     /*
     ==================================================
-    ★ 多項式直式除法
-    ==================================================
-    */
-
-    .long-division {
-
-      width:
-        min(
-          100%,
-          760px
-        );
-
-      margin:
-        18px auto;
-
-      padding:
-        18px;
-
-      overflow-x:
-        auto;
-
-      border:
-        2px solid
-        #d8b4e2;
-
-      border-radius:
-        15px;
-
-      background:
-        white;
-
-      font-family:
-        "Cambria Math",
-        "Times New Roman",
-        "Microsoft JhengHei",
-        serif;
-
-      font-size:
-        clamp(
-          17px,
-          3vw,
-          23px
-        );
-    }
-
-    .long-division-title {
-
-      margin-bottom: 16px;
-
-      color:
-        var(--primary-dark);
-
-      font-family:
-        "Microsoft JhengHei",
-        sans-serif;
-
-      font-size: 16px;
-
-      font-weight: 900;
-
-      text-align: center;
-    }
-
-    .long-division-head {
-
-      display: grid;
-
-      grid-template-columns:
-        auto
-        minmax(
-          260px,
-          1fr
-        );
-
-      align-items: end;
-
-      width:
-        max-content;
-
-      min-width: 100%;
-
-      margin-bottom: 8px;
-    }
-
-    .long-division-blank {
-
-      min-width: 130px;
-    }
-
-    .long-division-quotient {
-
-      padding:
-        3px 10px 6px;
-
-      border-bottom:
-        2px solid
-        #334155;
-
-      text-align: center;
-
-      font-weight: 900;
-    }
-
-    .long-division-main {
-
-      display: grid;
-
-      grid-template-columns:
-        auto
-        minmax(
-          260px,
-          1fr
-        );
-
-      align-items: start;
-
-      width:
-        max-content;
-
-      min-width: 100%;
-    }
-
-    .long-division-divisor {
-
-      min-width: 130px;
-
-      padding:
-        6px 12px 0 0;
-
-      border-right:
-        2px solid
-        #334155;
-
-      text-align: right;
-
-      white-space: nowrap;
-    }
-
-    .long-division-work {
-
-      padding-left: 12px;
-    }
-
-    .long-step {
-
-      margin-bottom: 18px;
-    }
-
-    .long-step-current {
-
-      padding:
-        4px 8px;
-
-      font-weight: 900;
-    }
-
-    .long-step-product {
-
-      padding:
-        5px 8px;
-
-      border-bottom:
-        2px solid
-        #334155;
-    }
-
-    .long-step-product::before {
-
-      content: "－ ";
-
-      font-weight: 900;
-    }
-
-    .long-step-remainder {
-
-      padding:
-        5px 8px;
-
-      font-weight: 900;
-    }
-
-    .long-step-note {
-
-      margin-top: 5px;
-
-      color:
-        #64748b;
-
-      font-family:
-        "Microsoft JhengHei",
-        sans-serif;
-
-      font-size: 13px;
-
-      font-weight: 700;
-    }
-
-    /*
-    ==================================================
-    乘開細節
+    乘開
     ==================================================
     */
 
@@ -1787,6 +1578,265 @@
         1.08em;
 
       line-height: 2;
+    }
+
+    /*
+    ==================================================
+    ★ 新版直式除法
+
+    每一個次方使用固定欄位
+    ==================================================
+    */
+
+    .long-division {
+
+      width:
+        min(
+          100%,
+          820px
+        );
+
+      margin:
+        18px auto;
+
+      padding:
+        20px 14px;
+
+      overflow-x:
+        auto;
+
+      border:
+        2px solid
+        #d8b4e2;
+
+      border-radius:
+        15px;
+
+      background:
+        white;
+
+      font-family:
+        "Cambria Math",
+        "Times New Roman",
+        "Microsoft JhengHei",
+        serif;
+
+      color:
+        #334155;
+    }
+
+    .long-division-title {
+
+      margin-bottom: 18px;
+
+      color:
+        var(--primary-dark);
+
+      font-family:
+        "Microsoft JhengHei",
+        sans-serif;
+
+      font-size: 17px;
+
+      font-weight: 900;
+
+      text-align: center;
+    }
+
+    .ld-board {
+
+      width:
+        max-content;
+
+      min-width:
+        100%;
+
+      margin:
+        0 auto;
+    }
+
+    /*
+    商
+    */
+
+    .ld-quotient-row {
+
+      display: grid;
+
+      grid-template-columns:
+        150px
+        minmax(
+          390px,
+          1fr
+        );
+
+      align-items: end;
+    }
+
+    .ld-quotient-space {
+
+      min-height: 1px;
+    }
+
+    .ld-quotient {
+
+      padding:
+        4px 18px 8px;
+
+      border-bottom:
+        2.5px solid
+        #334155;
+
+      text-align:
+        center;
+
+      font-size:
+        25px;
+
+      font-weight: 900;
+    }
+
+    /*
+    除式 + 被除式
+    */
+
+    .ld-main {
+
+      display: grid;
+
+      grid-template-columns:
+        150px
+        minmax(
+          390px,
+          1fr
+        );
+
+      align-items: start;
+    }
+
+    .ld-divisor {
+
+      min-height:
+        58px;
+
+      display: flex;
+
+      align-items: flex-start;
+
+      justify-content: flex-end;
+
+      padding:
+        10px 14px 0 4px;
+
+      border-right:
+        2.5px solid
+        #334155;
+
+      font-size:
+        23px;
+
+      font-weight: 900;
+
+      white-space: nowrap;
+    }
+
+    .ld-work {
+
+      padding-left: 12px;
+    }
+
+    /*
+    固定次方欄
+    */
+
+    .ld-poly-grid {
+
+      display: grid;
+
+      align-items: baseline;
+
+      width: 100%;
+
+      min-width:
+        390px;
+
+      min-height: 48px;
+
+      font-size:
+        23px;
+
+      font-weight: 900;
+    }
+
+    .ld-cell {
+
+      min-width: 90px;
+
+      padding:
+        5px 8px;
+
+      text-align: right;
+
+      white-space: nowrap;
+    }
+
+    /*
+    每次相減
+    */
+
+    .ld-subtract-row {
+
+      display: grid;
+
+      grid-template-columns:
+        34px
+        minmax(
+          0,
+          1fr
+        );
+
+      align-items: end;
+    }
+
+    .ld-minus {
+
+      padding:
+        4px 0 8px;
+
+      font-size:
+        30px;
+
+      font-weight: 900;
+
+      text-align: center;
+    }
+
+    .ld-subtract-poly {
+
+      border-bottom:
+        2.5px solid
+        #334155;
+    }
+
+    .ld-remainder-row {
+
+      display: grid;
+
+      grid-template-columns:
+        34px
+        minmax(
+          0,
+          1fr
+        );
+    }
+
+    .ld-remainder-space {
+      min-height: 1px;
+    }
+
+    .ld-step-gap {
+
+      height: 10px;
     }
 
     /*
@@ -1911,6 +1961,12 @@
       text-align: center;
     }
 
+    /*
+    ==================================================
+    Mobile
+    ==================================================
+    */
+
     @media(
       max-width:
         760px
@@ -1983,7 +2039,30 @@
       .long-division {
 
         padding:
-          12px 8px;
+          15px 8px;
+      }
+
+      .ld-quotient-row,
+      .ld-main {
+
+        grid-template-columns:
+          125px
+          minmax(
+            390px,
+            1fr
+          );
+      }
+
+      .ld-divisor {
+
+        font-size:
+          20px;
+      }
+
+      .ld-poly-grid {
+
+        font-size:
+          20px;
       }
 
     }
@@ -2039,6 +2118,8 @@
       </div>
 
     </header>
+
+    <!-- 模式首頁 -->
 
     <section
       id="start-screen"
@@ -2114,7 +2195,7 @@
           </p>
 
           <div class="mode-example">
-            答錯時可利用完整直式除法進行偵錯
+            答錯時會顯示完整的直式除法
           </div>
 
         </button>
@@ -2146,6 +2227,8 @@
       </div>
 
     </section>
+
+    <!-- 測驗 -->
 
     <section
       id="quiz-screen"
@@ -2207,18 +2290,14 @@
       </div>
 
       <div class="scratchpad-row">
-
         <div id="scratchpad-mobile-button"></div>
-
       </div>
 
       <div class="progress-shell">
-
         <div
           id="progress-bar"
           class="progress-bar"
         ></div>
-
       </div>
 
       <div class="question-card">
@@ -2287,6 +2366,8 @@
       ></div>
 
     </section>
+
+    <!-- 結果 -->
 
     <section
       id="result-screen"
@@ -2385,6 +2466,8 @@
       </div>
 
     </section>
+
+    <!-- 錯題回顧 -->
 
     <section
       id="review-screen"
@@ -2913,7 +2996,7 @@ function isZeroF(
 
 /*
 ==================================================
-數學顯示
+顯示
 ==================================================
 */
 
@@ -3167,7 +3250,7 @@ function monomialFromInteger(
 
 /*
 ==================================================
-多項式
+Polynomial
 ==================================================
 */
 
@@ -3578,7 +3661,7 @@ function addConstantToPolynomial(
 
 /*
 ==================================================
-完整多項式直式除法演算法
+多項式直式除法演算法
 ==================================================
 */
 
@@ -3730,7 +3813,183 @@ function polynomialLongDivision(
 
 /*
 ==================================================
-直式除法 HTML
+★ 直式固定欄位
+==================================================
+*/
+
+function polynomialTermAtExponent(
+  polynomial,
+  exponent
+) {
+
+  return normalizePolynomial(
+    polynomial
+  )
+    .find(
+      term =>
+        term.exponent ===
+        exponent
+    ) ||
+    null;
+}
+
+
+function gridTermHTML(
+  term,
+  isFirstVisible
+) {
+
+  if (
+    !term
+  ) {
+
+    return "";
+  }
+
+
+  const coefficient =
+    F(
+      term.coefficient.numerator,
+      term.coefficient.denominator
+    );
+
+
+  const negative =
+    coefficient.numerator <
+    0;
+
+
+  const absolute =
+    F(
+      Math.abs(
+        coefficient.numerator
+      ),
+      coefficient.denominator
+    );
+
+
+  let prefix =
+    "";
+
+
+  if (
+    negative
+  ) {
+
+    prefix =
+      "−";
+
+  } else if (
+    !isFirstVisible
+  ) {
+
+    prefix =
+      "＋";
+  }
+
+
+  return `
+
+    ${prefix}
+
+    ${monomialHTML(
+      absolute,
+      term.exponent
+    )}
+  `;
+}
+
+
+function polynomialGridHTML(
+  polynomial,
+  maxDegree
+) {
+
+  let firstVisible =
+    true;
+
+
+  const cells =
+    [];
+
+
+  for (
+    let exponent =
+      maxDegree;
+
+    exponent >=
+    0;
+
+    exponent--
+  ) {
+
+    const term =
+      polynomialTermAtExponent(
+        polynomial,
+        exponent
+      );
+
+
+    let content =
+      "";
+
+
+    if (
+      term
+    ) {
+
+      content =
+        gridTermHTML(
+          term,
+          firstVisible
+        );
+
+
+      firstVisible =
+        false;
+    }
+
+
+    cells.push(
+      `
+
+        <div class="ld-cell">
+
+          ${content}
+
+        </div>
+      `
+    );
+  }
+
+
+  return `
+
+    <div
+      class="ld-poly-grid"
+      style="
+        grid-template-columns:
+        repeat(
+          ${maxDegree + 1},
+          minmax(90px, 1fr)
+        );
+      "
+    >
+
+      ${cells.join("")}
+
+    </div>
+  `;
+}
+
+
+/*
+==================================================
+★ 新版直式除法
+
+1. 無中文說明
+2. 同類項上下對齊
+3. 明確補上減號
 ==================================================
 */
 
@@ -3746,6 +4005,15 @@ function longDivisionHTML(
     );
 
 
+  const maxDegree =
+    Math.max(
+      0,
+      degreeOf(
+        dividend
+      )
+    );
+
+
   return `
 
     <div class="long-division">
@@ -3756,114 +4024,99 @@ function longDivisionHTML(
 
       </div>
 
-      <div class="long-division-head">
+      <div class="ld-board">
 
-        <div class="long-division-blank"></div>
+        <div class="ld-quotient-row">
 
-        <div class="long-division-quotient">
+          <div class="ld-quotient-space"></div>
 
-          ${polynomialHTML(
-            result.quotient
-          )}
+          <div class="ld-quotient">
 
-        </div>
+            ${polynomialHTML(
+              result.quotient
+            )}
 
-      </div>
-
-      <div class="long-division-main">
-
-        <div class="long-division-divisor">
-
-          ${polynomialHTML(
-            divisor
-          )}
+          </div>
 
         </div>
 
-        <div class="long-division-work">
+        <div class="ld-main">
 
-          ${
-            result.steps
-              .map(
-                (
-                  step,
-                  i
-                ) => `
+          <div class="ld-divisor">
 
-                  <div class="long-step">
+            ${polynomialHTML(
+              divisor
+            )}
 
-                    <div class="long-step-current">
+          </div>
 
-                      ${polynomialHTML(
-                        step.current
-                      )}
+          <div class="ld-work">
 
-                    </div>
+            ${
+              result.steps.length
 
-                    <div class="long-step-note">
+                ? `
 
-                      ${
-                        i ===
+                    ${polynomialGridHTML(
+                      result.steps[
                         0
+                      ].current,
+                      maxDegree
+                    )}
+                  `
 
-                          ? "最高次項相除，得到商的第一項：" +
-                            monomialHTML(
-                              step.quotientTerm.coefficient,
-                              step.quotientTerm.exponent
-                            )
+                : polynomialGridHTML(
+                    dividend,
+                    maxDegree
+                  )
+            }
 
-                          : "再由剩下多項式的最高次項相除，得到商的下一項：" +
-                            monomialHTML(
-                              step.quotientTerm.coefficient,
-                              step.quotientTerm.exponent
-                            )
-                      }
+            ${
+              result.steps
+                .map(
+                  step => `
 
-                    </div>
+                    <div class="ld-subtract-row">
 
-                    <div class="long-step-product">
+                      <div class="ld-minus">
+                        −
+                      </div>
 
-                      ${polynomialHTML(
-                        step.product
-                      )}
+                      <div class="ld-subtract-poly">
 
-                    </div>
+                        ${polynomialGridHTML(
+                          step.product,
+                          maxDegree
+                        )}
 
-                    <div class="long-step-remainder">
-
-                      ${polynomialHTML(
-                        step.remainder
-                      )}
-
-                    </div>
-
-                    <div class="long-step-note">
-
-                      乘回除式後相減，得到上面的新多項式。
+                      </div>
 
                     </div>
 
-                  </div>
-                `
-              )
-              .join("")
-          }
+                    <div class="ld-remainder-row">
+
+                      <div class="ld-remainder-space"></div>
+
+                      <div>
+
+                        ${polynomialGridHTML(
+                          step.remainder,
+                          maxDegree
+                        )}
+
+                      </div>
+
+                    </div>
+
+                    <div class="ld-step-gap"></div>
+                  `
+                )
+                .join("")
+            }
+
+          </div>
 
         </div>
-
-      </div>
-
-      <div class="long-step-note">
-
-        最後商式＝
-        ${polynomialHTML(
-          result.quotient
-        )}，
-
-        餘式＝
-        ${polynomialHTML(
-          result.remainder
-        )}。
 
       </div>
 
@@ -3874,16 +4127,16 @@ function longDivisionHTML(
 
 /*
 ==================================================
-乘法尚未合併前的各項
+乘開未合併
 ==================================================
 */
 
-function rawProductTermsHTML(
+function rawProductTerms(
   first,
   second
 ) {
 
-  const rawTerms =
+  const result =
     [];
 
 
@@ -3897,7 +4150,7 @@ function rawProductTermsHTML(
       second
     ) {
 
-      rawTerms.push(
+      result.push(
         {
 
           exponent:
@@ -3915,6 +4168,14 @@ function rawProductTermsHTML(
   }
 
 
+  return result;
+}
+
+
+function rawTermsHTML(
+  rawTerms
+) {
+
   if (
     !rawTerms.length
   ) {
@@ -3930,7 +4191,7 @@ function rawProductTermsHTML(
   rawTerms.forEach(
     (
       term,
-      i
+      index
     ) => {
 
       const negative =
@@ -3948,7 +4209,7 @@ function rawProductTermsHTML(
 
 
       if (
-        i ===
+        index ===
         0
       ) {
 
@@ -3980,6 +4241,57 @@ function rawProductTermsHTML(
 
 
   return html;
+}
+
+
+function rawProductTermsHTML(
+  first,
+  second
+) {
+
+  return rawTermsHTML(
+    rawProductTerms(
+      first,
+      second
+    )
+  );
+}
+
+
+function appendRawConstantTermHTML(
+  rawTerms,
+  constant
+) {
+
+  const expanded =
+    [
+      ...rawTerms
+    ];
+
+
+  if (
+    constant !==
+    0
+  ) {
+
+    expanded.push(
+      {
+
+        exponent:
+          0,
+
+        coefficient:
+          F(
+            constant
+          )
+      }
+    );
+  }
+
+
+  return rawTermsHTML(
+    expanded
+  );
 }
 
 
@@ -4717,7 +5029,7 @@ function makeBinomialProduct() {
       `先利用分配律，把第一個括號的每一項分別乘第二個括號的每一項。`,
 
       `
-      乘開後尚未合併同類項為：
+      乘開後：
 
       <div class="expansion-box">
 
@@ -4726,7 +5038,19 @@ function makeBinomialProduct() {
       </div>
       `,
 
-      `再合併同類項。`,
+      `
+      合併同類項：
+
+      <div class="expansion-box">
+
+        ${raw}
+        ＝
+        ${polynomialHTML(
+          answer
+        )}
+
+      </div>
+      `,
 
       `所以答案＝
       ${polynomialHTML(
@@ -4792,6 +5116,13 @@ function makeSquareFormula() {
     );
 
 
+  const raw =
+    rawProductTermsHTML(
+      polynomial,
+      polynomial
+    );
+
+
   return polynomialQuestion(
 
     `
@@ -4804,24 +5135,33 @@ function makeSquareFormula() {
 
     [
 
-      `使用完全平方公式。`,
-
-      `也可以把平方寫成兩個相同括號相乘。`,
+      `使用完全平方公式，或寫成兩個相同括號相乘。`,
 
       `
       乘開後：
 
       <div class="expansion-box">
 
-        ${rawProductTermsHTML(
-          polynomial,
-          polynomial
+        ${raw}
+
+      </div>
+      `,
+
+      `
+      合併同類項：
+
+      <div class="expansion-box">
+
+        ${raw}
+        ＝
+        ${polynomialHTML(
+          answer
         )}
 
       </div>
       `,
 
-      `再合併同類項，得到
+      `所以答案＝
       ${polynomialHTML(
         answer
       )}。`
@@ -4912,6 +5252,13 @@ function makeDifferenceSquares() {
     );
 
 
+  const raw =
+    rawProductTermsHTML(
+      first,
+      second
+    );
+
+
   return polynomialQuestion(
 
     `
@@ -4926,19 +5273,28 @@ function makeDifferenceSquares() {
       `本題可利用平方差公式，也可以直接乘開。`,
 
       `
-      直接乘開得到：
+      直接乘開：
 
       <div class="expansion-box">
 
-        ${rawProductTermsHTML(
-          first,
-          second
-        )}
+        ${raw}
 
       </div>
       `,
 
-      `中間的一次項互相抵消。`,
+      `
+      合併同類項：
+
+      <div class="expansion-box">
+
+        ${raw}
+        ＝
+        ${polynomialHTML(
+          answer
+        )}
+
+      </div>
+      `,
 
       `所以答案＝
       ${polynomialHTML(
@@ -4968,6 +5324,7 @@ function makeMode2() {
 
       makeDifferenceSquares(),
       makeDifferenceSquares(),
+
       makeBinomialProduct()
     ]
   );
@@ -5277,12 +5634,9 @@ function makeDivisionWithRemainder(
 
         missingTerm
 
-          ? `被除式缺少 x 項，做直式時要把缺少的位置補成 0x。`
+          ? `被除式若缺少某次項，直式計算時要保留該次項的位置。`
 
-          : `由最高次項開始做多項式直式除法。`,
-
-        `每一次都按照：
-        最高次項相除 → 寫商 → 乘回除式 → 相減。`,
+          : `由最高次項開始進行多項式除法。`,
 
         `最後商式＝
         ${polynomialHTML(
@@ -5341,8 +5695,7 @@ function makeMode3() {
 
 /*
 ==================================================
-模式四：
-已知除式商式餘式求被除式
+模式四
 ==================================================
 */
 
@@ -5377,6 +5730,13 @@ function makeFindDividendQuestion() {
     );
 
 
+  const rawTerms =
+    rawProductTerms(
+      divisor,
+      quotient
+    );
+
+
   const product =
     multiplyTwoPolynomials(
       divisor,
@@ -5391,12 +5751,20 @@ function makeFindDividendQuestion() {
     );
 
 
-  const raw =
-    rawProductTermsHTML(
-      divisor,
-      quotient
+  /*
+  ★ 乘開＋餘式一次列出
+  */
+
+  const expandedWithRemainder =
+    appendRawConstantTermHTML(
+      rawTerms,
+      remainder
     );
 
+
+  /*
+  ★ 只做一次合併同類項
+  */
 
   const wrongDetail = `
 
@@ -5405,8 +5773,6 @@ function makeFindDividendQuestion() {
       <strong>
         完整乘開｜
       </strong>
-
-      使用：
 
       被除式＝除式×商式＋餘式
 
@@ -5422,21 +5788,6 @@ function makeFindDividendQuestion() {
         quotient
       )}
 
-      ＋
-      ${
-        remainder >=
-        0
-
-          ? remainder
-
-          : `(${remainder})`
-      }
-
-      <br>
-
-      ＝
-      ${raw}
-
       ${
         remainder >=
         0
@@ -5448,27 +5799,8 @@ function makeFindDividendQuestion() {
 
       <br>
 
-      先合併乘法結果中的同類項：
-
-      <br>
-
       ＝
-      ${polynomialHTML(
-        product
-      )}
-
-      ${
-        remainder >=
-        0
-
-          ? `＋${remainder}`
-
-          : `－${Math.abs(remainder)}`
-      }
-
-      <br>
-
-      再合併常數項：
+      ${expandedWithRemainder}
 
       <br>
 
@@ -5530,11 +5862,9 @@ function makeFindDividendQuestion() {
       `使用關係式：
       被除式＝除式×商式＋餘式。`,
 
-      `先計算除式×商式。`,
+      `先將除式與商式完整乘開。`,
 
-      `把所有乘開的項列出後，再合併同類項。`,
-
-      `最後再加上餘式。`,
+      `再把餘式一起放入算式中，直接合併所有同類項。`,
 
       `被除式＝
       ${polynomialHTML(
@@ -5592,7 +5922,7 @@ function makeMode4() {
 
 /*
 ==================================================
-建立題目
+Create questions
 ==================================================
 */
 
@@ -5631,7 +5961,7 @@ function createQuestions() {
 
 /*
 ==================================================
-單項式 preview
+Monomial Preview
 ==================================================
 */
 
@@ -5986,7 +6316,7 @@ function renderMonomialAnswer(
 
 /*
 ==================================================
-ExpressionInput
+ExpressionInput options
 ==================================================
 */
 
@@ -6087,7 +6417,7 @@ function expressionOptions(
 
 /*
 ==================================================
-把分數欄位多餘小標籤刪掉
+清掉多餘分子分母標籤
 ==================================================
 */
 
@@ -6568,7 +6898,7 @@ function renderDivisionAnswer(
 
 /*
 ==================================================
-Answer
+Render answer
 ==================================================
 */
 
@@ -7057,7 +7387,7 @@ function checkCorrect(
 
 /*
 ==================================================
-正確答案
+Correct Answer
 ==================================================
 */
 
@@ -7112,7 +7442,7 @@ function correctAnswerHTML(
 
 /*
 ==================================================
-詳解
+Explanation
 ==================================================
 */
 
@@ -7176,7 +7506,7 @@ function explanationHTML(
 
 /*
 ==================================================
-題目
+Display
 ==================================================
 */
 
@@ -7453,10 +7783,6 @@ function submitAnswer() {
       maxCombo;
 
 
-  /*
-  ★ 答錯才加入完整偵錯細節
-  */
-
   $("explanation")
     .innerHTML =
       explanationHTML(
@@ -7538,7 +7864,7 @@ function nextQuestion() {
 
 /*
 ==================================================
-時間
+Time
 ==================================================
 */
 
@@ -7718,7 +8044,7 @@ function moveScratchpadButtonToTop() {
 
 /*
 ==================================================
-畫面
+Screen
 ==================================================
 */
 
@@ -8403,6 +8729,12 @@ document
     }
   );
 
+
+/*
+==================================================
+Init
+==================================================
+*/
 
 window
   .addEventListener(
