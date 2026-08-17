@@ -825,8 +825,7 @@
 
       border-radius: 11px;
 
-      background:
-        white;
+      background: white;
 
       font-size: 24px;
 
@@ -1510,11 +1509,6 @@
       line-height: 1.95;
     }
 
-    /*
-    ★ 新增：
-    詳解最前面重新顯示題目
-    */
-
     .explanation-question {
 
       margin-bottom: 20px;
@@ -1618,7 +1612,7 @@
 
     /*
     ==================================================
-    ★ 精簡版多項式直式除法
+    ★ 新版緊湊多項式直式除法
     ==================================================
     */
 
@@ -1627,14 +1621,14 @@
       width:
         min(
           100%,
-          660px
+          570px
         );
 
       margin:
         18px auto;
 
       padding:
-        18px 18px 22px;
+        18px 14px 20px;
 
       overflow-x:
         auto;
@@ -1661,7 +1655,7 @@
 
     .long-division-title {
 
-      margin-bottom: 14px;
+      margin-bottom: 12px;
 
       color:
         var(--primary-dark);
@@ -1677,23 +1671,28 @@
       text-align: center;
     }
 
+    /*
+    整個直式本體縮窄
+    */
+
     .ld-board {
 
       width:
-        min(
-          100%,
-          610px
-        );
+        max-content;
 
       min-width:
-        510px;
+        0;
+
+      max-width:
+        100%;
 
       margin:
         0 auto;
     }
 
     /*
-    商
+    商與除式使用同一個左側寬度，
+    因此商可以精準對齊被除式。
     */
 
     .ld-quotient-row {
@@ -1701,57 +1700,40 @@
       display: grid;
 
       grid-template-columns:
-        105px
-        minmax(
-          360px,
-          1fr
-        );
+        88px
+        auto;
 
       align-items: end;
     }
 
     .ld-quotient-space {
-
       min-height: 1px;
     }
 
     .ld-quotient {
 
       padding:
-        3px 10px 7px;
+        2px 0 6px;
 
       border-bottom:
         2.5px solid
         #334155;
-
-      text-align: center;
-
-      font-size: 23px;
-
-      font-weight: 900;
     }
-
-    /*
-    除式＋被除式
-    */
 
     .ld-main {
 
       display: grid;
 
       grid-template-columns:
-        105px
-        minmax(
-          360px,
-          1fr
-        );
+        88px
+        auto;
 
       align-items: start;
     }
 
     .ld-divisor {
 
-      min-height: 52px;
+      min-height: 49px;
 
       display: flex;
 
@@ -1760,13 +1742,13 @@
       justify-content: flex-end;
 
       padding:
-        8px 9px 0 0;
+        7px 9px 0 0;
 
       border-right:
         2.5px solid
         #334155;
 
-      font-size: 21px;
+      font-size: 20px;
 
       font-weight: 900;
 
@@ -1775,11 +1757,14 @@
 
     .ld-work {
 
-      padding-left: 8px;
+      position: relative;
+
+      padding-left: 9px;
     }
 
     /*
-    同類項固定欄
+    每一個次方只有固定約 92px，
+    不再平均撐滿整個框。
     */
 
     .ld-poly-grid {
@@ -1788,23 +1773,28 @@
 
       align-items: baseline;
 
-      width: 100%;
+      justify-content: start;
 
-      min-width: 350px;
+      width:
+        max-content;
 
-      min-height: 43px;
+      min-width: 0;
 
-      font-size: 21px;
+      min-height: 39px;
+
+      font-size: 20px;
 
       font-weight: 900;
     }
 
     .ld-cell {
 
-      min-width: 72px;
+      width: 92px;
+
+      min-width: 92px;
 
       padding:
-        4px 5px;
+        3px 4px;
 
       text-align: right;
 
@@ -1812,62 +1802,111 @@
     }
 
     /*
-    減法
+    商也用與被除式完全相同的欄位。
+    */
+
+    .ld-quotient-grid {
+
+      display: grid;
+
+      align-items: baseline;
+
+      justify-content: start;
+
+      width:
+        max-content;
+
+      min-width: 0;
+
+      min-height: 35px;
+
+      font-size: 21px;
+
+      font-weight: 900;
+    }
+
+    .ld-quotient-cell {
+
+      width: 92px;
+
+      min-width: 92px;
+
+      padding:
+        2px 4px;
+
+      text-align: right;
+
+      white-space: nowrap;
+    }
+
+    /*
+    減法符號改成絕對定位，
+    不再多佔一欄，
+    因此乘回去的各項可以與上面完全垂直對齊。
     */
 
     .ld-subtract-row {
 
-      display: grid;
+      position: relative;
 
-      grid-template-columns:
-        28px
-        minmax(
-          0,
-          1fr
-        );
-
-      align-items: end;
+      width:
+        max-content;
     }
 
     .ld-minus {
 
-      padding:
-        3px 0 6px;
+      position: absolute;
 
-      font-size: 27px;
+      left: -20px;
+
+      top: 2px;
+
+      z-index: 2;
+
+      width: 18px;
+
+      font-size: 24px;
 
       font-weight: 900;
 
       text-align: center;
+
+      line-height: 1.4;
     }
 
     .ld-subtract-poly {
+
+      width:
+        max-content;
 
       border-bottom:
         2.5px solid
         #334155;
     }
 
+    /*
+    餘下多項式不再額外空一個減號欄位
+    */
+
     .ld-remainder-row {
 
-      display: grid;
-
-      grid-template-columns:
-        28px
-        minmax(
-          0,
-          1fr
-        );
-    }
-
-    .ld-remainder-space {
-
-      min-height: 1px;
+      width:
+        max-content;
     }
 
     .ld-step-gap {
 
-      height: 5px;
+      height: 2px;
+    }
+
+    /*
+    最後 0 或餘式仍與常數欄對齊
+    */
+
+    .ld-final-row {
+
+      width:
+        max-content;
     }
 
     /*
@@ -2070,40 +2109,53 @@
         width: 100%;
 
         padding:
-          14px 8px 18px;
-      }
-
-      .ld-board {
-
-        min-width: 470px;
+          14px 6px 17px;
       }
 
       .ld-quotient-row,
       .ld-main {
 
         grid-template-columns:
-          95px
-          minmax(
-            340px,
-            1fr
-          );
+          78px
+          auto;
       }
 
       .ld-divisor {
 
-        font-size: 19px;
+        padding-right: 7px;
+
+        font-size: 18px;
       }
 
-      .ld-poly-grid {
+      .ld-work {
 
-        min-width: 330px;
-
-        font-size: 19px;
+        padding-left: 7px;
       }
 
-      .ld-cell {
+      .ld-poly-grid,
+      .ld-quotient-grid {
 
-        min-width: 65px;
+        font-size: 18px;
+      }
+
+      .ld-cell,
+      .ld-quotient-cell {
+
+        width: 78px;
+
+        min-width: 78px;
+
+        padding:
+          3px 2px;
+      }
+
+      .ld-minus {
+
+        left: -17px;
+
+        width: 16px;
+
+        font-size: 21px;
       }
 
     }
@@ -2159,8 +2211,6 @@
       </div>
 
     </header>
-
-    <!-- 模式首頁 -->
 
     <section
       id="start-screen"
@@ -2268,8 +2318,6 @@
       </div>
 
     </section>
-
-    <!-- 測驗 -->
 
     <section
       id="quiz-screen"
@@ -2408,8 +2456,6 @@
 
     </section>
 
-    <!-- 結果 -->
-
     <section
       id="result-screen"
       class="screen hidden result-panel"
@@ -2507,8 +2553,6 @@
       </div>
 
     </section>
-
-    <!-- 錯題回顧 -->
 
     <section
       id="review-screen"
@@ -3945,9 +3989,9 @@ function gridTermHTML(
 
 
 /*
-★ 這裡修正：
-多項式如果已經完全相減成 0，
-最後一格一定顯示 0。
+==================================================
+★ 緊湊版被除式 / 乘回多項式格線
+==================================================
 */
 
 function polynomialGridHTML(
@@ -4037,7 +4081,7 @@ function polynomialGridHTML(
         grid-template-columns:
         repeat(
           ${maxDegree + 1},
-          minmax(72px, 1fr)
+          92px
         );
       "
     >
@@ -4051,7 +4095,119 @@ function polynomialGridHTML(
 
 /*
 ==================================================
-精簡版直式除法
+★ 商的對齊格線
+
+商的 x 項要位於被除式 x² 的正上方。
+因此：
+商的 exponent + 除式 degree
+＝對應被除式 exponent
+==================================================
+*/
+
+function quotientGridHTML(
+  quotient,
+  dividendMaxDegree,
+  divisorDegree
+) {
+
+  const normalized =
+    normalizePolynomial(
+      quotient
+    );
+
+
+  let firstVisible =
+    true;
+
+
+  const cells =
+    [];
+
+
+  for (
+    let dividendExponent =
+      dividendMaxDegree;
+
+    dividendExponent >=
+    0;
+
+    dividendExponent--
+  ) {
+
+    const quotientExponent =
+      dividendExponent -
+      divisorDegree;
+
+
+    let content =
+      "";
+
+
+    if (
+      quotientExponent >=
+      0
+    ) {
+
+      const term =
+        polynomialTermAtExponent(
+          normalized,
+          quotientExponent
+        );
+
+
+      if (
+        term
+      ) {
+
+        content =
+          gridTermHTML(
+            term,
+            firstVisible
+          );
+
+
+        firstVisible =
+          false;
+      }
+    }
+
+
+    cells.push(
+      `
+
+        <div class="ld-quotient-cell">
+
+          ${content}
+
+        </div>
+      `
+    );
+  }
+
+
+  return `
+
+    <div
+      class="ld-quotient-grid"
+      style="
+        grid-template-columns:
+        repeat(
+          ${dividendMaxDegree + 1},
+          92px
+        );
+      "
+    >
+
+      ${cells.join("")}
+
+    </div>
+  `;
+}
+
+
+/*
+==================================================
+★ 新版緊湊直式除法
 ==================================================
 */
 
@@ -4076,6 +4232,26 @@ function longDivisionHTML(
     );
 
 
+  const divisorDegree =
+    Math.max(
+      0,
+      degreeOf(
+        divisor
+      )
+    );
+
+
+  const firstCurrent =
+
+    result.steps.length
+
+      ? result.steps[
+          0
+        ].current
+
+      : dividend;
+
+
   return `
 
     <div class="long-division">
@@ -4088,19 +4264,25 @@ function longDivisionHTML(
 
       <div class="ld-board">
 
+        <!-- 商 -->
+
         <div class="ld-quotient-row">
 
           <div class="ld-quotient-space"></div>
 
           <div class="ld-quotient">
 
-            ${polynomialHTML(
-              result.quotient
+            ${quotientGridHTML(
+              result.quotient,
+              maxDegree,
+              divisorDegree
             )}
 
           </div>
 
         </div>
+
+        <!-- 除式與被除式 -->
 
         <div class="ld-main">
 
@@ -4114,26 +4296,17 @@ function longDivisionHTML(
 
           <div class="ld-work">
 
-            ${
-              result.steps.length
-
-                ? polynomialGridHTML(
-                    result.steps[
-                      0
-                    ].current,
-                    maxDegree
-                  )
-
-                : polynomialGridHTML(
-                    dividend,
-                    maxDegree
-                  )
-            }
+            ${polynomialGridHTML(
+              firstCurrent,
+              maxDegree
+            )}
 
             ${
               result.steps
                 .map(
                   step => `
+
+                    <!-- 乘回去並相減 -->
 
                     <div class="ld-subtract-row">
 
@@ -4152,18 +4325,14 @@ function longDivisionHTML(
 
                     </div>
 
+                    <!-- 相減後 -->
+
                     <div class="ld-remainder-row">
 
-                      <div class="ld-remainder-space"></div>
-
-                      <div>
-
-                        ${polynomialGridHTML(
-                          step.remainder,
-                          maxDegree
-                        )}
-
-                      </div>
+                      ${polynomialGridHTML(
+                        step.remainder,
+                        maxDegree
+                      )}
 
                     </div>
 
@@ -4953,11 +5122,6 @@ function makeMonomialTimesPolynomial() {
       exponent
     );
 
-
-  /*
-  ★ 修正：
-  單項式與多項式之間明確放黑點
-  */
 
   return polynomialQuestion(
 
@@ -7476,9 +7640,7 @@ function correctAnswerHTML(
 
 /*
 ==================================================
-★ 詳解
-
-每一題最前方先重新放一次原題目
+詳解
 ==================================================
 */
 
