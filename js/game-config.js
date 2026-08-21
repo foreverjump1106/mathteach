@@ -3,8 +3,9 @@
 數學遊戲樂園：遊戲共用設定
 檔案位置：js/game-config.js
 
-版本：6.6
-八年級上學期 8 款遊戲正式啟用版
+版本：6.7
+八年級上學期 8 款遊戲正式啟用
+＋排行榜相容修正版
 ==================================================
 
 功能：
@@ -17,38 +18,18 @@
 7. 集中管理排行榜類型
 8. 集中管理首頁卡片配色
 9. 集中管理遊戲難度與標籤
+10. 提供排行榜依學期取得已完成遊戲
 
 排行榜：
 
 ranking.type = "timed"
 固定時間挑戰型
-排序：
-1. 分數高
-2. 答對多
-3. 答錯少
-4. 最高連擊高
-5. 較早達成
 
 ranking.type = "speed"
 固定題數／完成型
-排序：
-1. 分數高
-2. 完成時間短
-3. 答對多
-4. 答錯少
-5. 最高連擊高
-6. 較早達成
-
-模式：
-
-modes: {}
-代表單模式
-
-modes 有 2 個以上項目
-代表多模式
 
 注意：
-modes 的 key 必須與遊戲儲存進 Firestore
+modes 的 key 必須與遊戲寫進 Firestore
 的 mode 值完全一致。
 ==================================================
 */
@@ -62,18 +43,23 @@ export const GAME_CONFIG = {
   */
 
   integer: {
+
     id: "integer",
 
     name: "正負整數大挑戰",
+
     shortName: "正負整數",
 
     semester: "grade7-first",
+
     grade: 7,
+
     order: 1,
 
     icon: "🎮",
 
-    file: "games/integer.html",
+    file:
+      "games/integer.html",
 
     description:
       "七年級正負整數加減法，挑戰計算速度與正確率。",
@@ -93,27 +79,36 @@ export const GAME_CONFIG = {
     modes: {},
 
     theme: {
+
       primary: "#1976D2",
+
       dark: "#125CA6",
+
       light: "#E3F2FD",
+
       border: "#90CAF9"
     }
   },
 
 
   compare: {
+
     id: "compare",
 
     name: "數的大小比較王",
+
     shortName: "數的大小比較",
 
     semester: "grade7-first",
+
     grade: 7,
+
     order: 2,
 
     icon: "⚖️",
 
-    file: "games/compare.html",
+    file:
+      "games/compare.html",
 
     description:
       "挑戰整數、分數與小數的大小比較，選出正確的 ＞、＝或＜。",
@@ -131,6 +126,7 @@ export const GAME_CONFIG = {
     },
 
     modes: {
+
       easy:
         "初級｜整數比較",
 
@@ -142,27 +138,36 @@ export const GAME_CONFIG = {
     },
 
     theme: {
+
       primary: "#F57C00",
+
       dark: "#D86600",
+
       light: "#FFF3E0",
+
       border: "#FFCC80"
     }
   },
 
 
   fraction: {
+
     id: "fraction",
 
     name: "正負分數加減大挑戰",
+
     shortName: "正負分數加減",
 
     semester: "grade7-first",
+
     grade: 7,
+
     order: 3,
 
     icon: "➗",
 
-    file: "games/fraction.html",
+    file:
+      "games/fraction.html",
 
     description:
       "先複習最小公倍數，再挑戰正負分數的同分母與異分母加減。",
@@ -180,6 +185,7 @@ export const GAME_CONFIG = {
     },
 
     modes: {
+
       lcm:
         "最小公倍數複習",
 
@@ -188,27 +194,36 @@ export const GAME_CONFIG = {
     },
 
     theme: {
+
       primary: "#2E7D32",
+
       dark: "#1B5E20",
+
       light: "#E8F5E9",
+
       border: "#A5D6A7"
     }
   },
 
 
   exponent: {
+
     id: "exponent",
 
     name: "指數律大挑戰",
+
     shortName: "指數律",
 
     semester: "grade7-first",
+
     grade: 7,
+
     order: 4,
 
     icon: "🔢",
 
-    file: "games/exponent.html",
+    file:
+      "games/exponent.html",
 
     description:
       "練習同底數相乘、相除、冪的乘方、零次方與綜合指數律。",
@@ -226,6 +241,7 @@ export const GAME_CONFIG = {
     },
 
     modes: {
+
       multiplication:
         "同底數相乘",
 
@@ -243,27 +259,36 @@ export const GAME_CONFIG = {
     },
 
     theme: {
+
       primary: "#5E35B1",
+
       dark: "#4527A0",
+
       light: "#EDE7F6",
+
       border: "#B39DDB"
     }
   },
 
 
   "integer-operations": {
+
     id: "integer-operations",
 
     name: "正負數四則運算大挑戰",
+
     shortName: "正負數四則運算",
 
     semester: "grade7-first",
+
     grade: 7,
+
     order: 5,
 
     icon: "➕",
 
-    file: "games/integer-operations.html",
+    file:
+      "games/integer-operations.html",
 
     description:
       "練習正負數乘除、絕對值、乘方，以及整數與分數混合四則運算。",
@@ -281,6 +306,7 @@ export const GAME_CONFIG = {
     },
 
     modes: {
+
       muldiv:
         "正負數的乘除",
 
@@ -298,15 +324,20 @@ export const GAME_CONFIG = {
     },
 
     theme: {
+
       primary: "#8E24AA",
+
       dark: "#6A1B9A",
+
       light: "#F3E5F5",
+
       border: "#CE93D8"
     }
   },
 
 
   factor: {
+
     id: "factor",
 
     name:
@@ -316,12 +347,15 @@ export const GAME_CONFIG = {
       "質因數分解與公因數公倍數",
 
     semester: "grade7-first",
+
     grade: 7,
+
     order: 6,
 
     icon: "🧩",
 
-    file: "games/factor.html",
+    file:
+      "games/factor.html",
 
     description:
       "練習質因數分解，並用指數形式求最大公因數與最小公倍數。",
@@ -339,6 +373,7 @@ export const GAME_CONFIG = {
     },
 
     modes: {
+
       primeFactorization:
         "質因數分解",
 
@@ -353,27 +388,36 @@ export const GAME_CONFIG = {
     },
 
     theme: {
+
       primary: "#00897B",
+
       dark: "#00695C",
+
       light: "#E0F2F1",
+
       border: "#80CBC4"
     }
   },
 
 
   equation: {
+
     id: "equation",
 
     name: "一元一次方程式",
+
     shortName: "一元一次方程式",
 
     semester: "grade7-first",
+
     grade: 7,
+
     order: 7,
 
     icon: "🧮",
 
-    file: "games/equation.html",
+    file:
+      "games/equation.html",
 
     description:
       "解方程式闖關，練習移項、等量公理與分數方程式。",
@@ -391,6 +435,7 @@ export const GAME_CONFIG = {
     },
 
     modes: {
+
       "1":
         "模式一",
 
@@ -405,9 +450,13 @@ export const GAME_CONFIG = {
     },
 
     theme: {
+
       primary: "#E53935",
+
       dark: "#C62828",
+
       light: "#FFEBEE",
+
       border: "#EF9A9A"
     }
   },
@@ -420,6 +469,7 @@ export const GAME_CONFIG = {
   */
 
   simultaneousEquation: {
+
     id: "simultaneousEquation",
 
     name:
@@ -429,7 +479,9 @@ export const GAME_CONFIG = {
       "二元一次聯立方程式",
 
     semester: "grade7-second",
+
     grade: 7,
+
     order: 1,
 
     icon: "🔢",
@@ -455,15 +507,20 @@ export const GAME_CONFIG = {
     modes: {},
 
     theme: {
+
       primary: "#3949AB",
+
       dark: "#283593",
+
       light: "#E8EAF6",
+
       border: "#9FA8DA"
     }
   },
 
 
   coordinate: {
+
     id: "coordinate",
 
     name:
@@ -473,7 +530,9 @@ export const GAME_CONFIG = {
       "直角坐標與方程式圖形",
 
     semester: "grade7-second",
+
     grade: 7,
+
     order: 2,
 
     icon: "📍",
@@ -499,15 +558,20 @@ export const GAME_CONFIG = {
     modes: {},
 
     theme: {
+
       primary: "#039BE5",
+
       dark: "#0277BD",
+
       light: "#E1F5FE",
+
       border: "#81D4FA"
     }
   },
 
 
   ratio: {
+
     id: "ratio",
 
     name:
@@ -517,7 +581,9 @@ export const GAME_CONFIG = {
       "比例式、正比與反比",
 
     semester: "grade7-second",
+
     grade: 7,
+
     order: 3,
 
     icon: "📏",
@@ -543,15 +609,20 @@ export const GAME_CONFIG = {
     modes: {},
 
     theme: {
+
       primary: "#F4511E",
+
       dark: "#D84315",
+
       light: "#FBE9E7",
+
       border: "#FFAB91"
     }
   },
 
 
   statistics: {
+
     id: "statistics",
 
     name:
@@ -561,7 +632,9 @@ export const GAME_CONFIG = {
       "統計圖表",
 
     semester: "grade7-second",
+
     grade: 7,
+
     order: 4,
 
     icon: "📊",
@@ -587,9 +660,13 @@ export const GAME_CONFIG = {
     modes: {},
 
     theme: {
+
       primary: "#00838F",
+
       dark: "#006064",
+
       light: "#E0F7FA",
+
       border: "#80DEEA"
     }
   },
@@ -602,13 +679,20 @@ export const GAME_CONFIG = {
   */
 
   multiplicationFormula: {
+
     id: "multiplicationFormula",
 
-    name: "乘法公式大挑戰",
-    shortName: "乘法公式",
+    name:
+      "乘法公式大挑戰",
 
-    semester: "grade8-first",
+    shortName:
+      "乘法公式",
+
+    semester:
+      "grade8-first",
+
     grade: 8,
+
     order: 1,
 
     icon: "🧩",
@@ -634,22 +718,34 @@ export const GAME_CONFIG = {
     modes: {},
 
     theme: {
+
       primary: "#3F51B5",
+
       dark: "#303F9F",
+
       light: "#E8EAF6",
+
       border: "#9FA8DA"
     }
   },
 
 
   polynomialAddSubtract: {
-    id: "polynomialAddSubtract",
 
-    name: "多項式加減大挑戰",
-    shortName: "多項式加減",
+    id:
+      "polynomialAddSubtract",
 
-    semester: "grade8-first",
+    name:
+      "多項式加減大挑戰",
+
+    shortName:
+      "多項式加減",
+
+    semester:
+      "grade8-first",
+
     grade: 8,
+
     order: 2,
 
     icon: "➕",
@@ -673,6 +769,7 @@ export const GAME_CONFIG = {
     },
 
     modes: {
+
       combine:
         "同類項合併",
 
@@ -687,22 +784,34 @@ export const GAME_CONFIG = {
     },
 
     theme: {
+
       primary: "#00897B",
+
       dark: "#00695C",
+
       light: "#E0F2F1",
+
       border: "#80CBC4"
     }
   },
 
 
   polynomialMultiplyDivide: {
-    id: "polynomialMultiplyDivide",
 
-    name: "多項式乘除大挑戰",
-    shortName: "多項式乘除",
+    id:
+      "polynomialMultiplyDivide",
 
-    semester: "grade8-first",
+    name:
+      "多項式乘除大挑戰",
+
+    shortName:
+      "多項式乘除",
+
+    semester:
+      "grade8-first",
+
     grade: 8,
+
     order: 3,
 
     icon: "✖️",
@@ -726,6 +835,7 @@ export const GAME_CONFIG = {
     },
 
     modes: {
+
       monomial:
         "單項式乘除",
 
@@ -740,22 +850,34 @@ export const GAME_CONFIG = {
     },
 
     theme: {
+
       primary: "#7B1FA2",
+
       dark: "#6A1B9A",
+
       light: "#F3E5F5",
+
       border: "#CE93D8"
     }
   },
 
 
   squareRoot: {
-    id: "squareRoot",
 
-    name: "平方根概念大挑戰",
-    shortName: "平方根",
+    id:
+      "squareRoot",
 
-    semester: "grade8-first",
+    name:
+      "平方根概念大挑戰",
+
+    shortName:
+      "平方根",
+
+    semester:
+      "grade8-first",
+
     grade: 8,
+
     order: 4,
 
     icon: "√",
@@ -781,22 +903,34 @@ export const GAME_CONFIG = {
     modes: {},
 
     theme: {
+
       primary: "#0288D1",
+
       dark: "#0277BD",
+
       light: "#E1F5FE",
+
       border: "#81D4FA"
     }
   },
 
 
   radicalOperation: {
-    id: "radicalOperation",
 
-    name: "根式運算大挑戰",
-    shortName: "根式運算",
+    id:
+      "radicalOperation",
 
-    semester: "grade8-first",
+    name:
+      "根式運算大挑戰",
+
+    shortName:
+      "根式運算",
+
+    semester:
+      "grade8-first",
+
     grade: 8,
+
     order: 5,
 
     icon: "🌱",
@@ -822,22 +956,34 @@ export const GAME_CONFIG = {
     modes: {},
 
     theme: {
+
       primary: "#43A047",
+
       dark: "#2E7D32",
+
       light: "#E8F5E9",
+
       border: "#A5D6A7"
     }
   },
 
 
   pythagorean: {
-    id: "pythagorean",
 
-    name: "畢氏定理大挑戰",
-    shortName: "畢氏定理",
+    id:
+      "pythagorean",
 
-    semester: "grade8-first",
+    name:
+      "畢氏定理大挑戰",
+
+    shortName:
+      "畢氏定理",
+
+    semester:
+      "grade8-first",
+
     grade: 8,
+
     order: 6,
 
     icon: "📐",
@@ -861,6 +1007,7 @@ export const GAME_CONFIG = {
     },
 
     modes: {
+
       basic:
         "基本直角三角形",
 
@@ -872,9 +1019,13 @@ export const GAME_CONFIG = {
     },
 
     theme: {
+
       primary: "#F57C00",
+
       dark: "#E65100",
+
       light: "#FFF3E0",
+
       border: "#FFCC80"
     }
   },
@@ -883,19 +1034,28 @@ export const GAME_CONFIG = {
   /*
   ==================================================
   因式分解大挑戰
-  實際檔名：
-  factorization-challenge.html
+
+  實際檔案：
+  games/factorization-challenge.html
   ==================================================
   */
 
   factorization: {
-    id: "factorization",
 
-    name: "因式分解大挑戰",
-    shortName: "因式分解",
+    id:
+      "factorization",
 
-    semester: "grade8-first",
+    name:
+      "因式分解大挑戰",
+
+    shortName:
+      "因式分解",
+
+    semester:
+      "grade8-first",
+
     grade: 8,
+
     order: 7,
 
     icon: "🧩",
@@ -919,6 +1079,7 @@ export const GAME_CONFIG = {
     },
 
     modes: {
+
       monomial:
         "提單項公因式",
 
@@ -930,9 +1091,13 @@ export const GAME_CONFIG = {
     },
 
     theme: {
+
       primary: "#00897B",
+
       dark: "#00695C",
+
       light: "#E0F2F1",
+
       border: "#80CBC4"
     }
   },
@@ -941,19 +1106,28 @@ export const GAME_CONFIG = {
   /*
   ==================================================
   十字交乘因式分解大挑戰
-  實際檔名：
-  cross-factorization.html
+
+  實際檔案：
+  games/cross-factorization.html
   ==================================================
   */
 
   crossMultiplication: {
-    id: "crossMultiplication",
 
-    name: "十字交乘因式分解大挑戰",
-    shortName: "十字交乘",
+    id:
+      "crossMultiplication",
 
-    semester: "grade8-first",
+    name:
+      "十字交乘因式分解大挑戰",
+
+    shortName:
+      "十字交乘",
+
+    semester:
+      "grade8-first",
+
     grade: 8,
+
     order: 8,
 
     icon: "❌",
@@ -977,6 +1151,7 @@ export const GAME_CONFIG = {
     },
 
     modes: {
+
       leadingOne:
         "平方項係數為 1",
 
@@ -988,9 +1163,13 @@ export const GAME_CONFIG = {
     },
 
     theme: {
+
       primary: "#D81B60",
+
       dark: "#AD1457",
+
       light: "#FCE4EC",
+
       border: "#F48FB1"
     }
   },
@@ -1003,13 +1182,21 @@ export const GAME_CONFIG = {
   */
 
   quadraticEquation: {
-    id: "quadraticEquation",
 
-    name: "一元二次方程式大挑戰",
-    shortName: "一元二次方程式",
+    id:
+      "quadraticEquation",
 
-    semester: "grade8-first",
+    name:
+      "一元二次方程式大挑戰",
+
+    shortName:
+      "一元二次方程式",
+
+    semester:
+      "grade8-first",
+
     grade: 8,
+
     order: 9,
 
     icon: "🎯",
@@ -1033,6 +1220,7 @@ export const GAME_CONFIG = {
     },
 
     modes: {
+
       factorization:
         "因式分解法",
 
@@ -1050,9 +1238,13 @@ export const GAME_CONFIG = {
     },
 
     theme: {
+
       primary: "#E53935",
+
       dark: "#C62828",
+
       light: "#FFEBEE",
+
       border: "#EF9A9A"
     }
   }
@@ -1199,6 +1391,7 @@ export function getGameTheme(
       gameId
     ]?.theme ||
     {
+
       primary:
         "#1976D2",
 
@@ -1245,8 +1438,10 @@ export function getGameDifficulty(
 
   return Math.min(
     3,
+
     Math.max(
       1,
+
       Math.round(
         difficulty
       )
@@ -1275,7 +1470,7 @@ export function getDifficultyStars(
 
 /*
 ==================================================
-依學期取得遊戲
+依學期取得全部遊戲
 ==================================================
 */
 
@@ -1304,7 +1499,43 @@ export function getGamesBySemester(
 
 /*
 ==================================================
-取得已完成遊戲
+★ 排行榜修正重點
+
+依學期取得「已完成」遊戲
+leaderboard.js 會 import 這個函式
+==================================================
+*/
+
+export function getFinishedGamesBySemester(
+  semester
+) {
+
+  return Object.values(
+    GAME_CONFIG
+  )
+    .filter(
+      game =>
+
+        game.semester ===
+          semester &&
+
+        game.finished ===
+          true
+    )
+    .sort(
+      (
+        gameA,
+        gameB
+      ) =>
+        gameA.order -
+        gameB.order
+    );
+}
+
+
+/*
+==================================================
+取得所有已完成遊戲
 ==================================================
 */
 
@@ -1358,8 +1589,10 @@ export function getRecommendedGames() {
   )
     .filter(
       game =>
+
         game.finished ===
           true &&
+
         game.recommended ===
           true
     )
@@ -1387,8 +1620,10 @@ export function getNewGames() {
   )
     .filter(
       game =>
+
         game.finished ===
           true &&
+
         game.isNew ===
           true
     )
@@ -1457,7 +1692,9 @@ export function getGameRankingType(
   return (
     type ===
     "timed"
+
       ? "timed"
+
       : "speed"
   );
 }
@@ -1547,3 +1784,14 @@ export function getGameDisplayName(
     `${gameName}｜${modeName}`
   );
 }
+
+
+/*
+==================================================
+確認 game-config.js 已載入
+==================================================
+*/
+
+console.log(
+  "game-config.js v6.7 已成功載入"
+);
