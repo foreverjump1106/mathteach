@@ -636,7 +636,8 @@
     .factor-preview sup,
     .explanation sup,
     .review-question sup,
-    .correct-answer sup {
+    .correct-answer sup,
+    .cross-math sup {
 
       position:
         relative;
@@ -719,7 +720,6 @@
 
     /*
     ==================================================
-    ★ 新答案架構
     公因數 × 因式一 × 因式二
     ==================================================
     */
@@ -820,7 +820,7 @@
 
     /*
     ==================================================
-    整體公因數
+    公因數
     ==================================================
     */
 
@@ -1000,7 +1000,7 @@
 
     /*
     ==================================================
-    一次因式 ax+b
+    一次因式
     ==================================================
     */
 
@@ -1073,7 +1073,7 @@
 
     /*
     ==================================================
-    分數模式切換
+    切換
     ==================================================
     */
 
@@ -1320,16 +1320,19 @@
     }
 
     .feedback.correct {
+
       color:
         var(--success);
     }
 
     .feedback.wrong {
+
       color:
         var(--danger);
     }
 
     .feedback.warning {
+
       color:
         var(--warning);
     }
@@ -1421,55 +1424,229 @@
         11px 0;
     }
 
-    .cross-box {
+    /*
+    ==================================================
+    ★ 課本式十字交乘圖
+    ==================================================
+    */
+
+    .cross-method-box {
 
       width:
         min(
           100%,
-          650px
+          620px
         );
 
       margin:
-        14px auto;
+        18px auto;
 
       padding:
-        15px;
+        18px;
 
       border:
-        1px solid
+        2px solid
         #f8bbd0;
 
       border-radius:
-        13px;
+        16px;
 
       background:
         white;
+    }
+
+    .cross-method-title {
+
+      margin-bottom:
+        14px;
+
+      color:
+        var(--primary-dark);
 
       text-align:
         center;
+
+      font-size:
+        18px;
+
+      font-weight:
+        900;
     }
 
-    .cross-row {
+    .cross-diagram {
+
+      width:
+        min(
+          100%,
+          390px
+        );
+
+      margin:
+        0 auto;
 
       display:
         grid;
 
       grid-template-columns:
-        1fr
-        50px
-        1fr;
+        92px
+        80px
+        92px;
 
-      gap:
-        8px;
+      grid-template-rows:
+        52px
+        52px;
+
+      position:
+        relative;
 
       align-items:
         center;
+
+      justify-content:
+        center;
+
+      font-family:
+        "Cambria Math",
+        "Times New Roman",
+        serif;
+
+      font-size:
+        25px;
+
+      font-weight:
+        900;
+
+      color:
+        var(--primary-dark);
+    }
+
+    .cross-left-top {
+
+      grid-column:
+        1;
+
+      grid-row:
+        1;
+
+      text-align:
+        center;
+    }
+
+    .cross-right-top {
+
+      grid-column:
+        3;
+
+      grid-row:
+        1;
+
+      text-align:
+        center;
+    }
+
+    .cross-left-bottom {
+
+      grid-column:
+        1;
+
+      grid-row:
+        2;
+
+      text-align:
+        center;
+    }
+
+    .cross-right-bottom {
+
+      grid-column:
+        3;
+
+      grid-row:
+        2;
+
+      text-align:
+        center;
+    }
+
+    .cross-lines {
+
+      position:
+        absolute;
+
+      left:
+        78px;
+
+      right:
+        78px;
+
+      top:
+        11px;
+
+      bottom:
+        11px;
+
+      pointer-events:
+        none;
+    }
+
+    .cross-line-one,
+    .cross-line-two {
+
+      position:
+        absolute;
+
+      left:
+        0;
+
+      top:
+        50%;
+
+      width:
+        100%;
+
+      height:
+        2px;
+
+      background:
+        var(--primary-border);
+
+      transform-origin:
+        center;
+    }
+
+    .cross-line-one {
+
+      transform:
+        rotate(25deg);
+    }
+
+    .cross-line-two {
+
+      transform:
+        rotate(-25deg);
+    }
+
+    .cross-products {
+
+      margin-top:
+        14px;
+
+      padding-top:
+        14px;
+
+      border-top:
+        2px solid
+        var(--primary-border);
+    }
+
+    .cross-product-line {
 
       margin:
         7px 0;
 
       font-family:
         "Cambria Math",
+        "Times New Roman",
         serif;
 
       font-size:
@@ -1477,6 +1654,59 @@
 
       font-weight:
         900;
+
+      text-align:
+        center;
+    }
+
+    .cross-sum-line {
+
+      margin-top:
+        10px;
+
+      padding:
+        10px;
+
+      border-radius:
+        10px;
+
+      background:
+        var(--primary-light);
+
+      color:
+        var(--primary-dark);
+
+      text-align:
+        center;
+
+      font-size:
+        17px;
+
+      font-weight:
+        900;
+    }
+
+    .cross-final {
+
+      margin-top:
+        14px;
+
+      color:
+        var(--primary-dark);
+
+      font-family:
+        "Cambria Math",
+        "Times New Roman",
+        serif;
+
+      font-size:
+        24px;
+
+      font-weight:
+        900;
+
+      text-align:
+        center;
     }
 
     /*
@@ -1640,7 +1870,9 @@
     ) {
 
       body {
-        padding: 8px;
+
+        padding:
+          8px;
       }
 
       .screen {
@@ -1714,6 +1946,26 @@
               1fr
             )
           );
+      }
+
+      .cross-diagram {
+
+        grid-template-columns:
+          75px
+          60px
+          75px;
+
+        font-size:
+          21px;
+      }
+
+      .cross-lines {
+
+        left:
+          62px;
+
+        right:
+          62px;
       }
 
     }
@@ -2052,6 +2304,7 @@
           <span id="final-correct">
             0
           </span>
+
           題
 
         </div>
@@ -2064,6 +2317,7 @@
           <span id="final-wrong">
             0
           </span>
+
           題
 
         </div>
@@ -2362,8 +2616,7 @@ function shuffle(
     [
       result[i],
       result[j]
-    ] =
-    [
+    ] = [
       result[j],
       result[i]
     ];
@@ -3016,6 +3269,43 @@ function linearFactorHTML(
 }
 
 
+/*
+==================================================
+★ 判斷兩個一次因式是否完全相同
+==================================================
+*/
+
+function sameLinearFactor(
+  factor1,
+  factor2
+) {
+
+  return (
+
+    sameF(
+      factor1.a,
+      factor2.a
+    ) &&
+
+    sameF(
+      factor1.b,
+      factor2.b
+    )
+  );
+}
+
+
+/*
+==================================================
+★ 因式分解顯示
+
+相同因式：
+(3x＋5)(3x＋5)
+→
+(3x＋5)²
+==================================================
+*/
+
 function factorizedHTML(
   outer,
   factor1,
@@ -3058,14 +3348,39 @@ function factorizedHTML(
   }
 
 
+  const firstHTML =
+    linearFactorHTML(
+      factor1.a,
+      factor1.b
+    );
+
+
+  /*
+  ★ 完全相同的兩個一次因式
+  自動整理成平方
+  */
+
+  if (
+    sameLinearFactor(
+      factor1,
+      factor2
+    )
+  ) {
+
+    return `
+
+      ${outerHTML}
+
+      ${firstHTML}<sup>2</sup>
+    `;
+  }
+
+
   return `
 
     ${outerHTML}
 
-    ${linearFactorHTML(
-      factor1.a,
-      factor1.b
-    )}
+    ${firstHTML}
 
     ${linearFactorHTML(
       factor2.a,
@@ -3146,6 +3461,174 @@ function multiplyFactorAnswer(
 
 /*
 ==================================================
+★ 十字交乘完整圖示
+==================================================
+*/
+
+function crossMultiplicationHTML(
+  a1,
+  b1,
+  a2,
+  b2,
+  middleCoefficient,
+  finalHTML
+) {
+
+  const cross1 =
+    a1 *
+    b2;
+
+
+  const cross2 =
+    a2 *
+    b1;
+
+
+  const signed =
+    value =>
+
+      value >=
+      0
+
+        ? `＋${value}`
+
+        : `−${Math.abs(value)}`;
+
+
+  return `
+
+    <div class="cross-method-box">
+
+      <div class="cross-method-title">
+
+        十字交乘
+
+      </div>
+
+      <div class="cross-diagram">
+
+        <div class="cross-left-top cross-math">
+
+          ${a1}x
+
+        </div>
+
+        <div class="cross-right-top cross-math">
+
+          ${
+            b1 >=
+            0
+
+              ? `＋${b1}`
+
+              : `−${Math.abs(b1)}`
+          }
+
+        </div>
+
+        <div class="cross-left-bottom cross-math">
+
+          ${a2}x
+
+        </div>
+
+        <div class="cross-right-bottom cross-math">
+
+          ${
+            b2 >=
+            0
+
+              ? `＋${b2}`
+
+              : `−${Math.abs(b2)}`
+          }
+
+        </div>
+
+        <div class="cross-lines">
+
+          <span class="cross-line-one"></span>
+
+          <span class="cross-line-two"></span>
+
+        </div>
+
+      </div>
+
+      <div class="cross-products">
+
+        <div class="cross-product-line">
+
+          ${a1}x ×
+          ${
+            b2 >=
+            0
+
+              ? b2
+
+              : `(${b2})`
+          }
+
+          ＝
+
+          ${cross1}x
+
+        </div>
+
+        <div class="cross-product-line">
+
+          ${a2}x ×
+          ${
+            b1 >=
+            0
+
+              ? b1
+
+              : `(${b1})`
+          }
+
+          ＝
+
+          ${cross2}x
+
+        </div>
+
+        <div class="cross-sum-line">
+
+          交叉相乘後相加：
+
+          ${cross1}x
+
+          ${
+            cross2 >=
+            0
+
+              ? `＋ ${cross2}x`
+
+              : `－ ${Math.abs(cross2)}x`
+          }
+
+          ＝
+
+          ${middleCoefficient}x
+
+        </div>
+
+      </div>
+
+      <div class="cross-final">
+
+        ${finalHTML}
+
+      </div>
+
+    </div>
+  `;
+}
+
+
+/*
+==================================================
 題目物件
 ==================================================
 */
@@ -3159,7 +3642,9 @@ function createQuestion(
   factor2,
   label,
   explanation,
-  subtype
+  subtype,
+  crossDetail =
+    ""
 ) {
 
   return {
@@ -3205,7 +3690,9 @@ function createQuestion(
 
     explanation,
 
-    subtype
+    subtype,
+
+    crossDetail
   };
 }
 
@@ -3253,7 +3740,10 @@ function createRationalQuestion(
 
     explanation,
 
-    subtype
+    subtype,
+
+    crossDetail:
+      ""
   };
 }
 
@@ -3289,16 +3779,7 @@ function makeLeadingOneQuestion() {
   } while (
 
     p ===
-    -q ||
-
-    Math.abs(
-      p
-    ) ===
-    Math.abs(
-      q
-    ) &&
-    Math.random() <
-    .5
+    -q
   );
 
 
@@ -3312,6 +3793,59 @@ function makeLeadingOneQuestion() {
     q;
 
 
+  const factor1 = {
+
+    a:
+      F(
+        1
+      ),
+
+    b:
+      F(
+        p
+      )
+  };
+
+
+  const factor2 = {
+
+    a:
+      F(
+        1
+      ),
+
+    b:
+      F(
+        q
+      )
+  };
+
+
+  const finalHTML =
+    factorizedHTML(
+      F(
+        1
+      ),
+      factor1,
+      factor2
+    );
+
+
+  const crossDetail =
+    crossMultiplicationHTML(
+
+      1,
+      p,
+
+      1,
+      q,
+
+      b,
+
+      finalHTML
+    );
+
+
   return createQuestion(
 
     1,
@@ -3320,57 +3854,27 @@ function makeLeadingOneQuestion() {
 
     1,
 
-    {
-
-      a:
-        F(
-          1
-        ),
-
-      b:
-        F(
-          p
-        )
-    },
-
-    {
-
-      a:
-        F(
-          1
-        ),
-
-      b:
-        F(
-          q
-        )
-    },
+    factor1,
+    factor2,
 
     "請利用十字交乘法因式分解",
 
     [
 
-      `二次項係數為 1，因此先找兩個數，使乘積等於 ${c}。`,
+      `先觀察二次項係數 1，可分成 1×1。`,
 
-      `同時這兩個數的和要等於一次項係數 ${b}。`,
+      `再找兩個數，使乘積等於常數項 ${c}。`,
 
-      `可取 ${p} 與 ${q}，因為 ${p}×${q}＝${c}，且 ${p}＋${q}＝${b}。`,
+      `可取 ${p} 與 ${q}，因為 ${p}×${q}＝${c}。`,
 
-      `所以可分解為
-      ${factorizedHTML(
-        F(1),
-        {
-          a: F(1),
-          b: F(p)
-        },
-        {
-          a: F(1),
-          b: F(q)
-        }
-      )}。`
+      `接著利用十字交乘檢查一次項係數。`,
+
+      `兩條交叉乘積相加正好等於 ${b}x，因此因式分解成立。`
     ],
 
-    "leadingOne"
+    "leadingOne",
+
+    crossDetail
   );
 }
 
@@ -3479,6 +3983,59 @@ function makeGeneralQuestion() {
     b2;
 
 
+  const factor1 = {
+
+    a:
+      F(
+        a1
+      ),
+
+    b:
+      F(
+        b1
+      )
+  };
+
+
+  const factor2 = {
+
+    a:
+      F(
+        a2
+      ),
+
+    b:
+      F(
+        b2
+      )
+  };
+
+
+  const finalHTML =
+    factorizedHTML(
+      F(
+        1
+      ),
+      factor1,
+      factor2
+    );
+
+
+  const crossDetail =
+    crossMultiplicationHTML(
+
+      a1,
+      b1,
+
+      a2,
+      b2,
+
+      B,
+
+      finalHTML
+    );
+
+
   return createQuestion(
 
     A,
@@ -3487,63 +4044,29 @@ function makeGeneralQuestion() {
 
     1,
 
-    {
-
-      a:
-        F(
-          a1
-        ),
-
-      b:
-        F(
-          b1
-        )
-    },
-
-    {
-
-      a:
-        F(
-          a2
-        ),
-
-      b:
-        F(
-          b2
-        )
-    },
+    factor1,
+    factor2,
 
     "請利用十字交乘法因式分解",
 
     [
 
-      `先將 ${A}x² 的係數分解成 ${a1}×${a2}。`,
+      `先分解二次項係數：
+      ${A}＝${a1}×${a2}。`,
 
-      `再將常數項 ${C} 分成 ${b1}×${b2}。`,
+      `再分解常數項：
+      ${C}＝${b1}×${b2}。`,
 
-      `交叉相乘：
-      ${a1}×${b2}＝${a1 * b2}，
-      ${a2}×${b1}＝${a2 * b1}。`,
+      `把 ${a1}x、${a2}x 排在左側，把 ${b1}、${b2} 排在右側。`,
 
-      `兩個交叉乘積相加：
-      ${a1 * b2}＋${a2 * b1}＝${B}，
-      正好等於一次項係數。`,
+      `接著進行兩條斜線的十字交乘。`,
 
-      `所以
-      ${factorizedHTML(
-        F(1),
-        {
-          a: F(a1),
-          b: F(b1)
-        },
-        {
-          a: F(a2),
-          b: F(b2)
-        }
-      )}。`
+      `如果兩個交叉乘積的和等於一次項 ${B}x，就表示這組排列正確。`
     ],
 
-    "general"
+    "general",
+
+    crossDetail
   );
 }
 
@@ -3678,6 +4201,118 @@ function makeCommonFactorQuestion() {
     insideC;
 
 
+  const factor1 = {
+
+    a:
+      F(
+        a1
+      ),
+
+    b:
+      F(
+        b1
+      )
+  };
+
+
+  const factor2 = {
+
+    a:
+      F(
+        a2
+      ),
+
+    b:
+      F(
+        b2
+      )
+  };
+
+
+  const finalHTML =
+    factorizedHTML(
+      F(
+        common
+      ),
+      factor1,
+      factor2
+    );
+
+
+  const insideFactorHTML =
+    factorizedHTML(
+      F(
+        1
+      ),
+      factor1,
+      factor2
+    );
+
+
+  const crossDetail = `
+
+    <div
+      style="
+        margin:14px 0 4px;
+        text-align:center;
+        font-weight:900;
+      "
+    >
+
+      提出公因數後，對括號內進行十字交乘：
+
+    </div>
+
+    <div
+      style="
+        margin-bottom:12px;
+        text-align:center;
+        color:#ad1457;
+        font-family:'Cambria Math','Times New Roman',serif;
+        font-size:24px;
+        font-weight:900;
+      "
+    >
+
+      ${polynomialHTML(
+        insideA,
+        insideB,
+        insideC
+      )}
+
+    </div>
+
+    ${crossMultiplicationHTML(
+
+      a1,
+      b1,
+
+      a2,
+      b2,
+
+      insideB,
+
+      insideFactorHTML
+    )}
+
+    <div
+      style="
+        margin:12px 0 4px;
+        text-align:center;
+        color:#ad1457;
+        font-family:'Cambria Math','Times New Roman',serif;
+        font-size:25px;
+        font-weight:900;
+      "
+    >
+
+      因此原式＝
+      ${finalHTML}
+
+    </div>
+  `;
+
+
   return createQuestion(
 
     A,
@@ -3686,31 +4321,8 @@ function makeCommonFactorQuestion() {
 
     common,
 
-    {
-
-      a:
-        F(
-          a1
-        ),
-
-      b:
-        F(
-          b1
-        )
-    },
-
-    {
-
-      a:
-        F(
-          a2
-        ),
-
-      b:
-        F(
-          b2
-        )
-    },
+    factor1,
+    factor2,
 
     "請先觀察公因式，再完成因式分解",
 
@@ -3725,46 +4337,16 @@ function makeCommonFactorQuestion() {
         insideC
       )})。`,
 
-      `再對括號內使用十字交乘法。`,
+      `接著只針對括號內的二次三項式做十字交乘。`,
 
-      `可分成
-      ${linearFactorHTML(
-        {
-          n: a1,
-          d: 1
-        },
-        {
-          n: b1,
-          d: 1
-        }
-      )}
-      與
-      ${linearFactorHTML(
-        {
-          n: a2,
-          d: 1
-        },
-        {
-          n: b2,
-          d: 1
-        }
-      )}。`,
+      `將二次項係數分成 ${a1}×${a2}，常數項分成 ${b1}×${b2}。`,
 
-      `因此一種標準寫法為：
-      ${factorizedHTML(
-        F(common),
-        {
-          a: F(a1),
-          b: F(b1)
-        },
-        {
-          a: F(a2),
-          b: F(b2)
-        }
-      )}。`
+      `最後把前面提出的 ${common} 放回答案前方。`
     ],
 
-    "commonFactor"
+    "commonFactor",
+
+    crossDetail
   );
 }
 
@@ -3772,7 +4354,7 @@ function makeCommonFactorQuestion() {
 /*
 ==================================================
 模式三 B
-乘法公式
+完全平方
 ==================================================
 */
 
@@ -3808,6 +4390,34 @@ function makeSquareFormulaQuestion() {
     b;
 
 
+  const factor1 = {
+
+    a:
+      F(
+        a
+      ),
+
+    b:
+      F(
+        b
+      )
+  };
+
+
+  const factor2 = {
+
+    a:
+      F(
+        a
+      ),
+
+    b:
+      F(
+        b
+      )
+  };
+
+
   return createQuestion(
 
     A,
@@ -3816,59 +4426,32 @@ function makeSquareFormulaQuestion() {
 
     1,
 
-    {
-
-      a:
-        F(
-          a
-        ),
-
-      b:
-        F(
-          b
-        )
-    },
-
-    {
-
-      a:
-        F(
-          a
-        ),
-
-      b:
-        F(
-          b
-        )
-    },
+    factor1,
+    factor2,
 
     "請判斷是否可利用完全平方公式因式分解",
 
     [
 
-      `首項
+      `先看首項：
       ${A}x²＝(${a}x)²。`,
 
-      `末項
+      `再看末項：
       ${C}＝(${Math.abs(b)})²。`,
 
-      `中間項為
-      2×${a}x×(${b})
-      ＝${B}x。`,
+      `檢查中間項：
+      2×${a}x×(${b})＝${B}x。`,
 
-      `因此符合完全平方公式。`,
+      `因此符合
+      a²＋2ab＋b²＝(a＋b)²
+      或
+      a²－2ab＋b²＝(a－b)²。`,
 
-      `答案＝
+      `所以答案＝
       ${factorizedHTML(
         F(1),
-        {
-          a: F(a),
-          b: F(b)
-        },
-        {
-          a: F(a),
-          b: F(b)
-        }
+        factor1,
+        factor2
       )}。`
     ],
 
@@ -3876,6 +4459,13 @@ function makeSquareFormulaQuestion() {
   );
 }
 
+
+/*
+==================================================
+模式三 C
+平方差
+==================================================
+*/
 
 function makeDifferenceSquaresQuestion() {
 
@@ -3948,7 +4538,7 @@ function makeDifferenceSquaresQuestion() {
       `所以原式為
       (${a}x)²－${b}²。`,
 
-      `利用
+      `利用平方差公式
       a²－b²＝(a＋b)(a－b)。`,
 
       `答案＝
@@ -3972,8 +4562,8 @@ function makeDifferenceSquaresQuestion() {
 
 /*
 ==================================================
-模式三 C
-分數型
+模式三 D
+分數題
 ==================================================
 */
 
@@ -4102,15 +4692,15 @@ function makeFractionQuestion() {
 
     [
 
-      `本題可以先把整體分數係數提出。`,
+      `本題可以先觀察並提出整體分數係數。`,
 
       `提出
       ${fractionHTML(
         outer
       )}
-      後，再觀察括號內的二次三項式。`,
+      後，再處理括號內的整數係數二次三項式。`,
 
-      `利用十字交乘可得到兩個一次因式。`,
+      `括號內再利用十字交乘完成因式分解。`,
 
       `一種標準寫法為：
       ${factorizedHTML(
@@ -4119,7 +4709,7 @@ function makeFractionQuestion() {
         factor2
       )}。`,
 
-      `只要你的三個因式乘回去等於原題，也會判定正確。`
+      `如果把分數係數分配到其中一個一次因式，只要乘回去與原式相同，也會判定正確。`
     ],
 
     "fraction"
@@ -4182,7 +4772,7 @@ function createQuestions() {
 
 /*
 ==================================================
-答案輸入工具
+答案輸入 UI
 ==================================================
 */
 
@@ -4238,7 +4828,9 @@ function rationalInputHTML(
       class="fraction-toggle"
       data-rational-toggle="${prefix}"
     >
+
       切換整數／分數
+
     </button>
   `;
 }
@@ -4395,7 +4987,9 @@ function linearEditorHTML(
       class="fraction-toggle"
       data-linear-toggle="${prefix}"
     >
+
       切換整數／分數係數
+
     </button>
   `;
 }
@@ -4403,7 +4997,7 @@ function linearEditorHTML(
 
 /*
 ==================================================
-狀態記錄
+狀態
 ==================================================
 */
 
@@ -4484,7 +5078,7 @@ function setLinearMode(
 
 /*
 ==================================================
-讀取有理數
+讀取整數
 ==================================================
 */
 
@@ -4516,6 +5110,12 @@ function parseUnsignedInteger(
   );
 }
 
+
+/*
+==================================================
+讀取整體公因數
+==================================================
+*/
 
 function readOuterFactor() {
 
@@ -4946,7 +5546,7 @@ function readLinearFactor(
 
 /*
 ==================================================
-作答
+讀取答案
 ==================================================
 */
 
@@ -5019,6 +5619,9 @@ function readAnswer() {
       expanded
     },
 
+    /*
+    ★ 這裡會自動把相同因式整理成平方
+    */
     display:
       factorizedHTML(
         outer.value,
@@ -5105,14 +5708,16 @@ function renderAnswer() {
         整體公因數預設為 1；
         若想先提出負號，可將正負號改成「－」。<br>
 
-        系統會把「公因數 × 因式一 × 因式二」乘回原式判定，
-        所以等價的因式分解寫法也可以判對。
+        系統會把「公因數 × 因式一 × 因式二」乘回原式判定。<br>
+
+        若兩個因式完全相同，例如
+        (3x＋5)(3x＋5)，
+        系統會自動顯示成
+        (3x＋5)²。
 
       </p>
 
       <div class="factor-answer-main">
-
-        <!-- 公因數 -->
 
         <div class="factor-box">
 
@@ -5155,8 +5760,6 @@ function renderAnswer() {
           ×
         </div>
 
-        <!-- Factor 1 -->
-
         <div class="factor-box">
 
           <div class="factor-box-title">
@@ -5172,8 +5775,6 @@ function renderAnswer() {
         <div class="multiply-mark">
           ×
         </div>
-
-        <!-- Factor 2 -->
 
         <div class="factor-box">
 
@@ -5394,12 +5995,23 @@ function explanationHTML(
   question
 ) {
 
+  const crossDetail =
+
+    question.crossDetail
+
+      ? question.crossDetail
+
+      : "";
+
+
   return `
 
     <div class="explanation-question">
 
       <div class="explanation-question-title">
+
         題目｜
+
       </div>
 
       <div class="explanation-question-math">
@@ -5434,7 +6046,19 @@ function explanationHTML(
         .join("")
     }
 
-    <div class="cross-box">
+    ${crossDetail}
+
+    <div
+      style="
+        width:min(100%,650px);
+        margin:18px auto 0;
+        padding:16px;
+        border:2px solid #f8bbd0;
+        border-radius:14px;
+        background:white;
+        text-align:center;
+      "
+    >
 
       <strong>
         一種標準答案：
@@ -5445,7 +6069,7 @@ function explanationHTML(
           margin-top:10px;
           color:#d81b60;
           font-family:'Cambria Math','Times New Roman',serif;
-          font-size:26px;
+          font-size:27px;
           font-weight:900;
         "
       >
@@ -5466,7 +6090,8 @@ function explanationHTML(
       >
 
         因式前後順序可交換；
-        正負號或公因數放在其他因式中，只要乘回原式相同，也屬於正確答案。
+        正負號或公因數也可放在其他因式中。
+        系統會將答案乘回原式判定是否等價。
 
       </div>
 
@@ -5841,9 +6466,9 @@ function formatTime(
 
   return (
 
-    `${String(minutes).padStart(2,"0")}:` +
+    `${String(minutes).padStart(2, "0")}:` +
 
-    `${String(remain).padStart(2,"0")}`
+    `${String(remain).padStart(2, "0")}`
   );
 }
 
