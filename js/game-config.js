@@ -3,7 +3,7 @@
 數學遊戲樂園：遊戲共用設定
 檔案位置：js/game-config.js
 
-版本：6.5
+版本：6.6
 八年級上學期 8 款遊戲正式啟用版
 ==================================================
 
@@ -601,7 +601,6 @@ export const GAME_CONFIG = {
   ==================================================
   */
 
-
   multiplicationFormula: {
     id: "multiplicationFormula",
 
@@ -884,6 +883,8 @@ export const GAME_CONFIG = {
   /*
   ==================================================
   因式分解大挑戰
+  實際檔名：
+  factorization-challenge.html
   ==================================================
   */
 
@@ -900,7 +901,7 @@ export const GAME_CONFIG = {
     icon: "🧩",
 
     file:
-      "games/factorization.html",
+      "games/factorization-challenge.html",
 
     description:
       "練習提單項公因式、提兩項公因式、變號後提公因式，以及利用乘法公式進行因式分解。",
@@ -940,6 +941,8 @@ export const GAME_CONFIG = {
   /*
   ==================================================
   十字交乘因式分解大挑戰
+  實際檔名：
+  cross-factorization.html
   ==================================================
   */
 
@@ -956,7 +959,7 @@ export const GAME_CONFIG = {
     icon: "❌",
 
     file:
-      "games/cross-multiplication.html",
+      "games/cross-factorization.html",
 
     description:
       "練習二次項係數為 1、一般十字交乘，以及先提公因式、乘法公式與分數型態的綜合因式分解。",
@@ -1065,6 +1068,7 @@ export const GAME_CONFIG = {
 export function getGameConfig(
   gameId
 ) {
+
   return (
     GAME_CONFIG[
       gameId
@@ -1083,6 +1087,7 @@ export function getGameConfig(
 export function getGameName(
   gameId
 ) {
+
   return (
     GAME_CONFIG[
       gameId
@@ -1102,18 +1107,22 @@ export function getGameName(
 export function getGameModes(
   gameId
 ) {
+
   const modes =
     GAME_CONFIG[
       gameId
     ]?.modes;
+
 
   if (
     !modes ||
     typeof modes !==
       "object"
   ) {
+
     return {};
   }
+
 
   return modes;
 }
@@ -1128,6 +1137,7 @@ export function getGameModes(
 export function getGameModeCount(
   gameId
 ) {
+
   return Object.keys(
     getGameModes(
       gameId
@@ -1146,18 +1156,22 @@ export function getModeName(
   gameId,
   mode
 ) {
+
   if (
     mode === undefined ||
     mode === null ||
     mode === ""
   ) {
+
     return "";
   }
+
 
   const modeKey =
     String(
       mode
     );
+
 
   return (
     GAME_CONFIG[
@@ -1179,6 +1193,7 @@ export function getModeName(
 export function getGameTheme(
   gameId
 ) {
+
   return (
     GAME_CONFIG[
       gameId
@@ -1209,6 +1224,7 @@ export function getGameTheme(
 export function getGameDifficulty(
   gameId
 ) {
+
   const difficulty =
     Number(
       GAME_CONFIG[
@@ -1216,13 +1232,16 @@ export function getGameDifficulty(
       ]?.difficulty
     );
 
+
   if (
     !Number.isFinite(
       difficulty
     )
   ) {
+
     return 1;
   }
+
 
   return Math.min(
     3,
@@ -1245,6 +1264,7 @@ export function getGameDifficulty(
 export function getDifficultyStars(
   gameId
 ) {
+
   return "⭐".repeat(
     getGameDifficulty(
       gameId
@@ -1262,6 +1282,7 @@ export function getDifficultyStars(
 export function getGamesBySemester(
   semester
 ) {
+
   return Object.values(
     GAME_CONFIG
   )
@@ -1288,6 +1309,7 @@ export function getGamesBySemester(
 */
 
 export function getFinishedGames() {
+
   return Object.values(
     GAME_CONFIG
   )
@@ -1306,11 +1328,13 @@ export function getFinishedGames() {
           gameA.semester ===
           gameB.semester
         ) {
+
           return (
             gameA.order -
             gameB.order
           );
         }
+
 
         return gameA.semester
           .localeCompare(
@@ -1328,6 +1352,7 @@ export function getFinishedGames() {
 */
 
 export function getRecommendedGames() {
+
   return Object.values(
     GAME_CONFIG
   )
@@ -1356,6 +1381,7 @@ export function getRecommendedGames() {
 */
 
 export function getNewGames() {
+
   return Object.values(
     GAME_CONFIG
   )
@@ -1384,6 +1410,7 @@ export function getNewGames() {
 */
 
 export function getGameOrder() {
+
   return getFinishedGames()
     .map(
       game =>
@@ -1401,6 +1428,7 @@ export function getGameOrder() {
 export function isGameFinished(
   gameId
 ) {
+
   return (
     GAME_CONFIG[
       gameId
@@ -1419,10 +1447,12 @@ export function isGameFinished(
 export function getGameRankingType(
   gameId
 ) {
+
   const type =
     GAME_CONFIG[
       gameId
     ]?.ranking?.type;
+
 
   return (
     type ===
@@ -1442,6 +1472,7 @@ export function getGameRankingType(
 export function isTimedRankingGame(
   gameId
 ) {
+
   return (
     getGameRankingType(
       gameId
@@ -1460,6 +1491,7 @@ export function isTimedRankingGame(
 export function isMultiModeGame(
   gameId
 ) {
+
   return (
     getGameModeCount(
       gameId
@@ -1479,18 +1511,22 @@ export function getGameDisplayName(
   gameId,
   mode
 ) {
+
   const gameName =
     getGameName(
       gameId
     );
+
 
   if (
     !isMultiModeGame(
       gameId
     )
   ) {
+
     return gameName;
   }
+
 
   const modeName =
     getModeName(
@@ -1498,11 +1534,14 @@ export function getGameDisplayName(
       mode
     );
 
+
   if (
     !modeName
   ) {
+
     return gameName;
   }
+
 
   return (
     `${gameName}｜${modeName}`
