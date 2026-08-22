@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
+
   <meta charset="UTF-8">
 
   <meta
@@ -18,11 +20,13 @@
   >
 
   <style>
+
     * {
       box-sizing: border-box;
     }
 
     :root {
+
       --primary: #1565c0;
       --primary-dark: #0d47a1;
       --primary-light: #e3f2fd;
@@ -46,6 +50,7 @@
     }
 
     body {
+
       margin: 0;
 
       min-height: 100vh;
@@ -83,8 +88,15 @@
     }
 
     .page-shell {
-      width: min(100%, 1020px);
-      margin: 0 auto;
+
+      width:
+        min(
+          100%,
+          1020px
+        );
+
+      margin:
+        0 auto;
     }
 
     #commonHeaderMount {
@@ -92,6 +104,7 @@
     }
 
     .game-card {
+
       overflow: hidden;
 
       border:
@@ -108,7 +121,12 @@
 
       box-shadow:
         0 14px 38px
-        rgba(15, 23, 42, .13);
+        rgba(
+          15,
+          23,
+          42,
+          .13
+        );
     }
 
     /*
@@ -118,7 +136,9 @@
     */
 
     .game-header {
-      padding: 26px 20px 20px;
+
+      padding:
+        26px 20px 20px;
 
       text-align: center;
 
@@ -131,6 +151,7 @@
     }
 
     .game-title {
+
       margin: 0;
 
       color:
@@ -145,6 +166,7 @@
     }
 
     .game-subtitle {
+
       margin:
         10px auto 0;
 
@@ -157,6 +179,7 @@
     }
 
     .concept-strip {
+
       display: flex;
 
       justify-content: center;
@@ -169,6 +192,7 @@
     }
 
     .concept-chip {
+
       padding:
         7px 12px;
 
@@ -199,18 +223,23 @@
     */
 
     .mode-grid {
+
       display: grid;
 
       grid-template-columns:
         repeat(
           2,
-          minmax(0, 1fr)
+          minmax(
+            0,
+            1fr
+          )
         );
 
       gap: 16px;
     }
 
     .mode-card {
+
       min-height: 220px;
 
       padding: 21px;
@@ -238,15 +267,22 @@
     }
 
     .mode-card:hover {
+
       transform:
         translateY(-3px);
 
       box-shadow:
         0 10px 26px
-        rgba(15, 23, 42, .12);
+        rgba(
+          15,
+          23,
+          42,
+          .12
+        );
     }
 
     .mode-tag {
+
       display: inline-block;
 
       margin-bottom: 10px;
@@ -267,6 +303,7 @@
     }
 
     .mode-card h2 {
+
       margin:
         0 0 9px;
 
@@ -277,6 +314,7 @@
     }
 
     .mode-card p {
+
       margin: 0;
 
       color:
@@ -286,6 +324,7 @@
     }
 
     .mode-example {
+
       margin-top: 11px;
 
       color:
@@ -305,12 +344,16 @@
     */
 
     .quiz-topbar {
+
       display: grid;
 
       grid-template-columns:
         repeat(
           5,
-          minmax(0, 1fr)
+          minmax(
+            0,
+            1fr
+          )
         );
 
       gap: 10px;
@@ -319,6 +362,7 @@
     }
 
     .status-box {
+
       min-height: 67px;
 
       display: flex;
@@ -343,13 +387,16 @@
     }
 
     .status-value {
+
       margin-top: 3px;
 
       font-size: 18px;
     }
 
     .timer-box {
+
       background: #fff7ed;
+
       color: #c2410c;
     }
 
@@ -360,7 +407,9 @@
     */
 
     .scratchpad-row {
+
       display: flex;
+
       justify-content: center;
 
       min-height: 46px;
@@ -370,8 +419,11 @@
     }
 
     #scratchpad-mobile-button {
+
       display: flex;
+
       justify-content: center;
+
       width: 100%;
     }
 
@@ -380,10 +432,18 @@
 
     #scratchpad-mobile-button
     .scratchpad-open-button {
-      position: static !important;
-      inset: auto !important;
-      transform: none !important;
-      margin: 0 !important;
+
+      position:
+        static !important;
+
+      inset:
+        auto !important;
+
+      transform:
+        none !important;
+
+      margin:
+        0 !important;
     }
 
     /*
@@ -393,6 +453,7 @@
     */
 
     .progress-shell {
+
       height: 10px;
 
       margin-bottom: 16px;
@@ -405,7 +466,9 @@
     }
 
     .progress-bar {
+
       width: 0%;
+
       height: 100%;
 
       background:
@@ -415,7 +478,8 @@
           #26a69a
         );
 
-      transition: width .2s ease;
+      transition:
+        width .2s ease;
     }
 
     /*
@@ -425,6 +489,7 @@
     */
 
     .question-card {
+
       padding:
         22px 18px;
 
@@ -440,15 +505,20 @@
     }
 
     .question-label {
+
       margin-bottom: 12px;
 
       color:
         var(--muted);
 
+      font-size:
+        17px;
+
       font-weight: 900;
     }
 
     .question-content {
+
       min-height: 150px;
 
       display: flex;
@@ -459,7 +529,7 @@
 
       flex-direction: column;
 
-      gap: 14px;
+      gap: 16px;
 
       overflow-x: auto;
 
@@ -480,10 +550,12 @@
 
       line-height: 1.75;
 
-      -webkit-overflow-scrolling: touch;
+      -webkit-overflow-scrolling:
+        touch;
     }
 
     .math {
+
       font-family:
         "Cambria Math",
         "Times New Roman",
@@ -496,17 +568,53 @@
     .correct-answer sup,
     .preview-value sup,
     .review-question sup {
+
       position: relative;
+
       top: -.44em;
 
       margin-left: 1px;
 
       font-size: .60em;
+
       line-height: 1;
+
       vertical-align: baseline;
     }
 
+    /*
+    ★ 修正：
+    題目下面的中文敘述放大
+    */
+
+    .question-note {
+
+      width: 100%;
+
+      margin-top: 4px;
+
+      color:
+        #475569;
+
+      font-size:
+        clamp(
+          19px,
+          2.4vw,
+          23px
+        );
+
+      font-weight: 800;
+
+      line-height: 1.7;
+
+      font-family:
+        "Microsoft JhengHei",
+        "Noto Sans TC",
+        sans-serif;
+    }
+
     .formula-box {
+
       padding:
         13px 22px;
 
@@ -530,10 +638,84 @@
         );
     }
 
-    .question-note {
-      color: #64748b;
-      font-size: 16px;
-      font-weight: 800;
+    /*
+    ==================================================
+    ★ 完整根號
+    ==================================================
+
+    不再直接只使用字元 √7。
+
+    使用：
+
+    <span class="sqrt-expression">
+      <span class="sqrt-symbol">√</span>
+      <span class="sqrt-radicand">7</span>
+    </span>
+
+    讓根號上方橫線完整顯示。
+    ==================================================
+    */
+
+    .sqrt-expression {
+
+      display:
+        inline-flex;
+
+      align-items:
+        flex-start;
+
+      white-space:
+        nowrap;
+
+      vertical-align:
+        middle;
+
+      line-height: 1;
+    }
+
+    .sqrt-symbol {
+
+      display:
+        inline-block;
+
+      margin-right:
+        -0.04em;
+
+      padding-top:
+        .06em;
+
+      font-family:
+        "Cambria Math",
+        "Times New Roman",
+        serif;
+
+      font-size:
+        1.18em;
+
+      line-height:
+        1;
+    }
+
+    .sqrt-radicand {
+
+      display:
+        inline-block;
+
+      min-width:
+        .7em;
+
+      margin-top:
+        .04em;
+
+      padding:
+        .10em .12em 0 .10em;
+
+      border-top:
+        2px solid
+        currentColor;
+
+      line-height:
+        1.05;
     }
 
     /*
@@ -543,35 +725,46 @@
     */
 
     .math-fraction {
-      display: inline-flex;
 
-      flex-direction: column;
+      display:
+        inline-flex;
 
-      align-items: stretch;
+      flex-direction:
+        column;
 
-      justify-content: center;
+      align-items:
+        stretch;
 
-      min-width: 1.4em;
+      justify-content:
+        center;
+
+      min-width:
+        1.4em;
 
       margin:
         0 .08em;
 
-      vertical-align: middle;
+      vertical-align:
+        middle;
 
-      line-height: 1.05;
+      line-height:
+        1.05;
     }
 
     .math-fraction-top {
+
       padding:
         0 .15em .07em;
 
       border-bottom:
-        2px solid currentColor;
+        2px solid
+        currentColor;
 
       text-align: center;
     }
 
     .math-fraction-bottom {
+
       padding:
         .07em .15em 0;
 
@@ -585,9 +778,11 @@
     */
 
     .answer-panel {
+
       margin-top: 16px;
 
-      padding: 20px 16px;
+      padding:
+        20px 16px;
 
       border-radius: 18px;
 
@@ -596,6 +791,7 @@
     }
 
     .answer-title {
+
       margin-bottom: 9px;
 
       color:
@@ -603,10 +799,13 @@
 
       text-align: center;
 
+      font-size: 18px;
+
       font-weight: 900;
     }
 
     .answer-help {
+
       margin:
         0 auto 14px;
 
@@ -617,7 +816,7 @@
 
       text-align: center;
 
-      font-size: 14px;
+      font-size: 15px;
 
       font-weight: 800;
 
@@ -631,22 +830,28 @@
     */
 
     .choice-grid {
+
       display: grid;
 
       grid-template-columns:
         repeat(
           2,
-          minmax(0, 1fr)
+          minmax(
+            0,
+            1fr
+          )
         );
 
       gap: 11px;
 
       max-width: 780px;
 
-      margin: 0 auto;
+      margin:
+        0 auto;
     }
 
     .choice-button {
+
       min-height: 64px;
 
       padding: 12px;
@@ -670,6 +875,7 @@
     }
 
     .choice-button.selected {
+
       border-color:
         var(--primary);
 
@@ -687,11 +893,14 @@
     */
 
     .single-answer-wrap {
+
       display: flex;
+
       justify-content: center;
     }
 
     .single-answer-input {
+
       width:
         min(
           100%,
@@ -723,12 +932,18 @@
     .single-answer-input:focus,
     .root-input:focus,
     .abc-input:focus {
+
       border-color:
         var(--primary);
 
       box-shadow:
         0 0 0 3px
-        rgba(21, 101, 192, .12);
+        rgba(
+          21,
+          101,
+          192,
+          .12
+        );
     }
 
     /*
@@ -738,12 +953,16 @@
     */
 
     .root-input-grid {
+
       display: grid;
 
       grid-template-columns:
         repeat(
           2,
-          minmax(0, 1fr)
+          minmax(
+            0,
+            1fr
+          )
         );
 
       gap: 14px;
@@ -754,10 +973,14 @@
           720px
         );
 
-      margin: 0 auto;
+      margin:
+        0 auto;
     }
 
     .root-box {
+
+      min-width: 0;
+
       padding: 15px;
 
       border:
@@ -770,6 +993,7 @@
     }
 
     .root-box-title {
+
       margin-bottom: 8px;
 
       color:
@@ -778,25 +1002,60 @@
       font-weight: 900;
     }
 
+    /*
+    ★ 修正：
+    x＝_____ 永遠保持同一行
+    */
+
     .root-expression {
+
       display: flex;
 
       align-items: center;
 
-      gap: 6px;
+      justify-content: flex-start;
+
+      flex-wrap: nowrap;
+
+      gap: 8px;
+
+      width: 100%;
+
+      min-width: 0;
+
+      white-space: nowrap;
     }
 
     .root-x {
+
+      flex:
+        0 0 auto;
+
+      display:
+        inline-block;
+
+      white-space:
+        nowrap;
+
       font-family:
         "Cambria Math",
+        "Times New Roman",
         serif;
 
-      font-size: 26px;
+      font-size: 27px;
 
       font-weight: 900;
+
+      line-height: 1;
     }
 
     .root-input {
+
+      flex:
+        1 1 auto;
+
+      min-width: 0;
+
       width: 100%;
 
       height: 56px;
@@ -822,6 +1081,7 @@
     }
 
     .symbol-toolbar {
+
       display: flex;
 
       justify-content: center;
@@ -834,8 +1094,19 @@
     }
 
     .symbol-button {
-      min-width: 46px;
-      min-height: 42px;
+
+      min-width: 48px;
+
+      min-height: 44px;
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
 
       padding:
         7px 10px;
@@ -865,12 +1136,16 @@
     */
 
     .abc-grid {
+
       display: grid;
 
       grid-template-columns:
         repeat(
           3,
-          minmax(0, 1fr)
+          minmax(
+            0,
+            1fr
+          )
         );
 
       gap: 12px;
@@ -881,10 +1156,12 @@
           680px
         );
 
-      margin: 0 auto;
+      margin:
+        0 auto;
     }
 
     .abc-box {
+
       padding: 14px;
 
       border:
@@ -899,6 +1176,7 @@
     }
 
     .abc-label {
+
       display: block;
 
       margin-bottom: 8px;
@@ -912,7 +1190,9 @@
     }
 
     .abc-input {
+
       width: 100%;
+
       height: 56px;
 
       border:
@@ -933,6 +1213,7 @@
     }
 
     .standard-preview {
+
       margin:
         16px auto 0;
 
@@ -965,12 +1246,16 @@
     */
 
     .pair-number-grid {
+
       display: grid;
 
       grid-template-columns:
         repeat(
           2,
-          minmax(0, 1fr)
+          minmax(
+            0,
+            1fr
+          )
         );
 
       gap: 14px;
@@ -981,7 +1266,8 @@
           520px
         );
 
-      margin: 0 auto;
+      margin:
+        0 auto;
     }
 
     /*
@@ -991,6 +1277,7 @@
     */
 
     .answer-preview {
+
       margin:
         15px auto 0;
 
@@ -1028,6 +1315,7 @@
     }
 
     .preview-value {
+
       margin-left: 7px;
 
       color:
@@ -1049,6 +1337,7 @@
     */
 
     .button-row {
+
       display: flex;
 
       justify-content: center;
@@ -1061,6 +1350,7 @@
     }
 
     .game-button {
+
       min-width: 136px;
 
       padding:
@@ -1087,6 +1377,7 @@
     }
 
     .game-button.restart {
+
       background:
         var(--secondary);
 
@@ -1096,6 +1387,7 @@
     }
 
     .game-button.secondary {
+
       background:
         #607d8b;
 
@@ -1105,6 +1397,7 @@
     }
 
     .game-button.orange {
+
       background:
         var(--orange);
 
@@ -1114,7 +1407,9 @@
     }
 
     .game-button:disabled {
+
       opacity: .55;
+
       cursor: not-allowed;
     }
 
@@ -1125,6 +1420,7 @@
     */
 
     .feedback {
+
       min-height: 48px;
 
       margin-top: 14px;
@@ -1157,6 +1453,7 @@
     */
 
     .explanation {
+
       margin-top: 14px;
 
       padding: 18px;
@@ -1173,6 +1470,7 @@
     }
 
     .explanation-question {
+
       margin-bottom: 17px;
 
       padding: 15px;
@@ -1187,6 +1485,7 @@
     }
 
     .explanation-question-title {
+
       margin-bottom: 9px;
 
       color:
@@ -1196,6 +1495,7 @@
     }
 
     .explanation-question-math {
+
       overflow-x: auto;
 
       color:
@@ -1220,10 +1520,13 @@
     }
 
     .explanation-step {
-      margin: 11px 0;
+
+      margin:
+        11px 0;
     }
 
     .calculation-box {
+
       margin:
         10px 0;
 
@@ -1250,6 +1553,30 @@
     }
 
     /*
+    ★ 單行詳解算式
+    */
+
+    .single-line-calculation {
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      flex-wrap: nowrap;
+
+      gap: .45em;
+
+      overflow-x: auto;
+
+      white-space: nowrap;
+
+      -webkit-overflow-scrolling:
+        touch;
+    }
+
+    /*
     ==================================================
     Result
     ==================================================
@@ -1260,6 +1587,7 @@
     }
 
     .result-score {
+
       margin:
         16px 0;
 
@@ -1272,18 +1600,23 @@
     }
 
     .result-stars {
+
       margin-bottom: 10px;
 
       font-size: 31px;
     }
 
     .result-grid {
+
       display: grid;
 
       grid-template-columns:
         repeat(
           4,
-          minmax(0, 1fr)
+          minmax(
+            0,
+            1fr
+          )
         );
 
       gap: 12px;
@@ -1293,6 +1626,7 @@
     }
 
     .result-stat {
+
       padding:
         16px 10px;
 
@@ -1308,6 +1642,7 @@
     }
 
     .save-status {
+
       min-height: 28px;
 
       margin:
@@ -1323,11 +1658,14 @@
     */
 
     .review-list {
+
       display: grid;
+
       gap: 14px;
     }
 
     .review-card {
+
       padding: 18px;
 
       border:
@@ -1340,6 +1678,7 @@
     }
 
     .review-title {
+
       color:
         var(--danger);
 
@@ -1347,6 +1686,7 @@
     }
 
     .review-question {
+
       margin:
         12px 0;
 
@@ -1363,12 +1703,17 @@
     ==================================================
     */
 
-    @media(max-width: 760px) {
+    @media(
+      max-width:
+        760px
+    ) {
+
       body {
         padding: 8px;
       }
 
       .screen {
+
         padding:
           18px 11px;
       }
@@ -1378,10 +1723,14 @@
       }
 
       .quiz-topbar {
+
         grid-template-columns:
           repeat(
             2,
-            minmax(0, 1fr)
+            minmax(
+              0,
+              1fr
+            )
           );
       }
 
@@ -1394,7 +1743,30 @@
         grid-template-columns: 1fr;
       }
 
-      .root-input-grid,
+      /*
+      手機也維持兩個根左右，
+      避免 x＝ 被拆行。
+      寬度真的不足時，
+      才整個 root-box 往下排。
+      */
+
+      .root-input-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .root-expression {
+        flex-wrap: nowrap;
+      }
+
+      .root-x {
+
+        min-width:
+          max-content;
+
+        white-space:
+          nowrap;
+      }
+
       .pair-number-grid {
         grid-template-columns: 1fr;
       }
@@ -1404,19 +1776,33 @@
       }
 
       .result-grid {
+
         grid-template-columns:
           repeat(
             2,
-            minmax(0, 1fr)
+            minmax(
+              0,
+              1fr
+            )
           );
       }
 
       .answer-panel {
+
         padding:
           15px 8px;
       }
+
+      .question-note {
+
+        font-size:
+          19px;
+      }
+
     }
+
   </style>
+
 </head>
 
 <body>
@@ -1648,66 +2034,85 @@
       <div class="quiz-topbar">
 
         <div class="status-box">
+
           模式
+
           <span
             id="mode-name"
             class="status-value"
           >
             —
           </span>
+
         </div>
 
         <div class="status-box">
+
           進度
+
           <span
             id="question-number"
             class="status-value"
           >
             1 / 10
           </span>
+
         </div>
 
         <div class="status-box">
+
           答對
+
           <span
             id="correct-count"
             class="status-value"
           >
             0
           </span>
+
         </div>
 
         <div class="status-box">
+
           最高連擊
+
           <span
             id="combo-count"
             class="status-value"
           >
             0
           </span>
+
         </div>
 
         <div class="status-box timer-box">
+
           測驗時間
+
           <span
             id="timer-display"
             class="status-value"
           >
             00:00
           </span>
+
         </div>
 
       </div>
 
       <div class="scratchpad-row">
+
         <div id="scratchpad-mobile-button"></div>
+
       </div>
 
       <div class="progress-shell">
+
         <div
           id="progress-bar"
           class="progress-bar"
         ></div>
+
       </div>
 
       <div class="question-card">
@@ -1811,37 +2216,51 @@
       <div class="result-grid">
 
         <div class="result-stat">
+
           答對
           <br>
+
           <span id="final-correct">
             0
           </span>
+
           題
+
         </div>
 
         <div class="result-stat">
+
           答錯
           <br>
+
           <span id="final-wrong">
             0
           </span>
+
           題
+
         </div>
 
         <div class="result-stat">
+
           最高連擊
           <br>
+
           <span id="final-combo">
             0
           </span>
+
         </div>
 
         <div class="result-stat">
+
           測驗時間
           <br>
+
           <span id="final-time">
             00:00
           </span>
+
         </div>
 
       </div>
@@ -1957,6 +2376,7 @@ const TOTAL_QUESTIONS =
 
 
 const MODE_NAMES = {
+
   basic:
     "基礎概念",
 
@@ -2054,6 +2474,7 @@ function rand(
   min,
   max
 ) {
+
   return (
     Math.floor(
       Math.random() *
@@ -2081,6 +2502,7 @@ function nonZeroRand(
     value ===
     0
   ) {
+
     value =
       rand(
         min,
@@ -2096,6 +2518,7 @@ function nonZeroRand(
 function pick(
   array
 ) {
+
   return array[
     Math.floor(
       Math.random() *
@@ -2110,12 +2533,15 @@ function shuffle(
 ) {
 
   const result =
-    [...array];
+    [
+      ...array
+    ];
 
 
   for (
     let i =
-      result.length - 1;
+      result.length -
+      1;
 
     i >
     0;
@@ -2154,13 +2580,17 @@ function gcd(
 
   a =
     Math.abs(
-      Math.round(a)
+      Math.round(
+        a
+      )
     );
 
 
   b =
     Math.abs(
-      Math.round(b)
+      Math.round(
+        b
+      )
     );
 
 
@@ -2173,15 +2603,20 @@ function gcd(
       a %
       b;
 
+
     a =
       b;
+
 
     b =
       t;
   }
 
 
-  return a || 1;
+  return (
+    a ||
+    1
+  );
 }
 
 
@@ -2190,8 +2625,12 @@ function gcd3(
   b,
   c
 ) {
+
   return gcd(
-    gcd(a, b),
+    gcd(
+      a,
+      b
+    ),
     c
   );
 }
@@ -2205,13 +2644,16 @@ function isPerfectSquare(
     number <
     0
   ) {
+
     return false;
   }
 
 
   const root =
     Math.round(
-      Math.sqrt(number)
+      Math.sqrt(
+        number
+      )
     );
 
 
@@ -2220,6 +2662,33 @@ function isPerfectSquare(
     root ===
     number
   );
+}
+
+
+/*
+==================================================
+★ 完整根號 HTML
+==================================================
+*/
+
+function sqrtHTML(
+  content
+) {
+
+  return `
+
+    <span class="sqrt-expression">
+
+      <span class="sqrt-symbol">
+        √
+      </span>
+
+      <span class="sqrt-radicand">
+        ${content}
+      </span>
+
+    </span>
+  `;
 }
 
 
@@ -2239,6 +2708,7 @@ function fraction(
     denominator ===
     0
   ) {
+
     throw new Error(
       "分母不可為 0"
     );
@@ -2253,6 +2723,7 @@ function fraction(
     numerator =
       -numerator;
 
+
     denominator =
       -denominator;
   }
@@ -2264,7 +2735,9 @@ function fraction(
   ) {
 
     return {
+
       n: 0,
+
       d: 1
     };
   }
@@ -2278,6 +2751,7 @@ function fraction(
 
 
   return {
+
     n:
       numerator /
       g,
@@ -2306,7 +2780,10 @@ function fractionHTML(
     f.d ===
     1
   ) {
-    return String(f.n)
+
+    return String(
+      f.n
+    )
       .replace(
         "-",
         "−"
@@ -2315,15 +2792,21 @@ function fractionHTML(
 
 
   const sign =
+
     f.n <
     0
+
       ? "−"
+
       : "";
 
 
   return `
+
     ${sign}
+
     <span class="math-fraction">
+
       <span class="math-fraction-top">
         ${Math.abs(f.n)}
       </span>
@@ -2331,6 +2814,7 @@ function fractionHTML(
       <span class="math-fraction-bottom">
         ${f.d}
       </span>
+
     </span>
   `;
 }
@@ -2353,6 +2837,7 @@ function coefficientTerm(
     coefficient ===
     0
   ) {
+
     return "";
   }
 
@@ -2378,14 +2863,18 @@ function coefficientTerm(
 
     sign =
       negative
+
         ? "−"
+
         : "";
 
   } else {
 
     sign =
       negative
+
         ? " − "
+
         : " ＋ ";
   }
 
@@ -2397,6 +2886,7 @@ function coefficientTerm(
   if (
     degree ===
     0 ||
+
     absolute !==
     1
   ) {
@@ -2416,6 +2906,7 @@ function coefficientTerm(
     degree ===
     2
   ) {
+
     variable =
       "x<sup>2</sup>";
 
@@ -2423,6 +2914,7 @@ function coefficientTerm(
     degree ===
     1
   ) {
+
     variable =
       "x";
   }
@@ -2450,10 +2942,17 @@ function polynomialHTML(
     a !==
     0
   ) {
-    terms.push({
-      coefficient: a,
-      degree: 2
-    });
+
+    terms.push(
+      {
+
+        coefficient:
+          a,
+
+        degree:
+          2
+      }
+    );
   }
 
 
@@ -2461,10 +2960,17 @@ function polynomialHTML(
     b !==
     0
   ) {
-    terms.push({
-      coefficient: b,
-      degree: 1
-    });
+
+    terms.push(
+      {
+
+        coefficient:
+          b,
+
+        degree:
+          1
+      }
+    );
   }
 
 
@@ -2472,16 +2978,24 @@ function polynomialHTML(
     c !==
     0
   ) {
-    terms.push({
-      coefficient: c,
-      degree: 0
-    });
+
+    terms.push(
+      {
+
+        coefficient:
+          c,
+
+        degree:
+          0
+      }
+    );
   }
 
 
   if (
     !terms.length
   ) {
+
     return "0";
   }
 
@@ -2495,7 +3009,8 @@ function polynomialHTML(
         coefficientTerm(
           term.coefficient,
           term.degree,
-          i === 0
+          i ===
+          0
         )
     )
     .join("");
@@ -2507,11 +3022,53 @@ function equationHTML(
   b,
   c
 ) {
+
   return `
+
     <span class="math">
-      ${polynomialHTML(a, b, c)}＝0
+
+      ${polynomialHTML(
+        a,
+        b,
+        c
+      )}
+
+      ＝0
+
     </span>
   `;
+}
+
+
+/*
+==================================================
+★ 一次方程式因式 → 無括號顯示
+==================================================
+*/
+
+function linearEquationFromRootHTML(
+  root
+) {
+
+  if (
+    root >
+    0
+  ) {
+
+    return `x－${root}＝0`;
+  }
+
+
+  if (
+    root <
+    0
+  ) {
+
+    return `x＋${Math.abs(root)}＝0`;
+  }
+
+
+  return "x＝0";
 }
 
 
@@ -2536,7 +3093,9 @@ function simplifySqrt(
   for (
     let i =
       Math.floor(
-        Math.sqrt(number)
+        Math.sqrt(
+          number
+        )
       );
 
     i >=
@@ -2559,9 +3118,11 @@ function simplifySqrt(
       outside =
         i;
 
+
       inside =
         number /
         square;
+
 
       break;
     }
@@ -2569,7 +3130,9 @@ function simplifySqrt(
 
 
   return {
+
     outside,
+
     inside
   };
 }
@@ -2588,8 +3151,11 @@ function solveQuadratic(
 ) {
 
   const discriminant =
-    b * b -
-    4 * a * c;
+    b *
+    b -
+    4 *
+    a *
+    c;
 
 
   if (
@@ -2598,11 +3164,14 @@ function solveQuadratic(
   ) {
 
     return {
+
       discriminant,
+
       nature:
         "none",
 
-      values: [],
+      values:
+        [],
 
       html:
         "無實數解"
@@ -2618,26 +3187,30 @@ function solveQuadratic(
     const root =
       -b /
       (
-        2 * a
+        2 *
+        a
       );
 
 
     const f =
       fraction(
         -b,
-        2 * a
+        2 *
+        a
       );
 
 
     return {
+
       discriminant,
 
       nature:
         "double",
 
-      values: [
-        root
-      ],
+      values:
+        [
+          root
+        ],
 
       html:
         `x＝${fractionHTML(
@@ -2651,20 +3224,26 @@ function solveQuadratic(
   const numeric1 =
     (
       -b +
-      Math.sqrt(discriminant)
+      Math.sqrt(
+        discriminant
+      )
     ) /
     (
-      2 * a
+      2 *
+      a
     );
 
 
   const numeric2 =
     (
       -b -
-      Math.sqrt(discriminant)
+      Math.sqrt(
+        discriminant
+      )
     ) /
     (
-      2 * a
+      2 *
+      a
     );
 
 
@@ -2682,19 +3261,24 @@ function solveQuadratic(
 
     const f1 =
       fraction(
-        -b + s,
-        2 * a
+        -b +
+        s,
+        2 *
+        a
       );
 
 
     const f2 =
       fraction(
-        -b - s,
-        2 * a
+        -b -
+        s,
+        2 *
+        a
       );
 
 
     return {
+
       discriminant,
 
       nature:
@@ -2706,18 +3290,21 @@ function solveQuadratic(
           numeric2
         ],
 
-      html:
-        `
-        x＝${fractionHTML(
+      html: `
+
+        x＝
+        ${fractionHTML(
           f1.n,
           f1.d
         )}
+
         或
+
         ${fractionHTML(
           f2.n,
           f2.d
         )}
-        `
+      `
     };
   }
 
@@ -2737,22 +3324,31 @@ function solveQuadratic(
 
 
   let D =
-    2 * a;
+    2 *
+    a;
 
 
   const g =
     gcd3(
-      Math.abs(A),
-      Math.abs(B),
-      Math.abs(D)
+      Math.abs(
+        A
+      ),
+      Math.abs(
+        B
+      ),
+      Math.abs(
+        D
+      )
     );
 
 
   A /=
     g;
 
+
   B /=
     g;
+
 
   D /=
     g;
@@ -2766,43 +3362,68 @@ function solveQuadratic(
     A =
       -A;
 
+
     B =
       -B;
+
 
     D =
       -D;
   }
 
 
+  const radicalHTML =
+    sqrtHTML(
+      radical.inside
+    );
+
+
+  const radicalPart =
+    Math.abs(
+      B
+    ) ===
+    1
+
+      ? radicalHTML
+
+      : `${Math.abs(B)}${radicalHTML}`;
+
+
   const numeratorHTML =
-    `${A} ± ${
-      Math.abs(B) === 1
-        ? ""
-        : Math.abs(B)
-    }√${radical.inside}`;
+    `${A} ± ${radicalPart}`;
 
 
   const exactHTML =
+
     D ===
     1
 
       ? `x＝${numeratorHTML}`
 
       : `
+
         x＝
+
         <span class="math-fraction">
+
           <span class="math-fraction-top">
+
             ${numeratorHTML}
+
           </span>
 
           <span class="math-fraction-bottom">
+
             ${D}
+
           </span>
+
         </span>
-        `;
+      `;
 
 
   return {
+
     discriminant,
 
     nature:
@@ -2822,7 +3443,7 @@ function solveQuadratic(
 
 /*
 ==================================================
-Math text parser
+Math parser
 ==================================================
 */
 
@@ -2834,6 +3455,7 @@ function parseMathExpression(
     typeof text !==
     "string"
   ) {
+
     return NaN;
   }
 
@@ -2876,19 +3498,17 @@ function parseMathExpression(
 
 
   expression =
-    expression
-      .replace(
-        /(\d|\))(?=Math\.sqrt)/g,
-        "$1*"
-      );
+    expression.replace(
+      /(\d|\))(?=Math\.sqrt)/g,
+      "$1*"
+    );
 
 
   const safe =
-    expression
-      .replaceAll(
-        "Math.sqrt",
-        "S"
-      );
+    expression.replaceAll(
+      "Math.sqrt",
+      "S"
+    );
 
 
   if (
@@ -2897,6 +3517,7 @@ function parseMathExpression(
         safe
       )
   ) {
+
     return NaN;
   }
 
@@ -2914,10 +3535,13 @@ function parseMathExpression(
     return Number.isFinite(
       value
     )
+
       ? value
+
       : NaN;
 
   } catch {
+
     return NaN;
   }
 }
@@ -2939,14 +3563,20 @@ function choiceQuestion({
 }) {
 
   return {
+
     type:
       "choice",
 
     label,
+
     html,
+
     choices,
+
     answer,
+
     explanation,
+
     method
   };
 }
@@ -2962,17 +3592,24 @@ function numberQuestion({
 }) {
 
   return {
+
     type:
       "number",
 
     label,
+
     html,
+
     answer,
+
     answerHTML:
       answerHTML ??
-      String(answer),
+      String(
+        answer
+      ),
 
     explanation,
+
     method
   };
 }
@@ -2988,14 +3625,20 @@ function rootsQuestion({
 }) {
 
   return {
+
     type:
       "roots",
 
     label,
+
     html,
+
     values,
+
     answerHTML,
+
     explanation,
+
     method
   };
 }
@@ -3008,23 +3651,31 @@ function abcQuestion({
   b,
   c,
   explanation,
-  standardPreview =
-    false,
+  standardPreview = false,
   method = ""
 }) {
 
   return {
+
     type:
       standardPreview
+
         ? "standardAbc"
+
         : "abc",
 
     label,
+
     html,
+
     a,
+
     b,
+
     c,
+
     explanation,
+
     method
   };
 }
@@ -3040,14 +3691,20 @@ function pairQuestion({
 }) {
 
   return {
+
     type:
       "pair",
 
     label,
+
     html,
+
     values,
+
     explanation,
+
     answerHTML,
+
     method
   };
 }
@@ -3058,7 +3715,6 @@ function pairQuestion({
 模式一
 ==================================================
 */
-
 
 /*
 B｜判斷某數是否為根
@@ -3084,6 +3740,7 @@ function makeRootCheck() {
     r2 ===
     r1
   ) {
+
     r2 =
       nonZeroRand(
         -6,
@@ -3114,13 +3771,16 @@ function makeRootCheck() {
 
 
   let candidate =
+
     isRoot
+
       ? pick(
           [
             r1,
             r2
           ]
         )
+
       : nonZeroRand(
           -7,
           7
@@ -3132,10 +3792,12 @@ function makeRootCheck() {
     (
       candidate ===
       r1 ||
+
       candidate ===
       r2
     )
   ) {
+
     candidate =
       nonZeroRand(
         -7,
@@ -3153,22 +3815,54 @@ function makeRootCheck() {
     c;
 
 
+  /*
+  ★ 負數代入一定加括號
+  */
+
+  const candidateHTML =
+    candidate <
+    0
+
+      ? `(${candidate})`
+
+      : `${candidate}`;
+
+
+  /*
+  ★ 數字與數字相乘，
+  一律明確寫 ×
+  */
+
+  const bProductHTML =
+    `(${b}) × ${candidateHTML}`;
+
+
   return choiceQuestion({
+
     label:
       "判斷此數是否為方程式的一個根",
 
     html: `
-      ${equationHTML(a, b, c)}
+
+      ${equationHTML(
+        a,
+        b,
+        c
+      )}
 
       <div class="question-note">
+
         x＝${candidate}
         是否為此方程式的一個根？
+
       </div>
     `,
 
     choices:
       [
+
         {
+
           value:
             "yes",
 
@@ -3177,6 +3871,7 @@ function makeRootCheck() {
         },
 
         {
+
           value:
             "no",
 
@@ -3186,12 +3881,16 @@ function makeRootCheck() {
       ],
 
     answer:
+
       isRoot
+
         ? "yes"
+
         : "no",
 
     explanation:
       [
+
         `
         將
         x＝${candidate}
@@ -3199,21 +3898,42 @@ function makeRootCheck() {
         `,
 
         `
-        <div class="calculation-box math">
-          ${candidate}<sup>2</sup>
-          ${
-            b >=
-            0
-              ? `＋${b}(${candidate})`
-              : `－${Math.abs(b)}(${candidate})`
-          }
-          ${
-            c >=
-            0
-              ? `＋${c}`
-              : `－${Math.abs(c)}`
-          }
-          ＝${substituted}
+
+        <div class="calculation-box math single-line-calculation">
+
+          <span>
+            ${candidateHTML}<sup>2</sup>
+          </span>
+
+          <span>
+            ＋
+          </span>
+
+          <span>
+            ${bProductHTML}
+          </span>
+
+          <span>
+
+            ${
+              c >=
+              0
+
+                ? `＋ ${c}`
+
+                : `－ ${Math.abs(c)}`
+            }
+
+          </span>
+
+          <span>
+            ＝
+          </span>
+
+          <span>
+            ${substituted}
+          </span>
+
         </div>
         `,
 
@@ -3221,14 +3941,14 @@ function makeRootCheck() {
         0
 
           ? `
-            代入後等式成立，所以
-            x＝${candidate}
+            代入後等式成立，
+            所以 x＝${candidate}
             是方程式的一個根。
             `
 
           : `
-            代入後不等於 0，所以
-            x＝${candidate}
+            代入後結果不等於 0，
+            所以 x＝${candidate}
             不是方程式的一個根。
             `
       ]
@@ -3260,6 +3980,7 @@ function makeSimpleRoots() {
     r2 ===
     r1
   ) {
+
     r2 =
       nonZeroRand(
         -7,
@@ -3268,35 +3989,47 @@ function makeSimpleRoots() {
   }
 
 
-  const p =
-    -r1;
+  const factorHTML =
+    root => {
+
+      return root >
+      0
+
+        ? `(x－${root})`
+
+        : `(x＋${Math.abs(root)})`;
+    };
 
 
-  const q =
-    -r2;
+  /*
+  ★ 詳解使用沒有括號的一次方程式
+  */
+
+  const linear1 =
+    linearEquationFromRootHTML(
+      r1
+    );
 
 
-  const factor1 =
-    p >=
-    0
-      ? `(x＋${p})`
-      : `(x－${Math.abs(p)})`;
-
-
-  const factor2 =
-    q >=
-    0
-      ? `(x＋${q})`
-      : `(x－${Math.abs(q)})`;
+  const linear2 =
+    linearEquationFromRootHTML(
+      r2
+    );
 
 
   return rootsQuestion({
+
     label:
       "請找出方程式的兩個根",
 
     html: `
+
       <span class="math">
-        ${factor1}${factor2}＝0
+
+        ${factorHTML(r1)}
+        ${factorHTML(r2)}
+        ＝0
+
       </span>
     `,
 
@@ -3314,17 +4047,28 @@ function makeSimpleRoots() {
 
     explanation:
       [
+
         `
-        因為兩個式子的乘積為 0，
+        因為兩個因式的乘積為 0，
         所以至少有一個因式等於 0。
         `,
 
         `
-        <div class="calculation-box math">
-          ${factor1}＝0
-          <br>
-          或
-          ${factor2}＝0
+
+        <div class="calculation-box math single-line-calculation">
+
+          <span>
+            ${linear1}
+          </span>
+
+          <span>
+            或
+          </span>
+
+          <span>
+            ${linear2}
+          </span>
+
         </div>
         `,
 
@@ -3366,25 +4110,44 @@ function makeParameterQuestion() {
     root;
 
 
+  const rootHTML =
+    root <
+    0
+
+      ? `(${root})`
+
+      : `${root}`;
+
+
   return numberQuestion({
+
     label:
       "已知其中一根，請求未知數 m",
 
     html: `
+
       <span class="math">
+
         x<sup>2</sup>
+
         ${
           p >=
           0
+
             ? `＋${p}x`
+
             : `－${Math.abs(p)}x`
         }
+
         －m＝0
+
       </span>
 
       <div class="question-note">
+
         已知 x＝${root}
         是此方程式的一個根，求 m。
+
       </div>
     `,
 
@@ -3396,34 +4159,85 @@ function makeParameterQuestion() {
 
     explanation:
       [
+
         `
         因為 x＝${root}
-        是方程式的一個根，所以代入後等式必須成立。
+        是方程式的一個根，
+        所以代入後等式必須成立。
         `,
 
         `
-        <div class="calculation-box math">
-          (${root})<sup>2</sup>
-          ${
-            p >=
-            0
-              ? `＋${p}(${root})`
-              : `－${Math.abs(p)}(${root})`
-          }
-          －m＝0
+
+        <div class="calculation-box math single-line-calculation">
+
+          <span>
+            ${rootHTML}<sup>2</sup>
+          </span>
+
+          <span>
+
+            ${
+              p >=
+              0
+
+                ? "＋"
+
+                : "－"
+            }
+
+          </span>
+
+          <span>
+            ${Math.abs(p)} × ${rootHTML}
+          </span>
+
+          <span>
+            － m
+          </span>
+
+          <span>
+            ＝ 0
+          </span>
+
         </div>
         `,
 
         `
-        <div class="calculation-box math">
-          ${root * root}
-          ${
-            p * root >=
-            0
-              ? `＋${p * root}`
-              : `－${Math.abs(p * root)}`
-          }
-          －m＝0
+
+        <div class="calculation-box math single-line-calculation">
+
+          <span>
+            ${root * root}
+          </span>
+
+          <span>
+
+            ${
+              p *
+              root >=
+              0
+
+                ? `＋ ${Math.abs(
+                    p *
+                    root
+                  )}`
+
+                : `－ ${Math.abs(
+                    p *
+                    root
+                  )}`
+            }
+
+          </span>
+
+          <span>
+            － m
+          </span>
+
+          <span>
+            ＝ 0
+          </span>
+
         </div>
         `,
 
@@ -3437,20 +4251,23 @@ function makeParameterQuestion() {
 
 function makeMode1() {
 
-  return shuffle([
-    makeRootCheck(),
-    makeRootCheck(),
-    makeRootCheck(),
-    makeRootCheck(),
+  return shuffle(
+    [
 
-    makeSimpleRoots(),
-    makeSimpleRoots(),
-    makeSimpleRoots(),
+      makeRootCheck(),
+      makeRootCheck(),
+      makeRootCheck(),
+      makeRootCheck(),
 
-    makeParameterQuestion(),
-    makeParameterQuestion(),
-    makeParameterQuestion()
-  ]);
+      makeSimpleRoots(),
+      makeSimpleRoots(),
+      makeSimpleRoots(),
+
+      makeParameterQuestion(),
+      makeParameterQuestion(),
+      makeParameterQuestion()
+    ]
+  );
 }
 
 
@@ -3480,6 +4297,7 @@ function makePreFactored() {
     r2 ===
     r1
   ) {
+
     r2 =
       nonZeroRand(
         -7,
@@ -3500,15 +4318,31 @@ function makePreFactored() {
     };
 
 
+  const linear1 =
+    linearEquationFromRootHTML(
+      r1
+    );
+
+
+  const linear2 =
+    linearEquationFromRootHTML(
+      r2
+    );
+
+
   return rootsQuestion({
+
     label:
       "請利用零乘積性質解方程式",
 
     html: `
+
       <span class="math">
+
         ${factorHTML(r1)}
         ${factorHTML(r2)}
         ＝0
+
       </span>
     `,
 
@@ -3526,17 +4360,28 @@ function makePreFactored() {
 
     explanation:
       [
+
         `
         已經完成因式分解，
         直接利用零乘積性質。
         `,
 
         `
-        <div class="calculation-box math">
-          ${factorHTML(r1)}＝0
-          <br>
-          或
-          ${factorHTML(r2)}＝0
+
+        <div class="calculation-box math single-line-calculation">
+
+          <span>
+            ${linear1}
+          </span>
+
+          <span>
+            或
+          </span>
+
+          <span>
+            ${linear2}
+          </span>
+
         </div>
         `,
 
@@ -3577,6 +4422,7 @@ function makeCommonFactorEquation() {
 
 
   return rootsQuestion({
+
     label:
       "請先提公因式，再解一元二次方程式",
 
@@ -3601,36 +4447,57 @@ function makeCommonFactorEquation() {
 
     explanation:
       [
+
         `
         左式兩項都有公因式
         ${k}x。
         `,
 
         `
+
         <div class="calculation-box math">
-          ${polynomialHTML(a, b, 0)}
+
+          ${polynomialHTML(
+            a,
+            b,
+            0
+          )}
+
           ＝
+
           ${k}x
+
           ${
             r >
             0
+
               ? `(x－${r})`
+
               : `(x＋${Math.abs(r)})`
           }
+
         </div>
         `,
 
         `
+
         因此：
+
         <div class="calculation-box math">
+
           ${k}x
+
           ${
             r >
             0
+
               ? `(x－${r})`
+
               : `(x＋${Math.abs(r)})`
           }
+
           ＝0
+
         </div>
         `,
 
@@ -3655,6 +4522,7 @@ function makeDifferenceSquaresEquation() {
 
 
   return rootsQuestion({
+
     label:
       "請利用平方差公式解方程式",
 
@@ -3662,7 +4530,8 @@ function makeDifferenceSquaresEquation() {
       equationHTML(
         1,
         0,
-        -n * n
+        -n *
+        n
       ),
 
     values:
@@ -3679,24 +4548,34 @@ function makeDifferenceSquaresEquation() {
 
     explanation:
       [
+
         `
         利用平方差公式：
         a²－b²＝(a＋b)(a－b)。
         `,
 
         `
+
         <div class="calculation-box math">
+
           x<sup>2</sup>
           －${n * n}
+
           ＝
+
           (x＋${n})(x－${n})
+
         </div>
         `,
 
         `
+
         因此：
+
         <div class="calculation-box math">
+
           (x＋${n})(x－${n})＝0
+
         </div>
         `,
 
@@ -3711,11 +4590,6 @@ function makeDifferenceSquaresEquation() {
 }
 
 
-/*
-完全平方：
-和的平方
-*/
-
 function makePerfectSquarePlus() {
 
   const n =
@@ -3726,14 +4600,17 @@ function makePerfectSquarePlus() {
 
 
   return rootsQuestion({
+
     label:
       "請利用完全平方公式解方程式",
 
     html:
       equationHTML(
         1,
-        2 * n,
-        n * n
+        2 *
+        n,
+        n *
+        n
       ),
 
     values:
@@ -3749,25 +4626,35 @@ function makePerfectSquarePlus() {
 
     explanation:
       [
+
         `
         利用和的平方公式：
         (a＋b)²＝a²＋2ab＋b²。
         `,
 
         `
+
         <div class="calculation-box math">
+
           x<sup>2</sup>
           ＋${2 * n}x
           ＋${n * n}
+
           ＝
+
           (x＋${n})<sup>2</sup>
+
         </div>
         `,
 
         `
+
         因此：
+
         <div class="calculation-box math">
+
           (x＋${n})<sup>2</sup>＝0
+
         </div>
         `,
 
@@ -3780,11 +4667,6 @@ function makePerfectSquarePlus() {
 }
 
 
-/*
-完全平方：
-差的平方
-*/
-
 function makePerfectSquareMinus() {
 
   const n =
@@ -3795,14 +4677,17 @@ function makePerfectSquareMinus() {
 
 
   return rootsQuestion({
+
     label:
       "請利用完全平方公式解方程式",
 
     html:
       equationHTML(
         1,
-        -2 * n,
-        n * n
+        -2 *
+        n,
+        n *
+        n
       ),
 
     values:
@@ -3818,25 +4703,35 @@ function makePerfectSquareMinus() {
 
     explanation:
       [
+
         `
         利用差的平方公式：
         (a－b)²＝a²－2ab＋b²。
         `,
 
         `
+
         <div class="calculation-box math">
+
           x<sup>2</sup>
           －${2 * n}x
           ＋${n * n}
+
           ＝
+
           (x－${n})<sup>2</sup>
+
         </div>
         `,
 
         `
+
         因此：
+
         <div class="calculation-box math">
+
           (x－${n})<sup>2</sup>＝0
+
         </div>
         `,
 
@@ -3869,6 +4764,7 @@ function makeCrossFactorEquation() {
     r2 ===
     r1
   ) {
+
     r2 =
       nonZeroRand(
         -6,
@@ -3878,33 +4774,31 @@ function makeCrossFactorEquation() {
 
 
   const a1 =
-    pick([
-      1,
-      1,
-      1,
-      2,
-      3
-    ]);
+    pick(
+      [
+        1,
+        1,
+        1,
+        2,
+        3
+      ]
+    );
 
 
   const a2 =
-    pick([
-      1,
-      1,
-      2
-    ]);
+    pick(
+      [
+        1,
+        1,
+        2
+      ]
+    );
 
 
   const A =
     a1 *
     a2;
 
-
-  /*
-  因式：
-  (a1 x - a1*r1)
-  (a2 x - a2*r2)
-  */
 
   const p =
     -a1 *
@@ -3929,6 +4823,7 @@ function makeCrossFactorEquation() {
 
 
   const factor1 =
+
     p >=
     0
 
@@ -3938,6 +4833,7 @@ function makeCrossFactorEquation() {
 
 
   const factor2 =
+
     q >=
     0
 
@@ -3947,6 +4843,7 @@ function makeCrossFactorEquation() {
 
 
   return rootsQuestion({
+
     label:
       "請利用十字交乘法因式分解並解方程式",
 
@@ -3971,6 +4868,7 @@ function makeCrossFactorEquation() {
 
     explanation:
       [
+
         `
         先將
         ${polynomialHTML(A, B, C)}
@@ -3978,17 +4876,26 @@ function makeCrossFactorEquation() {
         `,
 
         `
+
         <div class="calculation-box math">
+
           ${polynomialHTML(A, B, C)}
+
           ＝
+
           ${factor1}${factor2}
+
         </div>
         `,
 
         `
+
         所以方程式變為：
+
         <div class="calculation-box math">
+
           ${factor1}${factor2}＝0
+
         </div>
         `,
 
@@ -4006,27 +4913,25 @@ function makeCrossFactorEquation() {
 
 function makeMode2() {
 
-  return shuffle([
-    makePreFactored(),
+  return shuffle(
+    [
 
-    makeCommonFactorEquation(),
-    makeCommonFactorEquation(),
+      makePreFactored(),
 
-    makeDifferenceSquaresEquation(),
-    makeDifferenceSquaresEquation(),
+      makeCommonFactorEquation(),
+      makeCommonFactorEquation(),
 
-    /*
-    D 一定同時保留：
-    和的平方、差的平方
-    */
+      makeDifferenceSquaresEquation(),
+      makeDifferenceSquaresEquation(),
 
-    makePerfectSquarePlus(),
-    makePerfectSquareMinus(),
+      makePerfectSquarePlus(),
+      makePerfectSquareMinus(),
 
-    makeCrossFactorEquation(),
-    makeCrossFactorEquation(),
-    makeCrossFactorEquation()
-  ]);
+      makeCrossFactorEquation(),
+      makeCrossFactorEquation(),
+      makeCrossFactorEquation()
+    ]
+  );
 }
 
 
@@ -4034,11 +4939,6 @@ function makeMode2() {
 ==================================================
 模式三｜平方根與配方法
 ==================================================
-*/
-
-
-/*
-A｜平方根解法
 */
 
 function makeSquareRootEquation() {
@@ -4058,8 +4958,11 @@ function makeSquareRootEquation() {
 
 
   while (
-    isPerfectSquare(n)
+    isPerfectSquare(
+      n
+    )
   ) {
+
     n =
       rand(
         2,
@@ -4070,15 +4973,21 @@ function makeSquareRootEquation() {
 
   const values =
     [
+
       h +
-      Math.sqrt(n),
+      Math.sqrt(
+        n
+      ),
 
       h -
-      Math.sqrt(n)
+      Math.sqrt(
+        n
+      )
     ];
 
 
   const inside =
+
     h >=
     0
 
@@ -4088,25 +4997,30 @@ function makeSquareRootEquation() {
 
 
   return rootsQuestion({
+
     label:
       "請利用平方根解法求方程式的根",
 
     html: `
+
       <span class="math">
+
         ${inside}<sup>2</sup>＝${n}
+
       </span>
     `,
 
     values,
 
     answerHTML:
-      `x＝${h}±√${n}`,
+      `x＝${h} ± ${sqrtHTML(n)}`,
 
     method:
       "平方根解法",
 
     explanation:
       [
+
         `
         由
         ${inside}²＝${n}
@@ -4114,31 +5028,39 @@ function makeSquareRootEquation() {
         `,
 
         `
+
         <div class="calculation-box math">
+
           ${
             h >=
             0
+
               ? `x－${h}`
+
               : `x＋${Math.abs(h)}`
           }
-          ＝±√${n}
+
+          ＝
+
+          ±${sqrtHTML(n)}
+
         </div>
         `,
 
         `
+
         所以：
+
         <div class="calculation-box math">
-          x＝${h}±√${n}
+
+          x＝${h} ± ${sqrtHTML(n)}
+
         </div>
         `
       ]
   });
 }
 
-
-/*
-B｜補什麼數
-*/
 
 function makeCompleteSquareMissingNumber() {
 
@@ -4160,19 +5082,27 @@ function makeCompleteSquareMissingNumber() {
 
 
   return numberQuestion({
+
     label:
       "要補上多少，才能成為完全平方式？",
 
     html: `
+
       <span class="math">
+
         x<sup>2</sup>
+
         ${
           b >=
           0
+
             ? `＋${b}x`
+
             : `－${Math.abs(b)}x`
         }
+
         ＋ □
+
       </span>
     `,
 
@@ -4183,6 +5113,7 @@ function makeCompleteSquareMissingNumber() {
 
     explanation:
       [
+
         `
         將一次項係數
         ${b}
@@ -4190,15 +5121,22 @@ function makeCompleteSquareMissingNumber() {
         `,
 
         `
+
         <div class="calculation-box math">
+
           ${b}÷2＝${n}
+
         </div>
         `,
 
         `
+
         再平方：
+
         <div class="calculation-box math">
+
           (${n})<sup>2</sup>＝${answer}
+
         </div>
         `,
 
@@ -4209,10 +5147,6 @@ function makeCompleteSquareMissingNumber() {
   });
 }
 
-
-/*
-C｜填兩個數
-*/
 
 function makeCompleteSquarePair() {
 
@@ -4234,28 +5168,42 @@ function makeCompleteSquarePair() {
 
 
   return pairQuestion({
+
     label:
       "請完成完全平方式",
 
     html: `
+
       <span class="math">
+
         x<sup>2</sup>
+
         ${
           b >=
           0
+
             ? `＋${b}x`
+
             : `－${Math.abs(b)}x`
         }
+
         ＋ □
+
         ＝
+
         (x
+
         ${
           n >=
           0
+
             ? "＋"
+
             : "－"
         }
+
         □)<sup>2</sup>
+
       </span>
     `,
 
@@ -4273,6 +5221,7 @@ function makeCompleteSquarePair() {
 
     explanation:
       [
+
         `
         一次項係數
         ${b}
@@ -4281,42 +5230,55 @@ function makeCompleteSquarePair() {
         `,
 
         `
+
         <div class="calculation-box math">
+
           (${n})<sup>2</sup>
           ＝${constant}
+
         </div>
         `,
 
         `
+
         所以：
+
         <div class="calculation-box math">
+
           x<sup>2</sup>
+
           ${
             b >=
             0
+
               ? `＋${b}x`
+
               : `－${Math.abs(b)}x`
           }
+
           ＋${constant}
+
           ＝
+
           (x
+
           ${
             n >=
             0
+
               ? "＋"
+
               : "－"
           }
+
           ${Math.abs(n)})<sup>2</sup>
+
         </div>
         `
       ]
   });
 }
 
-
-/*
-D｜二次項係數為 1
-*/
 
 function makeCompleteSquareSolveA1() {
 
@@ -4335,8 +5297,11 @@ function makeCompleteSquareSolveA1() {
 
 
   while (
-    isPerfectSquare(k)
+    isPerfectSquare(
+      k
+    )
   ) {
+
     k =
       rand(
         2,
@@ -4344,12 +5309,6 @@ function makeCompleteSquareSolveA1() {
       );
   }
 
-
-  /*
-  (x-h)^2 = k
-
-  x² -2hx + h²-k =0
-  */
 
   const a =
     1;
@@ -4367,6 +5326,7 @@ function makeCompleteSquareSolveA1() {
 
 
   return rootsQuestion({
+
     label:
       "請利用配方法解方程式",
 
@@ -4379,6 +5339,7 @@ function makeCompleteSquareSolveA1() {
 
     values:
       [
+
         h +
         Math.sqrt(k),
 
@@ -4387,27 +5348,35 @@ function makeCompleteSquareSolveA1() {
       ],
 
     answerHTML:
-      `x＝${h}±√${k}`,
+      `x＝${h} ± ${sqrtHTML(k)}`,
 
     method:
       "配方法",
 
     explanation:
       [
+
         `
         先將常數項移到等號右邊。
         `,
 
         `
+
         <div class="calculation-box math">
+
           x<sup>2</sup>
+
           ${
             b >=
             0
+
               ? `＋${b}x`
+
               : `－${Math.abs(b)}x`
           }
+
           ＝${-c}
+
         </div>
         `,
 
@@ -4419,51 +5388,64 @@ function makeCompleteSquareSolveA1() {
         `,
 
         `
+
         <div class="calculation-box math">
+
           ${
             h >=
             0
+
               ? `(x－${h})`
+
               : `(x＋${Math.abs(h)})`
           }<sup>2</sup>
+
           ＝${k}
+
         </div>
         `,
 
         `
+
         開平方：
+
         <div class="calculation-box math">
+
           ${
             h >=
             0
+
               ? `x－${h}`
+
               : `x＋${Math.abs(h)}`
           }
-          ＝±√${k}
+
+          ＝
+
+          ±${sqrtHTML(k)}
+
         </div>
         `,
 
         `
         所以
-        x＝${h}±√${k}。
+        x＝${h} ± ${sqrtHTML(k)}。
         `
       ]
   });
 }
 
 
-/*
-E｜二次項係數不為 1
-*/
-
 function makeCompleteSquareSolveANot1() {
 
   const a =
-    pick([
-      2,
-      3,
-      4
-    ]);
+    pick(
+      [
+        2,
+        3,
+        4
+      ]
+    );
 
 
   const h =
@@ -4481,8 +5463,11 @@ function makeCompleteSquareSolveANot1() {
 
 
   while (
-    isPerfectSquare(k)
+    isPerfectSquare(
+      k
+    )
   ) {
+
     k =
       rand(
         2,
@@ -4490,11 +5475,6 @@ function makeCompleteSquareSolveANot1() {
       );
   }
 
-
-  /*
-  a[(x-h)^2-k] =0
-  a(x-h)^2 = ak
-  */
 
   const b =
     -2 *
@@ -4505,12 +5485,14 @@ function makeCompleteSquareSolveANot1() {
   const c =
     a *
     (
-      h * h -
+      h *
+      h -
       k
     );
 
 
   return rootsQuestion({
+
     label:
       "二次項係數不為 1，請利用配方法解方程式",
 
@@ -4523,6 +5505,7 @@ function makeCompleteSquareSolveANot1() {
 
     values:
       [
+
         h +
         Math.sqrt(k),
 
@@ -4531,34 +5514,47 @@ function makeCompleteSquareSolveANot1() {
       ],
 
     answerHTML:
-      `x＝${h}±√${k}`,
+      `x＝${h} ± ${sqrtHTML(k)}`,
 
     method:
       "配方法",
 
     explanation:
       [
+
         `
         本題二次項係數為 ${a}，
         先將方程式各項同除以 ${a}。
         `,
 
         `
+
         <div class="calculation-box math">
+
           x<sup>2</sup>
+
           ${
-            b / a >=
+            b /
+            a >=
             0
+
               ? `＋${b / a}x`
+
               : `－${Math.abs(b / a)}x`
           }
+
           ${
-            c / a >=
+            c /
+            a >=
             0
+
               ? `＋${c / a}`
+
               : `－${Math.abs(c / a)}`
           }
+
           ＝0
+
         </div>
         `,
 
@@ -4574,21 +5570,31 @@ function makeCompleteSquareSolveANot1() {
         `,
 
         `
+
         <div class="calculation-box math">
+
           ${
             h >=
             0
+
               ? `(x－${h})`
+
               : `(x＋${Math.abs(h)})`
           }<sup>2</sup>
+
           ＝${k}
+
         </div>
         `,
 
         `
+
         因此：
+
         <div class="calculation-box math">
-          x＝${h}±√${k}
+
+          x＝${h} ± ${sqrtHTML(k)}
+
         </div>
         `
       ]
@@ -4596,18 +5602,16 @@ function makeCompleteSquareSolveANot1() {
 }
 
 
-/*
-F｜配方後判斷根
-*/
-
 function makeCompleteSquareNature() {
 
   const type =
-    pick([
-      "two",
-      "double",
-      "none"
-    ]);
+    pick(
+      [
+        "two",
+        "double",
+        "none"
+      ]
+    );
 
 
   const h =
@@ -4624,6 +5628,7 @@ function makeCompleteSquareNature() {
     type ===
     "two"
   ) {
+
     right =
       rand(
         1,
@@ -4634,10 +5639,12 @@ function makeCompleteSquareNature() {
     type ===
     "double"
   ) {
+
     right =
       0;
 
   } else {
+
     right =
       -rand(
         1,
@@ -4645,12 +5652,6 @@ function makeCompleteSquareNature() {
       );
   }
 
-
-  /*
-  (x-h)^2 = right
-
-  x² -2hx + h²-right =0
-  */
 
   const a =
     1;
@@ -4667,19 +5668,8 @@ function makeCompleteSquareNature() {
     right;
 
 
-  const answerMap = {
-    two:
-      "two",
-
-    double:
-      "double",
-
-    none:
-      "none"
-  };
-
-
   return choiceQuestion({
+
     label:
       "請利用配方法判斷根的情形",
 
@@ -4692,7 +5682,9 @@ function makeCompleteSquareNature() {
 
     choices:
       [
+
         {
+
           value:
             "two",
 
@@ -4701,6 +5693,7 @@ function makeCompleteSquareNature() {
         },
 
         {
+
           value:
             "double",
 
@@ -4709,6 +5702,7 @@ function makeCompleteSquareNature() {
         },
 
         {
+
           value:
             "none",
 
@@ -4718,26 +5712,33 @@ function makeCompleteSquareNature() {
       ],
 
     answer:
-      answerMap[type],
+      type,
 
     method:
       "配方法判斷根的情形",
 
     explanation:
       [
+
         `
         將方程式配成完全平方式。
         `,
 
         `
+
         <div class="calculation-box math">
+
           ${
             h >=
             0
+
               ? `(x－${h})`
+
               : `(x＋${Math.abs(h)})`
           }<sup>2</sup>
+
           ＝${right}
+
         </div>
         `,
 
@@ -4746,8 +5747,7 @@ function makeCompleteSquareNature() {
 
           ? `
             右邊大於 0，
-            所以平方根有正、負兩種可能，
-            因此有兩個相異的實數根。
+            所以有兩個相異的實數根。
             `
 
           : type ===
@@ -4755,15 +5755,12 @@ function makeCompleteSquareNature() {
 
             ? `
               右邊等於 0，
-              所以只有
-              x＝${h}，
-              形成兩個相等的根。
+              所以有兩個相等的實數根。
               `
 
             : `
               右邊小於 0。
-              在實數範圍內，
-              一個數的平方不可能小於 0，
+              在實數範圍內平方不可能小於 0，
               所以無實數解。
               `
       ]
@@ -4773,56 +5770,66 @@ function makeCompleteSquareNature() {
 
 function makeMode3() {
 
-  return shuffle([
-    makeSquareRootEquation(),
-    makeSquareRootEquation(),
+  return shuffle(
+    [
 
-    makeCompleteSquareMissingNumber(),
+      makeSquareRootEquation(),
+      makeSquareRootEquation(),
 
-    makeCompleteSquarePair(),
+      makeCompleteSquareMissingNumber(),
 
-    makeCompleteSquareSolveA1(),
-    makeCompleteSquareSolveA1(),
+      makeCompleteSquarePair(),
 
-    makeCompleteSquareSolveANot1(),
-    makeCompleteSquareSolveANot1(),
+      makeCompleteSquareSolveA1(),
+      makeCompleteSquareSolveA1(),
 
-    makeCompleteSquareNature(),
-    makeCompleteSquareNature()
-  ]);
+      makeCompleteSquareSolveANot1(),
+      makeCompleteSquareSolveANot1(),
+
+      makeCompleteSquareNature(),
+      makeCompleteSquareNature()
+    ]
+  );
 }
 
 
 /*
 ==================================================
-模式四｜公式解與判別式
+模式四
 ==================================================
 */
 
 function formulaBoxHTML() {
 
   return `
+
     <div class="formula-box math">
+
       x＝
+
       <span class="math-fraction">
 
         <span class="math-fraction-top">
-          −b ± √(b<sup>2</sup>−4ac)
+
+          −b ±
+          ${sqrtHTML(
+            `b<sup>2</sup>－4ac`
+          )}
+
         </span>
 
         <span class="math-fraction-bottom">
+
           2a
+
         </span>
 
       </span>
+
     </div>
   `;
 }
 
-
-/*
-A｜先給公式，再找 abc
-*/
 
 function makeFormulaABC() {
 
@@ -4848,10 +5855,12 @@ function makeFormulaABC() {
 
 
   return abcQuestion({
+
     label:
       "先觀察公式，再找出 a、b、c",
 
     html: `
+
       ${formulaBoxHTML()}
 
       ${equationHTML(
@@ -4861,13 +5870,17 @@ function makeFormulaABC() {
       )}
 
       <div class="question-note">
+
         標準形式：
         ax²＋bx＋c＝0
+
       </div>
     `,
 
     a,
+
     b,
+
     c,
 
     method:
@@ -4875,6 +5888,7 @@ function makeFormulaABC() {
 
     explanation:
       [
+
         `
         一元二次方程式要與
         ax²＋bx＋c＝0
@@ -4882,12 +5896,15 @@ function makeFormulaABC() {
         `,
 
         `
+
         <div class="calculation-box math">
+
           a＝${a}
           ，
           b＝${b}
           ，
           c＝${c}
+
         </div>
         `,
 
@@ -4899,10 +5916,6 @@ function makeFormulaABC() {
   });
 }
 
-
-/*
-B｜先整理再回答 abc
-*/
 
 function makeStandardizeABC() {
 
@@ -4927,44 +5940,62 @@ function makeStandardizeABC() {
     );
 
 
-  /*
-  ax² + c = -bx
-  */
-
   const rightCoefficient =
     -b;
 
 
   return abcQuestion({
+
     label:
       "請先整理成標準式，再填出 a、b、c",
 
     html: `
+
       ${formulaBoxHTML()}
 
       <span class="math">
-        ${a === 1 ? "" : a}x<sup>2</sup>
+
+        ${
+          a ===
+          1
+
+            ? ""
+
+            : a
+        }x<sup>2</sup>
+
         ${
           c >=
           0
+
             ? `＋${c}`
+
             : `－${Math.abs(c)}`
         }
+
         ＝
+
         ${
           rightCoefficient ===
           1
+
             ? ""
+
             : rightCoefficient ===
               -1
+
               ? "−"
+
               : rightCoefficient
         }x
+
       </span>
     `,
 
     a,
+
     b,
+
     c,
 
     standardPreview:
@@ -4975,6 +6006,7 @@ function makeStandardizeABC() {
 
     explanation:
       [
+
         `
         公式中的 a、b、c
         必須從
@@ -4987,27 +6019,34 @@ function makeStandardizeABC() {
         `,
 
         `
+
         <div class="calculation-box math">
-          ${polynomialHTML(a, b, c)}＝0
+
+          ${polynomialHTML(
+            a,
+            b,
+            c
+          )}＝0
+
         </div>
         `,
 
         `
+
         因此：
+
         <div class="calculation-box math">
+
           a＝${a}，
           b＝${b}，
           c＝${c}
+
         </div>
         `
       ]
   });
 }
 
-
-/*
-C｜判別式
-*/
 
 function makeDiscriminant() {
 
@@ -5033,18 +6072,27 @@ function makeDiscriminant() {
 
 
   const D =
-    b * b -
-    4 * a * c;
+    b *
+    b -
+    4 *
+    a *
+    c;
 
 
   return numberQuestion({
+
     label:
       "請計算判別式 b²－4ac",
 
     html: `
+
       ${formulaBoxHTML()}
 
-      ${equationHTML(a, b, c)}
+      ${equationHTML(
+        a,
+        b,
+        c
+      )}
     `,
 
     answer:
@@ -5055,6 +6103,7 @@ function makeDiscriminant() {
 
     explanation:
       [
+
         `
         先找出：
         a＝${a}，
@@ -5063,30 +6112,38 @@ function makeDiscriminant() {
         `,
 
         `
+
         代入判別式：
+
         <div class="calculation-box math">
+
           b<sup>2</sup>－4ac
+
           ＝
+
           (${b})<sup>2</sup>
-          －4(${a})(${c})
+
+          －
+
+          4 × (${a}) × (${c})
+
         </div>
         `,
 
         `
+
         <div class="calculation-box math">
+
           ＝${b * b}
           －${4 * a * c}
           ＝${D}
+
         </div>
         `
       ]
   });
 }
 
-
-/*
-D｜根的情形
-*/
 
 function makeDiscriminantNature() {
 
@@ -5097,11 +6154,13 @@ function makeDiscriminantNature() {
 
 
   const target =
-    pick([
-      "two",
-      "double",
-      "none"
-    ]);
+    pick(
+      [
+        "two",
+        "double",
+        "none"
+      ]
+    );
 
 
   for (
@@ -5136,8 +6195,11 @@ function makeDiscriminantNature() {
 
 
     D =
-      b * b -
-      4 * a * c;
+      b *
+      b -
+      4 *
+      a *
+      c;
 
 
     if (
@@ -5146,6 +6208,7 @@ function makeDiscriminantNature() {
       D >
       0
     ) {
+
       break;
     }
 
@@ -5156,6 +6219,7 @@ function makeDiscriminantNature() {
       D ===
       0
     ) {
+
       break;
     }
 
@@ -5166,12 +6230,14 @@ function makeDiscriminantNature() {
       D <
       0
     ) {
+
       break;
     }
   }
 
 
   const actual =
+
     D >
     0
 
@@ -5186,10 +6252,12 @@ function makeDiscriminantNature() {
 
 
   return choiceQuestion({
+
     label:
       "不用完整求根，請利用判別式判斷根的情形",
 
     html: `
+
       ${formulaBoxHTML()}
 
       ${equationHTML(
@@ -5201,7 +6269,9 @@ function makeDiscriminantNature() {
 
     choices:
       [
+
         {
+
           value:
             "two",
 
@@ -5210,6 +6280,7 @@ function makeDiscriminantNature() {
         },
 
         {
+
           value:
             "double",
 
@@ -5218,6 +6289,7 @@ function makeDiscriminantNature() {
         },
 
         {
+
           value:
             "none",
 
@@ -5234,13 +6306,23 @@ function makeDiscriminantNature() {
 
     explanation:
       [
+
         `
+
         <div class="calculation-box math">
+
           b<sup>2</sup>－4ac
+
           ＝
+
           (${b})<sup>2</sup>
-          －4(${a})(${c})
+
+          －
+
+          4 × (${a}) × (${c})
+
           ＝${D}
+
         </div>
         `,
 
@@ -5269,10 +6351,6 @@ function makeDiscriminantNature() {
 }
 
 
-/*
-E/F｜公式求解
-*/
-
 function makeFormulaSolve(
   advanced =
     false
@@ -5296,10 +6374,12 @@ function makeFormulaSolve(
 
     a =
       advanced
+
         ? nonZeroRand(
             -4,
             4
           )
+
         : nonZeroRand(
             1,
             4
@@ -5332,13 +6412,16 @@ function makeFormulaSolve(
       solution.discriminant >
       0
     ) {
+
       break;
     }
   }
 
 
   return rootsQuestion({
+
     label:
+
       advanced
 
         ? "請使用公式解求解；注意負係數與根號化簡"
@@ -5346,6 +6429,7 @@ function makeFormulaSolve(
         : "請使用一元二次方程式公式求解",
 
     html: `
+
       ${formulaBoxHTML()}
 
       ${equationHTML(
@@ -5366,6 +6450,7 @@ function makeFormulaSolve(
 
     explanation:
       [
+
         `
         先找出：
         a＝${a}，
@@ -5374,39 +6459,67 @@ function makeFormulaSolve(
         `,
 
         `
+
         計算判別式：
+
         <div class="calculation-box math">
+
           b<sup>2</sup>－4ac
+
           ＝
+
           (${b})<sup>2</sup>
-          －4(${a})(${c})
-          ＝${solution.discriminant}
+
+          －
+
+          4 × (${a}) × (${c})
+
+          ＝
+
+          ${solution.discriminant}
+
         </div>
         `,
 
         `
+
         代入公式：
+
         <div class="calculation-box math">
+
           x＝
+
           <span class="math-fraction">
 
             <span class="math-fraction-top">
+
               −(${b})
-              ±√${solution.discriminant}
+              ±
+              ${sqrtHTML(
+                solution.discriminant
+              )}
+
             </span>
 
             <span class="math-fraction-bottom">
-              2(${a})
+
+              2 × (${a})
+
             </span>
 
           </span>
+
         </div>
         `,
 
         `
+
         化簡後：
+
         <div class="calculation-box math">
+
           ${solution.html}
+
         </div>
         `
       ]
@@ -5416,23 +6529,36 @@ function makeFormulaSolve(
 
 function makeMode4() {
 
-  return shuffle([
-    makeFormulaABC(),
+  return shuffle(
+    [
 
-    makeStandardizeABC(),
+      makeFormulaABC(),
 
-    makeDiscriminant(),
-    makeDiscriminant(),
+      makeStandardizeABC(),
 
-    makeDiscriminantNature(),
-    makeDiscriminantNature(),
+      makeDiscriminant(),
+      makeDiscriminant(),
 
-    makeFormulaSolve(false),
-    makeFormulaSolve(false),
-    makeFormulaSolve(false),
+      makeDiscriminantNature(),
+      makeDiscriminantNature(),
 
-    makeFormulaSolve(true)
-  ]);
+      makeFormulaSolve(
+        false
+      ),
+
+      makeFormulaSolve(
+        false
+      ),
+
+      makeFormulaSolve(
+        false
+      ),
+
+      makeFormulaSolve(
+        true
+      )
+    ]
+  );
 }
 
 
@@ -5440,11 +6566,6 @@ function makeMode4() {
 ==================================================
 模式五｜應用問題
 ==================================================
-*/
-
-
-/*
-A｜選擇列式
 */
 
 function makeApplicationEquationChoice() {
@@ -5472,54 +6593,69 @@ function makeApplicationEquationChoice() {
 
 
   return choiceQuestion({
+
     label:
       "請選出符合題意的一元二次方程式",
 
     html: `
+
       <div class="question-note">
+
         一個長方形的長比寬多
         ${difference}
         公尺，面積為
         ${area}
         平方公尺。
-        若寬設為 x 公尺，應列出哪一個方程式？
+
+        <br><br>
+
+        若寬設為 x 公尺，
+        應列出哪一個方程式？
+
       </div>
     `,
 
     choices:
-      shuffle([
-        {
-          value:
-            "correct",
+      shuffle(
+        [
 
-          text:
-            `x(x＋${difference})＝${area}`
-        },
+          {
 
-        {
-          value:
-            "a",
+            value:
+              "correct",
 
-          text:
-            `x＋(x＋${difference})＝${area}`
-        },
+            text:
+              `x(x＋${difference})＝${area}`
+          },
 
-        {
-          value:
-            "b",
+          {
 
-          text:
-            `x(x－${difference})＝${area}`
-        },
+            value:
+              "a",
 
-        {
-          value:
-            "c",
+            text:
+              `x＋(x＋${difference})＝${area}`
+          },
 
-          text:
-            `2x＋${difference}＝${area}`
-        }
-      ]),
+          {
+
+            value:
+              "b",
+
+            text:
+              `x(x－${difference})＝${area}`
+          },
+
+          {
+
+            value:
+              "c",
+
+            text:
+              `2x＋${difference}＝${area}`
+          }
+        ]
+      ),
 
     answer:
       "correct",
@@ -5529,6 +6665,7 @@ function makeApplicationEquationChoice() {
 
     explanation:
       [
+
         `
         寬為 x，
         因為長比寬多 ${difference}，
@@ -5540,18 +6677,17 @@ function makeApplicationEquationChoice() {
         `,
 
         `
+
         <div class="calculation-box math">
+
           x(x＋${difference})＝${area}
+
         </div>
         `
       ]
   });
 }
 
-
-/*
-B｜連續整數
-*/
 
 function makeConsecutiveIntegers() {
 
@@ -5571,21 +6707,26 @@ function makeConsecutiveIntegers() {
 
 
   return pairQuestion({
+
     label:
       "請求出這兩個連續正整數",
 
     html: `
+
       <div class="question-note">
+
         兩個連續正整數的乘積為
         ${product}，
         求這兩個正整數。
+
       </div>
     `,
 
     values:
       [
         n,
-        n + 1
+        n +
+        1
       ],
 
     answerHTML:
@@ -5596,21 +6737,29 @@ function makeConsecutiveIntegers() {
 
     explanation:
       [
+
         `
         設較小的正整數為 x，
         則另一個為 x＋1。
         `,
 
         `
+
         <div class="calculation-box math">
+
           x(x＋1)＝${product}
+
         </div>
         `,
 
         `
+
         移項：
+
         <div class="calculation-box math">
+
           x<sup>2</sup>＋x－${product}＝0
+
         </div>
         `,
 
@@ -5627,10 +6776,6 @@ function makeConsecutiveIntegers() {
   });
 }
 
-
-/*
-C｜面積
-*/
 
 function makeRectangleApplication() {
 
@@ -5659,17 +6804,24 @@ function makeRectangleApplication() {
 
 
   return numberQuestion({
+
     label:
       "請求出長方形的寬",
 
     html: `
+
       <div class="question-note">
+
         一長方形的長比寬多
         ${difference}
         公尺，面積是
         ${area}
         平方公尺。
+
+        <br><br>
+
         求這個長方形的寬。
+
       </div>
     `,
 
@@ -5684,6 +6836,7 @@ function makeRectangleApplication() {
 
     explanation:
       [
+
         `
         設寬為 x 公尺，
         則長為
@@ -5692,18 +6845,25 @@ function makeRectangleApplication() {
         `,
 
         `
+
         <div class="calculation-box math">
+
           x(x＋${difference})＝${area}
+
         </div>
         `,
 
         `
+
         整理：
+
         <div class="calculation-box math">
+
           x<sup>2</sup>
           ＋${difference}x
           －${area}
           ＝0
+
         </div>
         `,
 
@@ -5716,10 +6876,6 @@ function makeRectangleApplication() {
   });
 }
 
-
-/*
-D｜價格數量
-*/
 
 function makePriceApplication() {
 
@@ -5744,11 +6900,6 @@ function makePriceApplication() {
     );
 
 
-  /*
-  每漲1元少賣2份
-  讓正確 x = increase
-  */
-
   const decreaseRate =
     2;
 
@@ -5766,17 +6917,22 @@ function makePriceApplication() {
 
 
   return numberQuestion({
+
     label:
       "請求出每件商品應調漲多少元",
 
     html: `
+
       <div class="question-note">
+
         某商品原價
         ${originalPrice}
         元，每天可售出
         ${originalQuantity}
         件。
-        每調漲 1 元，每天少賣
+
+        每調漲 1 元，
+        每天少賣
         ${decreaseRate}
         件。
 
@@ -5786,6 +6942,7 @@ function makePriceApplication() {
         ${revenue}
         元，且取較小的非負調漲金額，
         應調漲多少元？
+
       </div>
     `,
 
@@ -5800,6 +6957,7 @@ function makePriceApplication() {
 
     explanation:
       [
+
         `
         設調漲 x 元。
         `,
@@ -5812,10 +6970,13 @@ function makePriceApplication() {
         `,
 
         `
+
         <div class="calculation-box math">
+
           (${originalPrice}＋x)
           (${originalQuantity}－${decreaseRate}x)
           ＝${revenue}
+
         </div>
         `,
 
@@ -5832,10 +6993,6 @@ function makePriceApplication() {
   });
 }
 
-
-/*
-E｜判斷合理根
-*/
 
 function makeValidRootApplication() {
 
@@ -5854,30 +7011,40 @@ function makeValidRootApplication() {
 
 
   return choiceQuestion({
+
     label:
       "根據實際情境，請選出符合題意的解",
 
     html: `
+
       <div class="question-note">
+
         解某一面積問題得到：
+
         <br><br>
 
         <span class="math">
+
           x＝${valid}
           或
           x＝${invalid}
+
         </span>
 
         <br><br>
 
         其中 x 代表長方形的寬（公尺）。
+
         哪一個答案符合題意？
+
       </div>
     `,
 
     choices:
       [
+
         {
+
           value:
             "valid",
 
@@ -5886,6 +7053,7 @@ function makeValidRootApplication() {
         },
 
         {
+
           value:
             "invalid",
 
@@ -5902,6 +7070,7 @@ function makeValidRootApplication() {
 
     explanation:
       [
+
         `
         方程式的根不一定全部符合實際問題。
         `,
@@ -5925,10 +7094,6 @@ function makeValidRootApplication() {
   });
 }
 
-
-/*
-F｜完整素養
-*/
 
 function makeFullApplication() {
 
@@ -5955,11 +7120,14 @@ function makeFullApplication() {
 
 
   return numberQuestion({
+
     label:
       "閱讀情境、列式並求出答案",
 
     html: `
+
       <div class="question-note">
+
         某矩形花圃的長比寬多
         ${add}
         公尺，面積為
@@ -5970,6 +7138,7 @@ function makeFullApplication() {
 
         若要沿著花圃較短的一邊設置圍欄，
         請問較短的一邊長多少公尺？
+
       </div>
     `,
 
@@ -5984,6 +7153,7 @@ function makeFullApplication() {
 
     explanation:
       [
+
         `
         設較短的一邊為 x 公尺，
         則另一邊為
@@ -5992,19 +7162,27 @@ function makeFullApplication() {
         `,
 
         `
+
         根據面積：
+
         <div class="calculation-box math">
+
           x(x＋${add})＝${area}
+
         </div>
         `,
 
         `
+
         整理：
+
         <div class="calculation-box math">
+
           x<sup>2</sup>
           ＋${add}x
           －${area}
           ＝0
+
         </div>
         `,
 
@@ -6024,55 +7202,63 @@ function makeFullApplication() {
 
 function makeMode5() {
 
-  return shuffle([
-    makeApplicationEquationChoice(),
-    makeApplicationEquationChoice(),
+  return shuffle(
+    [
 
-    makeConsecutiveIntegers(),
-    makeConsecutiveIntegers(),
+      makeApplicationEquationChoice(),
+      makeApplicationEquationChoice(),
 
-    makeRectangleApplication(),
-    makeRectangleApplication(),
+      makeConsecutiveIntegers(),
+      makeConsecutiveIntegers(),
 
-    makePriceApplication(),
+      makeRectangleApplication(),
+      makeRectangleApplication(),
 
-    makeValidRootApplication(),
-    makeValidRootApplication(),
+      makePriceApplication(),
 
-    makeFullApplication()
-  ]);
+      makeValidRootApplication(),
+      makeValidRootApplication(),
+
+      makeFullApplication()
+    ]
+  );
 }
 
 
 /*
 ==================================================
-模式六｜綜合
+模式六
 ==================================================
 */
 
 function makeMode6() {
 
-  return shuffle([
-    makeRootCheck(),
+  return shuffle(
+    [
 
-    makeParameterQuestion(),
+      makeRootCheck(),
 
-    makeCommonFactorEquation(),
+      makeParameterQuestion(),
 
-    makeCrossFactorEquation(),
+      makeCommonFactorEquation(),
 
-    makeCompleteSquareSolveA1(),
+      makeCrossFactorEquation(),
 
-    makeCompleteSquareSolveANot1(),
+      makeCompleteSquareSolveA1(),
 
-    makeDiscriminantNature(),
+      makeCompleteSquareSolveANot1(),
 
-    makeFormulaSolve(true),
+      makeDiscriminantNature(),
 
-    makeValidRootApplication(),
+      makeFormulaSolve(
+        true
+      ),
 
-    makeFullApplication()
-  ]);
+      makeValidRootApplication(),
+
+      makeFullApplication()
+    ]
+  );
 }
 
 
@@ -6088,6 +7274,7 @@ function createQuestions() {
     mode ===
     "basic"
   ) {
+
     return makeMode1();
   }
 
@@ -6096,6 +7283,7 @@ function createQuestions() {
     mode ===
     "factor"
   ) {
+
     return makeMode2();
   }
 
@@ -6104,6 +7292,7 @@ function createQuestions() {
     mode ===
     "completeSquare"
   ) {
+
     return makeMode3();
   }
 
@@ -6112,6 +7301,7 @@ function createQuestions() {
     mode ===
     "formula"
   ) {
+
     return makeMode4();
   }
 
@@ -6120,6 +7310,7 @@ function createQuestions() {
     mode ===
     "application"
   ) {
+
     return makeMode5();
   }
 
@@ -6146,7 +7337,9 @@ function renderChoiceAnswer(
     .innerHTML = `
 
       <div class="answer-title">
+
         ${question.label}
+
       </div>
 
       <div class="choice-grid">
@@ -6155,12 +7348,15 @@ function renderChoiceAnswer(
           question.choices
             .map(
               choice => `
+
                 <button
                   type="button"
                   class="choice-button"
                   data-choice="${choice.value}"
                 >
+
                   ${choice.text}
+
                 </button>
               `
             )
@@ -6198,23 +7394,33 @@ function renderChoiceAnswer(
                 ".choice-button"
               )
               .forEach(
-                item =>
-                  item.classList.remove(
-                    "selected"
-                  )
+                item => {
+
+                  item
+                    .classList
+                    .remove(
+                      "selected"
+                    );
+                }
               );
 
 
-            button.classList.add(
-              "selected"
-            );
+            button
+              .classList
+              .add(
+                "selected"
+              );
 
 
             $("answer-preview")
               .innerHTML = `
+
                 目前選擇：
+
                 <span class="preview-value">
+
                   ${button.innerHTML}
+
                 </span>
               `;
           }
@@ -6238,11 +7444,15 @@ function renderNumberAnswer(
     .innerHTML = `
 
       <div class="answer-title">
+
         ${question.label}
+
       </div>
 
       <p class="answer-help">
+
         可輸入整數、負數或分數。
+
       </p>
 
       <div class="single-answer-wrap">
@@ -6280,14 +7490,19 @@ function renderNumberAnswer(
 
         $("answer-preview")
           .innerHTML =
+
             value
 
               ? `
+
                 目前答案：
+
                 <span class="preview-value">
+
                   ${value}
+
                 </span>
-                `
+              `
 
               : "目前尚未完成答案。";
       }
@@ -6316,6 +7531,7 @@ function insertRootSymbol(
   if (
     !activeRootInput
   ) {
+
     return;
   }
 
@@ -6363,10 +7579,59 @@ function insertRootSymbol(
     new Event(
       "input",
       {
-        bubbles: true
+        bubbles:
+          true
       }
     )
   );
+}
+
+
+/*
+把使用者輸入中的 √7
+轉成有完整橫線的預覽。
+*/
+
+function prettyInputHTML(
+  raw
+) {
+
+  if (
+    !raw
+  ) {
+
+    return "";
+  }
+
+
+  let result =
+    String(
+      raw
+    )
+      .replaceAll(
+        "<",
+        "&lt;"
+      )
+      .replaceAll(
+        ">",
+        "&gt;"
+      );
+
+
+  result =
+    result.replace(
+      /√\s*(\d+(?:\.\d+)?)/g,
+      (
+        match,
+        radicand
+      ) =>
+        sqrtHTML(
+          radicand
+        )
+    );
+
+
+  return result;
 }
 
 
@@ -6393,6 +7658,7 @@ function updateRootPreview() {
   if (
     !preview
   ) {
+
     return;
   }
 
@@ -6405,19 +7671,33 @@ function updateRootPreview() {
     preview.innerHTML =
       "目前尚未完成答案。";
 
+
     return;
   }
 
 
   preview.innerHTML = `
+
     目前答案：
+
     <span class="preview-value">
-      x＝${first || "？"}
+
+      x＝${prettyInputHTML(
+        first ||
+        "？"
+      )}
+
       ${
         $("root-2")
-          ? `，${second || "？"}`
+
+          ? `，x＝${prettyInputHTML(
+              second ||
+              "？"
+            )}`
+
           : ""
       }
+
     </span>
   `;
 }
@@ -6435,13 +7715,18 @@ function renderRootsAnswer(
     .innerHTML = `
 
       <div class="answer-title">
+
         ${question.label}
+
       </div>
 
       <p class="answer-help">
+
         兩根前後順序可以交換。<br>
+
         根號可直接輸入，例如：
-        3+√7、(3+√7)/2。
+        3＋√7、(3＋√7)/2。
+
       </p>
 
       <div class="root-input-grid">
@@ -6449,12 +7734,16 @@ function renderRootsAnswer(
         <div class="root-box">
 
           <div class="root-box-title">
+
             ${
               rootCount ===
               1
+
                 ? "答案"
+
                 : "第一個根"
             }
+
           </div>
 
           <div class="root-expression">
@@ -6480,6 +7769,7 @@ function renderRootsAnswer(
           1
 
             ? `
+
               <div class="root-box">
 
                 <div class="root-box-title">
@@ -6516,8 +7806,11 @@ function renderRootsAnswer(
           type="button"
           class="symbol-button"
           data-symbol="√"
+          aria-label="輸入根號"
         >
-          √
+
+          ${sqrtHTML("□")}
+
         </button>
 
         <button
@@ -6577,6 +7870,7 @@ function renderRootsAnswer(
         if (
           !input
         ) {
+
           return;
         }
 
@@ -6584,6 +7878,7 @@ function renderRootsAnswer(
         input.addEventListener(
           "focus",
           () => {
+
             activeRootInput =
               input;
           }
@@ -6607,10 +7902,12 @@ function renderRootsAnswer(
 
         button.addEventListener(
           "click",
-          () =>
+          () => {
+
             insertRootSymbol(
               button.dataset.symbol
-            )
+            );
+          }
         );
       }
     );
@@ -6672,32 +7969,50 @@ function updateABCPreview(
     if (
       !preview
     ) {
+
       return;
     }
 
 
     if (
-      !/^[-+]?\d+$/.test(a) ||
-      !/^[-+]?\d+$/.test(b) ||
-      !/^[-+]?\d+$/.test(c)
+      !/^[-+]?\d+$/
+        .test(
+          a
+        ) ||
+
+      !/^[-+]?\d+$/
+        .test(
+          b
+        ) ||
+
+      !/^[-+]?\d+$/
+        .test(
+          c
+        )
     ) {
 
       preview.innerHTML =
         "整理後的標準式將顯示在這裡。";
+
 
       return;
     }
 
 
     preview.innerHTML = `
+
       整理後：
+
       <span class="math">
+
         ${polynomialHTML(
           Number(a),
           Number(b),
           Number(c)
         )}
+
         ＝0
+
       </span>
     `;
   }
@@ -6717,10 +8032,13 @@ function renderABCAnswer(
     .innerHTML = `
 
       <div class="answer-title">
+
         ${question.label}
+
       </div>
 
       <p class="answer-help">
+
         ${
           standard
 
@@ -6735,6 +8053,7 @@ function renderABCAnswer(
               填入 a、b、c。
               `
         }
+
       </p>
 
       <div class="abc-grid">
@@ -6793,6 +8112,7 @@ function renderABCAnswer(
         standard
 
           ? `
+
             <div
               id="standard-preview"
               class="standard-preview"
@@ -6851,18 +8171,23 @@ function renderABCAnswer(
 
               $("answer-preview")
                 .innerHTML =
+
                   a &&
                   b &&
                   c
 
                     ? `
+
                       目前答案：
+
                       <span class="preview-value">
+
                         a＝${a}，
                         b＝${b}，
                         c＝${c}
+
                       </span>
-                      `
+                    `
 
                     : "目前尚未完成答案。";
             }
@@ -6894,11 +8219,15 @@ function renderPairAnswer(
     .innerHTML = `
 
       <div class="answer-title">
+
         ${question.label}
+
       </div>
 
       <p class="answer-help">
+
         請依題目要求填入兩個數。
+
       </p>
 
       <div class="pair-number-grid">
@@ -6947,16 +8276,21 @@ function renderPairAnswer(
 
       $("answer-preview")
         .innerHTML =
+
           first ||
           second
 
             ? `
+
               目前答案：
+
               <span class="preview-value">
+
                 ${first || "？"}，
                 ${second || "？"}
+
               </span>
-              `
+            `
 
             : "目前尚未完成答案。";
     };
@@ -7007,9 +8341,11 @@ function renderAnswer(
     question.type ===
     "choice"
   ) {
+
     renderChoiceAnswer(
       question
     );
+
 
     return;
   }
@@ -7019,9 +8355,11 @@ function renderAnswer(
     question.type ===
     "number"
   ) {
+
     renderNumberAnswer(
       question
     );
+
 
     return;
   }
@@ -7031,9 +8369,11 @@ function renderAnswer(
     question.type ===
     "roots"
   ) {
+
     renderRootsAnswer(
       question
     );
+
 
     return;
   }
@@ -7042,12 +8382,15 @@ function renderAnswer(
   if (
     question.type ===
     "abc" ||
+
     question.type ===
     "standardAbc"
   ) {
+
     renderABCAnswer(
       question
     );
+
 
     return;
   }
@@ -7057,6 +8400,7 @@ function renderAnswer(
     question.type ===
     "pair"
   ) {
+
     renderPairAnswer(
       question
     );
@@ -7080,7 +8424,9 @@ function readChoiceAnswer(
   ) {
 
     return {
-      valid: false,
+
+      valid:
+        false,
 
       message:
         "請先選擇一個答案。"
@@ -7098,7 +8444,9 @@ function readChoiceAnswer(
 
 
   return {
-    valid: true,
+
+    valid:
+      true,
 
     value:
       selectedChoice,
@@ -7124,7 +8472,9 @@ function readNumberAnswer() {
   ) {
 
     return {
-      valid: false,
+
+      valid:
+        false,
 
       message:
         "請先輸入答案。"
@@ -7145,7 +8495,9 @@ function readNumberAnswer() {
   ) {
 
     return {
-      valid: false,
+
+      valid:
+        false,
 
       message:
         "答案格式無法辨識，請重新輸入。"
@@ -7154,9 +8506,14 @@ function readNumberAnswer() {
 
 
   return {
-    valid: true,
+
+    valid:
+      true,
+
     value,
-    display: raw
+
+    display:
+      raw
   };
 }
 
@@ -7184,7 +8541,9 @@ function readRootsAnswer(
   ) {
 
     return {
-      valid: false,
+
+      valid:
+        false,
 
       message:
         "請輸入方程式的根。"
@@ -7195,11 +8554,14 @@ function readRootsAnswer(
   if (
     question.values.length >
     1 &&
+
     !secondRaw
   ) {
 
     return {
-      valid: false,
+
+      valid:
+        false,
 
       message:
         "本題有兩個根，請將兩個根都填寫完整。"
@@ -7220,7 +8582,9 @@ function readRootsAnswer(
   ) {
 
     return {
-      valid: false,
+
+      valid:
+        false,
 
       message:
         "第一個根的格式無法辨識。"
@@ -7252,7 +8616,9 @@ function readRootsAnswer(
     ) {
 
       return {
-        valid: false,
+
+        valid:
+          false,
 
         message:
           "第二個根的格式無法辨識。"
@@ -7267,12 +8633,15 @@ function readRootsAnswer(
 
 
   return {
-    valid: true,
+
+    valid:
+      true,
 
     value:
       values,
 
     display:
+
       values.length ===
       1
 
@@ -7311,10 +8680,12 @@ function readABCAnswer() {
       .test(
         aRaw
       ) ||
+
     !/^[-+]?\d+$/
       .test(
         bRaw
       ) ||
+
     !/^[-+]?\d+$/
       .test(
         cRaw
@@ -7322,7 +8693,9 @@ function readABCAnswer() {
   ) {
 
     return {
-      valid: false,
+
+      valid:
+        false,
 
       message:
         "請完整填寫 a、b、c。"
@@ -7331,18 +8704,28 @@ function readABCAnswer() {
 
 
   return {
-    valid: true,
 
-    value: {
-      a:
-        Number(aRaw),
+    valid:
+      true,
 
-      b:
-        Number(bRaw),
+    value:
+      {
 
-      c:
-        Number(cRaw)
-    },
+        a:
+          Number(
+            aRaw
+          ),
+
+        b:
+          Number(
+            bRaw
+          ),
+
+        c:
+          Number(
+            cRaw
+          )
+      },
 
     display:
       `a＝${aRaw}，b＝${bRaw}，c＝${cRaw}`
@@ -7368,11 +8751,14 @@ function readPairAnswer() {
 
   if (
     !firstRaw ||
+
     !secondRaw
   ) {
 
     return {
-      valid: false,
+
+      valid:
+        false,
 
       message:
         "請將兩個答案都填寫完整。"
@@ -7393,12 +8779,19 @@ function readPairAnswer() {
 
 
   if (
-    !Number.isFinite(first) ||
-    !Number.isFinite(second)
+    !Number.isFinite(
+      first
+    ) ||
+
+    !Number.isFinite(
+      second
+    )
   ) {
 
     return {
-      valid: false,
+
+      valid:
+        false,
 
       message:
         "答案格式無法辨識。"
@@ -7407,7 +8800,9 @@ function readPairAnswer() {
 
 
   return {
-    valid: true,
+
+    valid:
+      true,
 
     value:
       [
@@ -7429,6 +8824,7 @@ function readAnswer(
     question.type ===
     "choice"
   ) {
+
     return readChoiceAnswer(
       question
     );
@@ -7439,6 +8835,7 @@ function readAnswer(
     question.type ===
     "number"
   ) {
+
     return readNumberAnswer();
   }
 
@@ -7447,6 +8844,7 @@ function readAnswer(
     question.type ===
     "roots"
   ) {
+
     return readRootsAnswer(
       question
     );
@@ -7456,9 +8854,11 @@ function readAnswer(
   if (
     question.type ===
     "abc" ||
+
     question.type ===
     "standardAbc"
   ) {
+
     return readABCAnswer();
   }
 
@@ -7467,12 +8867,15 @@ function readAnswer(
     question.type ===
     "pair"
   ) {
+
     return readPairAnswer();
   }
 
 
   return {
-    valid: false,
+
+    valid:
+      false,
 
     message:
       "答案格式錯誤。"
@@ -7512,6 +8915,7 @@ function sameNumberSet(
     first.length !==
     second.length
   ) {
+
     return false;
   }
 
@@ -7546,6 +8950,7 @@ function sameNumberSet(
 
       if (
         !used[i] &&
+
         approximatelyEqual(
           value,
           second[i]
@@ -7555,8 +8960,10 @@ function sameNumberSet(
         used[i] =
           true;
 
+
         found =
           true;
+
 
         break;
       }
@@ -7566,6 +8973,7 @@ function sameNumberSet(
     if (
       !found
     ) {
+
       return false;
     }
   }
@@ -7619,11 +9027,13 @@ function checkCorrect(
   if (
     question.type ===
     "abc" ||
+
     question.type ===
     "standardAbc"
   ) {
 
     return (
+
       answer.value.a ===
         question.a &&
 
@@ -7654,7 +9064,7 @@ function checkCorrect(
 
 /*
 ==================================================
-正確答案顯示
+正確答案
 ==================================================
 */
 
@@ -7704,11 +9114,13 @@ function correctAnswerHTML(
   if (
     question.type ===
     "abc" ||
+
     question.type ===
     "standardAbc"
   ) {
 
     return `
+
       a＝${question.a}，
       b＝${question.b}，
       c＝${question.c}
@@ -7740,17 +9152,21 @@ function explanationHTML(
 ) {
 
   const method =
+
     question.method
 
       ? `
+
         <div class="explanation-step">
+
           <strong>
             建議解法｜
           </strong>
 
           ${question.method}
+
         </div>
-        `
+      `
 
       : "";
 
@@ -7760,11 +9176,15 @@ function explanationHTML(
     <div class="explanation-question">
 
       <div class="explanation-question-title">
+
         題目｜
+
       </div>
 
       <div class="explanation-question-math">
+
         ${question.html}
+
       </div>
 
     </div>
@@ -7778,10 +9198,13 @@ function explanationHTML(
             step,
             i
           ) => `
+
             <div class="explanation-step">
 
               <strong>
+
                 步驟 ${i + 1}｜
+
               </strong>
 
               ${step}
@@ -7871,19 +9294,22 @@ function displayQuestion() {
 
 
   $("explanation")
-    .classList.add(
+    .classList
+    .add(
       "hidden"
     );
 
 
   $("submit-button")
-    .classList.remove(
+    .classList
+    .remove(
       "hidden"
     );
 
 
   $("next-button")
-    .classList.add(
+    .classList
+    .add(
       "hidden"
     );
 
@@ -7910,6 +9336,7 @@ function submitAnswer() {
   if (
     answered
   ) {
+
     return;
   }
 
@@ -7961,7 +9388,9 @@ function submitAnswer() {
 
     correct++;
 
+
     combo++;
+
 
     maxCombo =
       Math.max(
@@ -7988,6 +9417,7 @@ function submitAnswer() {
 
     wrong++;
 
+
     combo =
       0;
 
@@ -7999,12 +9429,15 @@ function submitAnswer() {
 
     $("feedback")
       .innerHTML = `
+
         ❌ 答案不正確。正確答案：
 
         <strong class="correct-answer">
+
           ${correctAnswerHTML(
             question
           )}
+
         </strong>
       `;
 
@@ -8015,18 +9448,22 @@ function submitAnswer() {
   }
 
 
-  records.push({
-    number:
-      index + 1,
+  records.push(
+    {
 
-    question,
+      number:
+        index +
+        1,
 
-    userAnswer:
-      answer.display,
+      question,
 
-    correct:
-      isCorrect
-  });
+      userAnswer:
+        answer.display,
+
+      correct:
+        isCorrect
+    }
+  );
 
 
   $("correct-count")
@@ -8047,19 +9484,22 @@ function submitAnswer() {
 
 
   $("explanation")
-    .classList.remove(
+    .classList
+    .remove(
       "hidden"
     );
 
 
   $("submit-button")
-    .classList.add(
+    .classList
+    .add(
       "hidden"
     );
 
 
   $("next-button")
-    .classList.remove(
+    .classList
+    .remove(
       "hidden"
     );
 
@@ -8068,7 +9508,8 @@ function submitAnswer() {
     .textContent =
 
       index ===
-      TOTAL_QUESTIONS - 1
+      TOTAL_QUESTIONS -
+      1
 
         ? "查看測驗結果（Enter）"
 
@@ -8091,6 +9532,7 @@ function nextQuestion() {
   if (
     !answered
   ) {
+
     return;
   }
 
@@ -8135,7 +9577,9 @@ function formatTime(
 
 
   return (
+
     `${String(minutes).padStart(2, "0")}:` +
+
     `${String(remain).padStart(2, "0")}`
   );
 }
@@ -8276,7 +9720,9 @@ function moveScratchpadButtonToTop() {
   if (
     mount &&
     button &&
-    !mount.contains(button)
+    !mount.contains(
+      button
+    )
   ) {
 
     mount.appendChild(
@@ -8288,7 +9734,7 @@ function moveScratchpadButtonToTop() {
 
 /*
 ==================================================
-Screen
+畫面
 ==================================================
 */
 
@@ -8339,7 +9785,7 @@ function showOnly(
 
 /*
 ==================================================
-開始遊戲
+開始
 ==================================================
 */
 
@@ -8447,6 +9893,7 @@ function rating(
   ) {
 
     return {
+
       stars:
         "★★★★★",
 
@@ -8462,6 +9909,7 @@ function rating(
   ) {
 
     return {
+
       stars:
         "★★★★☆",
 
@@ -8477,6 +9925,7 @@ function rating(
   ) {
 
     return {
+
       stars:
         "★★★☆☆",
 
@@ -8487,6 +9936,7 @@ function rating(
 
 
   return {
+
     stars:
       "★★☆☆☆",
 
@@ -8599,6 +10049,7 @@ async function saveCurrentScore(
   if (
     scoreSaved
   ) {
+
     return;
   }
 
@@ -8622,28 +10073,31 @@ async function saveCurrentScore(
   try {
 
     const result =
-      await saveGameScore({
-        game:
-          GAME_ID,
+      await saveGameScore(
+        {
 
-        mode,
+          game:
+            GAME_ID,
 
-        score,
+          mode,
 
-        correctCount:
-          correct,
+          score,
 
-        wrongCount:
-          wrong,
+          correctCount:
+            correct,
 
-        maxCombo,
+          wrongCount:
+            wrong,
 
-        playTime:
-          elapsed,
+          maxCombo,
 
-        totalQuestions:
-          TOTAL_QUESTIONS
-      });
+          playTime:
+            elapsed,
+
+          totalQuestions:
+            TOTAL_QUESTIONS
+        }
+      );
 
 
     if (
@@ -8733,35 +10187,49 @@ function showReview() {
                 <article class="review-card">
 
                   <div class="review-title">
+
                     第 ${record.number} 題 ❌
+
                   </div>
 
                   <div class="review-question">
+
                     ${record.question.html}
+
                   </div>
 
                   <p>
+
                     你的答案：
 
                     <strong>
+
                       ${record.userAnswer}
+
                     </strong>
+
                   </p>
 
                   <p>
+
                     正確答案：
 
                     <strong>
+
                       ${correctAnswerHTML(
                         record.question
                       )}
+
                     </strong>
+
                   </p>
 
                   <div class="explanation">
+
                     ${explanationHTML(
                       record.question
                     )}
+
                   </div>
 
                 </article>
@@ -8770,10 +10238,13 @@ function showReview() {
             .join("")
 
         : `
+
           <div class="review-card">
+
             全部答對，沒有需要回顧的錯題！
+
           </div>
-          `;
+        `;
 
 
   showOnly(
@@ -8810,7 +10281,7 @@ document
 
 /*
 ==================================================
-Buttons
+按鈕
 ==================================================
 */
 
@@ -8831,10 +10302,12 @@ $("next-button")
 $("restart-button")
   .addEventListener(
     "click",
-    () =>
+    () => {
+
       startGame(
         mode
-      )
+      );
+    }
   );
 
 
@@ -8844,6 +10317,7 @@ $("mode-button")
     () => {
 
       stopTimer();
+
 
       showOnly(
         "start-screen"
@@ -8855,20 +10329,24 @@ $("mode-button")
 $("again-button")
   .addEventListener(
     "click",
-    () =>
+    () => {
+
       startGame(
         mode
-      )
+      );
+    }
   );
 
 
 $("result-mode-button")
   .addEventListener(
     "click",
-    () =>
+    () => {
+
       showOnly(
         "start-screen"
-      )
+      );
+    }
   );
 
 
@@ -8882,20 +10360,24 @@ $("review-button")
 $("review-again-button")
   .addEventListener(
     "click",
-    () =>
+    () => {
+
       startGame(
         mode
-      )
+      );
+    }
   );
 
 
 $("review-result-button")
   .addEventListener(
     "click",
-    () =>
+    () => {
+
       showOnly(
         "result-screen"
-      )
+      );
+    }
   );
 
 
@@ -8914,6 +10396,7 @@ document
         event.key !==
         "Enter"
       ) {
+
         return;
       }
 
@@ -8925,6 +10408,7 @@ document
             "hidden"
           )
       ) {
+
         return;
       }
 
@@ -8975,4 +10459,5 @@ showOnly(
 </script>
 
 </body>
+
 </html>
