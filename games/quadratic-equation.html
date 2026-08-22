@@ -668,54 +668,134 @@
         nowrap;
 
       vertical-align:
-        middle;
+        -0.08em;
 
       line-height: 1;
     }
 
+    /*
+    根號符號本體
+    */
+
     .sqrt-symbol {
+
+      position:
+        relative;
+
+      z-index: 2;
 
       display:
         inline-block;
 
+      flex:
+        0 0 auto;
+
       margin-right:
-        -0.04em;
+        -0.10em;
 
       padding-top:
-        .06em;
+        .02em;
 
       font-family:
         "Cambria Math",
+        "STIX Two Math",
         "Times New Roman",
         serif;
 
       font-size:
-        1.18em;
+        1.34em;
+
+      font-weight:
+        400;
 
       line-height:
         1;
+
+      transform:
+        translateY(.035em);
     }
 
+    /*
+    根號內文字。
+    橫線使用 ::before，
+    並稍微往左延伸和 √ 接在一起，
+    避免出現「√  ____」分離的樣子。
+    */
+
     .sqrt-radicand {
+
+      position:
+        relative;
+
+      z-index: 1;
 
       display:
         inline-block;
 
       min-width:
-        .7em;
+        .56em;
 
       margin-top:
-        .04em;
+        .015em;
 
       padding:
-        .10em .12em 0 .10em;
-
-      border-top:
-        2px solid
-        currentColor;
+        .10em .11em 0 .11em;
 
       line-height:
-        1.05;
+        1.06;
+    }
+
+    .sqrt-radicand::before {
+
+      content: "";
+
+      position:
+        absolute;
+
+      top:
+        0;
+
+      left:
+        -0.10em;
+
+      right:
+        0;
+
+      border-top:
+        .075em solid
+        currentColor;
+
+      border-radius:
+        999px;
+
+      pointer-events:
+        none;
+    }
+
+    /*
+    根號按鈕只顯示正常的 √，
+    不再放 □ 或人工橫線。
+    */
+
+    .sqrt-key {
+
+      display:
+        inline-block;
+
+      font-family:
+        "Cambria Math",
+        "STIX Two Math",
+        "Times New Roman",
+        serif;
+
+      font-size:
+        1.35em;
+
+      font-weight:
+        400;
+
+      line-height:
+        1;
     }
 
     /*
@@ -7809,7 +7889,7 @@ function renderRootsAnswer(
           aria-label="輸入根號"
         >
 
-          ${sqrtHTML("□")}
+          <span class="sqrt-key">√</span>
 
         </button>
 
