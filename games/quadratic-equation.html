@@ -512,9 +512,15 @@
         var(--muted);
 
       font-size:
-        17px;
+        clamp(
+          20px,
+          2.8vw,
+          24px
+        );
 
       font-weight: 900;
+
+      line-height: 1.55;
     }
 
     .question-content {
@@ -598,9 +604,9 @@
 
       font-size:
         clamp(
-          19px,
-          2.4vw,
-          23px
+          21px,
+          2.7vw,
+          26px
         );
 
       font-weight: 800;
@@ -640,42 +646,24 @@
 
     /*
     ==================================================
-    ★ 完整根號（全模式共用）
+    ★ 原生 MathML 根號（全模式共用）
     ==================================================
 
-    使用「根號符號 + 被開方數上方橫線」組合，
-    避免只顯示單獨的 √ 字元。
+    不再以「√ 字元 + CSS 橫線」人工拼接。
+    直接使用瀏覽器原生 MathML <msqrt>，
+    讓根號勾、橫線、粗細與長度自然連成一體。
     題目、詳解、公式、正確答案、目前答案預覽
     全部共用同一套顯示。
     ==================================================
     */
 
-    .sqrt-expression {
-
-      display: inline-flex;
-
-      align-items: flex-start;
-
-      white-space: nowrap;
-
-      vertical-align: -0.12em;
-
-      line-height: 1;
-    }
-
-    .sqrt-symbol {
-
-      position: relative;
-
-      z-index: 2;
+    .mathml-radical {
 
       display: inline-block;
 
-      flex: 0 0 auto;
+      margin: 0 .04em;
 
-      margin-right: -0.12em;
-
-      padding-top: .025em;
+      color: inherit;
 
       font-family:
         "Cambria Math",
@@ -683,38 +671,17 @@
         "Times New Roman",
         serif;
 
-      font-size: 1.38em;
-
-      font-weight: 400;
+      font-size: 1em;
 
       line-height: 1;
 
-      transform: translateY(.035em);
+      vertical-align: -0.16em;
     }
 
-    .sqrt-radicand {
+    .mathml-radical math {
 
-      position: relative;
-
-      z-index: 1;
-
-      display: inline-block;
-
-      min-width: .72em;
-
-      margin-left: 0;
-
-      padding: .08em .13em 0 .11em;
-
-      border-top: .075em solid currentColor;
-
-      line-height: 1.04;
+      font-size: 1em;
     }
-
-    /*
-    根號按鈕本身也顯示完整根號，
-    不再只看到沒有橫線的 √。
-    */
 
     .sqrt-key-demo {
 
@@ -724,9 +691,13 @@
 
       justify-content: center;
 
-      min-width: 1.8em;
+      min-width: 2em;
 
-      font-size: 1.02em;
+      min-height: 1.35em;
+
+      font-size: 1.04em;
+
+      line-height: 1;
     }
 
     /*
@@ -810,9 +781,16 @@
 
       text-align: center;
 
-      font-size: 18px;
+      font-size:
+        clamp(
+          20px,
+          2.5vw,
+          23px
+        );
 
       font-weight: 900;
+
+      line-height: 1.55;
     }
 
     .answer-help {
@@ -1089,6 +1067,151 @@
       text-align: center;
 
       outline: none;
+    }
+
+
+    /*
+    ★ 根的分數輸入模式
+    可由一般答案格切換成「分子／分母」上下排列，
+    不再要求學生以 / 表示分數。
+    */
+
+    .root-entry-body {
+
+      flex:
+        1 1 auto;
+
+      min-width: 0;
+    }
+
+    .root-fraction-editor {
+
+      display: grid;
+
+      grid-template-rows:
+        1fr 1fr;
+
+      width: 100%;
+
+      min-height: 112px;
+
+      overflow: hidden;
+
+      border:
+        2px solid
+        #cbd5e1;
+
+      border-radius: 11px;
+
+      background: #fff;
+    }
+
+    .root-fraction-editor.hidden {
+      display: none !important;
+    }
+
+    .root-fraction-input {
+
+      width: 100%;
+
+      min-width: 0;
+
+      height: 54px;
+
+      padding:
+        7px 10px;
+
+      border: 0;
+
+      background: transparent;
+
+      color: #0f172a;
+
+      font-size: 22px;
+
+      font-weight: 900;
+
+      text-align: center;
+
+      outline: none;
+    }
+
+    .root-fraction-input:first-child {
+
+      border-bottom:
+        2px solid
+        #334155;
+    }
+
+    .root-format-toggle {
+
+      margin-top: 8px;
+
+      padding:
+        6px 11px;
+
+      border:
+        1.5px solid
+        #93c5fd;
+
+      border-radius: 9px;
+
+      background:
+        #eff6ff;
+
+      color:
+        #1d4ed8;
+
+      font-size: 13px;
+
+      font-weight: 900;
+
+      cursor: pointer;
+    }
+
+    .root-format-toggle:hover {
+
+      background:
+        #dbeafe;
+    }
+
+    .root-preview-fraction {
+
+      display:
+        inline-grid;
+
+      grid-template-rows:
+        auto auto;
+
+      align-items: center;
+
+      justify-items: stretch;
+
+      min-width: 2.5em;
+
+      margin:
+        0 .12em;
+
+      vertical-align: middle;
+    }
+
+    .root-preview-numerator {
+
+      padding:
+        0 .18em .07em;
+
+      border-bottom:
+        2px solid currentColor;
+
+      text-align: center;
+    }
+
+    .root-preview-denominator {
+
+      padding:
+        .07em .18em 0;
+
+      text-align: center;
     }
 
     .symbol-toolbar {
@@ -2682,24 +2805,186 @@ function isPerfectSquare(
 ==================================================
 */
 
-function sqrtHTML(
-  content
+function escapeMathMLText(
+  value
+) {
+
+  return String(
+    value
+  )
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+    .replaceAll(
+      ">",
+      "&gt;"
+    );
+}
+
+
+function rawSqrtMathML(
+  innerMathML
 ) {
 
   return `
 
-    <span class="sqrt-expression">
+    <span class="mathml-radical">
 
-      <span class="sqrt-symbol">
-        √
-      </span>
+      <math
+        xmlns="http://www.w3.org/1998/Math/MathML"
+        display="inline"
+        aria-label="根號"
+      >
 
-      <span class="sqrt-radicand">
-        ${content}
-      </span>
+        <msqrt>
+
+          <mrow>
+            ${innerMathML}
+          </mrow>
+
+        </msqrt>
+
+      </math>
 
     </span>
   `;
+}
+
+
+function sqrtHTML(
+  content
+) {
+
+  const raw =
+    String(
+      content
+    )
+      .trim();
+
+
+  /*
+  數字根號一律先化成最簡根式。
+  例如：
+  √8 → 2√2
+  √12 → 2√3
+  √18 → 3√2
+  √9 → 3
+  */
+
+  if (
+    /^\d+$/
+      .test(
+        raw
+      )
+  ) {
+
+    const number =
+      Number(
+        raw
+      );
+
+
+    if (
+      number ===
+      0
+    ) {
+
+      return "0";
+    }
+
+
+    const simplified =
+      simplifySqrt(
+        number
+      );
+
+
+    if (
+      simplified.inside ===
+      1
+    ) {
+
+      return String(
+        simplified.outside
+      );
+    }
+
+
+    const radical =
+      rawSqrtMathML(
+        `<mn>${simplified.inside}</mn>`
+      );
+
+
+    return (
+
+      simplified.outside ===
+      1
+
+        ? radical
+
+        : `${simplified.outside}${radical}`
+    );
+  }
+
+
+  /*
+  公式中的判別式。
+  */
+
+  if (
+    raw ===
+    "b<sup>2</sup>－4ac" ||
+
+    raw ===
+    "b<sup>2</sup>-4ac"
+  ) {
+
+    return rawSqrtMathML(
+      `
+
+        <msup>
+          <mi>b</mi>
+          <mn>2</mn>
+        </msup>
+
+        <mo>−</mo>
+
+        <mn>4</mn>
+
+        <mi>a</mi>
+
+        <mi>c</mi>
+      `
+    );
+  }
+
+
+  /*
+  根號按鈕示意等單一字母。
+  */
+
+  if (
+    /^[A-Za-z]$/
+      .test(
+        raw
+      )
+  ) {
+
+    return rawSqrtMathML(
+      `<mi>${escapeMathMLText(raw)}</mi>`
+    );
+  }
+
+
+  return rawSqrtMathML(
+    `<mtext>${escapeMathMLText(raw)}</mtext>`
+  );
 }
 
 
@@ -3481,6 +3766,10 @@ function parseMathExpression(
       .replaceAll(
         "－",
         "-"
+      )
+      .replaceAll(
+        "＋",
+        "+"
       )
       .replaceAll(
         "÷",
@@ -5562,10 +5851,28 @@ function makeCompleteSquareSolveA1() {
         `,
 
         `
-        一次項係數為 ${b}，
-        一半是 ${b / 2}，
-        平方為 ${(b / 2) ** 2}。
-        因此等號兩邊同加 ${(b / 2) ** 2}。
+
+        <div class="calculation-box math">
+
+          x<sup>2</sup>
+
+          ${
+            b >=
+            0
+
+              ? `＋${b}x`
+
+              : `－${Math.abs(b)}x`
+          }
+
+          ＋${(b / 2) ** 2}
+
+          ＝
+
+          ${-c}
+          ＋${(b / 2) ** 2}
+
+        </div>
         `,
 
         `
@@ -5740,14 +6047,50 @@ function makeCompleteSquareSolveANot1() {
         `,
 
         `
-        再將常數項移到右邊，
-        並把一次項係數的一半平方加到等號兩邊。
+
+        <div class="calculation-box math">
+
+          x<sup>2</sup>
+
+          ${
+            b /
+            a >=
+            0
+
+              ? `＋${b / a}x`
+
+              : `－${Math.abs(b / a)}x`
+          }
+
+          ＝${-(c / a)}
+
+        </div>
         `,
 
         `
-        一次項係數為 ${b / a}，
-        一半為 ${b / (2 * a)}，
-        平方為 ${(b / (2 * a)) ** 2}。
+
+        <div class="calculation-box math">
+
+          x<sup>2</sup>
+
+          ${
+            b /
+            a >=
+            0
+
+              ? `＋${b / a}x`
+
+              : `－${Math.abs(b / a)}x`
+          }
+
+          ＋${(b / (2 * a)) ** 2}
+
+          ＝
+
+          ${-(c / a)}
+          ＋${(b / (2 * a)) ** 2}
+
+        </div>
         `,
 
         `
@@ -7816,20 +8159,165 @@ function prettyInputHTML(
 }
 
 
+function rootEntryIsFraction(
+  rootNumber
+) {
+
+  return (
+    $(`root-${rootNumber}-fraction`)
+      ?.dataset
+      .active ===
+    "true"
+  );
+}
+
+
+function getRootRaw(
+  rootNumber
+) {
+
+  if (
+    rootEntryIsFraction(
+      rootNumber
+    )
+  ) {
+
+    const numerator =
+      $(`root-${rootNumber}-num`)
+        ?.value
+        .trim() ??
+      "";
+
+
+    const denominator =
+      $(`root-${rootNumber}-den`)
+        ?.value
+        .trim() ??
+      "";
+
+
+    if (
+      !numerator &&
+      !denominator
+    ) {
+
+      return "";
+    }
+
+
+    if (
+      !numerator ||
+      !denominator
+    ) {
+
+      return null;
+    }
+
+
+    return `(${numerator})/(${denominator})`;
+  }
+
+
+  return (
+    $(`root-${rootNumber}`)
+      ?.value
+      .trim() ??
+    ""
+  );
+}
+
+
+function rootEntryPreviewHTML(
+  rootNumber
+) {
+
+  if (
+    rootEntryIsFraction(
+      rootNumber
+    )
+  ) {
+
+    const numerator =
+      $(`root-${rootNumber}-num`)
+        ?.value
+        .trim() ??
+      "";
+
+
+    const denominator =
+      $(`root-${rootNumber}-den`)
+        ?.value
+        .trim() ??
+      "";
+
+
+    if (
+      !numerator &&
+      !denominator
+    ) {
+
+      return "";
+    }
+
+
+    return `
+
+      <span class="root-preview-fraction">
+
+        <span class="root-preview-numerator">
+
+          ${prettyInputHTML(
+            numerator ||
+            "？"
+          )}
+
+        </span>
+
+        <span class="root-preview-denominator">
+
+          ${prettyInputHTML(
+            denominator ||
+            "？"
+          )}
+
+        </span>
+
+      </span>
+    `;
+  }
+
+
+  const raw =
+    $(`root-${rootNumber}`)
+      ?.value
+      .trim() ??
+    "";
+
+
+  return (
+    raw
+
+      ? prettyInputHTML(
+          raw
+        )
+
+      : ""
+  );
+}
+
+
 function updateRootPreview() {
 
   const first =
-    $("root-1")
-      ?.value
-      .trim() ??
-    "";
+    rootEntryPreviewHTML(
+      1
+    );
 
 
   const second =
-    $("root-2")
-      ?.value
-      .trim() ??
-    "";
+    rootEntryPreviewHTML(
+      2
+    );
 
 
   const preview =
@@ -7863,24 +8351,184 @@ function updateRootPreview() {
 
     <span class="preview-value">
 
-      x＝${prettyInputHTML(
+      x＝${
         first ||
         "？"
-      )}
+      }
 
       ${
-        $("root-2")
+        $("root-box-2")
 
-          ? `，x＝${prettyInputHTML(
+          ? `，x＝${
               second ||
               "？"
-            )}`
+            }`
 
           : ""
       }
 
     </span>
   `;
+}
+
+
+function rootBoxHTML(
+  rootNumber,
+  title
+) {
+
+  return `
+
+    <div
+      id="root-box-${rootNumber}"
+      class="root-box"
+    >
+
+      <div class="root-box-title">
+        ${title}
+      </div>
+
+      <div class="root-expression">
+
+        <span class="root-x">
+          x＝
+        </span>
+
+        <div class="root-entry-body">
+
+          <input
+            id="root-${rootNumber}"
+            class="root-input"
+            type="text"
+            autocomplete="off"
+            placeholder="輸入答案"
+          >
+
+          <div
+            id="root-${rootNumber}-fraction"
+            class="root-fraction-editor hidden"
+            data-active="false"
+          >
+
+            <input
+              id="root-${rootNumber}-num"
+              class="root-fraction-input"
+              type="text"
+              autocomplete="off"
+              placeholder="分子"
+            >
+
+            <input
+              id="root-${rootNumber}-den"
+              class="root-fraction-input"
+              type="text"
+              autocomplete="off"
+              inputmode="text"
+              placeholder="分母"
+            >
+
+          </div>
+
+          <button
+            type="button"
+            class="root-format-toggle"
+            data-root-toggle="${rootNumber}"
+          >
+            切換成分數答案格
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+  `;
+}
+
+
+function toggleRootFractionMode(
+  rootNumber
+) {
+
+  const normal =
+    $(`root-${rootNumber}`);
+
+
+  const fraction =
+    $(`root-${rootNumber}-fraction`);
+
+
+  const button =
+    document.querySelector(
+      `[data-root-toggle="${rootNumber}"]`
+    );
+
+
+  if (
+    !normal ||
+    !fraction ||
+    !button
+  ) {
+
+    return;
+  }
+
+
+  const turningOn =
+    fraction.dataset.active !==
+    "true";
+
+
+  fraction.dataset.active =
+    turningOn
+
+      ? "true"
+
+      : "false";
+
+
+  fraction.classList.toggle(
+    "hidden",
+    !turningOn
+  );
+
+
+  normal.classList.toggle(
+    "hidden",
+    turningOn
+  );
+
+
+  button.textContent =
+    turningOn
+
+      ? "切換回一般答案格"
+
+      : "切換成分數答案格";
+
+
+  if (
+    turningOn
+  ) {
+
+    activeRootInput =
+      $(`root-${rootNumber}-num`);
+
+
+    activeRootInput
+      ?.focus();
+
+  } else {
+
+    activeRootInput =
+      normal;
+
+
+    normal.focus();
+  }
+
+
+  updateRootPreview();
 }
 
 
@@ -7905,76 +8553,33 @@ function renderRootsAnswer(
 
         兩根前後順序可以交換。<br>
 
-        根號可直接輸入，例如：
-        3＋√7、(3＋√7)/2。
+        根號請使用下方按鈕輸入；
+        若答案為分數，請切換成上下分子、分母的答案格，
+        不需要使用 /。
 
       </p>
 
       <div class="root-input-grid">
 
-        <div class="root-box">
+        ${rootBoxHTML(
+          1,
 
-          <div class="root-box-title">
+          rootCount ===
+          1
 
-            ${
-              rootCount ===
-              1
+            ? "答案"
 
-                ? "答案"
-
-                : "第一個根"
-            }
-
-          </div>
-
-          <div class="root-expression">
-
-            <span class="root-x">
-              x＝
-            </span>
-
-            <input
-              id="root-1"
-              class="root-input"
-              type="text"
-              autocomplete="off"
-              placeholder="輸入答案"
-            >
-
-          </div>
-
-        </div>
+            : "第一個根"
+        )}
 
         ${
           rootCount >
           1
 
-            ? `
-
-              <div class="root-box">
-
-                <div class="root-box-title">
-                  第二個根
-                </div>
-
-                <div class="root-expression">
-
-                  <span class="root-x">
-                    x＝
-                  </span>
-
-                  <input
-                    id="root-2"
-                    class="root-input"
-                    type="text"
-                    autocomplete="off"
-                    placeholder="輸入答案"
-                  >
-
-                </div>
-
-              </div>
-            `
+            ? rootBoxHTML(
+                2,
+                "第二個根"
+              )
 
             : ""
         }
@@ -7999,9 +8604,9 @@ function renderRootsAnswer(
         <button
           type="button"
           class="symbol-button"
-          data-symbol="/"
+          data-symbol="＋"
         >
-          /
+          ＋
         </button>
 
         <button
@@ -8040,37 +8645,69 @@ function renderRootsAnswer(
 
 
   [
-    "root-1",
-    "root-2"
+    1,
+    2
   ]
     .forEach(
-      id => {
+      rootNumber => {
 
-        const input =
-          $(id);
+        [
+          `root-${rootNumber}`,
+          `root-${rootNumber}-num`,
+          `root-${rootNumber}-den`
+        ]
+          .forEach(
+            id => {
+
+              const input =
+                $(id);
 
 
-        if (
-          !input
-        ) {
+              if (
+                !input
+              ) {
 
-          return;
-        }
+                return;
+              }
 
 
-        input.addEventListener(
-          "focus",
+              input.addEventListener(
+                "focus",
+                () => {
+
+                  activeRootInput =
+                    input;
+                }
+              );
+
+
+              input.addEventListener(
+                "input",
+                updateRootPreview
+              );
+            }
+          );
+      }
+    );
+
+
+  $("answer-panel")
+    .querySelectorAll(
+      "[data-root-toggle]"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
           () => {
 
-            activeRootInput =
-              input;
+            toggleRootFractionMode(
+              Number(
+                button.dataset.rootToggle
+              )
+            );
           }
-        );
-
-
-        input.addEventListener(
-          "input",
-          updateRootPreview
         );
       }
     );
@@ -8706,17 +9343,47 @@ function readRootsAnswer(
 ) {
 
   const firstRaw =
-    $("root-1")
-      ?.value
-      .trim() ??
-    "";
+    getRootRaw(
+      1
+    );
 
 
   const secondRaw =
-    $("root-2")
-      ?.value
-      .trim() ??
-    "";
+    getRootRaw(
+      2
+    );
+
+
+  if (
+    firstRaw ===
+    null
+  ) {
+
+    return {
+
+      valid:
+        false,
+
+      message:
+        "第一個根的分數答案請把分子、分母都填完整。"
+    };
+  }
+
+
+  if (
+    secondRaw ===
+    null
+  ) {
+
+    return {
+
+      valid:
+        false,
+
+      message:
+        "第二個根的分數答案請把分子、分母都填完整。"
+    };
+  }
 
 
   if (
@@ -8815,6 +9482,20 @@ function readRootsAnswer(
   }
 
 
+  const firstDisplay =
+    rootEntryPreviewHTML(
+      1
+    ) ||
+    firstRaw;
+
+
+  const secondDisplay =
+    rootEntryPreviewHTML(
+      2
+    ) ||
+    secondRaw;
+
+
   return {
 
     valid:
@@ -8828,9 +9509,9 @@ function readRootsAnswer(
       values.length ===
       1
 
-        ? `x＝${firstRaw}`
+        ? `x＝${firstDisplay}`
 
-        : `x＝${firstRaw} 或 ${secondRaw}`
+        : `x＝${firstDisplay} 或 ${secondDisplay}`
   };
 }
 
