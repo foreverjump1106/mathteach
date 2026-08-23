@@ -640,61 +640,42 @@
 
     /*
     ==================================================
-    ★ 完整根號
+    ★ 完整根號（全模式共用）
     ==================================================
 
-    不再直接只使用字元 √7。
-
-    使用：
-
-    <span class="sqrt-expression">
-      <span class="sqrt-symbol">√</span>
-      <span class="sqrt-radicand">7</span>
-    </span>
-
-    讓根號上方橫線完整顯示。
+    使用「根號符號 + 被開方數上方橫線」組合，
+    避免只顯示單獨的 √ 字元。
+    題目、詳解、公式、正確答案、目前答案預覽
+    全部共用同一套顯示。
     ==================================================
     */
 
     .sqrt-expression {
 
-      display:
-        inline-flex;
+      display: inline-flex;
 
-      align-items:
-        flex-start;
+      align-items: flex-start;
 
-      white-space:
-        nowrap;
+      white-space: nowrap;
 
-      vertical-align:
-        -0.08em;
+      vertical-align: -0.12em;
 
       line-height: 1;
     }
 
-    /*
-    根號符號本體
-    */
-
     .sqrt-symbol {
 
-      position:
-        relative;
+      position: relative;
 
       z-index: 2;
 
-      display:
-        inline-block;
+      display: inline-block;
 
-      flex:
-        0 0 auto;
+      flex: 0 0 auto;
 
-      margin-right:
-        -0.10em;
+      margin-right: -0.12em;
 
-      padding-top:
-        .02em;
+      padding-top: .025em;
 
       font-family:
         "Cambria Math",
@@ -702,100 +683,50 @@
         "Times New Roman",
         serif;
 
-      font-size:
-        1.34em;
+      font-size: 1.38em;
 
-      font-weight:
-        400;
+      font-weight: 400;
 
-      line-height:
-        1;
+      line-height: 1;
 
-      transform:
-        translateY(.035em);
+      transform: translateY(.035em);
     }
-
-    /*
-    根號內文字。
-    橫線使用 ::before，
-    並稍微往左延伸和 √ 接在一起，
-    避免出現「√  ____」分離的樣子。
-    */
 
     .sqrt-radicand {
 
-      position:
-        relative;
+      position: relative;
 
       z-index: 1;
 
-      display:
-        inline-block;
+      display: inline-block;
 
-      min-width:
-        .56em;
+      min-width: .72em;
 
-      margin-top:
-        .015em;
+      margin-left: 0;
 
-      padding:
-        .10em .11em 0 .11em;
+      padding: .08em .13em 0 .11em;
 
-      line-height:
-        1.06;
-    }
+      border-top: .075em solid currentColor;
 
-    .sqrt-radicand::before {
-
-      content: "";
-
-      position:
-        absolute;
-
-      top:
-        0;
-
-      left:
-        -0.10em;
-
-      right:
-        0;
-
-      border-top:
-        .075em solid
-        currentColor;
-
-      border-radius:
-        999px;
-
-      pointer-events:
-        none;
+      line-height: 1.04;
     }
 
     /*
-    根號按鈕只顯示正常的 √，
-    不再放 □ 或人工橫線。
+    根號按鈕本身也顯示完整根號，
+    不再只看到沒有橫線的 √。
     */
 
-    .sqrt-key {
+    .sqrt-key-demo {
 
-      display:
-        inline-block;
+      display: inline-flex;
 
-      font-family:
-        "Cambria Math",
-        "STIX Two Math",
-        "Times New Roman",
-        serif;
+      align-items: center;
 
-      font-size:
-        1.35em;
+      justify-content: center;
 
-      font-weight:
-        400;
+      min-width: 1.8em;
 
-      line-height:
-        1;
+      font-size: 1.02em;
     }
 
     /*
@@ -4501,6 +4432,22 @@ function makeCommonFactorEquation() {
     r;
 
 
+  const secondFactor =
+
+    r >
+    0
+
+      ? `(x－${r})`
+
+      : `(x＋${Math.abs(r)})`;
+
+
+  const secondLinear =
+    linearEquationFromRootHTML(
+      r
+    );
+
+
   return rootsQuestion({
 
     label:
@@ -4529,60 +4476,54 @@ function makeCommonFactorEquation() {
       [
 
         `
-        左式兩項都有公因式
-        ${k}x。
+        左式兩項都有公因式 ${k}x，
+        先把公因式提出來。
         `,
 
         `
+        <div class="calculation-box math single-line-calculation">
 
-        <div class="calculation-box math">
-
-          ${polynomialHTML(
-            a,
-            b,
-            0
-          )}
-
-          ＝
-
-          ${k}x
-
-          ${
-            r >
-            0
-
-              ? `(x－${r})`
-
-              : `(x＋${Math.abs(r)})`
-          }
+          <span>
+            ${polynomialHTML(a, b, 0)}＝${k}x${secondFactor}
+          </span>
 
         </div>
         `,
 
         `
+        所以方程式變為：
 
-        因此：
+        <div class="calculation-box math single-line-calculation">
 
-        <div class="calculation-box math">
-
-          ${k}x
-
-          ${
-            r >
-            0
-
-              ? `(x－${r})`
-
-              : `(x＋${Math.abs(r)})`
-          }
-
-          ＝0
+          <span>
+            ${k}x${secondFactor}＝0
+          </span>
 
         </div>
         `,
 
         `
-        所以
+        利用零乘積性質：
+
+        <div class="calculation-box math single-line-calculation">
+
+          <span>
+            ${k}x＝0
+          </span>
+
+          <span>
+            或
+          </span>
+
+          <span>
+            ${secondLinear}
+          </span>
+
+        </div>
+        `,
+
+        `
+        解得：
         x＝0
         或
         x＝${r}。
@@ -4590,7 +4531,6 @@ function makeCommonFactorEquation() {
       ]
   });
 }
-
 
 function makeDifferenceSquaresEquation() {
 
@@ -4630,37 +4570,55 @@ function makeDifferenceSquaresEquation() {
       [
 
         `
+        係數已是最簡整數，
         利用平方差公式：
         a²－b²＝(a＋b)(a－b)。
         `,
 
         `
+        <div class="calculation-box math single-line-calculation">
 
-        <div class="calculation-box math">
-
-          x<sup>2</sup>
-          －${n * n}
-
-          ＝
-
-          (x＋${n})(x－${n})
+          <span>
+            x<sup>2</sup>－${n * n}＝(x＋${n})(x－${n})
+          </span>
 
         </div>
         `,
 
         `
+        所以方程式變為：
 
-        因此：
+        <div class="calculation-box math single-line-calculation">
 
-        <div class="calculation-box math">
-
-          (x＋${n})(x－${n})＝0
+          <span>
+            (x＋${n})(x－${n})＝0
+          </span>
 
         </div>
         `,
 
         `
-        所以
+        利用零乘積性質：
+
+        <div class="calculation-box math single-line-calculation">
+
+          <span>
+            x＋${n}＝0
+          </span>
+
+          <span>
+            或
+          </span>
+
+          <span>
+            x－${n}＝0
+          </span>
+
+        </div>
+        `,
+
+        `
+        解得：
         x＝−${n}
         或
         x＝${n}。
@@ -4668,7 +4626,6 @@ function makeDifferenceSquaresEquation() {
       ]
   });
 }
-
 
 function makePerfectSquarePlus() {
 
@@ -4708,44 +4665,52 @@ function makePerfectSquarePlus() {
       [
 
         `
+        係數已是最簡整數，
         利用和的平方公式：
         (a＋b)²＝a²＋2ab＋b²。
         `,
 
         `
+        <div class="calculation-box math single-line-calculation">
 
-        <div class="calculation-box math">
-
-          x<sup>2</sup>
-          ＋${2 * n}x
-          ＋${n * n}
-
-          ＝
-
-          (x＋${n})<sup>2</sup>
+          <span>
+            x<sup>2</sup>＋${2 * n}x＋${n * n}＝(x＋${n})<sup>2</sup>
+          </span>
 
         </div>
         `,
 
         `
+        所以方程式變為：
 
+        <div class="calculation-box math single-line-calculation">
+
+          <span>
+            (x＋${n})<sup>2</sup>＝0
+          </span>
+
+        </div>
+        `,
+
+        `
         因此：
 
-        <div class="calculation-box math">
+        <div class="calculation-box math single-line-calculation">
 
-          (x＋${n})<sup>2</sup>＝0
+          <span>
+            x＋${n}＝0
+          </span>
 
         </div>
         `,
 
         `
-        所以 x＝−${n}。
+        解得 x＝−${n}，
         此題為重根。
         `
       ]
   });
 }
-
 
 function makePerfectSquareMinus() {
 
@@ -4785,121 +4750,190 @@ function makePerfectSquareMinus() {
       [
 
         `
+        係數已是最簡整數，
         利用差的平方公式：
         (a－b)²＝a²－2ab＋b²。
         `,
 
         `
+        <div class="calculation-box math single-line-calculation">
 
-        <div class="calculation-box math">
-
-          x<sup>2</sup>
-          －${2 * n}x
-          ＋${n * n}
-
-          ＝
-
-          (x－${n})<sup>2</sup>
+          <span>
+            x<sup>2</sup>－${2 * n}x＋${n * n}＝(x－${n})<sup>2</sup>
+          </span>
 
         </div>
         `,
 
         `
+        所以方程式變為：
 
+        <div class="calculation-box math single-line-calculation">
+
+          <span>
+            (x－${n})<sup>2</sup>＝0
+          </span>
+
+        </div>
+        `,
+
+        `
         因此：
 
-        <div class="calculation-box math">
+        <div class="calculation-box math single-line-calculation">
 
-          (x－${n})<sup>2</sup>＝0
+          <span>
+            x－${n}＝0
+          </span>
 
         </div>
         `,
 
         `
-        所以 x＝${n}。
+        解得 x＝${n}，
         此題為重根。
         `
       ]
   });
 }
 
-
 function makeCrossFactorEquation() {
 
-  const r1 =
-    nonZeroRand(
-      -6,
-      6
-    );
+  let r1;
+  let r2;
+  let a1;
+  let a2;
+  let p;
+  let q;
+  let baseA;
+  let baseB;
+  let baseC;
 
 
-  let r2 =
-    nonZeroRand(
-      -6,
-      6
-    );
+  /*
+  先製造一個「最簡整數係數」的二次式，
+  再視需要把整個方程式同乘 2 或 3。
+  這樣詳解就可以先明確示範：
+  有共同因數時先約分，再做十字交乘。
+  */
 
-
-  while (
-    r2 ===
-    r1
+  for (
+    let attempt = 0;
+    attempt < 500;
+    attempt++
   ) {
+
+    r1 =
+      nonZeroRand(
+        -6,
+        6
+      );
+
 
     r2 =
       nonZeroRand(
         -6,
         6
       );
+
+
+    if (
+      r2 ===
+      r1
+    ) {
+
+      continue;
+    }
+
+
+    a1 =
+      pick(
+        [
+          1,
+          1,
+          1,
+          2,
+          3
+        ]
+      );
+
+
+    a2 =
+      pick(
+        [
+          1,
+          1,
+          2
+        ]
+      );
+
+
+    p =
+      -a1 *
+      r1;
+
+
+    q =
+      -a2 *
+      r2;
+
+
+    baseA =
+      a1 *
+      a2;
+
+
+    baseB =
+      a1 *
+      q +
+      a2 *
+      p;
+
+
+    baseC =
+      p *
+      q;
+
+
+    if (
+      gcd3(
+        Math.abs(baseA),
+        Math.abs(baseB),
+        Math.abs(baseC)
+      ) ===
+      1
+    ) {
+
+      break;
+    }
   }
 
 
-  const a1 =
+  const scale =
     pick(
       [
         1,
         1,
-        1,
+        2,
         2,
         3
       ]
     );
 
 
-  const a2 =
-    pick(
-      [
-        1,
-        1,
-        2
-      ]
-    );
-
-
   const A =
-    a1 *
-    a2;
-
-
-  const p =
-    -a1 *
-    r1;
-
-
-  const q =
-    -a2 *
-    r2;
+    baseA *
+    scale;
 
 
   const B =
-    a1 *
-    q +
-    a2 *
-    p;
+    baseB *
+    scale;
 
 
   const C =
-    p *
-    q;
+    baseC *
+    scale;
 
 
   const factor1 =
@@ -4920,6 +4954,57 @@ function makeCrossFactorEquation() {
       ? `(${a2 === 1 ? "" : a2}x＋${q})`
 
       : `(${a2 === 1 ? "" : a2}x－${Math.abs(q)})`;
+
+
+  const linear1 =
+
+    p >=
+    0
+
+      ? `${a1 === 1 ? "" : a1}x＋${p}＝0`
+
+      : `${a1 === 1 ? "" : a1}x－${Math.abs(p)}＝0`;
+
+
+  const linear2 =
+
+    q >=
+    0
+
+      ? `${a2 === 1 ? "" : a2}x＋${q}＝0`
+
+      : `${a2 === 1 ? "" : a2}x－${Math.abs(q)}＝0`;
+
+
+  const simplifyStep =
+
+    scale >
+    1
+
+      ? `
+        三項係數都有公因數 ${scale}，
+        先將方程式兩邊同除以 ${scale}，
+        化成最簡整數係數後再進行因式分解。
+
+        <div class="calculation-box math">
+
+          ${polynomialHTML(A, B, C)}＝0
+
+          <br>
+
+          ÷ ${scale}
+
+          <br>
+
+          ${polynomialHTML(baseA, baseB, baseC)}＝0
+
+        </div>
+        `
+
+      : `
+        三項係數已沒有共同因數，
+        已是最簡整數係數，可直接進行十字交乘。
+        `;
 
 
   return rootsQuestion({
@@ -4949,17 +5034,14 @@ function makeCrossFactorEquation() {
     explanation:
       [
 
-        `
-        先將
-        ${polynomialHTML(A, B, C)}
-        進行十字交乘因式分解。
-        `,
+        simplifyStep,
 
         `
+        對最簡整數係數的二次式進行十字交乘：
 
         <div class="calculation-box math">
 
-          ${polynomialHTML(A, B, C)}
+          ${polynomialHTML(baseA, baseB, baseC)}
 
           ＝
 
@@ -4969,19 +5051,39 @@ function makeCrossFactorEquation() {
         `,
 
         `
-
         所以方程式變為：
 
-        <div class="calculation-box math">
+        <div class="calculation-box math single-line-calculation">
 
-          ${factor1}${factor2}＝0
+          <span>
+            ${factor1}${factor2}＝0
+          </span>
 
         </div>
         `,
 
         `
-        分別令兩個因式為 0，
-        得
+        利用零乘積性質，分別令兩個因式等於 0：
+
+        <div class="calculation-box math single-line-calculation">
+
+          <span>
+            ${linear1}
+          </span>
+
+          <span>
+            或
+          </span>
+
+          <span>
+            ${linear2}
+          </span>
+
+        </div>
+        `,
+
+        `
+        解得：
         x＝${r1}
         或
         x＝${r2}。
@@ -4989,7 +5091,6 @@ function makeCrossFactorEquation() {
       ]
   });
 }
-
 
 function makeMode2() {
 
@@ -7889,7 +7990,9 @@ function renderRootsAnswer(
           aria-label="輸入根號"
         >
 
-          <span class="sqrt-key">√</span>
+          <span class="sqrt-key-demo">
+            ${sqrtHTML("x")}
+          </span>
 
         </button>
 
