@@ -833,9 +833,6 @@
         min-height: auto;
         font-size: 16px;
       }
-    }
-
-
       .announcement-board {
         padding: 18px 16px 18px 20px;
       }
@@ -862,6 +859,8 @@
       .news-date {
         grid-column: 2;
       }
+
+    }
 
 
     @media (max-width: 520px) {
@@ -1210,13 +1209,6 @@
       getGamesBySemester
     } from "./js/game-config.js?v=6.4";
 
-
-    import {
-      getImportantAnnouncement,
-      getLatestAnnouncements
-    } from "./js/announcements.js?v=1";
-
-
     import {
       onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -1343,109 +1335,206 @@
     }
 
 
-    function renderAnnouncements() {
-
-      const important =
-        getImportantAnnouncement();
 
 
-      if (
-        important
-      ) {
+    /*
+    ==================================================
+    安全載入 announcements.js
 
-        announcementDate.textContent =
-          formatAnnouncementDate(
-            important.date
+    重要：
+    公告模組即使不存在、路徑錯誤、GitHub 快取尚未更新，
+    都不可以影響：
+    1. Google 登入
+    2. 遊戲卡片
+    3. 學期切換
+    4. 排行榜 / 我的成績
+    ==================================================
+    */
+
+    async function loadAnnouncementsSafely() {
+
+      try {
+
+        const announcementModule =
+          await import(
+            "./js/announcements.js?v=2"
           );
 
 
-        announcementBadge.textContent =
-          `${important.icon || "📌"} ${important.typeName || "最新公告"}`;
+        const getImportantAnnouncement =
+          announcementModule
+            .getImportantAnnouncement;
 
 
-        announcementTitle.textContent =
-          important.title ||
-          "最新公告";
+        const getLatestAnnouncements =
+          announcementModule
+            .getLatestAnnouncements;
 
 
-        announcementContent.textContent =
-          important.content ||
-          "";
+        if (
+          typeof getImportantAnnouncement !==
+            "function" ||
 
-      } else {
+          typeof getLatestAnnouncements !==
+            "function"
+        ) {
 
-        announcementBoard.hidden =
-          true;
-      }
+          throw new Error(
+            "announcements.js 缺少必要的匯出函式。"
+          );
+        }
 
 
-      const latest =
-        getLatestAnnouncements(
-          4
+        const important =
+          getImportantAnnouncement();
+
+
+        if (
+          important
+        ) {
+
+          announcementBoard.hidden =
+            false;
+
+
+          announcementDate.textContent =
+            formatAnnouncementDate(
+              important.date
+            );
+
+
+          announcementBadge.textContent =
+            `${important.icon || "📌"} ${important.typeName || "最新公告"}`;
+
+
+          announcementTitle.textContent =
+            important.title ||
+            "最新公告";
+
+
+          announcementContent.textContent =
+            important.content ||
+            "";
+
+        } else {
+
+          announcementBoard.hidden =
+            true;
+        }
+
+
+        const latest =
+          getLatestAnnouncements(
+            4
+          );
+
+
+        if (
+          !latest.length
+        ) {
+
+          latestNewsList.innerHTML = `
+            <div class="news-empty">
+              目前沒有最新消息。
+            </div>
+          `;
+
+          return;
+        }
+
+
+        latestNewsList.innerHTML =
+          latest
+            .map(
+              item => `
+
+                <article class="news-item">
+
+                  <div class="news-icon">
+                    ${item.icon || "📌"}
+                  </div>
+
+                  <div class="news-main">
+
+                    <div class="news-meta">
+
+                      <span
+                        class="news-type ${item.type || "notice"}"
+                      >
+                        ${item.typeName || "網站公告"}
+                      </span>
+
+                    </div>
+
+                    <div class="news-item-title">
+                      ${item.title || ""}
+                    </div>
+
+                    <div class="news-item-content">
+                      ${item.content || ""}
+                    </div>
+
+                  </div>
+
+                  <div class="news-date">
+                    ${formatAnnouncementDate(
+                      item.date
+                    )}
+                  </div>
+
+                </article>
+              `
+            )
+            .join("");
+
+      } catch (
+        error
+      ) {
+
+        console.error(
+          "公告模組載入失敗：",
+          error
         );
 
 
-      if (
-        !latest.length
-      ) {
+        /*
+        公告載入失敗時顯示友善訊息，
+        但首頁其他功能照常執行。
+        */
+
+        announcementBoard.hidden =
+          false;
+
+
+        announcementDate.textContent =
+          "";
+
+
+        announcementBadge.textContent =
+          "📌 網站公告";
+
+
+        announcementTitle.textContent =
+          "生活有解．心中有數";
+
+
+        announcementContent.textContent =
+          "公告系統暫時無法載入，但數學遊戲仍可正常使用。";
+
 
         latestNewsList.innerHTML = `
           <div class="news-empty">
-            目前沒有最新消息。
+            最新消息暫時無法載入，請稍後重新整理頁面。
           </div>
         `;
-
-        return;
       }
-
-
-      latestNewsList.innerHTML =
-        latest
-          .map(
-            item => `
-
-              <article class="news-item">
-
-                <div class="news-icon">
-                  ${item.icon || "📌"}
-                </div>
-
-                <div class="news-main">
-
-                  <div class="news-meta">
-
-                    <span
-                      class="news-type ${item.type || "notice"}"
-                    >
-                      ${item.typeName || "網站公告"}
-                    </span>
-
-                  </div>
-
-                  <div class="news-item-title">
-                    ${item.title || ""}
-                  </div>
-
-                  <div class="news-item-content">
-                    ${item.content || ""}
-                  </div>
-
-                </div>
-
-                <div class="news-date">
-                  ${formatAnnouncementDate(
-                    item.date
-                  )}
-                </div>
-
-              </article>
-            `
-          )
-          .join("");
     }
 
 
-    renderAnnouncements();
+    /*
+    公告獨立載入，不阻擋首頁核心功能。
+    */
+    loadAnnouncementsSafely();
 
 
     /*
@@ -1767,10 +1856,71 @@
         "";
 
 
-      const games =
-        getGamesBySemester(
-          semester
+      let games =
+        [];
+
+
+      try {
+
+        games =
+          getGamesBySemester(
+            semester
+          ) || [];
+
+      } catch (
+        error
+      ) {
+
+        console.error(
+          `讀取 ${semester} 遊戲清單失敗：`,
+          error
         );
+
+
+        container.innerHTML = `
+          <div
+            style="
+              grid-column: 1 / -1;
+              padding: 24px;
+              border: 2px dashed #fca5a5;
+              border-radius: 18px;
+              background: #fff7f7;
+              color: #b91c1c;
+              text-align: center;
+              font-weight: 800;
+            "
+          >
+            遊戲清單暫時無法載入，請重新整理頁面。
+          </div>
+        `;
+
+        return;
+      }
+
+
+      if (
+        !games.length
+      ) {
+
+        container.innerHTML = `
+          <div
+            style="
+              grid-column: 1 / -1;
+              padding: 24px;
+              border: 2px dashed #cbd5e1;
+              border-radius: 18px;
+              background: #f8fafc;
+              color: #64748b;
+              text-align: center;
+              font-weight: 800;
+            "
+          >
+            這個學期目前尚未設定遊戲。
+          </div>
+        `;
+
+        return;
+      }
 
 
       games.forEach(
