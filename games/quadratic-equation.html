@@ -1082,6 +1082,79 @@
         1 1 auto;
 
       min-width: 0;
+
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: stretch;
+    }
+
+    /*
+    根號答案格的視覺層：
+    真正 input 保留鍵盤輸入與游標，
+    畫面用 MathML 顯示完整根號橫線。
+    */
+
+    .root-normal-editor {
+
+      position: relative;
+
+      width: 100%;
+    }
+
+    .root-normal-editor .root-input {
+
+      position: relative;
+
+      z-index: 1;
+    }
+
+    .root-normal-editor.has-radical-render .root-input {
+
+      color: transparent;
+
+      caret-color: #2563eb;
+    }
+
+    .root-rich-display {
+
+      position: absolute;
+
+      inset: 0;
+
+      z-index: 2;
+
+      display: none;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 7px 10px;
+
+      pointer-events: none;
+
+      overflow: hidden;
+
+      color: #0f172a;
+
+      font-family:
+        "Cambria Math",
+        "STIX Two Math",
+        "Times New Roman",
+        serif;
+
+      font-size: 23px;
+
+      font-weight: 900;
+
+      white-space: nowrap;
+    }
+
+    .root-normal-editor.has-radical-render .root-rich-display {
+
+      display: flex;
     }
 
     .root-fraction-editor {
@@ -1110,7 +1183,29 @@
       display: none !important;
     }
 
+    .root-fraction-field {
+
+      position: relative;
+
+      width: 100%;
+
+      min-width: 0;
+
+      height: 54px;
+    }
+
+    .root-fraction-field:first-child {
+
+      border-bottom:
+        2px solid
+        #334155;
+    }
+
     .root-fraction-input {
+
+      position: relative;
+
+      z-index: 1;
 
       width: 100%;
 
@@ -1136,19 +1231,64 @@
       outline: none;
     }
 
-    .root-fraction-input:first-child {
+    .root-fraction-field.has-radical-render .root-fraction-input {
 
-      border-bottom:
-        2px solid
-        #334155;
+      color: transparent;
+
+      caret-color: #2563eb;
+    }
+
+    .root-fraction-rich {
+
+      position: absolute;
+
+      inset: 0;
+
+      z-index: 2;
+
+      display: none;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 5px 9px;
+
+      pointer-events: none;
+
+      overflow: hidden;
+
+      color: #0f172a;
+
+      font-family:
+        "Cambria Math",
+        "STIX Two Math",
+        "Times New Roman",
+        serif;
+
+      font-size: 22px;
+
+      font-weight: 900;
+
+      white-space: nowrap;
+    }
+
+    .root-fraction-field.has-radical-render .root-fraction-rich {
+
+      display: flex;
     }
 
     .root-format-toggle {
 
-      margin-top: 8px;
+      display: block;
+
+      width: 100%;
+
+      margin:
+        9px 0 0;
 
       padding:
-        6px 11px;
+        7px 11px;
 
       border:
         1.5px solid
@@ -1212,6 +1352,19 @@
         .07em .18em 0;
 
       text-align: center;
+    }
+
+    .repeated-root-note {
+
+      color: #b45309;
+
+      font-family: "Microsoft JhengHei", sans-serif;
+
+      font-size: .78em;
+
+      font-weight: 900;
+
+      white-space: nowrap;
     }
 
     .symbol-toolbar {
@@ -1708,6 +1861,121 @@
 
       -webkit-overflow-scrolling:
         touch;
+    }
+
+    /*
+    ==================================================
+    十字交乘直式
+    ==================================================
+    */
+
+    .cross-factor-box {
+
+      width: min(100%, 500px);
+
+      margin: 14px auto;
+
+      padding: 16px 18px;
+
+      border: 2px solid #bfdbfe;
+
+      border-radius: 14px;
+
+      background: #fff;
+    }
+
+    .cross-factor-title {
+
+      margin-bottom: 12px;
+
+      color: var(--primary-dark);
+
+      font-size: 16px;
+
+      font-weight: 900;
+
+      text-align: center;
+    }
+
+    .cross-factor-diagram {
+
+      position: relative;
+
+      width: min(100%, 330px);
+
+      margin: 0 auto;
+
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+
+      grid-template-rows: auto auto auto;
+
+      column-gap: 84px;
+
+      row-gap: 8px;
+
+      align-items: center;
+
+      justify-items: center;
+
+      font-family:
+        "Cambria Math",
+        "Times New Roman",
+        serif;
+
+      font-size: 24px;
+
+      font-weight: 900;
+    }
+
+    .cross-factor-diagram::before,
+    .cross-factor-diagram::after {
+
+      content: "";
+
+      position: absolute;
+
+      left: 50%;
+
+      top: 37px;
+
+      width: 145px;
+
+      height: 2px;
+
+      background: #ef7ba4;
+
+      transform-origin: center;
+
+      pointer-events: none;
+    }
+
+    .cross-factor-diagram::before {
+
+      transform: translateX(-50%) rotate(24deg);
+    }
+
+    .cross-factor-diagram::after {
+
+      transform: translateX(-50%) rotate(-24deg);
+    }
+
+    .cross-factor-bottom {
+
+      grid-column: 1 / -1;
+
+      width: 100%;
+
+      margin-top: 4px;
+
+      padding-top: 8px;
+
+      border-top: 2px solid #ef7ba4;
+
+      text-align: center;
+
+      font-size: 20px;
     }
 
     /*
@@ -3924,6 +4192,11 @@ function rootsQuestion({
   method = ""
 }) {
 
+  const isRepeatedRoot =
+    Array.isArray(values) &&
+    values.length === 1;
+
+
   return {
 
     type:
@@ -3935,7 +4208,14 @@ function rootsQuestion({
 
     values,
 
-    answerHTML,
+    answerHTML:
+      isRepeatedRoot
+
+        ? `${answerHTML}　<span class="repeated-root-note">重根</span>`
+
+        : answerHTML,
+
+    isRepeatedRoot,
 
     explanation,
 
@@ -5086,6 +5366,82 @@ function makePerfectSquareMinus() {
   });
 }
 
+function crossFactorDiagramHTML(
+  a1,
+  p,
+  a2,
+  q,
+  middleCoefficient
+) {
+
+  const left1 =
+    `${a1 === 1 ? "" : a1}x`;
+
+
+  const left2 =
+    `${a2 === 1 ? "" : a2}x`;
+
+
+  const right1 =
+    p >= 0
+
+      ? `＋${p}`
+
+      : `－${Math.abs(p)}`;
+
+
+  const right2 =
+    q >= 0
+
+      ? `＋${q}`
+
+      : `－${Math.abs(q)}`;
+
+
+  const crossOne =
+    a1 * q;
+
+
+  const crossTwo =
+    a2 * p;
+
+
+  const signed = value =>
+    value >= 0
+
+      ? `＋${value}`
+
+      : `－${Math.abs(value)}`;
+
+
+  return `
+
+    <div class="cross-factor-box">
+
+      <div class="cross-factor-title">
+        十字交乘
+      </div>
+
+      <div class="cross-factor-diagram">
+
+        <div>${left1}</div>
+        <div>${right1}</div>
+
+        <div>${left2}</div>
+        <div>${right2}</div>
+
+        <div class="cross-factor-bottom">
+          ${crossOne}x ${signed(crossTwo)}x
+          ＝ ${middleCoefficient}x
+        </div>
+
+      </div>
+
+    </div>
+  `;
+}
+
+
 function makeCrossFactorEquation() {
 
   let r1;
@@ -5326,15 +5682,26 @@ function makeCrossFactorEquation() {
         simplifyStep,
 
         `
-        對最簡整數係數的二次式進行十字交乘：
+        先用十字交乘找出兩個一次因式：
 
-        <div class="calculation-box math">
+        ${crossFactorDiagramHTML(
+          a1,
+          p,
+          a2,
+          q,
+          baseB
+        )}
 
-          ${polynomialHTML(baseA, baseB, baseC)}
+        確認交叉相乘後的兩項相加正好等於中間項，
+        再寫成橫式因式分解：
 
-          ＝
+        <div class="calculation-box math single-line-calculation">
 
-          ${factor1}${factor2}
+          <span>
+            ${polynomialHTML(baseA, baseB, baseC)}
+            ＝
+            ${factor1}${factor2}
+          </span>
 
         </div>
         `,
@@ -8306,7 +8673,147 @@ function rootEntryPreviewHTML(
 }
 
 
+function updateRootInputSurface(
+  rootNumber
+) {
+
+  const input =
+    $(`root-${rootNumber}`);
+
+
+  const editor =
+    $(`root-${rootNumber}-normal-editor`);
+
+
+  const rich =
+    $(`root-${rootNumber}-rich`);
+
+
+  if (
+    !input ||
+    !editor ||
+    !rich
+  ) {
+
+    return;
+  }
+
+
+  const raw =
+    input.value
+      .trim();
+
+
+  const hasRadical =
+    raw.includes(
+      "√"
+    );
+
+
+  editor.classList.toggle(
+    "has-radical-render",
+    hasRadical
+  );
+
+
+  rich.innerHTML =
+    hasRadical
+
+      ? prettyInputHTML(
+          raw
+        )
+
+      : "";
+}
+
+
+function updateRootFractionSurface(
+  rootNumber,
+  part
+) {
+
+  const input =
+    $(`root-${rootNumber}-${part}`);
+
+
+  const field =
+    $(`root-${rootNumber}-${part}-field`);
+
+
+  const rich =
+    $(`root-${rootNumber}-${part}-rich`);
+
+
+  if (
+    !input ||
+    !field ||
+    !rich
+  ) {
+
+    return;
+  }
+
+
+  const raw =
+    input.value
+      .trim();
+
+
+  const hasRadical =
+    raw.includes(
+      "√"
+    );
+
+
+  field.classList.toggle(
+    "has-radical-render",
+    hasRadical
+  );
+
+
+  rich.innerHTML =
+    hasRadical
+
+      ? prettyInputHTML(
+          raw
+        )
+
+      : "";
+}
+
+
 function updateRootPreview() {
+
+  updateRootInputSurface(
+    1
+  );
+
+
+  updateRootInputSurface(
+    2
+  );
+
+
+  [
+    1,
+    2
+  ]
+    .forEach(
+      rootNumber => {
+
+        updateRootFractionSurface(
+          rootNumber,
+          "num"
+        );
+
+
+        updateRootFractionSurface(
+          rootNumber,
+          "den"
+        );
+      }
+    );
+
 
   const first =
     rootEntryPreviewHTML(
@@ -8364,7 +8871,7 @@ function updateRootPreview() {
               "？"
             }`
 
-          : ""
+          : `　<span class="repeated-root-note">重根</span>`
       }
 
     </span>
@@ -8396,13 +8903,26 @@ function rootBoxHTML(
 
         <div class="root-entry-body">
 
-          <input
-            id="root-${rootNumber}"
-            class="root-input"
-            type="text"
-            autocomplete="off"
-            placeholder="輸入答案"
+          <div
+            id="root-${rootNumber}-normal-editor"
+            class="root-normal-editor"
           >
+
+            <input
+              id="root-${rootNumber}"
+              class="root-input"
+              type="text"
+              autocomplete="off"
+              placeholder="輸入答案"
+            >
+
+            <div
+              id="root-${rootNumber}-rich"
+              class="root-rich-display"
+              aria-hidden="true"
+            ></div>
+
+          </div>
 
           <div
             id="root-${rootNumber}-fraction"
@@ -8410,22 +8930,48 @@ function rootBoxHTML(
             data-active="false"
           >
 
-            <input
-              id="root-${rootNumber}-num"
-              class="root-fraction-input"
-              type="text"
-              autocomplete="off"
-              placeholder="分子"
+            <div
+              id="root-${rootNumber}-num-field"
+              class="root-fraction-field"
             >
 
-            <input
-              id="root-${rootNumber}-den"
-              class="root-fraction-input"
-              type="text"
-              autocomplete="off"
-              inputmode="text"
-              placeholder="分母"
+              <input
+                id="root-${rootNumber}-num"
+                class="root-fraction-input"
+                type="text"
+                autocomplete="off"
+                placeholder="分子"
+              >
+
+              <div
+                id="root-${rootNumber}-num-rich"
+                class="root-fraction-rich"
+                aria-hidden="true"
+              ></div>
+
+            </div>
+
+            <div
+              id="root-${rootNumber}-den-field"
+              class="root-fraction-field"
             >
+
+              <input
+                id="root-${rootNumber}-den"
+                class="root-fraction-input"
+                type="text"
+                autocomplete="off"
+                inputmode="text"
+                placeholder="分母"
+              >
+
+              <div
+                id="root-${rootNumber}-den-rich"
+                class="root-fraction-rich"
+                aria-hidden="true"
+              ></div>
+
+            </div>
 
           </div>
 
@@ -8551,7 +9097,15 @@ function renderRootsAnswer(
 
       <p class="answer-help">
 
-        兩根前後順序可以交換。<br>
+        ${
+          rootCount === 1
+
+            ? "本題為重根，只需填寫一次根值；系統會標示為重根。"
+
+            : "兩根前後順序可以交換。"
+        }
+
+        <br>
 
         根號請使用下方按鈕輸入；
         若答案為分數，請切換成上下分子、分母的答案格，
@@ -8567,7 +9121,7 @@ function renderRootsAnswer(
           rootCount ===
           1
 
-            ? "答案"
+            ? "答案（重根）"
 
             : "第一個根"
         )}
@@ -9509,7 +10063,7 @@ function readRootsAnswer(
       values.length ===
       1
 
-        ? `x＝${firstDisplay}`
+        ? `x＝${firstDisplay}　重根`
 
         : `x＝${firstDisplay} 或 ${secondDisplay}`
   };
