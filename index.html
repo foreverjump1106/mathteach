@@ -8,7 +8,7 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>數學遊戲樂園</title>
+  <title>生活有解．心中有數</title>
 
   <style>
     * {
@@ -523,6 +523,227 @@
       line-height: 1.55;
     }
 
+
+    /*
+    ==================================================
+    公告欄＋最新消息
+    ==================================================
+    */
+
+    .news-area {
+      margin-top: 22px;
+    }
+
+    .announcement-board {
+      position: relative;
+      overflow: hidden;
+      padding: 22px 24px;
+      border: 2px solid #f7c66a;
+      border-radius: 22px;
+      background:
+        linear-gradient(
+          135deg,
+          #fff8df,
+          #fffdf6
+        );
+      box-shadow:
+        0 10px 26px rgba(120, 72, 0, 0.10);
+    }
+
+    .announcement-board::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 8px;
+      height: 100%;
+      background: #f59e0b;
+    }
+
+    .announcement-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .announcement-heading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0;
+      color: #92400e;
+      font-size: 23px;
+      font-weight: 900;
+    }
+
+    .announcement-date {
+      color: #9a6b24;
+      font-size: 14px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .announcement-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 5px 10px;
+      margin-bottom: 10px;
+      border: 1px solid #fdba74;
+      border-radius: 999px;
+      background: #fff7ed;
+      color: #c2410c;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .announcement-title {
+      margin: 0 0 8px;
+      color: #7c2d12;
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1.45;
+    }
+
+    .announcement-content {
+      margin: 0;
+      color: #6b4f2b;
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .latest-news-box {
+      margin-top: 18px;
+      padding: 20px;
+      border: 1px solid #dbe7f5;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow:
+        0 10px 26px rgba(15, 23, 42, 0.08);
+    }
+
+    .latest-news-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .latest-news-title {
+      margin: 0;
+      color: #174f8f;
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .latest-news-subtitle {
+      color: #64748b;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .latest-news-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .news-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 13px 14px;
+      border: 1px solid #e2e8f0;
+      border-radius: 15px;
+      background: #ffffff;
+    }
+
+    .news-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: #f1f5f9;
+      font-size: 22px;
+    }
+
+    .news-main {
+      min-width: 0;
+    }
+
+    .news-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+      flex-wrap: wrap;
+    }
+
+    .news-type {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .news-type.new-game {
+      background: #ecfdf5;
+      color: #047857;
+    }
+
+    .news-type.system {
+      background: #eff6ff;
+      color: #1d4ed8;
+    }
+
+    .news-type.game-update {
+      background: #f5f3ff;
+      color: #6d28d9;
+    }
+
+    .news-type.notice {
+      background: #fff7ed;
+      color: #c2410c;
+    }
+
+    .news-item-title {
+      color: #1f2937;
+      font-size: 16px;
+      font-weight: 900;
+      line-height: 1.45;
+    }
+
+    .news-item-content {
+      margin-top: 3px;
+      color: #64748b;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .news-date {
+      color: #94a3b8;
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .news-empty {
+      padding: 20px;
+      color: #64748b;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+
     @media (max-width: 760px) {
 
       .dashboard {
@@ -614,6 +835,35 @@
       }
     }
 
+
+      .announcement-board {
+        padding: 18px 16px 18px 20px;
+      }
+
+      .announcement-top,
+      .latest-news-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .announcement-heading,
+      .latest-news-title {
+        font-size: 20px;
+      }
+
+      .announcement-title {
+        font-size: 19px;
+      }
+
+      .news-item {
+        grid-template-columns: 40px 1fr;
+      }
+
+      .news-date {
+        grid-column: 2;
+      }
+
+
     @media (max-width: 520px) {
 
       .dashboard-title-row {
@@ -653,13 +903,13 @@
           </div>
 
           <h1 class="dashboard-title">
-            數學遊戲樂園
+            生活有解．心中有數
           </h1>
 
         </div>
 
         <p class="dashboard-subtitle">
-          透過遊戲練習數學觀念，一起挑戰更高分！
+          一步一題，累積實力；生活有解，心中有數。
         </p>
 
         <div
@@ -756,6 +1006,79 @@
           </div>
 
         </a>
+
+      </div>
+
+    </section>
+
+
+    <section
+      class="news-area"
+      aria-label="公告欄與最新消息"
+    >
+
+      <div
+        id="announcementBoard"
+        class="announcement-board"
+      >
+
+        <div class="announcement-top">
+
+          <h2 class="announcement-heading">
+            📢 公告欄
+          </h2>
+
+          <div
+            id="announcementDate"
+            class="announcement-date"
+          >
+            —
+          </div>
+
+        </div>
+
+        <div
+          id="announcementBadge"
+          class="announcement-badge"
+        >
+          最新公告
+        </div>
+
+        <h3
+          id="announcementTitle"
+          class="announcement-title"
+        >
+          公告載入中……
+        </h3>
+
+        <p
+          id="announcementContent"
+          class="announcement-content"
+        >
+          請稍候。
+        </p>
+
+      </div>
+
+
+      <div class="latest-news-box">
+
+        <div class="latest-news-header">
+
+          <h2 class="latest-news-title">
+            📰 最新消息
+          </h2>
+
+          <div class="latest-news-subtitle">
+            顯示最近 4 則更新
+          </div>
+
+        </div>
+
+        <div
+          id="latestNewsList"
+          class="latest-news-list"
+        ></div>
 
       </div>
 
@@ -859,7 +1182,7 @@
 
 
     <footer class="page-footer">
-      數學有解，生活也有解。
+      生活有解．心中有數
     </footer>
 
   </main>
@@ -886,6 +1209,12 @@
     import {
       getGamesBySemester
     } from "./js/game-config.js?v=6.4";
+
+
+    import {
+      getImportantAnnouncement,
+      getLatestAnnouncements
+    } from "./js/announcements.js?v=1";
 
 
     import {
@@ -945,6 +1274,178 @@
       document.getElementById(
         "grade8FirstGames"
       );
+
+
+    const announcementBoard =
+      document.getElementById(
+        "announcementBoard"
+      );
+
+
+    const announcementDate =
+      document.getElementById(
+        "announcementDate"
+      );
+
+
+    const announcementBadge =
+      document.getElementById(
+        "announcementBadge"
+      );
+
+
+    const announcementTitle =
+      document.getElementById(
+        "announcementTitle"
+      );
+
+
+    const announcementContent =
+      document.getElementById(
+        "announcementContent"
+      );
+
+
+    const latestNewsList =
+      document.getElementById(
+        "latestNewsList"
+      );
+
+
+    /*
+    ==================================================
+    公告欄
+    ==================================================
+    */
+
+    function formatAnnouncementDate(
+      dateText
+    ) {
+
+      const parts =
+        String(
+          dateText || ""
+        )
+          .split("-");
+
+
+      if (
+        parts.length !== 3
+      ) {
+
+        return dateText || "";
+      }
+
+
+      return (
+        `${parts[0]} / ${parts[1]} / ${parts[2]}`
+      );
+    }
+
+
+    function renderAnnouncements() {
+
+      const important =
+        getImportantAnnouncement();
+
+
+      if (
+        important
+      ) {
+
+        announcementDate.textContent =
+          formatAnnouncementDate(
+            important.date
+          );
+
+
+        announcementBadge.textContent =
+          `${important.icon || "📌"} ${important.typeName || "最新公告"}`;
+
+
+        announcementTitle.textContent =
+          important.title ||
+          "最新公告";
+
+
+        announcementContent.textContent =
+          important.content ||
+          "";
+
+      } else {
+
+        announcementBoard.hidden =
+          true;
+      }
+
+
+      const latest =
+        getLatestAnnouncements(
+          4
+        );
+
+
+      if (
+        !latest.length
+      ) {
+
+        latestNewsList.innerHTML = `
+          <div class="news-empty">
+            目前沒有最新消息。
+          </div>
+        `;
+
+        return;
+      }
+
+
+      latestNewsList.innerHTML =
+        latest
+          .map(
+            item => `
+
+              <article class="news-item">
+
+                <div class="news-icon">
+                  ${item.icon || "📌"}
+                </div>
+
+                <div class="news-main">
+
+                  <div class="news-meta">
+
+                    <span
+                      class="news-type ${item.type || "notice"}"
+                    >
+                      ${item.typeName || "網站公告"}
+                    </span>
+
+                  </div>
+
+                  <div class="news-item-title">
+                    ${item.title || ""}
+                  </div>
+
+                  <div class="news-item-content">
+                    ${item.content || ""}
+                  </div>
+
+                </div>
+
+                <div class="news-date">
+                  ${formatAnnouncementDate(
+                    item.date
+                  )}
+                </div>
+
+              </article>
+            `
+          )
+          .join("");
+    }
+
+
+    renderAnnouncements();
 
 
     /*
