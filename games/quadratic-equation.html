@@ -619,6 +619,32 @@
         sans-serif;
     }
 
+    .formula-general-form {
+
+      margin:
+        0 auto 10px;
+
+      color:
+        #334155;
+
+      font-family:
+        "Cambria Math",
+        "Times New Roman",
+        "Microsoft JhengHei",
+        serif;
+
+      font-size:
+        clamp(
+          18px,
+          2.7vw,
+          24px
+        );
+
+      font-weight: 900;
+
+      text-align: center;
+    }
+
     .formula-box {
 
       padding:
@@ -6805,6 +6831,13 @@ function formulaBoxHTML() {
 
   return `
 
+    <div class="formula-general-form math">
+
+      一般式：
+      ax<sup>2</sup>＋bx＋c＝0
+
+    </div>
+
     <div class="formula-box math">
 
       x＝
@@ -7820,7 +7853,18 @@ function makeConsecutiveIntegers() {
 
         `
 
-        因式分解：
+        因為這一步使用十字交乘法因式分解，
+        先把二次項與常數項拆開，確認交叉相乘後的和為 x：
+
+        ${crossFactorDiagramHTML(
+          1,
+          -n,
+          1,
+          n + 1,
+          1
+        )}
+
+        再寫成橫式因式分解：
 
         <div class="calculation-box math">
 
@@ -7960,7 +8004,18 @@ function makeRectangleApplication() {
 
         `
 
-        因式分解：
+        這一步使用十字交乘法因式分解。
+        先做直式十字交乘，確認交叉相乘後的和為 ${difference}x：
+
+        ${crossFactorDiagramHTML(
+          1,
+          -width,
+          1,
+          length,
+          difference
+        )}
+
+        再寫成橫式因式分解：
 
         <div class="calculation-box math">
 
@@ -8317,7 +8372,18 @@ function makeFullApplication() {
 
         `
 
-        因式分解：
+        這一步使用十字交乘法因式分解。
+        先做直式十字交乘，確認交叉相乘後的和為 ${add}x：
+
+        ${crossFactorDiagramHTML(
+          1,
+          -side,
+          1,
+          side + add,
+          add
+        )}
+
+        再寫成橫式因式分解：
 
         <div class="calculation-box math">
 
@@ -8401,29 +8467,36 @@ function makeMode5() {
 
 function makeMode6() {
 
+  /*
+  模式六直接沿用模式一～五目前的題型產生器。
+  因此模式一～五之後調整過的答案格、根號、分數、重根、
+  十字交乘直式、配方法、公式解與應用題詳解，
+  都會同步套用到綜合模式。
+  */
+
   return shuffle(
     [
 
+      /* 模式一 */
       makeRootCheck(),
+      makeSimpleRoots(),
 
-      makeParameterQuestion(),
-
-      makeCommonFactorEquation(),
-
+      /* 模式二 */
       makeCrossFactorEquation(),
+      makePerfectSquarePlus(),
 
-      makeCompleteSquareSolveA1(),
-
+      /* 模式三 */
+      makeSquareRootEquation(),
       makeCompleteSquareSolveANot1(),
 
-      makeDiscriminantNature(),
-
+      /* 模式四 */
+      makeFormulaABC(),
       makeFormulaSolve(
         true
       ),
 
-      makeValidRootApplication(),
-
+      /* 模式五 */
+      makeRectangleApplication(),
       makeFullApplication()
     ]
   );
