@@ -1327,31 +1327,48 @@
 
       justify-items: stretch;
 
-      min-width: 2.5em;
+      min-width: 0;
 
       margin:
-        0 .12em;
+        0 .04em;
 
       vertical-align: middle;
+
+      line-height: 1.03;
     }
 
     .root-preview-numerator {
 
       padding:
-        0 .18em .07em;
+        0 .06em .025em;
 
       border-bottom:
         2px solid currentColor;
 
       text-align: center;
+
+      white-space: nowrap;
     }
 
     .root-preview-denominator {
 
       padding:
-        .07em .18em 0;
+        .025em .06em 0;
 
       text-align: center;
+
+      white-space: nowrap;
+    }
+
+    .conjugate-preview {
+
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: .04em;
+
+      white-space: nowrap;
     }
 
     .repeated-root-note {
@@ -3133,6 +3150,32 @@ function sqrtHTML(
       content
     )
       .trim();
+
+
+  /*
+  RAW:n 只用在詳解中刻意保留「尚未化簡」的根號，
+  例如先顯示 √44，再說明 √44＝2√11。
+  */
+
+  if (
+    /^RAW:\d+$/
+      .test(
+        raw
+      )
+  ) {
+
+    const number =
+      Number(
+        raw.slice(
+          4
+        )
+      );
+
+
+    return rawSqrtMathML(
+      `<mn>${number}</mn>`
+    );
+  }
 
 
   /*
@@ -6219,6 +6262,14 @@ function makeCompleteSquareSolveA1() {
 
         `
 
+        等式左右同時加上「一次項係數一半的平方」。
+
+        一次項係數為 ${b}，
+        一半是 ${b / 2}，
+        因此左右同加
+        (${b / 2})<sup>2</sup>
+        ＝${(b / 2) ** 2}。
+
         <div class="calculation-box math">
 
           x<sup>2</sup>
@@ -6232,7 +6283,7 @@ function makeCompleteSquareSolveA1() {
               : `－${Math.abs(b)}x`
           }
 
-          ＋${(b / 2) ** 2}
+          ＋(${b / 2})<sup>2</sup>
 
           ＝
 
@@ -6436,6 +6487,14 @@ function makeCompleteSquareSolveANot1() {
 
         `
 
+        等式左右同時加上「一次項係數一半的平方」。
+
+        化簡後的一次項係數為 ${b / a}，
+        一半是 ${b / (2 * a)}，
+        因此左右同加
+        (${b / (2 * a)})<sup>2</sup>
+        ＝${(b / (2 * a)) ** 2}。
+
         <div class="calculation-box math">
 
           x<sup>2</sup>
@@ -6450,7 +6509,7 @@ function makeCompleteSquareSolveANot1() {
               : `－${Math.abs(b / a)}x`
           }
 
-          ＋${(b / (2 * a)) ** 2}
+          ＋(${b / (2 * a)})<sup>2</sup>
 
           ＝
 
@@ -6612,10 +6671,62 @@ function makeCompleteSquareNature() {
       [
 
         `
-        將方程式配成完全平方式。
+        先把常數項移到等號右邊：
+
+        <div class="calculation-box math">
+
+          x<sup>2</sup>
+
+          ${
+            b >=
+            0
+
+              ? `＋${b}x`
+
+              : `－${Math.abs(b)}x`
+          }
+
+          ＝${-c}
+
+        </div>
         `,
 
         `
+
+        等式左右同時加上「一次項係數一半的平方」。
+
+        一次項係數為 ${b}，
+        一半是 ${b / 2}，
+        因此左右同加
+        (${b / 2})<sup>2</sup>
+        ＝${(b / 2) ** 2}。
+
+        <div class="calculation-box math">
+
+          x<sup>2</sup>
+
+          ${
+            b >=
+            0
+
+              ? `＋${b}x`
+
+              : `－${Math.abs(b)}x`
+          }
+
+          ＋(${b / 2})<sup>2</sup>
+
+          ＝
+
+          ${-c}
+          ＋${(b / 2) ** 2}
+
+        </div>
+        `,
+
+        `
+
+        配成完全平方式：
 
         <div class="calculation-box math">
 
@@ -7309,6 +7420,57 @@ function makeFormulaSolve(
   }
 
 
+  const radicalSimplified =
+    solution.discriminant >
+    0
+
+      ? simplifySqrt(
+          solution.discriminant
+        )
+
+      : {
+
+          outside: 1,
+
+          inside:
+            solution.discriminant
+        };
+
+
+  const radicalSimplifyStep =
+
+    solution.discriminant >
+      0 &&
+
+    !isPerfectSquare(
+      solution.discriminant
+    ) &&
+
+    radicalSimplified.outside >
+      1
+
+      ? `
+
+        將判別式根號化成最簡根式：
+
+        <div class="calculation-box math">
+
+          ${sqrtHTML(
+            `RAW:${solution.discriminant}`
+          )}
+
+          ＝
+
+          ${radicalSimplified.outside}${sqrtHTML(
+            radicalSimplified.inside
+          )}
+
+        </div>
+      `
+
+      : "";
+
+
   return rootsQuestion({
 
     label:
@@ -7371,6 +7533,8 @@ function makeFormulaSolve(
 
         </div>
         `,
+
+        radicalSimplifyStep,
 
         `
 
@@ -7655,12 +7819,48 @@ function makeConsecutiveIntegers() {
         `,
 
         `
-        因式分解後求得正整數解
-        x＝${n}。
+
+        因式分解：
+
+        <div class="calculation-box math">
+
+          x<sup>2</sup>＋x－${product}
+
+          ＝
+
+          (x－${n})(x＋${n + 1})
+
+          ＝0
+
+        </div>
         `,
 
         `
-        所以兩數為
+
+        利用零乘積性質：
+
+        <div class="calculation-box math">
+
+          x－${n}＝0
+         　或　
+          x＋${n + 1}＝0
+
+        </div>
+        `,
+
+        `
+
+        所以
+        x＝${n}
+        或
+        x＝${-(n + 1)}。
+
+        因為題目要求正整數，
+        取 x＝${n}。
+        `,
+
+        `
+        因此兩數為
         ${n}、${n + 1}。
         `
       ]
@@ -7759,9 +7959,47 @@ function makeRectangleApplication() {
         `,
 
         `
-        解方程式後，
+
+        因式分解：
+
+        <div class="calculation-box math">
+
+          x<sup>2</sup>
+          ＋${difference}x
+          －${area}
+
+          ＝
+
+          (x－${width})(x＋${length})
+
+          ＝0
+
+        </div>
+        `,
+
+        `
+
+        利用零乘積性質：
+
+        <div class="calculation-box math">
+
+          x－${width}＝0
+         　或　
+          x＋${length}＝0
+
+        </div>
+        `,
+
+        `
+
+        所以
+        x＝${width}
+        或
+        x＝${-length}。
+
         因為長度必須為正，
-        所以取正根 x＝${width}。
+        捨去負根，
+        取 x＝${width}。
         `
       ]
   });
@@ -8078,11 +8316,50 @@ function makeFullApplication() {
         `,
 
         `
-        解方程式並捨去負根。
+
+        因式分解：
+
+        <div class="calculation-box math">
+
+          x<sup>2</sup>
+          ＋${add}x
+          －${area}
+
+          ＝
+
+          (x－${side})(x＋${side + add})
+
+          ＝0
+
+        </div>
         `,
 
         `
-        所以較短的一邊為
+
+        利用零乘積性質：
+
+        <div class="calculation-box math">
+
+          x－${side}＝0
+         　或　
+          x＋${side + add}＝0
+
+        </div>
+        `,
+
+        `
+
+        所以
+        x＝${side}
+        或
+        x＝${-(side + add)}。
+
+        因為邊長必須為正，
+        捨去負根。
+        `,
+
+        `
+        因此較短的一邊為
         ${side}
         公尺。
         `
@@ -8782,6 +9059,334 @@ function updateRootFractionSurface(
 }
 
 
+
+function normalizeConjugateRaw(
+  raw
+) {
+
+  return String(
+    raw ??
+    ""
+  )
+    .replace(/\s+/g, "")
+    .replaceAll("＋", "+")
+    .replaceAll("－", "-")
+    .replaceAll("−", "-");
+}
+
+
+function splitConjugateExpression(
+  raw
+) {
+
+  const text =
+    normalizeConjugateRaw(
+      raw
+    );
+
+
+  if (
+    !text
+  ) {
+
+    return null;
+  }
+
+
+  const standard =
+    text.match(
+      /^(.*?)([+-])((?:\d+(?:\.\d+)?)?√\d+(?:\.\d+)?)$/
+    );
+
+
+  if (
+    standard &&
+    standard[1] !==
+    ""
+  ) {
+
+    return {
+
+      center:
+        standard[1],
+
+      sign:
+        standard[2],
+
+      radical:
+        standard[3]
+    };
+  }
+
+
+  const pure =
+    text.match(
+      /^(-?)((?:\d+(?:\.\d+)?)?√\d+(?:\.\d+)?)$/
+    );
+
+
+  if (
+    pure
+  ) {
+
+    return {
+
+      center:
+        "0",
+
+      sign:
+        pure[1] ===
+        "-"
+
+          ? "-"
+
+          : "+",
+
+      radical:
+        pure[2]
+    };
+  }
+
+
+  return null;
+}
+
+
+function makeConjugateCoreHTML(
+  firstRaw,
+  secondRaw
+) {
+
+  const first =
+    splitConjugateExpression(
+      firstRaw
+    );
+
+
+  const second =
+    splitConjugateExpression(
+      secondRaw
+    );
+
+
+  if (
+    !first ||
+    !second
+  ) {
+
+    return "";
+  }
+
+
+  if (
+    normalizeConjugateRaw(
+      first.center
+    ) !==
+    normalizeConjugateRaw(
+      second.center
+    ) ||
+
+    normalizeConjugateRaw(
+      first.radical
+    ) !==
+    normalizeConjugateRaw(
+      second.radical
+    ) ||
+
+    first.sign ===
+    second.sign
+  ) {
+
+    return "";
+  }
+
+
+  const center =
+    normalizeConjugateRaw(
+      first.center
+    );
+
+
+  const radical =
+    first.radical;
+
+
+  if (
+    center ===
+    "0"
+  ) {
+
+    return `
+
+      <span class="conjugate-preview">
+
+        ±${prettyInputHTML(
+          radical
+        )}
+
+      </span>
+    `;
+  }
+
+
+  return `
+
+    <span class="conjugate-preview">
+
+      ${prettyInputHTML(
+        center
+      )}
+
+      ±
+
+      ${prettyInputHTML(
+        radical
+      )}
+
+    </span>
+  `;
+}
+
+
+function conjugateRootPreviewHTML() {
+
+  if (
+    !$("root-box-2")
+  ) {
+
+    return "";
+  }
+
+
+  const firstFraction =
+    rootEntryIsFraction(
+      1
+    );
+
+
+  const secondFraction =
+    rootEntryIsFraction(
+      2
+    );
+
+
+  if (
+    firstFraction !==
+    secondFraction
+  ) {
+
+    return "";
+  }
+
+
+  if (
+    firstFraction
+  ) {
+
+    const numerator1 =
+      $("root-1-num")
+        ?.value
+        .trim() ??
+      "";
+
+
+    const numerator2 =
+      $("root-2-num")
+        ?.value
+        .trim() ??
+      "";
+
+
+    const denominator1 =
+      $("root-1-den")
+        ?.value
+        .trim() ??
+      "";
+
+
+    const denominator2 =
+      $("root-2-den")
+        ?.value
+        .trim() ??
+      "";
+
+
+    if (
+      !numerator1 ||
+      !numerator2 ||
+      !denominator1 ||
+      !denominator2 ||
+      normalizeConjugateRaw(
+        denominator1
+      ) !==
+      normalizeConjugateRaw(
+        denominator2
+      )
+    ) {
+
+      return "";
+    }
+
+
+    const numeratorHTML =
+      makeConjugateCoreHTML(
+        numerator1,
+        numerator2
+      );
+
+
+    if (
+      !numeratorHTML
+    ) {
+
+      return "";
+    }
+
+
+    return `
+
+      <span class="root-preview-fraction">
+
+        <span class="root-preview-numerator">
+
+          ${numeratorHTML}
+
+        </span>
+
+        <span class="root-preview-denominator">
+
+          ${prettyInputHTML(
+            denominator1
+          )}
+
+        </span>
+
+      </span>
+    `;
+  }
+
+
+  const firstRaw =
+    $("root-1")
+      ?.value
+      .trim() ??
+    "";
+
+
+  const secondRaw =
+    $("root-2")
+      ?.value
+      .trim() ??
+    "";
+
+
+  return makeConjugateCoreHTML(
+    firstRaw,
+    secondRaw
+  );
+}
+
+
 function updateRootPreview() {
 
   updateRootInputSurface(
@@ -8852,26 +9457,39 @@ function updateRootPreview() {
   }
 
 
+  const conjugate =
+    conjugateRootPreviewHTML();
+
+
   preview.innerHTML = `
 
     目前答案：
 
     <span class="preview-value">
 
-      x＝${
-        first ||
-        "？"
-      }
-
       ${
-        $("root-box-2")
+        conjugate
 
-          ? `，x＝${
-              second ||
+          ? `x＝${conjugate}`
+
+          : `
+
+            x＝${
+              first ||
               "？"
-            }`
+            }
 
-          : `　<span class="repeated-root-note">重根</span>`
+            ${
+              $("root-box-2")
+
+                ? `，x＝${
+                    second ||
+                    "？"
+                  }`
+
+                : `　<span class="repeated-root-note">重根</span>`
+            }
+          `
       }
 
     </span>
@@ -10050,6 +10668,15 @@ function readRootsAnswer(
     secondRaw;
 
 
+  const conjugateDisplay =
+    values.length ===
+    2
+
+      ? conjugateRootPreviewHTML()
+
+      : "";
+
+
   return {
 
     valid:
@@ -10063,9 +10690,13 @@ function readRootsAnswer(
       values.length ===
       1
 
-        ? `x＝${firstDisplay}　重根`
+        ? `x＝${firstDisplay}（重根）`
 
-        : `x＝${firstDisplay} 或 ${secondDisplay}`
+        : conjugateDisplay
+
+          ? `x＝${conjugateDisplay}`
+
+          : `x＝${firstDisplay} 或 ${secondDisplay}`
   };
 }
 
@@ -10611,6 +11242,14 @@ function explanationHTML(
 
     ${
       question.explanation
+        .filter(
+          step =>
+            String(
+              step ??
+              ""
+            )
+              .trim()
+        )
         .map(
           (
             step,
