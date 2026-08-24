@@ -1,40 +1,33 @@
 /*
 ==================================================
-數學遊戲樂園：遊戲共用設定
-檔案位置：js/game-config.js
+數學遊戲樂園
+共用遊戲設定
 
-版本：6.7
-八年級上學期 8 款遊戲正式啟用
-＋排行榜相容修正版
+檔案位置：
+js/game-config.js
 ==================================================
 
 功能：
-1. 集中管理所有遊戲名稱
-2. 集中管理遊戲排列順序
-3. 集中管理遊戲路徑
-4. 集中管理遊戲介紹
-5. 集中管理開發狀態
-6. 集中管理各遊戲模式
-7. 集中管理排行榜類型
-8. 集中管理首頁卡片配色
-9. 集中管理遊戲難度與標籤
-10. 提供排行榜依學期取得已完成遊戲
 
-排行榜：
+1. 統一管理所有數學遊戲
+2. 首頁依照此檔案產生遊戲卡片
+3. 管理年級、學期、排序
+4. 管理遊戲名稱與網址
+5. 管理遊戲是否正式上架
+6. 管理排行榜模式
+7. 管理遊戲主題顏色
+==================================================
+*/
 
-ranking.type = "timed"
-固定時間挑戰型
 
-ranking.type = "speed"
-固定題數／完成型
-
-注意：
-modes 的 key 必須與遊戲寫進 Firestore
-的 mode 值完全一致。
+/*
+==================================================
+遊戲設定
 ==================================================
 */
 
 export const GAME_CONFIG = {
+
 
   /*
   ==================================================
@@ -42,13 +35,20 @@ export const GAME_CONFIG = {
   ==================================================
   */
 
+
+  /*
+  --------------------------------------------------
+  正負數大挑戰
+  --------------------------------------------------
+  */
+
   integer: {
 
     id: "integer",
 
-    name: "正負整數大挑戰",
+    name: "正負數大挑戰",
 
-    shortName: "正負整數",
+    shortName: "正負數",
 
     semester: "grade7-first",
 
@@ -56,13 +56,13 @@ export const GAME_CONFIG = {
 
     order: 1,
 
-    icon: "🎮",
+    icon: "➕➖",
 
     file:
-      "games/integer.html",
+      "games/integer-game.html",
 
     description:
-      "七年級正負整數加減法，挑戰計算速度與正確率。",
+      "練習正負數的加減乘除與混合運算。",
 
     finished: true,
 
@@ -73,23 +73,43 @@ export const GAME_CONFIG = {
     isNew: false,
 
     ranking: {
-      type: "timed"
+      type: "speed"
     },
 
-    modes: {},
+    modes: {
+
+      addition:
+        "加減運算",
+
+      multiplication:
+        "乘除運算",
+
+      mixed:
+        "混合運算"
+
+    },
 
     theme: {
 
-      primary: "#1976D2",
+      primary: "#1565C0",
 
-      dark: "#125CA6",
+      dark: "#0D47A1",
 
       light: "#E3F2FD",
 
       border: "#90CAF9"
+
     }
+
   },
 
+
+
+  /*
+  --------------------------------------------------
+  數的大小比較王
+  --------------------------------------------------
+  */
 
   compare: {
 
@@ -97,7 +117,7 @@ export const GAME_CONFIG = {
 
     name: "數的大小比較王",
 
-    shortName: "數的大小比較",
+    shortName: "大小比較",
 
     semester: "grade7-first",
 
@@ -108,10 +128,10 @@ export const GAME_CONFIG = {
     icon: "⚖️",
 
     file:
-      "games/compare.html",
+      "games/compare-game.html",
 
     description:
-      "挑戰整數、分數與小數的大小比較，選出正確的 ＞、＝或＜。",
+      "比較正負數、整數與分數的大小。",
 
     finished: true,
 
@@ -122,41 +142,51 @@ export const GAME_CONFIG = {
     isNew: false,
 
     ranking: {
-      type: "timed"
+      type: "speed"
     },
 
     modes: {
 
-      easy:
-        "初級｜整數比較",
+      integer:
+        "整數比較",
 
-      medium:
-        "中級｜整數與分數",
+      fraction:
+        "分數比較",
 
-      hard:
-        "高級｜混合比較"
+      mixed:
+        "綜合比較"
+
     },
 
     theme: {
 
-      primary: "#F57C00",
+      primary: "#00897B",
 
-      dark: "#D86600",
+      dark: "#00695C",
 
-      light: "#FFF3E0",
+      light: "#E0F2F1",
 
-      border: "#FFCC80"
+      border: "#80CBC4"
+
     }
+
   },
 
 
-  fraction: {
 
-    id: "fraction",
+  /*
+  --------------------------------------------------
+  一元一次式
+  --------------------------------------------------
+  */
 
-    name: "正負分數加減大挑戰",
+  linearExpression: {
 
-    shortName: "正負分數加減",
+    id: "linearExpression",
+
+    name: "一元一次式大挑戰",
+
+    shortName: "一元一次式",
 
     semester: "grade7-first",
 
@@ -164,13 +194,13 @@ export const GAME_CONFIG = {
 
     order: 3,
 
-    icon: "➗",
+    icon: "🧮",
 
     file:
-      "games/fraction.html",
+      "games/linear-expression.html",
 
     description:
-      "先複習最小公倍數，再挑戰正負分數的同分母與異分母加減。",
+      "練習一元一次式的化簡與運算。",
 
     finished: true,
 
@@ -181,81 +211,20 @@ export const GAME_CONFIG = {
     isNew: false,
 
     ranking: {
-      type: "timed"
-    },
-
-    modes: {
-
-      lcm:
-        "最小公倍數複習",
-
-      fraction:
-        "正負分數加減"
-    },
-
-    theme: {
-
-      primary: "#2E7D32",
-
-      dark: "#1B5E20",
-
-      light: "#E8F5E9",
-
-      border: "#A5D6A7"
-    }
-  },
-
-
-  exponent: {
-
-    id: "exponent",
-
-    name: "指數律大挑戰",
-
-    shortName: "指數律",
-
-    semester: "grade7-first",
-
-    grade: 7,
-
-    order: 4,
-
-    icon: "🔢",
-
-    file:
-      "games/exponent.html",
-
-    description:
-      "練習同底數相乘、相除、冪的乘方、零次方與綜合指數律。",
-
-    finished: true,
-
-    difficulty: 2,
-
-    recommended: false,
-
-    isNew: true,
-
-    ranking: {
       type: "speed"
     },
 
     modes: {
 
-      multiplication:
-        "同底數相乘",
+      basic:
+        "基礎化簡",
 
-      division:
-        "同底數相除",
-
-      powerOfPower:
-        "冪的乘方",
-
-      zeroExponent:
-        "零次方",
+      addition:
+        "加減運算",
 
       mixed:
-        "綜合指數律"
+        "綜合挑戰"
+
     },
 
     theme: {
@@ -267,144 +236,24 @@ export const GAME_CONFIG = {
       light: "#EDE7F6",
 
       border: "#B39DDB"
+
     }
+
   },
 
 
-  "integer-operations": {
 
-    id: "integer-operations",
+  /*
+  --------------------------------------------------
+  一元一次方程式
+  --------------------------------------------------
+  */
 
-    name: "正負數四則運算大挑戰",
+  linearEquation: {
 
-    shortName: "正負數四則運算",
+    id: "linearEquation",
 
-    semester: "grade7-first",
-
-    grade: 7,
-
-    order: 5,
-
-    icon: "➕",
-
-    file:
-      "games/integer-operations.html",
-
-    description:
-      "練習正負數乘除、絕對值、乘方，以及整數與分數混合四則運算。",
-
-    finished: true,
-
-    difficulty: 3,
-
-    recommended: true,
-
-    isNew: true,
-
-    ranking: {
-      type: "timed"
-    },
-
-    modes: {
-
-      muldiv:
-        "正負數的乘除",
-
-      absolute:
-        "絕對值運算",
-
-      power:
-        "乘方計算",
-
-      mixed:
-        "四則運算",
-
-      advanced:
-        "四則運算進階挑戰"
-    },
-
-    theme: {
-
-      primary: "#8E24AA",
-
-      dark: "#6A1B9A",
-
-      light: "#F3E5F5",
-
-      border: "#CE93D8"
-    }
-  },
-
-
-  factor: {
-
-    id: "factor",
-
-    name:
-      "質因數分解、公因數公倍數大挑戰",
-
-    shortName:
-      "質因數分解與公因數公倍數",
-
-    semester: "grade7-first",
-
-    grade: 7,
-
-    order: 6,
-
-    icon: "🧩",
-
-    file:
-      "games/factor.html",
-
-    description:
-      "練習質因數分解，並用指數形式求最大公因數與最小公倍數。",
-
-    finished: true,
-
-    difficulty: 2,
-
-    recommended: false,
-
-    isNew: false,
-
-    ranking: {
-      type: "timed"
-    },
-
-    modes: {
-
-      primeFactorization:
-        "質因數分解",
-
-      gcd:
-        "最大公因數",
-
-      lcm:
-        "最小公倍數",
-
-      mixed:
-        "綜合挑戰"
-    },
-
-    theme: {
-
-      primary: "#00897B",
-
-      dark: "#00695C",
-
-      light: "#E0F2F1",
-
-      border: "#80CBC4"
-    }
-  },
-
-
-  equation: {
-
-    id: "equation",
-
-    name: "一元一次方程式",
+    name: "一元一次方程式大挑戰",
 
     shortName: "一元一次方程式",
 
@@ -412,201 +261,43 @@ export const GAME_CONFIG = {
 
     grade: 7,
 
-    order: 7,
+    order: 4,
 
-    icon: "🧮",
+    icon: "🎯",
 
     file:
-      "games/equation.html",
+      "games/linear-equation.html",
 
     description:
-      "解方程式闖關，練習移項、等量公理與分數方程式。",
+      "利用等量公理與移項法解一元一次方程式。",
 
     finished: true,
 
-    difficulty: 3,
+    difficulty: 2,
 
-    recommended: false,
+    recommended: true,
 
     isNew: false,
 
     ranking: {
-      type: "timed"
+      type: "speed"
     },
 
     modes: {
 
-      "1":
-        "模式一",
+      basic:
+        "基礎方程式",
 
-      "2":
-        "模式二",
+      parentheses:
+        "含括號方程式",
 
-      "3":
-        "模式三",
+      fraction:
+        "含分數方程式",
 
-      "4":
-        "模式四"
+      mixed:
+        "綜合挑戰"
+
     },
-
-    theme: {
-
-      primary: "#E53935",
-
-      dark: "#C62828",
-
-      light: "#FFEBEE",
-
-      border: "#EF9A9A"
-    }
-  },
-
-
-  /*
-  ==================================================
-  七年級下學期
-  ==================================================
-  */
-
-  simultaneousEquation: {
-
-    id: "simultaneousEquation",
-
-    name:
-      "二元一次聯立方程式",
-
-    shortName:
-      "二元一次聯立方程式",
-
-    semester: "grade7-second",
-
-    grade: 7,
-
-    order: 1,
-
-    icon: "🔢",
-
-    file:
-      "games/simultaneous-equation.html",
-
-    description:
-      "練習代入消去法與加減消去法，解出兩個未知數。",
-
-    finished: false,
-
-    difficulty: 3,
-
-    recommended: false,
-
-    isNew: false,
-
-    ranking: {
-      type: "timed"
-    },
-
-    modes: {},
-
-    theme: {
-
-      primary: "#3949AB",
-
-      dark: "#283593",
-
-      light: "#E8EAF6",
-
-      border: "#9FA8DA"
-    }
-  },
-
-
-  coordinate: {
-
-    id: "coordinate",
-
-    name:
-      "直角坐標與方程式圖形",
-
-    shortName:
-      "直角坐標與方程式圖形",
-
-    semester: "grade7-second",
-
-    grade: 7,
-
-    order: 2,
-
-    icon: "📍",
-
-    file:
-      "games/coordinate.html",
-
-    description:
-      "認識坐標平面，練習描點與判讀二元一次方程式圖形。",
-
-    finished: false,
-
-    difficulty: 2,
-
-    recommended: false,
-
-    isNew: false,
-
-    ranking: {
-      type: "timed"
-    },
-
-    modes: {},
-
-    theme: {
-
-      primary: "#039BE5",
-
-      dark: "#0277BD",
-
-      light: "#E1F5FE",
-
-      border: "#81D4FA"
-    }
-  },
-
-
-  ratio: {
-
-    id: "ratio",
-
-    name:
-      "比例式、正比與反比",
-
-    shortName:
-      "比例式、正比與反比",
-
-    semester: "grade7-second",
-
-    grade: 7,
-
-    order: 3,
-
-    icon: "📏",
-
-    file:
-      "games/ratio.html",
-
-    description:
-      "練習比例式、正比、反比與實際應用題。",
-
-    finished: false,
-
-    difficulty: 2,
-
-    recommended: false,
-
-    isNew: false,
-
-    ranking: {
-      type: "timed"
-    },
-
-    modes: {},
 
     theme: {
 
@@ -617,35 +308,42 @@ export const GAME_CONFIG = {
       light: "#FBE9E7",
 
       border: "#FFAB91"
+
     }
+
   },
 
 
-  statistics: {
 
-    id: "statistics",
+  /*
+  --------------------------------------------------
+  比例式
+  --------------------------------------------------
+  */
 
-    name:
-      "統計圖表",
+  proportion: {
 
-    shortName:
-      "統計圖表",
+    id: "proportion",
 
-    semester: "grade7-second",
+    name: "比例式大挑戰",
+
+    shortName: "比例式",
+
+    semester: "grade7-first",
 
     grade: 7,
 
-    order: 4,
+    order: 5,
 
-    icon: "📊",
+    icon: "📐",
 
     file:
-      "games/statistics.html",
+      "games/proportion.html",
 
     description:
-      "練習次數分配、統計圖表與資料判讀。",
+      "練習比例式、比例值與相關應用。",
 
-    finished: false,
+    finished: true,
 
     difficulty: 2,
 
@@ -654,22 +352,36 @@ export const GAME_CONFIG = {
     isNew: false,
 
     ranking: {
-      type: "timed"
+      type: "speed"
     },
 
-    modes: {},
+    modes: {
+
+      basic:
+        "基本比例式",
+
+      solve:
+        "求未知數",
+
+      application:
+        "應用問題"
+
+    },
 
     theme: {
 
-      primary: "#00838F",
+      primary: "#3949AB",
 
-      dark: "#006064",
+      dark: "#283593",
 
-      light: "#E0F7FA",
+      light: "#E8EAF6",
 
-      border: "#80DEEA"
+      border: "#9FA8DA"
+
     }
+
   },
+
 
 
   /*
@@ -678,91 +390,42 @@ export const GAME_CONFIG = {
   ==================================================
   */
 
+
+  /*
+  --------------------------------------------------
+  1. 乘法公式大挑戰
+  --------------------------------------------------
+  */
+
   multiplicationFormula: {
 
     id: "multiplicationFormula",
 
-    name:
-      "乘法公式大挑戰",
+    name: "乘法公式大挑戰",
 
-    shortName:
-      "乘法公式",
+    shortName: "乘法公式",
 
-    semester:
-      "grade8-first",
+    semester: "grade8-first",
 
     grade: 8,
 
     order: 1,
 
-    icon: "🧩",
+    icon: "✨",
 
     file:
       "games/multiplication-formula.html",
 
     description:
-      "練習平方公式、平方差公式，以及乘法公式的展開與判讀。",
+      "練習平方和、平方差與乘法公式。",
 
     finished: true,
 
     difficulty: 2,
 
-    recommended: false,
+    recommended: true,
 
-    isNew: true,
-
-    ranking: {
-      type: "speed"
-    },
-
-    modes: {},
-
-    theme: {
-
-      primary: "#3F51B5",
-
-      dark: "#303F9F",
-
-      light: "#E8EAF6",
-
-      border: "#9FA8DA"
-    }
-  },
-
-
-  polynomialAddSubtract: {
-
-    id:
-      "polynomialAddSubtract",
-
-    name:
-      "多項式加減大挑戰",
-
-    shortName:
-      "多項式加減",
-
-    semester:
-      "grade8-first",
-
-    grade: 8,
-
-    order: 2,
-
-    icon: "➕",
-
-    file:
-      "games/polynomial-add-subtract.html",
-
-    description:
-      "練習同類項合併、去括號，以及多項式的加法與減法。",
-
-    finished: true,
-
-    difficulty: 2,
-
-    recommended: false,
-
-    isNew: true,
+    isNew: false,
 
     ranking: {
       type: "speed"
@@ -770,83 +433,18 @@ export const GAME_CONFIG = {
 
     modes: {
 
-      combine:
-        "同類項合併",
+      squareSum:
+        "和的平方",
 
-      addSubtract:
-        "多項式加減",
+      squareDifference:
+        "差的平方",
 
-      advanced:
-        "綜合加減",
-
-      mixed:
-        "進階挑戰"
-    },
-
-    theme: {
-
-      primary: "#00897B",
-
-      dark: "#00695C",
-
-      light: "#E0F2F1",
-
-      border: "#80CBC4"
-    }
-  },
-
-
-  polynomialMultiplyDivide: {
-
-    id:
-      "polynomialMultiplyDivide",
-
-    name:
-      "多項式乘除大挑戰",
-
-    shortName:
-      "多項式乘除",
-
-    semester:
-      "grade8-first",
-
-    grade: 8,
-
-    order: 3,
-
-    icon: "✖️",
-
-    file:
-      "games/polynomial-multiply-divide.html",
-
-    description:
-      "練習單項式乘除、分配律、乘法公式、多項式乘法與多項式除法。",
-
-    finished: true,
-
-    difficulty: 3,
-
-    recommended: false,
-
-    isNew: true,
-
-    ranking: {
-      type: "speed"
-    },
-
-    modes: {
-
-      monomial:
-        "單項式乘除",
-
-      multiply:
-        "多項式乘法",
-
-      divide:
-        "多項式除法",
+      differenceSquares:
+        "平方差",
 
       mixed:
-        "乘除綜合挑戰"
+        "綜合挑戰"
+
     },
 
     theme: {
@@ -858,23 +456,166 @@ export const GAME_CONFIG = {
       light: "#F3E5F5",
 
       border: "#CE93D8"
+
     }
+
   },
 
 
+
+  /*
+  --------------------------------------------------
+  2. 多項式加減
+  --------------------------------------------------
+  */
+
+  polynomialAddition: {
+
+    id: "polynomialAddition",
+
+    name: "多項式加減大挑戰",
+
+    shortName: "多項式加減",
+
+    semester: "grade8-first",
+
+    grade: 8,
+
+    order: 2,
+
+    icon: "➕",
+
+    file:
+      "games/polynomial-addition.html",
+
+    description:
+      "練習多項式的加法、減法與同類項整理。",
+
+    finished: true,
+
+    difficulty: 2,
+
+    recommended: false,
+
+    isNew: false,
+
+    ranking: {
+      type: "speed"
+    },
+
+    modes: {
+
+      addition:
+        "多項式加法",
+
+      subtraction:
+        "多項式減法",
+
+      mixed:
+        "綜合挑戰"
+
+    },
+
+    theme: {
+
+      primary: "#0288D1",
+
+      dark: "#0277BD",
+
+      light: "#E1F5FE",
+
+      border: "#81D4FA"
+
+    }
+
+  },
+
+
+
+  /*
+  --------------------------------------------------
+  3. 多項式乘除
+  --------------------------------------------------
+  */
+
+  polynomialMultiplicationDivision: {
+
+    id: "polynomialMultiplicationDivision",
+
+    name: "多項式乘除大挑戰",
+
+    shortName: "多項式乘除",
+
+    semester: "grade8-first",
+
+    grade: 8,
+
+    order: 3,
+
+    icon: "✖️",
+
+    file:
+      "games/polynomial-multiplication-division.html",
+
+    description:
+      "練習多項式乘法與除法。",
+
+    finished: true,
+
+    difficulty: 2,
+
+    recommended: false,
+
+    isNew: false,
+
+    ranking: {
+      type: "speed"
+    },
+
+    modes: {
+
+      multiplication:
+        "多項式乘法",
+
+      division:
+        "多項式除法",
+
+      mixed:
+        "綜合挑戰"
+
+    },
+
+    theme: {
+
+      primary: "#00897B",
+
+      dark: "#00695C",
+
+      light: "#E0F2F1",
+
+      border: "#80CBC4"
+
+    }
+
+  },
+
+
+
+  /*
+  --------------------------------------------------
+  4. 平方根
+  --------------------------------------------------
+  */
+
   squareRoot: {
 
-    id:
-      "squareRoot",
+    id: "squareRoot",
 
-    name:
-      "平方根概念大挑戰",
+    name: "平方根大挑戰",
 
-    shortName:
-      "平方根",
+    shortName: "平方根",
 
-    semester:
-      "grade8-first",
+    semester: "grade8-first",
 
     grade: 8,
 
@@ -886,7 +627,7 @@ export const GAME_CONFIG = {
       "games/square-root.html",
 
     description:
-      "認識平方根、根號表示，以及平方與平方根之間的關係。",
+      "認識平方根、正平方根與根號。",
 
     finished: true,
 
@@ -894,93 +635,128 @@ export const GAME_CONFIG = {
 
     recommended: false,
 
-    isNew: true,
+    isNew: false,
 
     ranking: {
       type: "speed"
     },
 
-    modes: {},
+    modes: {
+
+      basic:
+        "認識平方根",
+
+      calculation:
+        "平方根計算",
+
+      mixed:
+        "綜合挑戰"
+
+    },
 
     theme: {
 
-      primary: "#0288D1",
+      primary: "#3949AB",
 
-      dark: "#0277BD",
+      dark: "#283593",
 
-      light: "#E1F5FE",
+      light: "#E8EAF6",
 
-      border: "#81D4FA"
+      border: "#9FA8DA"
+
     }
+
   },
 
 
-  radicalOperation: {
 
-    id:
-      "radicalOperation",
+  /*
+  --------------------------------------------------
+  5. 根式運算
+  --------------------------------------------------
+  */
 
-    name:
-      "根式運算大挑戰",
+  radical: {
 
-    shortName:
-      "根式運算",
+    id: "radical",
 
-    semester:
-      "grade8-first",
+    name: "根式運算大挑戰",
+
+    shortName: "根式運算",
+
+    semester: "grade8-first",
 
     grade: 8,
 
     order: 5,
 
-    icon: "🌱",
+    icon: "√x",
 
     file:
-      "games/radical-operation.html",
+      "games/radical.html",
 
     description:
-      "練習根式化簡、根式乘除，以及同類方根的加減運算。",
+      "練習最簡根式以及根式的乘除與加減。",
 
     finished: true,
 
-    difficulty: 3,
+    difficulty: 2,
 
     recommended: false,
 
-    isNew: true,
+    isNew: false,
 
     ranking: {
       type: "speed"
     },
 
-    modes: {},
+    modes: {
+
+      simplify:
+        "最簡根式",
+
+      multiplication:
+        "根式乘除",
+
+      addition:
+        "根式加減",
+
+      mixed:
+        "綜合挑戰"
+
+    },
 
     theme: {
 
-      primary: "#43A047",
+      primary: "#5E35B1",
 
-      dark: "#2E7D32",
+      dark: "#4527A0",
 
-      light: "#E8F5E9",
+      light: "#EDE7F6",
 
-      border: "#A5D6A7"
+      border: "#B39DDB"
+
     }
+
   },
 
 
+
+  /*
+  --------------------------------------------------
+  6. 畢氏定理
+  --------------------------------------------------
+  */
+
   pythagorean: {
 
-    id:
-      "pythagorean",
+    id: "pythagorean",
 
-    name:
-      "畢氏定理大挑戰",
+    name: "畢氏定理大挑戰",
 
-    shortName:
-      "畢氏定理",
+    shortName: "畢氏定理",
 
-    semester:
-      "grade8-first",
+    semester: "grade8-first",
 
     grade: 8,
 
@@ -992,7 +768,7 @@ export const GAME_CONFIG = {
       "games/pythagorean.html",
 
     description:
-      "利用畢氏定理求邊長，並挑戰直角三角形、生活應用與兩點間距離。",
+      "利用畢氏定理解直角三角形與相關應用問題。",
 
     finished: true,
 
@@ -1000,7 +776,7 @@ export const GAME_CONFIG = {
 
     recommended: false,
 
-    isNew: true,
+    isNew: false,
 
     ranking: {
       type: "speed"
@@ -1009,50 +785,47 @@ export const GAME_CONFIG = {
     modes: {
 
       basic:
-        "基本直角三角形",
+        "基本題",
+
+      findSide:
+        "求邊長",
 
       application:
-        "生活應用與斜邊上的高",
+        "應用問題"
 
-      distance:
-        "兩點間的距離"
     },
 
     theme: {
 
-      primary: "#F57C00",
+      primary: "#FB8C00",
 
-      dark: "#E65100",
+      dark: "#EF6C00",
 
       light: "#FFF3E0",
 
       border: "#FFCC80"
+
     }
+
   },
 
 
-  /*
-  ==================================================
-  因式分解大挑戰
 
-  實際檔案：
-  games/factorization-challenge.html
-  ==================================================
+  /*
+  --------------------------------------------------
+  7. 因式分解大挑戰
+  --------------------------------------------------
   */
 
-  factorization: {
+  factorizationChallenge: {
 
-    id:
-      "factorization",
+    id: "factorizationChallenge",
 
-    name:
-      "因式分解大挑戰",
+    name: "因式分解大挑戰",
 
-    shortName:
-      "因式分解",
+    shortName: "因式分解",
 
-    semester:
-      "grade8-first",
+    semester: "grade8-first",
 
     grade: 8,
 
@@ -1064,13 +837,13 @@ export const GAME_CONFIG = {
       "games/factorization-challenge.html",
 
     description:
-      "練習提單項公因式、提兩項公因式、變號後提公因式，以及利用乘法公式進行因式分解。",
+      "練習提公因式與利用乘法公式進行因式分解。",
 
     finished: true,
 
-    difficulty: 3,
+    difficulty: 2,
 
-    recommended: false,
+    recommended: true,
 
     isNew: true,
 
@@ -1084,47 +857,44 @@ export const GAME_CONFIG = {
         "提單項公因式",
 
       grouping:
-        "提兩項或變號提公因式",
+        "提兩項或變號後提公因式",
 
       formula:
         "乘法公式因式分解"
+
     },
 
     theme: {
 
-      primary: "#00897B",
+      primary: "#D81B60",
 
-      dark: "#00695C",
+      dark: "#AD1457",
 
-      light: "#E0F2F1",
+      light: "#FCE4EC",
 
-      border: "#80CBC4"
+      border: "#F48FB1"
+
     }
+
   },
 
 
-  /*
-  ==================================================
-  十字交乘因式分解大挑戰
 
-  實際檔案：
-  games/cross-factorization.html
-  ==================================================
+  /*
+  --------------------------------------------------
+  8. 十字交乘因式分解大挑戰
+  --------------------------------------------------
   */
 
-  crossMultiplication: {
+  crossFactorization: {
 
-    id:
-      "crossMultiplication",
+    id: "crossFactorization",
 
-    name:
-      "十字交乘因式分解大挑戰",
+    name: "十字交乘因式分解大挑戰",
 
-    shortName:
-      "十字交乘",
+    shortName: "十字交乘",
 
-    semester:
-      "grade8-first",
+    semester: "grade8-first",
 
     grade: 8,
 
@@ -1136,13 +906,13 @@ export const GAME_CONFIG = {
       "games/cross-factorization.html",
 
     description:
-      "練習二次項係數為 1、一般十字交乘，以及先提公因式、乘法公式與分數型態的綜合因式分解。",
+      "利用十字交乘法進行二次三項式的因式分解。",
 
     finished: true,
 
     difficulty: 3,
 
-    recommended: false,
+    recommended: true,
 
     isNew: true,
 
@@ -1155,63 +925,75 @@ export const GAME_CONFIG = {
       leadingOne:
         "平方項係數為 1",
 
-      general:
+      leadingNotOne:
         "平方項係數不為 1",
 
       mixed:
-        "進階綜合"
+        "綜合因式分解"
+
     },
 
     theme: {
 
-      primary: "#D81B60",
+      primary: "#EC407A",
 
-      dark: "#AD1457",
+      dark: "#C2185B",
 
       light: "#FCE4EC",
 
       border: "#F48FB1"
+
     }
+
   },
 
 
+
   /*
-  ==================================================
-  尚未完成
-  ==================================================
+  --------------------------------------------------
+  9. 一元二次方程式大挑戰
+
+  正式上架
+  實際檔名：
+  games/quadratic-equation.html
+  --------------------------------------------------
   */
 
   quadraticEquation: {
 
-    id:
-      "quadraticEquation",
+    id: "quadraticEquation",
 
-    name:
-      "一元二次方程式大挑戰",
+    name: "一元二次方程式大挑戰",
 
-    shortName:
-      "一元二次方程式",
+    shortName: "一元二次方程式",
 
-    semester:
-      "grade8-first",
+    semester: "grade8-first",
 
     grade: 8,
 
     order: 9,
 
-    icon: "🎯",
+    /*
+    符合一元二次方程式主題的圖示
+    */
+
+    icon: "x²",
 
     file:
       "games/quadratic-equation.html",
 
     description:
-      "練習因式分解法、配方法、公式解，以及一元二次方程式應用題。",
+      "練習因式分解法、平方根法、配方法、公式解、根的情形判斷，以及一元二次方程式應用問題。",
 
-    finished: false,
+    /*
+    正式上架
+    */
+
+    finished: true,
 
     difficulty: 3,
 
-    recommended: false,
+    recommended: true,
 
     isNew: true,
 
@@ -1219,10 +1001,17 @@ export const GAME_CONFIG = {
       type: "speed"
     },
 
+    /*
+    一元二次方程式六種模式
+    */
+
     modes: {
 
       factorization:
         "因式分解法",
+
+      squareRoot:
+        "平方根法",
 
       completingSquare:
         "配方法",
@@ -1230,247 +1019,90 @@ export const GAME_CONFIG = {
       formula:
         "公式解",
 
-      mixed:
-        "混合挑戰",
+      rootNature:
+        "根的情形",
 
-      application:
-        "應用問題"
+      mixed:
+        "綜合挑戰"
+
     },
 
     theme: {
 
-      primary: "#E53935",
+      primary: "#1565C0",
 
-      dark: "#C62828",
+      dark: "#0D47A1",
 
-      light: "#FFEBEE",
+      light: "#E3F2FD",
 
-      border: "#EF9A9A"
+      border: "#90CAF9"
+
     }
+
   }
+
 };
 
 
+
 /*
 ==================================================
-取得單一遊戲設定
+取得全部遊戲
 ==================================================
 */
 
-export function getGameConfig(
-  gameId
-) {
+export function getAllGames() {
 
-  return (
-    GAME_CONFIG[
-      gameId
-    ] ||
-    null
+  return Object.values(
+    GAME_CONFIG
   );
+
 }
+
 
 
 /*
 ==================================================
-取得遊戲中文名稱
+取得已完成遊戲
 ==================================================
 */
 
-export function getGameName(
-  gameId
-) {
+export function getFinishedGames() {
 
-  return (
-    GAME_CONFIG[
-      gameId
-    ]?.name ||
-    gameId ||
-    "數學遊戲"
-  );
-}
-
-
-/*
-==================================================
-取得遊戲模式
-==================================================
-*/
-
-export function getGameModes(
-  gameId
-) {
-
-  const modes =
-    GAME_CONFIG[
-      gameId
-    ]?.modes;
-
-
-  if (
-    !modes ||
-    typeof modes !==
-      "object"
-  ) {
-
-    return {};
-  }
-
-
-  return modes;
-}
-
-
-/*
-==================================================
-取得遊戲模式數量
-==================================================
-*/
-
-export function getGameModeCount(
-  gameId
-) {
-
-  return Object.keys(
-    getGameModes(
-      gameId
+  return getAllGames()
+    .filter(
+      game =>
+        game.finished === true
     )
-  ).length;
-}
+    .sort(
+      (a, b) => {
 
+        if (
+          a.grade !== b.grade
+        ) {
 
-/*
-==================================================
-取得遊戲模式中文名稱
-==================================================
-*/
+          return (
+            a.grade -
+            b.grade
+          );
 
-export function getModeName(
-  gameId,
-  mode
-) {
+        }
 
-  if (
-    mode === undefined ||
-    mode === null ||
-    mode === ""
-  ) {
+        return (
+          a.order -
+          b.order
+        );
 
-    return "";
-  }
-
-
-  const modeKey =
-    String(
-      mode
+      }
     );
 
-
-  return (
-    GAME_CONFIG[
-      gameId
-    ]?.modes?.[
-      modeKey
-    ] ||
-    modeKey
-  );
 }
+
 
 
 /*
 ==================================================
-取得遊戲主題配色
-==================================================
-*/
-
-export function getGameTheme(
-  gameId
-) {
-
-  return (
-    GAME_CONFIG[
-      gameId
-    ]?.theme ||
-    {
-
-      primary:
-        "#1976D2",
-
-      dark:
-        "#125CA6",
-
-      light:
-        "#E3F2FD",
-
-      border:
-        "#90CAF9"
-    }
-  );
-}
-
-
-/*
-==================================================
-取得遊戲難度
-==================================================
-*/
-
-export function getGameDifficulty(
-  gameId
-) {
-
-  const difficulty =
-    Number(
-      GAME_CONFIG[
-        gameId
-      ]?.difficulty
-    );
-
-
-  if (
-    !Number.isFinite(
-      difficulty
-    )
-  ) {
-
-    return 1;
-  }
-
-
-  return Math.min(
-    3,
-
-    Math.max(
-      1,
-
-      Math.round(
-        difficulty
-      )
-    )
-  );
-}
-
-
-/*
-==================================================
-取得難度星號
-==================================================
-*/
-
-export function getDifficultyStars(
-  gameId
-) {
-
-  return "⭐".repeat(
-    getGameDifficulty(
-      gameId
-    )
-  );
-}
-
-
-/*
-==================================================
-依學期取得全部遊戲
+依學期取得遊戲
 ==================================================
 */
 
@@ -1478,102 +1110,237 @@ export function getGamesBySemester(
   semester
 ) {
 
-  return Object.values(
-    GAME_CONFIG
-  )
+  return getAllGames()
     .filter(
       game =>
-        game.semester ===
-        semester
-    )
-    .sort(
-      (
-        gameA,
-        gameB
-      ) =>
-        gameA.order -
-        gameB.order
-    );
-}
-
-
-/*
-==================================================
-★ 排行榜修正重點
-
-依學期取得「已完成」遊戲
-leaderboard.js 會 import 這個函式
-==================================================
-*/
-
-export function getFinishedGamesBySemester(
-  semester
-) {
-
-  return Object.values(
-    GAME_CONFIG
-  )
-    .filter(
-      game =>
-
         game.semester ===
           semester &&
-
-        game.finished ===
-          true
+        game.finished === true
     )
     .sort(
-      (
-        gameA,
-        gameB
-      ) =>
-        gameA.order -
-        gameB.order
+      (a, b) =>
+        a.order -
+        b.order
     );
+
 }
+
 
 
 /*
 ==================================================
-取得所有已完成遊戲
+依年級取得遊戲
 ==================================================
 */
 
-export function getFinishedGames() {
+export function getGamesByGrade(
+  grade
+) {
 
-  return Object.values(
-    GAME_CONFIG
-  )
+  return getAllGames()
     .filter(
       game =>
-        game.finished ===
-        true
+        game.grade ===
+          Number(grade) &&
+        game.finished === true
     )
     .sort(
-      (
-        gameA,
-        gameB
-      ) => {
-
-        if (
-          gameA.semester ===
-          gameB.semester
-        ) {
-
-          return (
-            gameA.order -
-            gameB.order
-          );
-        }
-
-
-        return gameA.semester
-          .localeCompare(
-            gameB.semester
-          );
-      }
+      (a, b) =>
+        a.order -
+        b.order
     );
+
 }
+
+
+
+/*
+==================================================
+依遊戲 ID 取得設定
+==================================================
+*/
+
+export function getGameConfig(
+  gameId
+) {
+
+  if (
+    !gameId
+  ) {
+
+    return null;
+
+  }
+
+
+  /*
+  先直接使用物件 key 尋找
+  */
+
+  if (
+    GAME_CONFIG[gameId]
+  ) {
+
+    return GAME_CONFIG[
+      gameId
+    ];
+
+  }
+
+
+  /*
+  再使用遊戲本身的 id 尋找
+  */
+
+  return (
+    getAllGames()
+      .find(
+        game =>
+          game.id === gameId
+      ) ||
+    null
+  );
+
+}
+
+
+
+/*
+==================================================
+取得遊戲名稱
+==================================================
+*/
+
+export function getGameName(
+  gameId
+) {
+
+  const game =
+    getGameConfig(
+      gameId
+    );
+
+  return game
+    ? game.name
+    : gameId;
+
+}
+
+
+
+/*
+==================================================
+取得遊戲短名稱
+==================================================
+*/
+
+export function getGameShortName(
+  gameId
+) {
+
+  const game =
+    getGameConfig(
+      gameId
+    );
+
+  return game
+    ? game.shortName
+    : gameId;
+
+}
+
+
+
+/*
+==================================================
+取得遊戲模式名稱
+==================================================
+*/
+
+export function getModeName(
+  gameId,
+  modeId
+) {
+
+  const game =
+    getGameConfig(
+      gameId
+    );
+
+
+  if (
+    !game
+  ) {
+
+    return modeId || "";
+
+  }
+
+
+  if (
+    !modeId
+  ) {
+
+    return "";
+
+  }
+
+
+  return (
+    game.modes?.[
+      modeId
+    ] ||
+    modeId
+  );
+
+}
+
+
+
+/*
+==================================================
+取得遊戲網址
+==================================================
+*/
+
+export function getGameFile(
+  gameId
+) {
+
+  const game =
+    getGameConfig(
+      gameId
+    );
+
+  return game
+    ? game.file
+    : "";
+
+}
+
+
+
+/*
+==================================================
+判斷遊戲是否已上架
+==================================================
+*/
+
+export function isGameFinished(
+  gameId
+) {
+
+  const game =
+    getGameConfig(
+      gameId
+    );
+
+  return Boolean(
+    game?.finished
+  );
+
+}
+
 
 
 /*
@@ -1584,27 +1351,15 @@ export function getFinishedGames() {
 
 export function getRecommendedGames() {
 
-  return Object.values(
-    GAME_CONFIG
-  )
+  return getFinishedGames()
     .filter(
       game =>
-
-        game.finished ===
-          true &&
-
         game.recommended ===
-          true
-    )
-    .sort(
-      (
-        gameA,
-        gameB
-      ) =>
-        gameA.order -
-        gameB.order
+        true
     );
+
 }
+
 
 
 /*
@@ -1615,183 +1370,76 @@ export function getRecommendedGames() {
 
 export function getNewGames() {
 
-  return Object.values(
-    GAME_CONFIG
-  )
+  return getFinishedGames()
     .filter(
       game =>
-
-        game.finished ===
-          true &&
-
-        game.isNew ===
-          true
-    )
-    .sort(
-      (
-        gameA,
-        gameB
-      ) =>
-        gameA.order -
-        gameB.order
-    );
-}
-
-
-/*
-==================================================
-取得遊戲排列順序
-==================================================
-*/
-
-export function getGameOrder() {
-
-  return getFinishedGames()
-    .map(
-      game =>
-        game.id
-    );
-}
-
-
-/*
-==================================================
-檢查遊戲是否完成
-==================================================
-*/
-
-export function isGameFinished(
-  gameId
-) {
-
-  return (
-    GAME_CONFIG[
-      gameId
-    ]?.finished ===
-    true
-  );
-}
-
-
-/*
-==================================================
-取得排行榜類型
-==================================================
-*/
-
-export function getGameRankingType(
-  gameId
-) {
-
-  const type =
-    GAME_CONFIG[
-      gameId
-    ]?.ranking?.type;
-
-
-  return (
-    type ===
-    "timed"
-
-      ? "timed"
-
-      : "speed"
-  );
-}
-
-
-/*
-==================================================
-是否為固定時間排行榜
-==================================================
-*/
-
-export function isTimedRankingGame(
-  gameId
-) {
-
-  return (
-    getGameRankingType(
-      gameId
-    ) ===
-    "timed"
-  );
-}
-
-
-/*
-==================================================
-是否為多模式遊戲
-==================================================
-*/
-
-export function isMultiModeGame(
-  gameId
-) {
-
-  return (
-    getGameModeCount(
-      gameId
-    ) >
-    1
-  );
-}
-
-
-/*
-==================================================
-完整顯示名稱
-==================================================
-*/
-
-export function getGameDisplayName(
-  gameId,
-  mode
-) {
-
-  const gameName =
-    getGameName(
-      gameId
+        game.isNew === true
     );
 
-
-  if (
-    !isMultiModeGame(
-      gameId
-    )
-  ) {
-
-    return gameName;
-  }
-
-
-  const modeName =
-    getModeName(
-      gameId,
-      mode
-    );
-
-
-  if (
-    !modeName
-  ) {
-
-    return gameName;
-  }
-
-
-  return (
-    `${gameName}｜${modeName}`
-  );
 }
+
 
 
 /*
 ==================================================
-確認 game-config.js 已載入
+依照遊戲排序
+==================================================
+*/
+
+export function sortGames(
+  games = []
+) {
+
+  return [
+    ...games
+  ].sort(
+    (a, b) => {
+
+      if (
+        a.grade !==
+        b.grade
+      ) {
+
+        return (
+          a.grade -
+          b.grade
+        );
+
+      }
+
+      return (
+        a.order -
+        b.order
+      );
+
+    }
+  );
+
+}
+
+
+
+/*
+==================================================
+確認設定檔載入
 ==================================================
 */
 
 console.log(
-  "game-config.js v6.7 已成功載入"
+  "game-config.js 已成功載入"
+);
+
+console.log(
+  "目前正式上架遊戲數量：",
+  getFinishedGames().length
+);
+
+console.log(
+  "八年級上學期正式上架遊戲：",
+  getGamesBySemester(
+    "grade8-first"
+  ).map(
+    game =>
+      game.name
+  )
 );
