@@ -1,1019 +1,1844 @@
 /*
 ==================================================
-數學遊戲樂園｜排行榜
-檔案：js/leaderboard.js
+生活有解．心中有數：遊戲共用設定
+檔案位置：js/game-config.js
 
-版本：8.1
-排行榜版面修正版
+版本：6.8
+排行榜模式名稱同步修正版
 ==================================================
 
-功能：
+重要原則：
 
-1. 依學期顯示排行榜
-2. 只顯示 game-config.js 中 finished:true 的遊戲
-3. 多模式遊戲可切換模式
-4. 同一位玩家、同一遊戲、同一模式只保留最佳紀錄
-5. 固定題數遊戲：
-   分數高 → 時間短 → 答對多 → 答錯少 → 連擊高
-6. 固定時間遊戲：
-   分數高 → 答對多 → 答錯少 → 連擊高
-7. 每榜最多顯示 20 名
-8. 完整配合 leaderboard.html 原本 CSS
-==================================================
-*/
+1. GAME_CONFIG 的 key
+2. game.id
+3. 遊戲 HTML 中 saveGameScore({ game: ... }) 的 game
+4. Firestore 已儲存的 game
 
+以上最好保持一致。
 
-import {
+另外：
 
-  auth,
-  db
+modes 的 key 必須與各遊戲實際儲存到
+Firestore 的 mode 完全一致。
 
-} from "./firebase-config.js";
+本版重點：
+一元一次方程式仍使用：
+"1"、"2"、"3"、"4"
 
-
-import {
-
-  getFinishedGamesBySemester,
-  getGameConfig,
-  getGameName
-
-} from "./game-config.js";
-
-
-import {
-
-  collection,
-  getDocs
-
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-
-import {
-
-  onAuthStateChanged
-
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-
-"use strict";
-
-
-/*
-==================================================
-DOM
+只修改中文顯示名稱，
+因此舊排行榜成績完全不需要重新測驗。
 ==================================================
 */
 
 
-const userStatus =
-  document.getElementById(
-    "userStatus"
-  );
+export const GAME_CONFIG = {
 
 
-const semesterSelect =
-  document.getElementById(
-    "semesterSelect"
-  );
+  /*
+  ==================================================
+  七年級上學期
+  ==================================================
+  */
 
 
-const filterTitle =
-  document.getElementById(
-    "filterTitle"
-  );
+  /*
+  --------------------------------------------------
+  1. 正負整數大挑戰
+  --------------------------------------------------
+  */
+
+  integer: {
+
+    id:
+      "integer",
+
+    name:
+      "正負整數大挑戰",
+
+    shortName:
+      "正負整數",
+
+    semester:
+      "grade7-first",
+
+    grade:
+      7,
+
+    order:
+      1,
+
+    icon:
+      "🎮",
+
+    file:
+      "games/integer.html",
+
+    description:
+      "七年級正負整數加減法，挑戰計算速度與正確率。",
+
+    finished:
+      true,
+
+    difficulty:
+      1,
+
+    recommended:
+      true,
+
+    isNew:
+      false,
+
+    ranking: {
+
+      type:
+        "timed"
+
+    },
+
+    modes: {},
+
+    theme: {
+
+      primary:
+        "#1976D2",
+
+      dark:
+        "#125CA6",
+
+      light:
+        "#E3F2FD",
+
+      border:
+        "#90CAF9"
+
+    }
+
+  },
 
 
-const filterBox =
-  document.getElementById(
-    "filterBox"
-  );
+  /*
+  --------------------------------------------------
+  2. 數的大小比較王
+  --------------------------------------------------
+  */
+
+  compare: {
+
+    id:
+      "compare",
+
+    name:
+      "數的大小比較王",
+
+    shortName:
+      "數的大小比較",
+
+    semester:
+      "grade7-first",
+
+    grade:
+      7,
+
+    order:
+      2,
+
+    icon:
+      "⚖️",
+
+    file:
+      "games/compare.html",
+
+    description:
+      "挑戰整數、分數與小數的大小比較，選出正確的 ＞、＝或＜。",
+
+    finished:
+      true,
+
+    difficulty:
+      1,
+
+    recommended:
+      false,
+
+    isNew:
+      false,
+
+    ranking: {
+
+      type:
+        "timed"
+
+    },
+
+    modes: {
+
+      easy:
+        "初級｜整數比較",
+
+      medium:
+        "中級｜整數與分數",
+
+      hard:
+        "高級｜混合比較"
+
+    },
+
+    theme: {
+
+      primary:
+        "#F57C00",
+
+      dark:
+        "#D86600",
+
+      light:
+        "#FFF3E0",
+
+      border:
+        "#FFCC80"
+
+    }
+
+  },
 
 
-const loadingMessage =
-  document.getElementById(
-    "loadingMessage"
-  );
+  /*
+  --------------------------------------------------
+  3. 正負分數加減大挑戰
+  --------------------------------------------------
+  */
+
+  fraction: {
+
+    id:
+      "fraction",
+
+    name:
+      "正負分數加減大挑戰",
+
+    shortName:
+      "正負分數加減",
+
+    semester:
+      "grade7-first",
+
+    grade:
+      7,
+
+    order:
+      3,
+
+    icon:
+      "➗",
+
+    file:
+      "games/fraction.html",
+
+    description:
+      "先複習最小公倍數，再挑戰正負分數的同分母與異分母加減。",
+
+    finished:
+      true,
+
+    difficulty:
+      2,
+
+    recommended:
+      false,
+
+    isNew:
+      false,
+
+    ranking: {
+
+      type:
+        "timed"
+
+    },
+
+    modes: {
+
+      lcm:
+        "最小公倍數複習",
+
+      fraction:
+        "正負分數加減"
+
+    },
+
+    theme: {
+
+      primary:
+        "#2E7D32",
+
+      dark:
+        "#1B5E20",
+
+      light:
+        "#E8F5E9",
+
+      border:
+        "#A5D6A7"
+
+    }
+
+  },
 
 
-const errorMessage =
-  document.getElementById(
-    "errorMessage"
-  );
+  /*
+  --------------------------------------------------
+  4. 指數律大挑戰
+  --------------------------------------------------
+  */
+
+  exponent: {
+
+    id:
+      "exponent",
+
+    name:
+      "指數律大挑戰",
+
+    shortName:
+      "指數律",
+
+    semester:
+      "grade7-first",
+
+    grade:
+      7,
+
+    order:
+      4,
+
+    icon:
+      "🔢",
+
+    file:
+      "games/exponent.html",
+
+    description:
+      "練習同底數相乘、相除、冪的乘方、零次方與綜合指數律。",
+
+    finished:
+      true,
+
+    difficulty:
+      2,
+
+    recommended:
+      false,
+
+    isNew:
+      true,
+
+    ranking: {
+
+      type:
+        "speed"
+
+    },
+
+    modes: {
+
+      multiplication:
+        "同底數相乘",
+
+      division:
+        "同底數相除",
+
+      powerOfPower:
+        "冪的乘方",
+
+      zeroExponent:
+        "零次方",
+
+      mixed:
+        "綜合指數律"
+
+    },
+
+    theme: {
+
+      primary:
+        "#5E35B1",
+
+      dark:
+        "#4527A0",
+
+      light:
+        "#EDE7F6",
+
+      border:
+        "#B39DDB"
+
+    }
+
+  },
 
 
-const emptyMessage =
-  document.getElementById(
-    "emptyMessage"
-  );
+  /*
+  --------------------------------------------------
+  5. 正負數四則運算大挑戰
+  --------------------------------------------------
+  */
+
+  "integer-operations": {
+
+    id:
+      "integer-operations",
+
+    name:
+      "正負數四則運算大挑戰",
+
+    shortName:
+      "正負數四則運算",
+
+    semester:
+      "grade7-first",
+
+    grade:
+      7,
+
+    order:
+      5,
+
+    icon:
+      "➕",
+
+    file:
+      "games/integer-operations.html",
+
+    description:
+      "練習正負數乘除、絕對值、乘方，以及整數與分數混合四則運算。",
+
+    finished:
+      true,
+
+    difficulty:
+      3,
+
+    recommended:
+      true,
+
+    isNew:
+      true,
+
+    ranking: {
+
+      type:
+        "timed"
+
+    },
+
+    modes: {
+
+      muldiv:
+        "正負數的乘除",
+
+      absolute:
+        "絕對值運算",
+
+      power:
+        "乘方計算",
+
+      mixed:
+        "四則運算",
+
+      advanced:
+        "四則運算進階挑戰"
+
+    },
+
+    theme: {
+
+      primary:
+        "#8E24AA",
+
+      dark:
+        "#6A1B9A",
+
+      light:
+        "#F3E5F5",
+
+      border:
+        "#CE93D8"
+
+    }
+
+  },
 
 
-const leaderboardList =
-  document.getElementById(
-    "leaderboardList"
-  );
+  /*
+  --------------------------------------------------
+  6. 質因數分解、公因數公倍數大挑戰
+  --------------------------------------------------
+  */
+
+  factor: {
+
+    id:
+      "factor",
+
+    name:
+      "質因數分解、公因數公倍數大挑戰",
+
+    shortName:
+      "質因數分解與公因數公倍數",
+
+    semester:
+      "grade7-first",
+
+    grade:
+      7,
+
+    order:
+      6,
+
+    icon:
+      "🧩",
+
+    file:
+      "games/factor.html",
+
+    description:
+      "練習質因數分解，並用指數形式求最大公因數與最小公倍數。",
+
+    finished:
+      true,
+
+    difficulty:
+      2,
+
+    recommended:
+      false,
+
+    isNew:
+      false,
+
+    ranking: {
+
+      type:
+        "timed"
+
+    },
+
+    modes: {
+
+      primeFactorization:
+        "質因數分解",
+
+      gcd:
+        "最大公因數",
+
+      lcm:
+        "最小公倍數",
+
+      mixed:
+        "綜合挑戰"
+
+    },
+
+    theme: {
+
+      primary:
+        "#00897B",
+
+      dark:
+        "#00695C",
+
+      light:
+        "#E0F2F1",
+
+      border:
+        "#80CBC4"
+
+    }
+
+  },
 
 
-/*
-==================================================
-設定
-==================================================
-*/
+  /*
+  --------------------------------------------------
+  7. 一元一次方程式
+
+  equation.html 實際儲存：
+  mode = "1" / "2" / "3" / "4"
+
+  ★ 此處不可改成 basic 等英文 key。
+  --------------------------------------------------
+  */
+
+  equation: {
+
+    id:
+      "equation",
+
+    name:
+      "一元一次方程式",
+
+    shortName:
+      "一元一次方程式",
+
+    semester:
+      "grade7-first",
+
+    grade:
+      7,
+
+    order:
+      7,
+
+    icon:
+      "🧮",
+
+    file:
+      "games/equation.html",
+
+    description:
+      "解方程式闖關，練習移項、等量公理、括號化簡與分數方程式。",
+
+    finished:
+      true,
+
+    difficulty:
+      3,
+
+    recommended:
+      false,
+
+    isNew:
+      false,
+
+    ranking: {
+
+      type:
+        "timed"
+
+    },
+
+    /*
+    ==================================================
+    ★ 這裡就是本次真正修正的位置
+
+    key 完全不動：
+    "1"、"2"、"3"、"4"
+
+    只把原本：
+    模式一
+    模式二
+    模式三
+    模式四
+
+    改為正式模式名稱。
+    ==================================================
+    */
+
+    modes: {
+
+      "1":
+        "基本一元一次方程式",
+
+      "2":
+        "移項與合併同類項",
+
+      "3":
+        "括號、負號與化簡",
+
+      "4":
+        "分數係數方程式"
+
+    },
+
+    theme: {
+
+      primary:
+        "#E53935",
+
+      dark:
+        "#C62828",
+
+      light:
+        "#FFEBEE",
+
+      border:
+        "#EF9A9A"
+
+    }
+
+  },
 
 
-const LEADERBOARD_LIMIT =
-  20;
+  /*
+  ==================================================
+  七年級下學期
+  ==================================================
+  */
 
 
-const SEMESTER_NAMES = {
+  /*
+  --------------------------------------------------
+  二元一次聯立方程式
+  --------------------------------------------------
+  */
 
-  "grade7-first":
-    "七年級上學期",
+  simultaneousEquation: {
 
-  "grade7-second":
-    "七年級下學期",
+    id:
+      "simultaneousEquation",
 
-  "grade8-first":
-    "八年級上學期"
+    name:
+      "二元一次聯立方程式",
+
+    shortName:
+      "二元一次聯立方程式",
+
+    semester:
+      "grade7-second",
+
+    grade:
+      7,
+
+    order:
+      1,
+
+    icon:
+      "🔢",
+
+    file:
+      "games/simultaneous-equation.html",
+
+    description:
+      "練習代入消去法與加減消去法，解出兩個未知數。",
+
+    finished:
+      false,
+
+    difficulty:
+      3,
+
+    recommended:
+      false,
+
+    isNew:
+      false,
+
+    ranking: {
+
+      type:
+        "timed"
+
+    },
+
+    modes: {},
+
+    theme: {
+
+      primary:
+        "#3949AB",
+
+      dark:
+        "#283593",
+
+      light:
+        "#E8EAF6",
+
+      border:
+        "#9FA8DA"
+
+    }
+
+  },
+
+
+  /*
+  --------------------------------------------------
+  直角坐標與方程式圖形
+  --------------------------------------------------
+  */
+
+  coordinate: {
+
+    id:
+      "coordinate",
+
+    name:
+      "直角坐標與方程式圖形",
+
+    shortName:
+      "直角坐標與方程式圖形",
+
+    semester:
+      "grade7-second",
+
+    grade:
+      7,
+
+    order:
+      2,
+
+    icon:
+      "📍",
+
+    file:
+      "games/coordinate.html",
+
+    description:
+      "認識坐標平面，練習描點與判讀二元一次方程式圖形。",
+
+    finished:
+      false,
+
+    difficulty:
+      2,
+
+    recommended:
+      false,
+
+    isNew:
+      false,
+
+    ranking: {
+
+      type:
+        "timed"
+
+    },
+
+    modes: {},
+
+    theme: {
+
+      primary:
+        "#039BE5",
+
+      dark:
+        "#0277BD",
+
+      light:
+        "#E1F5FE",
+
+      border:
+        "#81D4FA"
+
+    }
+
+  },
+
+
+  /*
+  --------------------------------------------------
+  比例式、正比與反比
+  --------------------------------------------------
+  */
+
+  ratio: {
+
+    id:
+      "ratio",
+
+    name:
+      "比例式、正比與反比",
+
+    shortName:
+      "比例式、正比與反比",
+
+    semester:
+      "grade7-second",
+
+    grade:
+      7,
+
+    order:
+      3,
+
+    icon:
+      "📏",
+
+    file:
+      "games/ratio.html",
+
+    description:
+      "練習比例式、正比、反比與實際應用題。",
+
+    finished:
+      false,
+
+    difficulty:
+      2,
+
+    recommended:
+      false,
+
+    isNew:
+      false,
+
+    ranking: {
+
+      type:
+        "timed"
+
+    },
+
+    modes: {},
+
+    theme: {
+
+      primary:
+        "#F4511E",
+
+      dark:
+        "#D84315",
+
+      light:
+        "#FBE9E7",
+
+      border:
+        "#FFAB91"
+
+    }
+
+  },
+
+
+  /*
+  --------------------------------------------------
+  統計圖表
+  --------------------------------------------------
+  */
+
+  statistics: {
+
+    id:
+      "statistics",
+
+    name:
+      "統計圖表",
+
+    shortName:
+      "統計圖表",
+
+    semester:
+      "grade7-second",
+
+    grade:
+      7,
+
+    order:
+      4,
+
+    icon:
+      "📊",
+
+    file:
+      "games/statistics.html",
+
+    description:
+      "練習次數分配、統計圖表與資料判讀。",
+
+    finished:
+      false,
+
+    difficulty:
+      2,
+
+    recommended:
+      false,
+
+    isNew:
+      false,
+
+    ranking: {
+
+      type:
+        "timed"
+
+    },
+
+    modes: {},
+
+    theme: {
+
+      primary:
+        "#00838F",
+
+      dark:
+        "#006064",
+
+      light:
+        "#E0F7FA",
+
+      border:
+        "#80DEEA"
+
+    }
+
+  },
+
+
+  /*
+  ==================================================
+  八年級上學期
+  ==================================================
+  */
+
+
+  /*
+  --------------------------------------------------
+  1. 乘法公式大挑戰
+  --------------------------------------------------
+  */
+
+  multiplicationFormula: {
+
+    id:
+      "multiplicationFormula",
+
+    name:
+      "乘法公式大挑戰",
+
+    shortName:
+      "乘法公式",
+
+    semester:
+      "grade8-first",
+
+    grade:
+      8,
+
+    order:
+      1,
+
+    icon:
+      "🧩",
+
+    file:
+      "games/multiplication-formula.html",
+
+    description:
+      "練習平方公式、平方差公式，以及乘法公式的展開與判讀。",
+
+    finished:
+      true,
+
+    difficulty:
+      2,
+
+    recommended:
+      false,
+
+    isNew:
+      true,
+
+    ranking: {
+
+      type:
+        "speed"
+
+    },
+
+    modes: {},
+
+    theme: {
+
+      primary:
+        "#3F51B5",
+
+      dark:
+        "#303F9F",
+
+      light:
+        "#E8EAF6",
+
+      border:
+        "#9FA8DA"
+
+    }
+
+  },
+
+
+  /*
+  --------------------------------------------------
+  2. 多項式加減大挑戰
+  --------------------------------------------------
+  */
+
+  polynomialAddSubtract: {
+
+    id:
+      "polynomialAddSubtract",
+
+    name:
+      "多項式加減大挑戰",
+
+    shortName:
+      "多項式加減",
+
+    semester:
+      "grade8-first",
+
+    grade:
+      8,
+
+    order:
+      2,
+
+    icon:
+      "➕",
+
+    file:
+      "games/polynomial-add-subtract.html",
+
+    description:
+      "練習同類項合併、去括號，以及多項式的加法與減法。",
+
+    finished:
+      true,
+
+    difficulty:
+      2,
+
+    recommended:
+      false,
+
+    isNew:
+      true,
+
+    ranking: {
+
+      type:
+        "speed"
+
+    },
+
+    modes: {
+
+      likeTerms:
+        "同類項加減",
+
+      addSubtract:
+        "多項式加減法",
+
+      mixed:
+        "多項式綜合挑戰",
+
+      advanced:
+        "進階綜合挑戰"
+
+    },
+
+    theme: {
+
+      primary:
+        "#00897B",
+
+      dark:
+        "#00695C",
+
+      light:
+        "#E0F2F1",
+
+      border:
+        "#80CBC4"
+
+    }
+
+  },
+
+
+  /*
+  --------------------------------------------------
+  3. 多項式乘除大挑戰
+  --------------------------------------------------
+  */
+
+  polynomialMultiplyDivide: {
+
+    id:
+      "polynomialMultiplyDivide",
+
+    name:
+      "多項式乘除大挑戰",
+
+    shortName:
+      "多項式乘除",
+
+    semester:
+      "grade8-first",
+
+    grade:
+      8,
+
+    order:
+      3,
+
+    icon:
+      "✖️",
+
+    file:
+      "games/polynomial-multiply-divide.html",
+
+    description:
+      "練習單項式乘除、分配律、乘法公式、多項式乘法與多項式除法。",
+
+    finished:
+      true,
+
+    difficulty:
+      3,
+
+    recommended:
+      false,
+
+    isNew:
+      true,
+
+    ranking: {
+
+      type:
+        "speed"
+
+    },
+
+    modes: {
+
+      monomial:
+        "單項式乘除",
+
+      multiply:
+        "多項式乘法",
+
+      divide:
+        "多項式除法",
+
+      mixed:
+        "乘除綜合挑戰"
+
+    },
+
+    theme: {
+
+      primary:
+        "#7B1FA2",
+
+      dark:
+        "#6A1B9A",
+
+      light:
+        "#F3E5F5",
+
+      border:
+        "#CE93D8"
+
+    }
+
+  },
+
+
+  /*
+  --------------------------------------------------
+  4. 平方根
+  --------------------------------------------------
+  */
+
+  squareRoot: {
+
+    id:
+      "squareRoot",
+
+    name:
+      "平方根概念大挑戰",
+
+    shortName:
+      "平方根",
+
+    semester:
+      "grade8-first",
+
+    grade:
+      8,
+
+    order:
+      4,
+
+    icon:
+      "√",
+
+    file:
+      "games/square-root.html",
+
+    description:
+      "認識平方根、根號表示，以及平方與平方根之間的關係。",
+
+    finished:
+      true,
+
+    difficulty:
+      2,
+
+    recommended:
+      false,
+
+    isNew:
+      true,
+
+    ranking: {
+
+      type:
+        "speed"
+
+    },
+
+    modes: {},
+
+    theme: {
+
+      primary:
+        "#0288D1",
+
+      dark:
+        "#0277BD",
+
+      light:
+        "#E1F5FE",
+
+      border:
+        "#81D4FA"
+
+    }
+
+  },
+
+
+  /*
+  --------------------------------------------------
+  5. 根式運算
+  --------------------------------------------------
+  */
+
+  radicalOperation: {
+
+    id:
+      "radicalOperation",
+
+    name:
+      "根式運算大挑戰",
+
+    shortName:
+      "根式運算",
+
+    semester:
+      "grade8-first",
+
+    grade:
+      8,
+
+    order:
+      5,
+
+    icon:
+      "🌱",
+
+    file:
+      "games/radical-operation.html",
+
+    description:
+      "練習根式化簡、根式乘除，以及同類方根的加減運算。",
+
+    finished:
+      true,
+
+    difficulty:
+      3,
+
+    recommended:
+      false,
+
+    isNew:
+      true,
+
+    ranking: {
+
+      type:
+        "speed"
+
+    },
+
+    modes: {
+
+      multiply:
+        "根式乘法",
+
+      divide:
+        "除法與有理化",
+
+      addSubtract:
+        "根式加減",
+
+      mixed:
+        "根式四則綜合"
+
+    },
+
+    theme: {
+
+      primary:
+        "#43A047",
+
+      dark:
+        "#2E7D32",
+
+      light:
+        "#E8F5E9",
+
+      border:
+        "#A5D6A7"
+
+    }
+
+  },
+
+
+  /*
+  --------------------------------------------------
+  6. 畢氏定理
+  --------------------------------------------------
+  */
+
+  pythagorean: {
+
+    id:
+      "pythagorean",
+
+    name:
+      "畢氏定理大挑戰",
+
+    shortName:
+      "畢氏定理",
+
+    semester:
+      "grade8-first",
+
+    grade:
+      8,
+
+    order:
+      6,
+
+    icon:
+      "📐",
+
+    file:
+      "games/pythagorean.html",
+
+    description:
+      "利用畢氏定理求邊長，並挑戰直角三角形、生活應用與兩點間距離。",
+
+    finished:
+      true,
+
+    difficulty:
+      2,
+
+    recommended:
+      false,
+
+    isNew:
+      true,
+
+    ranking: {
+
+      type:
+        "speed"
+
+    },
+
+    modes: {
+
+      basic:
+        "基本直角三角形",
+
+      application:
+        "生活應用與斜邊上的高",
+
+      distance:
+        "兩點間的距離"
+
+    },
+
+    theme: {
+
+      primary:
+        "#F57C00",
+
+      dark:
+        "#E65100",
+
+      light:
+        "#FFF3E0",
+
+      border:
+        "#FFCC80"
+
+    }
+
+  },
+
+
+  /*
+  --------------------------------------------------
+  7. 因式分解大挑戰
+  --------------------------------------------------
+  */
+
+  factorization: {
+
+    id:
+      "factorization",
+
+    name:
+      "因式分解大挑戰",
+
+    shortName:
+      "因式分解",
+
+    semester:
+      "grade8-first",
+
+    grade:
+      8,
+
+    order:
+      7,
+
+    icon:
+      "🧩",
+
+    file:
+      "games/factorization-challenge.html",
+
+    description:
+      "練習提單項公因式、提兩項公因式、變號後提公因式，以及利用乘法公式進行因式分解。",
+
+    finished:
+      true,
+
+    difficulty:
+      3,
+
+    recommended:
+      false,
+
+    isNew:
+      true,
+
+    ranking: {
+
+      type:
+        "speed"
+
+    },
+
+    modes: {
+
+      monomial:
+        "提單項公因式",
+
+      grouping:
+        "提兩項或變號提公因式",
+
+      formula:
+        "乘法公式因式分解"
+
+    },
+
+    theme: {
+
+      primary:
+        "#00897B",
+
+      dark:
+        "#00695C",
+
+      light:
+        "#E0F2F1",
+
+      border:
+        "#80CBC4"
+
+    }
+
+  },
+
+
+  /*
+  --------------------------------------------------
+  8. 十字交乘因式分解
+  --------------------------------------------------
+  */
+
+  crossMultiplication: {
+
+    id:
+      "crossMultiplication",
+
+    name:
+      "十字交乘因式分解大挑戰",
+
+    shortName:
+      "十字交乘",
+
+    semester:
+      "grade8-first",
+
+    grade:
+      8,
+
+    order:
+      8,
+
+    icon:
+      "❌",
+
+    file:
+      "games/cross-factorization.html",
+
+    description:
+      "練習二次項係數為 1、一般十字交乘，以及先提公因式、乘法公式與分數型態的綜合因式分解。",
+
+    finished:
+      true,
+
+    difficulty:
+      3,
+
+    recommended:
+      false,
+
+    isNew:
+      true,
+
+    ranking: {
+
+      type:
+        "speed"
+
+    },
+
+    modes: {
+
+      leadingOne:
+        "平方項係數為 1",
+
+      general:
+        "平方項係數不為 1",
+
+      mixed:
+        "進階綜合"
+
+    },
+
+    theme: {
+
+      primary:
+        "#D81B60",
+
+      dark:
+        "#AD1457",
+
+      light:
+        "#FCE4EC",
+
+      border:
+        "#F48FB1"
+
+    }
+
+  },
+
+
+  /*
+  --------------------------------------------------
+  9. 一元二次方程式
+  --------------------------------------------------
+  */
+
+  quadraticEquation: {
+
+    id:
+      "quadraticEquation",
+
+    name:
+      "一元二次方程式大挑戰",
+
+    shortName:
+      "一元二次方程式",
+
+    semester:
+      "grade8-first",
+
+    grade:
+      8,
+
+    order:
+      9,
+
+    icon:
+      "x²",
+
+    file:
+      "games/quadratic-equation.html",
+
+    description:
+      "練習基礎概念、因式分解法、平方根與配方法、公式解與判別式，以及一元二次方程式應用問題。",
+
+    finished:
+      true,
+
+    difficulty:
+      3,
+
+    recommended:
+      true,
+
+    isNew:
+      true,
+
+    ranking: {
+
+      type:
+        "speed"
+
+    },
+
+    /*
+    quadratic-equation.html 目前實際 mode
+    */
+
+    modes: {
+
+      basic:
+        "基礎概念",
+
+      factor:
+        "因式分解法",
+
+      completeSquare:
+        "平方根與配方法",
+
+      formula:
+        "公式解與判別式",
+
+      application:
+        "一元二次應用問題",
+
+      mixed:
+        "全章綜合挑戰"
+
+    },
+
+    theme: {
+
+      primary:
+        "#1565C0",
+
+      dark:
+        "#0D47A1",
+
+      light:
+        "#E3F2FD",
+
+      border:
+        "#90CAF9"
+
+    }
+
+  }
+
 };
 
 
-let currentUser =
-  null;
-
-
-let selectedSemester =
-  semesterSelect?.value ||
-  "grade7-first";
-
-
-let selectedGame =
-  "all";
-
-
-let allScoreRecords =
-  [];
-
 
 /*
 ==================================================
-基本工具
+取得單一遊戲設定
 ==================================================
 */
 
-
-function safeNumber(
-  value,
-  fallback =
-    0
-) {
-
-  const number =
-    Number(
-      value
-    );
-
-
-  return Number.isFinite(
-    number
-  )
-    ? number
-    : fallback;
-}
-
-
-/*
-==================================================
-時間
-==================================================
-*/
-
-
-function safePlayTime(
-  value
-) {
-
-  const number =
-    Number(
-      value
-    );
-
-
-  if (
-    !Number.isFinite(
-      number
-    ) ||
-    number <
-      0
-  ) {
-
-    return Number.MAX_SAFE_INTEGER;
-  }
-
-
-  return number;
-}
-
-
-function formatTime(
-  seconds
-) {
-
-  const value =
-    Math.max(
-      0,
-      Math.round(
-        safeNumber(
-          seconds,
-          0
-        )
-      )
-    );
-
-
-  const minute =
-    Math.floor(
-      value /
-      60
-    );
-
-
-  const second =
-    value %
-    60;
-
-
-  return (
-    `${String(minute).padStart(2,"0")}:` +
-    `${String(second).padStart(2,"0")}`
-  );
-}
-
-
-/*
-==================================================
-日期
-==================================================
-*/
-
-
-function timestampToMilliseconds(
-  value
-) {
-
-  if (
-    !value
-  ) {
-
-    return 0;
-  }
-
-
-  if (
-    typeof value.toMillis ===
-    "function"
-  ) {
-
-    return value.toMillis();
-  }
-
-
-  if (
-    value.seconds !==
-    undefined
-  ) {
-
-    return (
-      Number(
-        value.seconds
-      ) *
-      1000
-    );
-  }
-
-
-  const date =
-    new Date(
-      value
-    );
-
-
-  const time =
-    date.getTime();
-
-
-  return Number.isFinite(
-    time
-  )
-    ? time
-    : 0;
-}
-
-
-function formatDate(
-  value
-) {
-
-  const time =
-    timestampToMilliseconds(
-      value
-    );
-
-
-  if (
-    !time
-  ) {
-
-    return "";
-  }
-
-
-  const date =
-    new Date(
-      time
-    );
-
-
-  return date.toLocaleDateString(
-    "zh-TW",
-    {
-
-      year:
-        "numeric",
-
-      month:
-        "2-digit",
-
-      day:
-        "2-digit"
-    }
-  );
-}
-
-
-/*
-==================================================
-玩家名稱
-==================================================
-*/
-
-
-function getPlayerName(
-  record
-) {
-
-  return (
-
-    record.nickname ||
-
-    record.displayName ||
-
-    record.playerName ||
-
-    record.name ||
-
-    record.email ||
-
-    "玩家"
-  );
-}
-
-
-/*
-==================================================
-玩家唯一識別
-==================================================
-*/
-
-
-function getPlayerKey(
-  record
-) {
-
-  return (
-
-    record.uid ||
-
-    record.email ||
-
-    getPlayerName(
-      record
-    )
-  );
-}
-
-
-/*
-==================================================
-排行榜種類
-==================================================
-*/
-
-
-function getRankingType(
+export function getGameConfig(
   gameId
 ) {
 
-  const type =
-    getGameConfig(
-      gameId
-    )?.ranking?.type;
-
-
   return (
-    type ===
-    "timed"
-
-      ? "timed"
-
-      : "speed"
-  );
-}
-
-
-/*
-==================================================
-目前學期正式遊戲
-==================================================
-*/
-
-
-function getCurrentSemesterGames() {
-
-  return getFinishedGamesBySemester(
-    selectedSemester
-  );
-}
-
-
-/*
-==================================================
-初始化
-==================================================
-*/
-
-
-renderSemesterGames();
-
-
-/*
-==================================================
-登入狀態
-==================================================
-*/
-
-
-onAuthStateChanged(
-
-  auth,
-
-  async (
-    user
-  ) => {
-
-    currentUser =
-      user;
-
-
-    if (
-      !user
-    ) {
-
-      if (
-        userStatus
-      ) {
-
-        userStatus.textContent =
-          "請先回到首頁登入 Google 帳號，才能查看排行榜。";
-      }
-
-
-      showLoginRequired();
-
-
-      return;
-    }
-
-
-    if (
-      userStatus
-    ) {
-
-      userStatus.textContent =
-        `目前登入：${
-          user.displayName ||
-          user.email ||
-          "玩家"
-        }`;
-    }
-
-
-    await loadAllScores();
-
-
-    renderLeaderboard();
-  },
-
-  (
-    error
-  ) => {
-
-    console.error(
-      "登入狀態確認失敗：",
-      error
-    );
-
-
-    showError(
-      error
-    );
-  }
-);
-
-
-/*
-==================================================
-學期切換
-==================================================
-*/
-
-
-semesterSelect
-  ?.addEventListener(
-    "change",
-    () => {
-
-      selectedSemester =
-        semesterSelect.value;
-
-
-      selectedGame =
-        "all";
-
-
-      renderSemesterGames();
-
-
-      if (
-        currentUser
-      ) {
-
-        renderLeaderboard();
-      }
-    }
-  );
-
-
-/*
-==================================================
-建立遊戲篩選列
-==================================================
-*/
-
-
-function renderSemesterGames() {
-
-  if (
-    !filterBox
-  ) {
-
-    return;
-  }
-
-
-  filterBox.innerHTML =
-    "";
-
-
-  const semesterName =
-    SEMESTER_NAMES[
-      selectedSemester
+    GAME_CONFIG[
+      gameId
     ] ||
-    "數學遊戲";
-
-
-  if (
-    filterTitle
-  ) {
-
-    filterTitle.textContent =
-      `${semesterName}排行榜`;
-  }
-
-
-  /*
-  全部遊戲
-  */
-
-
-  filterBox.appendChild(
-
-    createFilterButton({
-
-      gameId:
-        "all",
-
-      label:
-        `📚 ${semesterName}全部遊戲`,
-
-      all:
-        true
-    })
-  );
-
-
-  /*
-  正式完成的遊戲
-  */
-
-
-  getCurrentSemesterGames()
-    .forEach(
-      (
-        game
-      ) => {
-
-        filterBox.appendChild(
-
-          createFilterButton({
-
-            gameId:
-              game.id,
-
-            label:
-              `${game.icon || "🎮"} ${
-                game.shortName ||
-                game.name
-              }`
-          })
-        );
-      }
-    );
-}
-
-
-/*
-==================================================
-篩選按鈕
-==================================================
-*/
-
-
-function createFilterButton({
-
-  gameId,
-  label,
-  all =
-    false
-
-}) {
-
-  const button =
-    document.createElement(
-      "button"
-    );
-
-
-  button.type =
-    "button";
-
-
-  button.className =
-    "filter-button";
-
-
-  if (
-    all
-  ) {
-
-    button.classList.add(
-      "all-button"
-    );
-  }
-
-
-  if (
-    selectedGame ===
-    gameId
-  ) {
-
-    button.classList.add(
-      "active"
-    );
-  }
-
-
-  button.textContent =
-    label;
-
-
-  button.addEventListener(
-    "click",
-    () => {
-
-      selectedGame =
-        gameId;
-
-
-      filterBox
-        .querySelectorAll(
-          ".filter-button"
-        )
-        .forEach(
-          (
-            item
-          ) => {
-
-            item.classList.remove(
-              "active"
-            );
-          }
-        );
-
-
-      button.classList.add(
-        "active"
-      );
-
-
-      if (
-        currentUser
-      ) {
-
-        renderLeaderboard();
-      }
-    }
-  );
-
-
-  return button;
-}
-
-
-/*
-==================================================
-Firestore
-==================================================
-*/
-
-
-async function loadAllScores() {
-
-  setLoading();
-
-
-  try {
-
-    const snapshot =
-      await getDocs(
-
-        collection(
-          db,
-          "scores"
-        )
-      );
-
-
-    allScoreRecords =
-      snapshot.docs.map(
-        (
-          documentSnapshot
-        ) => ({
-
-          id:
-            documentSnapshot.id,
-
-          ...documentSnapshot.data()
-        })
-      );
-
-
-  } catch (
-    error
-  ) {
-
-    console.error(
-      "排行榜讀取失敗：",
-      error
-    );
-
-
-    showError(
-      error
-    );
-  }
-}
-
-
-/*
-==================================================
-排行榜主畫面
-==================================================
-*/
-
-
-function renderLeaderboard() {
-
-  if (
-    !currentUser
-  ) {
-
-    showLoginRequired();
-
-    return;
-  }
-
-
-  hideMessages();
-
-
-  leaderboardList.innerHTML =
-    "";
-
-
-  const semesterGames =
-    getCurrentSemesterGames();
-
-
-  const games =
-
-    selectedGame ===
-    "all"
-
-      ? semesterGames
-
-      : semesterGames.filter(
-          (
-            game
-          ) =>
-            game.id ===
-            selectedGame
-        );
-
-
-  if (
-    games.length ===
-    0
-  ) {
-
-    showEmpty(
-      "目前沒有已正式開放的排行榜項目。"
-    );
-
-
-    return;
-  }
-
-
-  games.forEach(
-    (
-      game
-    ) => {
-
-      const gameRecords =
-        allScoreRecords.filter(
-          (
-            record
-          ) =>
-
-            String(
-              record.game ||
-              ""
-            ) ===
-            String(
-              game.id
-            )
-        );
-
-
-      leaderboardList.appendChild(
-
-        createGameSection(
-          game,
-          gameRecords
-        )
-      );
-    }
+    null
   );
 }
 
 
+
 /*
 ==================================================
-單一遊戲區塊
+取得遊戲中文名稱
 ==================================================
 */
 
-
-function createGameSection(
-  game,
-  records
+export function getGameName(
+  gameId
 ) {
 
-  const section =
-    document.createElement(
-      "li"
-    );
-
-
-  section.className =
-    "leaderboard-game-section";
-
-
-  /*
-  遊戲標題
-  */
-
-
-  const title =
-    document.createElement(
-      "h2"
-    );
-
-
-  title.className =
-    "leaderboard-game-title";
-
-
-  title.innerHTML = `
-
-    <span class="leaderboard-game-icon">
-
-      ${game.icon || "🎮"}
-
-    </span>
-
-    <span>
-
-      ${
-        game.name ||
-        getGameName(
-          game.id
-        )
-      }
-
-    </span>
-  `;
-
-
-  section.appendChild(
-    title
+  return (
+    GAME_CONFIG[
+      gameId
+    ]?.name ||
+    gameId ||
+    "數學遊戲"
   );
-
-
-  /*
-  讀取模式設定
-  */
-
-
-  const modes =
-    getGameModes(
-      game.id
-    );
-
-
-  if (
-    modes.length >
-    0
-  ) {
-
-    createModeLeaderboard(
-
-      section,
-      game,
-      records,
-      modes
-    );
-
-  } else {
-
-    createSingleLeaderboard(
-
-      section,
-      game,
-      records
-    );
-  }
-
-
-  return section;
 }
+
 
 
 /*
 ==================================================
-遊戲模式
+取得遊戲短名稱
 ==================================================
 */
 
+export function getGameShortName(
+  gameId
+) {
 
-function getGameModes(
+  return (
+    GAME_CONFIG[
+      gameId
+    ]?.shortName ||
+    GAME_CONFIG[
+      gameId
+    ]?.name ||
+    gameId ||
+    "數學遊戲"
+  );
+}
+
+
+
+/*
+==================================================
+取得遊戲模式
+==================================================
+*/
+
+export function getGameModes(
   gameId
 ) {
 
   const modes =
-    getGameConfig(
+    GAME_CONFIG[
       gameId
-    )?.modes;
+    ]?.modes;
 
 
   if (
@@ -1022,1388 +1847,571 @@ function getGameModes(
       "object"
   ) {
 
-    return [];
+    return {};
   }
 
 
-  /*
-  ==============================================
-  一元一次方程式模式名稱修正
-
-  重點：
-  只修改「排行榜顯示名稱」，不修改 mode id。
-
-  因此 Firestore 原本儲存的：
-  basic / parentheses / fraction / mixed
-  仍可直接讀取，不會讓舊成績失效。
-  ==============================================
-  */
-
-  const linearEquationModeNames = {
-
-    basic:
-      "基礎方程式",
-
-    parentheses:
-      "含括號方程式",
-
-    fraction:
-      "含分數方程式",
-
-    mixed:
-      "綜合挑戰",
-
-    /*
-    舊版若曾使用數字 / mode1～mode4，
-    也提供顯示名稱相容。
-    */
-
-    "1":
-      "基礎方程式",
-
-    "2":
-      "含括號方程式",
-
-    "3":
-      "含分數方程式",
-
-    "4":
-      "綜合挑戰",
-
-    mode1:
-      "基礎方程式",
-
-    mode2:
-      "含括號方程式",
-
-    mode3:
-      "含分數方程式",
-
-    mode4:
-      "綜合挑戰"
-  };
-
-
-  return Object.entries(
-    modes
-  )
-    .map(
-      (
-        [
-          id,
-          name
-        ]
-      ) => {
-
-        const modeId =
-          String(
-            id
-          );
-
-
-        return {
-
-          id:
-            modeId,
-
-          name:
-            String(
-              gameId ===
-                "linearEquation"
-
-                ? (
-                    linearEquationModeNames[
-                      modeId
-                    ] ||
-                    name
-                  )
-
-                : name
-            )
-        };
-      }
-    );
+  return modes;
 }
+
 
 
 /*
 ==================================================
-單模式排行榜
+取得遊戲模式數量
 ==================================================
 */
 
-
-function createSingleLeaderboard(
-  section,
-  game,
-  records
+export function getGameModeCount(
+  gameId
 ) {
 
-  const heading =
-    document.createElement(
-      "h3"
+  return Object.keys(
+    getGameModes(
+      gameId
+    )
+  ).length;
+}
+
+
+
+/*
+==================================================
+取得遊戲模式中文名稱
+==================================================
+*/
+
+export function getModeName(
+  gameId,
+  mode
+) {
+
+  if (
+    mode === undefined ||
+    mode === null ||
+    mode === ""
+  ) {
+
+    return "";
+  }
+
+
+  const modeKey =
+    String(
+      mode
     );
 
 
-  heading.className =
-    "leaderboard-single-title";
-
-
-  heading.textContent =
-    getRankingType(
-      game.id
-    ) ===
-    "speed"
-
-      ? "🏁 成績排行榜"
-
-      : "🏆 分數排行榜";
-
-
-  section.appendChild(
-    heading
+  return (
+    GAME_CONFIG[
+      gameId
+    ]?.modes?.[
+      modeKey
+    ] ||
+    modeKey
   );
+}
 
 
-  const ranking =
-    prepareRanking(
-      records,
-      game.id
+
+/*
+==================================================
+取得遊戲主題
+==================================================
+*/
+
+export function getGameTheme(
+  gameId
+) {
+
+  return (
+    GAME_CONFIG[
+      gameId
+    ]?.theme ||
+    {
+
+      primary:
+        "#1976D2",
+
+      dark:
+        "#125CA6",
+
+      light:
+        "#E3F2FD",
+
+      border:
+        "#90CAF9"
+
+    }
+  );
+}
+
+
+
+/*
+==================================================
+取得遊戲難度
+==================================================
+*/
+
+export function getGameDifficulty(
+  gameId
+) {
+
+  const difficulty =
+    Number(
+      GAME_CONFIG[
+        gameId
+      ]?.difficulty
     );
 
 
   if (
-    ranking.length ===
-    0
+    !Number.isFinite(
+      difficulty
+    )
   ) {
 
-    section.appendChild(
-      createEmptyBox(
-        "目前尚無成績紀錄。"
-      )
-    );
-
-
-    return;
+    return 1;
   }
 
 
-  section.appendChild(
-    createRankingList(
-      ranking,
-      game.id
+  return Math.min(
+    3,
+    Math.max(
+      1,
+      Math.round(
+        difficulty
+      )
     )
   );
 }
 
 
-/*
-==================================================
-多模式排行榜
-==================================================
-*/
-
-
-function createModeLeaderboard(
-  section,
-  game,
-  records,
-  modes
-) {
-
-  const tabs =
-    document.createElement(
-      "div"
-    );
-
-
-  tabs.className =
-    "leaderboard-mode-tabs";
-
-
-  const contentContainer =
-    document.createElement(
-      "div"
-    );
-
-
-  modes.forEach(
-    (
-      modeData,
-      modeIndex
-    ) => {
-
-      /*
-      Tab
-      */
-
-
-      const tab =
-        document.createElement(
-          "button"
-        );
-
-
-      tab.type =
-        "button";
-
-
-      tab.className =
-        "leaderboard-mode-tab";
-
-
-      tab.textContent =
-        modeData.name;
-
-
-      if (
-        modeIndex ===
-        0
-      ) {
-
-        tab.classList.add(
-          "active"
-        );
-      }
-
-
-      /*
-      內容
-      */
-
-
-      const content =
-        document.createElement(
-          "div"
-        );
-
-
-      content.className =
-        "leaderboard-mode-content";
-
-
-      content.hidden =
-        modeIndex !==
-        0;
-
-
-      const heading =
-        document.createElement(
-          "h3"
-        );
-
-
-      heading.className =
-        "leaderboard-mode-heading";
-
-
-      heading.textContent =
-        `${modeData.name}排行榜`;
-
-
-      content.appendChild(
-        heading
-      );
-
-
-      /*
-      該模式資料
-      */
-
-
-      const modeRecords =
-        records.filter(
-          (
-            record
-          ) =>
-
-            String(
-              record.mode ??
-              ""
-            ) ===
-            modeData.id
-        );
-
-
-      const ranking =
-        prepareRanking(
-          modeRecords,
-          game.id
-        );
-
-
-      if (
-        ranking.length ===
-        0
-      ) {
-
-        content.appendChild(
-
-          createEmptyBox(
-            `${modeData.name}目前尚無成績紀錄。`
-          )
-        );
-
-      } else {
-
-        content.appendChild(
-
-          createRankingList(
-            ranking,
-            game.id
-          )
-        );
-      }
-
-
-      /*
-      切換模式
-      */
-
-
-      tab.addEventListener(
-        "click",
-        () => {
-
-          tabs
-            .querySelectorAll(
-              ".leaderboard-mode-tab"
-            )
-            .forEach(
-              (
-                item
-              ) => {
-
-                item.classList.remove(
-                  "active"
-                );
-              }
-            );
-
-
-          tab.classList.add(
-            "active"
-          );
-
-
-          contentContainer
-            .querySelectorAll(
-              ".leaderboard-mode-content"
-            )
-            .forEach(
-              (
-                item
-              ) => {
-
-                item.hidden =
-                  true;
-              }
-            );
-
-
-          content.hidden =
-            false;
-        }
-      );
-
-
-      tabs.appendChild(
-        tab
-      );
-
-
-      contentContainer.appendChild(
-        content
-      );
-    }
-  );
-
-
-  section.append(
-    tabs,
-    contentContainer
-  );
-}
-
 
 /*
 ==================================================
-空排行榜
+難度星號
 ==================================================
 */
 
-
-function createEmptyBox(
-  text
-) {
-
-  const box =
-    document.createElement(
-      "div"
-    );
-
-
-  box.className =
-    "leaderboard-mode-empty";
-
-
-  box.textContent =
-    text;
-
-
-  return box;
-}
-
-
-/*
-==================================================
-排行榜排序
-==================================================
-*/
-
-
-function prepareRanking(
-  records,
+export function getDifficultyStars(
   gameId
 ) {
 
-  const comparator =
+  return "⭐".repeat(
+    getGameDifficulty(
+      gameId
+    )
+  );
+}
 
-    getRankingType(
+
+
+/*
+==================================================
+取得全部遊戲
+==================================================
+*/
+
+export function getAllGames() {
+
+  return Object.values(
+    GAME_CONFIG
+  );
+}
+
+
+
+/*
+==================================================
+依學期取得遊戲
+==================================================
+*/
+
+export function getGamesBySemester(
+  semester
+) {
+
+  return Object.values(
+    GAME_CONFIG
+  )
+    .filter(
+      game =>
+        game.semester ===
+        semester
+    )
+    .sort(
+      (
+        gameA,
+        gameB
+      ) =>
+        gameA.order -
+        gameB.order
+    );
+}
+
+
+
+/*
+==================================================
+取得已完成遊戲
+==================================================
+*/
+
+export function getFinishedGames() {
+
+  return Object.values(
+    GAME_CONFIG
+  )
+    .filter(
+      game =>
+        game.finished ===
+        true
+    )
+    .sort(
+      (
+        gameA,
+        gameB
+      ) => {
+
+        if (
+          gameA.semester ===
+          gameB.semester
+        ) {
+
+          return (
+            gameA.order -
+            gameB.order
+          );
+        }
+
+
+        return gameA.semester
+          .localeCompare(
+            gameB.semester
+          );
+      }
+    );
+}
+
+
+
+/*
+==================================================
+依學期取得已完成遊戲
+==================================================
+*/
+
+export function getFinishedGamesBySemester(
+  semester
+) {
+
+  return Object.values(
+    GAME_CONFIG
+  )
+    .filter(
+      game =>
+        game.semester ===
+          semester &&
+        game.finished ===
+          true
+    )
+    .sort(
+      (
+        gameA,
+        gameB
+      ) =>
+        gameA.order -
+        gameB.order
+    );
+}
+
+
+
+/*
+==================================================
+依年級取得遊戲
+==================================================
+*/
+
+export function getGamesByGrade(
+  grade
+) {
+
+  return Object.values(
+    GAME_CONFIG
+  )
+    .filter(
+      game =>
+        game.grade ===
+        Number(
+          grade
+        )
+    )
+    .sort(
+      (
+        gameA,
+        gameB
+      ) =>
+        gameA.order -
+        gameB.order
+    );
+}
+
+
+
+/*
+==================================================
+推薦遊戲
+==================================================
+*/
+
+export function getRecommendedGames() {
+
+  return Object.values(
+    GAME_CONFIG
+  )
+    .filter(
+      game =>
+        game.finished ===
+          true &&
+        game.recommended ===
+          true
+    )
+    .sort(
+      (
+        gameA,
+        gameB
+      ) =>
+        gameA.order -
+        gameB.order
+    );
+}
+
+
+
+/*
+==================================================
+新遊戲
+==================================================
+*/
+
+export function getNewGames() {
+
+  return Object.values(
+    GAME_CONFIG
+  )
+    .filter(
+      game =>
+        game.finished ===
+          true &&
+        game.isNew ===
+          true
+    )
+    .sort(
+      (
+        gameA,
+        gameB
+      ) =>
+        gameA.order -
+        gameB.order
+    );
+}
+
+
+
+/*
+==================================================
+遊戲排列
+==================================================
+*/
+
+export function getGameOrder() {
+
+  return getFinishedGames()
+    .map(
+      game =>
+        game.id
+    );
+}
+
+
+
+/*
+==================================================
+是否已上架
+==================================================
+*/
+
+export function isGameFinished(
+  gameId
+) {
+
+  return (
+    GAME_CONFIG[
+      gameId
+    ]?.finished ===
+    true
+  );
+}
+
+
+
+/*
+==================================================
+排行榜類型
+==================================================
+*/
+
+export function getGameRankingType(
+  gameId
+) {
+
+  const type =
+    GAME_CONFIG[
+      gameId
+    ]?.ranking?.type;
+
+
+  return (
+    type ===
+      "timed"
+
+      ? "timed"
+
+      : "speed"
+  );
+}
+
+
+
+/*
+==================================================
+是否為固定時間排行榜
+==================================================
+*/
+
+export function isTimedRankingGame(
+  gameId
+) {
+
+  return (
+    getGameRankingType(
       gameId
     ) ===
     "timed"
-
-      ? compareTimed
-
-      : compareSpeed;
-
-
-  /*
-  先排序全部紀錄
-  */
-
-
-  const sorted =
-    [
-      ...records
-    ]
-      .sort(
-        comparator
-      );
-
-
-  /*
-  同一玩家只留下最好的一次
-  */
-
-
-  const players =
-    new Map();
-
-
-  sorted.forEach(
-    (
-      record
-    ) => {
-
-      const key =
-        getPlayerKey(
-          record
-        );
-
-
-      if (
-        !players.has(
-          key
-        )
-      ) {
-
-        players.set(
-          key,
-          record
-        );
-      }
-    }
-  );
-
-
-  return Array.from(
-    players.values()
-  )
-    .sort(
-      comparator
-    )
-    .slice(
-      0,
-      LEADERBOARD_LIMIT
-    );
-}
-
-
-/*
-==================================================
-固定題數排序
-==================================================
-*/
-
-
-function compareSpeed(
-  a,
-  b
-) {
-
-  /*
-  1. 分數高
-  */
-
-
-  let difference =
-
-    safeNumber(
-      b.score
-    ) -
-    safeNumber(
-      a.score
-    );
-
-
-  if (
-    difference !==
-    0
-  ) {
-
-    return difference;
-  }
-
-
-  /*
-  2. 時間短
-  */
-
-
-  difference =
-
-    safePlayTime(
-      a.playTime
-    ) -
-    safePlayTime(
-      b.playTime
-    );
-
-
-  if (
-    difference !==
-    0
-  ) {
-
-    return difference;
-  }
-
-
-  /*
-  3. 答對多
-  */
-
-
-  difference =
-
-    safeNumber(
-      b.correctCount
-    ) -
-    safeNumber(
-      a.correctCount
-    );
-
-
-  if (
-    difference !==
-    0
-  ) {
-
-    return difference;
-  }
-
-
-  /*
-  4. 答錯少
-  */
-
-
-  difference =
-
-    safeNumber(
-      a.wrongCount
-    ) -
-    safeNumber(
-      b.wrongCount
-    );
-
-
-  if (
-    difference !==
-    0
-  ) {
-
-    return difference;
-  }
-
-
-  /*
-  5. 連擊高
-  */
-
-
-  difference =
-
-    safeNumber(
-      b.maxCombo
-    ) -
-    safeNumber(
-      a.maxCombo
-    );
-
-
-  if (
-    difference !==
-    0
-  ) {
-
-    return difference;
-  }
-
-
-  /*
-  6. 較早完成
-  */
-
-
-  return (
-
-    timestampToMilliseconds(
-      a.createdAt
-    ) -
-
-    timestampToMilliseconds(
-      b.createdAt
-    )
   );
 }
 
 
-/*
-==================================================
-固定時間排序
-==================================================
-*/
-
-
-function compareTimed(
-  a,
-  b
-) {
-
-  /*
-  1. 分數高
-  */
-
-
-  let difference =
-
-    safeNumber(
-      b.score
-    ) -
-    safeNumber(
-      a.score
-    );
-
-
-  if (
-    difference !==
-    0
-  ) {
-
-    return difference;
-  }
-
-
-  /*
-  2. 答對多
-  */
-
-
-  difference =
-
-    safeNumber(
-      b.correctCount
-    ) -
-    safeNumber(
-      a.correctCount
-    );
-
-
-  if (
-    difference !==
-    0
-  ) {
-
-    return difference;
-  }
-
-
-  /*
-  3. 答錯少
-  */
-
-
-  difference =
-
-    safeNumber(
-      a.wrongCount
-    ) -
-    safeNumber(
-      b.wrongCount
-    );
-
-
-  if (
-    difference !==
-    0
-  ) {
-
-    return difference;
-  }
-
-
-  /*
-  4. 連擊高
-  */
-
-
-  difference =
-
-    safeNumber(
-      b.maxCombo
-    ) -
-    safeNumber(
-      a.maxCombo
-    );
-
-
-  if (
-    difference !==
-    0
-  ) {
-
-    return difference;
-  }
-
-
-  return (
-
-    timestampToMilliseconds(
-      a.createdAt
-    ) -
-
-    timestampToMilliseconds(
-      b.createdAt
-    )
-  );
-}
-
 
 /*
 ==================================================
-★ 建立排行榜
-這裡重新配合 leaderboard.html 原本 CSS
+是否為多模式遊戲
 ==================================================
 */
 
-
-function createRankingList(
-  ranking,
+export function isMultiModeGame(
   gameId
 ) {
 
-  const list =
-    document.createElement(
-      "ol"
-    );
-
-
-  list.className =
-    "leaderboard-ranking-list";
-
-
-  ranking.forEach(
-    (
-      record,
-      rankingIndex
-    ) => {
-
-      list.appendChild(
-
-        createRankingItem(
-          record,
-          rankingIndex +
-          1,
-          gameId
-        )
-      );
-    }
-  );
-
-
-  return list;
-}
-
-
-/*
-==================================================
-★ 建立單筆排名卡
-==================================================
-*/
-
-
-function createRankingItem(
-  record,
-  rank,
-  gameId
-) {
-
-  const item =
-    document.createElement(
-      "li"
-    );
-
-
-  item.className =
-    "leaderboard-item";
-
-
-  /*
-  自己的紀錄
-  */
-
-
-  if (
-
-    currentUser &&
-
-    record.uid &&
-
-    String(
-      record.uid
-    ) ===
-    String(
-      currentUser.uid
-    )
-  ) {
-
-    item.classList.add(
-      "current-user"
-    );
-  }
-
-
-  /*
-  --------------------------------------------------
-  名次
-  --------------------------------------------------
-  */
-
-
-  const rankBox =
-    document.createElement(
-      "div"
-    );
-
-
-  rankBox.className =
-    "rank";
-
-
-  if (
-    rank ===
+  return (
+    getGameModeCount(
+      gameId
+    ) >
     1
-  ) {
-
-    rankBox.textContent =
-      "🥇";
-
-  } else if (
-    rank ===
-    2
-  ) {
-
-    rankBox.textContent =
-      "🥈";
-
-  } else if (
-    rank ===
-    3
-  ) {
-
-    rankBox.textContent =
-      "🥉";
-
-  } else {
-
-    rankBox.textContent =
-      rank;
-  }
+  );
+}
 
 
-  /*
-  --------------------------------------------------
-  玩家資料
-  --------------------------------------------------
-  */
 
+/*
+==================================================
+取得完整顯示名稱
+==================================================
+*/
 
-  const playerBox =
-    document.createElement(
-      "div"
-    );
+export function getGameDisplayName(
+  gameId,
+  mode
+) {
 
-
-  playerBox.className =
-    "player-info";
-
-
-  /*
-  玩家名稱
-  */
-
-
-  const playerName =
-    document.createElement(
-      "div"
-    );
-
-
-  playerName.className =
-    "player-name";
-
-
-  playerName.textContent =
-    getPlayerName(
-      record
-    );
-
-
-  /*
-  詳細資訊
-  */
-
-
-  const details =
-    document.createElement(
-      "div"
-    );
-
-
-  details.className =
-    "record-detail";
-
-
-  const rankingType =
-    getRankingType(
+  const gameName =
+    getGameName(
       gameId
     );
 
 
   if (
-    rankingType ===
-    "speed"
+    !isMultiModeGame(
+      gameId
+    )
   ) {
 
-    details.innerHTML = `
-
-      答對
-      <strong>
-        ${safeNumber(
-          record.correctCount
-        )}
-      </strong>
-
-      題
-
-      ・
-
-      答錯
-      <strong>
-        ${safeNumber(
-          record.wrongCount
-        )}
-      </strong>
-
-      題
-
-      ・
-
-      最高連擊
-      <strong>
-        ${safeNumber(
-          record.maxCombo
-        )}
-      </strong>
-
-      <br>
-
-      ⏱️ 完成時間：
-
-      <span class="leaderboard-play-duration">
-
-        ${formatTime(
-          record.playTime
-        )}
-
-      </span>
-    `;
-
-  } else {
-
-    details.innerHTML = `
-
-      答對
-      <strong>
-        ${safeNumber(
-          record.correctCount
-        )}
-      </strong>
-
-      題
-
-      ・
-
-      答錯
-      <strong>
-        ${safeNumber(
-          record.wrongCount
-        )}
-      </strong>
-
-      題
-
-      ・
-
-      最高連擊
-      <strong>
-        ${safeNumber(
-          record.maxCombo
-        )}
-      </strong>
-    `;
+    return gameName;
   }
 
 
-  /*
-  日期
-  */
-
-
-  const date =
-    document.createElement(
-      "div"
+  const modeName =
+    getModeName(
+      gameId,
+      mode
     );
 
 
-  date.className =
-    "record-date";
+  if (
+    !modeName
+  ) {
+
+    return gameName;
+  }
 
 
-  const dateText =
-    formatDate(
-      record.createdAt
-    );
-
-
-  date.textContent =
-
-    dateText
-
-      ? `完成日期：${dateText}`
-
-      : "";
-
-
-  playerBox.append(
-
-    playerName,
-    details,
-    date
+  return (
+    `${gameName}｜${modeName}`
   );
-
-
-  /*
-  --------------------------------------------------
-  分數
-  --------------------------------------------------
-  */
-
-
-  const scoreBox =
-    document.createElement(
-      "div"
-    );
-
-
-  scoreBox.className =
-    "score";
-
-
-  const score =
-    Math.round(
-      safeNumber(
-        record.score
-      )
-    );
-
-
-  scoreBox.innerHTML = `
-
-    ${score}
-
-    <div class="score-label">
-      分
-    </div>
-  `;
-
-
-  item.append(
-
-    rankBox,
-    playerBox,
-    scoreBox
-  );
-
-
-  return item;
 }
+
 
 
 /*
 ==================================================
-讀取狀態
+確認設定檔載入
 ==================================================
 */
 
-
-function setLoading() {
-
-  if (
-    loadingMessage
-  ) {
-
-    loadingMessage.hidden =
-      false;
-
-
-    loadingMessage.textContent =
-      "排行榜載入中……";
-  }
-
-
-  if (
-    errorMessage
-  ) {
-
-    errorMessage.hidden =
-      true;
-  }
-
-
-  if (
-    emptyMessage
-  ) {
-
-    emptyMessage.hidden =
-      true;
-  }
-
-
-  if (
-    leaderboardList
-  ) {
-
-    leaderboardList.innerHTML =
-      "";
-  }
-}
-
-
-/*
-==================================================
-隱藏提示
-==================================================
-*/
-
-
-function hideMessages() {
-
-  if (
-    loadingMessage
-  ) {
-
-    loadingMessage.hidden =
-      true;
-  }
-
-
-  if (
-    errorMessage
-  ) {
-
-    errorMessage.hidden =
-      true;
-  }
-
-
-  if (
-    emptyMessage
-  ) {
-
-    emptyMessage.hidden =
-      true;
-  }
-}
-
-
-/*
-==================================================
-沒有資料
-==================================================
-*/
-
-
-function showEmpty(
-  message
-) {
-
-  if (
-    loadingMessage
-  ) {
-
-    loadingMessage.hidden =
-      true;
-  }
-
-
-  if (
-    emptyMessage
-  ) {
-
-    emptyMessage.hidden =
-      false;
-
-
-    emptyMessage.textContent =
-      message;
-  }
-}
-
-
-/*
-==================================================
-未登入
-==================================================
-*/
-
-
-function showLoginRequired() {
-
-  if (
-    loadingMessage
-  ) {
-
-    loadingMessage.hidden =
-      true;
-  }
-
-
-  if (
-    errorMessage
-  ) {
-
-    errorMessage.hidden =
-      true;
-  }
-
-
-  if (
-    emptyMessage
-  ) {
-
-    emptyMessage.hidden =
-      false;
-
-
-    emptyMessage.textContent =
-      "請先登入 Google 帳號，再查看排行榜。";
-  }
-
-
-  if (
-    leaderboardList
-  ) {
-
-    leaderboardList.innerHTML =
-      "";
-  }
-}
-
-
-/*
-==================================================
-錯誤
-==================================================
-*/
-
-
-function showError(
-  error
-) {
-
-  if (
-    loadingMessage
-  ) {
-
-    loadingMessage.hidden =
-      true;
-  }
-
-
-  if (
-    emptyMessage
-  ) {
-
-    emptyMessage.hidden =
-      true;
-  }
-
-
-  if (
-    errorMessage
-  ) {
-
-    errorMessage.hidden =
-      false;
-
-
-    errorMessage.textContent =
-      `排行榜載入失敗：${
-        error?.message ||
-        "未知錯誤"
-      }`;
-  }
-
-
-  if (
-    leaderboardList
-  ) {
-
-    leaderboardList.innerHTML =
-      "";
-  }
-}
+console.log(
+  "game-config.js v6.8 已成功載入"
+);
+
+
+console.log(
+  "正式上架遊戲數量：",
+  getFinishedGames()
+    .length
+);
+
+
+console.log(
+  "七年級上學期：",
+  getFinishedGamesBySemester(
+    "grade7-first"
+  )
+    .map(
+      game =>
+        game.name
+    )
+);
+
+
+console.log(
+  "八年級上學期：",
+  getFinishedGamesBySemester(
+    "grade8-first"
+  )
+    .map(
+      game =>
+        game.name
+    )
+);
