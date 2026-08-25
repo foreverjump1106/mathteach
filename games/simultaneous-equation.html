@@ -1,0 +1,7629 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    二元一次聯立方程式大挑戰｜生活有解．心中有數
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="../css/scratchpad.css"
+  >
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+
+      --primary: #3949ab;
+      --primary-dark: #283593;
+      --primary-light: #e8eaf6;
+      --primary-border: #9fa8da;
+
+      --text: #1f2937;
+      --muted: #64748b;
+
+      --success: #15803d;
+      --danger: #dc2626;
+      --warning: #b45309;
+
+      --restart: #00897b;
+    }
+
+    body {
+
+      margin: 0;
+
+      min-height: 100vh;
+
+      padding: 16px;
+
+      font-family:
+        "Microsoft JhengHei",
+        "Noto Sans TC",
+        sans-serif;
+
+      color: var(--text);
+
+      background:
+        linear-gradient(
+          135deg,
+          #e8eaf6,
+          #fff8e8
+        );
+    }
+
+    button,
+    input,
+    select {
+      font-family: inherit;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .page-shell {
+
+      width: min(100%, 1000px);
+
+      margin: 0 auto;
+    }
+
+    #commonHeaderMount {
+      margin-bottom: 14px;
+    }
+
+    .game-card {
+
+      overflow: hidden;
+
+      border:
+        1px solid
+        #dfe3f5;
+
+      border-top:
+        8px solid
+        var(--primary);
+
+      border-radius: 26px;
+
+      background: white;
+
+      box-shadow:
+        0 14px 34px
+        rgba(
+          15,
+          23,
+          42,
+          .13
+        );
+    }
+
+    /*
+    ==================================================
+    Header
+    ==================================================
+    */
+
+    .game-header {
+
+      padding:
+        24px 20px 18px;
+
+      text-align: center;
+
+      background:
+        linear-gradient(
+          180deg,
+          var(--primary-light),
+          white
+        );
+    }
+
+    .game-title {
+
+      margin: 0;
+
+      color:
+        var(--primary-dark);
+
+      font-size:
+        clamp(
+          28px,
+          5vw,
+          40px
+        );
+    }
+
+    .game-subtitle {
+
+      margin:
+        10px 0 0;
+
+      color:
+        var(--muted);
+
+      line-height: 1.7;
+    }
+
+    .concept-strip {
+
+      display: flex;
+
+      justify-content: center;
+
+      gap: 8px;
+
+      margin-top: 16px;
+
+      flex-wrap: wrap;
+    }
+
+    .concept-chip {
+
+      padding:
+        7px 11px;
+
+      border:
+        1px solid
+        var(--primary-border);
+
+      border-radius:
+        999px;
+
+      background: white;
+
+      color:
+        var(--primary-dark);
+
+      font-size: 14px;
+
+      font-weight: 900;
+    }
+
+    .screen {
+      padding: 22px;
+    }
+
+    /*
+    ==================================================
+    模式
+    ==================================================
+    */
+
+    .mode-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(
+            0,
+            1fr
+          )
+        );
+
+      gap: 16px;
+    }
+
+    .mode-card {
+
+      min-height: 220px;
+
+      padding: 21px;
+
+      border:
+        2px solid
+        var(--primary-border);
+
+      border-radius: 20px;
+
+      background:
+        linear-gradient(
+          180deg,
+          var(--primary-light),
+          white
+        );
+
+      text-align: left;
+
+      cursor: pointer;
+
+      transition:
+        .15s ease;
+    }
+
+    .mode-card:hover {
+
+      transform:
+        translateY(-3px);
+
+      box-shadow:
+        0 10px 24px
+        rgba(
+          15,
+          23,
+          42,
+          .11
+        );
+    }
+
+    .mode-tag {
+
+      display: inline-block;
+
+      margin-bottom: 10px;
+
+      padding:
+        4px 9px;
+
+      border-radius:
+        999px;
+
+      background: white;
+
+      color:
+        var(--primary-dark);
+
+      font-size: 12px;
+
+      font-weight: 900;
+    }
+
+    .mode-card h2 {
+
+      margin:
+        0 0 9px;
+
+      color:
+        var(--primary-dark);
+
+      font-size: 21px;
+    }
+
+    .mode-card p {
+
+      margin: 0;
+
+      color:
+        var(--muted);
+
+      line-height: 1.7;
+    }
+
+    .mode-example {
+
+      margin-top: 10px;
+
+      color:
+        #475569;
+
+      font-size: 14px;
+
+      font-weight: 900;
+
+      line-height: 1.65;
+    }
+
+    /*
+    ==================================================
+    狀態列
+    ==================================================
+    */
+
+    .quiz-topbar {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          5,
+          minmax(
+            0,
+            1fr
+          )
+        );
+
+      gap: 10px;
+
+      margin-bottom: 12px;
+    }
+
+    .status-box {
+
+      min-height: 66px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      justify-content: center;
+
+      padding: 8px;
+
+      border-radius: 14px;
+
+      background:
+        var(--primary-light);
+
+      color:
+        var(--primary-dark);
+
+      text-align: center;
+
+      font-weight: 900;
+    }
+
+    .status-value {
+
+      margin-top: 3px;
+
+      font-size: 18px;
+    }
+
+    .timer-box {
+
+      background:
+        #fff7ed;
+
+      color:
+        #c2410c;
+    }
+
+    /*
+    ==================================================
+    計算紙
+    ==================================================
+    */
+
+    .scratchpad-row {
+
+      display: flex;
+
+      justify-content: center;
+
+      min-height: 46px;
+
+      margin:
+        4px 0 12px;
+    }
+
+    #scratchpad-mobile-button {
+
+      display: flex;
+
+      justify-content: center;
+
+      width: 100%;
+    }
+
+    #scratchpad-mobile-button
+    #scratchpadOpenButton,
+
+    #scratchpad-mobile-button
+    .scratchpad-open-button {
+
+      position:
+        static !important;
+
+      inset:
+        auto !important;
+
+      transform:
+        none !important;
+
+      margin:
+        0 !important;
+    }
+
+    /*
+    ==================================================
+    進度
+    ==================================================
+    */
+
+    .progress-shell {
+
+      height: 10px;
+
+      margin-bottom: 16px;
+
+      overflow: hidden;
+
+      border-radius:
+        999px;
+
+      background:
+        #e2e8f0;
+    }
+
+    .progress-bar {
+
+      width: 0%;
+
+      height: 100%;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--primary),
+          #7986cb
+        );
+
+      transition:
+        width .2s ease;
+    }
+
+    /*
+    ==================================================
+    題目
+    ==================================================
+    */
+
+    .question-card {
+
+      padding:
+        22px 18px;
+
+      border:
+        2px solid
+        var(--primary-border);
+
+      border-radius: 20px;
+
+      background: white;
+
+      text-align: center;
+    }
+
+    .question-label {
+
+      margin-bottom: 10px;
+
+      color:
+        var(--primary-dark);
+
+      font-size:
+        clamp(
+          18px,
+          2.5vw,
+          23px
+        );
+
+      font-weight: 900;
+
+      line-height: 1.7;
+    }
+
+    .question-content {
+
+      min-height: 155px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: center;
+
+      justify-content: center;
+
+      gap: 14px;
+
+      overflow-x: auto;
+
+      padding:
+        14px 6px;
+
+      color:
+        #0f172a;
+
+      font-size:
+        clamp(
+          24px,
+          4.2vw,
+          38px
+        );
+
+      font-weight: 900;
+
+      line-height: 1.75;
+    }
+
+    .math {
+
+      font-family:
+        "Cambria Math",
+        "Times New Roman",
+        serif;
+    }
+
+    .math sup,
+    .explanation sup,
+    .review-question sup {
+
+      position: relative;
+
+      top: -.45em;
+
+      margin-left: 1px;
+
+      font-size: .62em;
+
+      line-height: 1;
+
+      vertical-align: baseline;
+    }
+
+    /*
+    ==================================================
+    聯立方程式
+    ==================================================
+    */
+
+    .system-wrap {
+
+      display: inline-grid;
+
+      grid-template-columns:
+        30px auto;
+
+      align-items: center;
+
+      gap: 6px;
+
+      text-align: left;
+
+      font-family:
+        "Cambria Math",
+        "Times New Roman",
+        serif;
+    }
+
+    .system-brace {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      height: 100%;
+
+      color:
+        var(--primary-dark);
+
+      font-size: 70px;
+
+      font-weight: 400;
+
+      transform:
+        scaleY(1.18);
+
+      transform-origin:
+        center;
+    }
+
+    .system-lines {
+
+      display: grid;
+
+      gap: 8px;
+
+      white-space: nowrap;
+    }
+
+    .system-line {
+
+      min-width: 210px;
+
+      font-size:
+        clamp(
+          24px,
+          4vw,
+          34px
+        );
+
+      font-weight: 900;
+    }
+
+    /*
+    ==================================================
+    分數顯示
+    ==================================================
+    */
+
+    .math-fraction {
+
+      display:
+        inline-flex;
+
+      flex-direction: column;
+
+      align-items: stretch;
+
+      justify-content: center;
+
+      min-width: 1.55em;
+
+      margin:
+        0 .08em;
+
+      vertical-align: middle;
+
+      line-height: 1.05;
+    }
+
+    .math-fraction-top {
+
+      display: flex;
+
+      justify-content: center;
+
+      padding:
+        0 .14em .08em;
+
+      border-bottom:
+        2px solid
+        currentColor;
+    }
+
+    .math-fraction-bottom {
+
+      display: flex;
+
+      justify-content: center;
+
+      padding:
+        .08em .14em 0;
+    }
+
+    /*
+    ==================================================
+    答案區
+    ==================================================
+    */
+
+    .answer-panel {
+
+      margin-top: 16px;
+
+      padding: 18px;
+
+      border-radius: 18px;
+
+      background:
+        #f8fafc;
+    }
+
+    .answer-title {
+
+      margin-bottom: 8px;
+
+      color:
+        var(--primary-dark);
+
+      text-align: center;
+
+      font-size: 19px;
+
+      font-weight: 900;
+    }
+
+    .answer-help {
+
+      margin:
+        0 0 14px;
+
+      color:
+        #64748b;
+
+      text-align: center;
+
+      font-size: 14px;
+
+      font-weight: 800;
+
+      line-height: 1.65;
+    }
+
+    /*
+    ==================================================
+    x、y 兩根式答案格
+    ==================================================
+    */
+
+    .xy-answer-grid {
+
+      width:
+        min(
+          100%,
+          760px
+        );
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(
+            0,
+            1fr
+          )
+        );
+
+      gap: 14px;
+
+      margin:
+        0 auto;
+    }
+
+    .xy-card {
+
+      padding: 14px;
+
+      border:
+        2px solid
+        #cbd5e1;
+
+      border-radius: 15px;
+
+      background: white;
+    }
+
+    .xy-label {
+
+      margin-bottom: 8px;
+
+      color:
+        var(--primary-dark);
+
+      font-weight: 900;
+    }
+
+    .xy-input-row {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 8px;
+    }
+
+    .xy-symbol {
+
+      flex:
+        0 0 auto;
+
+      font-family:
+        "Cambria Math",
+        serif;
+
+      font-size: 29px;
+
+      font-weight: 900;
+    }
+
+    .math-answer-input {
+
+      width: 100%;
+
+      height: 58px;
+
+      padding:
+        8px 12px;
+
+      border:
+        2px solid
+        #cbd5e1;
+
+      border-radius: 11px;
+
+      background: white;
+
+      color:
+        #111827;
+
+      font-size: 23px;
+
+      font-weight: 900;
+
+      text-align: center;
+
+      outline: none;
+    }
+
+    .math-answer-input:focus {
+
+      border-color:
+        var(--primary);
+
+      box-shadow:
+        0 0 0 4px
+        rgba(
+          57,
+          73,
+          171,
+          .12
+        );
+    }
+
+    /*
+    ==================================================
+    單一答案
+    ==================================================
+    */
+
+    .single-answer-shell {
+
+      width:
+        min(
+          100%,
+          450px
+        );
+
+      margin:
+        0 auto;
+    }
+
+    /*
+    ==================================================
+    選擇題
+    ==================================================
+    */
+
+    .choice-grid {
+
+      width:
+        min(
+          100%,
+          760px
+        );
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(
+            0,
+            1fr
+          )
+        );
+
+      gap: 12px;
+
+      margin:
+        0 auto;
+    }
+
+    .choice-button {
+
+      min-height: 64px;
+
+      padding:
+        12px 16px;
+
+      border:
+        2px solid
+        #cbd5e1;
+
+      border-radius: 14px;
+
+      background: white;
+
+      color:
+        #334155;
+
+      font-size: 17px;
+
+      font-weight: 900;
+
+      cursor: pointer;
+    }
+
+    .choice-button.selected {
+
+      border-color:
+        var(--primary);
+
+      background:
+        var(--primary-light);
+
+      color:
+        var(--primary-dark);
+    }
+
+    /*
+    ==================================================
+    預覽
+    ==================================================
+    */
+
+    .answer-preview {
+
+      margin:
+        14px auto 0;
+
+      padding: 13px;
+
+      max-width: 760px;
+
+      min-height: 62px;
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      flex-wrap: wrap;
+
+      border:
+        2px solid
+        var(--primary-border);
+
+      border-radius: 13px;
+
+      background:
+        var(--primary-light);
+
+      color:
+        #334155;
+
+      text-align: center;
+
+      font-size: 18px;
+
+      font-weight: 900;
+    }
+
+    .preview-value {
+
+      margin-left: 8px;
+
+      color:
+        var(--primary-dark);
+
+      font-size: 23px;
+
+      font-family:
+        "Cambria Math",
+        "Times New Roman",
+        serif;
+    }
+
+    /*
+    ==================================================
+    按鈕
+    ==================================================
+    */
+
+    .button-row {
+
+      display: flex;
+
+      justify-content: center;
+
+      gap: 10px;
+
+      margin-top: 16px;
+
+      flex-wrap: wrap;
+    }
+
+    .game-button {
+
+      min-width: 132px;
+
+      padding:
+        12px 20px;
+
+      border: none;
+
+      border-radius: 12px;
+
+      background:
+        var(--primary);
+
+      color: white;
+
+      font-size: 16px;
+
+      font-weight: 900;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 5px 0
+        var(--primary-dark);
+    }
+
+    .game-button.secondary {
+
+      background:
+        #607d8b;
+
+      box-shadow:
+        0 5px 0
+        #455a64;
+    }
+
+    .game-button.orange {
+
+      background:
+        #f57c00;
+
+      box-shadow:
+        0 5px 0
+        #d86600;
+    }
+
+    .game-button.restart {
+
+      background:
+        var(--restart);
+
+      box-shadow:
+        0 5px 0
+        #00695c;
+    }
+
+    /*
+    ==================================================
+    Feedback
+    ==================================================
+    */
+
+    .feedback {
+
+      min-height: 48px;
+
+      margin-top: 14px;
+
+      text-align: center;
+
+      font-size: 18px;
+
+      font-weight: 900;
+
+      line-height: 1.7;
+    }
+
+    .feedback.correct {
+      color: var(--success);
+    }
+
+    .feedback.wrong {
+      color: var(--danger);
+    }
+
+    .feedback.warning {
+      color: var(--warning);
+    }
+
+    /*
+    ==================================================
+    詳解
+    ==================================================
+    */
+
+    .explanation {
+
+      margin-top: 12px;
+
+      padding: 18px;
+
+      border-radius: 14px;
+
+      background:
+        #eef2ff;
+
+      color:
+        #334155;
+
+      line-height: 1.95;
+    }
+
+    .explanation-question {
+
+      margin-bottom: 18px;
+
+      padding:
+        15px 14px;
+
+      border:
+        2px solid
+        var(--primary-border);
+
+      border-radius: 13px;
+
+      background: white;
+    }
+
+    .explanation-question-title {
+
+      margin-bottom: 10px;
+
+      color:
+        var(--primary-dark);
+
+      font-weight: 900;
+    }
+
+    .explanation-question-math {
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      overflow-x: auto;
+
+      padding:
+        8px 4px;
+
+      color:
+        #0f172a;
+
+      font-family:
+        "Cambria Math",
+        "Times New Roman",
+        "Microsoft JhengHei",
+        serif;
+
+      font-size:
+        clamp(
+          20px,
+          3vw,
+          28px
+        );
+
+      font-weight: 900;
+
+      text-align: center;
+    }
+
+    .explanation-step {
+
+      margin:
+        12px 0;
+    }
+
+    .calculation-box {
+
+      margin:
+        10px 0;
+
+      padding:
+        12px 15px;
+
+      overflow-x: auto;
+
+      border:
+        1px solid
+        #c7d2fe;
+
+      border-radius: 11px;
+
+      background: white;
+
+      color:
+        #1e293b;
+
+      font-family:
+        "Cambria Math",
+        "Times New Roman",
+        serif;
+
+      font-size: 18px;
+
+      line-height: 1.9;
+    }
+
+    .equation-stack {
+
+      display: inline-grid;
+
+      gap: 5px;
+
+      min-width: 250px;
+    }
+
+    /*
+    ==================================================
+    Result
+    ==================================================
+    */
+
+    .result-panel {
+      text-align: center;
+    }
+
+    .result-score {
+
+      margin:
+        16px 0;
+
+      color:
+        #f57c00;
+
+      font-size: 56px;
+
+      font-weight: 900;
+    }
+
+    .result-stars {
+
+      margin-bottom: 10px;
+
+      font-size: 31px;
+    }
+
+    .result-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          4,
+          minmax(
+            0,
+            1fr
+          )
+        );
+
+      gap: 12px;
+
+      margin:
+        20px 0;
+    }
+
+    .result-stat {
+
+      padding:
+        16px 10px;
+
+      border-radius: 16px;
+
+      background:
+        var(--primary-light);
+
+      color:
+        var(--primary-dark);
+
+      font-weight: 900;
+    }
+
+    .save-status {
+
+      min-height: 28px;
+
+      margin:
+        14px 0 0;
+
+      font-weight: 900;
+    }
+
+    /*
+    ==================================================
+    Review
+    ==================================================
+    */
+
+    .review-list {
+
+      display: grid;
+
+      gap: 14px;
+    }
+
+    .review-card {
+
+      padding: 18px;
+
+      border:
+        1px solid
+        #e2e8f0;
+
+      border-radius: 16px;
+
+      background: white;
+    }
+
+    .review-title {
+
+      color:
+        var(--danger);
+
+      font-weight: 900;
+    }
+
+    .review-question {
+
+      margin:
+        12px 0;
+
+      overflow-x: auto;
+
+      font-size: 21px;
+
+      text-align: center;
+    }
+
+    /*
+    ==================================================
+    Mobile
+    ==================================================
+    */
+
+    @media(
+      max-width:
+        760px
+    ) {
+
+      body {
+        padding: 8px;
+      }
+
+      .screen {
+
+        padding:
+          18px 12px;
+      }
+
+      .mode-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .quiz-topbar {
+
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(
+              0,
+              1fr
+            )
+          );
+      }
+
+      .timer-box {
+        grid-column: 1 / -1;
+      }
+
+      .result-grid {
+
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(
+              0,
+              1fr
+            )
+          );
+      }
+
+      .xy-answer-grid {
+
+        grid-template-columns:
+          1fr;
+      }
+
+      .choice-grid {
+
+        grid-template-columns:
+          1fr;
+      }
+
+      .system-line {
+
+        font-size: 23px;
+
+        min-width: 180px;
+      }
+
+      .system-brace {
+
+        font-size: 60px;
+      }
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<div class="page-shell">
+
+  <div id="commonHeaderMount"></div>
+
+  <main class="game-card">
+
+    <header class="game-header">
+
+      <h1 class="game-title">
+        🧮 二元一次聯立方程式大挑戰
+      </h1>
+
+      <p class="game-subtitle">
+        從二元一次式與方程式開始，逐步挑戰共同解、代入消去、加減消去與生活應用。
+      </p>
+
+      <div class="concept-strip">
+
+        <span class="concept-chip">
+          二元一次式
+        </span>
+
+        <span class="concept-chip">
+          二元一次方程式
+        </span>
+
+        <span class="concept-chip">
+          聯立方程式
+        </span>
+
+        <span class="concept-chip">
+          代入消去法
+        </span>
+
+        <span class="concept-chip">
+          加減消去法
+        </span>
+
+        <span class="concept-chip">
+          應用問題
+        </span>
+
+      </div>
+
+    </header>
+
+    <!--
+    ==================================================
+    模式首頁
+    ==================================================
+    -->
+
+    <section
+      id="start-screen"
+      class="screen"
+    >
+
+      <div class="mode-grid">
+
+        <button
+          class="mode-card"
+          type="button"
+          data-mode="foundation"
+        >
+
+          <span class="mode-tag">
+            10 題
+          </span>
+
+          <h2>
+            模式一｜二元一次式與方程式基礎
+          </h2>
+
+          <p>
+            練習二元一次式代入、化簡、列方程式，以及判斷一組數是否為方程式的解。
+          </p>
+
+          <div class="mode-example">
+            例如：2x＋3y－5、3x＋2y＝12
+          </div>
+
+        </button>
+
+
+        <button
+          class="mode-card"
+          type="button"
+          data-mode="concept"
+        >
+
+          <span class="mode-tag">
+            10 題
+          </span>
+
+          <h2>
+            模式二｜聯立方程式與解的判別
+          </h2>
+
+          <p>
+            認識聯立方程式，判斷同一組 x、y 是否能同時滿足兩個方程式。
+          </p>
+
+          <div class="mode-example">
+            兩個方程式都成立，才是聯立方程式的解。
+          </div>
+
+        </button>
+
+
+        <button
+          class="mode-card"
+          type="button"
+          data-mode="substitution"
+        >
+
+          <span class="mode-tag">
+            8 題
+          </span>
+
+          <h2>
+            模式三｜代入消去法
+          </h2>
+
+          <p>
+            練習直接代入，以及先移項整理成 x＝… 或 y＝… 後再代入。
+          </p>
+
+          <div class="mode-example">
+            消去一個未知數 → 解一元一次方程式 → 回代。
+          </div>
+
+        </button>
+
+
+        <button
+          class="mode-card"
+          type="button"
+          data-mode="elimination"
+        >
+
+          <span class="mode-tag">
+            8 題
+          </span>
+
+          <h2>
+            模式四｜加減消去法
+          </h2>
+
+          <p>
+            練習直接相加減、調整一式或兩式係數，再消去其中一個未知數。
+          </p>
+
+          <div class="mode-example">
+            包含需先把分數或小數係數整理成整數的題目。
+          </div>
+
+        </button>
+
+
+        <button
+          class="mode-card"
+          type="button"
+          data-mode="mixed"
+        >
+
+          <span class="mode-tag">
+            8 題
+          </span>
+
+          <h2>
+            模式五｜聯立方程式綜合挑戰
+          </h2>
+
+          <p>
+            不提示解法，自行判斷使用代入消去法或加減消去法。
+          </p>
+
+          <div class="mode-example">
+            包含先化簡、移項、分數係數與進階綜合題。
+          </div>
+
+        </button>
+
+
+        <button
+          class="mode-card"
+          type="button"
+          data-mode="application"
+        >
+
+          <span class="mode-tag">
+            6 題
+          </span>
+
+          <h2>
+            模式六｜聯立方程式應用問題
+          </h2>
+
+          <p>
+            依題意設未知數、列出聯立方程式、解方程式，最後判斷答案是否符合題意。
+          </p>
+
+          <div class="mode-example">
+            數量、價格、年齡、分組、得分與合理性判斷。
+          </div>
+
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!--
+    ==================================================
+    測驗
+    ==================================================
+    -->
+
+    <section
+      id="quiz-screen"
+      class="screen hidden"
+    >
+
+      <div class="quiz-topbar">
+
+        <div class="status-box">
+          模式
+          <span
+            id="mode-name"
+            class="status-value"
+          >
+            —
+          </span>
+        </div>
+
+        <div class="status-box">
+          進度
+          <span
+            id="question-number"
+            class="status-value"
+          >
+            1 / 10
+          </span>
+        </div>
+
+        <div class="status-box">
+          答對
+          <span
+            id="correct-count"
+            class="status-value"
+          >
+            0
+          </span>
+        </div>
+
+        <div class="status-box">
+          最高連擊
+          <span
+            id="combo-count"
+            class="status-value"
+          >
+            0
+          </span>
+        </div>
+
+        <div class="status-box timer-box">
+          測驗時間
+          <span
+            id="timer-display"
+            class="status-value"
+          >
+            00:00
+          </span>
+        </div>
+
+      </div>
+
+
+      <div class="scratchpad-row">
+        <div id="scratchpad-mobile-button"></div>
+      </div>
+
+
+      <div class="progress-shell">
+
+        <div
+          id="progress-bar"
+          class="progress-bar"
+        ></div>
+
+      </div>
+
+
+      <div class="question-card">
+
+        <div
+          id="question-label"
+          class="question-label"
+        ></div>
+
+        <div
+          id="question-content"
+          class="question-content"
+        ></div>
+
+      </div>
+
+
+      <div
+        id="answer-panel"
+        class="answer-panel"
+      ></div>
+
+
+      <div class="button-row">
+
+        <button
+          id="submit-button"
+          class="game-button"
+          type="button"
+        >
+          提交答案（Enter）
+        </button>
+
+        <button
+          id="next-button"
+          class="game-button hidden"
+          type="button"
+        >
+          下一題（Enter）
+        </button>
+
+        <button
+          id="restart-button"
+          class="game-button restart"
+          type="button"
+        >
+          🔄 重新測驗
+        </button>
+
+        <button
+          id="mode-button"
+          class="game-button secondary"
+          type="button"
+        >
+          選擇模式
+        </button>
+
+      </div>
+
+
+      <div
+        id="feedback"
+        class="feedback"
+      ></div>
+
+
+      <div
+        id="explanation"
+        class="explanation hidden"
+      ></div>
+
+    </section>
+
+
+    <!--
+    ==================================================
+    結果
+    ==================================================
+    -->
+
+    <section
+      id="result-screen"
+      class="screen hidden result-panel"
+    >
+
+      <h2>
+        🎉 挑戰完成
+      </h2>
+
+      <div
+        id="final-score"
+        class="result-score"
+      >
+        0 分
+      </div>
+
+      <div
+        id="final-stars"
+        class="result-stars"
+      >
+        ★★★☆☆
+      </div>
+
+      <p id="final-comment"></p>
+
+
+      <div class="result-grid">
+
+        <div class="result-stat">
+          答對
+          <br>
+          <span id="final-correct">
+            0
+          </span>
+          題
+        </div>
+
+        <div class="result-stat">
+          答錯
+          <br>
+          <span id="final-wrong">
+            0
+          </span>
+          題
+        </div>
+
+        <div class="result-stat">
+          最高連擊
+          <br>
+          <span id="final-combo">
+            0
+          </span>
+        </div>
+
+        <div class="result-stat">
+          測驗時間
+          <br>
+          <span id="final-time">
+            00:00
+          </span>
+        </div>
+
+      </div>
+
+
+      <div
+        id="save-status"
+        class="save-status"
+      ></div>
+
+
+      <div class="button-row">
+
+        <button
+          id="again-button"
+          class="game-button restart"
+          type="button"
+        >
+          🔄 重新測驗
+        </button>
+
+        <button
+          id="review-button"
+          class="game-button orange"
+          type="button"
+        >
+          錯題回顧
+        </button>
+
+        <button
+          id="result-mode-button"
+          class="game-button secondary"
+          type="button"
+        >
+          選擇模式
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!--
+    ==================================================
+    錯題回顧
+    ==================================================
+    -->
+
+    <section
+      id="review-screen"
+      class="screen hidden"
+    >
+
+      <h2>
+        📝 錯題回顧
+      </h2>
+
+      <div
+        id="review-list"
+        class="review-list"
+      ></div>
+
+
+      <div class="button-row">
+
+        <button
+          id="review-again-button"
+          class="game-button restart"
+          type="button"
+        >
+          🔄 重新測驗
+        </button>
+
+        <button
+          id="review-result-button"
+          class="game-button secondary"
+          type="button"
+        >
+          回到測驗結果
+        </button>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+<script src="../js/common-header.js"></script>
+<script src="../js/scratchpad.js"></script>
+<script src="../js/scratchpad-template.js"></script>
+<script src="../js/sound-manager.js?v=1"></script>
+
+
+<script type="module">
+
+import {
+  saveGameScore
+} from "../js/scores.js";
+
+
+"use strict";
+
+
+/*
+==================================================
+基本設定
+==================================================
+*/
+
+
+const GAME_ID =
+  "simultaneousEquation";
+
+
+const MODE_SETTINGS = {
+
+  foundation: {
+
+    name:
+      "二元一次式與方程式基礎",
+
+    total:
+      10
+  },
+
+  concept: {
+
+    name:
+      "聯立方程式與解的判別",
+
+    total:
+      10
+  },
+
+  substitution: {
+
+    name:
+      "代入消去法",
+
+    total:
+      8
+  },
+
+  elimination: {
+
+    name:
+      "加減消去法",
+
+    total:
+      8
+  },
+
+  mixed: {
+
+    name:
+      "聯立方程式綜合挑戰",
+
+    total:
+      8
+  },
+
+  application: {
+
+    name:
+      "聯立方程式應用問題",
+
+    total:
+      6
+  }
+
+};
+
+
+const $ =
+  id =>
+    document.getElementById(
+      id
+    );
+
+
+let mode =
+  "foundation";
+
+
+let questions =
+  [];
+
+
+let index =
+  0;
+
+
+let correct =
+  0;
+
+
+let wrong =
+  0;
+
+
+let combo =
+  0;
+
+
+let maxCombo =
+  0;
+
+
+let records =
+  [];
+
+
+let answered =
+  false;
+
+
+let selectedChoice =
+  null;
+
+
+let startTime =
+  0;
+
+
+let elapsed =
+  0;
+
+
+let timerId =
+  null;
+
+
+let scoreSaved =
+  false;
+
+
+/*
+==================================================
+亂數工具
+==================================================
+*/
+
+
+function rand(
+  min,
+  max
+) {
+
+  return (
+    Math.floor(
+      Math.random() *
+      (
+        max -
+        min +
+        1
+      )
+    ) +
+    min
+  );
+}
+
+
+function nonZeroRand(
+  min,
+  max
+) {
+
+  let value =
+    0;
+
+
+  while (
+    value === 0
+  ) {
+
+    value =
+      rand(
+        min,
+        max
+      );
+  }
+
+
+  return value;
+}
+
+
+function pick(
+  array
+) {
+
+  return array[
+    Math.floor(
+      Math.random() *
+      array.length
+    )
+  ];
+}
+
+
+function shuffle(
+  array
+) {
+
+  const result =
+    [
+      ...array
+    ];
+
+
+  for (
+    let i =
+      result.length -
+      1;
+
+    i >
+    0;
+
+    i--
+  ) {
+
+    const j =
+      Math.floor(
+        Math.random() *
+        (
+          i +
+          1
+        )
+      );
+
+
+    [
+      result[i],
+      result[j]
+    ] = [
+      result[j],
+      result[i]
+    ];
+  }
+
+
+  return result;
+}
+
+
+function gcd(
+  a,
+  b
+) {
+
+  a =
+    Math.abs(
+      a
+    );
+
+
+  b =
+    Math.abs(
+      b
+    );
+
+
+  while (
+    b
+  ) {
+
+    const temp =
+      a % b;
+
+
+    a =
+      b;
+
+
+    b =
+      temp;
+  }
+
+
+  return (
+    a ||
+    1
+  );
+}
+
+
+/*
+==================================================
+分數
+==================================================
+*/
+
+
+function F(
+  numerator,
+  denominator = 1
+) {
+
+  numerator =
+    Number(
+      numerator
+    );
+
+
+  denominator =
+    Number(
+      denominator
+    );
+
+
+  if (
+    denominator === 0
+  ) {
+
+    throw new Error(
+      "分母不可為 0"
+    );
+  }
+
+
+  if (
+    denominator < 0
+  ) {
+
+    numerator =
+      -numerator;
+
+
+    denominator =
+      -denominator;
+  }
+
+
+  if (
+    numerator === 0
+  ) {
+
+    return {
+
+      n: 0,
+      d: 1
+    };
+  }
+
+
+  const divisor =
+    gcd(
+      numerator,
+      denominator
+    );
+
+
+  return {
+
+    n:
+      numerator /
+      divisor,
+
+    d:
+      denominator /
+      divisor
+  };
+}
+
+
+function addF(
+  a,
+  b
+) {
+
+  return F(
+
+    a.n *
+    b.d +
+
+    b.n *
+    a.d,
+
+    a.d *
+    b.d
+  );
+}
+
+
+function subF(
+  a,
+  b
+) {
+
+  return F(
+
+    a.n *
+    b.d -
+
+    b.n *
+    a.d,
+
+    a.d *
+    b.d
+  );
+}
+
+
+function mulF(
+  a,
+  b
+) {
+
+  return F(
+
+    a.n *
+    b.n,
+
+    a.d *
+    b.d
+  );
+}
+
+
+function divF(
+  a,
+  b
+) {
+
+  return F(
+
+    a.n *
+    b.d,
+
+    a.d *
+    b.n
+  );
+}
+
+
+function sameF(
+  a,
+  b
+) {
+
+  const first =
+    F(
+      a.n,
+      a.d
+    );
+
+
+  const second =
+    F(
+      b.n,
+      b.d
+    );
+
+
+  return (
+    first.n ===
+      second.n &&
+    first.d ===
+      second.d
+  );
+}
+
+
+function fractionHTML(
+  value
+) {
+
+  const fraction =
+    F(
+      value.n,
+      value.d
+    );
+
+
+  if (
+    fraction.d ===
+    1
+  ) {
+
+    return String(
+      fraction.n
+    )
+      .replace(
+        "-",
+        "−"
+      );
+  }
+
+
+  const sign =
+    fraction.n < 0
+      ? "−"
+      : "";
+
+
+  return `
+
+    ${sign}
+
+    <span class="math-fraction">
+
+      <span class="math-fraction-top">
+
+        ${Math.abs(
+          fraction.n
+        )}
+
+      </span>
+
+      <span class="math-fraction-bottom">
+
+        ${fraction.d}
+
+      </span>
+
+    </span>
+  `;
+}
+
+
+/*
+==================================================
+顯示係數
+==================================================
+*/
+
+
+function signedTerm(
+  coefficient,
+  variable,
+  first = false
+) {
+
+  if (
+    coefficient === 0
+  ) {
+
+    return "";
+  }
+
+
+  const negative =
+    coefficient < 0;
+
+
+  const absolute =
+    Math.abs(
+      coefficient
+    );
+
+
+  let prefix =
+    "";
+
+
+  if (
+    first
+  ) {
+
+    prefix =
+      negative
+        ? "−"
+        : "";
+
+  } else {
+
+    prefix =
+      negative
+        ? " − "
+        : " ＋ ";
+  }
+
+
+  const coefficientText =
+    absolute === 1 &&
+    variable
+
+      ? ""
+
+      : absolute;
+
+
+  return (
+    prefix +
+    coefficientText +
+    variable
+  );
+}
+
+
+function linearExpressionHTML(
+  a,
+  b,
+  c = 0
+) {
+
+  let result =
+    "";
+
+
+  let first =
+    true;
+
+
+  if (
+    a !== 0
+  ) {
+
+    result +=
+      signedTerm(
+        a,
+        "x",
+        true
+      );
+
+
+    first =
+      false;
+  }
+
+
+  if (
+    b !== 0
+  ) {
+
+    result +=
+      signedTerm(
+        b,
+        "y",
+        first
+      );
+
+
+    first =
+      false;
+  }
+
+
+  if (
+    c !== 0 ||
+    first
+  ) {
+
+    result +=
+      signedTerm(
+        c,
+        "",
+        first
+      );
+  }
+
+
+  return result;
+}
+
+
+function equationHTML(
+  a,
+  b,
+  c
+) {
+
+  return (
+    `${linearExpressionHTML(
+      a,
+      b
+    )} ＝ ${c}`
+  );
+}
+
+
+function systemHTML(
+  first,
+  second
+) {
+
+  return `
+
+    <div class="system-wrap">
+
+      <div class="system-brace">
+        {
+      </div>
+
+      <div class="system-lines">
+
+        <div class="system-line">
+          ${first}
+        </div>
+
+        <div class="system-line">
+          ${second}
+        </div>
+
+      </div>
+
+    </div>
+  `;
+}
+
+
+/*
+==================================================
+產生有唯一整數解的聯立方程式
+==================================================
+*/
+
+
+function makeIntegerSystem(
+  options = {}
+) {
+
+  const x =
+    options.x ??
+    nonZeroRand(
+      -6,
+      8
+    );
+
+
+  const y =
+    options.y ??
+    nonZeroRand(
+      -6,
+      8
+    );
+
+
+  let a1;
+  let b1;
+  let a2;
+  let b2;
+
+
+  do {
+
+    a1 =
+      nonZeroRand(
+        -5,
+        5
+      );
+
+
+    b1 =
+      nonZeroRand(
+        -5,
+        5
+      );
+
+
+    a2 =
+      nonZeroRand(
+        -5,
+        5
+      );
+
+
+    b2 =
+      nonZeroRand(
+        -5,
+        5
+      );
+
+  } while (
+    a1 *
+    b2 ===
+    a2 *
+    b1
+  );
+
+
+  return {
+
+    x,
+    y,
+
+    first: {
+
+      a:
+        a1,
+
+      b:
+        b1,
+
+      c:
+        a1 *
+        x +
+        b1 *
+        y
+    },
+
+    second: {
+
+      a:
+        a2,
+
+      b:
+        b2,
+
+      c:
+        a2 *
+        x +
+        b2 *
+        y
+    }
+  };
+}
+
+
+/*
+==================================================
+答案讀取
+==================================================
+*/
+
+
+function parseFractionText(
+  raw
+) {
+
+  const text =
+    String(
+      raw ??
+      ""
+    )
+      .trim()
+      .replace(
+        /−/g,
+        "-"
+      )
+      .replace(
+        /\s+/g,
+        ""
+      );
+
+
+  if (
+    !text
+  ) {
+
+    return null;
+  }
+
+
+  if (
+    /^[-+]?\d+$/
+      .test(
+        text
+      )
+  ) {
+
+    return F(
+      Number(
+        text
+      )
+    );
+  }
+
+
+  if (
+    /^[-+]?\d+\/[-+]?\d+$/
+      .test(
+        text
+      )
+  ) {
+
+    const [
+      numerator,
+      denominator
+    ] =
+      text
+        .split(
+          "/"
+        );
+
+
+    if (
+      Number(
+        denominator
+      ) ===
+      0
+    ) {
+
+      return null;
+    }
+
+
+    return F(
+      Number(
+        numerator
+      ),
+      Number(
+        denominator
+      )
+    );
+  }
+
+
+  if (
+    /^[-+]?\d*\.\d+$/
+      .test(
+        text
+      )
+  ) {
+
+    const number =
+      Number(
+        text
+      );
+
+
+    const string =
+      text
+        .replace(
+          /^[-+]/,
+          ""
+        );
+
+
+    const decimalPlaces =
+      string.split(
+        "."
+      )[1]
+        .length;
+
+
+    const denominator =
+      10 **
+      decimalPlaces;
+
+
+    return F(
+      Math.round(
+        number *
+        denominator
+      ),
+      denominator
+    );
+  }
+
+
+  return null;
+}
+
+
+/*
+==================================================
+答案型態
+==================================================
+*/
+
+
+function pairQuestion(
+  label,
+  html,
+  x,
+  y,
+  explanation
+) {
+
+  return {
+
+    type:
+      "pair",
+
+    label,
+
+    html,
+
+    answer: {
+
+      x:
+        F(
+          x
+        ),
+
+      y:
+        F(
+          y
+        )
+    },
+
+    explanation
+  };
+}
+
+
+function numberQuestion(
+  label,
+  html,
+  answer,
+  explanation,
+  unit = ""
+) {
+
+  return {
+
+    type:
+      "number",
+
+    label,
+
+    html,
+
+    answer:
+      F(
+        answer
+      ),
+
+    unit,
+
+    explanation
+  };
+}
+
+
+function choiceQuestion(
+  label,
+  html,
+  choices,
+  answer,
+  explanation
+) {
+
+  return {
+
+    type:
+      "choice",
+
+    label,
+
+    html,
+
+    choices,
+
+    answer,
+
+    explanation
+  };
+}
+
+
+/*
+==================================================
+模式一
+==================================================
+*/
+
+
+function makeFoundationValueQuestion() {
+
+  const a =
+    nonZeroRand(
+      -6,
+      6
+    );
+
+
+  const b =
+    nonZeroRand(
+      -6,
+      6
+    );
+
+
+  const c =
+    rand(
+      -8,
+      8
+    );
+
+
+  const x =
+    rand(
+      -5,
+      5
+    );
+
+
+  const y =
+    rand(
+      -5,
+      5
+    );
+
+
+  const answer =
+    a *
+    x +
+    b *
+    y +
+    c;
+
+
+  return numberQuestion(
+
+    "將 x、y 的值代入二元一次式並計算",
+
+    `
+
+      <div class="math">
+
+        ${
+          linearExpressionHTML(
+            a,
+            b,
+            c
+          )
+        }
+
+      </div>
+
+      <div
+        style="
+          font-size:18px;
+          color:#475569;
+          font-family:Microsoft JhengHei;
+        "
+      >
+        當 x＝${x}、y＝${y} 時，求此式的值。
+      </div>
+    `,
+
+    answer,
+
+    [
+
+      `把 x＝${x}、y＝${y} 代入原式。`,
+
+      `
+
+      <div class="calculation-box">
+
+        ${
+          a
+        } × (${x})
+        ${
+          b >= 0
+            ? " ＋ "
+            : " − "
+        }
+        ${
+          Math.abs(
+            b
+          )
+        } × (${y})
+
+        ${
+          c >= 0
+            ? " ＋ "
+            : " − "
+        }
+
+        ${
+          Math.abs(
+            c
+          )
+        }
+
+        ＝ ${answer}
+
+      </div>
+      `,
+
+      `所以此二元一次式的值為 ${answer}。`
+    ]
+  );
+}
+
+
+function makeFoundationEquationSolutionQuestion() {
+
+  const a =
+    nonZeroRand(
+      -5,
+      5
+    );
+
+
+  const b =
+    nonZeroRand(
+      -5,
+      5
+    );
+
+
+  const x =
+    rand(
+      -4,
+      6
+    );
+
+
+  const y =
+    rand(
+      -4,
+      6
+    );
+
+
+  const c =
+    a *
+    x +
+    b *
+    y;
+
+
+  const isCorrect =
+    Math.random() < .5;
+
+
+  const shownY =
+    isCorrect
+      ? y
+      : y +
+        pick(
+          [
+            -3,
+            -2,
+            -1,
+            1,
+            2,
+            3
+          ]
+        );
+
+
+  return choiceQuestion(
+
+    "判斷指定的 x、y 是否為此二元一次方程式的一組解",
+
+    `
+
+      <div class="math">
+
+        ${
+          equationHTML(
+            a,
+            b,
+            c
+          )
+        }
+
+      </div>
+
+      <div
+        style="
+          font-size:19px;
+          color:#475569;
+          font-family:Microsoft JhengHei;
+        "
+      >
+        x＝${x}、y＝${shownY}
+        是否為此方程式的一組解？
+      </div>
+    `,
+
+    [
+
+      {
+        value:
+          "yes",
+
+        label:
+          "⭕ 是"
+      },
+
+      {
+        value:
+          "no",
+
+        label:
+          "❌ 不是"
+      }
+    ],
+
+    isCorrect
+      ? "yes"
+      : "no",
+
+    [
+
+      `將 x＝${x}、y＝${shownY} 代入左式。`,
+
+      `
+
+      <div class="calculation-box">
+
+        ${
+          a
+        } × (${x})
+
+        ${
+          b >= 0
+            ? " ＋ "
+            : " − "
+        }
+
+        ${
+          Math.abs(
+            b
+          )
+        } × (${shownY})
+
+        ＝
+        ${
+          a *
+          x +
+          b *
+          shownY
+        }
+
+      </div>
+      `,
+
+      isCorrect
+
+        ? `代入後左式等於右式 ${c}，所以這是一組解。`
+
+        : `代入後左式不等於右式 ${c}，所以這不是一組解。`
+    ]
+  );
+}
+
+
+function makeFoundationFindVariableQuestion() {
+
+  const a =
+    nonZeroRand(
+      -5,
+      5
+    );
+
+
+  const b =
+    nonZeroRand(
+      -5,
+      5
+    );
+
+
+  const x =
+    rand(
+      -4,
+      6
+    );
+
+
+  const y =
+    rand(
+      -4,
+      6
+    );
+
+
+  const c =
+    a *
+    x +
+    b *
+    y;
+
+
+  if (
+    Math.random() < .5
+  ) {
+
+    return numberQuestion(
+
+      "已知 x 的值，求 y",
+
+      `
+
+        <div class="math">
+
+          ${
+            equationHTML(
+              a,
+              b,
+              c
+            )
+          }
+
+        </div>
+
+        <div
+          style="
+            font-size:19px;
+            color:#475569;
+            font-family:Microsoft JhengHei;
+          "
+        >
+          已知 x＝${x}，求 y。
+        </div>
+      `,
+
+      y,
+
+      [
+
+        `將 x＝${x} 代入方程式。`,
+
+        `
+
+        <div class="calculation-box">
+
+          ${
+            a
+          } × (${x})
+          ${
+            b >= 0
+              ? " ＋ "
+              : " − "
+          }
+          ${
+            Math.abs(
+              b
+            )
+          }y
+          ＝ ${c}
+
+        </div>
+        `,
+
+        `解一元一次方程式，可得 y＝${y}。`
+      ]
+    );
+  }
+
+
+  return numberQuestion(
+
+    "已知 y 的值，求 x",
+
+    `
+
+      <div class="math">
+
+        ${
+          equationHTML(
+            a,
+            b,
+            c
+          )
+        }
+
+      </div>
+
+      <div
+        style="
+          font-size:19px;
+          color:#475569;
+          font-family:Microsoft JhengHei;
+        "
+      >
+        已知 y＝${y}，求 x。
+      </div>
+    `,
+
+    x,
+
+    [
+
+      `將 y＝${y} 代入方程式。`,
+
+      `
+
+      <div class="calculation-box">
+
+        ${
+          a
+        }x
+        ${
+          b >= 0
+            ? " ＋ "
+            : " − "
+        }
+        ${
+          Math.abs(
+            b
+          )
+        } × (${y})
+        ＝ ${c}
+
+      </div>
+      `,
+
+      `解一元一次方程式，可得 x＝${x}。`
+    ]
+  );
+}
+
+
+function makeFoundationWordEquationQuestion() {
+
+  const x =
+    rand(
+      2,
+      9
+    );
+
+
+  const y =
+    rand(
+      2,
+      9
+    );
+
+
+  const p =
+    pick(
+      [
+        5,
+        8,
+        10,
+        12,
+        15
+      ]
+    );
+
+
+  const q =
+    pick(
+      [
+        6,
+        9,
+        11,
+        14,
+        20
+      ]
+    );
+
+
+  const total =
+    p *
+    x +
+    q *
+    y;
+
+
+  const options =
+    shuffle(
+      [
+
+        {
+          value:
+            "a",
+
+          label:
+            `${p}x＋${q}y＝${total}`
+        },
+
+        {
+          value:
+            "b",
+
+          label:
+            `${q}x＋${p}y＝${total}`
+        },
+
+        {
+          value:
+            "c",
+
+          label:
+            `${p + q}(x＋y)＝${total}`
+        },
+
+        {
+          value:
+            "d",
+
+          label:
+            `${p}x－${q}y＝${total}`
+        }
+      ]
+    );
+
+
+  return choiceQuestion(
+
+    "依題意列出二元一次方程式",
+
+    `
+
+      <div
+        style="
+          max-width:760px;
+          font-size:21px;
+          line-height:1.9;
+          font-family:Microsoft JhengHei;
+        "
+      >
+
+        每枝筆 ${p} 元，每本筆記本 ${q} 元。
+
+        <br>
+
+        買了 x 枝筆與 y 本筆記本，
+        共花 ${total} 元。
+
+        <br>
+
+        下列哪一個方程式正確？
+
+      </div>
+    `,
+
+    options,
+
+    "a",
+
+    [
+
+      `x 枝筆的價格為 ${p}x 元。`,
+
+      `y 本筆記本的價格為 ${q}y 元。`,
+
+      `總價為 ${total} 元，所以：
+
+      <div class="calculation-box">
+        ${p}x ＋ ${q}y ＝ ${total}
+      </div>`
+    ]
+  );
+}
+
+
+function makeMode1() {
+
+  return shuffle(
+    [
+
+      makeFoundationValueQuestion(),
+      makeFoundationValueQuestion(),
+
+      makeFoundationEquationSolutionQuestion(),
+      makeFoundationEquationSolutionQuestion(),
+      makeFoundationEquationSolutionQuestion(),
+
+      makeFoundationFindVariableQuestion(),
+      makeFoundationFindVariableQuestion(),
+      makeFoundationFindVariableQuestion(),
+
+      makeFoundationWordEquationQuestion(),
+      makeFoundationWordEquationQuestion()
+    ]
+  );
+}
+
+
+/*
+==================================================
+模式二
+==================================================
+*/
+
+
+function makeSystemSolutionJudgmentQuestion() {
+
+  const data =
+    makeIntegerSystem();
+
+
+  const isCorrect =
+    Math.random() < .5;
+
+
+  const shownX =
+    isCorrect
+      ? data.x
+      : data.x +
+        pick(
+          [
+            -2,
+            -1,
+            1,
+            2
+          ]
+        );
+
+
+  const shownY =
+    isCorrect
+      ? data.y
+      : data.y;
+
+
+  return choiceQuestion(
+
+    "判斷此組 x、y 是否為聯立方程式的解",
+
+    `
+
+      ${
+        systemHTML(
+
+          equationHTML(
+            data.first.a,
+            data.first.b,
+            data.first.c
+          ),
+
+          equationHTML(
+            data.second.a,
+            data.second.b,
+            data.second.c
+          )
+        )
+      }
+
+      <div
+        style="
+          margin-top:15px;
+          font-size:19px;
+          color:#475569;
+          font-family:Microsoft JhengHei;
+        "
+      >
+        x＝${shownX}、y＝${shownY}
+      </div>
+    `,
+
+    [
+
+      {
+        value:
+          "yes",
+
+        label:
+          "⭕ 是聯立方程式的解"
+      },
+
+      {
+        value:
+          "no",
+
+        label:
+          "❌ 不是聯立方程式的解"
+      }
+    ],
+
+    isCorrect
+      ? "yes"
+      : "no",
+
+    [
+
+      `聯立方程式的解，必須讓兩個方程式同時成立。`,
+
+      `代入第一式檢查：
+
+      <div class="calculation-box">
+
+        ${
+          data.first.a
+        } × (${shownX})
+
+        ${
+          data.first.b >= 0
+            ? " ＋ "
+            : " − "
+        }
+
+        ${
+          Math.abs(
+            data.first.b
+          )
+        } × (${shownY})
+
+        ＝
+        ${
+          data.first.a *
+          shownX +
+          data.first.b *
+          shownY
+        }
+
+      </div>`,
+
+      `代入第二式檢查：
+
+      <div class="calculation-box">
+
+        ${
+          data.second.a
+        } × (${shownX})
+
+        ${
+          data.second.b >= 0
+            ? " ＋ "
+            : " − "
+        }
+
+        ${
+          Math.abs(
+            data.second.b
+          )
+        } × (${shownY})
+
+        ＝
+        ${
+          data.second.a *
+          shownX +
+          data.second.b *
+          shownY
+        }
+
+      </div>`,
+
+      isCorrect
+
+        ? `兩個方程式都成立，所以 x＝${shownX}、y＝${shownY} 是此聯立方程式的解。`
+
+        : `至少有一個方程式不成立，所以這不是此聯立方程式的解。`
+    ]
+  );
+}
+
+
+function makeSystemFindPairQuestion() {
+
+  const data =
+    makeIntegerSystem();
+
+
+  return pairQuestion(
+
+    "求聯立方程式的解",
+
+    systemHTML(
+
+      equationHTML(
+        data.first.a,
+        data.first.b,
+        data.first.c
+      ),
+
+      equationHTML(
+        data.second.a,
+        data.second.b,
+        data.second.c
+      )
+    ),
+
+    data.x,
+
+    data.y,
+
+    [
+
+      `這一題可以使用代入消去法或加減消去法。`,
+
+      `消去其中一個未知數後，先求出另一個未知數。`,
+
+      `再把求得的值代回其中一個原方程式。`,
+
+      `所以解為：
+
+      <div class="calculation-box">
+        x＝${data.x}，y＝${data.y}
+      </div>`
+    ]
+  );
+}
+
+
+function makeSystemWordChoiceQuestion() {
+
+  const x =
+    rand(
+      5,
+      20
+    );
+
+
+  const y =
+    rand(
+      5,
+      20
+    );
+
+
+  const total =
+    x +
+    y;
+
+
+  const amount =
+    10 *
+    x +
+    5 *
+    y;
+
+
+  const options =
+    shuffle(
+      [
+
+        {
+          value:
+            "a",
+
+          label:
+            `x＋y＝${total}；10x＋5y＝${amount}`
+        },
+
+        {
+          value:
+            "b",
+
+          label:
+            `x－y＝${total}；10x＋5y＝${amount}`
+        },
+
+        {
+          value:
+            "c",
+
+          label:
+            `x＋y＝${amount}；10x＋5y＝${total}`
+        },
+
+        {
+          value:
+            "d",
+
+          label:
+            `10x＋10y＝${amount}；x＋5y＝${total}`
+        }
+      ]
+    );
+
+
+  return choiceQuestion(
+
+    "依題意列出二元一次聯立方程式",
+
+    `
+
+      <div
+        style="
+          max-width:760px;
+          font-size:21px;
+          line-height:1.9;
+          font-family:Microsoft JhengHei;
+        "
+      >
+
+        某活動售出 10 元票與 5 元票共 ${total} 張，
+
+        <br>
+
+        總收入為 ${amount} 元。
+
+        <br>
+
+        若 10 元票有 x 張、5 元票有 y 張，
+
+        <br>
+
+        下列哪一組聯立方程式正確？
+
+      </div>
+    `,
+
+    options,
+
+    "a",
+
+    [
+
+      `票的總張數為 ${total} 張，所以：
+
+      <div class="calculation-box">
+        x ＋ y ＝ ${total}
+      </div>`,
+
+      `總收入為 ${amount} 元，所以：
+
+      <div class="calculation-box">
+        10x ＋ 5y ＝ ${amount}
+      </div>`,
+
+      `因此兩個條件要同時成立，形成二元一次聯立方程式。`
+    ]
+  );
+}
+
+
+function makeMode2() {
+
+  return shuffle(
+    [
+
+      makeSystemSolutionJudgmentQuestion(),
+      makeSystemSolutionJudgmentQuestion(),
+      makeSystemSolutionJudgmentQuestion(),
+      makeSystemSolutionJudgmentQuestion(),
+      makeSystemSolutionJudgmentQuestion(),
+
+      makeSystemFindPairQuestion(),
+      makeSystemFindPairQuestion(),
+      makeSystemFindPairQuestion(),
+
+      makeSystemWordChoiceQuestion(),
+      makeSystemWordChoiceQuestion()
+    ]
+  );
+}
+
+
+/*
+==================================================
+模式三：代入法
+==================================================
+*/
+
+
+function makeSubstitutionDirectQuestion() {
+
+  const x =
+    nonZeroRand(
+      -5,
+      7
+    );
+
+
+  const y =
+    nonZeroRand(
+      -5,
+      7
+    );
+
+
+  const m =
+    nonZeroRand(
+      -3,
+      3
+    );
+
+
+  const k =
+    y -
+    m *
+    x;
+
+
+  const a =
+    nonZeroRand(
+      -4,
+      4
+    );
+
+
+  const b =
+    nonZeroRand(
+      -4,
+      4
+    );
+
+
+  const c =
+    a *
+    x +
+    b *
+    y;
+
+
+  return pairQuestion(
+
+    "請利用代入消去法解聯立方程式",
+
+    systemHTML(
+
+      `y ＝ ${
+        linearExpressionHTML(
+          m,
+          0,
+          k
+        )
+      }`,
+
+      equationHTML(
+        a,
+        b,
+        c
+      )
+    ),
+
+    x,
+
+    y,
+
+    [
+
+      `第一式已經整理成 y＝…，可以直接代入第二式。`,
+
+      `
+
+      <div class="calculation-box">
+
+        ${
+          a
+        }x
+
+        ${
+          b >= 0
+            ? " ＋ "
+            : " − "
+        }
+
+        ${
+          Math.abs(
+            b
+          )
+        }
+        ${
+          b < 0
+            ? "×"
+            : ""
+        }
+        (
+          ${
+            linearExpressionHTML(
+              m,
+              0,
+              k
+            )
+          }
+        )
+
+        ＝ ${c}
+
+      </div>
+      `,
+
+      `解這個一元一次方程式，可得：
+
+      <div class="calculation-box">
+        x＝${x}
+      </div>`,
+
+      `將 x＝${x} 代回第一式：
+
+      <div class="calculation-box">
+        y＝${m} × (${x})
+        ${
+          k >= 0
+            ? " ＋ "
+            : " − "
+        }
+        ${Math.abs(k)}
+        ＝${y}
+      </div>`,
+
+      `所以：
+
+      <div class="calculation-box">
+        x＝${x}，y＝${y}
+      </div>`
+    ]
+  );
+}
+
+
+function makeSubstitutionRearrangeQuestion() {
+
+  const x =
+    nonZeroRand(
+      -5,
+      7
+    );
+
+
+  const y =
+    nonZeroRand(
+      -5,
+      7
+    );
+
+
+  const p =
+    nonZeroRand(
+      -4,
+      4
+    );
+
+
+  const q =
+    x +
+    p *
+    y;
+
+
+  let a;
+  let b;
+
+
+  do {
+
+    a =
+      nonZeroRand(
+        -4,
+        4
+      );
+
+
+    b =
+      nonZeroRand(
+        -4,
+        4
+      );
+
+  } while (
+    b ===
+    a *
+    p
+  );
+
+
+  const c =
+    a *
+    x +
+    b *
+    y;
+
+
+  return pairQuestion(
+
+    "請先整理其中一式，再利用代入消去法求解",
+
+    systemHTML(
+
+      equationHTML(
+        1,
+        p,
+        q
+      ),
+
+      equationHTML(
+        a,
+        b,
+        c
+      )
+    ),
+
+    x,
+
+    y,
+
+    [
+
+      `第一式的 x 係數為 1，可以先把第一式整理成 x＝…。`,
+
+      `
+
+      <div class="calculation-box">
+
+        x ＝
+        ${q}
+        ${
+          p >= 0
+            ? " − "
+            : " ＋ "
+        }
+        ${Math.abs(p)}y
+
+      </div>
+      `,
+
+      `把整理後的 x 代入第二式。`,
+
+      `解一元一次方程式後，可得：
+
+      <div class="calculation-box">
+        y＝${y}
+      </div>`,
+
+      `再代回第一式：
+
+      <div class="calculation-box">
+        x＝${x}
+      </div>`,
+
+      `所以：
+
+      <div class="calculation-box">
+        x＝${x}，y＝${y}
+      </div>`
+    ]
+  );
+}
+
+
+function makeMode3() {
+
+  return shuffle(
+    [
+
+      makeSubstitutionDirectQuestion(),
+      makeSubstitutionDirectQuestion(),
+      makeSubstitutionDirectQuestion(),
+      makeSubstitutionDirectQuestion(),
+
+      makeSubstitutionRearrangeQuestion(),
+      makeSubstitutionRearrangeQuestion(),
+      makeSubstitutionRearrangeQuestion(),
+      makeSubstitutionRearrangeQuestion()
+    ]
+  );
+}
+
+
+/*
+==================================================
+模式四：加減法
+==================================================
+*/
+
+
+function makeEliminationDirectQuestion() {
+
+  const x =
+    nonZeroRand(
+      -6,
+      7
+    );
+
+
+  const y =
+    nonZeroRand(
+      -6,
+      7
+    );
+
+
+  const a =
+    nonZeroRand(
+      1,
+      5
+    );
+
+
+  const b1 =
+    nonZeroRand(
+      -5,
+      5
+    );
+
+
+  let b2;
+
+
+  do {
+
+    b2 =
+      nonZeroRand(
+        -5,
+        5
+      );
+
+  } while (
+    b1 === b2
+  );
+
+
+  const first = {
+
+    a,
+
+    b:
+      b1,
+
+    c:
+      a *
+      x +
+      b1 *
+      y
+  };
+
+
+  const second = {
+
+    a,
+
+    b:
+      b2,
+
+    c:
+      a *
+      x +
+      b2 *
+      y
+  };
+
+
+  return pairQuestion(
+
+    "請利用加減消去法解聯立方程式",
+
+    systemHTML(
+
+      equationHTML(
+        first.a,
+        first.b,
+        first.c
+      ),
+
+      equationHTML(
+        second.a,
+        second.b,
+        second.c
+      )
+    ),
+
+    x,
+
+    y,
+
+    [
+
+      `兩式的 x 項係數相同，可以直接用①式－②式消去 x。`,
+
+      `
+
+      <div class="calculation-box">
+
+        ${
+          equationHTML(
+            first.a,
+            first.b,
+            first.c
+          )
+        }
+
+        <br>
+
+        ${
+          equationHTML(
+            second.a,
+            second.b,
+            second.c
+          )
+        }
+
+        <br>
+
+        ─────────
+
+        <br>
+
+        ${
+          first.b -
+          second.b
+        }y
+        ＝
+        ${
+          first.c -
+          second.c
+        }
+
+      </div>
+      `,
+
+      `可得：
+
+      <div class="calculation-box">
+        y＝${y}
+      </div>`,
+
+      `將 y＝${y} 代回其中一式，可得：
+
+      <div class="calculation-box">
+        x＝${x}
+      </div>`,
+
+      `所以解為 x＝${x}，y＝${y}。`
+    ]
+  );
+}
+
+
+function makeEliminationOneMultiplyQuestion() {
+
+  const x =
+    nonZeroRand(
+      -5,
+      7
+    );
+
+
+  const y =
+    nonZeroRand(
+      -5,
+      7
+    );
+
+
+  const a1 =
+    pick(
+      [
+        2,
+        3,
+        4
+      ]
+    );
+
+
+  const factor =
+    pick(
+      [
+        2,
+        3
+      ]
+    );
+
+
+  const a2 =
+    a1 *
+    factor;
+
+
+  let b1;
+  let b2;
+
+
+  do {
+
+    b1 =
+      nonZeroRand(
+        -5,
+        5
+      );
+
+
+    b2 =
+      nonZeroRand(
+        -5,
+        5
+      );
+
+  } while (
+    a1 *
+    b2 ===
+    a2 *
+    b1
+  );
+
+
+  const c1 =
+    a1 *
+    x +
+    b1 *
+    y;
+
+
+  const c2 =
+    a2 *
+    x +
+    b2 *
+    y;
+
+
+  return pairQuestion(
+
+    "請調整其中一式的係數，再利用加減消去法求解",
+
+    systemHTML(
+
+      equationHTML(
+        a1,
+        b1,
+        c1
+      ),
+
+      equationHTML(
+        a2,
+        b2,
+        c2
+      )
+    ),
+
+    x,
+
+    y,
+
+    [
+
+      `兩式的 x 係數分別為 ${a1} 與 ${a2}。`,
+
+      `可以把①式乘以 ${factor}，使兩式的 x 項係數相同。`,
+
+      `
+
+      <div class="calculation-box">
+
+        ① × ${factor}：
+
+        <br>
+
+        ${
+          equationHTML(
+            a1 *
+            factor,
+            b1 *
+            factor,
+            c1 *
+            factor
+          )
+        }
+
+      </div>
+      `,
+
+      `再與②式相減，消去 x。`,
+
+      `可得 y＝${y}，再代回原式得到 x＝${x}。`,
+
+      `所以解為 x＝${x}，y＝${y}。`
+    ]
+  );
+}
+
+
+function makeEliminationBothMultiplyQuestion() {
+
+  const x =
+    nonZeroRand(
+      -5,
+      6
+    );
+
+
+  const y =
+    nonZeroRand(
+      -5,
+      6
+    );
+
+
+  let a1;
+  let a2;
+  let b1;
+  let b2;
+
+
+  do {
+
+    a1 =
+      nonZeroRand(
+        2,
+        5
+      );
+
+
+    a2 =
+      nonZeroRand(
+        2,
+        5
+      );
+
+
+    b1 =
+      nonZeroRand(
+        -5,
+        5
+      );
+
+
+    b2 =
+      nonZeroRand(
+        -5,
+        5
+      );
+
+  } while (
+    a1 ===
+      a2 ||
+    a1 *
+    b2 ===
+      a2 *
+      b1
+  );
+
+
+  const c1 =
+    a1 *
+    x +
+    b1 *
+    y;
+
+
+  const c2 =
+    a2 *
+    x +
+    b2 *
+    y;
+
+
+  return pairQuestion(
+
+    "請調整兩式係數，再利用加減消去法求解",
+
+    systemHTML(
+
+      equationHTML(
+        a1,
+        b1,
+        c1
+      ),
+
+      equationHTML(
+        a2,
+        b2,
+        c2
+      )
+    ),
+
+    x,
+
+    y,
+
+    [
+
+      `兩式的 x 項係數不同，可以把①式乘以 ${Math.abs(a2)}、②式乘以 ${Math.abs(a1)}。`,
+
+      `
+
+      <div class="calculation-box">
+
+        ① × ${Math.abs(a2)}：
+
+        <br>
+
+        ${
+          equationHTML(
+            a1 *
+            Math.abs(
+              a2
+            ),
+            b1 *
+            Math.abs(
+              a2
+            ),
+            c1 *
+            Math.abs(
+              a2
+            )
+          )
+        }
+
+        <br><br>
+
+        ② × ${Math.abs(a1)}：
+
+        <br>
+
+        ${
+          equationHTML(
+            a2 *
+            Math.abs(
+              a1
+            ),
+            b2 *
+            Math.abs(
+              a1
+            ),
+            c2 *
+            Math.abs(
+              a1
+            )
+          )
+        }
+
+      </div>
+      `,
+
+      `再利用相加或相減消去 x。`,
+
+      `得到其中一個未知數後，再代回原式。`,
+
+      `所以解為 x＝${x}，y＝${y}。`
+    ]
+  );
+}
+
+
+function makeEliminationFractionQuestion() {
+
+  const x =
+    nonZeroRand(
+      -4,
+      6
+    );
+
+
+  const y =
+    nonZeroRand(
+      -4,
+      6
+    );
+
+
+  const c1 =
+    2 *
+    x -
+    3 *
+    y;
+
+
+  const c2 =
+    3 *
+    x +
+    y;
+
+
+  return pairQuestion(
+
+    "先把分數係數化為整數，再利用加減消去法求解",
+
+    systemHTML(
+
+      `
+        <span class="math-fraction">
+          <span class="math-fraction-top">1</span>
+          <span class="math-fraction-bottom">3</span>
+        </span>x
+        −
+        <span class="math-fraction">
+          <span class="math-fraction-top">1</span>
+          <span class="math-fraction-bottom">2</span>
+        </span>y
+        ＝
+        ${
+          fractionHTML(
+            F(
+              c1,
+              6
+            )
+          )
+        }
+      `,
+
+      `3x ＋ y ＝ ${c2}`
+    ),
+
+    x,
+
+    y,
+
+    [
+
+      `第一式有分數係數，可以先把整式乘以 6。`,
+
+      `
+
+      <div class="calculation-box">
+
+        第一式 × 6：
+
+        <br>
+
+        2x − 3y ＝ ${c1}
+
+      </div>
+      `,
+
+      `聯立方程式整理為：
+
+      <div class="calculation-box">
+
+        2x − 3y ＝ ${c1}
+
+        <br>
+
+        3x ＋ y ＝ ${c2}
+
+      </div>`,
+
+      `再利用加減消去法求解。`,
+
+      `所以：
+
+      <div class="calculation-box">
+        x＝${x}，y＝${y}
+      </div>`
+    ]
+  );
+}
+
+
+function makeMode4() {
+
+  return shuffle(
+    [
+
+      makeEliminationDirectQuestion(),
+      makeEliminationDirectQuestion(),
+
+      makeEliminationOneMultiplyQuestion(),
+      makeEliminationOneMultiplyQuestion(),
+
+      makeEliminationBothMultiplyQuestion(),
+      makeEliminationBothMultiplyQuestion(),
+
+      makeEliminationFractionQuestion(),
+      makeEliminationFractionQuestion()
+    ]
+  );
+}
+
+
+/*
+==================================================
+模式五
+==================================================
+*/
+
+
+function makeMixedRearrangeQuestion() {
+
+  const data =
+    makeIntegerSystem();
+
+
+  const k =
+    rand(
+      -5,
+      5
+    );
+
+
+  /*
+  第一式改成：
+  ax + by + k = c + k
+  */
+
+
+  return pairQuestion(
+
+    "請先整理方程式，再選擇適合的方法求解",
+
+    systemHTML(
+
+      `${linearExpressionHTML(
+        data.first.a,
+        data.first.b,
+        k
+      )} ＝ ${
+        data.first.c +
+        k
+      }`,
+
+      equationHTML(
+        data.second.a,
+        data.second.b,
+        data.second.c
+      )
+    ),
+
+    data.x,
+
+    data.y,
+
+    [
+
+      `先把第一式的常數項移到等號右邊。`,
+
+      `
+
+      <div class="calculation-box">
+
+        ${
+          equationHTML(
+            data.first.a,
+            data.first.b,
+            data.first.c
+          )
+        }
+
+      </div>
+      `,
+
+      `整理完成後，再觀察係數選擇代入消去法或加減消去法。`,
+
+      `求得：
+
+      <div class="calculation-box">
+        x＝${data.x}，y＝${data.y}
+      </div>`
+    ]
+  );
+}
+
+
+function makeMixedQuestion() {
+
+  return pick(
+    [
+
+      makeSubstitutionDirectQuestion,
+      makeSubstitutionRearrangeQuestion,
+      makeEliminationDirectQuestion,
+      makeEliminationOneMultiplyQuestion,
+      makeEliminationBothMultiplyQuestion,
+      makeEliminationFractionQuestion,
+      makeMixedRearrangeQuestion
+    ]
+  )();
+}
+
+
+function makeMode5() {
+
+  const questions =
+    [
+
+      makeSubstitutionDirectQuestion(),
+      makeSubstitutionRearrangeQuestion(),
+
+      makeEliminationDirectQuestion(),
+      makeEliminationOneMultiplyQuestion(),
+
+      makeEliminationBothMultiplyQuestion(),
+      makeEliminationFractionQuestion(),
+
+      makeMixedRearrangeQuestion(),
+      makeMixedQuestion()
+    ];
+
+
+  return shuffle(
+    questions
+  );
+}
+
+
+/*
+==================================================
+模式六：應用問題
+==================================================
+*/
+
+
+function makeTicketApplication() {
+
+  const x =
+    rand(
+      8,
+      20
+    );
+
+
+  const y =
+    rand(
+      8,
+      20
+    );
+
+
+  const total =
+    x +
+    y;
+
+
+  const money =
+    10 *
+    x +
+    5 *
+    y;
+
+
+  return numberQuestion(
+
+    "請列聯立方程式並解題",
+
+    `
+
+      <div
+        style="
+          max-width:780px;
+          font-size:21px;
+          line-height:1.9;
+          font-family:Microsoft JhengHei;
+        "
+      >
+
+        某活動售出 10 元票與 5 元票共 ${total} 張，
+
+        <br>
+
+        總收入為 ${money} 元。
+
+        <br>
+
+        請問 10 元票售出多少張？
+
+      </div>
+    `,
+
+    x,
+
+    [
+
+      `設 10 元票有 x 張，5 元票有 y 張。`,
+
+      `依總張數可列：
+
+      <div class="calculation-box">
+        x ＋ y ＝ ${total}
+      </div>`,
+
+      `依總收入可列：
+
+      <div class="calculation-box">
+        10x ＋ 5y ＝ ${money}
+      </div>`,
+
+      `因此聯立：
+
+      <div class="calculation-box">
+        ${
+          systemHTML(
+            `x ＋ y ＝ ${total}`,
+            `10x ＋ 5y ＝ ${money}`
+          )
+        }
+      </div>`,
+
+      `利用代入消去或加減消去可得：
+
+      <div class="calculation-box">
+        x＝${x}，y＝${y}
+      </div>`,
+
+      `所以 10 元票售出 ${x} 張。`
+    ],
+
+    "張"
+  );
+}
+
+
+function makeBasketballApplication() {
+
+  const x =
+    rand(
+      4,
+      12
+    );
+
+
+  const y =
+    rand(
+      4,
+      12
+    );
+
+
+  const total =
+    x +
+    y;
+
+
+  const score =
+    2 *
+    x +
+    3 *
+    y;
+
+
+  return numberQuestion(
+
+    "請利用聯立方程式解決得分問題",
+
+    `
+
+      <div
+        style="
+          max-width:780px;
+          font-size:21px;
+          line-height:1.9;
+          font-family:Microsoft JhengHei;
+        "
+      >
+
+        某球員投進 2 分球與 3 分球共 ${total} 球，
+
+        <br>
+
+        一共得到 ${score} 分。
+
+        <br>
+
+        請問他投進幾顆 3 分球？
+
+      </div>
+    `,
+
+    y,
+
+    [
+
+      `設 2 分球有 x 顆，3 分球有 y 顆。`,
+
+      `球數：
+
+      <div class="calculation-box">
+        x ＋ y ＝ ${total}
+      </div>`,
+
+      `得分：
+
+      <div class="calculation-box">
+        2x ＋ 3y ＝ ${score}
+      </div>`,
+
+      `兩式相減可直接得到 y＝${y}。`,
+
+      `所以投進 ${y} 顆 3 分球。`
+    ],
+
+    "顆"
+  );
+}
+
+
+function makePriceApplication() {
+
+  const x =
+    rand(
+      3,
+      9
+    );
+
+
+  const y =
+    rand(
+      3,
+      9
+    );
+
+
+  const total =
+    x +
+    y;
+
+
+  const money =
+    25 *
+    x +
+    40 *
+    y;
+
+
+  return numberQuestion(
+
+    "請利用聯立方程式解決購物問題",
+
+    `
+
+      <div
+        style="
+          max-width:780px;
+          font-size:21px;
+          line-height:1.9;
+          font-family:Microsoft JhengHei;
+        "
+      >
+
+        一份 A 商品 25 元，一份 B 商品 40 元。
+
+        <br>
+
+        小明共買 ${total} 份，花了 ${money} 元。
+
+        <br>
+
+        請問 B 商品買了幾份？
+
+      </div>
+    `,
+
+    y,
+
+    [
+
+      `設 A 商品買 x 份，B 商品買 y 份。`,
+
+      `總數：
+
+      <div class="calculation-box">
+        x ＋ y ＝ ${total}
+      </div>`,
+
+      `總價：
+
+      <div class="calculation-box">
+        25x ＋ 40y ＝ ${money}
+      </div>`,
+
+      `解聯立方程式得：
+
+      <div class="calculation-box">
+        x＝${x}，y＝${y}
+      </div>`,
+
+      `所以 B 商品買了 ${y} 份。`
+    ],
+
+    "份"
+  );
+}
+
+
+function makeAgeApplication() {
+
+  const younger =
+    rand(
+      10,
+      20
+    );
+
+
+  const older =
+    younger +
+    rand(
+      20,
+      35
+    );
+
+
+  const difference =
+    older -
+    younger;
+
+
+  const sum =
+    older +
+    younger;
+
+
+  return numberQuestion(
+
+    "請利用聯立方程式解決年齡問題",
+
+    `
+
+      <div
+        style="
+          max-width:780px;
+          font-size:21px;
+          line-height:1.9;
+          font-family:Microsoft JhengHei;
+        "
+      >
+
+        父子兩人的年齡和為 ${sum} 歲，
+
+        <br>
+
+        父親比兒子大 ${difference} 歲。
+
+        <br>
+
+        請問兒子今年幾歲？
+
+      </div>
+    `,
+
+    younger,
+
+    [
+
+      `設父親 x 歲、兒子 y 歲。`,
+
+      `年齡和：
+
+      <div class="calculation-box">
+        x ＋ y ＝ ${sum}
+      </div>`,
+
+      `年齡差：
+
+      <div class="calculation-box">
+        x − y ＝ ${difference}
+      </div>`,
+
+      `兩式相減或相加，可得：
+
+      <div class="calculation-box">
+        y＝${younger}
+      </div>`,
+
+      `所以兒子今年 ${younger} 歲。`
+    ],
+
+    "歲"
+  );
+}
+
+
+function makeTentApplication() {
+
+  const twoPerson =
+    rand(
+      2,
+      7
+    );
+
+
+  const fourPerson =
+    rand(
+      2,
+      7
+    );
+
+
+  const tents =
+    twoPerson +
+    fourPerson;
+
+
+  const people =
+    2 *
+    twoPerson +
+    4 *
+    fourPerson;
+
+
+  return numberQuestion(
+
+    "請利用聯立方程式解決分組問題",
+
+    `
+
+      <div
+        style="
+          max-width:780px;
+          font-size:21px;
+          line-height:1.9;
+          font-family:Microsoft JhengHei;
+        "
+      >
+
+        某露營活動使用 2 人帳與 4 人帳共 ${tents} 頂，
+
+        <br>
+
+        剛好可住 ${people} 人。
+
+        <br>
+
+        請問 4 人帳有幾頂？
+
+      </div>
+    `,
+
+    fourPerson,
+
+    [
+
+      `設 2 人帳有 x 頂，4 人帳有 y 頂。`,
+
+      `帳篷數：
+
+      <div class="calculation-box">
+        x ＋ y ＝ ${tents}
+      </div>`,
+
+      `人數：
+
+      <div class="calculation-box">
+        2x ＋ 4y ＝ ${people}
+      </div>`,
+
+      `解聯立方程式得：
+
+      <div class="calculation-box">
+        x＝${twoPerson}，y＝${fourPerson}
+      </div>`,
+
+      `所以 4 人帳有 ${fourPerson} 頂。`
+    ],
+
+    "頂"
+  );
+}
+
+
+function makeReasonablenessApplication() {
+
+  return choiceQuestion(
+
+    "判斷聯立方程式的解是否符合題意",
+
+    `
+
+      <div
+        style="
+          max-width:780px;
+          font-size:21px;
+          line-height:1.9;
+          font-family:Microsoft JhengHei;
+        "
+      >
+
+        某題設 x、y 分別代表兩種水果的顆數，
+
+        <br>
+
+        解聯立方程式後得到：
+
+        <br><br>
+
+        <span
+          class="math"
+          style="
+            font-size:31px;
+            font-weight:900;
+          "
+        >
+          x＝12，y＝−1
+        </span>
+
+        <br><br>
+
+        這個結果是否能作為原題的答案？
+
+      </div>
+    `,
+
+    [
+
+      {
+        value:
+          "yes",
+
+        label:
+          "⭕ 可以，方程式有解即可"
+      },
+
+      {
+        value:
+          "no",
+
+        label:
+          "❌ 不可以，答案不符合題意"
+      }
+    ],
+
+    "no",
+
+    [
+
+      `解應用問題時，除了求出方程式的解，還要檢查答案是否符合題意。`,
+
+      `y 代表水果顆數，但計算結果為 y＝−1。`,
+
+      `水果顆數不可能是負數。`,
+
+      `因此此聯立方程式雖然有代數解，但這組解不符合原題的實際情境。`
+    ]
+  );
+}
+
+
+function makeMode6() {
+
+  return shuffle(
+    [
+
+      makeTicketApplication(),
+      makeBasketballApplication(),
+      makePriceApplication(),
+      makeAgeApplication(),
+      makeTentApplication(),
+      makeReasonablenessApplication()
+    ]
+  );
+}
+
+
+/*
+==================================================
+建立題目
+==================================================
+*/
+
+
+function createQuestions() {
+
+  if (
+    mode ===
+    "foundation"
+  ) {
+
+    return makeMode1();
+  }
+
+
+  if (
+    mode ===
+    "concept"
+  ) {
+
+    return makeMode2();
+  }
+
+
+  if (
+    mode ===
+    "substitution"
+  ) {
+
+    return makeMode3();
+  }
+
+
+  if (
+    mode ===
+    "elimination"
+  ) {
+
+    return makeMode4();
+  }
+
+
+  if (
+    mode ===
+    "mixed"
+  ) {
+
+    return makeMode5();
+  }
+
+
+  return makeMode6();
+}
+
+
+/*
+==================================================
+答案畫面
+==================================================
+*/
+
+
+function updatePairPreview() {
+
+  const preview =
+    $("answer-preview");
+
+
+  if (
+    !preview
+  ) {
+
+    return;
+  }
+
+
+  const xRaw =
+    $("answer-x")
+      ?.value
+      .trim() ??
+    "";
+
+
+  const yRaw =
+    $("answer-y")
+      ?.value
+      .trim() ??
+    "";
+
+
+  if (
+    !xRaw &&
+    !yRaw
+  ) {
+
+    preview.innerHTML =
+      "目前尚未完成答案。";
+
+
+    return;
+  }
+
+
+  preview.innerHTML = `
+
+    目前答案：
+
+    <span class="preview-value">
+
+      x＝${xRaw || "？"}，
+
+      y＝${yRaw || "？"}
+
+    </span>
+  `;
+}
+
+
+function updateNumberPreview() {
+
+  const preview =
+    $("answer-preview");
+
+
+  if (
+    !preview
+  ) {
+
+    return;
+  }
+
+
+  const raw =
+    $("number-answer")
+      ?.value
+      .trim() ??
+    "";
+
+
+  if (
+    !raw
+  ) {
+
+    preview.innerHTML =
+      "目前尚未完成答案。";
+
+
+    return;
+  }
+
+
+  preview.innerHTML = `
+
+    目前答案：
+
+    <span class="preview-value">
+
+      ${raw}
+
+    </span>
+  `;
+}
+
+
+function renderPairAnswer(
+  question
+) {
+
+  $("answer-panel")
+    .innerHTML = `
+
+      <div class="answer-title">
+
+        ${question.label}
+
+      </div>
+
+      <p class="answer-help">
+
+        請填寫 x、y 的值。<br>
+
+        若答案為分數，可以直接輸入：
+        例如 3/4、-5/2。
+
+      </p>
+
+      <div class="xy-answer-grid">
+
+        <div class="xy-card">
+
+          <div class="xy-label">
+            x 的值
+          </div>
+
+          <div class="xy-input-row">
+
+            <span class="xy-symbol">
+              x＝
+            </span>
+
+            <input
+              id="answer-x"
+              class="math-answer-input"
+              type="text"
+              inputmode="text"
+              autocomplete="off"
+              placeholder="輸入答案"
+            >
+
+          </div>
+
+        </div>
+
+        <div class="xy-card">
+
+          <div class="xy-label">
+            y 的值
+          </div>
+
+          <div class="xy-input-row">
+
+            <span class="xy-symbol">
+              y＝
+            </span>
+
+            <input
+              id="answer-y"
+              class="math-answer-input"
+              type="text"
+              inputmode="text"
+              autocomplete="off"
+              placeholder="輸入答案"
+            >
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div
+        id="answer-preview"
+        class="answer-preview"
+      >
+        目前尚未完成答案。
+      </div>
+    `;
+
+
+  $("answer-x")
+    ?.addEventListener(
+      "input",
+      updatePairPreview
+    );
+
+
+  $("answer-y")
+    ?.addEventListener(
+      "input",
+      updatePairPreview
+    );
+
+
+  setTimeout(
+    () =>
+      $("answer-x")
+        ?.focus(),
+    0
+  );
+}
+
+
+function renderNumberAnswer(
+  question
+) {
+
+  $("answer-panel")
+    .innerHTML = `
+
+      <div class="answer-title">
+
+        ${question.label}
+
+      </div>
+
+      <p class="answer-help">
+
+        請輸入答案。若為分數，可輸入 3/4、-5/2。
+
+      </p>
+
+      <div class="single-answer-shell">
+
+        <input
+          id="number-answer"
+          class="math-answer-input"
+          type="text"
+          inputmode="text"
+          autocomplete="off"
+          placeholder="輸入答案"
+        >
+
+      </div>
+
+      <div
+        id="answer-preview"
+        class="answer-preview"
+      >
+        目前尚未完成答案。
+      </div>
+    `;
+
+
+  $("number-answer")
+    ?.addEventListener(
+      "input",
+      updateNumberPreview
+    );
+
+
+  setTimeout(
+    () =>
+      $("number-answer")
+        ?.focus(),
+    0
+  );
+}
+
+
+function renderChoiceAnswer(
+  question
+) {
+
+  selectedChoice =
+    null;
+
+
+  $("answer-panel")
+    .innerHTML = `
+
+      <div class="answer-title">
+
+        ${question.label}
+
+      </div>
+
+      <div
+        id="choice-grid"
+        class="choice-grid"
+      >
+
+        ${
+          question.choices
+            .map(
+              choice => `
+
+                <button
+                  type="button"
+                  class="choice-button"
+                  data-choice="${choice.value}"
+                >
+                  ${choice.label}
+                </button>
+              `
+            )
+            .join("")
+        }
+
+      </div>
+
+      <div
+        id="answer-preview"
+        class="answer-preview"
+      >
+        尚未選擇答案。
+      </div>
+    `;
+
+
+  document
+    .querySelectorAll(
+      ".choice-button"
+    )
+    .forEach(
+      button => {
+
+        button
+          .addEventListener(
+            "click",
+            () => {
+
+              if (
+                answered
+              ) {
+
+                return;
+              }
+
+
+              selectedChoice =
+                button.dataset.choice;
+
+
+              document
+                .querySelectorAll(
+                  ".choice-button"
+                )
+                .forEach(
+                  item =>
+                    item.classList
+                      .remove(
+                        "selected"
+                      )
+                );
+
+
+              button
+                .classList
+                .add(
+                  "selected"
+                );
+
+
+              $("answer-preview")
+                .innerHTML = `
+
+                  目前選擇：
+
+                  <span class="preview-value">
+                    ${button.textContent.trim()}
+                  </span>
+                `;
+            }
+          );
+      }
+    );
+}
+
+
+function renderAnswer(
+  question
+) {
+
+  if (
+    question.type ===
+    "pair"
+  ) {
+
+    renderPairAnswer(
+      question
+    );
+
+
+    return;
+  }
+
+
+  if (
+    question.type ===
+    "number"
+  ) {
+
+    renderNumberAnswer(
+      question
+    );
+
+
+    return;
+  }
+
+
+  renderChoiceAnswer(
+    question
+  );
+}
+
+
+/*
+==================================================
+讀取答案
+==================================================
+*/
+
+
+function readAnswer(
+  question
+) {
+
+  if (
+    question.type ===
+    "pair"
+  ) {
+
+    const x =
+      parseFractionText(
+        $("answer-x")
+          ?.value
+      );
+
+
+    const y =
+      parseFractionText(
+        $("answer-y")
+          ?.value
+      );
+
+
+    if (
+      !x ||
+      !y
+    ) {
+
+      return {
+
+        valid: false,
+
+        message:
+          "請完整輸入 x、y 的值。"
+      };
+    }
+
+
+    return {
+
+      valid: true,
+
+      value: {
+
+        x,
+        y
+      },
+
+      display:
+        `x＝${fractionHTML(x)}，y＝${fractionHTML(y)}`
+    };
+  }
+
+
+  if (
+    question.type ===
+    "number"
+  ) {
+
+    const value =
+      parseFractionText(
+        $("number-answer")
+          ?.value
+      );
+
+
+    if (
+      !value
+    ) {
+
+      return {
+
+        valid: false,
+
+        message:
+          "請輸入完整答案。"
+      };
+    }
+
+
+    return {
+
+      valid: true,
+
+      value,
+
+      display:
+        fractionHTML(
+          value
+        )
+    };
+  }
+
+
+  if (
+    selectedChoice ===
+    null
+  ) {
+
+    return {
+
+      valid: false,
+
+      message:
+        "請先選擇答案。"
+    };
+  }
+
+
+  const choice =
+    question.choices
+      .find(
+        item =>
+          item.value ===
+          selectedChoice
+      );
+
+
+  return {
+
+    valid: true,
+
+    value:
+      selectedChoice,
+
+    display:
+      choice?.label ||
+      selectedChoice
+  };
+}
+
+
+/*
+==================================================
+判定
+==================================================
+*/
+
+
+function checkCorrect(
+  question,
+  answer
+) {
+
+  if (
+    question.type ===
+    "pair"
+  ) {
+
+    return (
+
+      sameF(
+        question.answer.x,
+        answer.value.x
+      ) &&
+
+      sameF(
+        question.answer.y,
+        answer.value.y
+      )
+    );
+  }
+
+
+  if (
+    question.type ===
+    "number"
+  ) {
+
+    return sameF(
+      question.answer,
+      answer.value
+    );
+  }
+
+
+  return (
+    question.answer ===
+    answer.value
+  );
+}
+
+
+/*
+==================================================
+正確答案
+==================================================
+*/
+
+
+function correctAnswerHTML(
+  question
+) {
+
+  if (
+    question.type ===
+    "pair"
+  ) {
+
+    return `
+
+      x＝
+      ${fractionHTML(
+        question.answer.x
+      )}，
+
+      y＝
+      ${fractionHTML(
+        question.answer.y
+      )}
+    `;
+  }
+
+
+  if (
+    question.type ===
+    "number"
+  ) {
+
+    return (
+      fractionHTML(
+        question.answer
+      ) +
+      (
+        question.unit
+          ? ` ${question.unit}`
+          : ""
+      )
+    );
+  }
+
+
+  const choice =
+    question.choices
+      .find(
+        item =>
+          item.value ===
+          question.answer
+      );
+
+
+  return (
+    choice?.label ||
+    question.answer
+  );
+}
+
+
+/*
+==================================================
+詳解
+==================================================
+*/
+
+
+function explanationHTML(
+  question
+) {
+
+  const questionBlock = `
+
+    <div class="explanation-question">
+
+      <div class="explanation-question-title">
+        題目｜
+      </div>
+
+      <div class="explanation-question-math">
+
+        ${question.html}
+
+      </div>
+
+    </div>
+  `;
+
+
+  const steps =
+    question.explanation
+      .map(
+        (
+          step,
+          stepIndex
+        ) => `
+
+          <div class="explanation-step">
+
+            <strong>
+              步驟 ${stepIndex + 1}｜
+            </strong>
+
+            ${step}
+
+          </div>
+        `
+      )
+      .join("");
+
+
+  return (
+    questionBlock +
+    steps
+  );
+}
+
+
+/*
+==================================================
+顯示題目
+==================================================
+*/
+
+
+function displayQuestion() {
+
+  answered =
+    false;
+
+
+  selectedChoice =
+    null;
+
+
+  const question =
+    questions[
+      index
+    ];
+
+
+  const total =
+    MODE_SETTINGS[
+      mode
+    ].total;
+
+
+  $("mode-name")
+    .textContent =
+      MODE_SETTINGS[
+        mode
+      ].name;
+
+
+  $("question-number")
+    .textContent =
+      `${index + 1} / ${total}`;
+
+
+  $("correct-count")
+    .textContent =
+      correct;
+
+
+  $("combo-count")
+    .textContent =
+      maxCombo;
+
+
+  $("progress-bar")
+    .style
+    .width =
+      `${
+        index /
+        total *
+        100
+      }%`;
+
+
+  $("question-label")
+    .textContent =
+      question.label;
+
+
+  $("question-content")
+    .innerHTML =
+      question.html;
+
+
+  $("feedback")
+    .textContent =
+      "";
+
+
+  $("feedback")
+    .className =
+      "feedback";
+
+
+  $("explanation")
+    .innerHTML =
+      "";
+
+
+  $("explanation")
+    .classList
+    .add(
+      "hidden"
+    );
+
+
+  $("submit-button")
+    .classList
+    .remove(
+      "hidden"
+    );
+
+
+  $("next-button")
+    .classList
+    .add(
+      "hidden"
+    );
+
+
+  renderAnswer(
+    question
+  );
+
+
+  window
+    .resetGameScratchpad
+    ?.();
+}
+
+
+/*
+==================================================
+提交
+==================================================
+*/
+
+
+function submitAnswer() {
+
+  if (
+    answered
+  ) {
+
+    return;
+  }
+
+
+  const question =
+    questions[
+      index
+    ];
+
+
+  const answer =
+    readAnswer(
+      question
+    );
+
+
+  if (
+    !answer.valid
+  ) {
+
+    $("feedback")
+      .className =
+        "feedback warning";
+
+
+    $("feedback")
+      .textContent =
+        answer.message;
+
+
+    return;
+  }
+
+
+  answered =
+    true;
+
+
+  document
+    .querySelectorAll(
+      "#answer-panel input, #answer-panel button, #answer-panel select"
+    )
+    .forEach(
+      element => {
+
+        element.disabled =
+          true;
+      }
+    );
+
+
+  const isCorrect =
+    checkCorrect(
+      question,
+      answer
+    );
+
+
+  if (
+    isCorrect
+  ) {
+
+    correct++;
+
+    combo++;
+
+    maxCombo =
+      Math.max(
+        maxCombo,
+        combo
+      );
+
+
+    $("feedback")
+      .className =
+        "feedback correct";
+
+
+    $("feedback")
+      .textContent =
+        "✨ 回答正確！";
+
+
+    playGameSound(
+      "playCorrect"
+    );
+
+  } else {
+
+    wrong++;
+
+    combo =
+      0;
+
+
+    $("feedback")
+      .className =
+        "feedback wrong";
+
+
+    $("feedback")
+      .innerHTML = `
+
+        ❌ 答案不正確。正確答案：
+
+        <strong>
+
+          ${correctAnswerHTML(
+            question
+          )}
+
+        </strong>
+      `;
+
+
+    playGameSound(
+      "playWrong"
+    );
+  }
+
+
+  records.push(
+    {
+
+      number:
+        index +
+        1,
+
+      question,
+
+      userAnswer:
+        answer.display,
+
+      correct:
+        isCorrect
+    }
+  );
+
+
+  $("correct-count")
+    .textContent =
+      correct;
+
+
+  $("combo-count")
+    .textContent =
+      maxCombo;
+
+
+  $("explanation")
+    .innerHTML =
+      explanationHTML(
+        question
+      );
+
+
+  $("explanation")
+    .classList
+    .remove(
+      "hidden"
+    );
+
+
+  $("submit-button")
+    .classList
+    .add(
+      "hidden"
+    );
+
+
+  $("next-button")
+    .classList
+    .remove(
+      "hidden"
+    );
+
+
+  const total =
+    MODE_SETTINGS[
+      mode
+    ].total;
+
+
+  $("next-button")
+    .textContent =
+
+      index ===
+      total -
+      1
+
+        ? "查看測驗結果（Enter）"
+
+        : "下一題（Enter）";
+
+
+  $("next-button")
+    .focus();
+}
+
+
+/*
+==================================================
+下一題
+==================================================
+*/
+
+
+function nextQuestion() {
+
+  if (
+    !answered
+  ) {
+
+    return;
+  }
+
+
+  index++;
+
+
+  const total =
+    MODE_SETTINGS[
+      mode
+    ].total;
+
+
+  if (
+    index <
+    total
+  ) {
+
+    displayQuestion();
+
+  } else {
+
+    showResult();
+  }
+}
+
+
+/*
+==================================================
+時間
+==================================================
+*/
+
+
+function formatTime(
+  seconds
+) {
+
+  const minutes =
+    Math.floor(
+      seconds /
+      60
+    );
+
+
+  const remain =
+    seconds %
+    60;
+
+
+  return (
+
+    `${String(minutes).padStart(2, "0")}:` +
+
+    `${String(remain).padStart(2, "0")}`
+  );
+}
+
+
+function stopTimer(
+  update = true
+) {
+
+  if (
+    timerId !==
+    null
+  ) {
+
+    clearInterval(
+      timerId
+    );
+
+
+    timerId =
+      null;
+  }
+
+
+  if (
+    update &&
+    startTime
+  ) {
+
+    elapsed =
+      Math.floor(
+        (
+          Date.now() -
+          startTime
+        ) /
+        1000
+      );
+  }
+}
+
+
+function startTimer() {
+
+  stopTimer(
+    false
+  );
+
+
+  startTime =
+    Date.now();
+
+
+  elapsed =
+    0;
+
+
+  $("timer-display")
+    .textContent =
+      "00:00";
+
+
+  timerId =
+    setInterval(
+      () => {
+
+        elapsed =
+          Math.floor(
+            (
+              Date.now() -
+              startTime
+            ) /
+            1000
+          );
+
+
+        $("timer-display")
+          .textContent =
+            formatTime(
+              elapsed
+            );
+
+      },
+      500
+    );
+}
+
+
+/*
+==================================================
+音效
+==================================================
+*/
+
+
+function playGameSound(
+  method
+) {
+
+  try {
+
+    const sound =
+      window.GameSound ||
+      window.MathGameSound;
+
+
+    sound?.[
+      method
+    ]?.();
+
+  } catch (
+    error
+  ) {
+
+    console.warn(
+      "音效播放失敗：",
+      error
+    );
+  }
+}
+
+
+/*
+==================================================
+計算紙
+==================================================
+*/
+
+
+function moveScratchpadButtonToTop() {
+
+  const mount =
+    $("scratchpad-mobile-button");
+
+
+  const button =
+    $("scratchpadOpenButton");
+
+
+  if (
+    mount &&
+    button &&
+    !mount.contains(
+      button
+    )
+  ) {
+
+    mount.appendChild(
+      button
+    );
+  }
+}
+
+
+/*
+==================================================
+畫面切換
+==================================================
+*/
+
+
+function showOnly(
+  id
+) {
+
+  [
+
+    "start-screen",
+    "quiz-screen",
+    "result-screen",
+    "review-screen"
+
+  ]
+    .forEach(
+      screen => {
+
+        $(screen)
+          .classList
+          .toggle(
+            "hidden",
+            screen !==
+            id
+          );
+      }
+    );
+
+
+  if (
+    id ===
+    "quiz-screen"
+  ) {
+
+    moveScratchpadButtonToTop();
+
+
+    window
+      .showGameScratchpadButton
+      ?.();
+
+  } else {
+
+    window
+      .hideGameScratchpadButton
+      ?.();
+  }
+}
+
+
+/*
+==================================================
+開始遊戲
+==================================================
+*/
+
+
+function startGame(
+  selectedMode
+) {
+
+  stopTimer(
+    false
+  );
+
+
+  mode =
+    selectedMode;
+
+
+  questions =
+    createQuestions();
+
+
+  index = 0;
+
+  correct = 0;
+
+  wrong = 0;
+
+  combo = 0;
+
+  maxCombo = 0;
+
+  records = [];
+
+  answered = false;
+
+  selectedChoice = null;
+
+  scoreSaved = false;
+
+  elapsed = 0;
+
+
+  $("timer-display")
+    .textContent =
+      "00:00";
+
+
+  $("save-status")
+    .textContent =
+      "";
+
+
+  showOnly(
+    "quiz-screen"
+  );
+
+
+  displayQuestion();
+
+
+  startTimer();
+
+
+  playGameSound(
+    "playStart"
+  );
+}
+
+
+/*
+==================================================
+評價
+==================================================
+*/
+
+
+function rating(
+  score
+) {
+
+  if (
+    score >=
+    90
+  ) {
+
+    return {
+
+      stars:
+        "★★★★★",
+
+      comment:
+        "太棒了！你已能熟練處理二元一次聯立方程式。"
+    };
+  }
+
+
+  if (
+    score >=
+    80
+  ) {
+
+    return {
+
+      stars:
+        "★★★★☆",
+
+      comment:
+        "表現很好，再注意消去時的係數與正負號。"
+    };
+  }
+
+
+  if (
+    score >=
+    60
+  ) {
+
+    return {
+
+      stars:
+        "★★★☆☆",
+
+      comment:
+        "基本概念已掌握，再加強代入消去與加減消去。"
+    };
+  }
+
+
+  return {
+
+    stars:
+      "★★☆☆☆",
+
+    comment:
+      "建議先熟悉二元一次方程式與共同解，再逐步練習兩種消去法。"
+  };
+}
+
+
+/*
+==================================================
+結果
+==================================================
+*/
+
+
+async function showResult() {
+
+  stopTimer();
+
+
+  const total =
+    MODE_SETTINGS[
+      mode
+    ].total;
+
+
+  const score =
+    Math.round(
+      correct /
+      total *
+      100
+    );
+
+
+  const result =
+    rating(
+      score
+    );
+
+
+  showOnly(
+    "result-screen"
+  );
+
+
+  $("final-score")
+    .textContent =
+      `${score} 分`;
+
+
+  $("final-stars")
+    .textContent =
+      result.stars;
+
+
+  $("final-comment")
+    .textContent =
+      result.comment;
+
+
+  $("final-correct")
+    .textContent =
+      correct;
+
+
+  $("final-wrong")
+    .textContent =
+      wrong;
+
+
+  $("final-combo")
+    .textContent =
+      maxCombo;
+
+
+  $("final-time")
+    .textContent =
+      formatTime(
+        elapsed
+      );
+
+
+  $("review-button")
+    .disabled =
+      wrong ===
+      0;
+
+
+  $("review-button")
+    .textContent =
+
+      wrong ===
+      0
+
+        ? "全部答對，無錯題"
+
+        : "錯題回顧";
+
+
+  await saveCurrentScore(
+    score
+  );
+}
+
+
+/*
+==================================================
+Firestore
+==================================================
+*/
+
+
+async function saveCurrentScore(
+  score
+) {
+
+  if (
+    scoreSaved
+  ) {
+
+    return;
+  }
+
+
+  scoreSaved =
+    true;
+
+
+  const status =
+    $("save-status");
+
+
+  status.textContent =
+    "☁️ 正在儲存本次成績……";
+
+
+  status.style.color =
+    "#1d4ed8";
+
+
+  try {
+
+    const result =
+      await saveGameScore(
+        {
+
+          game:
+            GAME_ID,
+
+          mode,
+
+          score,
+
+          correctCount:
+            correct,
+
+          wrongCount:
+            wrong,
+
+          maxCombo,
+
+          playTime:
+            elapsed
+        }
+      );
+
+
+    if (
+      result.success
+    ) {
+
+      status.textContent =
+        "✅ 本次成績已儲存。";
+
+
+      status.style.color =
+        "#15803d";
+
+
+      return;
+    }
+
+
+    if (
+      result.reason ===
+      "not-logged-in"
+    ) {
+
+      status.textContent =
+        "ℹ️ 尚未登入，因此本次成績沒有儲存。";
+
+
+      status.style.color =
+        "#b45309";
+
+
+      return;
+    }
+
+
+    status.textContent =
+      "⚠️ 成績暫時無法儲存。";
+
+
+    status.style.color =
+      "#b91c1c";
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      "聯立方程式成績儲存失敗：",
+      error
+    );
+
+
+    status.textContent =
+      "⚠️ 成績暫時無法儲存。";
+
+
+    status.style.color =
+      "#b91c1c";
+  }
+}
+
+
+/*
+==================================================
+錯題回顧
+==================================================
+*/
+
+
+function showReview() {
+
+  const wrongRecords =
+    records.filter(
+      record =>
+        !record.correct
+    );
+
+
+  $("review-list")
+    .innerHTML =
+
+      wrongRecords.length
+
+        ? wrongRecords
+            .map(
+              record => `
+
+                <article class="review-card">
+
+                  <div class="review-title">
+
+                    第 ${record.number} 題 ❌
+
+                  </div>
+
+                  <div class="review-question">
+
+                    ${record.question.html}
+
+                  </div>
+
+                  <p>
+
+                    你的答案：
+
+                    <strong>
+
+                      ${record.userAnswer}
+
+                    </strong>
+
+                  </p>
+
+                  <p>
+
+                    正確答案：
+
+                    <strong>
+
+                      ${correctAnswerHTML(
+                        record.question
+                      )}
+
+                    </strong>
+
+                  </p>
+
+                  <div class="explanation">
+
+                    ${explanationHTML(
+                      record.question
+                    )}
+
+                  </div>
+
+                </article>
+              `
+            )
+            .join("")
+
+        : `
+
+            <div class="review-card">
+
+              全部答對，沒有需要回顧的錯題！
+
+            </div>
+          `;
+
+
+  showOnly(
+    "review-screen"
+  );
+}
+
+
+/*
+==================================================
+事件
+==================================================
+*/
+
+
+document
+  .querySelectorAll(
+    "[data-mode]"
+  )
+  .forEach(
+    button => {
+
+      button
+        .addEventListener(
+          "click",
+          () => {
+
+            startGame(
+              button.dataset.mode
+            );
+          }
+        );
+    }
+  );
+
+
+$("submit-button")
+  .addEventListener(
+    "click",
+    submitAnswer
+  );
+
+
+$("next-button")
+  .addEventListener(
+    "click",
+    nextQuestion
+  );
+
+
+$("restart-button")
+  .addEventListener(
+    "click",
+    () => {
+
+      startGame(
+        mode
+      );
+    }
+  );
+
+
+$("mode-button")
+  .addEventListener(
+    "click",
+    () => {
+
+      stopTimer();
+
+
+      showOnly(
+        "start-screen"
+      );
+    }
+  );
+
+
+$("again-button")
+  .addEventListener(
+    "click",
+    () => {
+
+      startGame(
+        mode
+      );
+    }
+  );
+
+
+$("result-mode-button")
+  .addEventListener(
+    "click",
+    () => {
+
+      showOnly(
+        "start-screen"
+      );
+    }
+  );
+
+
+$("review-button")
+  .addEventListener(
+    "click",
+    showReview
+  );
+
+
+$("review-again-button")
+  .addEventListener(
+    "click",
+    () => {
+
+      startGame(
+        mode
+      );
+    }
+  );
+
+
+$("review-result-button")
+  .addEventListener(
+    "click",
+    () => {
+
+      showOnly(
+        "result-screen"
+      );
+    }
+  );
+
+
+/*
+==================================================
+Enter
+==================================================
+*/
+
+
+document
+  .addEventListener(
+    "keydown",
+    event => {
+
+      if (
+        event.key !==
+        "Enter"
+      ) {
+
+        return;
+      }
+
+
+      if (
+        $("quiz-screen")
+          .classList
+          .contains(
+            "hidden"
+          )
+      ) {
+
+        return;
+      }
+
+
+      event.preventDefault();
+
+
+      if (
+        answered
+      ) {
+
+        nextQuestion();
+
+      } else {
+
+        submitAnswer();
+      }
+    }
+  );
+
+
+/*
+==================================================
+初始化
+==================================================
+*/
+
+
+window
+  .addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+      moveScratchpadButtonToTop();
+
+
+      setTimeout(
+        moveScratchpadButtonToTop,
+        100
+      );
+    }
+  );
+
+
+showOnly(
+  "start-screen"
+);
+
+
+</script>
+
+</body>
+
+</html>
