@@ -25,6 +25,7 @@
       box-sizing: border-box;
     }
 
+
     :root {
 
       --primary: #3949ab;
@@ -41,6 +42,7 @@
 
       --restart: #00897b;
     }
+
 
     body {
 
@@ -65,15 +67,23 @@
         );
     }
 
+
     button,
     input,
     select {
       font-family: inherit;
     }
 
+
+    button {
+      touch-action: manipulation;
+    }
+
+
     .hidden {
       display: none !important;
     }
+
 
     .page-shell {
 
@@ -82,9 +92,11 @@
       margin: 0 auto;
     }
 
+
     #commonHeaderMount {
       margin-bottom: 14px;
     }
+
 
     .game-card {
 
@@ -112,11 +124,11 @@
         );
     }
 
-    /*
-    ==================================================
-    Header
-    ==================================================
-    */
+
+    /* ==================================================
+       Header
+    ================================================== */
+
 
     .game-header {
 
@@ -133,6 +145,7 @@
         );
     }
 
+
     .game-title {
 
       margin: 0;
@@ -148,6 +161,7 @@
         );
     }
 
+
     .game-subtitle {
 
       margin:
@@ -158,6 +172,7 @@
 
       line-height: 1.7;
     }
+
 
     .concept-strip {
 
@@ -172,6 +187,7 @@
       flex-wrap: wrap;
     }
 
+
     .concept-chip {
 
       padding:
@@ -181,8 +197,7 @@
         1px solid
         var(--primary-border);
 
-      border-radius:
-        999px;
+      border-radius: 999px;
 
       background: white;
 
@@ -194,15 +209,16 @@
       font-weight: 900;
     }
 
+
     .screen {
       padding: 22px;
     }
 
-    /*
-    ==================================================
-    模式
-    ==================================================
-    */
+
+    /* ==================================================
+       模式
+    ================================================== */
+
 
     .mode-grid {
 
@@ -219,6 +235,7 @@
 
       gap: 16px;
     }
+
 
     .mode-card {
 
@@ -247,6 +264,7 @@
         .15s ease;
     }
 
+
     .mode-card:hover {
 
       transform:
@@ -262,6 +280,7 @@
         );
     }
 
+
     .mode-tag {
 
       display: inline-block;
@@ -271,8 +290,7 @@
       padding:
         4px 9px;
 
-      border-radius:
-        999px;
+      border-radius: 999px;
 
       background: white;
 
@@ -283,6 +301,7 @@
 
       font-weight: 900;
     }
+
 
     .mode-card h2 {
 
@@ -295,6 +314,7 @@
       font-size: 21px;
     }
 
+
     .mode-card p {
 
       margin: 0;
@@ -304,6 +324,7 @@
 
       line-height: 1.7;
     }
+
 
     .mode-example {
 
@@ -319,11 +340,11 @@
       line-height: 1.65;
     }
 
-    /*
-    ==================================================
-    狀態列
-    ==================================================
-    */
+
+    /* ==================================================
+       狀態列
+    ================================================== */
+
 
     .quiz-topbar {
 
@@ -342,6 +363,7 @@
 
       margin-bottom: 12px;
     }
+
 
     .status-box {
 
@@ -368,12 +390,14 @@
       font-weight: 900;
     }
 
+
     .status-value {
 
       margin-top: 3px;
 
       font-size: 18px;
     }
+
 
     .timer-box {
 
@@ -384,11 +408,11 @@
         #c2410c;
     }
 
-    /*
-    ==================================================
-    計算紙
-    ==================================================
-    */
+
+    /* ==================================================
+       計算紙
+    ================================================== */
+
 
     .scratchpad-row {
 
@@ -402,6 +426,7 @@
         4px 0 12px;
     }
 
+
     #scratchpad-mobile-button {
 
       display: flex;
@@ -411,30 +436,27 @@
       width: 100%;
     }
 
+
     #scratchpad-mobile-button
     #scratchpadOpenButton,
 
     #scratchpad-mobile-button
     .scratchpad-open-button {
 
-      position:
-        static !important;
+      position: static !important;
 
-      inset:
-        auto !important;
+      inset: auto !important;
 
-      transform:
-        none !important;
+      transform: none !important;
 
-      margin:
-        0 !important;
+      margin: 0 !important;
     }
 
-    /*
-    ==================================================
-    進度
-    ==================================================
-    */
+
+    /* ==================================================
+       進度
+    ================================================== */
+
 
     .progress-shell {
 
@@ -444,12 +466,11 @@
 
       overflow: hidden;
 
-      border-radius:
-        999px;
+      border-radius: 999px;
 
-      background:
-        #e2e8f0;
+      background: #e2e8f0;
     }
+
 
     .progress-bar {
 
@@ -468,11 +489,11 @@
         width .2s ease;
     }
 
-    /*
-    ==================================================
-    題目
-    ==================================================
-    */
+
+    /* ==================================================
+       題目
+    ================================================== */
+
 
     .question-card {
 
@@ -490,6 +511,7 @@
       text-align: center;
     }
 
+
     .question-label {
 
       margin-bottom: 10px;
@@ -499,15 +521,16 @@
 
       font-size:
         clamp(
-          18px,
-          2.5vw,
-          23px
+          20px,
+          2.6vw,
+          26px
         );
 
       font-weight: 900;
 
-      line-height: 1.7;
+      line-height: 1.75;
     }
+
 
     .question-content {
 
@@ -543,6 +566,33 @@
       line-height: 1.75;
     }
 
+
+    .word-question {
+
+      max-width: 800px;
+
+      color: #334155;
+
+      font-family:
+        "Microsoft JhengHei",
+        "Noto Sans TC",
+        sans-serif;
+
+      font-size:
+        clamp(
+          19px,
+          2.4vw,
+          23px
+        );
+
+      font-weight: 900;
+
+      line-height: 1.95;
+
+      text-align: center;
+    }
+
+
     .math {
 
       font-family:
@@ -551,35 +601,18 @@
         serif;
     }
 
-    .math sup,
-    .explanation sup,
-    .review-question sup {
 
-      position: relative;
+    /* ==================================================
+       聯立方程式
+    ================================================== */
 
-      top: -.45em;
-
-      margin-left: 1px;
-
-      font-size: .62em;
-
-      line-height: 1;
-
-      vertical-align: baseline;
-    }
-
-    /*
-    ==================================================
-    聯立方程式
-    ==================================================
-    */
 
     .system-wrap {
 
       display: inline-grid;
 
       grid-template-columns:
-        30px auto;
+        32px auto;
 
       align-items: center;
 
@@ -592,6 +625,7 @@
         "Times New Roman",
         serif;
     }
+
 
     .system-brace {
 
@@ -606,16 +640,19 @@
       color:
         var(--primary-dark);
 
-      font-size: 70px;
+      font-size: 76px;
 
       font-weight: 400;
 
+      line-height: 1;
+
       transform:
-        scaleY(1.18);
+        scaleY(1.24);
 
       transform-origin:
         center;
     }
+
 
     .system-lines {
 
@@ -625,6 +662,7 @@
 
       white-space: nowrap;
     }
+
 
     .system-line {
 
@@ -640,16 +678,78 @@
       font-weight: 900;
     }
 
-    /*
-    ==================================================
-    分數顯示
-    ==================================================
-    */
+
+    /* 小型聯立方程式：答案選項 */
+
+
+    .choice-system-wrap {
+
+      display: inline-grid;
+
+      grid-template-columns:
+        22px auto;
+
+      align-items: center;
+
+      gap: 4px;
+
+      text-align: left;
+
+      font-family:
+        "Cambria Math",
+        "Times New Roman",
+        serif;
+    }
+
+
+    .choice-system-brace {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      height: 100%;
+
+      color:
+        #334155;
+
+      font-size: 49px;
+
+      line-height: 1;
+
+      transform:
+        scaleY(1.15);
+    }
+
+
+    .choice-system-lines {
+
+      display: grid;
+
+      gap: 3px;
+
+      white-space: nowrap;
+    }
+
+
+    .choice-system-line {
+
+      font-size: 18px;
+
+      font-weight: 900;
+    }
+
+
+    /* ==================================================
+       顯示分數
+    ================================================== */
+
 
     .math-fraction {
 
-      display:
-        inline-flex;
+      display: inline-flex;
 
       flex-direction: column;
 
@@ -657,7 +757,7 @@
 
       justify-content: center;
 
-      min-width: 1.55em;
+      min-width: 1.6em;
 
       margin:
         0 .08em;
@@ -667,19 +767,23 @@
       line-height: 1.05;
     }
 
+
     .math-fraction-top {
 
       display: flex;
 
       justify-content: center;
 
+      align-items: center;
+
       padding:
-        0 .14em .08em;
+        0 .15em .09em;
 
       border-bottom:
         2px solid
         currentColor;
     }
+
 
     .math-fraction-bottom {
 
@@ -687,15 +791,17 @@
 
       justify-content: center;
 
+      align-items: center;
+
       padding:
-        .08em .14em 0;
+        .09em .15em 0;
     }
 
-    /*
-    ==================================================
-    答案區
-    ==================================================
-    */
+
+    /* ==================================================
+       答案區
+    ================================================== */
+
 
     .answer-panel {
 
@@ -709,6 +815,7 @@
         #f8fafc;
     }
 
+
     .answer-title {
 
       margin-bottom: 8px;
@@ -718,10 +825,11 @@
 
       text-align: center;
 
-      font-size: 19px;
+      font-size: 20px;
 
       font-weight: 900;
     }
+
 
     .answer-help {
 
@@ -740,18 +848,18 @@
       line-height: 1.65;
     }
 
-    /*
-    ==================================================
-    x、y 兩根式答案格
-    ==================================================
-    */
 
-    .xy-answer-grid {
+    /* ==================================================
+       通用數字答案元件
+    ================================================== */
+
+
+    .answer-grid {
 
       width:
         min(
           100%,
-          760px
+          780px
         );
 
       display: grid;
@@ -771,7 +879,8 @@
         0 auto;
     }
 
-    .xy-card {
+
+    .answer-value-card {
 
       padding: 14px;
 
@@ -784,17 +893,21 @@
       background: white;
     }
 
-    .xy-label {
+
+    .answer-value-heading {
 
       margin-bottom: 8px;
 
       color:
         var(--primary-dark);
 
+      font-size: 17px;
+
       font-weight: 900;
     }
 
-    .xy-input-row {
+
+    .general-answer-row {
 
       display: flex;
 
@@ -803,7 +916,8 @@
       gap: 8px;
     }
 
-    .xy-symbol {
+
+    .answer-variable {
 
       flex:
         0 0 auto;
@@ -816,6 +930,7 @@
 
       font-weight: 900;
     }
+
 
     .math-answer-input {
 
@@ -846,6 +961,7 @@
       outline: none;
     }
 
+
     .math-answer-input:focus {
 
       border-color:
@@ -861,36 +977,163 @@
         );
     }
 
-    /*
-    ==================================================
-    單一答案
-    ==================================================
-    */
 
-    .single-answer-shell {
+    .answer-format-button {
+
+      width: 100%;
+
+      margin-top: 9px;
+
+      padding:
+        8px 10px;
+
+      border:
+        2px solid
+        #b7c5e8;
+
+      border-radius: 10px;
+
+      background:
+        #f8faff;
+
+      color:
+        var(--primary-dark);
+
+      font-size: 14px;
+
+      font-weight: 900;
+
+      cursor: pointer;
+    }
+
+
+    /* ==================================================
+       分數答案格
+    ================================================== */
+
+
+    .fraction-answer-row {
+
+      display: grid;
+
+      grid-template-columns:
+        auto
+        minmax(
+          0,
+          1fr
+        );
+
+      gap: 10px;
+
+      align-items: center;
+    }
+
+
+    .fraction-answer-box {
+
+      width: 100%;
+
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: stretch;
+
+      justify-content: center;
+
+      overflow: hidden;
+
+      border:
+        2px solid
+        #cbd5e1;
+
+      border-radius: 11px;
+
+      background: white;
+    }
+
+
+    .fraction-answer-box:focus-within {
+
+      border-color:
+        var(--primary);
+
+      box-shadow:
+        0 0 0 4px
+        rgba(
+          57,
+          73,
+          171,
+          .12
+        );
+    }
+
+
+    .fraction-input {
+
+      width: 100%;
+
+      height: 51px;
+
+      padding:
+        5px 10px;
+
+      border: none;
+
+      background: transparent;
+
+      color:
+        #111827;
+
+      font-size: 22px;
+
+      font-weight: 900;
+
+      text-align: center;
+
+      outline: none;
+    }
+
+
+    .fraction-line {
+
+      height: 2px;
+
+      margin:
+        0 8px;
+
+      background:
+        #334155;
+    }
+
+
+    /* 單一答案 */
+
+
+    .single-answer-wrap {
 
       width:
         min(
           100%,
-          450px
+          420px
         );
 
       margin:
         0 auto;
     }
 
-    /*
-    ==================================================
-    選擇題
-    ==================================================
-    */
+
+    /* ==================================================
+       選擇題
+    ================================================== */
+
 
     .choice-grid {
 
       width:
         min(
           100%,
-          760px
+          800px
         );
 
       display: grid;
@@ -910,9 +1153,16 @@
         0 auto;
     }
 
+
     .choice-button {
 
-      min-height: 64px;
+      min-height: 72px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
 
       padding:
         12px 16px;
@@ -935,6 +1185,7 @@
       cursor: pointer;
     }
 
+
     .choice-button.selected {
 
       border-color:
@@ -947,11 +1198,17 @@
         var(--primary-dark);
     }
 
-    /*
-    ==================================================
-    預覽
-    ==================================================
-    */
+
+    .choice-button.system-choice {
+
+      min-height: 104px;
+    }
+
+
+    /* ==================================================
+       答案預覽
+    ================================================== */
+
 
     .answer-preview {
 
@@ -960,7 +1217,7 @@
 
       padding: 13px;
 
-      max-width: 760px;
+      max-width: 780px;
 
       min-height: 62px;
 
@@ -991,6 +1248,7 @@
       font-weight: 900;
     }
 
+
     .preview-value {
 
       margin-left: 8px;
@@ -1006,11 +1264,11 @@
         serif;
     }
 
-    /*
-    ==================================================
-    按鈕
-    ==================================================
-    */
+
+    /* ==================================================
+       Buttons
+    ================================================== */
+
 
     .button-row {
 
@@ -1024,6 +1282,7 @@
 
       flex-wrap: wrap;
     }
+
 
     .game-button {
 
@@ -1052,6 +1311,7 @@
         var(--primary-dark);
     }
 
+
     .game-button.secondary {
 
       background:
@@ -1061,6 +1321,7 @@
         0 5px 0
         #455a64;
     }
+
 
     .game-button.orange {
 
@@ -1072,6 +1333,7 @@
         #d86600;
     }
 
+
     .game-button.restart {
 
       background:
@@ -1082,11 +1344,11 @@
         #00695c;
     }
 
-    /*
-    ==================================================
-    Feedback
-    ==================================================
-    */
+
+    /* ==================================================
+       Feedback
+    ================================================== */
+
 
     .feedback {
 
@@ -1103,23 +1365,26 @@
       line-height: 1.7;
     }
 
+
     .feedback.correct {
       color: var(--success);
     }
+
 
     .feedback.wrong {
       color: var(--danger);
     }
 
+
     .feedback.warning {
       color: var(--warning);
     }
 
-    /*
-    ==================================================
-    詳解
-    ==================================================
-    */
+
+    /* ==================================================
+       詳解
+    ================================================== */
+
 
     .explanation {
 
@@ -1138,6 +1403,7 @@
       line-height: 1.95;
     }
 
+
     .explanation-question {
 
       margin-bottom: 18px;
@@ -1154,6 +1420,7 @@
       background: white;
     }
 
+
     .explanation-question-title {
 
       margin-bottom: 10px;
@@ -1163,6 +1430,7 @@
 
       font-weight: 900;
     }
+
 
     .explanation-question-math {
 
@@ -1198,11 +1466,13 @@
       text-align: center;
     }
 
+
     .explanation-step {
 
       margin:
         12px 0;
     }
+
 
     .calculation-box {
 
@@ -1235,24 +1505,16 @@
       line-height: 1.9;
     }
 
-    .equation-stack {
 
-      display: inline-grid;
+    /* ==================================================
+       Result
+    ================================================== */
 
-      gap: 5px;
-
-      min-width: 250px;
-    }
-
-    /*
-    ==================================================
-    Result
-    ==================================================
-    */
 
     .result-panel {
       text-align: center;
     }
+
 
     .result-score {
 
@@ -1267,12 +1529,14 @@
       font-weight: 900;
     }
 
+
     .result-stars {
 
       margin-bottom: 10px;
 
       font-size: 31px;
     }
+
 
     .result-grid {
 
@@ -1293,6 +1557,7 @@
         20px 0;
     }
 
+
     .result-stat {
 
       padding:
@@ -1309,6 +1574,7 @@
       font-weight: 900;
     }
 
+
     .save-status {
 
       min-height: 28px;
@@ -1319,11 +1585,11 @@
       font-weight: 900;
     }
 
-    /*
-    ==================================================
-    Review
-    ==================================================
-    */
+
+    /* ==================================================
+       Review
+    ================================================== */
+
 
     .review-list {
 
@@ -1331,6 +1597,7 @@
 
       gap: 14px;
     }
+
 
     .review-card {
 
@@ -1345,6 +1612,7 @@
       background: white;
     }
 
+
     .review-title {
 
       color:
@@ -1352,6 +1620,7 @@
 
       font-weight: 900;
     }
+
 
     .review-question {
 
@@ -1365,11 +1634,6 @@
       text-align: center;
     }
 
-    /*
-    ==================================================
-    Mobile
-    ==================================================
-    */
 
     @media(
       max-width:
@@ -1380,15 +1644,18 @@
         padding: 8px;
       }
 
+
       .screen {
 
         padding:
           18px 12px;
       }
 
+
       .mode-grid {
         grid-template-columns: 1fr;
       }
+
 
       .quiz-topbar {
 
@@ -1402,9 +1669,11 @@
           );
       }
 
+
       .timer-box {
         grid-column: 1 / -1;
       }
+
 
       .result-grid {
 
@@ -1418,17 +1687,20 @@
           );
       }
 
-      .xy-answer-grid {
+
+      .answer-grid {
 
         grid-template-columns:
           1fr;
       }
+
 
       .choice-grid {
 
         grid-template-columns:
           1fr;
       }
+
 
       .system-line {
 
@@ -1437,33 +1709,48 @@
         min-width: 180px;
       }
 
+
       .system-brace {
 
-        font-size: 60px;
+        font-size: 61px;
       }
+
+
+      .choice-system-line {
+        font-size: 17px;
+      }
+
     }
 
   </style>
 
 </head>
 
+
 <body>
+
 
 <div class="page-shell">
 
+
   <div id="commonHeaderMount"></div>
+
 
   <main class="game-card">
 
+
     <header class="game-header">
+
 
       <h1 class="game-title">
         🧮 二元一次聯立方程式大挑戰
       </h1>
 
+
       <p class="game-subtitle">
         從二元一次式與方程式開始，逐步挑戰共同解、代入消去、加減消去與生活應用。
       </p>
+
 
       <div class="concept-strip">
 
@@ -1493,20 +1780,21 @@
 
       </div>
 
+
     </header>
 
-    <!--
-    ==================================================
-    模式首頁
-    ==================================================
-    -->
+
+    <!-- 模式選擇 -->
+
 
     <section
       id="start-screen"
       class="screen"
     >
 
+
       <div class="mode-grid">
+
 
         <button
           class="mode-card"
@@ -1523,12 +1811,8 @@
           </h2>
 
           <p>
-            練習二元一次式代入、化簡、列方程式，以及判斷一組數是否為方程式的解。
+            練習代入求值、已知其中一個未知數求另一個未知數，以及判斷二元一次方程式的解。
           </p>
-
-          <div class="mode-example">
-            例如：2x＋3y－5、3x＋2y＝12
-          </div>
 
         </button>
 
@@ -1548,12 +1832,8 @@
           </h2>
 
           <p>
-            認識聯立方程式，判斷同一組 x、y 是否能同時滿足兩個方程式。
+            判斷指定的 x、y 是否同時滿足兩個方程式，以及依題意列出聯立方程式。
           </p>
-
-          <div class="mode-example">
-            兩個方程式都成立，才是聯立方程式的解。
-          </div>
 
         </button>
 
@@ -1573,12 +1853,8 @@
           </h2>
 
           <p>
-            練習直接代入，以及先移項整理成 x＝… 或 y＝… 後再代入。
+            混合 x＝… 與 y＝… 的直接代入，以及先整理其中一式再代入。
           </p>
-
-          <div class="mode-example">
-            消去一個未知數 → 解一元一次方程式 → 回代。
-          </div>
 
         </button>
 
@@ -1598,12 +1874,8 @@
           </h2>
 
           <p>
-            練習直接相加減、調整一式或兩式係數，再消去其中一個未知數。
+            直接消去、調整一式係數、調整兩式係數，以及分數係數化整數。
           </p>
-
-          <div class="mode-example">
-            包含需先把分數或小數係數整理成整數的題目。
-          </div>
 
         </button>
 
@@ -1623,12 +1895,8 @@
           </h2>
 
           <p>
-            不提示解法，自行判斷使用代入消去法或加減消去法。
+            自行判斷使用代入消去或加減消去，包含先化簡與分數係數。
           </p>
-
-          <div class="mode-example">
-            包含先化簡、移項、分數係數與進階綜合題。
-          </div>
 
         </button>
 
@@ -1648,88 +1916,107 @@
           </h2>
 
           <p>
-            依題意設未知數、列出聯立方程式、解方程式，最後判斷答案是否符合題意。
+            設未知數、列聯立方程式、解題並判斷答案是否符合實際情境。
           </p>
-
-          <div class="mode-example">
-            數量、價格、年齡、分組、得分與合理性判斷。
-          </div>
 
         </button>
 
+
       </div>
+
 
     </section>
 
 
-    <!--
-    ==================================================
-    測驗
-    ==================================================
-    -->
+    <!-- 測驗 -->
+
 
     <section
       id="quiz-screen"
       class="screen hidden"
     >
 
+
       <div class="quiz-topbar">
 
+
         <div class="status-box">
+
           模式
+
           <span
             id="mode-name"
             class="status-value"
           >
             —
           </span>
+
         </div>
 
+
         <div class="status-box">
+
           進度
+
           <span
             id="question-number"
             class="status-value"
           >
-            1 / 10
+            —
           </span>
+
         </div>
 
+
         <div class="status-box">
+
           答對
+
           <span
             id="correct-count"
             class="status-value"
           >
             0
           </span>
+
         </div>
 
+
         <div class="status-box">
+
           最高連擊
+
           <span
             id="combo-count"
             class="status-value"
           >
             0
           </span>
+
         </div>
 
+
         <div class="status-box timer-box">
+
           測驗時間
+
           <span
             id="timer-display"
             class="status-value"
           >
             00:00
           </span>
+
         </div>
+
 
       </div>
 
 
       <div class="scratchpad-row">
+
         <div id="scratchpad-mobile-button"></div>
+
       </div>
 
 
@@ -1745,15 +2032,18 @@
 
       <div class="question-card">
 
+
         <div
           id="question-label"
           class="question-label"
         ></div>
 
+
         <div
           id="question-content"
           class="question-content"
         ></div>
+
 
       </div>
 
@@ -1766,6 +2056,7 @@
 
       <div class="button-row">
 
+
         <button
           id="submit-button"
           class="game-button"
@@ -1773,6 +2064,7 @@
         >
           提交答案（Enter）
         </button>
+
 
         <button
           id="next-button"
@@ -1782,6 +2074,7 @@
           下一題（Enter）
         </button>
 
+
         <button
           id="restart-button"
           class="game-button restart"
@@ -1790,6 +2083,7 @@
           🔄 重新測驗
         </button>
 
+
         <button
           id="mode-button"
           class="game-button secondary"
@@ -1797,6 +2091,7 @@
         >
           選擇模式
         </button>
+
 
       </div>
 
@@ -1812,23 +2107,23 @@
         class="explanation hidden"
       ></div>
 
+
     </section>
 
 
-    <!--
-    ==================================================
-    結果
-    ==================================================
-    -->
+    <!-- 結果 -->
+
 
     <section
       id="result-screen"
       class="screen hidden result-panel"
     >
 
+
       <h2>
         🎉 挑戰完成
       </h2>
+
 
       <div
         id="final-score"
@@ -1837,51 +2132,70 @@
         0 分
       </div>
 
+
       <div
         id="final-stars"
         class="result-stars"
-      >
-        ★★★☆☆
-      </div>
+      ></div>
+
 
       <p id="final-comment"></p>
 
 
       <div class="result-grid">
 
+
         <div class="result-stat">
+
           答對
           <br>
+
           <span id="final-correct">
             0
           </span>
+
           題
+
         </div>
 
+
         <div class="result-stat">
+
           答錯
           <br>
+
           <span id="final-wrong">
             0
           </span>
+
           題
+
         </div>
 
+
         <div class="result-stat">
+
           最高連擊
           <br>
+
           <span id="final-combo">
             0
           </span>
+
         </div>
 
+
         <div class="result-stat">
+
           測驗時間
           <br>
+
           <span id="final-time">
             00:00
           </span>
+
         </div>
+
 
       </div>
 
@@ -1894,6 +2208,7 @@
 
       <div class="button-row">
 
+
         <button
           id="again-button"
           class="game-button restart"
@@ -1901,6 +2216,7 @@
         >
           🔄 重新測驗
         </button>
+
 
         <button
           id="review-button"
@@ -1910,6 +2226,7 @@
           錯題回顧
         </button>
 
+
         <button
           id="result-mode-button"
           class="game-button secondary"
@@ -1918,25 +2235,26 @@
           選擇模式
         </button>
 
+
       </div>
+
 
     </section>
 
 
-    <!--
-    ==================================================
-    錯題回顧
-    ==================================================
-    -->
+    <!-- 錯題 -->
+
 
     <section
       id="review-screen"
       class="screen hidden"
     >
 
+
       <h2>
         📝 錯題回顧
       </h2>
+
 
       <div
         id="review-list"
@@ -1946,6 +2264,7 @@
 
       <div class="button-row">
 
+
         <button
           id="review-again-button"
           class="game-button restart"
@@ -1953,6 +2272,7 @@
         >
           🔄 重新測驗
         </button>
+
 
         <button
           id="review-result-button"
@@ -1962,11 +2282,15 @@
           回到測驗結果
         </button>
 
+
       </div>
+
 
     </section>
 
+
   </main>
+
 
 </div>
 
@@ -1979,6 +2303,7 @@
 
 <script type="module">
 
+
 import {
   saveGameScore
 } from "../js/scores.js";
@@ -1987,11 +2312,9 @@ import {
 "use strict";
 
 
-/*
-==================================================
-基本設定
-==================================================
-*/
+/* ==================================================
+   設定
+================================================== */
 
 
 const GAME_ID =
@@ -1999,6 +2322,7 @@ const GAME_ID =
 
 
 const MODE_SETTINGS = {
+
 
   foundation: {
 
@@ -2009,6 +2333,7 @@ const MODE_SETTINGS = {
       10
   },
 
+
   concept: {
 
     name:
@@ -2017,6 +2342,7 @@ const MODE_SETTINGS = {
     total:
       10
   },
+
 
   substitution: {
 
@@ -2027,6 +2353,7 @@ const MODE_SETTINGS = {
       8
   },
 
+
   elimination: {
 
     name:
@@ -2035,6 +2362,7 @@ const MODE_SETTINGS = {
     total:
       8
   },
+
 
   mixed: {
 
@@ -2045,6 +2373,7 @@ const MODE_SETTINGS = {
       8
   },
 
+
   application: {
 
     name:
@@ -2053,6 +2382,7 @@ const MODE_SETTINGS = {
     total:
       6
   }
+
 
 };
 
@@ -2120,11 +2450,9 @@ let scoreSaved =
   false;
 
 
-/*
-==================================================
-亂數工具
-==================================================
-*/
+/* ==================================================
+   亂數
+================================================== */
 
 
 function rand(
@@ -2250,8 +2578,9 @@ function gcd(
     b
   ) {
 
-    const temp =
-      a % b;
+    const t =
+      a %
+      b;
 
 
     a =
@@ -2259,7 +2588,7 @@ function gcd(
 
 
     b =
-      temp;
+      t;
   }
 
 
@@ -2270,152 +2599,90 @@ function gcd(
 }
 
 
-/*
-==================================================
-分數
-==================================================
-*/
+/* ==================================================
+   分數
+================================================== */
 
 
 function F(
-  numerator,
-  denominator = 1
+  n,
+  d = 1
 ) {
 
-  numerator =
+  n =
     Number(
-      numerator
+      n
     );
 
 
-  denominator =
+  d =
     Number(
-      denominator
+      d
     );
 
 
   if (
-    denominator === 0
+    !Number.isFinite(
+      n
+    ) ||
+    !Number.isFinite(
+      d
+    ) ||
+    d === 0
   ) {
 
-    throw new Error(
-      "分母不可為 0"
-    );
+    return null;
   }
 
 
   if (
-    denominator < 0
+    d < 0
   ) {
 
-    numerator =
-      -numerator;
+    n =
+      -n;
 
-
-    denominator =
-      -denominator;
+    d =
+      -d;
   }
 
 
   if (
-    numerator === 0
+    n === 0
   ) {
 
     return {
-
       n: 0,
       d: 1
     };
   }
 
 
-  const divisor =
+  const g =
     gcd(
-      numerator,
-      denominator
+      Math.round(
+        n
+      ),
+      Math.round(
+        d
+      )
     );
 
 
   return {
 
     n:
-      numerator /
-      divisor,
+      Math.round(
+        n
+      ) /
+      g,
 
     d:
-      denominator /
-      divisor
+      Math.round(
+        d
+      ) /
+      g
   };
-}
-
-
-function addF(
-  a,
-  b
-) {
-
-  return F(
-
-    a.n *
-    b.d +
-
-    b.n *
-    a.d,
-
-    a.d *
-    b.d
-  );
-}
-
-
-function subF(
-  a,
-  b
-) {
-
-  return F(
-
-    a.n *
-    b.d -
-
-    b.n *
-    a.d,
-
-    a.d *
-    b.d
-  );
-}
-
-
-function mulF(
-  a,
-  b
-) {
-
-  return F(
-
-    a.n *
-    b.n,
-
-    a.d *
-    b.d
-  );
-}
-
-
-function divF(
-  a,
-  b
-) {
-
-  return F(
-
-    a.n *
-    b.d,
-
-    a.d *
-    b.n
-  );
 }
 
 
@@ -2424,14 +2691,23 @@ function sameF(
   b
 ) {
 
-  const first =
+  if (
+    !a ||
+    !b
+  ) {
+
+    return false;
+  }
+
+
+  const x =
     F(
       a.n,
       a.d
     );
 
 
-  const second =
+  const y =
     F(
       b.n,
       b.d
@@ -2439,10 +2715,10 @@ function sameF(
 
 
   return (
-    first.n ===
-      second.n &&
-    first.d ===
-      second.d
+    x.n ===
+      y.n &&
+    x.d ===
+      y.d
   );
 }
 
@@ -2451,7 +2727,15 @@ function fractionHTML(
   value
 ) {
 
-  const fraction =
+  if (
+    !value
+  ) {
+
+    return "？";
+  }
+
+
+  const f =
     F(
       value.n,
       value.d
@@ -2459,12 +2743,12 @@ function fractionHTML(
 
 
   if (
-    fraction.d ===
+    f.d ===
     1
   ) {
 
     return String(
-      fraction.n
+      f.n
     )
       .replace(
         "-",
@@ -2474,8 +2758,11 @@ function fractionHTML(
 
 
   const sign =
-    fraction.n < 0
+    f.n <
+    0
+
       ? "−"
+
       : "";
 
 
@@ -2486,17 +2773,11 @@ function fractionHTML(
     <span class="math-fraction">
 
       <span class="math-fraction-top">
-
-        ${Math.abs(
-          fraction.n
-        )}
-
+        ${Math.abs(f.n)}
       </span>
 
       <span class="math-fraction-bottom">
-
-        ${fraction.d}
-
+        ${f.d}
       </span>
 
     </span>
@@ -2504,21 +2785,21 @@ function fractionHTML(
 }
 
 
-/*
-==================================================
-顯示係數
-==================================================
-*/
+/* ==================================================
+   數學顯示
+================================================== */
 
 
 function signedTerm(
   coefficient,
   variable,
-  first = false
+  first =
+    false
 ) {
 
   if (
-    coefficient === 0
+    coefficient ===
+    0
   ) {
 
     return "";
@@ -2526,7 +2807,8 @@ function signedTerm(
 
 
   const negative =
-    coefficient < 0;
+    coefficient <
+    0;
 
 
   const absolute =
@@ -2558,7 +2840,8 @@ function signedTerm(
 
 
   const coefficientText =
-    absolute === 1 &&
+    absolute ===
+      1 &&
     variable
 
       ? ""
@@ -2577,7 +2860,8 @@ function signedTerm(
 function linearExpressionHTML(
   a,
   b,
-  c = 0
+  c =
+    0
 ) {
 
   let result =
@@ -2589,7 +2873,8 @@ function linearExpressionHTML(
 
 
   if (
-    a !== 0
+    a !==
+    0
   ) {
 
     result +=
@@ -2606,7 +2891,8 @@ function linearExpressionHTML(
 
 
   if (
-    b !== 0
+    b !==
+    0
   ) {
 
     result +=
@@ -2623,7 +2909,8 @@ function linearExpressionHTML(
 
 
   if (
-    c !== 0 ||
+    c !==
+      0 ||
     first
   ) {
 
@@ -2651,6 +2938,61 @@ function equationHTML(
       a,
       b
     )} ＝ ${c}`
+  );
+}
+
+
+function directVariableExpression(
+  variable,
+  coefficient,
+  otherVariable,
+  constant
+) {
+
+  let right =
+    "";
+
+
+  if (
+    coefficient !==
+    0
+  ) {
+
+    right +=
+      signedTerm(
+        coefficient,
+        otherVariable,
+        true
+      );
+  }
+
+
+  if (
+    constant !==
+    0
+  ) {
+
+    right +=
+      signedTerm(
+        constant,
+        "",
+        right ===
+          ""
+      );
+  }
+
+
+  if (
+    !right
+  ) {
+
+    right =
+      "0";
+  }
+
+
+  return (
+    `${variable} ＝ ${right}`
   );
 }
 
@@ -2685,19 +3027,153 @@ function systemHTML(
 }
 
 
-/*
-==================================================
-產生有唯一整數解的聯立方程式
-==================================================
-*/
-
-
-function makeIntegerSystem(
-  options = {}
+function choiceSystemHTML(
+  first,
+  second
 ) {
 
+  return `
+
+    <div class="choice-system-wrap">
+
+      <div class="choice-system-brace">
+        {
+      </div>
+
+      <div class="choice-system-lines">
+
+        <div class="choice-system-line">
+          ${first}
+        </div>
+
+        <div class="choice-system-line">
+          ${second}
+        </div>
+
+      </div>
+
+    </div>
+  `;
+}
+
+
+/* ==================================================
+   題目格式
+================================================== */
+
+
+function pairQuestion(
+  label,
+  html,
+  x,
+  y,
+  explanation
+) {
+
+  return {
+
+    type:
+      "pair",
+
+    label,
+
+    html,
+
+    answer: {
+
+      x:
+        typeof x ===
+        "object"
+
+          ? x
+
+          : F(x),
+
+      y:
+        typeof y ===
+        "object"
+
+          ? y
+
+          : F(y)
+    },
+
+    explanation
+  };
+}
+
+
+function numberQuestion(
+  label,
+  html,
+  answer,
+  explanation,
+  unit =
+    ""
+) {
+
+  return {
+
+    type:
+      "number",
+
+    label,
+
+    html,
+
+    answer:
+      typeof answer ===
+      "object"
+
+        ? answer
+
+        : F(answer),
+
+    unit,
+
+    explanation
+  };
+}
+
+
+function choiceQuestion(
+  label,
+  html,
+  choices,
+  answer,
+  explanation,
+  choiceType =
+    "normal"
+) {
+
+  return {
+
+    type:
+      "choice",
+
+    label,
+
+    html,
+
+    choices,
+
+    answer,
+
+    explanation,
+
+    choiceType
+  };
+}
+
+
+/* ==================================================
+   系統
+================================================== */
+
+
+function makeIntegerSystem() {
+
   const x =
-    options.x ??
     nonZeroRand(
       -6,
       8
@@ -2705,7 +3181,6 @@ function makeIntegerSystem(
 
 
   const y =
-    options.y ??
     nonZeroRand(
       -6,
       8
@@ -2793,244 +3268,9 @@ function makeIntegerSystem(
 }
 
 
-/*
-==================================================
-答案讀取
-==================================================
-*/
-
-
-function parseFractionText(
-  raw
-) {
-
-  const text =
-    String(
-      raw ??
-      ""
-    )
-      .trim()
-      .replace(
-        /−/g,
-        "-"
-      )
-      .replace(
-        /\s+/g,
-        ""
-      );
-
-
-  if (
-    !text
-  ) {
-
-    return null;
-  }
-
-
-  if (
-    /^[-+]?\d+$/
-      .test(
-        text
-      )
-  ) {
-
-    return F(
-      Number(
-        text
-      )
-    );
-  }
-
-
-  if (
-    /^[-+]?\d+\/[-+]?\d+$/
-      .test(
-        text
-      )
-  ) {
-
-    const [
-      numerator,
-      denominator
-    ] =
-      text
-        .split(
-          "/"
-        );
-
-
-    if (
-      Number(
-        denominator
-      ) ===
-      0
-    ) {
-
-      return null;
-    }
-
-
-    return F(
-      Number(
-        numerator
-      ),
-      Number(
-        denominator
-      )
-    );
-  }
-
-
-  if (
-    /^[-+]?\d*\.\d+$/
-      .test(
-        text
-      )
-  ) {
-
-    const number =
-      Number(
-        text
-      );
-
-
-    const string =
-      text
-        .replace(
-          /^[-+]/,
-          ""
-        );
-
-
-    const decimalPlaces =
-      string.split(
-        "."
-      )[1]
-        .length;
-
-
-    const denominator =
-      10 **
-      decimalPlaces;
-
-
-    return F(
-      Math.round(
-        number *
-        denominator
-      ),
-      denominator
-    );
-  }
-
-
-  return null;
-}
-
-
-/*
-==================================================
-答案型態
-==================================================
-*/
-
-
-function pairQuestion(
-  label,
-  html,
-  x,
-  y,
-  explanation
-) {
-
-  return {
-
-    type:
-      "pair",
-
-    label,
-
-    html,
-
-    answer: {
-
-      x:
-        F(
-          x
-        ),
-
-      y:
-        F(
-          y
-        )
-    },
-
-    explanation
-  };
-}
-
-
-function numberQuestion(
-  label,
-  html,
-  answer,
-  explanation,
-  unit = ""
-) {
-
-  return {
-
-    type:
-      "number",
-
-    label,
-
-    html,
-
-    answer:
-      F(
-        answer
-      ),
-
-    unit,
-
-    explanation
-  };
-}
-
-
-function choiceQuestion(
-  label,
-  html,
-  choices,
-  answer,
-  explanation
-) {
-
-  return {
-
-    type:
-      "choice",
-
-    label,
-
-    html,
-
-    choices,
-
-    answer,
-
-    explanation
-  };
-}
-
-
-/*
-==================================================
-模式一
-==================================================
-*/
+/* ==================================================
+   模式一
+================================================== */
 
 
 function makeFoundationValueQuestion() {
@@ -3086,24 +3326,18 @@ function makeFoundationValueQuestion() {
 
       <div class="math">
 
-        ${
-          linearExpressionHTML(
-            a,
-            b,
-            c
-          )
-        }
+        ${linearExpressionHTML(
+          a,
+          b,
+          c
+        )}
 
       </div>
 
-      <div
-        style="
-          font-size:18px;
-          color:#475569;
-          font-family:Microsoft JhengHei;
-        "
-      >
+      <div class="word-question">
+
         當 x＝${x}、y＝${y} 時，求此式的值。
+
       </div>
     `,
 
@@ -3111,44 +3345,38 @@ function makeFoundationValueQuestion() {
 
     [
 
-      `把 x＝${x}、y＝${y} 代入原式。`,
+      `將 x＝${x}、y＝${y} 代入原式。`,
 
       `
 
       <div class="calculation-box">
 
-        ${
-          a
-        } × (${x})
-        ${
-          b >= 0
-            ? " ＋ "
-            : " − "
-        }
-        ${
-          Math.abs(
-            b
-          )
-        } × (${y})
+        ${a} × (${x})
 
         ${
-          c >= 0
+          b >=
+          0
             ? " ＋ "
             : " − "
         }
 
+        ${Math.abs(b)} × (${y})
+
         ${
-          Math.abs(
-            c
-          )
+          c >=
+          0
+            ? " ＋ "
+            : " − "
         }
+
+        ${Math.abs(c)}
 
         ＝ ${answer}
 
       </div>
       `,
 
-      `所以此二元一次式的值為 ${answer}。`
+      `所以答案為 ${answer}。`
     ]
   );
 }
@@ -3192,12 +3420,15 @@ function makeFoundationEquationSolutionQuestion() {
 
 
   const isCorrect =
-    Math.random() < .5;
+    Math.random() <
+    .5;
 
 
   const shownY =
     isCorrect
+
       ? y
+
       : y +
         pick(
           [
@@ -3213,31 +3444,18 @@ function makeFoundationEquationSolutionQuestion() {
 
   return choiceQuestion(
 
-    "判斷指定的 x、y 是否為此二元一次方程式的一組解",
+    `判斷 x＝${x}、y＝${shownY} 是否為此二元一次方程式的一組解`,
 
     `
 
       <div class="math">
 
-        ${
-          equationHTML(
-            a,
-            b,
-            c
-          )
-        }
+        ${equationHTML(
+          a,
+          b,
+          c
+        )}
 
-      </div>
-
-      <div
-        style="
-          font-size:19px;
-          color:#475569;
-          font-family:Microsoft JhengHei;
-        "
-      >
-        x＝${x}、y＝${shownY}
-        是否為此方程式的一組解？
       </div>
     `,
 
@@ -3266,27 +3484,22 @@ function makeFoundationEquationSolutionQuestion() {
 
     [
 
-      `將 x＝${x}、y＝${shownY} 代入左式。`,
+      `將 x＝${x}、y＝${shownY} 代入方程式。`,
 
       `
 
       <div class="calculation-box">
 
-        ${
-          a
-        } × (${x})
+        ${a} × (${x})
 
         ${
-          b >= 0
+          b >=
+          0
             ? " ＋ "
             : " − "
         }
 
-        ${
-          Math.abs(
-            b
-          )
-        } × (${shownY})
+        ${Math.abs(b)} × (${shownY})
 
         ＝
         ${
@@ -3301,9 +3514,9 @@ function makeFoundationEquationSolutionQuestion() {
 
       isCorrect
 
-        ? `代入後左式等於右式 ${c}，所以這是一組解。`
+        ? `代入後等於右式 ${c}，所以是一組解。`
 
-        : `代入後左式不等於右式 ${c}，所以這不是一組解。`
+        : `代入後不等於右式 ${c}，所以不是一組解。`
     ]
   );
 }
@@ -3327,14 +3540,14 @@ function makeFoundationFindVariableQuestion() {
 
   const x =
     rand(
-      -4,
+      -5,
       6
     );
 
 
   const y =
     rand(
-      -4,
+      -5,
       6
     );
 
@@ -3347,35 +3560,24 @@ function makeFoundationFindVariableQuestion() {
 
 
   if (
-    Math.random() < .5
+    Math.random() <
+    .5
   ) {
 
     return numberQuestion(
 
-      "已知 x 的值，求 y",
+      `已知 x＝${x}，求 y`,
 
       `
 
         <div class="math">
 
-          ${
-            equationHTML(
-              a,
-              b,
-              c
-            )
-          }
+          ${equationHTML(
+            a,
+            b,
+            c
+          )}
 
-        </div>
-
-        <div
-          style="
-            font-size:19px;
-            color:#475569;
-            font-family:Microsoft JhengHei;
-          "
-        >
-          已知 x＝${x}，求 y。
         </div>
       `,
 
@@ -3389,25 +3591,23 @@ function makeFoundationFindVariableQuestion() {
 
         <div class="calculation-box">
 
+          ${a} × (${x})
+
           ${
-            a
-          } × (${x})
-          ${
-            b >= 0
+            b >=
+            0
               ? " ＋ "
               : " − "
           }
-          ${
-            Math.abs(
-              b
-            )
-          }y
+
+          ${Math.abs(b)}y
+
           ＝ ${c}
 
         </div>
         `,
 
-        `解一元一次方程式，可得 y＝${y}。`
+        `解一元一次方程式可得 y＝${y}。`
       ]
     );
   }
@@ -3415,30 +3615,18 @@ function makeFoundationFindVariableQuestion() {
 
   return numberQuestion(
 
-    "已知 y 的值，求 x",
+    `已知 y＝${y}，求 x`,
 
     `
 
       <div class="math">
 
-        ${
-          equationHTML(
-            a,
-            b,
-            c
-          )
-        }
+        ${equationHTML(
+          a,
+          b,
+          c
+        )}
 
-      </div>
-
-      <div
-        style="
-          font-size:19px;
-          color:#475569;
-          font-family:Microsoft JhengHei;
-        "
-      >
-        已知 y＝${y}，求 x。
       </div>
     `,
 
@@ -3448,164 +3636,7 @@ function makeFoundationFindVariableQuestion() {
 
       `將 y＝${y} 代入方程式。`,
 
-      `
-
-      <div class="calculation-box">
-
-        ${
-          a
-        }x
-        ${
-          b >= 0
-            ? " ＋ "
-            : " − "
-        }
-        ${
-          Math.abs(
-            b
-          )
-        } × (${y})
-        ＝ ${c}
-
-      </div>
-      `,
-
-      `解一元一次方程式，可得 x＝${x}。`
-    ]
-  );
-}
-
-
-function makeFoundationWordEquationQuestion() {
-
-  const x =
-    rand(
-      2,
-      9
-    );
-
-
-  const y =
-    rand(
-      2,
-      9
-    );
-
-
-  const p =
-    pick(
-      [
-        5,
-        8,
-        10,
-        12,
-        15
-      ]
-    );
-
-
-  const q =
-    pick(
-      [
-        6,
-        9,
-        11,
-        14,
-        20
-      ]
-    );
-
-
-  const total =
-    p *
-    x +
-    q *
-    y;
-
-
-  const options =
-    shuffle(
-      [
-
-        {
-          value:
-            "a",
-
-          label:
-            `${p}x＋${q}y＝${total}`
-        },
-
-        {
-          value:
-            "b",
-
-          label:
-            `${q}x＋${p}y＝${total}`
-        },
-
-        {
-          value:
-            "c",
-
-          label:
-            `${p + q}(x＋y)＝${total}`
-        },
-
-        {
-          value:
-            "d",
-
-          label:
-            `${p}x－${q}y＝${total}`
-        }
-      ]
-    );
-
-
-  return choiceQuestion(
-
-    "依題意列出二元一次方程式",
-
-    `
-
-      <div
-        style="
-          max-width:760px;
-          font-size:21px;
-          line-height:1.9;
-          font-family:Microsoft JhengHei;
-        "
-      >
-
-        每枝筆 ${p} 元，每本筆記本 ${q} 元。
-
-        <br>
-
-        買了 x 枝筆與 y 本筆記本，
-        共花 ${total} 元。
-
-        <br>
-
-        下列哪一個方程式正確？
-
-      </div>
-    `,
-
-    options,
-
-    "a",
-
-    [
-
-      `x 枝筆的價格為 ${p}x 元。`,
-
-      `y 本筆記本的價格為 ${q}y 元。`,
-
-      `總價為 ${total} 元，所以：
-
-      <div class="calculation-box">
-        ${p}x ＋ ${q}y ＝ ${total}
-      </div>`
+      `解一元一次方程式可得 x＝${x}。`
     ]
   );
 }
@@ -3618,6 +3649,7 @@ function makeMode1() {
 
       makeFoundationValueQuestion(),
       makeFoundationValueQuestion(),
+      makeFoundationValueQuestion(),
 
       makeFoundationEquationSolutionQuestion(),
       makeFoundationEquationSolutionQuestion(),
@@ -3626,19 +3658,16 @@ function makeMode1() {
       makeFoundationFindVariableQuestion(),
       makeFoundationFindVariableQuestion(),
       makeFoundationFindVariableQuestion(),
-
-      makeFoundationWordEquationQuestion(),
-      makeFoundationWordEquationQuestion()
+      makeFoundationFindVariableQuestion()
     ]
   );
 }
 
 
-/*
-==================================================
-模式二
-==================================================
-*/
+/* ==================================================
+   模式二
+   ★ 沒有直接求 x、y
+================================================== */
 
 
 function makeSystemSolutionJudgmentQuestion() {
@@ -3648,13 +3677,28 @@ function makeSystemSolutionJudgmentQuestion() {
 
 
   const isCorrect =
-    Math.random() < .5;
+    Math.random() <
+    .5;
 
 
-  const shownX =
-    isCorrect
-      ? data.x
-      : data.x +
+  let shownX =
+    data.x;
+
+
+  let shownY =
+    data.y;
+
+
+  if (
+    !isCorrect
+  ) {
+
+    if (
+      Math.random() <
+      .5
+    ) {
+
+      shownX +=
         pick(
           [
             -2,
@@ -3664,47 +3708,39 @@ function makeSystemSolutionJudgmentQuestion() {
           ]
         );
 
+    } else {
 
-  const shownY =
-    isCorrect
-      ? data.y
-      : data.y;
+      shownY +=
+        pick(
+          [
+            -2,
+            -1,
+            1,
+            2
+          ]
+        );
+    }
+  }
 
 
   return choiceQuestion(
 
-    "判斷此組 x、y 是否為聯立方程式的解",
+    `判斷 x＝${shownX}、y＝${shownY} 是否為此二元一次聯立方程式的解`,
 
-    `
+    systemHTML(
 
-      ${
-        systemHTML(
+      equationHTML(
+        data.first.a,
+        data.first.b,
+        data.first.c
+      ),
 
-          equationHTML(
-            data.first.a,
-            data.first.b,
-            data.first.c
-          ),
-
-          equationHTML(
-            data.second.a,
-            data.second.b,
-            data.second.c
-          )
-        )
-      }
-
-      <div
-        style="
-          margin-top:15px;
-          font-size:19px;
-          color:#475569;
-          font-family:Microsoft JhengHei;
-        "
-      >
-        x＝${shownX}、y＝${shownY}
-      </div>
-    `,
+      equationHTML(
+        data.second.a,
+        data.second.b,
+        data.second.c
+      )
+    ),
 
     [
 
@@ -3731,9 +3767,9 @@ function makeSystemSolutionJudgmentQuestion() {
 
     [
 
-      `聯立方程式的解，必須讓兩個方程式同時成立。`,
+      `聯立方程式的解必須讓兩個方程式同時成立。`,
 
-      `代入第一式檢查：
+      `檢查第一式：
 
       <div class="calculation-box">
 
@@ -3742,16 +3778,13 @@ function makeSystemSolutionJudgmentQuestion() {
         } × (${shownX})
 
         ${
-          data.first.b >= 0
+          data.first.b >=
+          0
             ? " ＋ "
             : " − "
         }
 
-        ${
-          Math.abs(
-            data.first.b
-          )
-        } × (${shownY})
+        ${Math.abs(data.first.b)} × (${shownY})
 
         ＝
         ${
@@ -3763,7 +3796,7 @@ function makeSystemSolutionJudgmentQuestion() {
 
       </div>`,
 
-      `代入第二式檢查：
+      `檢查第二式：
 
       <div class="calculation-box">
 
@@ -3772,16 +3805,13 @@ function makeSystemSolutionJudgmentQuestion() {
         } × (${shownX})
 
         ${
-          data.second.b >= 0
+          data.second.b >=
+          0
             ? " ＋ "
             : " − "
         }
 
-        ${
-          Math.abs(
-            data.second.b
-          )
-        } × (${shownY})
+        ${Math.abs(data.second.b)} × (${shownY})
 
         ＝
         ${
@@ -3795,56 +3825,9 @@ function makeSystemSolutionJudgmentQuestion() {
 
       isCorrect
 
-        ? `兩個方程式都成立，所以 x＝${shownX}、y＝${shownY} 是此聯立方程式的解。`
+        ? `兩式都成立，所以 x＝${shownX}、y＝${shownY} 是聯立方程式的解。`
 
-        : `至少有一個方程式不成立，所以這不是此聯立方程式的解。`
-    ]
-  );
-}
-
-
-function makeSystemFindPairQuestion() {
-
-  const data =
-    makeIntegerSystem();
-
-
-  return pairQuestion(
-
-    "求聯立方程式的解",
-
-    systemHTML(
-
-      equationHTML(
-        data.first.a,
-        data.first.b,
-        data.first.c
-      ),
-
-      equationHTML(
-        data.second.a,
-        data.second.b,
-        data.second.c
-      )
-    ),
-
-    data.x,
-
-    data.y,
-
-    [
-
-      `這一題可以使用代入消去法或加減消去法。`,
-
-      `消去其中一個未知數後，先求出另一個未知數。`,
-
-      `再把求得的值代回其中一個原方程式。`,
-
-      `所以解為：
-
-      <div class="calculation-box">
-        x＝${data.x}，y＝${data.y}
-      </div>`
+        : `至少有一式不成立，所以 x＝${shownX}、y＝${shownY} 不是聯立方程式的解。`
     ]
   );
 }
@@ -3871,47 +3854,59 @@ function makeSystemWordChoiceQuestion() {
     y;
 
 
-  const amount =
+  const money =
     10 *
     x +
     5 *
     y;
 
 
-  const options =
+  const choices =
     shuffle(
       [
 
         {
           value:
-            "a",
+            "correct",
 
-          label:
-            `x＋y＝${total}；10x＋5y＝${amount}`
+          first:
+            `x ＋ y ＝ ${total}`,
+
+          second:
+            `10x ＋ 5y ＝ ${money}`
         },
 
         {
           value:
             "b",
 
-          label:
-            `x－y＝${total}；10x＋5y＝${amount}`
+          first:
+            `x ＋ y ＝ ${money}`,
+
+          second:
+            `10x ＋ 5y ＝ ${total}`
         },
 
         {
           value:
             "c",
 
-          label:
-            `x＋y＝${amount}；10x＋5y＝${total}`
+          first:
+            `x − y ＝ ${total}`,
+
+          second:
+            `10x ＋ 5y ＝ ${money}`
         },
 
         {
           value:
             "d",
 
-          label:
-            `10x＋10y＝${amount}；x＋5y＝${total}`
+          first:
+            `x ＋ 5y ＝ ${total}`,
+
+          second:
+            `10x ＋ 10y ＝ ${money}`
         }
       ]
     );
@@ -3923,20 +3918,13 @@ function makeSystemWordChoiceQuestion() {
 
     `
 
-      <div
-        style="
-          max-width:760px;
-          font-size:21px;
-          line-height:1.9;
-          font-family:Microsoft JhengHei;
-        "
-      >
+      <div class="word-question">
 
         某活動售出 10 元票與 5 元票共 ${total} 張，
 
         <br>
 
-        總收入為 ${amount} 元。
+        總收入為 ${money} 元。
 
         <br>
 
@@ -3949,26 +3937,49 @@ function makeSystemWordChoiceQuestion() {
       </div>
     `,
 
-    options,
+    choices.map(
+      item => ({
 
-    "a",
+        value:
+          item.value,
+
+        label:
+          choiceSystemHTML(
+            item.first,
+            item.second
+          )
+      })
+    ),
+
+    "correct",
 
     [
 
-      `票的總張數為 ${total} 張，所以：
+      `票的總張數為 ${total} 張：
 
       <div class="calculation-box">
         x ＋ y ＝ ${total}
       </div>`,
 
-      `總收入為 ${amount} 元，所以：
+      `總收入為 ${money} 元：
 
       <div class="calculation-box">
-        10x ＋ 5y ＝ ${amount}
+        10x ＋ 5y ＝ ${money}
       </div>`,
 
-      `因此兩個條件要同時成立，形成二元一次聯立方程式。`
-    ]
+      `因此應列成：
+
+      <div class="calculation-box">
+
+        ${systemHTML(
+          `x ＋ y ＝ ${total}`,
+          `10x ＋ 5y ＝ ${money}`
+        )}
+
+      </div>`
+    ],
+
+    "system"
   );
 }
 
@@ -3983,11 +3994,10 @@ function makeMode2() {
       makeSystemSolutionJudgmentQuestion(),
       makeSystemSolutionJudgmentQuestion(),
       makeSystemSolutionJudgmentQuestion(),
+      makeSystemSolutionJudgmentQuestion(),
 
-      makeSystemFindPairQuestion(),
-      makeSystemFindPairQuestion(),
-      makeSystemFindPairQuestion(),
-
+      makeSystemWordChoiceQuestion(),
+      makeSystemWordChoiceQuestion(),
       makeSystemWordChoiceQuestion(),
       makeSystemWordChoiceQuestion()
     ]
@@ -3995,14 +4005,122 @@ function makeMode2() {
 }
 
 
-/*
-==================================================
-模式三：代入法
-==================================================
-*/
+/* ==================================================
+   模式三
+================================================== */
 
 
-function makeSubstitutionDirectQuestion() {
+function makeSubstitutionDirectXQuestion() {
+
+  const x =
+    nonZeroRand(
+      -5,
+      7
+    );
+
+
+  const y =
+    nonZeroRand(
+      -5,
+      7
+    );
+
+
+  const m =
+    nonZeroRand(
+      -3,
+      3
+    );
+
+
+  const k =
+    x -
+    m *
+    y;
+
+
+  let a;
+  let b;
+
+
+  do {
+
+    a =
+      nonZeroRand(
+        -4,
+        4
+      );
+
+
+    b =
+      nonZeroRand(
+        -4,
+        4
+      );
+
+  } while (
+    a *
+    m +
+    b ===
+    0
+  );
+
+
+  const c =
+    a *
+    x +
+    b *
+    y;
+
+
+  return pairQuestion(
+
+    "請利用代入消去法解聯立方程式",
+
+    systemHTML(
+
+      directVariableExpression(
+        "x",
+        m,
+        "y",
+        k
+      ),
+
+      equationHTML(
+        a,
+        b,
+        c
+      )
+    ),
+
+    x,
+    y,
+
+    [
+
+      `第一式已經整理成 x＝…，可以直接代入第二式。`,
+
+      `把 x＝${linearExpressionHTML(
+        0,
+        m,
+        k
+      )} 代入第二式。`,
+
+      `解一元一次方程式，可得 y＝${y}。`,
+
+      `再代回第一式：
+
+      <div class="calculation-box">
+        x＝${x}
+      </div>`,
+
+      `所以解為 x＝${x}，y＝${y}。`
+    ]
+  );
+}
+
+
+function makeSubstitutionDirectYQuestion() {
 
   const x =
     nonZeroRand(
@@ -4031,18 +4149,31 @@ function makeSubstitutionDirectQuestion() {
     x;
 
 
-  const a =
-    nonZeroRand(
-      -4,
-      4
-    );
+  let a;
+  let b;
 
 
-  const b =
-    nonZeroRand(
-      -4,
-      4
-    );
+  do {
+
+    a =
+      nonZeroRand(
+        -4,
+        4
+      );
+
+
+    b =
+      nonZeroRand(
+        -4,
+        4
+      );
+
+  } while (
+    a +
+    b *
+    m ===
+    0
+  );
 
 
   const c =
@@ -4058,13 +4189,12 @@ function makeSubstitutionDirectQuestion() {
 
     systemHTML(
 
-      `y ＝ ${
-        linearExpressionHTML(
-          m,
-          0,
-          k
-        )
-      }`,
+      directVariableExpression(
+        "y",
+        m,
+        "x",
+        k
+      ),
 
       equationHTML(
         a,
@@ -4074,82 +4204,29 @@ function makeSubstitutionDirectQuestion() {
     ),
 
     x,
-
     y,
 
     [
 
       `第一式已經整理成 y＝…，可以直接代入第二式。`,
 
-      `
+      `把 y＝${linearExpressionHTML(
+        m,
+        0,
+        k
+      )} 代入第二式。`,
 
-      <div class="calculation-box">
+      `解一元一次方程式，可得 x＝${x}。`,
 
-        ${
-          a
-        }x
+      `再代回第一式，可得 y＝${y}。`,
 
-        ${
-          b >= 0
-            ? " ＋ "
-            : " − "
-        }
-
-        ${
-          Math.abs(
-            b
-          )
-        }
-        ${
-          b < 0
-            ? "×"
-            : ""
-        }
-        (
-          ${
-            linearExpressionHTML(
-              m,
-              0,
-              k
-            )
-          }
-        )
-
-        ＝ ${c}
-
-      </div>
-      `,
-
-      `解這個一元一次方程式，可得：
-
-      <div class="calculation-box">
-        x＝${x}
-      </div>`,
-
-      `將 x＝${x} 代回第一式：
-
-      <div class="calculation-box">
-        y＝${m} × (${x})
-        ${
-          k >= 0
-            ? " ＋ "
-            : " − "
-        }
-        ${Math.abs(k)}
-        ＝${y}
-      </div>`,
-
-      `所以：
-
-      <div class="calculation-box">
-        x＝${x}，y＝${y}
-      </div>`
+      `所以解為 x＝${x}，y＝${y}。`
     ]
   );
 }
 
 
-function makeSubstitutionRearrangeQuestion() {
+function makeSubstitutionRearrangeXQuestion() {
 
   const x =
     nonZeroRand(
@@ -4189,7 +4266,6 @@ function makeSubstitutionRearrangeQuestion() {
         -4,
         4
       );
-
 
     b =
       nonZeroRand(
@@ -4231,12 +4307,11 @@ function makeSubstitutionRearrangeQuestion() {
     ),
 
     x,
-
     y,
 
     [
 
-      `第一式的 x 係數為 1，可以先把第一式整理成 x＝…。`,
+      `第一式的 x 項係數為 1，可以先整理成 x＝…。`,
 
       `
 
@@ -4244,35 +4319,140 @@ function makeSubstitutionRearrangeQuestion() {
 
         x ＝
         ${q}
+
         ${
-          p >= 0
+          p >=
+          0
             ? " − "
             : " ＋ "
         }
+
         ${Math.abs(p)}y
 
       </div>
       `,
 
-      `把整理後的 x 代入第二式。`,
+      `再代入第二式，先求出 y。`,
 
-      `解一元一次方程式後，可得：
+      `最後代回求得 x。`,
+
+      `所以解為 x＝${x}，y＝${y}。`
+    ]
+  );
+}
+
+
+function makeSubstitutionRearrangeYQuestion() {
+
+  const x =
+    nonZeroRand(
+      -5,
+      7
+    );
+
+
+  const y =
+    nonZeroRand(
+      -5,
+      7
+    );
+
+
+  const p =
+    nonZeroRand(
+      -4,
+      4
+    );
+
+
+  const q =
+    p *
+    x +
+    y;
+
+
+  let a;
+  let b;
+
+
+  do {
+
+    a =
+      nonZeroRand(
+        -4,
+        4
+      );
+
+    b =
+      nonZeroRand(
+        -4,
+        4
+      );
+
+  } while (
+    a ===
+    b *
+    p
+  );
+
+
+  const c =
+    a *
+    x +
+    b *
+    y;
+
+
+  return pairQuestion(
+
+    "請先整理其中一式，再利用代入消去法求解",
+
+    systemHTML(
+
+      equationHTML(
+        p,
+        1,
+        q
+      ),
+
+      equationHTML(
+        a,
+        b,
+        c
+      )
+    ),
+
+    x,
+    y,
+
+    [
+
+      `第一式的 y 項係數為 1，可以先整理成 y＝…。`,
+
+      `
 
       <div class="calculation-box">
-        y＝${y}
-      </div>`,
 
-      `再代回第一式：
+        y ＝
+        ${q}
 
-      <div class="calculation-box">
-        x＝${x}
-      </div>`,
+        ${
+          p >=
+          0
+            ? " − "
+            : " ＋ "
+        }
 
-      `所以：
+        ${Math.abs(p)}x
 
-      <div class="calculation-box">
-        x＝${x}，y＝${y}
-      </div>`
+      </div>
+      `,
+
+      `再代入第二式求 x。`,
+
+      `最後代回求 y。`,
+
+      `所以解為 x＝${x}，y＝${y}。`
     ]
   );
 }
@@ -4283,25 +4463,25 @@ function makeMode3() {
   return shuffle(
     [
 
-      makeSubstitutionDirectQuestion(),
-      makeSubstitutionDirectQuestion(),
-      makeSubstitutionDirectQuestion(),
-      makeSubstitutionDirectQuestion(),
+      makeSubstitutionDirectXQuestion(),
+      makeSubstitutionDirectXQuestion(),
 
-      makeSubstitutionRearrangeQuestion(),
-      makeSubstitutionRearrangeQuestion(),
-      makeSubstitutionRearrangeQuestion(),
-      makeSubstitutionRearrangeQuestion()
+      makeSubstitutionDirectYQuestion(),
+      makeSubstitutionDirectYQuestion(),
+
+      makeSubstitutionRearrangeXQuestion(),
+      makeSubstitutionRearrangeXQuestion(),
+
+      makeSubstitutionRearrangeYQuestion(),
+      makeSubstitutionRearrangeYQuestion()
     ]
   );
 }
 
 
-/*
-==================================================
-模式四：加減法
-==================================================
-*/
+/* ==================================================
+   模式四
+================================================== */
 
 
 function makeEliminationDirectQuestion() {
@@ -4346,38 +4526,23 @@ function makeEliminationDirectQuestion() {
       );
 
   } while (
-    b1 === b2
+    b1 ===
+    b2
   );
 
 
-  const first = {
-
-    a,
-
-    b:
-      b1,
-
-    c:
-      a *
-      x +
-      b1 *
-      y
-  };
+  const c1 =
+    a *
+    x +
+    b1 *
+    y;
 
 
-  const second = {
-
-    a,
-
-    b:
-      b2,
-
-    c:
-      a *
-      x +
-      b2 *
-      y
-  };
+  const c2 =
+    a *
+    x +
+    b2 *
+    y;
 
 
   return pairQuestion(
@@ -4387,47 +4552,42 @@ function makeEliminationDirectQuestion() {
     systemHTML(
 
       equationHTML(
-        first.a,
-        first.b,
-        first.c
+        a,
+        b1,
+        c1
       ),
 
       equationHTML(
-        second.a,
-        second.b,
-        second.c
+        a,
+        b2,
+        c2
       )
     ),
 
     x,
-
     y,
 
     [
 
-      `兩式的 x 項係數相同，可以直接用①式－②式消去 x。`,
+      `兩式的 x 項係數相同，可以直接相減消去 x。`,
 
       `
 
       <div class="calculation-box">
 
-        ${
-          equationHTML(
-            first.a,
-            first.b,
-            first.c
-          )
-        }
+        ${equationHTML(
+          a,
+          b1,
+          c1
+        )}
 
         <br>
 
-        ${
-          equationHTML(
-            second.a,
-            second.b,
-            second.c
-          )
-        }
+        ${equationHTML(
+          a,
+          b2,
+          c2
+        )}
 
         <br>
 
@@ -4436,29 +4596,21 @@ function makeEliminationDirectQuestion() {
         <br>
 
         ${
-          first.b -
-          second.b
+          b1 -
+          b2
         }y
         ＝
         ${
-          first.c -
-          second.c
+          c1 -
+          c2
         }
 
       </div>
       `,
 
-      `可得：
+      `因此 y＝${y}。`,
 
-      <div class="calculation-box">
-        y＝${y}
-      </div>`,
-
-      `將 y＝${y} 代回其中一式，可得：
-
-      <div class="calculation-box">
-        x＝${x}
-      </div>`,
+      `再代回其中一式，可得 x＝${x}。`,
 
       `所以解為 x＝${x}，y＝${y}。`
     ]
@@ -4485,9 +4637,9 @@ function makeEliminationOneMultiplyQuestion() {
   const a1 =
     pick(
       [
+        1,
         2,
-        3,
-        4
+        3
       ]
     );
 
@@ -4567,22 +4719,15 @@ function makeEliminationOneMultiplyQuestion() {
     ),
 
     x,
-
     y,
 
     [
 
-      `兩式的 x 係數分別為 ${a1} 與 ${a2}。`,
-
-      `可以把①式乘以 ${factor}，使兩式的 x 項係數相同。`,
+      `可將第一式乘以 ${factor}，使 x 的係數相同。`,
 
       `
 
       <div class="calculation-box">
-
-        ① × ${factor}：
-
-        <br>
 
         ${
           equationHTML(
@@ -4598,11 +4743,11 @@ function makeEliminationOneMultiplyQuestion() {
       </div>
       `,
 
-      `再與②式相減，消去 x。`,
+      `再與第二式相減，消去 x。`,
 
-      `可得 y＝${y}，再代回原式得到 x＝${x}。`,
+      `解得其中一個未知數後，再代回原式。`,
 
-      `所以解為 x＝${x}，y＝${y}。`
+      `所以 x＝${x}，y＝${y}。`
     ]
   );
 }
@@ -4685,7 +4830,7 @@ function makeEliminationBothMultiplyQuestion() {
 
   return pairQuestion(
 
-    "請調整兩式係數，再利用加減消去法求解",
+    "請調整兩式係數，再利用加減消去法解聯立方程式",
 
     systemHTML(
 
@@ -4703,69 +4848,17 @@ function makeEliminationBothMultiplyQuestion() {
     ),
 
     x,
-
     y,
 
     [
 
-      `兩式的 x 項係數不同，可以把①式乘以 ${Math.abs(a2)}、②式乘以 ${Math.abs(a1)}。`,
+      `可以調整兩個方程式，使其中一個未知數的係數相同或互為相反數。`,
 
-      `
+      `例如消去 x，可將第一式乘以 ${Math.abs(a2)}、第二式乘以 ${Math.abs(a1)}。`,
 
-      <div class="calculation-box">
+      `再將兩式相加或相減。`,
 
-        ① × ${Math.abs(a2)}：
-
-        <br>
-
-        ${
-          equationHTML(
-            a1 *
-            Math.abs(
-              a2
-            ),
-            b1 *
-            Math.abs(
-              a2
-            ),
-            c1 *
-            Math.abs(
-              a2
-            )
-          )
-        }
-
-        <br><br>
-
-        ② × ${Math.abs(a1)}：
-
-        <br>
-
-        ${
-          equationHTML(
-            a2 *
-            Math.abs(
-              a1
-            ),
-            b2 *
-            Math.abs(
-              a1
-            ),
-            c2 *
-            Math.abs(
-              a1
-            )
-          )
-        }
-
-      </div>
-      `,
-
-      `再利用相加或相減消去 x。`,
-
-      `得到其中一個未知數後，再代回原式。`,
-
-      `所以解為 x＝${x}，y＝${y}。`
+      `最後回代，可得 x＝${x}，y＝${y}。`
     ]
   );
 }
@@ -4787,14 +4880,14 @@ function makeEliminationFractionQuestion() {
     );
 
 
-  const c1 =
+  const left =
     2 *
     x -
     3 *
     y;
 
 
-  const c2 =
+  const secondC =
     3 *
     x +
     y;
@@ -4802,74 +4895,69 @@ function makeEliminationFractionQuestion() {
 
   return pairQuestion(
 
-    "先把分數係數化為整數，再利用加減消去法求解",
+    "先把分數係數化成整數，再利用加減消去法求解",
 
     systemHTML(
 
       `
+
         <span class="math-fraction">
-          <span class="math-fraction-top">1</span>
-          <span class="math-fraction-bottom">3</span>
+
+          <span class="math-fraction-top">
+            1
+          </span>
+
+          <span class="math-fraction-bottom">
+            3
+          </span>
+
         </span>x
+
         −
+
         <span class="math-fraction">
-          <span class="math-fraction-top">1</span>
-          <span class="math-fraction-bottom">2</span>
+
+          <span class="math-fraction-top">
+            1
+          </span>
+
+          <span class="math-fraction-bottom">
+            2
+          </span>
+
         </span>y
+
         ＝
-        ${
-          fractionHTML(
-            F(
-              c1,
-              6
-            )
+
+        ${fractionHTML(
+          F(
+            left,
+            6
           )
-        }
+        )}
       `,
 
-      `3x ＋ y ＝ ${c2}`
+      `3x ＋ y ＝ ${secondC}`
     ),
 
     x,
-
     y,
 
     [
 
-      `第一式有分數係數，可以先把整式乘以 6。`,
+      `第一式的分母為 3、2，最小公倍數為 6。`,
 
-      `
-
-      <div class="calculation-box">
-
-        第一式 × 6：
-
-        <br>
-
-        2x − 3y ＝ ${c1}
-
-      </div>
-      `,
-
-      `聯立方程式整理為：
+      `第一式同乘以 6：
 
       <div class="calculation-box">
 
-        2x − 3y ＝ ${c1}
-
-        <br>
-
-        3x ＋ y ＝ ${c2}
+        2x − 3y ＝ ${left}
 
       </div>`,
 
-      `再利用加減消去法求解。`,
+      `整理後再和第二式聯立。`,
 
-      `所以：
-
-      <div class="calculation-box">
-        x＝${x}，y＝${y}
-      </div>`
+      `利用加減消去法求得 x＝${x}、y＝${y}。`
     ]
   );
 }
@@ -4896,11 +4984,9 @@ function makeMode4() {
 }
 
 
-/*
-==================================================
-模式五
-==================================================
-*/
+/* ==================================================
+   模式五
+================================================== */
 
 
 function makeMixedRearrangeQuestion() {
@@ -4909,32 +4995,26 @@ function makeMixedRearrangeQuestion() {
     makeIntegerSystem();
 
 
-  const k =
-    rand(
+  const extra =
+    nonZeroRand(
       -5,
       5
     );
 
 
-  /*
-  第一式改成：
-  ax + by + k = c + k
-  */
-
-
   return pairQuestion(
 
-    "請先整理方程式，再選擇適合的方法求解",
+    "請先整理聯立方程式，再選擇適合的方法求解",
 
     systemHTML(
 
       `${linearExpressionHTML(
         data.first.a,
         data.first.b,
-        k
+        extra
       )} ＝ ${
         data.first.c +
-        k
+        extra
       }`,
 
       equationHTML(
@@ -4945,87 +5025,57 @@ function makeMixedRearrangeQuestion() {
     ),
 
     data.x,
-
     data.y,
 
     [
 
-      `先把第一式的常數項移到等號右邊。`,
+      `先把第一式的常數項移到右邊。`,
 
       `
 
       <div class="calculation-box">
 
-        ${
-          equationHTML(
-            data.first.a,
-            data.first.b,
-            data.first.c
-          )
-        }
+        ${equationHTML(
+          data.first.a,
+          data.first.b,
+          data.first.c
+        )}
 
       </div>
       `,
 
-      `整理完成後，再觀察係數選擇代入消去法或加減消去法。`,
+      `再觀察係數，選擇代入消去法或加減消去法。`,
 
-      `求得：
-
-      <div class="calculation-box">
-        x＝${data.x}，y＝${data.y}
-      </div>`
+      `最後可得 x＝${data.x}、y＝${data.y}。`
     ]
   );
-}
-
-
-function makeMixedQuestion() {
-
-  return pick(
-    [
-
-      makeSubstitutionDirectQuestion,
-      makeSubstitutionRearrangeQuestion,
-      makeEliminationDirectQuestion,
-      makeEliminationOneMultiplyQuestion,
-      makeEliminationBothMultiplyQuestion,
-      makeEliminationFractionQuestion,
-      makeMixedRearrangeQuestion
-    ]
-  )();
 }
 
 
 function makeMode5() {
 
-  const questions =
+  return shuffle(
     [
 
-      makeSubstitutionDirectQuestion(),
-      makeSubstitutionRearrangeQuestion(),
+      makeSubstitutionDirectXQuestion(),
+      makeSubstitutionDirectYQuestion(),
+
+      makeSubstitutionRearrangeXQuestion(),
+      makeSubstitutionRearrangeYQuestion(),
 
       makeEliminationDirectQuestion(),
       makeEliminationOneMultiplyQuestion(),
 
-      makeEliminationBothMultiplyQuestion(),
       makeEliminationFractionQuestion(),
-
-      makeMixedRearrangeQuestion(),
-      makeMixedQuestion()
-    ];
-
-
-  return shuffle(
-    questions
+      makeMixedRearrangeQuestion()
+    ]
   );
 }
 
 
-/*
-==================================================
-模式六：應用問題
-==================================================
-*/
+/* ==================================================
+   模式六
+================================================== */
 
 
 function makeTicketApplication() {
@@ -5062,14 +5112,7 @@ function makeTicketApplication() {
 
     `
 
-      <div
-        style="
-          max-width:780px;
-          font-size:21px;
-          line-height:1.9;
-          font-family:Microsoft JhengHei;
-        "
-      >
+      <div class="word-question">
 
         某活動售出 10 元票與 5 元票共 ${total} 張，
 
@@ -5088,36 +5131,21 @@ function makeTicketApplication() {
 
     [
 
-      `設 10 元票有 x 張，5 元票有 y 張。`,
+      `設 10 元票 x 張，5 元票 y 張。`,
 
-      `依總張數可列：
-
-      <div class="calculation-box">
-        x ＋ y ＝ ${total}
-      </div>`,
-
-      `依總收入可列：
+      `
 
       <div class="calculation-box">
-        10x ＋ 5y ＝ ${money}
-      </div>`,
 
-      `因此聯立：
+        ${systemHTML(
+          `x ＋ y ＝ ${total}`,
+          `10x ＋ 5y ＝ ${money}`
+        )}
 
-      <div class="calculation-box">
-        ${
-          systemHTML(
-            `x ＋ y ＝ ${total}`,
-            `10x ＋ 5y ＝ ${money}`
-          )
-        }
-      </div>`,
+      </div>
+      `,
 
-      `利用代入消去或加減消去可得：
-
-      <div class="calculation-box">
-        x＝${x}，y＝${y}
-      </div>`,
+      `解聯立方程式可得 x＝${x}、y＝${y}。`,
 
       `所以 10 元票售出 ${x} 張。`
     ],
@@ -5161,14 +5189,7 @@ function makeBasketballApplication() {
 
     `
 
-      <div
-        style="
-          max-width:780px;
-          font-size:21px;
-          line-height:1.9;
-          font-family:Microsoft JhengHei;
-        "
-      >
+      <div class="word-question">
 
         某球員投進 2 分球與 3 分球共 ${total} 球，
 
@@ -5178,7 +5199,7 @@ function makeBasketballApplication() {
 
         <br>
 
-        請問他投進幾顆 3 分球？
+        請問投進幾顆 3 分球？
 
       </div>
     `,
@@ -5187,23 +5208,23 @@ function makeBasketballApplication() {
 
     [
 
-      `設 2 分球有 x 顆，3 分球有 y 顆。`,
+      `設 2 分球 x 顆、3 分球 y 顆。`,
 
-      `球數：
-
-      <div class="calculation-box">
-        x ＋ y ＝ ${total}
-      </div>`,
-
-      `得分：
+      `
 
       <div class="calculation-box">
-        2x ＋ 3y ＝ ${score}
-      </div>`,
 
-      `兩式相減可直接得到 y＝${y}。`,
+        ${systemHTML(
+          `x ＋ y ＝ ${total}`,
+          `2x ＋ 3y ＝ ${score}`
+        )}
 
-      `所以投進 ${y} 顆 3 分球。`
+      </div>
+      `,
+
+      `解得 x＝${x}、y＝${y}。`,
+
+      `所以 3 分球有 ${y} 顆。`
     ],
 
     "顆"
@@ -5245,20 +5266,13 @@ function makePriceApplication() {
 
     `
 
-      <div
-        style="
-          max-width:780px;
-          font-size:21px;
-          line-height:1.9;
-          font-family:Microsoft JhengHei;
-        "
-      >
+      <div class="word-question">
 
-        一份 A 商品 25 元，一份 B 商品 40 元。
+        A 商品每份 25 元，B 商品每份 40 元。
 
         <br>
 
-        小明共買 ${total} 份，花了 ${money} 元。
+        一共買 ${total} 份，花了 ${money} 元。
 
         <br>
 
@@ -5271,25 +5285,21 @@ function makePriceApplication() {
 
     [
 
-      `設 A 商品買 x 份，B 商品買 y 份。`,
+      `設 A 商品 x 份、B 商品 y 份。`,
 
-      `總數：
-
-      <div class="calculation-box">
-        x ＋ y ＝ ${total}
-      </div>`,
-
-      `總價：
+      `
 
       <div class="calculation-box">
-        25x ＋ 40y ＝ ${money}
-      </div>`,
 
-      `解聯立方程式得：
+        ${systemHTML(
+          `x ＋ y ＝ ${total}`,
+          `25x ＋ 40y ＝ ${money}`
+        )}
 
-      <div class="calculation-box">
-        x＝${x}，y＝${y}
-      </div>`,
+      </div>
+      `,
+
+      `解得 x＝${x}、y＝${y}。`,
 
       `所以 B 商品買了 ${y} 份。`
     ],
@@ -5301,29 +5311,29 @@ function makePriceApplication() {
 
 function makeAgeApplication() {
 
-  const younger =
+  const child =
     rand(
       10,
       20
     );
 
 
-  const older =
-    younger +
+  const father =
+    child +
     rand(
       20,
       35
     );
 
 
-  const difference =
-    older -
-    younger;
-
-
   const sum =
-    older +
-    younger;
+    father +
+    child;
+
+
+  const difference =
+    father -
+    child;
 
 
   return numberQuestion(
@@ -5332,14 +5342,7 @@ function makeAgeApplication() {
 
     `
 
-      <div
-        style="
-          max-width:780px;
-          font-size:21px;
-          line-height:1.9;
-          font-family:Microsoft JhengHei;
-        "
-      >
+      <div class="word-question">
 
         父子兩人的年齡和為 ${sum} 歲，
 
@@ -5354,31 +5357,27 @@ function makeAgeApplication() {
       </div>
     `,
 
-    younger,
+    child,
 
     [
 
       `設父親 x 歲、兒子 y 歲。`,
 
-      `年齡和：
+      `
 
       <div class="calculation-box">
-        x ＋ y ＝ ${sum}
-      </div>`,
 
-      `年齡差：
+        ${systemHTML(
+          `x ＋ y ＝ ${sum}`,
+          `x − y ＝ ${difference}`
+        )}
 
-      <div class="calculation-box">
-        x − y ＝ ${difference}
-      </div>`,
+      </div>
+      `,
 
-      `兩式相減或相加，可得：
+      `解得 y＝${child}。`,
 
-      <div class="calculation-box">
-        y＝${younger}
-      </div>`,
-
-      `所以兒子今年 ${younger} 歲。`
+      `所以兒子今年 ${child} 歲。`
     ],
 
     "歲"
@@ -5388,30 +5387,30 @@ function makeAgeApplication() {
 
 function makeTentApplication() {
 
-  const twoPerson =
+  const two =
     rand(
       2,
       7
     );
 
 
-  const fourPerson =
+  const four =
     rand(
       2,
       7
     );
 
 
-  const tents =
-    twoPerson +
-    fourPerson;
+  const total =
+    two +
+    four;
 
 
   const people =
     2 *
-    twoPerson +
+    two +
     4 *
-    fourPerson;
+    four;
 
 
   return numberQuestion(
@@ -5420,16 +5419,9 @@ function makeTentApplication() {
 
     `
 
-      <div
-        style="
-          max-width:780px;
-          font-size:21px;
-          line-height:1.9;
-          font-family:Microsoft JhengHei;
-        "
-      >
+      <div class="word-question">
 
-        某露營活動使用 2 人帳與 4 人帳共 ${tents} 頂，
+        某露營活動使用 2 人帳與 4 人帳共 ${total} 頂，
 
         <br>
 
@@ -5442,31 +5434,27 @@ function makeTentApplication() {
       </div>
     `,
 
-    fourPerson,
+    four,
 
     [
 
-      `設 2 人帳有 x 頂，4 人帳有 y 頂。`,
+      `設 2 人帳 x 頂、4 人帳 y 頂。`,
 
-      `帳篷數：
-
-      <div class="calculation-box">
-        x ＋ y ＝ ${tents}
-      </div>`,
-
-      `人數：
+      `
 
       <div class="calculation-box">
-        2x ＋ 4y ＝ ${people}
-      </div>`,
 
-      `解聯立方程式得：
+        ${systemHTML(
+          `x ＋ y ＝ ${total}`,
+          `2x ＋ 4y ＝ ${people}`
+        )}
 
-      <div class="calculation-box">
-        x＝${twoPerson}，y＝${fourPerson}
-      </div>`,
+      </div>
+      `,
 
-      `所以 4 人帳有 ${fourPerson} 頂。`
+      `解得 y＝${four}。`,
+
+      `所以 4 人帳有 ${four} 頂。`
     ],
 
     "頂"
@@ -5474,36 +5462,28 @@ function makeTentApplication() {
 }
 
 
-function makeReasonablenessApplication() {
+function makeReasonApplication() {
 
   return choiceQuestion(
 
-    "判斷聯立方程式的解是否符合題意",
+    "判斷計算結果是否符合原題題意",
 
     `
 
-      <div
-        style="
-          max-width:780px;
-          font-size:21px;
-          line-height:1.9;
-          font-family:Microsoft JhengHei;
-        "
-      >
+      <div class="word-question">
 
-        某題設 x、y 分別代表兩種水果的顆數，
+        某題設 x、y 分別代表兩種水果的顆數。
 
         <br>
 
-        解聯立方程式後得到：
+        解聯立方程式得到：
 
         <br><br>
 
         <span
           class="math"
           style="
-            font-size:31px;
-            font-weight:900;
+            font-size:32px;
           "
         >
           x＝12，y＝−1
@@ -5511,7 +5491,7 @@ function makeReasonablenessApplication() {
 
         <br><br>
 
-        這個結果是否能作為原題的答案？
+        此結果能否作為原題的答案？
 
       </div>
     `,
@@ -5523,7 +5503,7 @@ function makeReasonablenessApplication() {
           "yes",
 
         label:
-          "⭕ 可以，方程式有解即可"
+          "⭕ 可以"
       },
 
       {
@@ -5531,7 +5511,7 @@ function makeReasonablenessApplication() {
           "no",
 
         label:
-          "❌ 不可以，答案不符合題意"
+          "❌ 不可以"
       }
     ],
 
@@ -5539,13 +5519,13 @@ function makeReasonablenessApplication() {
 
     [
 
-      `解應用問題時，除了求出方程式的解，還要檢查答案是否符合題意。`,
+      `應用問題最後必須檢查答案是否符合實際情境。`,
 
-      `y 代表水果顆數，但計算結果為 y＝−1。`,
+      `y 代表水果顆數，但 y＝−1。`,
 
       `水果顆數不可能是負數。`,
 
-      `因此此聯立方程式雖然有代數解，但這組解不符合原題的實際情境。`
+      `所以此代數解不符合原題題意。`
     ]
   );
 }
@@ -5561,78 +5541,435 @@ function makeMode6() {
       makePriceApplication(),
       makeAgeApplication(),
       makeTentApplication(),
-      makeReasonablenessApplication()
+      makeReasonApplication()
     ]
   );
 }
 
 
-/*
-==================================================
-建立題目
-==================================================
-*/
+/* ==================================================
+   題庫
+================================================== */
 
 
 function createQuestions() {
 
-  if (
-    mode ===
-    "foundation"
+  switch (
+    mode
   ) {
 
-    return makeMode1();
+    case "foundation":
+      return makeMode1();
+
+    case "concept":
+      return makeMode2();
+
+    case "substitution":
+      return makeMode3();
+
+    case "elimination":
+      return makeMode4();
+
+    case "mixed":
+      return makeMode5();
+
+    default:
+      return makeMode6();
   }
-
-
-  if (
-    mode ===
-    "concept"
-  ) {
-
-    return makeMode2();
-  }
-
-
-  if (
-    mode ===
-    "substitution"
-  ) {
-
-    return makeMode3();
-  }
-
-
-  if (
-    mode ===
-    "elimination"
-  ) {
-
-    return makeMode4();
-  }
-
-
-  if (
-    mode ===
-    "mixed"
-  ) {
-
-    return makeMode5();
-  }
-
-
-  return makeMode6();
 }
 
 
-/*
-==================================================
-答案畫面
-==================================================
-*/
+/* ==================================================
+   答案輸入元件
+================================================== */
 
 
-function updatePairPreview() {
+function valueInputHTML(
+  key,
+  variable =
+    ""
+) {
+
+  return `
+
+    <div
+      class="answer-value-card"
+      data-value-key="${key}"
+      data-format="general"
+    >
+
+      <div class="answer-value-heading">
+        ${
+          variable
+            ? `${variable} 的值`
+            : "答案"
+        }
+      </div>
+
+
+      <div
+        id="${key}-general"
+        class="general-answer-row"
+      >
+
+        ${
+          variable
+            ? `
+              <span class="answer-variable">
+                ${variable}＝
+              </span>
+            `
+            : ""
+        }
+
+        <input
+          id="${key}-general-input"
+          class="math-answer-input"
+          type="text"
+          inputmode="decimal"
+          autocomplete="off"
+          placeholder="輸入答案"
+        >
+
+      </div>
+
+
+      <div
+        id="${key}-fraction"
+        class="fraction-answer-row hidden"
+      >
+
+        ${
+          variable
+            ? `
+              <span class="answer-variable">
+                ${variable}＝
+              </span>
+            `
+            : ""
+        }
+
+
+        <div class="fraction-answer-box">
+
+          <input
+            id="${key}-numerator"
+            class="fraction-input"
+            type="text"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="分子"
+          >
+
+          <div class="fraction-line"></div>
+
+          <input
+            id="${key}-denominator"
+            class="fraction-input"
+            type="text"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="分母"
+          >
+
+        </div>
+
+      </div>
+
+
+      <button
+        type="button"
+        class="answer-format-button"
+        data-toggle-format="${key}"
+      >
+        切換成分數答案格
+      </button>
+
+    </div>
+  `;
+}
+
+
+function bindAnswerFormatButtons() {
+
+  document
+    .querySelectorAll(
+      "[data-toggle-format]"
+    )
+    .forEach(
+      button => {
+
+        button
+          .addEventListener(
+            "click",
+            () => {
+
+              if (
+                answered
+              ) {
+
+                return;
+              }
+
+
+              const key =
+                button.dataset
+                  .toggleFormat;
+
+
+              const card =
+                document
+                  .querySelector(
+                    `[data-value-key="${key}"]`
+                  );
+
+
+              if (
+                !card
+              ) {
+
+                return;
+              }
+
+
+              const current =
+                card.dataset
+                  .format;
+
+
+              const next =
+                current ===
+                "general"
+
+                  ? "fraction"
+
+                  : "general";
+
+
+              card.dataset
+                .format =
+                  next;
+
+
+              $(
+                `${key}-general`
+              )
+                ?.classList
+                .toggle(
+                  "hidden",
+                  next !==
+                  "general"
+                );
+
+
+              $(
+                `${key}-fraction`
+              )
+                ?.classList
+                .toggle(
+                  "hidden",
+                  next !==
+                  "fraction"
+                );
+
+
+              button.textContent =
+
+                next ===
+                "general"
+
+                  ? "切換成分數答案格"
+
+                  : "切換回一般答案格";
+
+
+              updateAnswerPreview();
+            }
+          );
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "#answer-panel input"
+    )
+    .forEach(
+      input => {
+
+        input
+          .addEventListener(
+            "input",
+            updateAnswerPreview
+          );
+      }
+    );
+}
+
+
+function readValueInput(
+  key
+) {
+
+  const card =
+    document
+      .querySelector(
+        `[data-value-key="${key}"]`
+      );
+
+
+  if (
+    !card
+  ) {
+
+    return null;
+  }
+
+
+  const format =
+    card.dataset
+      .format;
+
+
+  if (
+    format ===
+    "fraction"
+  ) {
+
+    const numeratorText =
+      $(
+        `${key}-numerator`
+      )
+        ?.value
+        .trim() ??
+      "";
+
+
+    const denominatorText =
+      $(
+        `${key}-denominator`
+      )
+        ?.value
+        .trim() ??
+      "";
+
+
+    if (
+      !/^[-+]?\d+$/
+        .test(
+          numeratorText
+        ) ||
+      !/^[-+]?\d+$/
+        .test(
+          denominatorText
+        )
+    ) {
+
+      return null;
+    }
+
+
+    const denominator =
+      Number(
+        denominatorText
+      );
+
+
+    if (
+      denominator ===
+      0
+    ) {
+
+      return null;
+    }
+
+
+    return F(
+      Number(
+        numeratorText
+      ),
+      denominator
+    );
+  }
+
+
+  const text =
+    $(
+      `${key}-general-input`
+    )
+      ?.value
+      .trim()
+      .replace(
+        /−/g,
+        "-"
+      ) ??
+    "";
+
+
+  if (
+    /^[-+]?\d+$/
+      .test(
+        text
+      )
+  ) {
+
+    return F(
+      Number(
+        text
+      )
+    );
+  }
+
+
+  if (
+    /^[-+]?\d*\.\d+$/
+      .test(
+        text
+      )
+  ) {
+
+    const decimalPlaces =
+      text
+        .replace(
+          /^[-+]/,
+          ""
+        )
+        .split(
+          "."
+        )[1]
+        .length;
+
+
+    const denominator =
+      10 **
+      decimalPlaces;
+
+
+    return F(
+
+      Math.round(
+        Number(
+          text
+        ) *
+        denominator
+      ),
+
+      denominator
+    );
+  }
+
+
+  return null;
+}
+
+
+function updateAnswerPreview() {
+
+  const question =
+    questions[
+      index
+    ];
+
 
   const preview =
     $("answer-preview");
@@ -5646,91 +5983,86 @@ function updatePairPreview() {
   }
 
 
-  const xRaw =
-    $("answer-x")
-      ?.value
-      .trim() ??
-    "";
-
-
-  const yRaw =
-    $("answer-y")
-      ?.value
-      .trim() ??
-    "";
-
-
   if (
-    !xRaw &&
-    !yRaw
+    question.type ===
+    "pair"
   ) {
 
-    preview.innerHTML =
-      "目前尚未完成答案。";
+    const x =
+      readValueInput(
+        "answer-x"
+      );
+
+
+    const y =
+      readValueInput(
+        "answer-y"
+      );
+
+
+    if (
+      !x &&
+      !y
+    ) {
+
+      preview.innerHTML =
+        "目前尚未完成答案。";
+
+      return;
+    }
+
+
+    preview.innerHTML = `
+
+      目前答案：
+
+      <span class="preview-value">
+
+        x＝${fractionHTML(x)}，
+
+        y＝${fractionHTML(y)}
+
+      </span>
+    `;
 
 
     return;
   }
 
 
-  preview.innerHTML = `
-
-    目前答案：
-
-    <span class="preview-value">
-
-      x＝${xRaw || "？"}，
-
-      y＝${yRaw || "？"}
-
-    </span>
-  `;
-}
-
-
-function updateNumberPreview() {
-
-  const preview =
-    $("answer-preview");
-
-
   if (
-    !preview
+    question.type ===
+    "number"
   ) {
 
-    return;
+    const value =
+      readValueInput(
+        "answer-single"
+      );
+
+
+    if (
+      !value
+    ) {
+
+      preview.innerHTML =
+        "目前尚未完成答案。";
+
+      return;
+    }
+
+
+    preview.innerHTML = `
+
+      目前答案：
+
+      <span class="preview-value">
+
+        ${fractionHTML(value)}
+
+      </span>
+    `;
   }
-
-
-  const raw =
-    $("number-answer")
-      ?.value
-      .trim() ??
-    "";
-
-
-  if (
-    !raw
-  ) {
-
-    preview.innerHTML =
-      "目前尚未完成答案。";
-
-
-    return;
-  }
-
-
-  preview.innerHTML = `
-
-    目前答案：
-
-    <span class="preview-value">
-
-      ${raw}
-
-    </span>
-  `;
 }
 
 
@@ -5742,73 +6074,34 @@ function renderPairAnswer(
     .innerHTML = `
 
       <div class="answer-title">
-
         ${question.label}
-
       </div>
 
       <p class="answer-help">
 
-        請填寫 x、y 的值。<br>
+        x、y 都可以使用一般答案格或分數答案格。
 
-        若答案為分數，可以直接輸入：
-        例如 3/4、-5/2。
+        <br>
+
+        若答案為分數，請切換成上下分子、分母的答案格式。
 
       </p>
 
-      <div class="xy-answer-grid">
 
-        <div class="xy-card">
+      <div class="answer-grid">
 
-          <div class="xy-label">
-            x 的值
-          </div>
+        ${valueInputHTML(
+          "answer-x",
+          "x"
+        )}
 
-          <div class="xy-input-row">
-
-            <span class="xy-symbol">
-              x＝
-            </span>
-
-            <input
-              id="answer-x"
-              class="math-answer-input"
-              type="text"
-              inputmode="text"
-              autocomplete="off"
-              placeholder="輸入答案"
-            >
-
-          </div>
-
-        </div>
-
-        <div class="xy-card">
-
-          <div class="xy-label">
-            y 的值
-          </div>
-
-          <div class="xy-input-row">
-
-            <span class="xy-symbol">
-              y＝
-            </span>
-
-            <input
-              id="answer-y"
-              class="math-answer-input"
-              type="text"
-              inputmode="text"
-              autocomplete="off"
-              placeholder="輸入答案"
-            >
-
-          </div>
-
-        </div>
+        ${valueInputHTML(
+          "answer-y",
+          "y"
+        )}
 
       </div>
+
 
       <div
         id="answer-preview"
@@ -5819,24 +6112,16 @@ function renderPairAnswer(
     `;
 
 
-  $("answer-x")
-    ?.addEventListener(
-      "input",
-      updatePairPreview
-    );
-
-
-  $("answer-y")
-    ?.addEventListener(
-      "input",
-      updatePairPreview
-    );
+  bindAnswerFormatButtons();
 
 
   setTimeout(
-    () =>
-      $("answer-x")
-        ?.focus(),
+    () => {
+
+      $("answer-x-general-input")
+        ?.focus();
+
+    },
     0
   );
 }
@@ -5850,29 +6135,29 @@ function renderNumberAnswer(
     .innerHTML = `
 
       <div class="answer-title">
-
         ${question.label}
-
       </div>
+
 
       <p class="answer-help">
 
-        請輸入答案。若為分數，可輸入 3/4、-5/2。
+        整數可直接輸入。
+
+        <br>
+
+        若答案為分數，可以切換成上下分數答案格。
 
       </p>
 
-      <div class="single-answer-shell">
 
-        <input
-          id="number-answer"
-          class="math-answer-input"
-          type="text"
-          inputmode="text"
-          autocomplete="off"
-          placeholder="輸入答案"
-        >
+      <div class="single-answer-wrap">
+
+        ${valueInputHTML(
+          "answer-single"
+        )}
 
       </div>
+
 
       <div
         id="answer-preview"
@@ -5883,17 +6168,16 @@ function renderNumberAnswer(
     `;
 
 
-  $("number-answer")
-    ?.addEventListener(
-      "input",
-      updateNumberPreview
-    );
+  bindAnswerFormatButtons();
 
 
   setTimeout(
-    () =>
-      $("number-answer")
-        ?.focus(),
+    () => {
+
+      $("answer-single-general-input")
+        ?.focus();
+
+    },
     0
   );
 }
@@ -5916,6 +6200,7 @@ function renderChoiceAnswer(
 
       </div>
 
+
       <div
         id="choice-grid"
         class="choice-grid"
@@ -5928,7 +6213,17 @@ function renderChoiceAnswer(
 
                 <button
                   type="button"
-                  class="choice-button"
+                  class="
+                    choice-button
+                    ${
+                      question.choiceType ===
+                      "system"
+
+                        ? "system-choice"
+
+                        : ""
+                    }
+                  "
                   data-choice="${choice.value}"
                 >
                   ${choice.label}
@@ -5939,6 +6234,7 @@ function renderChoiceAnswer(
         }
 
       </div>
+
 
       <div
         id="answer-preview"
@@ -5970,7 +6266,8 @@ function renderChoiceAnswer(
 
 
               selectedChoice =
-                button.dataset.choice;
+                button.dataset
+                  .choice;
 
 
               document
@@ -5978,11 +6275,14 @@ function renderChoiceAnswer(
                   ".choice-button"
                 )
                 .forEach(
-                  item =>
-                    item.classList
+                  item => {
+
+                    item
+                      .classList
                       .remove(
                         "selected"
-                      )
+                      );
+                  }
                 );
 
 
@@ -5996,11 +6296,8 @@ function renderChoiceAnswer(
               $("answer-preview")
                 .innerHTML = `
 
-                  目前選擇：
+                  目前已選擇答案。
 
-                  <span class="preview-value">
-                    ${button.textContent.trim()}
-                  </span>
                 `;
             }
           );
@@ -6022,7 +6319,6 @@ function renderAnswer(
       question
     );
 
-
     return;
   }
 
@@ -6036,7 +6332,6 @@ function renderAnswer(
       question
     );
 
-
     return;
   }
 
@@ -6047,11 +6342,9 @@ function renderAnswer(
 }
 
 
-/*
-==================================================
-讀取答案
-==================================================
-*/
+/* ==================================================
+   讀取答案
+================================================== */
 
 
 function readAnswer(
@@ -6064,16 +6357,14 @@ function readAnswer(
   ) {
 
     const x =
-      parseFractionText(
-        $("answer-x")
-          ?.value
+      readValueInput(
+        "answer-x"
       );
 
 
     const y =
-      parseFractionText(
-        $("answer-y")
-          ?.value
+      readValueInput(
+        "answer-y"
       );
 
 
@@ -6097,7 +6388,6 @@ function readAnswer(
       valid: true,
 
       value: {
-
         x,
         y
       },
@@ -6114,9 +6404,8 @@ function readAnswer(
   ) {
 
     const value =
-      parseFractionText(
-        $("number-answer")
-          ?.value
+      readValueInput(
+        "answer-single"
       );
 
 
@@ -6186,11 +6475,9 @@ function readAnswer(
 }
 
 
-/*
-==================================================
-判定
-==================================================
-*/
+/* ==================================================
+   判斷
+================================================== */
 
 
 function checkCorrect(
@@ -6237,13 +6524,6 @@ function checkCorrect(
 }
 
 
-/*
-==================================================
-正確答案
-==================================================
-*/
-
-
 function correctAnswerHTML(
   question
 ) {
@@ -6255,13 +6535,11 @@ function correctAnswerHTML(
 
     return `
 
-      x＝
-      ${fractionHTML(
+      x＝${fractionHTML(
         question.answer.x
       )}，
 
-      y＝
-      ${fractionHTML(
+      y＝${fractionHTML(
         question.answer.y
       )}
     `;
@@ -6273,16 +6551,18 @@ function correctAnswerHTML(
     "number"
   ) {
 
-    return (
-      fractionHTML(
+    return `
+
+      ${fractionHTML(
         question.answer
-      ) +
-      (
+      )}
+
+      ${
         question.unit
           ? ` ${question.unit}`
           : ""
-      )
-    );
+      }
+    `;
   }
 
 
@@ -6302,11 +6582,9 @@ function correctAnswerHTML(
 }
 
 
-/*
-==================================================
-詳解
-==================================================
-*/
+/* ==================================================
+   詳解
+================================================== */
 
 
 function explanationHTML(
@@ -6320,6 +6598,7 @@ function explanationHTML(
       <div class="explanation-question-title">
         題目｜
       </div>
+
 
       <div class="explanation-question-math">
 
@@ -6336,13 +6615,13 @@ function explanationHTML(
       .map(
         (
           step,
-          stepIndex
+          i
         ) => `
 
           <div class="explanation-step">
 
             <strong>
-              步驟 ${stepIndex + 1}｜
+              步驟 ${i + 1}｜
             </strong>
 
             ${step}
@@ -6350,7 +6629,9 @@ function explanationHTML(
           </div>
         `
       )
-      .join("");
+      .join(
+        ""
+      );
 
 
   return (
@@ -6360,11 +6641,9 @@ function explanationHTML(
 }
 
 
-/*
-==================================================
-顯示題目
-==================================================
-*/
+/* ==================================================
+   顯示題目
+================================================== */
 
 
 function displayQuestion() {
@@ -6478,11 +6757,9 @@ function displayQuestion() {
 }
 
 
-/*
-==================================================
-提交
-==================================================
-*/
+/* ==================================================
+   提交
+================================================== */
 
 
 function submitAnswer() {
@@ -6531,7 +6808,7 @@ function submitAnswer() {
 
   document
     .querySelectorAll(
-      "#answer-panel input, #answer-panel button, #answer-panel select"
+      "#answer-panel input, #answer-panel button"
     )
     .forEach(
       element => {
@@ -6597,11 +6874,9 @@ function submitAnswer() {
         ❌ 答案不正確。正確答案：
 
         <strong>
-
           ${correctAnswerHTML(
             question
           )}
-
         </strong>
       `;
 
@@ -6691,13 +6966,6 @@ function submitAnswer() {
 }
 
 
-/*
-==================================================
-下一題
-==================================================
-*/
-
-
 function nextQuestion() {
 
   if (
@@ -6711,15 +6979,11 @@ function nextQuestion() {
   index++;
 
 
-  const total =
-    MODE_SETTINGS[
-      mode
-    ].total;
-
-
   if (
     index <
-    total
+    MODE_SETTINGS[
+      mode
+    ].total
   ) {
 
     displayQuestion();
@@ -6731,11 +6995,9 @@ function nextQuestion() {
 }
 
 
-/*
-==================================================
-時間
-==================================================
-*/
+/* ==================================================
+   時間
+================================================== */
 
 
 function formatTime(
@@ -6764,7 +7026,8 @@ function formatTime(
 
 
 function stopTimer(
-  update = true
+  update =
+    true
 ) {
 
   if (
@@ -6845,11 +7108,9 @@ function startTimer() {
 }
 
 
-/*
-==================================================
-音效
-==================================================
-*/
+/* ==================================================
+   音效
+================================================== */
 
 
 function playGameSound(
@@ -6879,11 +7140,9 @@ function playGameSound(
 }
 
 
-/*
-==================================================
-計算紙
-==================================================
-*/
+/* ==================================================
+   計算紙
+================================================== */
 
 
 function moveScratchpadButtonToTop() {
@@ -6911,11 +7170,9 @@ function moveScratchpadButtonToTop() {
 }
 
 
-/*
-==================================================
-畫面切換
-==================================================
-*/
+/* ==================================================
+   畫面
+================================================== */
 
 
 function showOnly(
@@ -6951,7 +7208,6 @@ function showOnly(
 
     moveScratchpadButtonToTop();
 
-
     window
       .showGameScratchpadButton
       ?.();
@@ -6965,11 +7221,9 @@ function showOnly(
 }
 
 
-/*
-==================================================
-開始遊戲
-==================================================
-*/
+/* ==================================================
+   Start
+================================================== */
 
 
 function startGame(
@@ -6989,30 +7243,44 @@ function startGame(
     createQuestions();
 
 
-  index = 0;
-
-  correct = 0;
-
-  wrong = 0;
-
-  combo = 0;
-
-  maxCombo = 0;
-
-  records = [];
-
-  answered = false;
-
-  selectedChoice = null;
-
-  scoreSaved = false;
-
-  elapsed = 0;
+  index =
+    0;
 
 
-  $("timer-display")
-    .textContent =
-      "00:00";
+  correct =
+    0;
+
+
+  wrong =
+    0;
+
+
+  combo =
+    0;
+
+
+  maxCombo =
+    0;
+
+
+  records =
+    [];
+
+
+  answered =
+    false;
+
+
+  selectedChoice =
+    null;
+
+
+  scoreSaved =
+    false;
+
+
+  elapsed =
+    0;
 
 
   $("save-status")
@@ -7037,11 +7305,9 @@ function startGame(
 }
 
 
-/*
-==================================================
-評價
-==================================================
-*/
+/* ==================================================
+   Result
+================================================== */
 
 
 function rating(
@@ -7075,7 +7341,7 @@ function rating(
         "★★★★☆",
 
       comment:
-        "表現很好，再注意消去時的係數與正負號。"
+        "表現很好，再留意消去時的係數與正負號。"
     };
   }
 
@@ -7091,7 +7357,7 @@ function rating(
         "★★★☆☆",
 
       comment:
-        "基本概念已掌握，再加強代入消去與加減消去。"
+        "基本概念已掌握，再加強兩種消去法。"
     };
   }
 
@@ -7102,16 +7368,9 @@ function rating(
       "★★☆☆☆",
 
     comment:
-      "建議先熟悉二元一次方程式與共同解，再逐步練習兩種消去法。"
+      "建議先熟悉聯立方程式共同解，再逐步練習消去法。"
   };
 }
-
-
-/*
-==================================================
-結果
-==================================================
-*/
 
 
 async function showResult() {
@@ -7204,11 +7463,9 @@ async function showResult() {
 }
 
 
-/*
-==================================================
-Firestore
-==================================================
-*/
+/* ==================================================
+   Firebase
+================================================== */
 
 
 async function saveCurrentScore(
@@ -7233,10 +7490,6 @@ async function saveCurrentScore(
 
   status.textContent =
     "☁️ 正在儲存本次成績……";
-
-
-  status.style.color =
-    "#1d4ed8";
 
 
   try {
@@ -7273,10 +7526,8 @@ async function saveCurrentScore(
       status.textContent =
         "✅ 本次成績已儲存。";
 
-
       status.style.color =
         "#15803d";
-
 
       return;
     }
@@ -7290,10 +7541,8 @@ async function saveCurrentScore(
       status.textContent =
         "ℹ️ 尚未登入，因此本次成績沒有儲存。";
 
-
       status.style.color =
         "#b45309";
-
 
       return;
     }
@@ -7301,7 +7550,6 @@ async function saveCurrentScore(
 
     status.textContent =
       "⚠️ 成績暫時無法儲存。";
-
 
     status.style.color =
       "#b91c1c";
@@ -7311,26 +7559,19 @@ async function saveCurrentScore(
   ) {
 
     console.error(
-      "聯立方程式成績儲存失敗：",
       error
     );
 
 
     status.textContent =
       "⚠️ 成績暫時無法儲存。";
-
-
-    status.style.color =
-      "#b91c1c";
   }
 }
 
 
-/*
-==================================================
-錯題回顧
-==================================================
-*/
+/* ==================================================
+   Review
+================================================== */
 
 
 function showReview() {
@@ -7359,23 +7600,24 @@ function showReview() {
 
                   </div>
 
+
                   <div class="review-question">
 
                     ${record.question.html}
 
                   </div>
 
+
                   <p>
 
                     你的答案：
 
                     <strong>
-
                       ${record.userAnswer}
-
                     </strong>
 
                   </p>
+
 
                   <p>
 
@@ -7391,6 +7633,7 @@ function showReview() {
 
                   </p>
 
+
                   <div class="explanation">
 
                     ${explanationHTML(
@@ -7402,13 +7645,15 @@ function showReview() {
                 </article>
               `
             )
-            .join("")
+            .join(
+              ""
+            )
 
         : `
 
             <div class="review-card">
 
-              全部答對，沒有需要回顧的錯題！
+              全部答對，沒有錯題！
 
             </div>
           `;
@@ -7420,11 +7665,9 @@ function showReview() {
 }
 
 
-/*
-==================================================
-事件
-==================================================
-*/
+/* ==================================================
+   Events
+================================================== */
 
 
 document
@@ -7440,7 +7683,8 @@ document
           () => {
 
             startGame(
-              button.dataset.mode
+              button.dataset
+                .mode
             );
           }
         );
@@ -7480,7 +7724,6 @@ $("mode-button")
     () => {
 
       stopTimer();
-
 
       showOnly(
         "start-screen"
@@ -7544,13 +7787,6 @@ $("review-result-button")
   );
 
 
-/*
-==================================================
-Enter
-==================================================
-*/
-
-
 document
   .addEventListener(
     "keydown",
@@ -7594,13 +7830,6 @@ document
   );
 
 
-/*
-==================================================
-初始化
-==================================================
-*/
-
-
 window
   .addEventListener(
     "DOMContentLoaded",
@@ -7611,7 +7840,7 @@ window
 
       setTimeout(
         moveScratchpadButtonToTop,
-        100
+        150
       );
     }
   );
@@ -7623,6 +7852,7 @@ showOnly(
 
 
 </script>
+
 
 </body>
 
