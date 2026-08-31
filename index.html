@@ -1499,16 +1499,66 @@
 
     .page-footer {
 
-      margin-top: 42px;
+      margin-top: 48px;
 
-      padding-top: 20px;
+      padding:
+        26px 18px 8px;
+
+      border-top:
+        1px solid
+        rgba(
+          100,
+          116,
+          139,
+          .22
+        );
 
       color:
         #748094;
 
+      text-align: center;
+
+    }
+
+
+    .footer-brand {
+
+      color:
+        #174f8f;
+
+      font-size: 17px;
+
+      font-weight: 900;
+
+      letter-spacing: 1px;
+
+    }
+
+
+    .footer-author {
+
+      margin-top: 8px;
+
+      color:
+        #475569;
+
       font-size: 14px;
 
-      text-align: center;
+      font-weight: 800;
+
+    }
+
+
+    .footer-copyright {
+
+      margin-top: 6px;
+
+      color:
+        #94a3b8;
+
+      font-size: 12px;
+
+      line-height: 1.6;
 
     }
 
@@ -2149,7 +2199,19 @@
 
 
     <footer class="page-footer">
-      生活有解．心中有數
+
+      <div class="footer-brand">
+        生活有解．心中有數
+      </div>
+
+      <div class="footer-author">
+        文化國中｜張宏維老師 製作
+      </div>
+
+      <div class="footer-copyright">
+        © 2026 生活有解．心中有數．教學與學習使用
+      </div>
+
     </footer>
 
 
@@ -4702,11 +4764,6 @@
         renderLoggedIn(
           user
         );
-
-
-        /*
-        玩家資料同步失敗不能影響首頁。
-        */
 
 
         try {
