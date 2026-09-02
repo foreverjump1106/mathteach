@@ -2,6 +2,7 @@
 <html lang="zh-TW">
 
 <head>
+
   <meta charset="UTF-8">
 
   <meta
@@ -10,20 +11,27 @@
   >
 
   <title>
-    乘法公式大挑戰｜數學遊戲樂園
+    乘法公式大挑戰｜生活有解．心中有數
   </title>
 
 
-  <!-- 共用元件 CSS -->
+  <!--
+  ==================================================
+  乘法公式專屬瀏覽器小圖示
+  不需要另外建立圖檔
+  ==================================================
+  -->
+
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%237B1FA2'/%3E%3Ctext x='31' y='43' text-anchor='middle' font-family='Arial' font-size='36' font-weight='700' fill='white'%3E%C3%97%3C/text%3E%3Ctext x='48' y='22' text-anchor='middle' font-family='Arial' font-size='17' font-weight='700' fill='%23FFF59D'%3E2%3C/text%3E%3C/svg%3E"
+  >
+
 
   <link
     rel="stylesheet"
     href="../css/scratchpad.css"
-  >
-
-  <link
-    rel="stylesheet"
-    href="../css/expression-input.css?v=2"
   >
 
 
@@ -36,32 +44,20 @@
 
     :root {
 
-      --primary:
-        #3f51b5;
+      --primary: #3f51b5;
+      --primary-dark: #303f9f;
+      --primary-light: #e8eaf6;
+      --primary-border: #9fa8da;
 
-      --primary-dark:
-        #303f9f;
+      --text: #1f2937;
+      --muted: #64748b;
 
-      --primary-light:
-        #e8eaf6;
+      --success: #15803d;
+      --danger: #b91c1c;
+      --warning: #b45309;
 
-      --primary-border:
-        #9fa8da;
-
-      --text:
-        #1f2937;
-
-      --muted:
-        #64748b;
-
-      --success:
-        #15803d;
-
-      --danger:
-        #b91c1c;
-
-      --warning:
-        #b45309;
+      --restart: #00897b;
+      --restart-dark: #00695c;
     }
 
 
@@ -92,16 +88,17 @@
 
     button,
     input {
+      font-family: inherit;
+    }
 
-      font-family:
-        inherit;
+
+    button {
+      touch-action: manipulation;
     }
 
 
     .hidden {
-
-      display:
-        none !important;
+      display: none !important;
     }
 
 
@@ -119,16 +116,13 @@
 
 
     #commonHeaderMount {
-
-      margin-bottom:
-        14px;
+      margin-bottom: 14px;
     }
 
 
     .game-card {
 
-      overflow:
-        hidden;
+      overflow: hidden;
 
       border:
         1px solid
@@ -138,11 +132,9 @@
         8px solid
         var(--primary);
 
-      border-radius:
-        26px;
+      border-radius: 26px;
 
-      background:
-        white;
+      background: white;
 
       box-shadow:
         0 14px 34px
@@ -155,13 +147,19 @@
     }
 
 
+    /*
+    ==================================================
+    標題
+    ==================================================
+    */
+
+
     .game-header {
 
       padding:
         24px 20px 18px;
 
-      text-align:
-        center;
+      text-align: center;
 
       background:
         linear-gradient(
@@ -174,8 +172,7 @@
 
     .game-title {
 
-      margin:
-        0;
+      margin: 0;
 
       color:
         var(--primary-dark);
@@ -197,27 +194,21 @@
       color:
         var(--muted);
 
-      line-height:
-        1.7;
+      line-height: 1.7;
     }
 
 
     .formula-strip {
 
-      display:
-        flex;
+      display: flex;
 
-      justify-content:
-        center;
+      justify-content: center;
 
-      gap:
-        8px;
+      gap: 8px;
 
-      margin-top:
-        16px;
+      margin-top: 16px;
 
-      flex-wrap:
-        wrap;
+      flex-wrap: wrap;
     }
 
 
@@ -230,27 +221,21 @@
         1px solid
         var(--primary-border);
 
-      border-radius:
-        999px;
+      border-radius: 999px;
 
-      background:
-        white;
+      background: white;
 
       color:
         var(--primary-dark);
 
-      font-size:
-        14px;
+      font-size: 14px;
 
-      font-weight:
-        900;
+      font-weight: 900;
     }
 
 
     .screen {
-
-      padding:
-        22px;
+      padding: 22px;
     }
 
 
@@ -260,10 +245,10 @@
     ==================================================
     */
 
+
     .mode-grid {
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
         repeat(
@@ -274,25 +259,21 @@
           )
         );
 
-      gap:
-        16px;
+      gap: 16px;
     }
 
 
     .mode-card {
 
-      min-height:
-        180px;
+      min-height: 180px;
 
-      padding:
-        21px;
+      padding: 21px;
 
       border:
         2px solid
         var(--primary-border);
 
-      border-radius:
-        20px;
+      border-radius: 20px;
 
       background:
         linear-gradient(
@@ -301,11 +282,9 @@
           #ffffff
         );
 
-      text-align:
-        left;
+      text-align: left;
 
-      cursor:
-        pointer;
+      cursor: pointer;
 
       transition:
         transform .15s ease,
@@ -316,9 +295,7 @@
     .mode-card:hover {
 
       transform:
-        translateY(
-          -3px
-        );
+        translateY(-3px);
 
       box-shadow:
         0 10px 24px
@@ -339,40 +316,33 @@
       color:
         var(--primary-dark);
 
-      font-size:
-        21px;
+      font-size: 21px;
     }
 
 
     .mode-card p {
 
-      margin:
-        0;
+      margin: 0;
 
       color:
         var(--muted);
 
-      line-height:
-        1.7;
+      line-height: 1.7;
     }
 
 
     .mode-example {
 
-      margin-top:
-        10px;
+      margin-top: 10px;
 
       color:
         #475569;
 
-      font-size:
-        14px;
+      font-size: 14px;
 
-      font-weight:
-        900;
+      font-weight: 900;
 
-      line-height:
-        1.6;
+      line-height: 1.6;
     }
 
 
@@ -382,47 +352,39 @@
     ==================================================
     */
 
+
     .quiz-topbar {
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
         repeat(
-          4,
+          5,
           minmax(
             0,
             1fr
           )
         );
 
-      gap:
-        10px;
+      gap: 10px;
 
-      margin-bottom:
-        12px;
+      margin-bottom: 14px;
     }
 
 
     .status-box {
 
-      min-height:
-        64px;
+      min-height: 64px;
 
-      display:
-        flex;
+      display: flex;
 
-      flex-direction:
-        column;
+      flex-direction: column;
 
-      justify-content:
-        center;
+      justify-content: center;
 
-      padding:
-        8px;
+      padding: 8px;
 
-      border-radius:
-        14px;
+      border-radius: 14px;
 
       background:
         var(--primary-light);
@@ -430,69 +392,66 @@
       color:
         var(--primary-dark);
 
-      text-align:
-        center;
+      text-align: center;
 
-      font-weight:
-        900;
+      font-weight: 900;
     }
 
 
     .status-value {
 
-      margin-top:
-        3px;
+      margin-top: 3px;
 
-      font-size:
-        18px;
+      font-size: 18px;
     }
 
 
     /*
     ==================================================
-    計算紙按鈕移到遊戲上方
+    ★ 新增即時計時
     ==================================================
     */
 
+
+    .timer-box {
+
+      background:
+        #fff7ed;
+
+      color:
+        #c2410c;
+    }
+
+
+    /*
+    ==================================================
+    計算紙
+    ==================================================
+    */
+
+
     .scratchpad-row {
 
-      display:
-        flex;
+      display: flex;
 
-      justify-content:
-        center;
+      justify-content: center;
 
-      align-items:
-        center;
-
-      min-height:
-        46px;
+      min-height: 48px;
 
       margin:
-        4px 0 12px;
+        2px 0 13px;
     }
 
 
     #scratchpad-mobile-button {
 
-      display:
-        flex;
+      width: 100%;
 
-      justify-content:
-        center;
+      display: flex;
 
-      align-items:
-        center;
-
-      width:
-        100%;
+      justify-content: center;
     }
 
-
-    /*
-    共用 scratchpad.css 原本是浮動按鈕，
-    這一款遊戲改成頁面正常排列。
-    */
 
     #scratchpad-mobile-button
     #scratchpadOpenButton,
@@ -503,16 +462,7 @@
       position:
         static !important;
 
-      top:
-        auto !important;
-
-      right:
-        auto !important;
-
-      bottom:
-        auto !important;
-
-      left:
+      inset:
         auto !important;
 
       transform:
@@ -520,25 +470,25 @@
 
       margin:
         0 !important;
-
-      z-index:
-        auto !important;
     }
+
+
+    /*
+    ==================================================
+    進度
+    ==================================================
+    */
 
 
     .progress-shell {
 
-      height:
-        10px;
+      height: 10px;
 
-      margin-bottom:
-        16px;
+      margin-bottom: 16px;
 
-      overflow:
-        hidden;
+      overflow: hidden;
 
-      border-radius:
-        999px;
+      border-radius: 999px;
 
       background:
         #e2e8f0;
@@ -547,11 +497,9 @@
 
     .progress-bar {
 
-      width:
-        0%;
+      width: 0%;
 
-      height:
-        100%;
+      height: 100%;
 
       background:
         linear-gradient(
@@ -571,6 +519,7 @@
     ==================================================
     */
 
+
     .question-card {
 
       padding:
@@ -580,49 +529,46 @@
         2px solid
         var(--primary-border);
 
-      border-radius:
-        20px;
+      border-radius: 20px;
 
-      background:
-        white;
+      background: white;
 
-      text-align:
-        center;
+      text-align: center;
     }
 
 
     .question-label {
 
-      margin-bottom:
-        10px;
+      margin-bottom: 10px;
 
       color:
         var(--muted);
 
-      font-weight:
-        900;
+      font-size: 17px;
+
+      font-weight: 900;
+
+      line-height: 1.7;
     }
 
 
     .question-content {
 
-      min-height:
-        110px;
+      min-height: 110px;
 
-      display:
-        flex;
+      display: flex;
 
-      align-items:
-        center;
+      align-items: center;
 
-      justify-content:
-        center;
-
-      overflow-x:
-        auto;
+      justify-content: center;
 
       color:
         #0f172a;
+
+      font-family:
+        "Cambria Math",
+        "Times New Roman",
+        serif;
 
       font-size:
         clamp(
@@ -631,49 +577,40 @@
           45px
         );
 
-      font-weight:
-        900;
+      font-weight: 900;
 
-      line-height:
-        1.65;
+      line-height: 1.65;
     }
 
 
     .question-content sup,
     .explanation sup,
-    .review-question sup,
-    .review-answer sup {
+    .review-question sup {
 
-      position:
-        relative;
+      position: relative;
 
-      top:
-        -.58em;
+      top: -.58em;
 
-      font-size:
-        .52em;
+      font-size: .52em;
 
-      vertical-align:
-        baseline;
+      vertical-align: baseline;
     }
 
 
     /*
     ==================================================
-    答案區
+    答案
     ==================================================
     */
 
+
     .answer-panel {
 
-      margin-top:
-        16px;
+      margin-top: 16px;
 
-      padding:
-        18px;
+      padding: 18px;
 
-      border-radius:
-        18px;
+      border-radius: 18px;
 
       background:
         #f8fafc;
@@ -682,36 +619,22 @@
 
     .answer-title {
 
-      margin-bottom:
-        12px;
+      margin-bottom: 12px;
 
       color:
         var(--primary-dark);
 
-      text-align:
-        center;
+      text-align: center;
 
-      font-weight:
-        900;
-
-      line-height:
-        1.6;
+      font-weight: 900;
     }
 
 
-    /*
-    --------------------------------------------------
-    一般數字
-    --------------------------------------------------
-    */
-
     .number-answer {
 
-      display:
-        flex;
+      display: flex;
 
-      justify-content:
-        center;
+      justify-content: center;
     }
 
 
@@ -723,82 +646,59 @@
           100%
         );
 
-      padding:
-        13px;
+      padding: 13px;
 
       border:
         2px solid
         #cbd5e1;
 
-      border-radius:
-        12px;
+      border-radius: 12px;
 
-      font-size:
-        24px;
+      font-size: 24px;
 
-      font-weight:
-        900;
+      font-weight: 900;
 
-      text-align:
-        center;
+      text-align: center;
     }
 
 
-    /*
-    --------------------------------------------------
-    單格／係數題
-    --------------------------------------------------
-    */
-
     .coefficient-answer {
 
-      display:
-        flex;
+      display: flex;
 
-      justify-content:
-        center;
+      justify-content: center;
 
-      align-items:
-        end;
+      align-items: end;
 
-      gap:
-        10px;
+      gap: 10px;
 
-      flex-wrap:
-        wrap;
+      flex-wrap: wrap;
     }
 
 
     .coefficient-box {
-
-      text-align:
-        center;
+      text-align: center;
     }
 
 
     .coefficient-label {
 
-      display:
-        block;
+      display: block;
 
-      margin-bottom:
-        5px;
+      margin-bottom: 5px;
 
       color:
         var(--muted);
 
-      font-size:
-        13px;
+      font-size: 13px;
 
-      font-weight:
-        900;
+      font-weight: 900;
     }
 
 
     .coefficient-input {
 
-      width:
-        82px;
+      width: 82px;
 
       padding:
         10px 6px;
@@ -807,25 +707,20 @@
         2px solid
         #cbd5e1;
 
-      border-radius:
-        10px;
+      border-radius: 10px;
 
-      font-size:
-        22px;
+      font-size: 22px;
 
-      font-weight:
-        900;
+      font-weight: 900;
 
-      text-align:
-        center;
+      text-align: center;
     }
 
 
     .number-answer input:focus,
     .coefficient-input:focus {
 
-      outline:
-        none;
+      outline: none;
 
       border-color:
         var(--primary);
@@ -841,57 +736,9 @@
     }
 
 
-    /*
-    --------------------------------------------------
-    ExpressionInput 多項式
-    --------------------------------------------------
-    */
-
-    .polynomial-answer-shell {
-
-      width:
-        min(
-          100%,
-          760px
-        );
-
-      margin:
-        0 auto;
-    }
-
-
-    .polynomial-help {
-
-      margin:
-        0 0 12px;
-
-      color:
-        #64748b;
-
-      text-align:
-        center;
-
-      font-size:
-        14px;
-
-      font-weight:
-        800;
-
-      line-height:
-        1.6;
-    }
-
-
-    /*
-    --------------------------------------------------
-    選擇題
-    --------------------------------------------------
-    */
-
     .choice-grid {
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
         repeat(
@@ -902,40 +749,32 @@
           )
         );
 
-      gap:
-        10px;
+      gap: 10px;
     }
 
 
     .choice-button {
 
-      min-height:
-        58px;
+      min-height: 58px;
 
-      padding:
-        11px;
+      padding: 11px;
 
       border:
         2px solid
         var(--primary-border);
 
-      border-radius:
-        13px;
+      border-radius: 13px;
 
-      background:
-        white;
+      background: white;
 
       color:
         #263238;
 
-      font-size:
-        16px;
+      font-size: 16px;
 
-      font-weight:
-        900;
+      font-weight: 900;
 
-      cursor:
-        pointer;
+      cursor: pointer;
     }
 
 
@@ -958,53 +797,42 @@
     ==================================================
     */
 
+
     .button-row {
 
-      display:
-        flex;
+      display: flex;
 
-      justify-content:
-        center;
+      justify-content: center;
 
-      gap:
-        10px;
+      gap: 10px;
 
-      margin-top:
-        16px;
+      margin-top: 16px;
 
-      flex-wrap:
-        wrap;
+      flex-wrap: wrap;
     }
 
 
     .game-button {
 
-      min-width:
-        132px;
+      min-width: 132px;
 
       padding:
         12px 20px;
 
-      border:
-        none;
+      border: none;
 
-      border-radius:
-        12px;
+      border-radius: 12px;
 
       background:
         var(--primary);
 
-      color:
-        white;
+      color: white;
 
-      font-size:
-        16px;
+      font-size: 16px;
 
-      font-weight:
-        900;
+      font-weight: 900;
 
-      cursor:
-        pointer;
+      cursor: pointer;
 
       box-shadow:
         0 5px 0
@@ -1034,10 +862,36 @@
     }
 
 
+    .game-button.restart {
+
+      background:
+        var(--restart);
+
+      box-shadow:
+        0 5px 0
+        var(--restart-dark);
+    }
+
+
+    .game-button:active {
+
+      transform:
+        translateY(4px);
+
+      box-shadow:
+        0 1px 0
+        rgba(
+          0,
+          0,
+          0,
+          .25
+        );
+    }
+
+
     .game-button:disabled {
 
-      opacity:
-        .55;
+      opacity: .55;
 
       cursor:
         not-allowed;
@@ -1050,44 +904,36 @@
     ==================================================
     */
 
+
     .feedback {
 
-      min-height:
-        48px;
+      min-height: 48px;
 
-      margin-top:
-        14px;
+      margin-top: 14px;
 
-      text-align:
-        center;
+      text-align: center;
 
-      font-size:
-        18px;
+      font-size: 18px;
 
-      font-weight:
-        900;
+      font-weight: 900;
 
-      line-height:
-        1.65;
+      line-height: 1.65;
     }
 
 
     .feedback.correct {
-
       color:
         var(--success);
     }
 
 
     .feedback.wrong {
-
       color:
         var(--danger);
     }
 
 
     .feedback.warning {
-
       color:
         var(--warning);
     }
@@ -1095,14 +941,11 @@
 
     .explanation {
 
-      margin-top:
-        12px;
+      margin-top: 12px;
 
-      padding:
-        16px;
+      padding: 16px;
 
-      border-radius:
-        14px;
+      border-radius: 14px;
 
       background:
         #eef2ff;
@@ -1110,8 +953,7 @@
       color:
         #334155;
 
-      line-height:
-        1.9;
+      line-height: 1.9;
     }
 
 
@@ -1128,10 +970,9 @@
     ==================================================
     */
 
-    .result-panel {
 
-      text-align:
-        center;
+    .result-panel {
+      text-align: center;
     }
 
 
@@ -1143,28 +984,23 @@
       color:
         #f57c00;
 
-      font-size:
-        56px;
+      font-size: 56px;
 
-      font-weight:
-        900;
+      font-weight: 900;
     }
 
 
     .result-stars {
 
-      margin-bottom:
-        10px;
+      margin-bottom: 10px;
 
-      font-size:
-        31px;
+      font-size: 31px;
     }
 
 
     .result-grid {
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
         repeat(
@@ -1175,8 +1011,7 @@
           )
         );
 
-      gap:
-        12px;
+      gap: 12px;
 
       margin:
         20px 0;
@@ -1188,8 +1023,7 @@
       padding:
         16px 10px;
 
-      border-radius:
-        16px;
+      border-radius: 16px;
 
       background:
         var(--primary-light);
@@ -1197,51 +1031,45 @@
       color:
         var(--primary-dark);
 
-      font-weight:
-        900;
+      font-weight: 900;
     }
 
 
     .save-status {
 
-      min-height:
-        28px;
+      min-height: 28px;
 
       margin:
         14px 0 0;
 
-      font-weight:
-        900;
+      font-weight: 900;
     }
 
 
     /*
     ==================================================
-    錯題回顧
+    錯題
     ==================================================
     */
 
+
     .review-list {
 
-      display:
-        grid;
+      display: grid;
 
-      gap:
-        14px;
+      gap: 14px;
     }
 
 
     .review-card {
 
-      padding:
-        18px;
+      padding: 18px;
 
       border:
         1px solid
         #e2e8f0;
 
-      border-radius:
-        16px;
+      border-radius: 16px;
 
       background:
         white;
@@ -1250,30 +1078,25 @@
 
     .review-title {
 
-      margin-bottom:
-        8px;
+      margin-bottom: 8px;
 
       color:
         var(--danger);
 
-      font-weight:
-        900;
+      font-weight: 900;
     }
 
 
     .review-question {
 
-      margin-bottom:
-        8px;
+      margin-bottom: 8px;
 
       color:
         #0f172a;
 
-      font-size:
-        21px;
+      font-size: 21px;
 
-      font-weight:
-        900;
+      font-weight: 900;
     }
 
 
@@ -1282,8 +1105,7 @@
       color:
         #475569;
 
-      line-height:
-        1.8;
+      line-height: 1.8;
     }
 
 
@@ -1293,15 +1115,13 @@
     ==================================================
     */
 
+
     @media (
-      max-width:
-        700px
+      max-width: 700px
     ) {
 
       body {
-
-        padding:
-          8px;
+        padding: 8px;
       }
 
 
@@ -1332,6 +1152,18 @@
       }
 
 
+      /*
+      手機上讓時間獨佔一整列
+      */
+
+
+      .timer-box {
+
+        grid-column:
+          1 / -1;
+      }
+
+
       .result-grid {
 
         grid-template-columns:
@@ -1351,12 +1183,6 @@
           1fr;
       }
 
-
-      .answer-panel {
-
-        padding:
-          14px 8px;
-      }
     }
 
   </style>
@@ -1380,14 +1206,12 @@
 
 
         <h1 class="game-title">
-          🧩 乘法公式大挑戰
+          ✨ 乘法公式大挑戰
         </h1>
 
 
         <p class="game-subtitle">
-
           從數字速算開始，再進入多項式展開、公式判讀與逆向填空。
-
         </p>
 
 
@@ -1506,7 +1330,7 @@
 
 
             <p>
-              加入 x，練習完整展開、公式判讀與逆向填空。
+              加入 x，練習展開、公式判讀與逆向填空。
             </p>
 
 
@@ -1551,7 +1375,7 @@
 
       <!--
       ==================================================
-      遊戲畫面
+      遊戲
       ==================================================
       -->
 
@@ -1621,26 +1445,48 @@
           </div>
 
 
+          <!--
+          ==============================================
+          ★ 新增即時測驗時間
+          ==============================================
+          -->
+
+
+          <div class="status-box timer-box">
+
+            ⏱️ 測驗時間
+
+            <span
+              id="timer-display"
+              class="status-value"
+            >
+              00:00
+            </span>
+
+          </div>
+
+
         </div>
 
 
-        <!-- 計算紙按鈕搬到上方 -->
+        <!-- 計算紙 -->
+
 
         <div class="scratchpad-row">
 
-          <div
-            id="scratchpad-mobile-button"
-          ></div>
+          <div id="scratchpad-mobile-button"></div>
 
         </div>
 
 
         <div class="progress-shell">
 
+
           <div
             id="progress-bar"
             class="progress-bar"
           ></div>
+
 
         </div>
 
@@ -1669,6 +1515,13 @@
         ></div>
 
 
+        <!--
+        ==================================================
+        四個模式共用按鈕
+        ==================================================
+        -->
+
+
         <div class="button-row">
 
 
@@ -1687,6 +1540,15 @@
             type="button"
           >
             下一題（Enter）
+          </button>
+
+
+          <button
+            id="restart-button"
+            class="game-button restart"
+            type="button"
+          >
+            🔄 重新測驗
           </button>
 
 
@@ -1719,7 +1581,7 @@
 
       <!--
       ==================================================
-      結果畫面
+      結果
       ==================================================
       -->
 
@@ -1760,6 +1622,7 @@
           <div class="result-stat">
 
             答對
+
             <br>
 
             <span id="final-correct">
@@ -1774,6 +1637,7 @@
           <div class="result-stat">
 
             答錯
+
             <br>
 
             <span id="final-wrong">
@@ -1788,6 +1652,7 @@
           <div class="result-stat">
 
             最高連擊
+
             <br>
 
             <span id="final-combo">
@@ -1799,7 +1664,8 @@
 
           <div class="result-stat">
 
-            用時
+            ⏱️ 完成時間
+
             <br>
 
             <span id="final-time">
@@ -1823,10 +1689,10 @@
 
           <button
             id="again-button"
-            class="game-button"
+            class="game-button restart"
             type="button"
           >
-            再玩一次
+            🔄 重新測驗
           </button>
 
 
@@ -1883,10 +1749,10 @@
 
           <button
             id="review-again-button"
-            class="game-button"
+            class="game-button restart"
             type="button"
           >
-            再玩一次
+            🔄 重新測驗
           </button>
 
 
@@ -1926,8 +1792,6 @@
 
   <script src="../js/sound-manager.js?v=1"></script>
 
-  <script src="../js/expression-input.js?v=2"></script>
-
 
   <script type="module">
 
@@ -1957,24 +1821,28 @@
 
     const MODE_NAMES = {
 
+
       numberBasic:
         "數字乘法公式",
+
 
       numberMixed:
         "數字變化計算",
 
+
       polynomial:
         "多項式與公式判讀",
 
+
       mixed:
         "乘法公式綜合挑戰"
+
+
     };
 
 
     const $ =
-      (
-        id
-      ) =>
+      id =>
         document.getElementById(
           id
         );
@@ -2020,6 +1888,13 @@
       null;
 
 
+    /*
+    ==================================================
+    ★ 時間系統
+    ==================================================
+    */
+
+
     let startTime =
       0;
 
@@ -2028,96 +1903,12 @@
       0;
 
 
-    let scoreSaved =
-      false;
-
-
-    /*
-    目前題目如果是 polynomial，
-    這裡會指向該題的 ExpressionInput。
-    */
-
-    let polynomialAnswerInput =
+    let timerId =
       null;
 
 
-    /*
-    ==================================================
-    計算紙按鈕搬到上方
-    ==================================================
-    */
-
-
-    function moveScratchpadButtonToTop() {
-
-
-      const mount =
-        $(
-          "scratchpad-mobile-button"
-        );
-
-
-      const button =
-        $(
-          "scratchpadOpenButton"
-        );
-
-
-      if (
-        !mount ||
-        !button
-      ) {
-
-        return false;
-      }
-
-
-      if (
-        !mount.contains(
-          button
-        )
-      ) {
-
-        mount.appendChild(
-          button
-        );
-      }
-
-
-      return true;
-    }
-
-
-    /*
-    scratchpad-template.js 會在 DOMContentLoaded
-    建立 scratchpadOpenButton。
-
-    它的事件登錄比本段 script 早，
-    因此正常情況這裡即可取得按鈕。
-
-    setTimeout 再做一次保險。
-    */
-
-    window.addEventListener(
-      "DOMContentLoaded",
-      () => {
-
-
-        moveScratchpadButtonToTop();
-
-
-        setTimeout(
-          moveScratchpadButtonToTop,
-          0
-        );
-
-
-        setTimeout(
-          moveScratchpadButtonToTop,
-          100
-        );
-      }
-    );
+    let scoreSaved =
+      false;
 
 
     /*
@@ -2131,7 +1922,6 @@
       min,
       max
     ) {
-
 
       return (
         Math.floor(
@@ -2151,7 +1941,6 @@
       array
     ) {
 
-
       return array[
         Math.floor(
           Math.random() *
@@ -2164,7 +1953,6 @@
     function shuffle(
       array
     ) {
-
 
       const result =
         [
@@ -2183,7 +1971,6 @@
         i--
       ) {
 
-
         const j =
           Math.floor(
             Math.random() *
@@ -2195,19 +1982,11 @@
 
 
         [
-          result[
-            i
-          ],
-          result[
-            j
-          ]
+          result[i],
+          result[j]
         ] = [
-          result[
-            j
-          ],
-          result[
-            i
-          ]
+          result[j],
+          result[i]
         ];
       }
 
@@ -2220,9 +1999,7 @@
       method
     ) {
 
-
       try {
-
 
         const sound =
           window.GameSound ||
@@ -2237,30 +2014,14 @@
           "function"
         ) {
 
-
-          const result =
-            sound[
-              method
-            ]();
-
-
-          if (
-            result &&
-            typeof result.catch ===
-            "function"
-          ) {
-
-            result.catch(
-              () => {}
-            );
-          }
+          sound[
+            method
+          ]();
         }
-
 
       } catch (
         error
       ) {
-
 
         console.warn(
           "音效播放失敗：",
@@ -2270,45 +2031,231 @@
     }
 
 
+    /*
+    ==================================================
+    ★ 時間格式
+    ==================================================
+    */
+
+
+    function formatElapsed(
+      seconds
+    ) {
+
+      const safeSeconds =
+        Math.max(
+          0,
+          Math.floor(
+            Number(
+              seconds
+            ) ||
+            0
+          )
+        );
+
+
+      const minutes =
+        Math.floor(
+          safeSeconds /
+          60
+        );
+
+
+      const remainingSeconds =
+        safeSeconds %
+        60;
+
+
+      return (
+        `${String(minutes).padStart(2, "0")}:` +
+        `${String(remainingSeconds).padStart(2, "0")}`
+      );
+    }
+
+
+    /*
+    ==================================================
+    ★ 停止計時
+    ==================================================
+    */
+
+
+    function stopTimer(
+      updateElapsed =
+        true
+    ) {
+
+      if (
+        timerId !==
+        null
+      ) {
+
+        clearInterval(
+          timerId
+        );
+
+
+        timerId =
+          null;
+      }
+
+
+      if (
+        updateElapsed &&
+        startTime
+      ) {
+
+        finalElapsed =
+          Math.floor(
+            (
+              Date.now() -
+              startTime
+            ) /
+            1000
+          );
+      }
+    }
+
+
+    /*
+    ==================================================
+    ★ 開始即時計時
+    ==================================================
+    */
+
+
+    function startTimer() {
+
+      /*
+      先清除上一輪的 interval，
+      但不要用上一輪時間覆蓋。
+      */
+
+
+      if (
+        timerId !==
+        null
+      ) {
+
+        clearInterval(
+          timerId
+        );
+
+
+        timerId =
+          null;
+      }
+
+
+      finalElapsed =
+        0;
+
+
+      startTime =
+        Date.now();
+
+
+      if (
+        $("timer-display")
+      ) {
+
+        $("timer-display")
+          .textContent =
+            "00:00";
+      }
+
+
+      timerId =
+        setInterval(
+          () => {
+
+            finalElapsed =
+              Math.floor(
+                (
+                  Date.now() -
+                  startTime
+                ) /
+                1000
+              );
+
+
+            if (
+              $("timer-display")
+            ) {
+
+              $("timer-display")
+                .textContent =
+                  formatElapsed(
+                    finalElapsed
+                  );
+            }
+
+          },
+          250
+        );
+    }
+
+
+    /*
+    ==================================================
+    計算紙
+    ==================================================
+    */
+
+
+    function moveScratchpadButtonToTop() {
+
+      const mount =
+        $("scratchpad-mobile-button");
+
+
+      const button =
+        $("scratchpadOpenButton");
+
+
+      if (
+        mount &&
+        button &&
+        !mount.contains(
+          button
+        )
+      ) {
+
+        mount.appendChild(
+          button
+        );
+      }
+    }
+
+
     function showOnly(
       screenId
     ) {
-
 
       [
         "start-screen",
         "quiz-screen",
         "result-screen",
         "review-screen"
-      ].forEach(
-        (
-          id
-        ) => {
+      ]
+        .forEach(
+          id => {
 
-
-          $(
-            id
-          )
-            .classList
-            .toggle(
-              "hidden",
-              id !==
+            $(id)
+              .classList
+              .toggle(
+                "hidden",
+                id !==
                 screenId
-            );
-        }
-      );
+              );
+          }
+        );
 
 
       if (
         screenId ===
         "quiz-screen"
       ) {
-
-
-        /*
-        按鈕若因初始化順序尚未搬過來，
-        這裡再保險一次。
-        */
 
         moveScratchpadButtonToTop();
 
@@ -2317,9 +2264,7 @@
           .showGameScratchpadButton
           ?.();
 
-
       } else {
-
 
         window
           .hideGameScratchpadButton
@@ -2343,7 +2288,6 @@
         "請利用乘法公式計算"
     ) {
 
-
       return {
 
         type:
@@ -2360,14 +2304,6 @@
     }
 
 
-    /*
-    單格或少數係數輸入題。
-
-    主要保留給：
-    1. 逆向填 □
-    2. 尚不適合輸入完整代數式的題目
-    */
-
     function coefficientQuestion(
       html,
       labels,
@@ -2375,7 +2311,6 @@
       explanation,
       label
     ) {
-
 
       return {
 
@@ -2395,42 +2330,11 @@
     }
 
 
-    /*
-    新增：
-    完整多項式作答題
-    */
-
-    function polynomialQuestion(
-      html,
-      answer,
-      explanation,
-      label =
-        "請將算式展開並寫成完整多項式"
-    ) {
-
-
-      return {
-
-        type:
-          "polynomial",
-
-        html,
-
-        answer,
-
-        explanation,
-
-        label
-      };
-    }
-
-
     function choiceQuestion(
       html,
       answer,
       explanation
     ) {
-
 
       return {
 
@@ -2449,7 +2353,6 @@
         choices: [
 
           {
-
             value:
               "plus",
 
@@ -2458,7 +2361,6 @@
           },
 
           {
-
             value:
               "minus",
 
@@ -2467,13 +2369,13 @@
           },
 
           {
-
             value:
               "difference",
 
             text:
               "(a＋b)(a－b)＝a²－b²"
           }
+
         ]
       };
     }
@@ -2482,7 +2384,6 @@
     /*
     ==================================================
     模式一
-    數字乘法公式
     ==================================================
     */
 
@@ -2490,7 +2391,6 @@
     function makeBasicQuestion(
       kind
     ) {
-
 
       const center =
         pick(
@@ -2511,18 +2411,10 @@
         );
 
 
-      /*
-      --------------------------------------------------
-      (a+b)^2
-      --------------------------------------------------
-      */
-
-
       if (
         kind ===
         "plus"
       ) {
-
 
         const n =
           center +
@@ -2551,23 +2443,16 @@
              ＋${d}<sup>2</sup>`,
 
             `＝${answer}`
+
           ]
         );
       }
-
-
-      /*
-      --------------------------------------------------
-      (a-b)^2
-      --------------------------------------------------
-      */
 
 
       if (
         kind ===
         "minus"
       ) {
-
 
         const n =
           center -
@@ -2596,16 +2481,10 @@
              ＋${d}<sup>2</sup>`,
 
             `＝${answer}`
+
           ]
         );
       }
-
-
-      /*
-      --------------------------------------------------
-      (a+b)(a-b)
-      --------------------------------------------------
-      */
 
 
       const left =
@@ -2642,13 +2521,13 @@
            ${d}<sup>2</sup>`,
 
           `＝${answer}`
+
         ]
       );
     }
 
 
     function makeMode1() {
-
 
       const schedule =
         shuffle(
@@ -2673,26 +2552,26 @@
                 "difference"
               ]
             )
+
           ]
         );
 
 
-      return schedule.map(
-        makeBasicQuestion
-      );
+      return schedule
+        .map(
+          makeBasicQuestion
+        );
     }
 
 
     /*
     ==================================================
     模式二
-    數字變化計算
     ==================================================
     */
 
 
     function makeMixedNumberQuestion() {
-
 
       const type =
         pick(
@@ -2706,18 +2585,10 @@
         );
 
 
-      /*
-      --------------------------------------------------
-      接近 100 的平方
-      --------------------------------------------------
-      */
-
-
       if (
         type ===
         "square100"
       ) {
-
 
         const delta =
           pick(
@@ -2755,15 +2626,15 @@
             `${n}＝100${
               delta >
               0
+
                 ? "＋"
                 : "－"
-            }${Math.abs(
-              delta
-            )}`,
+            }${Math.abs(delta)}`,
 
             "選擇平方公式計算。",
 
             `答案＝${answer}`
+
           ],
 
           "請觀察最接近的整數並快速計算"
@@ -2771,18 +2642,10 @@
       }
 
 
-      /*
-      --------------------------------------------------
-      接近 1000 的平方
-      --------------------------------------------------
-      */
-
-
       if (
         type ===
         "square1000"
       ) {
-
 
         const delta =
           pick(
@@ -2818,15 +2681,15 @@
             `${n}＝1000${
               delta >
               0
+
                 ? "＋"
                 : "－"
-            }${Math.abs(
-              delta
-            )}`,
+            }${Math.abs(delta)}`,
 
             "使用平方公式可快速完成。",
 
             `答案＝${answer}`
+
           ],
 
           "請選擇最有效率的乘法公式"
@@ -2834,18 +2697,10 @@
       }
 
 
-      /*
-      --------------------------------------------------
-      平方差乘積
-      --------------------------------------------------
-      */
-
-
       if (
         type ===
         "product"
       ) {
-
 
         const center =
           pick(
@@ -2893,6 +2748,7 @@
             `＝${center}<sup>2</sup>－${d}<sup>2</sup>`,
 
             `＝${answer}`
+
           ],
 
           "請選擇最有效率的乘法公式"
@@ -2900,18 +2756,10 @@
       }
 
 
-      /*
-      --------------------------------------------------
-      逆看完全平方
-      --------------------------------------------------
-      */
-
-
       if (
         type ===
         "reverseSquare"
       ) {
-
 
         const a =
           pick(
@@ -2935,24 +2783,24 @@
           .5;
 
 
-        const answer =
+        const number =
+          a +
           (
-            a +
-            (
-              plus
-                ? b
-                : -b
-            )
-          ) **
+            plus
+              ? b
+              : -b
+          );
+
+
+        const answer =
+          number **
           2;
 
 
         return numberQuestion(
 
           `${a}<sup>2</sup>
-           ${plus
-              ? "＋"
-              : "－"}
+           ${plus ? "＋" : "－"}
            2×${a}×${b}
            ＋
            ${b}<sup>2</sup>`,
@@ -2969,28 +2817,16 @@
              }${b})<sup>2</sup>
              的展開式。`,
 
-            `所以原式＝${
-              a +
-              (
-                plus
-                  ? b
-                  : -b
-              )
-            }<sup>2</sup>`,
+            `所以原式＝
+             ${number}<sup>2</sup>`,
 
             `答案＝${answer}`
+
           ],
 
           "請先看出乘法公式，再進行計算"
         );
       }
-
-
-      /*
-      --------------------------------------------------
-      平方差逆向
-      --------------------------------------------------
-      */
 
 
       const a =
@@ -3033,6 +2869,7 @@
           `＝${a + b}×${a - b}`,
 
           `＝${answer}`
+
         ],
 
         "請先看出平方差公式，再進行計算"
@@ -3041,7 +2878,6 @@
 
 
     function makeMode2() {
-
 
       const result =
         [];
@@ -3055,7 +2891,6 @@
         result.length <
         TOTAL_QUESTIONS
       ) {
-
 
         const question =
           makeMixedNumberQuestion();
@@ -3089,27 +2924,11 @@
     /*
     ==================================================
     模式三
-    多項式與公式判讀
     ==================================================
     */
 
 
-    /*
-    --------------------------------------------------
-    完全平方展開
-
-    舊版：
-    分開填 x²、x、常數係數。
-
-    新版：
-    使用 ExpressionInput
-    寫完整多項式。
-    --------------------------------------------------
-    */
-
-
     function makeForwardSquare() {
-
 
       const a =
         rand(
@@ -3151,11 +2970,10 @@
         b;
 
 
-      return polynomialQuestion(
+      return coefficientQuestion(
 
         `(${
-          a ===
-          1
+          a === 1
             ? ""
             : a
         }x${
@@ -3166,30 +2984,15 @@
         ＝？`,
 
         [
+          "x² 係數",
+          "x 係數",
+          "常數項"
+        ],
 
-          {
-            coefficient:
-              x2,
-
-            exponent:
-              2
-          },
-
-          {
-            coefficient:
-              x,
-
-            exponent:
-              1
-          },
-
-          {
-            coefficient:
-              c,
-
-            exponent:
-              0
-          }
+        [
+          x2,
+          x,
+          c
         ],
 
         [
@@ -3197,9 +3000,9 @@
           "套用完全平方公式。",
 
           `首項平方：
-           (${a}x)<sup>2</sup>
+           (${a}x)²
            ＝
-           ${x2}x<sup>2</sup>`,
+           ${x2}x²`,
 
           `中間項：
            ${
@@ -3211,49 +3014,18 @@
            ${x}x`,
 
           `末項：
-           ${b}<sup>2</sup>
+           ${b}²
            ＝
-           ${c}`,
+           ${c}`
 
-          `所以答案為
-           ${polynomialAnswerHTML(
-             [
-               {
-                 coefficient:
-                   x2,
-                 exponent:
-                   2
-               },
-               {
-                 coefficient:
-                   x,
-                 exponent:
-                   1
-               },
-               {
-                 coefficient:
-                   c,
-                 exponent:
-                   0
-               }
-             ]
-           )}`
         ],
 
-        "請將算式展開，寫出完整多項式"
+        "請填入展開後各項的實際係數"
       );
     }
 
 
-    /*
-    --------------------------------------------------
-    平方差展開
-    --------------------------------------------------
-    */
-
-
     function makeForwardDifference() {
-
 
       const a =
         rand(
@@ -3269,48 +3041,34 @@
         );
 
 
-      const answerTerms =
-        [
-
-          {
-            coefficient:
-              a *
-              a,
-
-            exponent:
-              2
-          },
-
-          {
-            coefficient:
-              -(
-                b *
-                b
-              ),
-
-            exponent:
-              0
-          }
-        ];
-
-
-      return polynomialQuestion(
+      return coefficientQuestion(
 
         `(${
-          a ===
-          1
+          a === 1
             ? ""
             : a
         }x＋${b})
         (${
-          a ===
-          1
+          a === 1
             ? ""
             : a
         }x－${b})
         ＝？`,
 
-        answerTerms,
+        [
+          "x² 係數",
+          "常數項"
+        ],
+
+        [
+          a *
+          a,
+
+          -(
+            b *
+            b
+          )
+        ],
 
         [
 
@@ -3318,39 +3076,21 @@
 
           `(A＋B)(A－B)
            ＝
-           A<sup>2</sup>－B<sup>2</sup>`,
-
-          `(${
-            a ===
-            1
-              ? ""
-              : a
-          }x)<sup>2</sup>
-          －
-          ${b}<sup>2</sup>`,
+           A²－B²`,
 
           `答案為
-           ${polynomialAnswerHTML(
-             answerTerms
-           )}`
+           ${a * a}x²
+           －
+           ${b * b}`
+
         ],
 
-        "請將算式展開，寫出完整多項式"
+        "請填入展開後各項的實際係數"
       );
     }
 
 
-    /*
-    --------------------------------------------------
-    完全平方逆向填空
-
-    保留單格作答。
-    --------------------------------------------------
-    */
-
-
     function makeReverseSquare() {
-
 
       const b =
         rand(
@@ -3392,36 +3132,26 @@
 
         [
 
-          `${b * b}
+          "觀察完全平方公式。",
+
+          `末項 ${b * b}
            ＝
            ${b}<sup>2</sup>`,
 
-          `中間項
-           ${
-             plus
-               ? ""
-               : "－"
-           }2×x×${b}`,
+          `中間項 ${2 * b}x
+           ＝
+           2×x×${b}`,
 
-          `所以空格＝${b}`
+          `所以空格應填 ${b}。`
+
         ],
 
-        "請逆向判讀完全平方公式"
+        "請利用完全平方公式找出空格"
       );
     }
 
 
-    /*
-    --------------------------------------------------
-    平方差逆向填空
-
-    保留單格作答。
-    --------------------------------------------------
-    */
-
-
     function makeReverseDifference() {
-
 
       const a =
         rand(
@@ -3437,21 +3167,29 @@
         );
 
 
+      const a2 =
+        a *
+        a;
+
+
+      const b2 =
+        b *
+        b;
+
+
       return coefficientQuestion(
 
-        `${a * a}x<sup>2</sup>
+        `${a2}x<sup>2</sup>
          －
-         ${b * b}
+         ${b2}
          ＝
          (${
-           a ===
-           1
+           a === 1
              ? ""
              : a
          }x＋□)
          (${
-           a ===
-           1
+           a === 1
              ? ""
              : a
          }x－□)`,
@@ -3466,35 +3204,28 @@
 
         [
 
-          "這是平方差公式。",
+          "觀察平方差公式。",
 
-          `${a * a}x<sup>2</sup>
+          `${a2}x²
            ＝
-           (${a}x)<sup>2</sup>`,
+           (${a}x)²`,
 
-          `${b * b}
+          `${b2}
            ＝
-           ${b}<sup>2</sup>`,
+           ${b}²`,
 
-          `所以空格＝${b}`
+          `所以空格應填 ${b}。`
+
         ],
 
-        "請逆向判讀平方差公式"
+        "請利用平方差公式找出空格"
       );
     }
 
 
-    /*
-    --------------------------------------------------
-    公式選擇
-    --------------------------------------------------
-    */
+    function makeFormulaChoiceQuestion() {
 
-
-    function makeFormulaChoice() {
-
-
-      const type =
+      const kind =
         pick(
           [
             "plus",
@@ -3504,17 +3235,16 @@
         );
 
 
-      const b =
-        rand(
-          2,
-          9
-        );
-
-
       if (
-        type ===
+        kind ===
         "plus"
       ) {
+
+        const b =
+          rand(
+            2,
+            9
+          );
 
 
         return choiceQuestion(
@@ -3525,18 +3255,25 @@
 
           [
 
-            "括號整體平方，中間是加號。",
+            "這是兩項和的平方。",
 
-            "使用 (a＋b)²＝a²＋2ab＋b²。"
+            "應使用：(a＋b)²＝a²＋2ab＋b²。"
+
           ]
         );
       }
 
 
       if (
-        type ===
+        kind ===
         "minus"
       ) {
+
+        const b =
+          rand(
+            2,
+            9
+          );
 
 
         return choiceQuestion(
@@ -3547,12 +3284,20 @@
 
           [
 
-            "括號整體平方，中間是減號。",
+            "這是兩項差的平方。",
 
-            "使用 (a－b)²＝a²－2ab＋b²。"
+            "應使用：(a－b)²＝a²－2ab＋b²。"
+
           ]
         );
       }
+
+
+      const b =
+        rand(
+          2,
+          9
+        );
 
 
       return choiceQuestion(
@@ -3563,9 +3308,10 @@
 
         [
 
-          "兩括號第二項互為相反數。",
+          "兩個因式前半相同，後半互為相反數。",
 
-          "使用 (a＋b)(a－b)＝a²－b²。"
+          "應使用：(a＋b)(a－b)＝a²－b²。"
+
         ]
       );
     }
@@ -3573,73 +3319,25 @@
 
     function makeMode3() {
 
+      return shuffle(
+        [
 
-      const schedule =
-        shuffle(
-          [
+          makeForwardSquare(),
+          makeForwardSquare(),
+          makeForwardSquare(),
 
-            "forward",
-            "forward",
+          makeForwardDifference(),
+          makeForwardDifference(),
 
-            "forwardDifference",
-            "forwardDifference",
+          makeReverseSquare(),
+          makeReverseSquare(),
 
-            "reverseSquare",
-            "reverseSquare",
+          makeReverseDifference(),
 
-            "reverseDifference",
+          makeFormulaChoiceQuestion(),
+          makeFormulaChoiceQuestion()
 
-            "choice",
-            "choice",
-            "choice"
-          ]
-        );
-
-
-      return schedule.map(
-        (
-          type
-        ) => {
-
-
-          if (
-            type ===
-            "forward"
-          ) {
-
-            return makeForwardSquare();
-          }
-
-
-          if (
-            type ===
-            "forwardDifference"
-          ) {
-
-            return makeForwardDifference();
-          }
-
-
-          if (
-            type ===
-            "reverseSquare"
-          ) {
-
-            return makeReverseSquare();
-          }
-
-
-          if (
-            type ===
-            "reverseDifference"
-          ) {
-
-            return makeReverseDifference();
-          }
-
-
-          return makeFormulaChoice();
-        }
+        ]
       );
     }
 
@@ -3647,41 +3345,68 @@
     /*
     ==================================================
     模式四
-    綜合挑戰
     ==================================================
     */
 
 
     function makeMode4() {
 
-
-      return shuffle(
+      const result =
         [
 
-          ...makeMode1()
-            .slice(
-              0,
-              2
-            ),
-
-          ...makeMode2()
-            .slice(
-              0,
-              3
-            ),
-
-          ...makeMode3()
-            .slice(
-              0,
-              5
+          makeBasicQuestion(
+            pick(
+              [
+                "plus",
+                "minus",
+                "difference"
+              ]
             )
-        ]
+          ),
+
+          makeBasicQuestion(
+            pick(
+              [
+                "plus",
+                "minus",
+                "difference"
+              ]
+            )
+          ),
+
+          makeMixedNumberQuestion(),
+
+          makeMixedNumberQuestion(),
+
+          makeForwardSquare(),
+
+          makeForwardDifference(),
+
+          makeReverseSquare(),
+
+          makeReverseDifference(),
+
+          makeFormulaChoiceQuestion(),
+
+          makeFormulaChoiceQuestion()
+
+        ];
+
+
+      return shuffle(
+        result
       );
     }
 
 
-    function createQuestions() {
+    /*
+    ==================================================
+    題庫
+    ==================================================
+    */
 
+
+    function createQuestions() {
 
       if (
         mode ===
@@ -3716,137 +3441,7 @@
 
     /*
     ==================================================
-    多項式顯示工具
-    ==================================================
-    */
-
-
-    function polynomialAnswerHTML(
-      terms
-    ) {
-
-
-      const utils =
-        window.ExpressionInputUtils;
-
-
-      if (
-        utils &&
-        typeof utils
-          .polynomialTermsToHtml ===
-          "function"
-      ) {
-
-
-        return utils
-          .polynomialTermsToHtml(
-            terms,
-            "x",
-            {
-              omitCoefficientOne:
-                true
-            }
-          );
-      }
-
-
-      /*
-      理論上新版元件一定有這個函式。
-      此處只是保險。
-      */
-
-      return terms
-        .map(
-          (
-            term,
-            termIndex
-          ) => {
-
-
-            const coefficient =
-              Number(
-                term.coefficient
-              );
-
-
-            const absolute =
-              Math.abs(
-                coefficient
-              );
-
-
-            const exponent =
-              Number(
-                term.exponent
-              );
-
-
-            let sign =
-              "";
-
-
-            if (
-              termIndex ===
-              0
-            ) {
-
-              sign =
-                coefficient <
-                0
-                  ? "－"
-                  : "";
-
-            } else {
-
-              sign =
-                coefficient <
-                0
-                  ? "－"
-                  : "＋";
-            }
-
-
-            if (
-              exponent ===
-              0
-            ) {
-
-              return (
-                `${sign}${absolute}`
-              );
-            }
-
-
-            const coefficientText =
-              absolute ===
-              1
-                ? ""
-                : String(
-                    absolute
-                  );
-
-
-            const exponentText =
-              exponent ===
-              1
-                ? ""
-                : `<sup>${exponent}</sup>`;
-
-
-            return (
-              `${sign}${coefficientText}x${exponentText}`
-            );
-          }
-        )
-        .join(
-          ""
-        );
-    }
-
-
-    /*
-    ==================================================
-    作答介面
+    答案輸入
     ==================================================
     */
 
@@ -3855,26 +3450,8 @@
       question
     ) {
 
-
       selectedChoice =
         null;
-
-
-      polynomialAnswerInput =
-        null;
-
-
-      const panel =
-        $(
-          "answer-panel"
-        );
-
-
-      /*
-      --------------------------------------------------
-      數字
-      --------------------------------------------------
-      */
 
 
       if (
@@ -3882,208 +3459,40 @@
         "number"
       ) {
 
+        $("answer-panel")
+          .innerHTML = `
 
-        panel.innerHTML = `
+            <div class="answer-title">
+              請輸入答案
+            </div>
 
-          <div class="answer-title">
-            請輸入答案
-          </div>
+            <div class="number-answer">
 
-          <div class="number-answer">
+              <input
+                id="number-input"
+                type="text"
+                inputmode="numeric"
+                autocomplete="off"
+                placeholder="輸入答案"
+              >
 
-            <input
-              id="number-answer"
-              type="text"
-              inputmode="numeric"
-              autocomplete="off"
-              placeholder="輸入整數答案"
-            >
-
-          </div>
-        `;
+            </div>
+          `;
 
 
         setTimeout(
-          () =>
-            $(
-              "number-answer"
-            )
-              ?.focus(),
+          () => {
+
+            $("number-input")
+              ?.focus();
+
+          },
           0
         );
 
 
         return;
       }
-
-
-      /*
-      --------------------------------------------------
-      完整多項式
-      ExpressionInput polynomial
-      --------------------------------------------------
-      */
-
-
-      if (
-        question.type ===
-        "polynomial"
-      ) {
-
-
-        panel.innerHTML = `
-
-          <div class="answer-title">
-            ${question.label}
-          </div>
-
-          <p class="polynomial-help">
-            像紙本作答一樣，依序寫出完整多項式。
-            例如：4x²＋12x＋9
-          </p>
-
-          <div class="polynomial-answer-shell">
-
-            <div
-              id="polynomial-answer-mount"
-            ></div>
-
-          </div>
-        `;
-
-
-        if (
-          typeof window.ExpressionInput !==
-          "function"
-        ) {
-
-
-          $("feedback")
-            .className =
-              "feedback warning";
-
-
-          $("feedback")
-            .textContent =
-              "ExpressionInput 共用元件尚未載入。";
-
-
-          return;
-        }
-
-
-        polynomialAnswerInput =
-          new window.ExpressionInput(
-            {
-
-              mountId:
-                "polynomial-answer-mount",
-
-
-              /*
-              本題只顯示多項式模式，
-              不讓學生切換到其他模式。
-              */
-
-              allowNumber:
-                false,
-
-              allowExpression:
-                false,
-
-              allowPolynomial:
-                true,
-
-              defaultMode:
-                "polynomial",
-
-
-              polynomialVariable:
-                "x",
-
-              polynomialExponentOptions:
-                [
-                  2,
-                  1,
-                  0
-                ],
-
-              maxPolynomialTerms:
-                3,
-
-              allowNegativePolynomialCoefficient:
-                true,
-
-              allowZeroPolynomialCoefficient:
-                false,
-
-
-              /*
-              紙本標準形式：
-              x² → x → 常數
-              */
-
-              requireDescendingPowers:
-                true,
-
-              disallowDuplicatePowers:
-                true,
-
-              omitPolynomialCoefficientOne:
-                true,
-
-
-              theme: {
-
-                primary:
-                  "#3f51b5",
-
-                light:
-                  "#eef0ff",
-
-                border:
-                  "#9fa8da"
-              },
-
-
-              labels: {
-
-                polynomialLabel:
-                  "請輸入展開後的完整多項式",
-
-                polynomialCoefficientLabel:
-                  "輸入這一項的係數",
-
-                polynomialExponentLabel:
-                  "選擇這一項",
-
-                polynomialSignLabel:
-                  "這一項的正負號",
-
-                polynomialEditLabel:
-                  "編輯答案"
-              }
-            }
-          );
-
-
-        setTimeout(
-          () =>
-            polynomialAnswerInput
-              ?.focus(),
-          0
-        );
-
-
-        return;
-      }
-
-
-      /*
-      --------------------------------------------------
-      單格／係數
-      --------------------------------------------------
-      */
 
 
       if (
@@ -4091,41 +3500,88 @@
         "coefficients"
       ) {
 
+        $("answer-panel")
+          .innerHTML = `
 
-        panel.innerHTML = `
+            <div class="answer-title">
+              ${question.label}
+            </div>
+
+            <div class="coefficient-answer">
+
+              ${
+                question.labels
+                  .map(
+                    (
+                      label,
+                      i
+                    ) => `
+
+                      <label class="coefficient-box">
+
+                        <span class="coefficient-label">
+                          ${label}
+                        </span>
+
+                        <input
+                          class="coefficient-input"
+                          data-index="${i}"
+                          type="text"
+                          inputmode="numeric"
+                          autocomplete="off"
+                        >
+
+                      </label>
+                    `
+                  )
+                  .join(
+                    ""
+                  )
+              }
+
+            </div>
+          `;
+
+
+        setTimeout(
+          () => {
+
+            document
+              .querySelector(
+                ".coefficient-input"
+              )
+              ?.focus();
+
+          },
+          0
+        );
+
+
+        return;
+      }
+
+
+      $("answer-panel")
+        .innerHTML = `
 
           <div class="answer-title">
             ${question.label}
           </div>
 
-          <div class="coefficient-answer">
+          <div class="choice-grid">
 
             ${
-              question.labels
+              question.choices
                 .map(
-                  (
-                    label,
-                    i
-                  ) => `
+                  choice => `
 
-                    <div class="coefficient-box">
-
-                      <label
-                        class="coefficient-label"
-                        for="coefficient-${i}"
-                      >
-                        ${label}
-                      </label>
-
-                      <input
-                        id="coefficient-${i}"
-                        class="coefficient-input"
-                        type="text"
-                        inputmode="numeric"
-                        autocomplete="off"
-                      >
-
-                    </div>
+                    <button
+                      type="button"
+                      class="choice-button"
+                      data-choice="${choice.value}"
+                    >
+                      ${choice.text}
+                    </button>
                   `
                 )
                 .join(
@@ -4137,122 +3593,354 @@
         `;
 
 
-        setTimeout(
-          () =>
-            $(
-              "coefficient-0"
-            )
-              ?.focus(),
-          0
-        );
-
-
-        return;
-      }
-
-
-      /*
-      --------------------------------------------------
-      選公式
-      --------------------------------------------------
-      */
-
-
-      panel.innerHTML = `
-
-        <div class="answer-title">
-          請選擇正確公式
-        </div>
-
-        <div class="choice-grid">
-
-          ${
-            question.choices
-              .map(
-                (
-                  choice
-                ) => `
-
-                  <button
-                    type="button"
-                    class="choice-button"
-                    data-choice="${choice.value}"
-                  >
-                    ${choice.text}
-                  </button>
-                `
-              )
-              .join(
-                ""
-              )
-          }
-
-        </div>
-      `;
-
-
-      panel
+      document
         .querySelectorAll(
           ".choice-button"
         )
         .forEach(
-          (
+          button => {
+
             button
-          ) => {
+              .addEventListener(
+                "click",
+                () => {
+
+                  if (
+                    answered
+                  ) {
+
+                    return;
+                  }
 
 
-            button.addEventListener(
-              "click",
-              () => {
+                  selectedChoice =
+                    button.dataset
+                      .choice;
 
 
-                selectedChoice =
-                  button.dataset.choice;
+                  document
+                    .querySelectorAll(
+                      ".choice-button"
+                    )
+                    .forEach(
+                      item => {
+
+                        item
+                          .classList
+                          .remove(
+                            "selected"
+                          );
+                      }
+                    );
 
 
-                panel
-                  .querySelectorAll(
-                    ".choice-button"
-                  )
-                  .forEach(
-                    (
-                      item
-                    ) => {
-
-
-                      item
-                        .classList
-                        .remove(
-                          "selected"
-                        );
-                    }
-                  );
-
-
-                button
-                  .classList
-                  .add(
-                    "selected"
-                  );
-              }
-            );
+                  button
+                    .classList
+                    .add(
+                      "selected"
+                    );
+                }
+              );
           }
+        );
+    }
+
+
+    function readAnswer(
+      question
+    ) {
+
+      if (
+        question.type ===
+        "number"
+      ) {
+
+        const raw =
+          $("number-input")
+            ?.value
+            .trim() ??
+          "";
+
+
+        if (
+          !/^-?\d+$/
+            .test(
+              raw
+            )
+        ) {
+
+          return {
+
+            valid:
+              false,
+
+            message:
+              "請輸入完整的整數答案。"
+          };
+        }
+
+
+        return {
+
+          valid:
+            true,
+
+          value:
+            Number(
+              raw
+            ),
+
+          display:
+            raw
+        };
+      }
+
+
+      if (
+        question.type ===
+        "coefficients"
+      ) {
+
+        const inputs =
+          [
+            ...document.querySelectorAll(
+              ".coefficient-input"
+            )
+          ];
+
+
+        const rawValues =
+          inputs.map(
+            input =>
+              input.value.trim()
+          );
+
+
+        if (
+          rawValues.some(
+            value =>
+              !/^-?\d+$/
+                .test(
+                  value
+                )
+          )
+        ) {
+
+          return {
+
+            valid:
+              false,
+
+            message:
+              "請把所有空格都填完整。"
+          };
+        }
+
+
+        return {
+
+          valid:
+            true,
+
+          value:
+            rawValues.map(
+              Number
+            ),
+
+          display:
+            rawValues.join(
+              "、"
+            )
+        };
+      }
+
+
+      if (
+        !selectedChoice
+      ) {
+
+        return {
+
+          valid:
+            false,
+
+          message:
+            "請先選擇答案。"
+        };
+      }
+
+
+      const selected =
+        question.choices
+          .find(
+            choice =>
+              choice.value ===
+              selectedChoice
+          );
+
+
+      return {
+
+        valid:
+          true,
+
+        value:
+          selectedChoice,
+
+        display:
+          selected?.text ||
+          selectedChoice
+      };
+    }
+
+
+    function checkCorrect(
+      question,
+      answer
+    ) {
+
+      if (
+        question.type ===
+        "number"
+      ) {
+
+        return (
+          answer.value ===
+          question.answer
+        );
+      }
+
+
+      if (
+        question.type ===
+        "coefficients"
+      ) {
+
+        return (
+          answer.value.length ===
+            question.answer.length &&
+
+          answer.value.every(
+            (
+              value,
+              i
+            ) =>
+              value ===
+              question.answer[
+                i
+              ]
+          )
+        );
+      }
+
+
+      return (
+        answer.value ===
+        question.answer
+      );
+    }
+
+
+    function correctAnswerText(
+      question
+    ) {
+
+      if (
+        question.type ===
+        "number"
+      ) {
+
+        return String(
+          question.answer
+        );
+      }
+
+
+      if (
+        question.type ===
+        "coefficients"
+      ) {
+
+        return question.answer
+          .map(
+            (
+              value,
+              i
+            ) =>
+              `${question.labels[i]}＝${value}`
+          )
+          .join(
+            "，"
+          );
+      }
+
+
+      const selected =
+        question.choices
+          .find(
+            choice =>
+              choice.value ===
+              question.answer
+          );
+
+
+      return (
+        selected?.text ||
+        ""
+      );
+    }
+
+
+    /*
+    ==================================================
+    詳解
+    ==================================================
+    */
+
+
+    function explanationHTML(
+      question
+    ) {
+
+      return question.explanation
+        .map(
+          (
+            step,
+            i
+          ) => `
+
+            <div class="explanation-step">
+
+              <strong>
+                步驟 ${i + 1}｜
+              </strong>
+
+              ${step}
+
+            </div>
+          `
+        )
+        .join(
+          ""
         );
     }
 
 
     /*
     ==================================================
-    題目顯示
+    顯示題目
     ==================================================
     */
 
 
     function displayQuestion() {
 
-
       answered =
         false;
+
+
+      selectedChoice =
+        null;
 
 
       const question =
@@ -4270,10 +3958,7 @@
 
       $("question-number")
         .textContent =
-          `${
-            index +
-            1
-          } / ${TOTAL_QUESTIONS}`;
+          `${index + 1} / ${TOTAL_QUESTIONS}`;
 
 
       $("correct-count")
@@ -4335,11 +4020,6 @@
         );
 
 
-      $("submit-button")
-        .disabled =
-          false;
-
-
       $("next-button")
         .classList
         .add(
@@ -4352,11 +4032,6 @@
       );
 
 
-      /*
-      每進入新題，
-      清除上一題計算紙。
-      */
-
       window
         .resetGameScratchpad
         ?.();
@@ -4365,495 +4040,12 @@
 
     /*
     ==================================================
-    讀取答案
-    ==================================================
-    */
-
-
-    function readAnswer(
-      question
-    ) {
-
-
-      /*
-      --------------------------------------------------
-      整數
-      --------------------------------------------------
-      */
-
-
-      if (
-        question.type ===
-        "number"
-      ) {
-
-
-        const raw =
-          $(
-            "number-answer"
-          )
-            ?.value
-            .trim() ||
-          "";
-
-
-        if (
-          !/^-?\d+$/
-            .test(
-              raw
-            )
-        ) {
-
-
-          return {
-
-            valid:
-              false,
-
-            message:
-              "請輸入完整的整數答案。"
-          };
-        }
-
-
-        return {
-
-          valid:
-            true,
-
-          value:
-            Number(
-              raw
-            ),
-
-          display:
-            raw
-        };
-      }
-
-
-      /*
-      --------------------------------------------------
-      完整多項式
-      --------------------------------------------------
-      */
-
-
-      if (
-        question.type ===
-        "polynomial"
-      ) {
-
-
-        if (
-          !polynomialAnswerInput
-        ) {
-
-
-          return {
-
-            valid:
-              false,
-
-            message:
-              "多項式輸入器尚未準備完成。"
-          };
-        }
-
-
-        const result =
-          polynomialAnswerInput
-            .validate();
-
-
-        if (
-          !result.valid
-        ) {
-
-
-          return {
-
-            valid:
-              false,
-
-            message:
-              "請把完整多項式輸入完成。"
-          };
-        }
-
-
-        return {
-
-          valid:
-            true,
-
-          value:
-            result.value
-              .normalizedTerms,
-
-          display:
-            result.value.html
-        };
-      }
-
-
-      /*
-      --------------------------------------------------
-      單格／係數
-      --------------------------------------------------
-      */
-
-
-      if (
-        question.type ===
-        "coefficients"
-      ) {
-
-
-        const values =
-          [];
-
-
-        for (
-          let i =
-            0;
-
-          i <
-          question.answer.length;
-
-          i++
-        ) {
-
-
-          const raw =
-            $(
-              `coefficient-${i}`
-            )
-              ?.value
-              .trim() ||
-            "";
-
-
-          if (
-            !/^-?\d+$/
-              .test(
-                raw
-              )
-          ) {
-
-
-            return {
-
-              valid:
-                false,
-
-              message:
-                "請把所有空格填完整，負數請直接輸入負號。"
-            };
-          }
-
-
-          values.push(
-            Number(
-              raw
-            )
-          );
-        }
-
-
-        return {
-
-          valid:
-            true,
-
-          value:
-            values,
-
-          display:
-            values.join(
-              "、"
-            )
-        };
-      }
-
-
-      /*
-      --------------------------------------------------
-      選擇題
-      --------------------------------------------------
-      */
-
-
-      if (
-        !selectedChoice
-      ) {
-
-
-        return {
-
-          valid:
-            false,
-
-          message:
-            "請先選擇一個乘法公式。"
-        };
-      }
-
-
-      const choice =
-        question
-          .choices
-          .find(
-            (
-              item
-            ) =>
-              item.value ===
-              selectedChoice
-          );
-
-
-      return {
-
-        valid:
-          true,
-
-        value:
-          selectedChoice,
-
-        display:
-          choice?.text ||
-          selectedChoice
-      };
-    }
-
-
-    /*
-    ==================================================
-    判斷正確
-    ==================================================
-    */
-
-
-    function checkCorrect(
-      question,
-      answer
-    ) {
-
-
-      if (
-        question.type ===
-        "number"
-      ) {
-
-
-        return (
-          answer.value ===
-          question.answer
-        );
-      }
-
-
-      /*
-      多項式採結構判定，
-      不直接比較字串。
-      */
-
-      if (
-        question.type ===
-        "polynomial"
-      ) {
-
-
-        const utils =
-          window.ExpressionInputUtils;
-
-
-        if (
-          !utils ||
-          typeof utils
-            .arePolynomialsEqual !==
-            "function"
-        ) {
-
-
-          console.error(
-            "找不到 ExpressionInputUtils.arePolynomialsEqual()。請確認已使用新版 expression-input.js。"
-          );
-
-
-          return false;
-        }
-
-
-        return utils
-          .arePolynomialsEqual(
-            answer.value,
-            question.answer
-          );
-      }
-
-
-      if (
-        question.type ===
-        "coefficients"
-      ) {
-
-
-        return (
-
-          answer.value.length ===
-            question.answer.length &&
-
-          answer.value.every(
-            (
-              value,
-              i
-            ) =>
-              value ===
-              question.answer[
-                i
-              ]
-          )
-        );
-      }
-
-
-      return (
-        answer.value ===
-        question.answer
-      );
-    }
-
-
-    /*
-    ==================================================
-    正確答案文字
-    ==================================================
-    */
-
-
-    function correctAnswerText(
-      question
-    ) {
-
-
-      if (
-        question.type ===
-        "number"
-      ) {
-
-
-        return String(
-          question.answer
-        );
-      }
-
-
-      if (
-        question.type ===
-        "polynomial"
-      ) {
-
-
-        return polynomialAnswerHTML(
-          question.answer
-        );
-      }
-
-
-      if (
-        question.type ===
-        "coefficients"
-      ) {
-
-
-        return question
-          .labels
-          .map(
-            (
-              label,
-              i
-            ) =>
-              `${label}＝${
-                question.answer[
-                  i
-                ]
-              }`
-          )
-          .join(
-            "，"
-          );
-      }
-
-
-      const choice =
-        question
-          .choices
-          .find(
-            (
-              item
-            ) =>
-              item.value ===
-              question.answer
-          );
-
-
-      return (
-        choice?.text ||
-        question.answer
-      );
-    }
-
-
-    /*
-    ==================================================
-    解析
-    ==================================================
-    */
-
-
-    function explanationHTML(
-      question
-    ) {
-
-
-      return question
-        .explanation
-        .map(
-          (
-            step,
-            i
-          ) => `
-
-            <div class="explanation-step">
-
-              <strong>
-                步驟 ${
-                  i +
-                  1
-                }｜
-              </strong>
-
-              ${step}
-
-            </div>
-          `
-        )
-        .join(
-          ""
-        );
-    }
-
-
-    /*
-    ==================================================
-    提交答案
+    提交
     ==================================================
     */
 
 
     function submitAnswer() {
-
 
       if (
         answered
@@ -4879,7 +4071,6 @@
         !answer.valid
       ) {
 
-
         $("feedback")
           .className =
             "feedback warning";
@@ -4898,23 +4089,17 @@
         true;
 
 
-      /*
-      作答後鎖住 ExpressionInput，
-      避免看到結果後又修改答案。
-      */
+      document
+        .querySelectorAll(
+          "#answer-panel input, #answer-panel button"
+        )
+        .forEach(
+          element => {
 
-      if (
-        question.type ===
-          "polynomial" &&
-        polynomialAnswerInput
-      ) {
-
-
-        polynomialAnswerInput
-          .setDisabled(
-            true
-          );
-      }
+            element.disabled =
+              true;
+          }
+        );
 
 
       const isCorrect =
@@ -4927,7 +4112,6 @@
       if (
         isCorrect
       ) {
-
 
         correct++;
 
@@ -4956,9 +4140,7 @@
           "playCorrect"
         );
 
-
       } else {
-
 
         wrong++;
 
@@ -4973,18 +4155,43 @@
 
 
         $("feedback")
-          .innerHTML =
-            `❌ 答案不正確。正確答案：<strong>${
-              correctAnswerText(
+          .innerHTML = `
+
+            ❌ 答案不正確。正確答案：
+
+            <strong>
+
+              ${correctAnswerText(
                 question
-              )
-            }</strong>`;
+              )}
+
+            </strong>
+          `;
 
 
         playGameSound(
           "playWrong"
         );
       }
+
+
+      records.push(
+        {
+
+          number:
+            index +
+            1,
+
+          question,
+
+          userAnswer:
+            answer.display,
+
+          correct:
+            isCorrect
+
+        }
+      );
 
 
       $("correct-count")
@@ -5011,24 +4218,6 @@
         );
 
 
-      records.push(
-        {
-
-          number:
-            index +
-            1,
-
-          question,
-
-          userAnswer:
-            answer.display,
-
-          correct:
-            isCorrect
-        }
-      );
-
-
       $("submit-button")
         .classList
         .add(
@@ -5045,9 +4234,10 @@
 
       $("next-button")
         .textContent =
+
           index ===
-            TOTAL_QUESTIONS -
-            1
+          TOTAL_QUESTIONS -
+          1
 
             ? "查看測驗結果（Enter）"
 
@@ -5068,7 +4258,6 @@
 
     function nextQuestion() {
 
-
       if (
         !answered
       ) {
@@ -5085,12 +4274,9 @@
         TOTAL_QUESTIONS
       ) {
 
-
         displayQuestion();
 
-
       } else {
-
 
         showResult();
       }
@@ -5099,7 +4285,7 @@
 
     /*
     ==================================================
-    開始
+    開始／重新測驗
     ==================================================
     */
 
@@ -5107,6 +4293,15 @@
     function startGame(
       selectedMode
     ) {
+
+      /*
+      清除上一輪計時器。
+      */
+
+
+      stopTimer(
+        false
+      );
 
 
       mode =
@@ -5149,16 +4344,12 @@
         null;
 
 
-      polynomialAnswerInput =
-        null;
-
-
       scoreSaved =
         false;
 
 
-      startTime =
-        Date.now();
+      finalElapsed =
+        0;
 
 
       $("save-status")
@@ -5166,74 +4357,53 @@
           "";
 
 
+      if (
+        $("timer-display")
+      ) {
+
+        $("timer-display")
+          .textContent =
+            "00:00";
+      }
+
+
       showOnly(
         "quiz-screen"
       );
 
 
-      moveScratchpadButtonToTop();
+      displayQuestion();
+
+
+      /*
+      ★ 題目出現後正式開始計時
+      */
+
+
+      startTimer();
 
 
       playGameSound(
         "playStart"
       );
-
-
-      displayQuestion();
     }
 
 
     /*
     ==================================================
-    結果
+    評價
     ==================================================
     */
-
-
-    function formatTime(
-      seconds
-    ) {
-
-
-      const minutes =
-        Math.floor(
-          seconds /
-          60
-        );
-
-
-      const remain =
-        seconds %
-        60;
-
-
-      return (
-        `${String(
-          minutes
-        ).padStart(
-          2,
-          "0"
-        )}:` +
-        `${String(
-          remain
-        ).padStart(
-          2,
-          "0"
-        )}`
-      );
-    }
 
 
     function rating(
       score
     ) {
 
-
       if (
         score >=
         90
       ) {
-
 
         return {
 
@@ -5241,7 +4411,7 @@
             "★★★★★",
 
           comment:
-            "太棒了！你已經能靈活判斷並運用乘法公式。"
+            "太棒了！你已經熟練掌握三個乘法公式。"
         };
       }
 
@@ -5251,14 +4421,13 @@
         80
       ) {
 
-
         return {
 
           stars:
             "★★★★☆",
 
           comment:
-            "表現很好，再熟悉逆向判讀就更完整了。"
+            "表現很好，再多練習公式判讀就更穩定。"
         };
       }
 
@@ -5268,14 +4437,13 @@
         60
       ) {
 
-
         return {
 
           stars:
             "★★★☆☆",
 
           comment:
-            "已掌握基本公式，再注意中間項與正負號。"
+            "基本觀念已掌握，建議再加強公式展開與逆向判讀。"
         };
       }
 
@@ -5286,116 +4454,16 @@
           "★★☆☆☆",
 
         comment:
-          "建議先從模式一熟悉三個公式，再重新挑戰。"
+          "建議先熟悉三個乘法公式，再逐步進入綜合挑戰。"
       };
-    }
-
-
-    async function showResult() {
-
-
-      finalElapsed =
-        Math.floor(
-          (
-            Date.now() -
-            startTime
-          ) /
-          1000
-        );
-
-
-      const score =
-        Math.round(
-          correct /
-          TOTAL_QUESTIONS *
-          100
-        );
-
-
-      const result =
-        rating(
-          score
-        );
-
-
-      $("progress-bar")
-        .style
-        .width =
-          "100%";
-
-
-      showOnly(
-        "result-screen"
-      );
-
-
-      playGameSound(
-        "playComplete"
-      );
-
-
-      $("final-score")
-        .textContent =
-          `${score} 分`;
-
-
-      $("final-stars")
-        .textContent =
-          result.stars;
-
-
-      $("final-comment")
-        .textContent =
-          result.comment;
-
-
-      $("final-correct")
-        .textContent =
-          correct;
-
-
-      $("final-wrong")
-        .textContent =
-          wrong;
-
-
-      $("final-combo")
-        .textContent =
-          maxCombo;
-
-
-      $("final-time")
-        .textContent =
-          formatTime(
-            finalElapsed
-          );
-
-
-      $("review-button")
-        .disabled =
-          wrong ===
-          0;
-
-
-      $("review-button")
-        .textContent =
-          wrong ===
-          0
-
-            ? "全部答對，無錯題"
-
-            : "錯題回顧";
-
-
-      await saveCurrentScore(
-        score
-      );
     }
 
 
     /*
     ==================================================
     儲存成績
+
+    ★ playTime 就是排行榜同分時的時間依據
     ==================================================
     */
 
@@ -5403,7 +4471,6 @@
     async function saveCurrentScore(
       score
     ) {
-
 
       if (
         scoreSaved
@@ -5418,9 +4485,7 @@
 
 
       const status =
-        $(
-          "save-status"
-        );
+        $("save-status");
 
 
       status.textContent =
@@ -5453,8 +4518,15 @@
 
               maxCombo,
 
+              /*
+              ========================================
+              ★ 秒數存入 Firestore
+              ========================================
+              */
+
               playTime:
                 finalElapsed
+
             }
           );
 
@@ -5463,9 +4535,8 @@
           result.success
         ) {
 
-
           status.textContent =
-            "✅ 本次成績已儲存。";
+            `✅ 本次成績已儲存｜完成時間 ${formatElapsed(finalElapsed)}`;
 
 
           status.style.color =
@@ -5480,7 +4551,6 @@
           result.reason ===
           "not-logged-in"
         ) {
-
 
           status.textContent =
             "ℹ️ 尚未登入，因此本次成績沒有儲存。";
@@ -5519,7 +4589,123 @@
 
         status.style.color =
           "#b91c1c";
+
       }
+    }
+
+
+    /*
+    ==================================================
+    結果
+    ==================================================
+    */
+
+
+    async function showResult() {
+
+
+      /*
+      ★ 最後一題完成的瞬間停止時間
+      */
+
+
+      stopTimer(
+        true
+      );
+
+
+      const score =
+        Math.round(
+          correct /
+          TOTAL_QUESTIONS *
+          100
+        );
+
+
+      const result =
+        rating(
+          score
+        );
+
+
+      $("progress-bar")
+        .style
+        .width =
+          "100%";
+
+
+      showOnly(
+        "result-screen"
+      );
+
+
+      $("final-score")
+        .textContent =
+          `${score} 分`;
+
+
+      $("final-stars")
+        .textContent =
+          result.stars;
+
+
+      $("final-comment")
+        .textContent =
+          result.comment;
+
+
+      $("final-correct")
+        .textContent =
+          correct;
+
+
+      $("final-wrong")
+        .textContent =
+          wrong;
+
+
+      $("final-combo")
+        .textContent =
+          maxCombo;
+
+
+      /*
+      ★ 結果頁顯示完成時間
+      */
+
+
+      $("final-time")
+        .textContent =
+          formatElapsed(
+            finalElapsed
+          );
+
+
+      $("review-button")
+        .disabled =
+          wrong ===
+          0;
+
+
+      $("review-button")
+        .textContent =
+
+          wrong ===
+          0
+
+            ? "全部答對，無錯題"
+
+            : "錯題回顧";
+
+
+      playGameSound(
+        "playComplete"
+      );
+
+
+      await saveCurrentScore(
+        score
+      );
     }
 
 
@@ -5535,31 +4721,27 @@
 
       const wrongRecords =
         records.filter(
-          (
-            record
-          ) =>
+          record =>
             !record.correct
         );
 
 
       const list =
-        $(
-          "review-list"
-        );
+        $("review-list");
 
 
       if (
-        wrongRecords.length ===
-        0
+        !wrongRecords.length
       ) {
 
+        list.innerHTML = `
 
-        list.innerHTML =
-          `
-            <div class="review-card">
-              全部答對，沒有需要回顧的錯題！
-            </div>
-          `;
+          <div class="review-card">
+
+            全部答對，沒有需要回顧的錯題！
+
+          </div>
+        `;
 
 
       } else {
@@ -5568,9 +4750,7 @@
         list.innerHTML =
           wrongRecords
             .map(
-              (
-                record
-              ) => `
+              record => `
 
                 <article class="review-card">
 
@@ -5597,19 +4777,15 @@
                       ${record.userAnswer}
                     </strong>
 
-
                     <br>
-
 
                     正確答案：
 
                     <strong>
 
-                      ${
-                        correctAnswerText(
-                          record.question
-                        )
-                      }
+                      ${correctAnswerText(
+                        record.question
+                      )}
 
                     </strong>
 
@@ -5618,11 +4794,9 @@
 
                   <div class="explanation">
 
-                    ${
-                      explanationHTML(
-                        record.question
-                      )
-                    }
+                    ${explanationHTML(
+                      record.question
+                    )}
 
                   </div>
 
@@ -5644,7 +4818,7 @@
 
     /*
     ==================================================
-    事件
+    模式卡
     ==================================================
     */
 
@@ -5654,9 +4828,7 @@
         "[data-mode]"
       )
       .forEach(
-        (
-          button
-        ) => {
+        button => {
 
 
           button.addEventListener(
@@ -5667,10 +4839,19 @@
               startGame(
                 button.dataset.mode
               );
+
             }
           );
+
         }
       );
+
+
+    /*
+    ==================================================
+    作答按鈕
+    ==================================================
+    */
 
 
     $("submit-button")
@@ -5687,16 +4868,103 @@
       );
 
 
+    /*
+    ==================================================
+    ★ 作答中的重新測驗
+    ==================================================
+    */
+
+
+    $("restart-button")
+      .addEventListener(
+        "click",
+        () => {
+
+
+          const confirmRestart =
+            window.confirm(
+              "確定要重新開始目前這個模式嗎？目前作答進度與時間會重新計算。"
+            );
+
+
+          if (
+            !confirmRestart
+          ) {
+
+            return;
+          }
+
+
+          /*
+          startGame 裡會重新：
+          題目
+          分數
+          連擊
+          計時
+          */
+
+
+          startGame(
+            mode
+          );
+
+        }
+      );
+
+
+    /*
+    ==================================================
+    選擇模式
+
+    ★ 回模式選擇時停止時間
+    ==================================================
+    */
+
+
     $("mode-button")
       .addEventListener(
         "click",
         () => {
 
 
+          stopTimer(
+            true
+          );
+
+
           showOnly(
             "start-screen"
           );
+
         }
+      );
+
+
+    /*
+    ==================================================
+    結果畫面
+    ==================================================
+    */
+
+
+    $("again-button")
+      .addEventListener(
+        "click",
+        () => {
+
+
+          startGame(
+            mode
+          );
+
+        }
+      );
+
+
+    $("review-button")
+      .addEventListener(
+        "click",
+        showReview
       );
 
 
@@ -5709,28 +4977,16 @@
           showOnly(
             "start-screen"
           );
+
         }
       );
 
 
-    $("again-button")
-      .addEventListener(
-        "click",
-        () => {
-
-
-          startGame(
-            mode
-          );
-        }
-      );
-
-
-    $("review-button")
-      .addEventListener(
-        "click",
-        showReview
-      );
+    /*
+    ==================================================
+    錯題回顧
+    ==================================================
+    */
 
 
     $("review-again-button")
@@ -5742,6 +4998,7 @@
           startGame(
             mode
           );
+
         }
       );
 
@@ -5755,6 +5012,7 @@
           showOnly(
             "result-screen"
           );
+
         }
       );
 
@@ -5766,82 +5024,100 @@
     */
 
 
-    document.addEventListener(
-      "keydown",
-      (
-        event
-      ) => {
+    document
+      .addEventListener(
+        "keydown",
+        event => {
 
 
-        if (
-          event.key !==
-          "Enter"
-        ) {
+          if (
+            event.key !==
+            "Enter"
+          ) {
 
-          return;
+            return;
+          }
+
+
+          if (
+            $("quiz-screen")
+              .classList
+              .contains(
+                "hidden"
+              )
+          ) {
+
+            return;
+          }
+
+
+          event.preventDefault();
+
+
+          if (
+            answered
+          ) {
+
+            nextQuestion();
+
+          } else {
+
+            submitAnswer();
+
+          }
+
         }
-
-
-        if (
-          $("quiz-screen")
-            .classList
-            .contains(
-              "hidden"
-            )
-        ) {
-
-          return;
-        }
-
-
-        /*
-        ExpressionInput 裡面的功能按鈕，
-        Enter 應該保留給按鈕本身，
-        不直接送出整題。
-
-        但如果焦點是在係數輸入框，
-        Enter 可以正常提交。
-        */
-
-        if (
-          event.target
-            ?.tagName ===
-            "BUTTON" &&
-          event.target
-            ?.closest(
-              ".expression-input"
-            )
-        ) {
-
-          return;
-        }
-
-
-        event.preventDefault();
-
-
-        if (
-          answered
-        ) {
-
-
-          nextQuestion();
-
-
-        } else {
-
-
-          submitAnswer();
-        }
-      }
-    );
+      );
 
 
     /*
     ==================================================
-    初始畫面
+    初始化
     ==================================================
     */
+
+
+    window
+      .addEventListener(
+        "DOMContentLoaded",
+        () => {
+
+
+          moveScratchpadButtonToTop();
+
+
+          setTimeout(
+            moveScratchpadButtonToTop,
+            120
+          );
+
+        }
+      );
+
+
+    /*
+    頁面被關閉或重新整理時，
+    清除 interval。
+    */
+
+
+    window
+      .addEventListener(
+        "beforeunload",
+        () => {
+
+          if (
+            timerId !==
+            null
+          ) {
+
+            clearInterval(
+              timerId
+            );
+          }
+
+        }
+      );
 
 
     showOnly(
